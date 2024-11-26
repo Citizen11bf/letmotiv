@@ -3,17 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enregistrement vidéo</title>
+    <title>Enregistrement vidéo avec webcam</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #182D84;
+            font-family: Helvetica, Arial, sans-serif;
+            font-weight: bold;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #182D84;
+            font-family: Helvetica, Arial, sans-serif;
+            font-weight: bold;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        video {
+            width: 100%;
+            max-width: 600px;
+            border: 2px solid #182D84;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #182D84;
+            color: white;
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #1f3fa1;
+        }
+        #download-link {
+            display: block;
+            margin-top: 15px;
+            color: #182D84;
+            font-size: 16px;
+            text-decoration: none;
+        }
+        #download-link:hover {
+            text-decoration: underline;
+        }
+        #status {
+            margin-top: 10px;
+            color: #333;
+        }
+    </style>
 </head>
 <body>
-    <h1>Enregistrement vidéo</h1>
-    <video id="preview" autoplay muted style="width: 100%; max-width: 600px; border: 1px solid black;"></video>
+    <h1>Bienvenue sur votre enregistreur vidéo</h1>
+    <h2>Enregistrement vidéo avec votre webcam</h2>
+    <video id="preview" autoplay muted></video>
     <div>
         <button id="start-btn">Démarrer l'enregistrement</button>
         <button id="stop-btn" disabled>Arrêter l'enregistrement</button>
     </div>
     <p id="status">Appuyez sur "Démarrer l'enregistrement" pour commencer.</p>
-    <video id="playback" controls style="display: none; width: 100%; max-width: 600px; border: 1px solid black;"></video>
+    <video id="playback" controls style="display: none;"></video>
     <a id="download-link" style="display: none;">Télécharger l'enregistrement</a>
 
     <script>
