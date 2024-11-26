@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enregistrement vocal</title>
+</head>
+<body>
+    <h1>Enregistrement vocal</h1>
+    <button id="start-btn">Démarrer l'enregistrement</button>
+    <button id="stop-btn" disabled>Arrêter l'enregistrement</button>
+    <p id="status">Appuyez sur "Démarrer l'enregistrement" pour commencer.</p>
+    <audio id="audio-playback" controls style="display: none;"></audio>
+    <a id="download-link" style="display: none;">Télécharger l'enregistrement</a>
+
+    <script>
+        let mediaRecorder;
+        let audioChunks = [];
+        const startBtn = document.getElementById('start-btn');
+        const stopBtn = document.getElementById('stop-btn');
+        const statusText = document.getElementById('status');
+        const audioPlayback = document.getElementById('audio-playback');
+        const downloadLink = document.getElementById('download-link');
+
+        startBtn.addEventListener('click', async () => {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+
+                mediaRecorder.ondataavailable = (event) => {
+                    if (event.data.size > 0) {
+                        audioChunks.push(event.data);
+                    }
+                };
+
+                mediaRecorder.onstop = () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                    const audioURL = URL.createObjectURL(audioBlob);
+
+                    audioPlayback.src = audioURL;
+                    audioPlayback.style.display = 'block';
+
+                    downloadLink.href = audioURL;
+                    downloadLink.download = 'enregistrement.webm';
+                    downloadLink.textContent = 'Télécharger l\'enregistrement';
+                    downloadLink.style.display = 'block';
+                };
+
+                mediaRecorder.start();
+                statusText.textContent = 'Enregistrement en cours...';
+                startBtn.disabled = true;
+                stopBtn.disabled = false;
+
+                setTimeout(() => {
+                    if (mediaRecorder.state === 'recording') {
+                        mediaRecorder.stop();
+                        statusText.textContent = 'Enregistrement terminé.';
+                        startBtn.disabled = false;
+                        stopBtn.disabled = true;
+                    }
+                }, 2 * 60 * 1000);
+            } catch (error) {
+                statusText.textContent = 'Erreur : Impossible d\'accéder au microphone.';
+                console.error('Erreur d\'accès au microphone :', error);
+            }
+        });
+
+        stopBtn.addEventListener('click', () => {
+            if (mediaRecorder && mediaRecorder.state === 'recording') {
+                mediaRecorder.stop();
+                statusText.textContent = 'Enregistrement terminé.';
+                startBtn.disabled = false;
+                stopBtn.disabled = true;
+            }
+        });
+    </script>
+</body>
+</html>
