@@ -115,7 +115,7 @@
             color: #FFFFFF;
             font-size: 16px;
             text-align: center;
-            padding: 15px 0;
+            padding: 10px 0; /* Réduction de la hauteur */
             position: fixed; /* Fixe le bandeau en bas */
             bottom: 0;
             left: 0;
@@ -123,16 +123,23 @@
             z-index: 10;
         }
 
-        .footer a {
-            color: #FFFFFF;
-            text-decoration: none;
+        .footer button {
+            background-color: #FFFFFF; /* Fond blanc */
+            color: #1E3B6F; /* Texte bleu */
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 16px;
             font-weight: bold;
+            border: 2px solid #1E3B6F; /* Bordure bleue */
+            border-radius: 25px;
+            padding: 8px 20px; /* Ajustement du padding */
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease; /* Transition pour l'effet */
         }
 
-        .footer button {
-            margin-top: 10px;
+        .footer button:hover {
+            background-color: #F0F0F0; /* Fond blanc cassé */
+            color: #333333; /* Texte légèrement plus foncé */
         }
-        
     </style>
 </head>
 <body>
