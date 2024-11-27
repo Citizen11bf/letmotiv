@@ -139,9 +139,9 @@
 
     <!-- Texte d'introduction -->
     <div class="intro-box">
-        <p>Vous voulez évaluer votre niveau en prise de parole en public ? Commencez par faire ce petit exercice avec ce simulateur d'improvisation. 
-        Générez un sujet d'improvisation et lancez-vous ! Vous avez 2 minutes top chrono : démarrez en enregistrant la vidéo et elle s'arrêtera au bout de 2 minutes. 
-        Ensuite, analysez vos gestes, votre voix, et vos éventuels tics de langage pour mieux comprendre vos points forts et vos axes d'amélioration.</p>
+        <p>Vous voulez évaluer votre niveau en prise de parole en public ? <br>Commencez par faire ce petit exercice avec ce simulateur d'improvisation. 
+        Générez un sujet d'improvisation et lancez-vous ! <br>Vous avez 2 minutes top chrono : démarrez en enregistrant la vidéo et elle s'arrêtera au bout de 2 minutes. 
+        <br>Ensuite, analysez vos gestes, votre voix, et vos éventuels tics de langage pour mieux comprendre vos points forts et vos axes d'amélioration.</p>
     </div>
 
     <!-- Contenu principal -->
@@ -193,11 +193,10 @@
             "Inventer une excuse farfelue pour arriver en retard à une réunion"
         ];
 
-        const subjectDisplay = document.getElementById('subject-display');
-        const generateSubjectBtn = document.getElementById('generate-subject-btn');
-        generateSubjectBtn.addEventListener('click', () => {
+        // Générateur de sujets
+        document.getElementById('generate-subject-btn').addEventListener('click', () => {
             const randomSubject = subjects[Math.floor(Math.random() * subjects.length)];
-            subjectDisplay.textContent = randomSubject;
+            document.getElementById('subject-display').textContent = randomSubject;
         });
 
         let mediaRecorder;
