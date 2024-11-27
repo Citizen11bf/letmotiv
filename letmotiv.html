@@ -9,17 +9,21 @@
         body {
             margin: 0;
             font-family: Helvetica, Arial, sans-serif;
-            background-color: #FFFFFF; /* Fond blanc */
-            color: #333333; /* Texte gris foncé */
+            background-image: url('https://example.com/public-conference.jpg'); /* Remplacez par l'URL d'une image de salle */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #FFFFFF; /* Texte blanc */
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             min-height: 100vh;
         }
 
-        /* Titre arrondi */
+        /* Titre */
         .header {
-            background-color: #1E3B6F; /* Bleu principal */
+            background-color: rgba(30, 59, 111, 0.8); /* Bleu avec transparence */
             color: #FFFFFF;
             font-size: 24px;
             font-weight: bold;
@@ -36,10 +40,10 @@
             text-align: center;
             padding: 20px;
             margin-top: 20px;
-            border: 1px solid #1E3B6F;
+            border: 1px solid rgba(255, 255, 255, 0.6);
             border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.6); /* Fond noir transparent */
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            position: relative;
         }
 
         /* Vidéos */
@@ -49,6 +53,7 @@
             margin: 20px auto;
             border: 3px solid #1E3B6F;
             border-radius: 8px;
+            background-color: #000000; /* Fond noir en cas de chargement */
         }
 
         /* Boutons */
@@ -92,38 +97,7 @@
         #status {
             margin-top: 10px;
             font-size: 14px;
-            color: #333333;
-        }
-
-        /* Silhouettes du public */
-        .audience {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            background-color: #1E3B6F; /* Bleu principal */
-            border-radius: 50%;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        .audience.left {
-            left: -70px;
-        }
-
-        .audience.right {
-            right: -70px;
-        }
-
-        .audience:after {
-            content: '';
-            position: absolute;
-            bottom: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 70px;
-            height: 30px;
-            background-color: #1E3B6F; /* Même couleur que la tête */
-            border-radius: 50%;
+            color: #FFFFFF;
         }
     </style>
 </head>
@@ -135,10 +109,6 @@
 
     <!-- Contenu principal -->
     <div class="container">
-        <!-- Silhouettes du public -->
-        <div class="audience left"></div>
-        <div class="audience right"></div>
-
         <!-- Vidéo de prévisualisation -->
         <video id="preview" autoplay muted></video>
 
