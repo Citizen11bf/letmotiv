@@ -9,10 +9,7 @@
         body {
             margin: 0;
             font-family: Helvetica, Arial, sans-serif;
-            background-image: url('https://i.postimg.cc/2yG5hbLL/Conference.jpg'); /* Image de fond */
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            background-color: #FFFFFF; /* Fond blanc */
             color: #333333; /* Texte gris foncé */
             display: flex;
             flex-direction: column;
@@ -20,17 +17,16 @@
             min-height: 100vh;
         }
 
-        /* Titre arrondi */
+        /* Titre rectangulaire */
         .header {
             background-color: #1E3B6F; /* Bleu principal */
             color: #FFFFFF;
             font-size: 24px;
             font-weight: bold;
             text-align: center;
-            padding: 20px 15px;
+            padding: 20px;
             width: 100%;
-            border-radius: 0 0 30px 30px;
-            position: fixed; /* Fixe le bandeau en haut */
+            position: fixed;
             top: 0;
             left: 0;
             z-index: 10;
@@ -41,13 +37,12 @@
             width: 90%;
             max-width: 600px;
             text-align: center;
-            padding: 20px;
-            margin-top: 100px; /* Espace sous le bandeau */
+            padding: 80px 20px 20px; /* Ajouter de l'espace pour le titre fixé */
+            margin-top: 100px; /* Ajouter de l'espace pour que la vidéo ne soit pas masquée par le titre */
             border: 1px solid #1E3B6F;
             border-radius: 10px;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
             position: relative;
-            background-color: rgba(255, 255, 255, 0.8); /* Fond blanc semi-transparent */
         }
 
         /* Vidéos */
@@ -103,27 +98,56 @@
             color: #333333;
         }
 
-        /* Compteur */
-        #timer {
-            font-size: 20px;
-            font-weight: bold;
-            color: #FF0000;
+        /* Image de fond */
+        .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://i.postimg.cc/2yG5hbLL/Conference.jpg');
+            background-size: cover;
+            background-position: center;
+            filter: blur(5px);
+            z-index: -1;
         }
 
-        /* Information importante */
-        .info {
+        /* Informations importantes */
+        .info-text {
             font-size: 12px;
-            color: #666666;
+            color: #333333;
             margin-top: 20px;
-            font-family: Helvetica, Arial, sans-serif;
         }
 
+        /* Responsive */
+        @media (max-width: 600px) {
+            .header {
+                font-size: 18px;
+            }
+
+            button {
+                font-size: 14px;
+                padding: 8px 16px;
+            }
+
+            #status {
+                font-size: 12px;
+            }
+
+            .container {
+                width: 95%;
+                margin-top: 70px; /* Ajuster le décalage sur mobile */
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Image de fond -->
+    <div class="background-image"></div>
+
     <!-- Titre de la page -->
     <div class="header">
-        Letmotiv | Simulateur d'improvisation en public
+        Simulateur d'improvisation en public Letmotiv
     </div>
 
     <!-- Contenu principal -->
@@ -131,28 +155,23 @@
         <!-- Vidéo de prévisualisation -->
         <video id="preview" autoplay muted></video>
 
-        <!-- Compteur -->
-        <div id="timer">2:00</div>
-
         <!-- Boutons d'enregistrement -->
         <div>
-            <button id="start-btn">Démarrer l'enregistrement</button>
-            <button id="stop-btn" disabled>Arrêter l'enregistrement</button>
+            <button id="start-btn">Démarrer l'improvisation</button>
+            <button id="stop-btn" disabled>Arrêter l'improvisation</button>
         </div>
 
         <!-- Texte de statut -->
-        <p id="status">Appuyez sur "Démarrer l'enregistrement" pour commencer.</p>
+        <p id="status">Appuyez sur "Démarrer l'improvisation" pour commencer.</p>
 
         <!-- Vidéo enregistrée -->
         <video id="playback" controls style="display: none;"></video>
 
         <!-- Lien de téléchargement -->
-        <a id="download-link" style="display: none;">Télécharger l'enregistrement</a>
+        <a id="download-link" style="display: none;">Télécharger l'improvisation</a>
 
-        <!-- Information importante -->
-        <p class="info">
-            Information importante : votre vidéo reste privée et est enregistrée en local sur votre appareil. Il n'y a aucun transfert de la vidéo vers un serveur ou une plateforme tierce (comme un cloud ou une base de données).
-        </p>
+        <!-- Message d'information -->
+        <p class="info-text">Information importante : votre vidéo reste privée et est enregistrée en local sur votre appareil. Il n'y a aucun transfert de la vidéo vers un serveur ou une plateforme tierce (comme un cloud ou une base de données).</p>
     </div>
 
     <script>
@@ -164,7 +183,6 @@
         const stopBtn = document.getElementById('stop-btn');
         const statusText = document.getElementById('status');
         const downloadLink = document.getElementById('download-link');
-        const timerElement = document.getElementById('timer');
 
         // Fonction pour configurer l'accès à la webcam
         async function setupCamera() {
@@ -176,22 +194,6 @@
                 statusText.textContent = 'Erreur : Impossible d\'accéder à la webcam.';
                 console.error('Erreur d\'accès à la webcam :', error);
             }
-        }
-
-        // Fonction de démarrage du compteur
-        let countdown;
-        function startTimer() {
-            let timeRemaining = 120; // 2 minutes en secondes
-            countdown = setInterval(() => {
-                const minutes = Math.floor(timeRemaining / 60);
-                const seconds = timeRemaining % 60;
-                timerElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-                timeRemaining--;
-                if (timeRemaining < 0) {
-                    clearInterval(countdown);
-                    mediaRecorder.stop();
-                }
-            }, 1000);
         }
 
         // Démarrer l'enregistrement
@@ -217,8 +219,8 @@
                 playback.style.display = 'block';
 
                 downloadLink.href = videoURL;
-                downloadLink.download = 'enregistrement-video.webm';
-                downloadLink.textContent = 'Télécharger l\'enregistrement';
+                downloadLink.download = 'Letmotiv_Improvisation.webm';
+                downloadLink.textContent = 'Télécharger l\'improvisation';
                 downloadLink.style.display = 'inline-block';
 
                 // Arrêter le flux vidéo
@@ -227,22 +229,28 @@
             };
 
             mediaRecorder.start();
-            statusText.textContent = 'Enregistrement en cours...';
+            statusText.textContent = 'Improvisation en cours...';
             startBtn.disabled = true;
             stopBtn.disabled = false;
 
-            // Démarrer le compteur
-            startTimer();
+            // Arrêter après 2 minutes automatiquement
+            setTimeout(() => {
+                if (mediaRecorder.state === 'recording') {
+                    mediaRecorder.stop();
+                    statusText.textContent = 'Improvisation terminée.';
+                    startBtn.disabled = false;
+                    stopBtn.disabled = true;
+                }
+            }, 2 * 60 * 1000);
         });
 
         // Arrêter l'enregistrement
         stopBtn.addEventListener('click', () => {
             if (mediaRecorder && mediaRecorder.state === 'recording') {
                 mediaRecorder.stop();
-                statusText.textContent = 'Enregistrement terminé.';
+                statusText.textContent = 'Improvisation terminée.';
                 startBtn.disabled = false;
                 stopBtn.disabled = true;
-                clearInterval(countdown);
             }
         });
     </script>
