@@ -36,10 +36,10 @@
         }
 
         /* Boîte d'introduction */
-        .intro-box {
+        .intro-box, .container {
             width: 90%;
             max-width: 600px;
-            margin-top: 80px;
+            margin-top: 20px;
             background-color: rgba(255, 255, 255, 0.9);
             border-radius: 10px;
             padding: 15px;
@@ -48,18 +48,8 @@
             font-size: 14px;
         }
 
-        /* Conteneur principal */
-        .container {
-            width: 90%;
-            max-width: 600px;
-            text-align: center;
-            padding: 20px;
-            margin-top: 20px;
-            margin-bottom: 70px;
-            border: 1px solid #1E3B6F;
-            border-radius: 10px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            background-color: rgba(255, 255, 255, 0.8);
+        .intro-box {
+            margin-top: 100px; /* Pour espace avec le header */
         }
 
         /* Barre de progression */
@@ -72,6 +62,7 @@
             overflow: hidden;
             position: relative;
         }
+
         #progress-bar-inner {
             width: 0%;
             height: 100%;
@@ -93,16 +84,9 @@
             text-decoration: none;
             transition: background-color 0.3s;
         }
+
         button:hover, a:hover {
             background-color: #2F4A7E;
-        }
-
-        /* Texte aléatoire */
-        #subject-display {
-            font-size: 14px;
-            font-weight: bold;
-            color: #333333;
-            margin-top: 15px;
         }
 
         /* Vidéos */
@@ -112,6 +96,36 @@
             margin: 20px auto;
             border: 3px solid #1E3B6F;
             border-radius: 8px;
+        }
+
+        /* Bandeau de bas de page */
+        .footer {
+            background-color: #1E3B6F;
+            color: #FFFFFF;
+            font-size: 16px;
+            font-family: Helvetica, Arial, sans-serif;
+            text-align: center;
+            padding: 16px;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            z-index: 10;
+        }
+
+        .footer a {
+            text-decoration: none;
+            font-size: 16px;
+            font-family: Helvetica, Arial, sans-serif;
+            background-color: #FFFFFF;
+            color: #1E3B6F;
+            padding: 8px 15px;
+            border-radius: 25px;
+            transition: background-color 0.3s;
+        }
+
+        .footer a:hover {
+            background-color: #EEEEEE;
         }
     </style>
 </head>
@@ -132,7 +146,7 @@
     <div class="container">
         <!-- Générateur de sujets -->
         <button id="generate-subject-btn">Générateur de sujets d'improvisation</button>
-        <div id="subject-display"></div>
+        <div id="subject-display" style="margin-top: 10px; font-weight: bold; text-align: center;"></div>
 
         <!-- Vidéo de prévisualisation -->
         <video id="preview" autoplay muted></video>
@@ -158,6 +172,11 @@
         <a id="download-link" style="display: none;">Télécharger la vidéo de votre prestation</a>
     </div>
 
+    <!-- Bandeau en bas -->
+    <div class="footer">
+        <a href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole" target="_blank">Revenir vers le site Letmotiv</a>
+    </div>
+
     <script>
         const subjects = [
             "Faire un toast : célébrer un voyage autour du monde",
@@ -169,16 +188,7 @@
             "Motiver une équipe avant une grande compétition sportive",
             "Faire un discours de mariage pour un couple improbable",
             "Défendre l'idée de remplacer les réunions par des pique-niques",
-            "Inventer une excuse farfelue pour arriver en retard à une réunion",
-            "Vendre des lunettes qui permettent de voir dans le passé",
-            "Vous êtes un super-héros qui dévoile enfin son identité secrète",
-            "Expliquer pourquoi votre réveil est toujours en retard… pas vous",
-            "Faire un toast : pour la réussite de la conférence sur le climat",
-            "Un détective résolvant une affaire mystérieuse en direct",
-            "Vous êtes un dragon et négociez avec des humains pour ne pas brûler leur village",
-            "Décrire une situation gênante dans un ascenseur bondé",
-            "Convaincre des robots qu'ils devraient prendre des vacances",
-            "Proposer un abonnement illimité pour les siestes en entreprise"
+            "Inventer une excuse farfelue pour arriver en retard à une réunion"
         ];
 
         const subjectDisplay = document.getElementById('subject-display');
