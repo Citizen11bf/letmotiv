@@ -5,54 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simulateur d'improvisation</title>
     <style>
-        /* Styles généraux */
+        /* Général */
         body {
             margin: 0;
             font-family: Helvetica, Arial, sans-serif;
-            background-image: url('https://i.postimg.cc/2yG5hbLL/Conference.jpg');
+            background-image: url('https://i.postimg.cc/2yG5hbLL/Conference.jpg'); /* Image de fond */
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
-            color: #333333;
+            color: #333333; /* Texte gris foncé */
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center; /* Centre verticalement */
             min-height: 100vh;
         }
+
+        /* Titre rectangulaire */
         .header {
-            background-color: #1E3B6F;
+            background-color: #1E3B6F; /* Bleu principal */
             color: #FFFFFF;
             font-size: 24px;
             font-weight: bold;
             text-align: center;
             padding: 20px 15px;
             width: 100%;
-            position: fixed;
+            position: fixed; /* Fixe le bandeau en haut */
             top: 0;
             left: 0;
             z-index: 10;
         }
+
+        /* Conteneur principal */
         .container {
             width: 90%;
             max-width: 600px;
             text-align: center;
             padding: 20px;
-            margin-top: 100px;
-            margin-bottom: 70px;
+            margin-top: 100px; /* Espace sous le bandeau */
+            margin-bottom: 70px; /* Espace au-dessus du bandeau du bas */
             border: 1px solid #1E3B6F;
             border-radius: 10px;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
             position: relative;
-            background-color: rgba(255, 255, 255, 0.8);
+            background-color: rgba(255, 255, 255, 0.8); /* Fond blanc semi-transparent */
         }
-        .video-box {
-            border: 3px solid #FFFFFF; /* Contour blanc pour la vidéo */
+
+        /* Vidéos */
+        video {
+            width: 100%;
+            max-width: 500px;
+            margin: 20px auto;
+            border: 3px solid #1E3B6F;
             border-radius: 8px;
-            overflow: hidden;
-            display: inline-block;
-            margin: 20px 0;
         }
+
+        /* Barre de progression */
         #progress-bar {
             width: 100%;
             height: 10px;
@@ -63,43 +70,74 @@
             position: relative;
             border: 2px solid #1E3B6F; /* Contour ajouté */
         }
+
         #progress-bar-inner {
             width: 0%;
             height: 100%;
             background-color: #FF0000;
             transition: width 1s linear;
         }
-        .info-text {
-            font-size: 14px;
-            color: #666666;
-            margin-bottom: 20px;
-            text-align: justify;
-        }
-        button, a {
-            background-color: #1E3B6F;
+
+        /* Boutons */
+        button {
+            background-color: #1E3B6F; /* Bleu principal */
             color: #FFFFFF;
+            font-family: Helvetica, Arial, sans-serif;
             font-size: 16px;
             border: none;
             border-radius: 25px;
             padding: 10px 20px;
             cursor: pointer;
             margin: 10px;
-            text-decoration: none;
             transition: background-color 0.3s;
         }
-        button:hover, a:hover {
+
+        button:hover {
+            background-color: #2F4A7E; /* Bleu plus clair */
+        }
+
+        /* Lien de téléchargement */
+        #download-link {
+            display: inline-block;
+            background-color: #1E3B6F;
+            color: white;
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #download-link:hover {
             background-color: #2F4A7E;
         }
-        #subject-display {
+
+        /* Texte de statut */
+        #status {
+            margin-top: 10px;
             font-size: 14px;
-            font-weight: bold;
             color: #333333;
-            margin: 20px 0;
         }
+
+        /* Texte d'introduction */
+        .info-text {
+            font-size: 14px;
+            color: #666666;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        /* Compteur supprimé pour laisser place à la barre de progression */
+
+        /* Bandeau en bas */
         .footer {
             background-color: #1E3B6F;
             color: #FFFFFF;
             font-size: 16px;
+            font-family: Helvetica, Arial, sans-serif;
             text-align: center;
             padding: 16px;
             width: 100%;
@@ -108,25 +146,31 @@
             left: 0;
             z-index: 10;
         }
+
         .footer a {
             text-decoration: none;
             font-size: 16px;
+            font-family: Helvetica, Arial, sans-serif;
             background-color: #FFFFFF;
             color: #1E3B6F;
             padding: 8px 15px;
             border-radius: 25px;
             transition: background-color 0.3s;
         }
+
         .footer a:hover {
             background-color: #EEEEEE;
         }
+
     </style>
 </head>
 <body>
+    <!-- Titre de la page -->
     <div class="header">
         Letmotiv | Simulateur d'improvisation en public
     </div>
 
+    <!-- Contenu principal -->
     <div class="container">
         <!-- Texte d'introduction -->
         <p class="info-text">
@@ -140,10 +184,8 @@
         <button id="generate-subject-btn">Générez votre sujet d'improvisation</button>
         <div id="subject-display"></div>
 
-        <!-- Boîte vidéo avec contour -->
-        <div class="video-box">
-            <video id="preview" autoplay muted></video>
-        </div>
+        <!-- Vidéo de prévisualisation -->
+        <video id="preview" autoplay muted></video>
 
         <!-- Barre de progression -->
         <div id="progress-bar">
@@ -164,13 +206,16 @@
 
         <!-- Lien de téléchargement -->
         <a id="download-link" style="display: none;">Télécharger la vidéo de votre prestation</a>
+
+        <!-- Information importante -->
+        <p class="info">
+            Information importante : votre vidéo reste privée et est enregistrée en local sur votre appareil. Il n'y a aucun transfert de la vidéo vers un serveur ou une plateforme tierce (comme un cloud ou une base de données).
+        </p>
     </div>
 
     <!-- Bandeau en bas -->
     <div class="footer">
-        <a href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole" target="_blank">
-            Revenir vers le site Letmotiv
-        </a>
+        <a href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole" target="_blank">Revenir vers le site Letmotiv</a>
     </div>
 
     <script>
@@ -184,15 +229,61 @@
             "Présentez la météo avec des événements météorologiques extrêmes et inattendus.",
             "Vous êtes un inventeur présentant votre nouvelle invention révolutionnaire.",
             "Convainquez vos parents de vous laisser partir en voyage autour du monde.",
-            "Vous êtes un guide touristique montrant une ville imaginaire."
+            "Vous êtes un guide touristique montrant une ville imaginaire.",
         ];
-        
+
         const subjectDisplay = document.getElementById('subject-display');
         const generateSubjectBtn = document.getElementById('generate-subject-btn');
+        const progressBarInner = document.getElementById('progress-bar-inner');
+        let countdown;
 
         generateSubjectBtn.addEventListener('click', () => {
             const randomSubject = subjects[Math.floor(Math.random() * subjects.length)];
             subjectDisplay.textContent = randomSubject;
+        });
+
+        const startBtn = document.getElementById('start-btn');
+        const stopBtn = document.getElementById('stop-btn');
+        let mediaRecorder;
+
+        startBtn.addEventListener('click', async () => {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            mediaRecorder = new MediaRecorder(stream);
+
+            mediaRecorder.start();
+            startBtn.disabled = true;
+            stopBtn.disabled = false;
+
+            let timeRemaining = 120; // 2 minutes
+            progressBarInner.style.width = '0%';
+
+            countdown = setInterval(() => {
+                timeRemaining--;
+                const progress = ((120 - timeRemaining) / 120) * 100;
+                progressBarInner.style.width = `${progress}%`;
+                if (timeRemaining <= 0) {
+                    clearInterval(countdown);
+                    mediaRecorder.stop();
+                }
+            }, 1000);
+
+            mediaRecorder.onstop = () => {
+                const videoBlob = new Blob([], { type: 'video/webm' });
+                const videoURL = URL.createObjectURL(videoBlob);
+                const playback = document.getElementById('playback');
+                playback.src = videoURL;
+                playback.style.display = 'block';
+                stopBtn.disabled = true;
+                startBtn.disabled = false;
+                stream.getTracks().forEach((track) => track.stop());
+            };
+        });
+
+        stopBtn.addEventListener('click', () => {
+            if (mediaRecorder && mediaRecorder.state === 'recording') {
+                mediaRecorder.stop();
+                clearInterval(countdown);
+            }
         });
     </script>
 </body>
