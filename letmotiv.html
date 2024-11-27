@@ -9,28 +9,31 @@
         body {
             margin: 0;
             font-family: Helvetica, Arial, sans-serif;
-            background-color: #FFFFFF; /* Fond blanc */
+            background-image: url('https://i.postimg.cc/2yG5hbLL/Conference.jpg'); /* Image de fond */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             color: #333333; /* Texte gris foncé */
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            padding-top: 60px; /* Pour laisser de l'espace sous le titre */
         }
 
         /* Titre arrondi */
         .header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
             background-color: #1E3B6F; /* Bleu principal */
             color: #FFFFFF;
             font-size: 24px;
             font-weight: bold;
             text-align: center;
             padding: 20px 15px;
-            z-index: 1000; /* S'assurer que le bandeau est toujours au-dessus du contenu */
+            width: 100%;
+            border-radius: 0 0 30px 30px;
+            position: fixed; /* Fixe le bandeau en haut */
+            top: 0;
+            left: 0;
+            z-index: 10;
         }
 
         /* Conteneur principal */
@@ -39,11 +42,12 @@
             max-width: 600px;
             text-align: center;
             padding: 20px;
-            margin-top: 100px; /* Pour compenser le bandeau fixé */
+            margin-top: 100px; /* Espace sous le bandeau */
             border: 1px solid #1E3B6F;
             border-radius: 10px;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
             position: relative;
+            background-color: rgba(255, 255, 255, 0.8); /* Fond blanc semi-transparent */
         }
 
         /* Vidéos */
@@ -99,13 +103,21 @@
             color: #333333;
         }
 
-        /* Compteur de temps */
+        /* Compteur */
         #timer {
             font-size: 20px;
             font-weight: bold;
-            color: #1E3B6F;
-            margin: 10px 0;
+            color: #FF0000;
         }
+
+        /* Information importante */
+        .info {
+            font-size: 12px;
+            color: #666666;
+            margin-top: 20px;
+            font-family: Helvetica, Arial, sans-serif;
+        }
+
     </style>
 </head>
 <body>
@@ -119,8 +131,8 @@
         <!-- Vidéo de prévisualisation -->
         <video id="preview" autoplay muted></video>
 
-        <!-- Compteur de temps -->
-        <div id="timer">02:00</div>
+        <!-- Compteur -->
+        <div id="timer">2:00</div>
 
         <!-- Boutons d'enregistrement -->
         <div>
@@ -136,20 +148,23 @@
 
         <!-- Lien de téléchargement -->
         <a id="download-link" style="display: none;">Télécharger l'enregistrement</a>
+
+        <!-- Information importante -->
+        <p class="info">
+            Information importante : votre vidéo reste privée et est enregistrée en local sur votre appareil. Il n'y a aucun transfert de la vidéo vers un serveur ou une plateforme tierce (comme un cloud ou une base de données).
+        </p>
     </div>
 
     <script>
         let mediaRecorder;
         let recordedChunks = [];
-        let countdown;
-        let remainingTime = 2 * 60; // 2 minutes en secondes
         const preview = document.getElementById('preview');
         const playback = document.getElementById('playback');
         const startBtn = document.getElementById('start-btn');
         const stopBtn = document.getElementById('stop-btn');
         const statusText = document.getElementById('status');
         const downloadLink = document.getElementById('download-link');
-        const timerDisplay = document.getElementById('timer');
+        const timerElement = document.getElementById('timer');
 
         // Fonction pour configurer l'accès à la webcam
         async function setupCamera() {
@@ -161,6 +176,22 @@
                 statusText.textContent = 'Erreur : Impossible d\'accéder à la webcam.';
                 console.error('Erreur d\'accès à la webcam :', error);
             }
+        }
+
+        // Fonction de démarrage du compteur
+        let countdown;
+        function startTimer() {
+            let timeRemaining = 120; // 2 minutes en secondes
+            countdown = setInterval(() => {
+                const minutes = Math.floor(timeRemaining / 60);
+                const seconds = timeRemaining % 60;
+                timerElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                timeRemaining--;
+                if (timeRemaining < 0) {
+                    clearInterval(countdown);
+                    mediaRecorder.stop();
+                }
+            }, 1000);
         }
 
         // Démarrer l'enregistrement
@@ -200,30 +231,18 @@
             startBtn.disabled = true;
             stopBtn.disabled = false;
 
-            // Lancer le compteur
-            countdown = setInterval(() => {
-                remainingTime--;
-                const minutes = Math.floor(remainingTime / 60);
-                const seconds = remainingTime % 60;
-                timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-                if (remainingTime <= 0) {
-                    clearInterval(countdown);
-                    mediaRecorder.stop();
-                    statusText.textContent = 'Enregistrement terminé.';
-                    startBtn.disabled = false;
-                    stopBtn.disabled = true;
-                }
-            }, 1000);
+            // Démarrer le compteur
+            startTimer();
         });
 
         // Arrêter l'enregistrement
         stopBtn.addEventListener('click', () => {
             if (mediaRecorder && mediaRecorder.state === 'recording') {
                 mediaRecorder.stop();
-                clearInterval(countdown);
                 statusText.textContent = 'Enregistrement terminé.';
                 startBtn.disabled = false;
                 stopBtn.disabled = true;
+                clearInterval(countdown);
             }
         });
     </script>
