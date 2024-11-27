@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simulateur d'improvisation</title>
     <style>
-        /* Général */
+        /* Styles généraux */
         body {
             margin: 0;
             font-family: Helvetica, Arial, sans-serif;
@@ -53,6 +53,7 @@
             margin-top: 10px;
             overflow: hidden;
             position: relative;
+            border: 2px solid #1E3B6F; /* Contour ajouté */
         }
         #progress-bar-inner {
             width: 0%;
@@ -65,13 +66,6 @@
             color: #666666;
             margin-bottom: 20px;
             text-align: justify;
-        }
-        video {
-            width: 100%;
-            max-width: 500px;
-            margin: 20px auto;
-            border: 3px solid #1E3B6F;
-            border-radius: 8px;
         }
         button, a {
             background-color: #1E3B6F;
@@ -140,91 +134,62 @@
 
     <script>
         const subjects = [
-            "Faire un toast : confiseurs et chocolatiers pour la fin de l'année",
-            "Faire un toast : pour la réussite de la conférence sur le climat",
-            "Tu es Marylin Monroe après avoir chanté Happy Birthday au Président",
-            "Un pitch improvisé : vendre un parapluie au Sahara",
-            "Faire un discours de mariage inattendu pour un couple d'amis",
-            "Expliquer à des extraterrestres pourquoi ils devraient visiter la Terre"
+            "Vous êtes un explorateur découvrant une île déserte pour la première fois.",
+            "Convainquez un groupe d'amis d'aller camper en plein hiver.",
+            "Expliquez à un extraterrestre ce qu'est la musique.",
+            "Vous êtes un vendeur essayant de vendre un parapluie un jour ensoleillé.",
+            "Donnez un discours de motivation à une équipe qui vient de perdre un match.",
+            "Vous êtes un chef cuisinier présentant un nouveau plat étrange.",
+            "Présentez la météo avec des événements météorologiques extrêmes et inattendus.",
+            "Vous êtes un inventeur présentant votre nouvelle invention révolutionnaire.",
+            "Convainquez vos parents de vous laisser partir en voyage autour du monde.",
+            "Vous êtes un guide touristique montrant une ville imaginaire.",
+            "Expliquez les avantages de vivre sous l'eau.",
+            "Vous êtes un animal qui peut parler et vous adressez aux humains.",
+            "Convainquez un dragon de ne pas détruire votre village.",
+            "Vous êtes un super-héros sans pouvoirs essayant de sauver la situation.",
+            "Faites un discours lors de la remise des diplômes d'une école de magie.",
+            "Vous êtes un détective résolvant un mystère étrange.",
+            "Vendez une pierre ordinaire comme si c'était un objet précieux.",
+            "Vous êtes un pirate cherchant de nouveaux membres d'équipage.",
+            "Expliquez pourquoi le ciel est vert aujourd'hui.",
+            "Vous êtes un robot découvrant les émotions pour la première fois.",
+            "Convainquez un roi de vous laisser épouser sa fille.",
+            "Vous êtes un jardinier parlant aux plantes pour les faire pousser.",
+            "Donnez un cours sur comment voler (sans ailes ni avion).",
+            "Vous êtes un athlète olympique racontant votre expérience.",
+            "Présentez un journal télévisé avec des nouvelles complètement folles.",
+            "Vous êtes un fantôme essayant de faire peur à quelqu'un.",
+            "Convainquez vos amis que vous pouvez lire dans les pensées.",
+            "Vous êtes un artiste de rue qui performe pour une foule difficile.",
+            "Expliquez les règles d'un sport que vous venez d'inventer.",
+            "Vous êtes un astronaute décrivant la vie sur une autre planète.",
+            "Convainquez une personne que les licornes existent vraiment.",
+            "Vous êtes un chef d'orchestre sans musiciens.",
+            "Faites une publicité pour une machine à remonter le temps.",
+            "Vous êtes un livre parlant de vos aventures sur les étagères.",
+            "Présentez une émission culinaire avec des ingrédients insolites.",
+            "Vous êtes le directeur d'un zoo où les animaux se sont échappés.",
+            "Convainquez quelqu'un de manger un plat exotique.",
+            "Vous êtes un professeur expliquant une matière absurde.",
+            "Faites un discours de victoire après avoir gagné un prix imaginaire.",
+            "Vous êtes un personnage de conte de fées moderne.",
+            "Convainquez un public que dormir toute la journée est bénéfique.",
+            "Vous êtes un conducteur de bus racontant les histoires de vos passagers.",
+            "Expliquez pourquoi vous êtes en retard à une réunion importante.",
+            "Vous êtes un archéologue qui a découvert un artefact magique.",
+            "Présentez les dernières tendances de la mode pour les extraterrestres.",
+            "Vous êtes un poisson qui rêve de voler dans le ciel.",
+            "Convainquez quelqu'un que vous êtes une célébrité incognito.",
+            "Vous êtes un ambassadeur de la Terre accueillant des visiteurs de l'espace."
         ];
+        
         const subjectDisplay = document.getElementById('subject-display');
         const generateSubjectBtn = document.getElementById('generate-subject-btn');
+
         generateSubjectBtn.addEventListener('click', () => {
             const randomSubject = subjects[Math.floor(Math.random() * subjects.length)];
             subjectDisplay.textContent = randomSubject;
-        });
-
-        let mediaRecorder;
-        let recordedChunks = [];
-        const preview = document.getElementById('preview');
-        const playback = document.getElementById('playback');
-        const startBtn = document.getElementById('start-btn');
-        const stopBtn = document.getElementById('stop-btn');
-        const statusText = document.getElementById('status');
-        const downloadLink = document.getElementById('download-link');
-        const progressBarInner = document.getElementById('progress-bar-inner');
-        let countdown;
-
-        async function setupCamera() {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-                preview.srcObject = stream;
-                return stream;
-            } catch (error) {
-                statusText.textContent = 'Erreur : Impossible d\'accéder à la webcam.';
-                console.error('Erreur d\'accès à la webcam :', error);
-            }
-        }
-
-        function startTimer() {
-            let timeRemaining = 120;
-            progressBarInner.style.width = '0%';
-            countdown = setInterval(() => {
-                timeRemaining--;
-                const progress = ((120 - timeRemaining) / 120) * 100;
-                progressBarInner.style.width = `${progress}%`;
-                if (timeRemaining <= 0) {
-                    clearInterval(countdown);
-                    mediaRecorder.stop();
-                }
-            }, 1000);
-        }
-
-        startBtn.addEventListener('click', async () => {
-            const stream = await setupCamera();
-            if (!stream) return;
-
-            mediaRecorder = new MediaRecorder(stream);
-            recordedChunks = [];
-            mediaRecorder.ondataavailable = (event) => {
-                if (event.data.size > 0) recordedChunks.push(event.data);
-            };
-            mediaRecorder.onstop = () => {
-                const videoBlob = new Blob(recordedChunks, { type: 'video/webm' });
-                const videoURL = URL.createObjectURL(videoBlob);
-                playback.src = videoURL;
-                playback.style.display = 'block';
-                downloadLink.href = videoURL;
-                downloadLink.download = 'Letmotiv_Improvisation.webm';
-                downloadLink.style.display = 'inline-block';
-                stream.getTracks().forEach((track) => track.stop());
-            };
-
-            mediaRecorder.start();
-            statusText.textContent = 'Improvisation en cours...';
-            startBtn.disabled = true;
-            stopBtn.disabled = false;
-            startTimer();
-        });
-
-        stopBtn.addEventListener('click', () => {
-            if (mediaRecorder && mediaRecorder.state === 'recording') {
-                mediaRecorder.stop();
-                statusText.textContent = 'Improvisation terminée.';
-                startBtn.disabled = false;
-                stopBtn.disabled = true;
-                clearInterval(countdown);
-            }
         });
     </script>
 </body>
