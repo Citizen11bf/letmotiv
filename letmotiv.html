@@ -9,28 +9,28 @@
         body {
             margin: 0;
             font-family: Helvetica, Arial, sans-serif;
-            background-image: url('https://i.postimg.cc/2yG5hbLL/Conference.jpg'); /* URL de l'image */
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: #FFFFFF; /* Texte blanc */
+            background-color: #FFFFFF; /* Fond blanc */
+            color: #333333; /* Texte gris foncé */
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
             min-height: 100vh;
+            padding-top: 60px; /* Pour laisser de l'espace sous le titre */
         }
 
-        /* Titre */
+        /* Titre arrondi */
         .header {
-            background-color: rgba(30, 59, 111, 0.8); /* Bleu avec transparence */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #1E3B6F; /* Bleu principal */
             color: #FFFFFF;
             font-size: 24px;
             font-weight: bold;
             text-align: center;
             padding: 20px 15px;
-            width: 100%;
-            border-radius: 0 0 30px 30px;
+            z-index: 1000; /* S'assurer que le bandeau est toujours au-dessus du contenu */
         }
 
         /* Conteneur principal */
@@ -39,11 +39,11 @@
             max-width: 600px;
             text-align: center;
             padding: 20px;
-            margin: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.6);
+            margin-top: 100px; /* Pour compenser le bandeau fixé */
+            border: 1px solid #1E3B6F;
             border-radius: 10px;
-            background-color: rgba(0, 0, 0, 0.7); /* Fond noir transparent */
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
 
         /* Vidéos */
@@ -53,7 +53,6 @@
             margin: 20px auto;
             border: 3px solid #1E3B6F;
             border-radius: 8px;
-            background-color: #000000; /* Fond noir en cas de chargement */
         }
 
         /* Boutons */
@@ -97,7 +96,15 @@
         #status {
             margin-top: 10px;
             font-size: 14px;
-            color: #FFFFFF;
+            color: #333333;
+        }
+
+        /* Compteur de temps */
+        #timer {
+            font-size: 20px;
+            font-weight: bold;
+            color: #1E3B6F;
+            margin: 10px 0;
         }
     </style>
 </head>
@@ -111,6 +118,9 @@
     <div class="container">
         <!-- Vidéo de prévisualisation -->
         <video id="preview" autoplay muted></video>
+
+        <!-- Compteur de temps -->
+        <div id="timer">02:00</div>
 
         <!-- Boutons d'enregistrement -->
         <div>
@@ -131,12 +141,15 @@
     <script>
         let mediaRecorder;
         let recordedChunks = [];
+        let countdown;
+        let remainingTime = 2 * 60; // 2 minutes en secondes
         const preview = document.getElementById('preview');
         const playback = document.getElementById('playback');
         const startBtn = document.getElementById('start-btn');
         const stopBtn = document.getElementById('stop-btn');
         const statusText = document.getElementById('status');
         const downloadLink = document.getElementById('download-link');
+        const timerDisplay = document.getElementById('timer');
 
         // Fonction pour configurer l'accès à la webcam
         async function setupCamera() {
@@ -187,21 +200,27 @@
             startBtn.disabled = true;
             stopBtn.disabled = false;
 
-            // Arrêter après 2 minutes automatiquement
-            setTimeout(() => {
-                if (mediaRecorder.state === 'recording') {
+            // Lancer le compteur
+            countdown = setInterval(() => {
+                remainingTime--;
+                const minutes = Math.floor(remainingTime / 60);
+                const seconds = remainingTime % 60;
+                timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                if (remainingTime <= 0) {
+                    clearInterval(countdown);
                     mediaRecorder.stop();
                     statusText.textContent = 'Enregistrement terminé.';
                     startBtn.disabled = false;
                     stopBtn.disabled = true;
                 }
-            }, 2 * 60 * 1000);
+            }, 1000);
         });
 
         // Arrêter l'enregistrement
         stopBtn.addEventListener('click', () => {
             if (mediaRecorder && mediaRecorder.state === 'recording') {
                 mediaRecorder.stop();
+                clearInterval(countdown);
                 statusText.textContent = 'Enregistrement terminé.';
                 startBtn.disabled = false;
                 stopBtn.disabled = true;
