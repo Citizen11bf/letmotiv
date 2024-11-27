@@ -46,6 +46,13 @@
             position: relative;
             background-color: rgba(255, 255, 255, 0.8);
         }
+        .video-box {
+            border: 3px solid #FFFFFF; /* Contour blanc pour la vidéo */
+            border-radius: 8px;
+            overflow: hidden;
+            display: inline-block;
+            margin: 20px 0;
+        }
         #progress-bar {
             width: 100%;
             height: 10px;
@@ -89,6 +96,30 @@
             color: #333333;
             margin: 20px 0;
         }
+        .footer {
+            background-color: #1E3B6F;
+            color: #FFFFFF;
+            font-size: 16px;
+            text-align: center;
+            padding: 16px;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            z-index: 10;
+        }
+        .footer a {
+            text-decoration: none;
+            font-size: 16px;
+            background-color: #FFFFFF;
+            color: #1E3B6F;
+            padding: 8px 15px;
+            border-radius: 25px;
+            transition: background-color 0.3s;
+        }
+        .footer a:hover {
+            background-color: #EEEEEE;
+        }
     </style>
 </head>
 <body>
@@ -109,8 +140,10 @@
         <button id="generate-subject-btn">Générez votre sujet d'improvisation</button>
         <div id="subject-display"></div>
 
-        <!-- Vidéo de prévisualisation -->
-        <video id="preview" autoplay muted></video>
+        <!-- Boîte vidéo avec contour -->
+        <div class="video-box">
+            <video id="preview" autoplay muted></video>
+        </div>
 
         <!-- Barre de progression -->
         <div id="progress-bar">
@@ -133,6 +166,13 @@
         <a id="download-link" style="display: none;">Télécharger la vidéo de votre prestation</a>
     </div>
 
+    <!-- Bandeau en bas -->
+    <div class="footer">
+        <a href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole" target="_blank">
+            Revenir vers le site Letmotiv
+        </a>
+    </div>
+
     <script>
         const subjects = [
             "Vous êtes un explorateur découvrant une île déserte pour la première fois.",
@@ -144,45 +184,7 @@
             "Présentez la météo avec des événements météorologiques extrêmes et inattendus.",
             "Vous êtes un inventeur présentant votre nouvelle invention révolutionnaire.",
             "Convainquez vos parents de vous laisser partir en voyage autour du monde.",
-            "Vous êtes un guide touristique montrant une ville imaginaire.",
-            "Expliquez les avantages de vivre sous l'eau.",
-            "Vous êtes un animal qui peut parler et vous adressez aux humains.",
-            "Convainquez un dragon de ne pas détruire votre village.",
-            "Vous êtes un super-héros sans pouvoirs essayant de sauver la situation.",
-            "Faites un discours lors de la remise des diplômes d'une école de magie.",
-            "Vous êtes un détective résolvant un mystère étrange.",
-            "Vendez une pierre ordinaire comme si c'était un objet précieux.",
-            "Vous êtes un pirate cherchant de nouveaux membres d'équipage.",
-            "Expliquez pourquoi le ciel est vert aujourd'hui.",
-            "Vous êtes un robot découvrant les émotions pour la première fois.",
-            "Convainquez un roi de vous laisser épouser sa fille.",
-            "Vous êtes un jardinier parlant aux plantes pour les faire pousser.",
-            "Donnez un cours sur comment voler (sans ailes ni avion).",
-            "Vous êtes un athlète olympique racontant votre expérience.",
-            "Présentez un journal télévisé avec des nouvelles complètement folles.",
-            "Vous êtes un fantôme essayant de faire peur à quelqu'un.",
-            "Convainquez vos amis que vous pouvez lire dans les pensées.",
-            "Vous êtes un artiste de rue qui performe pour une foule difficile.",
-            "Expliquez les règles d'un sport que vous venez d'inventer.",
-            "Vous êtes un astronaute décrivant la vie sur une autre planète.",
-            "Convainquez une personne que les licornes existent vraiment.",
-            "Vous êtes un chef d'orchestre sans musiciens.",
-            "Faites une publicité pour une machine à remonter le temps.",
-            "Vous êtes un livre parlant de vos aventures sur les étagères.",
-            "Présentez une émission culinaire avec des ingrédients insolites.",
-            "Vous êtes le directeur d'un zoo où les animaux se sont échappés.",
-            "Convainquez quelqu'un de manger un plat exotique.",
-            "Vous êtes un professeur expliquant une matière absurde.",
-            "Faites un discours de victoire après avoir gagné un prix imaginaire.",
-            "Vous êtes un personnage de conte de fées moderne.",
-            "Convainquez un public que dormir toute la journée est bénéfique.",
-            "Vous êtes un conducteur de bus racontant les histoires de vos passagers.",
-            "Expliquez pourquoi vous êtes en retard à une réunion importante.",
-            "Vous êtes un archéologue qui a découvert un artefact magique.",
-            "Présentez les dernières tendances de la mode pour les extraterrestres.",
-            "Vous êtes un poisson qui rêve de voler dans le ciel.",
-            "Convainquez quelqu'un que vous êtes une célébrité incognito.",
-            "Vous êtes un ambassadeur de la Terre accueillant des visiteurs de l'espace."
+            "Vous êtes un guide touristique montrant une ville imaginaire."
         ];
         
         const subjectDisplay = document.getElementById('subject-display');
