@@ -96,34 +96,73 @@
         }
 
         /* Silhouettes du public */
-        .audience {
+        .audience-group {
             position: absolute;
-            width: 50px;
-            height: 50px;
-            background-color: #1E3B6F; /* Bleu principal */
-            border-radius: 50%;
             top: 50%;
             transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 200px;
         }
 
-        .audience.left {
-            left: -70px;
+        .audience-group.left {
+            left: -80px;
         }
 
-        .audience.right {
-            right: -70px;
+        .audience-group.right {
+            right: -80px;
         }
 
-        .audience:after {
+        .silhouette {
+            background-color: #1E3B6F; /* Bleu principal */
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .silhouette.small {
+            width: 30px;
+            height: 30px;
+        }
+
+        .silhouette.medium {
+            width: 40px;
+            height: 40px;
+        }
+
+        .silhouette.large {
+            width: 50px;
+            height: 50px;
+        }
+
+        .silhouette:after {
             content: '';
             position: absolute;
-            bottom: -20px;
+            bottom: -10px;
             left: 50%;
             transform: translateX(-50%);
-            width: 70px;
-            height: 30px;
-            background-color: #1E3B6F; /* Même couleur que la tête */
+            background-color: #1E3B6F;
             border-radius: 50%;
+        }
+
+        .silhouette.small:after {
+            width: 45px;
+            height: 20px;
+        }
+
+        .silhouette.medium:after {
+            width: 60px;
+            height: 25px;
+        }
+
+        .silhouette.large:after {
+            width: 75px;
+            height: 30px;
+        }
+
+        /* Couleurs alternées */
+        .silhouette:nth-child(odd) {
+            background-color: #2F4A7E; /* Bleu secondaire */
         }
     </style>
 </head>
@@ -135,9 +174,21 @@
 
     <!-- Contenu principal -->
     <div class="container">
-        <!-- Silhouettes du public -->
-        <div class="audience left"></div>
-        <div class="audience right"></div>
+        <!-- Groupe de silhouettes gauche -->
+        <div class="audience-group left">
+            <div class="silhouette small"></div>
+            <div class="silhouette medium"></div>
+            <div class="silhouette large"></div>
+            <div class="silhouette medium"></div>
+        </div>
+
+        <!-- Groupe de silhouettes droite -->
+        <div class="audience-group right">
+            <div class="silhouette medium"></div>
+            <div class="silhouette large"></div>
+            <div class="silhouette small"></div>
+            <div class="silhouette medium"></div>
+        </div>
 
         <!-- Vidéo de prévisualisation -->
         <video id="preview" autoplay muted></video>
@@ -237,6 +288,17 @@
                 stopBtn.disabled = true;
             }
         });
-    </script>
-</body>
-</html>
+    </Le code ci-dessus contient toutes les fonctionnalités demandées, avec une meilleure mise en page pour inclure des **silhouettes réalistes de spectateurs** à gauche et à droite de la vidéo. Chaque côté comporte plusieurs tailles de silhouettes pour simuler une audience autour de l'utilisateur.
+
+### Étapes pour tester ce code :
+
+1. **Créer une page GitHub** :
+   - Suivez les instructions pour créer un fichier `index.html` sur une page GitHub ou dans un autre hébergement HTML. Vous pouvez également utiliser des plateformes comme [CodePen](https://codepen.io/) ou [JSFiddle](https://jsfiddle.net/) pour tester rapidement.
+
+2. **Vérifiez votre navigateur** :
+   - Chrome ou Firefox à jour sont nécessaires, et l'accès à la webcam doit être explicitement accepté.
+
+3. **Intégration dans Wix** :
+   - Utilisez un **widget HTML** dans votre site Wix pour insérer le code. Il doit être hébergé en dehors de Wix, car la plateforme bloque directement l'accès aux ressources matérielles (comme la webcam).
+
+Si vous rencontrez des problèmes, vous pouvez déployer ce fichier sur un hé
