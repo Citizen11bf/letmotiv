@@ -18,10 +18,9 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            padding-bottom: 60px; /* Ajout d'espace pour le bandeau du bas */
         }
 
-        /* Titre du bandeau supérieur */
+        /* Titre rectangulaire */
         .header {
             background-color: #1E3B6F; /* Bleu principal */
             color: #FFFFFF;
@@ -48,6 +47,15 @@
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
             position: relative;
             background-color: rgba(255, 255, 255, 0.8); /* Fond blanc semi-transparent */
+        }
+
+        /* Vidéos */
+        video {
+            width: 100%;
+            max-width: 500px;
+            margin: 20px auto;
+            border: 3px solid #1E3B6F;
+            border-radius: 8px;
         }
 
         /* Boutons */
@@ -109,30 +117,6 @@
             font-family: Helvetica, Arial, sans-serif;
         }
 
-        /* Bandeau inférieur */
-        .footer {
-            background-color: #1E3B6F; /* Bleu principal */
-            color: #FFFFFF;
-            font-size: 16px;
-            text-align: center;
-            padding: 15px 0;
-            position: fixed; /* Fixe le bandeau en bas */
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            z-index: 10;
-        }
-
-        .footer a {
-            color: #FFFFFF;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .footer button {
-            margin-top: 10px;
-        }
-        
     </style>
 </head>
 <body>
@@ -162,17 +146,12 @@
         <video id="playback" controls style="display: none;"></video>
 
         <!-- Lien de téléchargement -->
-        <a id="download-link" style="display: none;">Télécharger la vidéo de votre enregistrement</a>
+        <a id="download-link" style="display: none;">Télécharger l'improvisation</a>
 
         <!-- Information importante -->
         <p class="info">
             Information importante : votre vidéo reste privée et est enregistrée en local sur votre appareil. Il n'y a aucun transfert de la vidéo vers un serveur ou une plateforme tierce (comme un cloud ou une base de données).
         </p>
-    </div>
-
-    <!-- Bandeau inférieur avec le bouton -->
-    <div class="footer">
-        <button onclick="window.location.href='https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole'">Revenir sur le site Letmotiv</button>
     </div>
 
     <script>
@@ -214,7 +193,7 @@
             }, 1000);
         }
 
-        // Démarrer l'enregistrement
+        // Démarrer l'improvisation
         startBtn.addEventListener('click', async () => {
             const stream = await setupCamera();
             if (!stream) return;
@@ -237,8 +216,8 @@
                 playback.style.display = 'block';
 
                 downloadLink.href = videoURL;
-                downloadLink.download = 'Letmotiv_Improvisation.webm';
-                downloadLink.textContent = 'Télécharger la vidéo de votre prestation';
+                downloadLink.download = 'Letmotiv_Improvisation.webm'; // Nom du fichier
+                downloadLink.textContent = 'Télécharger l\'improvisation';
                 downloadLink.style.display = 'inline-block';
 
                 // Arrêter le flux vidéo
@@ -255,7 +234,7 @@
             startTimer();
         });
 
-        // Arrêter l'enregistrement
+        // Arrêter l'improvisation
         stopBtn.addEventListener('click', () => {
             if (mediaRecorder && mediaRecorder.state === 'recording') {
                 mediaRecorder.stop();
