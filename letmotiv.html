@@ -205,37 +205,63 @@
             transform: scale(1.05);
         }
 
-        /* Footer */
-           .footer {
+<style>
+    /* Footer */
+    .footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         background-color: #1E3B6F;
         color: #FFFFFF;
-        font-size: 12px; /* Taille de texte réduite */
-        text-align: center;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 5px 10px; /* Réduction de l'espace intérieur */
-        width: 100%;
+        padding: 16px 20px;
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 16px;
         position: fixed;
         bottom: 0;
         left: 0;
-        z-index: 10;
-        }
+        width: 100%;
+        box-sizing: border-box;
+    }
 
-        .footer a {
+    /* Lien dans le footer */
+    .footer-link {
         text-decoration: none;
-        font-size: 12px; /* Taille de texte ajustée */
+        color: #FFFFFF;
+        padding: 10px 15px;
+        border-radius: 25px;
+        background-color: #2F4A7E;
+        transition: background-color 0.3s, color 0.3s;
+        font-size: 14px;
+    }
+
+    /* Hover effect */
+    .footer-link:hover {
         background-color: #FFFFFF;
         color: #1E3B6F;
-        padding: 5px 10px; /* Réduction de l'espace du bouton */
-        border-radius: 25px;
-        transition: background-color 0.3s;
+    }
+
+    /* Aligner le texte */
+    .left-link {
+        text-align: left;
+    }
+
+    .right-link {
+        text-align: right;
+    }
+
+    /* Responsiveness */
+    @media screen and (max-width: 600px) {
+        .footer {
+            flex-direction: column;
+            gap: 10px;
         }
 
-        .footer a:hover {
-            background-color: #00a48a;
-            transform: scale(1.05);
+        .footer-link {
+            width: 100%;
+            text-align: center;
         }
+    }
+</style>
 
         @media (max-width: 600px) {
         .intro-box, .container {
@@ -311,12 +337,11 @@
     </div>
 
     <!-- Footer -->
-    <div class="footer">
-        <a href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole" target="_blank">
-            Réservez un coaching sur Letmotiv
-        </a>
-    </div>
-
+        <div class="footer">
+        <a href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole" target="_blank" class="footer-link left-link">Réservez un coaching Letmotiv</a>
+        <a href="https://alexetpierre.systeme.io/799d7fa4" target="_blank" class="footer-link right-link">Suivre la formation en ligne Letmotiv pour progresser</a>
+        </div>
+    
     <script>
         const generateSubjectBtn = document.getElementById('generate-subject-btn');
         const subjectDisplay = document.getElementById('subject-display');
