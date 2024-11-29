@@ -52,12 +52,6 @@
             text-align: center;
             font-size: 14px;
             border: 2px solid #cccccc;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .intro-box:hover {
-            transform: translateY(-5px);
-            box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
         }
 
         /* Conteneur principal */
@@ -73,12 +67,25 @@
             text-align: center;
             font-size: 14px;
             border: 2px solid #cccccc;
-            transition: transform 0.3s, box-shadow 0.3s;
         }
 
-        .container:hover {
-            transform: translateY(-5px);
-            box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
+        /* Barre de progression */
+        #progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-top: 20px;
+            overflow: hidden;
+            position: relative;
+            border: 2px solid #cccccc;
+        }
+
+        #progress-bar-inner {
+            width: 0%;
+            height: 100%;
+            background-color: #FF0000;
+            transition: width 1s linear;
         }
 
         /* Boutons */
@@ -108,64 +115,6 @@
             margin-right: 8px;
         }
 
-        /* Barre de progression */
-        #progress-bar {
-            width: 100%;
-            height: 10px;
-            background-color: #e0e0e0;
-            border-radius: 5px;
-            margin-top: 20px;
-            overflow: hidden;
-            position: relative;
-            border: 2px solid #cccccc;
-        }
-
-        #progress-bar-inner {
-            width: 0%;
-            height: 100%;
-            background-color: #FF0000;
-            transition: width 1s linear;
-        }
-
-        /* Toast notification */
-        #toast {
-            display: none;
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #1E3B6F;
-            color: #FFFFFF;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-size: 14px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-        }
-
-        #toast.show {
-            display: block;
-            animation: fadein 0.5s, fadeout 0.5s 3.5s;
-        }
-
-        @keyframes fadein {
-            from {opacity: 0;}
-            to {opacity: 1;}
-        }
-
-        @keyframes fadeout {
-            from {opacity: 1;}
-            to {opacity: 0;}
-        }
-
-        /* Mise en surbrillance */
-        #subject-display.highlight {
-            animation: highlight 1s ease-in-out;
-        }
-
-        @keyframes highlight {
-            0% {background-color: yellow;}
-            100% {background-color: transparent;}
-        }
-
         /* Vidéos */
         video {
             width: 100%;
@@ -173,21 +122,10 @@
             margin: 20px auto;
             border: 3px solid #1E3B6F;
             border-radius: 6px;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        video:hover {
-            transform: scale(1.02);
-            box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
         }
 
         /* Questionnaire */
         .evaluation-box {
-            display: none;
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 20px;
-            border-radius: 10px;
-            border: 2px solid #cccccc;
             margin-top: 20px;
             text-align: left;
         }
@@ -219,6 +157,35 @@
 
         .evaluation-box button:hover {
             background-color: #2F4A7E;
+        }
+
+        /* Toast notification */
+        #toast {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #1E3B6F;
+            color: #FFFFFF;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        #toast.show {
+            display: block;
+            animation: fadein 0.5s, fadeout 0.5s 3.5s;
+        }
+
+        @keyframes fadein {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+
+        @keyframes fadeout {
+            from {opacity: 1;}
+            to {opacity: 0;}
         }
     </style>
 </head>
@@ -256,69 +223,56 @@
 
         <video id="playback" controls style="display: none;"></video>
         <a id="download-link" style="display: none;" tabindex="0"><i class="fas fa-download"></i> Télécharger la vidéo de votre prestation</a>
-    </div>
 
-    <!-- Questionnaire -->
-    <div class="evaluation-box" id="evaluation-box">
-        <h3>Questions d'auto-évaluation :</h3>
-        <p>1. Que penses-tu de la clarté de ton discours ?</p>
-        <textarea placeholder="Votre réponse ici..."></textarea>
-        <p>2. As-tu fait une introduction et une conclusion ? Est-ce qu'elles sont satisfaisantes selon toi ?</p>
-        <textarea placeholder="Votre réponse ici..."></textarea>
-        <p>3. Comment évalues-tu ton langage corporel ?</p>
-        <textarea placeholder="Votre réponse ici..."></textarea>
-        <p>4. Quels points positifs retires-tu de cette improvisation ?</p>
-        <textarea placeholder="Votre réponse ici..."></textarea>
-        <p>5. Quels axes d'amélioration prioriser ?</p>
-        <textarea placeholder="Votre réponse ici..."></textarea>
-        <button id="download-answers-btn">Télécharger les réponses</button>
+        <!-- Questionnaire intégré dans la même box -->
+        <div class="evaluation-box" id="evaluation-box" style="display: none;">
+            <h3>Questions d'auto-évaluation :</h3>
+            <p>1. Que penses-tu de la clarté de ton discours ?</p>
+            <textarea placeholder="Votre réponse ici..."></textarea>
+            <p>2. As-tu fait une introduction et une conclusion ? Est-ce qu'elles sont satisfaisantes selon toi ?</p>
+            <textarea placeholder="Votre réponse ici..."></textarea>
+            <p>3. Comment évalues-tu ton langage corporel ?</p>
+            <textarea placeholder="Votre réponse ici..."></textarea>
+            <p>4. Quels points positifs retires-tu de cette improvisation ?</p>
+            <textarea placeholder="Votre réponse ici..."></textarea>
+            <p>5. Quels axes d'amélioration prioriser ?</p>
+            <textarea placeholder="Votre réponse ici..."></textarea>
+            <button id="download-answers-btn">Télécharger les réponses</button>
+        </div>
     </div>
 
     <!-- Toast -->
     <div id="toast">Vidéo enregistrée avec succès !</div>
 
-    <!-- Scripts -->
     <script>
-        // Toast notification
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.classList.add('show');
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 4000);
-        }
-
-        // Générateur de sujets avec mise en surbrillance
-        const subjects = [
-            "Faire un toast : célébrer un voyage autour du monde",
-            "Un pitch improvisé : vendre un parapluie au Sahara",
-            "Tu es Marylin Monroe après avoir chanté Happy Birthday au Président"
-        ];
-
-        document.getElementById('generate-subject-btn').addEventListener('click', () => {
-            const randomSubject = subjects[Math.floor(Math.random() * subjects.length)];
-            const subjectDisplay = document.getElementById('subject-display');
-            subjectDisplay.textContent = randomSubject;
-            subjectDisplay.classList.add('highlight');
-            setTimeout(() => subjectDisplay.classList.remove('highlight'), 1000);
-        });
-
-        // Webcam et enregistrement vidéo
         const startBtn = document.getElementById('start-btn');
         const stopBtn = document.getElementById('stop-btn');
+        const preview = document.getElementById('preview');
         const playback = document.getElementById('playback');
         const downloadLink = document.getElementById('download-link');
         const evaluationBox = document.getElementById('evaluation-box');
+        const progressBarInner = document.getElementById('progress-bar-inner');
+        const countdownTimer = document.getElementById('countdown-timer');
         let mediaRecorder;
         let recordedChunks = [];
+        let countdown;
+        let stream;
+
+        async function setupCamera() {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                preview.srcObject = stream;
+            } catch (err) {
+                alert("Impossible d'accéder à la webcam !");
+            }
+        }
 
         startBtn.addEventListener('click', async () => {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-            document.getElementById('preview').srcObject = stream;
+            await setupCamera();
 
             mediaRecorder = new MediaRecorder(stream);
             recordedChunks = [];
+
             mediaRecorder.ondataavailable = event => recordedChunks.push(event.data);
             mediaRecorder.onstop = () => {
                 const blob = new Blob(recordedChunks, { type: 'video/webm' });
@@ -329,21 +283,50 @@
                 downloadLink.style.display = 'inline-block';
                 evaluationBox.style.display = 'block';
                 showToast("Vidéo enregistrée avec succès !");
-                playback.scrollIntoView({ behavior: 'smooth', block: 'center' });
             };
 
             mediaRecorder.start();
+
+            // Chronomètre
+            let timeRemaining = 120;
+            progressBarInner.style.width = '0%';
+            countdownTimer.textContent = `Temps restant : ${timeRemaining} secondes`;
+
+            countdown = setInterval(() => {
+                timeRemaining--;
+                progressBarInner.style.width = `${(120 - timeRemaining) / 120 * 100}%`;
+                countdownTimer.textContent = `Temps restant : ${timeRemaining} secondes`;
+
+                if (timeRemaining <= 0) {
+                    clearInterval(countdown);
+                    mediaRecorder.stop();
+                    stopStream();
+                }
+            }, 1000);
+
             startBtn.disabled = true;
             stopBtn.disabled = false;
         });
 
         stopBtn.addEventListener('click', () => {
-            mediaRecorder.stop();
+            if (mediaRecorder && mediaRecorder.state === 'recording') {
+                mediaRecorder.stop();
+                clearInterval(countdown);
+                stopStream();
+            }
             startBtn.disabled = false;
             stopBtn.disabled = true;
+            progressBarInner.style.width = '0%';
+            countdownTimer.textContent = '';
         });
 
-        // Téléchargement des réponses au questionnaire
+        function stopStream() {
+            if (stream) {
+                const tracks = stream.getTracks();
+                tracks.forEach(track => track.stop());
+            }
+        }
+
         document.getElementById('download-answers-btn').addEventListener('click', () => {
             const questions = [
                 "1. Que penses-tu de la clarté de ton discours ?",
@@ -364,6 +347,13 @@
             link.download = 'evaluation_reponses.txt';
             link.click();
         });
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 4000);
+        }
     </script>
 </body>
 </html>
