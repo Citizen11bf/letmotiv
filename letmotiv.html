@@ -180,6 +180,46 @@
             transform: scale(1.02);
             box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
         }
+
+        /* Questionnaire */
+        .evaluation-box {
+            display: none;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #cccccc;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .evaluation-box p {
+            margin-bottom: 10px;
+        }
+
+        .evaluation-box textarea {
+            width: 100%;
+            height: 80px;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        .evaluation-box button {
+            display: block;
+            margin: 20px auto;
+            background-color: #1E3B6F;
+            color: #FFFFFF;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .evaluation-box button:hover {
+            background-color: #2F4A7E;
+        }
     </style>
 </head>
 <body>
@@ -218,9 +258,26 @@
         <a id="download-link" style="display: none;" tabindex="0"><i class="fas fa-download"></i> Télécharger la vidéo de votre prestation</a>
     </div>
 
+    <!-- Questionnaire -->
+    <div class="evaluation-box" id="evaluation-box">
+        <h3>Questions d'auto-évaluation :</h3>
+        <p>1. Que penses-tu de la clarté de ton discours ?</p>
+        <textarea placeholder="Votre réponse ici..."></textarea>
+        <p>2. As-tu fait une introduction et une conclusion ? Est-ce qu'elles sont satisfaisantes selon toi ?</p>
+        <textarea placeholder="Votre réponse ici..."></textarea>
+        <p>3. Comment évalues-tu ton langage corporel ?</p>
+        <textarea placeholder="Votre réponse ici..."></textarea>
+        <p>4. Quels points positifs retires-tu de cette improvisation ?</p>
+        <textarea placeholder="Votre réponse ici..."></textarea>
+        <p>5. Quels axes d'amélioration prioriser ?</p>
+        <textarea placeholder="Votre réponse ici..."></textarea>
+        <button id="download-answers-btn">Télécharger les réponses</button>
+    </div>
+
     <!-- Toast -->
     <div id="toast">Vidéo enregistrée avec succès !</div>
 
+    <!-- Scripts -->
     <script>
         // Toast notification
         function showToast(message) {
@@ -252,6 +309,7 @@
         const stopBtn = document.getElementById('stop-btn');
         const playback = document.getElementById('playback');
         const downloadLink = document.getElementById('download-link');
+        const evaluationBox = document.getElementById('evaluation-box');
         let mediaRecorder;
         let recordedChunks = [];
 
@@ -269,7 +327,9 @@
                 playback.style.display = 'block';
                 downloadLink.href = url;
                 downloadLink.style.display = 'inline-block';
+                evaluationBox.style.display = 'block';
                 showToast("Vidéo enregistrée avec succès !");
+                playback.scrollIntoView({ behavior: 'smooth', block: 'center' });
             };
 
             mediaRecorder.start();
@@ -281,6 +341,28 @@
             mediaRecorder.stop();
             startBtn.disabled = false;
             stopBtn.disabled = true;
+        });
+
+        // Téléchargement des réponses au questionnaire
+        document.getElementById('download-answers-btn').addEventListener('click', () => {
+            const questions = [
+                "1. Que penses-tu de la clarté de ton discours ?",
+                "2. As-tu fait une introduction et une conclusion ? Est-ce qu'elles sont satisfaisantes selon toi ?",
+                "3. Comment évalues-tu ton langage corporel ?",
+                "4. Quels points positifs retires-tu de cette improvisation ?",
+                "5. Quels axes d'amélioration prioriser ?"
+            ];
+
+            const answers = Array.from(document.querySelectorAll('.evaluation-box textarea')).map(
+                (textarea, index) => `${questions[index]}\nRéponse : ${textarea.value || "Non renseignée"}`
+            );
+
+            const content = answers.join('\n\n');
+            const blob = new Blob([content], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'evaluation_reponses.txt';
+            link.click();
         });
     </script>
 </body>
