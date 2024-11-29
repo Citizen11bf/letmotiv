@@ -142,6 +142,19 @@
             font-size: 14px;
         }
 
+        textarea {
+            width: 100%; /* S'adapte à la boîte parent */
+            max-width: 100%; /* Empêche de dépasser les limites */
+            height: 80px; /* Hauteur fixe */
+            border: 1px solid #cccccc; /* Bordure grise légère */
+            border-radius: 5px; /* Angles arrondis */
+            padding: 10px; /* Espacement interne pour le texte */
+            font-size: 14px; /* Texte lisible */
+            resize: none; /* Empêche l'étirement */
+            box-sizing: border-box; /* Inclut le padding et la bordure dans les dimensions */
+            overflow-y: auto; /* Barre de défilement si le contenu dépasse */
+}
+
         .evaluation-box button {
             display: block;
             margin: 20px auto;
