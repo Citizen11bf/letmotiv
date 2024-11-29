@@ -107,7 +107,8 @@
         }
 
         button:hover, a:hover {
-            background-color: #2F4A7E;
+            background-color: #00a48a;
+            transform: scale(1.05);
         }
 
         button i, a i {
@@ -168,7 +169,8 @@
         }
 
         .evaluation-box button:hover {
-            background-color: #2F4A7E;
+            background-color: #00a48a;
+            transform: scale(1.05);
         }
 
         /* Footer */
@@ -180,14 +182,14 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 10px;
+            padding: 15px;
             width: 100%;
             position: fixed;
             bottom: 0;
             left: 0;
             z-index: 10;
         }
-
+        
         .footer a {
             text-decoration: none;
             font-size: 14px;
@@ -199,7 +201,8 @@
         }
 
         .footer a:hover {
-            background-color: #EEEEEE;
+            background-color: #00a48a;
+            transform: scale(1.05);
         }
     </style>
 </head>
@@ -218,7 +221,7 @@
 
     <!-- Conteneur principal -->
     <div class="container">
-        <button id="generate-subject-btn"><i class="fas fa-random"></i> Générer des sujets d'improvisation</button>
+        <button id="generate-subject-btn"><i class="fas fa-random"></i> Générer un sujet d'improvisation</button>
         <div id="subject-display" style="margin-top: 10px; font-weight: bold;"></div>
 
         <video id="preview" autoplay muted></video>
@@ -364,7 +367,7 @@
                 downloadVideoBtn.addEventListener('click', () => {
                     const link = document.createElement('a');
                     link.href = url;
-                    link.download = 'improvisation.webm';
+                    link.download = 'Letmotiv_improvisation.webm';
                     link.click();
                 });
 
@@ -424,11 +427,11 @@
         // Télécharger le questionnaire
         document.getElementById('download-answers-btn').addEventListener('click', () => {
             const questions = [
-                "1. Que penses-tu de la clarté de ton discours ?",
-                "2. As-tu fait une introduction et une conclusion ? Est-ce qu'elles sont satisfaisantes selon toi ?",
-                "3. Comment évalues-tu ton langage corporel ?",
-                "4. Quels points positifs retires-tu de cette improvisation ?",
-                "5. Quels axes d'amélioration prioriser ?"
+                "1. Que pensez-vous de la construction de votre discours ?",
+                "2. Avez-vous proposé une introduction et une conclusion ? Est-ce qu'elles sont satisfaisantes selon vous ?",
+                "3. Comment évaluez-vous votre voix ?",
+                "4. Quels points positifs retirez-vous de cette improvisation ?",
+                "5. Quels axes d'amélioration sont à prioriser ?"
             ];
 
             const answers = Array.from(document.querySelectorAll('.evaluation-box textarea')).map(
@@ -439,7 +442,7 @@
             const blob = new Blob([content], { type: 'text/plain' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = 'evaluation_reponses.txt';
+            link.download = 'Simulateur_Letmotiv_Feedback.txt';
             link.click();
         });
         
