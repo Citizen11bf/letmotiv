@@ -117,6 +117,9 @@
             color: #FFFFFF;
             font-size: 16px;
             text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             padding: 16px;
             width: 100%;
             position: fixed;
@@ -214,6 +217,12 @@
             <textarea placeholder="Votre réponse ici..."></textarea>
             <p>2. As-tu fait une introduction et une conclusion ? Est-ce qu'elles sont satisfaisantes selon toi ?</p>
             <textarea placeholder="Votre réponse ici..."></textarea>
+            <p>3. Comment évalues-tu ton langage corporel ?</p>
+            <textarea placeholder="Votre réponse ici..."></textarea>
+            <p>4. Quels points positifs retires-tu de cette improvisation ?</p>
+            <textarea placeholder="Votre réponse ici..."></textarea>
+            <p>5. Quels axes d'amélioration prioriser ?</p>
+            <textarea placeholder="Votre réponse ici..."></textarea>
         </div>
     </div>
 
@@ -238,6 +247,7 @@
         const progressBarInner = document.getElementById('progress-bar-inner');
         const countdownTimer = document.getElementById('countdown-timer');
         const evaluationBox = document.getElementById('evaluation-box');
+        const playback = document.getElementById('playback');
 
         let mediaRecorder;
         let recordedChunks = [];
@@ -271,16 +281,18 @@
             mediaRecorder.onstop = () => {
                 const blob = new Blob(recordedChunks, { type: 'video/webm' });
                 const url = URL.createObjectURL(blob);
-                const playback = document.getElementById('playback');
-                const downloadLink = document.getElementById('download-link');
-
                 playback.src = url;
                 playback.style.display = 'block';
+
+                const downloadLink = document.getElementById('download-link');
                 downloadLink.href = url;
                 downloadLink.download = 'improvisation.webm';
                 downloadLink.style.display = 'block';
                 evaluationBox.style.display = 'block';
                 statusText.textContent = 'Analysez votre prestation en regardant la vidéo ci-dessous !';
+
+                // Défilement automatique vers la vidéo
+                playback.scrollIntoView({ behavior: 'smooth', block: 'center' });
             };
 
             mediaRecorder.start();
