@@ -329,11 +329,10 @@
             "Faire un discours de remerciement après avoir été élu maire d’un village imaginaire"
         ];
 
-        // Générateur de sujets
-        document.getElementById('generate-subject-btn').addEventListener('click', () => {
-            const randomSubject = subjects[Math.floor(Math.random() * subjects.length)];
-            document.getElementById('subject-display').textContent = randomSubject;
-        });
+        // Générer un sujet
+        generateSubjectBtn.addEventListener('click', () => {
+            const randomIndex = Math.floor(Math.random() * subjects.length);
+            subjectDisplay.textContent = subjects[randomIndex];
         });
 
         // Préparer la webcam
