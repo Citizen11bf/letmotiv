@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -165,8 +165,29 @@
             resize: none; /* Empêche l'étirement */
             box-sizing: border-box; /* Inclut le padding et la bordure dans les dimensions */
             overflow-y: auto; /* Barre de défilement si le contenu dépasse */
-}
+        }
 
+        .steps {
+        list-style: none;
+        padding: 0;
+        }
+    
+        .steps li {
+        margin: 10px 0;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: #f0f0f0;
+        color: #333;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        }
+
+        .steps li.completed {
+        background-color: #1E3B6F;
+        color: #fff;
+        }
+    
         .evaluation-box button {
             display: block;
             margin: 20px auto;
@@ -225,11 +246,18 @@
 
     <!-- Introduction -->
     <div class="intro-box">
-        <p>Vous voulez évaluer votre niveau en prise de parole en public ? Commencez par faire ce petit exercice avec ce simulateur d'improvisation. 
+        <p>Vous voulez évaluer et développer votre niveau en prise de parole en public ? Faites le gratuitement avec le simulateur d'improvisation Letmotiv. 
         Générez un sujet d'improvisation et lancez-vous ! Vous avez 2 minutes top chrono : démarrez en enregistrant la vidéo et elle s'arrêtera au bout de 2 minutes. 
         Ensuite, analysez vos gestes, votre voix, et vos éventuels tics de langage pour mieux comprendre vos points forts et vos axes d'amélioration.</p>
     </div>
 
+    <ul class="steps">
+    <li class="completed">1. Générer un sujet</li>
+    <li>2. Enregistrer votre improvisation</li>
+    <li>3. Visionner ou télécharger la vidéo de votre prestation</li>
+    <li>4. Évaluer votre prestation via un questionnaire</li>
+    </ul>
+    
     <!-- Conteneur principal -->
     <div class="container">
         <button id="generate-subject-btn"><i class="fas fa-random"></i> Générer un sujet d'improvisation</button>
