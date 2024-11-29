@@ -27,7 +27,7 @@
             font-size: 24px;
             font-weight: bold;
             text-align: center;
-            padding: 10px 15px;
+            padding: 15px;
             width: 100%;
             position: fixed;
             top: 0;
@@ -136,8 +136,8 @@
             font-size: 14px;
             background-color: #FFFFFF;
             color: #1E3B6F;
-            padding: 5px 10px;
-            border-radius: 20px;
+            padding: 8px 15px;
+            border-radius: 25px;
             transition: background-color 0.3s;
         }
 
@@ -244,6 +244,106 @@
     </div>
 
     <script>
+        const generateBtn = document.getElementById('generate-subject-btn');
+        const startBtn = document.getElementById('start-btn');
+        const stopBtn = document.getElementById('stop-btn');
+        const subjectDisplay = document.getElementById('subject-display');
+        const statusText = document.getElementById('status');
+        const progressBarInner = document.getElementById('progress-bar-inner');
+        const countdownTimer = document.getElementById('countdown-timer');
+        const playback = document.getElementById('playback');
+        const evaluationBox = document.getElementById('evaluation-box');
+
+        let mediaRecorder;
+        let recordedChunks = [];
+        let countdown;
+
+        generateBtn.addEventListener('click', () => {
+            const subjects = [
+                "Faire un toast : célébrer un voyage autour du monde",
+                "Un pitch improvisé : vendre un parapluie au Sahara",
+                "Tu es Marylin Monroe après avoir chanté Happy Birthday au Président"
+            ];
+            const randomIndex = Math.floor(Math.random() * subjects.length);
+            subjectDisplay.textContent = subjects[randomIndex];
+        });
+
+        async function setupCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                document.getElementById('preview').srcObject = stream;
+                return stream;
+            } catch (err) {
+                alert('Accès à la webcam refusé ou indisponible.');
+                startBtn.disabled = true;
+                stopBtn.disabled = true;
+            }
+        }
+
+        startBtn.addEventListener('click', async () => {
+            const stream = await setupCamera();
+            if (!stream) return;
+
+            mediaRecorder = new MediaRecorder(stream);
+            recordedChunks = [];
+
+            mediaRecorder.ondataavailable = event => recordedChunks.push(event.data);
+            mediaRecorder.onstop = () => {
+                const blob = new Blob(recordedChunks, { type: 'video/webm' });
+                const url = URL.createObjectURL(blob);
+                playback.src = url;
+                playback.style.display = 'block';
+
+                const downloadLink = document.getElementById('download-link');
+                downloadLink.href = url;
+                downloadLink.download = 'improvisation.webm';
+                downloadLink.style.display = 'block';
+                evaluationBox.style.display = 'block';
+                statusText.textContent = 'Analysez votre prestation en regardant la vidéo ci-dessous !';
+
+                // Scroll vers la vidéo enregistrée
+                playback.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            };
+
+            mediaRecorder.start();
+
+            startBtn.disabled = true;
+            stopBtn.disabled = false;
+            generateBtn.disabled = true;
+
+            let timeRemaining = 120;
+            countdownTimer.textContent = `Temps restant : ${timeRemaining} secondes`;
+
+            progressBarInner.style.width = '0%';
+            countdown = setInterval(() => {
+                timeRemaining--;
+                countdownTimer.textContent = `Temps restant : ${timeRemaining} secondes`;
+                progressBarInner.style.width = `${(120 - timeRemaining) / 120 * 100}%`;
+
+                if (timeRemaining <= 0) {
+                    clearInterval(countdown);
+                    mediaRecorder.stop();
+                    statusText.textContent = 'Temps écoulé !';
+                    stopBtn.disabled = true;
+                    generateBtn.disabled = false;
+                }
+            }, 1000);
+
+            statusText.textContent = 'Enregistrement en cours...';
+        });
+
+        stopBtn.addEventListener('click', () => {
+            if (mediaRecorder && mediaRecorder.state === 'recording') {
+                mediaRecorder.stop();
+                clearInterval(countdown);
+                statusText.textContent = 'Enregistrement arrêté.';
+            }
+
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+            generateBtn.disabled = false;
+        });
+
         document.getElementById('download-answers-btn').addEventListener('click', () => {
             const answers = Array.from(document.querySelectorAll('.evaluation-box textarea'))
                 .map((textarea, index) => `Question ${index + 1} : ${textarea.value}`)
