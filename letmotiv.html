@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simulateur d'improvisation</title>
+    <!-- Lien vers Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         /* Général */
         body {
@@ -50,6 +52,12 @@
             text-align: center;
             font-size: 14px;
             border: 2px solid #cccccc;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .intro-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
         }
 
         /* Conteneur principal */
@@ -65,6 +73,39 @@
             text-align: center;
             font-size: 14px;
             border: 2px solid #cccccc;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Boutons */
+        button, a {
+            background-color: #1E3B6F;
+            color: #FFFFFF;
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin: 10px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        button:hover, a:hover {
+            background-color: #2F4A7E;
+        }
+
+        button:focus, a:focus {
+            outline: 2px solid #2F4A7E;
+        }
+
+        button i, a i {
+            margin-right: 8px;
         }
 
         /* Barre de progression */
@@ -86,23 +127,43 @@
             transition: width 1s linear;
         }
 
-        /* Boutons */
-        button, a {
+        /* Toast notification */
+        #toast {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
             background-color: #1E3B6F;
             color: #FFFFFF;
-            font-family: Helvetica, Arial, sans-serif;
-            font-size: 16px;
-            border: none;
-            border-radius: 25px;
             padding: 10px 20px;
-            cursor: pointer;
-            margin: 10px auto;
-            text-decoration: none;
-            transition: background-color 0.3s;
+            border-radius: 25px;
+            font-size: 14px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
         }
 
-        button:hover, a:hover {
-            background-color: #2F4A7E;
+        #toast.show {
+            display: block;
+            animation: fadein 0.5s, fadeout 0.5s 3.5s;
+        }
+
+        @keyframes fadein {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+
+        @keyframes fadeout {
+            from {opacity: 1;}
+            to {opacity: 0;}
+        }
+
+        /* Mise en surbrillance */
+        #subject-display.highlight {
+            animation: highlight 1s ease-in-out;
+        }
+
+        @keyframes highlight {
+            0% {background-color: yellow;}
+            100% {background-color: transparent;}
         }
 
         /* Vidéos */
@@ -112,80 +173,31 @@
             margin: 20px auto;
             border: 3px solid #1E3B6F;
             border-radius: 6px;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
 
-        /* Bandeau de bas de page */
-        .footer {
-            background-color: #1E3B6F;
-            color: #FFFFFF;
-            font-size: 14px;
-            text-align: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 8px;
-            width: 100%;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            z-index: 10;
-        }
-
-        .footer a {
-            text-decoration: none;
-            font-size: 14px;
-            background-color: #FFFFFF;
-            color: #1E3B6F;
-            padding: 8px 15px;
-            border-radius: 25px;
-            transition: background-color 0.3s;
-        }
-
-        .footer a:hover {
-            background-color: #EEEEEE;
-        }
-
-        /* Questionnaire d'auto-évaluation */
-        .evaluation-box {
-            display: none;
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 20px;
-            border-radius: 10px;
-            border: 2px solid #cccccc;
-            text-align: left;
-            margin-top: 20px;
-        }
-
-        .evaluation-box p {
-            margin-bottom: 10px;
-        }
-
-        .evaluation-box textarea {
-            width: 100%;
-            height: 80px;
-            border: 1px solid #cccccc;
-            border-radius: 5px;
-            padding: 10px;
-            font-size: 14px;
+        video:hover {
+            transform: scale(1.02);
+            box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
 <body>
-    <!-- Titre de la page -->
+    <!-- Titre -->
     <div class="header">
-        Letmotiv | Simulateur d'improvisation en public
+        <i class="fas fa-microphone-alt"></i> Letmotiv | Simulateur d'improvisation en public
     </div>
 
-    <!-- Texte d'introduction -->
+    <!-- Introduction -->
     <div class="intro-box">
         <p>Vous voulez évaluer votre niveau en prise de parole en public ? Commencez par faire ce petit exercice avec ce simulateur d'improvisation. 
         Générez un sujet d'improvisation et lancez-vous ! Vous avez 2 minutes top chrono : démarrez en enregistrant la vidéo et elle s'arrêtera au bout de 2 minutes. 
         Ensuite, analysez vos gestes, votre voix, et vos éventuels tics de langage pour mieux comprendre vos points forts et vos axes d'amélioration.</p>
     </div>
 
-    <!-- Contenu principal -->
+    <!-- Conteneur principal -->
     <div class="container">
-        <button id="generate-subject-btn">Générer un sujet d'improvisation</button>
+        <button id="generate-subject-btn" tabindex="0"><i class="fas fa-random"></i> Générateur de sujets d'improvisation</button>
         <div id="subject-display" style="margin-top: 10px; font-weight: bold;"></div>
 
         <video id="preview" autoplay muted></video>
@@ -196,198 +208,79 @@
         <div id="countdown-timer" style="margin-top: 10px; font-size: 18px;"></div>
 
         <div>
-            <button id="start-btn">Démarrer l'improvisation</button>
-            <button id="stop-btn" disabled>Arrêter l'improvisation</button>
+            <button id="start-btn" tabindex="0"><i class="fas fa-play"></i> Démarrer l'improvisation</button>
+            <button id="stop-btn" tabindex="0" disabled><i class="fas fa-stop"></i> Arrêter l'improvisation</button>
         </div>
 
         <p id="status">Appuyez sur "Démarrer l'improvisation" pour commencer.</p>
 
         <video id="playback" controls style="display: none;"></video>
- 
-        <!-- Lien de téléchargement de la vidéo -->
-        <a id="download-link" style="display: none;">Télécharger la vidéo de votre prestation</a>
-
-        <!-- Section d'évaluation -->
-        <div class="evaluation-box" id="evaluation-box">
-            <h3>Questions d'auto-évaluation :</h3>
-            <p>1. Que penses-tu de la clarté de ton discours ?</p>
-            <textarea placeholder="Votre réponse ici..."></textarea>
-            <p>2. As-tu fait une introduction et une conclusion ? Est-ce qu'elles sont satisfaisantes selon toi ?</p>
-            <textarea placeholder="Votre réponse ici..."></textarea>
-            <p>3. Comment évalues-tu ton langage corporel ?</p>
-            <textarea placeholder="Votre réponse ici..."></textarea>
-            <p>4. Quels points positifs retires-tu de cette improvisation ?</p>
-            <textarea placeholder="Votre réponse ici..."></textarea>
-            <p>5. Quels axes d'amélioration prioriser ?</p>
-            <textarea placeholder="Votre réponse ici..."></textarea>
-            <button id="download-answers-btn">Télécharger les réponses</button>
-        </div>
+        <a id="download-link" style="display: none;" tabindex="0"><i class="fas fa-download"></i> Télécharger la vidéo de votre prestation</a>
     </div>
 
-    <!-- Bandeau de bas de page -->
-    <div class="footer">
-        <a href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole" target="_blank">
-            Réservez un coaching sur Letmotiv
-        </a>
-    </div>
+    <!-- Toast -->
+    <div id="toast">Vidéo enregistrée avec succès !</div>
 
     <script>
-        // Gestion de la webcam
-        const startBtn = document.getElementById('start-btn');
-        const stopBtn = document.getElementById('stop-btn');
-        const progressBarInner = document.getElementById('progress-bar-inner');
-        const countdownTimer = document.getElementById('countdown-timer');
-        const playback = document.getElementById('playback');
-        const evaluationBox = document.getElementById('evaluation-box');
-        let mediaRecorder;
-        let recordedChunks = [];
-        let countdown;
-
-        async function setupCamera() {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-                document.getElementById('preview').srcObject = stream;
-                return stream;
-            } catch (err) {
-                alert('Accès à la webcam refusé ou indisponible.');
-                return null;
-            }
+        // Toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
         }
 
+        // Générateur de sujets avec mise en surbrillance
+        const subjects = [
+            "Faire un toast : célébrer un voyage autour du monde",
+            "Un pitch improvisé : vendre un parapluie au Sahara",
+            "Tu es Marylin Monroe après avoir chanté Happy Birthday au Président"
+        ];
+
+        document.getElementById('generate-subject-btn').addEventListener('click', () => {
+            const randomSubject = subjects[Math.floor(Math.random() * subjects.length)];
+            const subjectDisplay = document.getElementById('subject-display');
+            subjectDisplay.textContent = randomSubject;
+            subjectDisplay.classList.add('highlight');
+            setTimeout(() => subjectDisplay.classList.remove('highlight'), 1000);
+        });
+
+        // Webcam et enregistrement vidéo
+        const startBtn = document.getElementById('start-btn');
+        const stopBtn = document.getElementById('stop-btn');
+        const playback = document.getElementById('playback');
+        const downloadLink = document.getElementById('download-link');
+        let mediaRecorder;
+        let recordedChunks = [];
+
         startBtn.addEventListener('click', async () => {
-            const stream = await setupCamera();
-            if (!stream) return;
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            document.getElementById('preview').srcObject = stream;
 
             mediaRecorder = new MediaRecorder(stream);
             recordedChunks = [];
-
             mediaRecorder.ondataavailable = event => recordedChunks.push(event.data);
             mediaRecorder.onstop = () => {
                 const blob = new Blob(recordedChunks, { type: 'video/webm' });
                 const url = URL.createObjectURL(blob);
                 playback.src = url;
                 playback.style.display = 'block';
-
-                const downloadLink = document.getElementById('download-link');
                 downloadLink.href = url;
-                downloadLink.download = 'improvisation.webm';
-                downloadLink.style.display = 'block';
-                evaluationBox.style.display = 'block';
-
-                // Scroll jusqu'à la vidéo
-                playback.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                downloadLink.style.display = 'inline-block';
+                showToast("Vidéo enregistrée avec succès !");
             };
 
             mediaRecorder.start();
-
-            let timeRemaining = 120; // 2 minutes
-            countdownTimer.textContent = `Temps restant : ${timeRemaining} secondes`;
-            progressBarInner.style.width = '0%';
-
-            countdown = setInterval(() => {
-                timeRemaining--;
-                countdownTimer.textContent = `Temps restant : ${timeRemaining} secondes`;
-                progressBarInner.style.width = `${((120 - timeRemaining) / 120) * 100}%`;
-
-                if (timeRemaining <= 0) {
-                    clearInterval(countdown);
-                    mediaRecorder.stop();
-                    stopBtn.disabled = true;
-                }
-            }, 1000);
-
             startBtn.disabled = true;
             stopBtn.disabled = false;
         });
 
         stopBtn.addEventListener('click', () => {
-            if (mediaRecorder && mediaRecorder.state === 'recording') {
-                mediaRecorder.stop();
-                clearInterval(countdown);
-            }
-
+            mediaRecorder.stop();
             startBtn.disabled = false;
             stopBtn.disabled = true;
-            progressBarInner.style.width = '0%';
-            countdownTimer.textContent = '';
-        });
-
-        // Téléchargement des réponses
-        document.getElementById('download-answers-btn').addEventListener('click', () => {
-            const questions = [
-                "1. Que penses-tu de la clarté de ton discours ?",
-                "2. As-tu fait une introduction et une conclusion ? Est-ce qu'elles sont satisfaisantes selon toi ?",
-                "3. Comment évalues-tu ton langage corporel ?",
-                "4. Quels points positifs retires-tu de cette improvisation ?",
-                "5. Quels axes d'amélioration prioriser ?"
-            ];
-
-            const answers = Array.from(document.querySelectorAll('.evaluation-box textarea')).map(
-                (textarea, index) => `${questions[index]}\nRéponse : ${textarea.value || "Non renseignée"}`
-            );
-
-            const content = answers.join('\n\n');
-            const blob = new Blob([content], { type: 'text/plain' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'Simulatation_Letmotiv_Questions_Reponses.txt';
-            link.click();
-        });
-
-        // Générateur de sujets
-        const subjects = [
-            "Faire un toast : célébrer un voyage autour du monde",
-            "Un pitch improvisé : vendre un parapluie au Sahara",
-            "Tu es Marylin Monroe après avoir chanté Happy Birthday au Président",
-            "Expliquer à des extraterrestres pourquoi ils devraient visiter la Terre",
-            "Convaincre un jury que le chocolat devrait être gratuit pour tout le monde",
-            "Présenter votre candidature pour devenir président de la planète Mars",
-            "Motiver une équipe avant une grande compétition sportive",
-            "Faire un discours de mariage pour un couple improbable",
-            "Défendre l'idée de remplacer les réunions par des pique-niques",
-            "Inventer une excuse farfelue pour arriver en retard à une réunion",
-            "Faire un discours inspirant pour des élèves diplômés",
-            "Convaincre un investisseur de financer votre machine à remonter le temps",
-            "Vous êtes un dragon et négociez avec des humains pour ne pas brûler leur village",
-            "Expliquer pourquoi vous avez décidé de devenir végétarien ce matin",
-            "Décrire une situation gênante dans un ascenseur bondé",
-            "Vendre une horloge qui tourne à l'envers",
-            "Faire un toast pour la réussite de la conférence sur le climat",
-            "Présenter un abonnement illimité pour les siestes en entreprise",
-            "Défendre que parler aux plantes améliore leur croissance",
-            "Remercier votre équipe après un projet réussi",
-            "Un détective résolvant une affaire mystérieuse en direct",
-            "Expliquer pourquoi marcher à reculons est bon pour la santé",
-            "Vendre des lunettes qui permettent de voir dans le passé",
-            "Faire un discours d’adieu en quittant un poste ou une ville",
-            "Convaincre un groupe d’amis que les pingouins dominent secrètement la planète",
-            "Présenter un guide touristique pour visiter le fond de l’océan",
-            "Un super-héros qui dévoile enfin son identité secrète",
-            "Motiver un groupe de pirates à conquérir une île mystérieuse",
-            "Convaincre que les chats sont des espions d’une autre planète",
-            "Faire un discours pour remercier après avoir reçu un prix fictif",
-            "Expliquer pourquoi votre réveil est toujours en retard, mais pas vous",
-            "Partager une technique pour ne jamais perdre à pierre-papier-ciseaux",
-            "Faire un discours de mariage inattendu pour un couple inconnu",
-            "Expliquer à des robots pourquoi ils devraient prendre des vacances",
-            "Convaincre des extraterrestres de choisir une autre planète que la Terre",
-            "Faire un pitch pour un restaurant qui ne sert que des plats orange",
-            "Argumenter que chanter sous la douche est une forme d'art méconnue",
-            "Faire un discours hilarant pour le départ en retraite de votre collègue préféré",
-            "Raconter votre pire rendez-vous amoureux et en tirer une leçon",
-            "Faire une critique exagérée d’un film que personne n’a vu",
-            "Proposer une nouvelle fête internationale, avec un thème farfelu",
-            "Faire un discours sur l'importance des siestes après le déjeuner",
-            "Convaincre un jury que vous êtes la meilleure personne pour coloniser Mars",
-            "Expliquer à un alien comment faire une omelette française",
-            "Raconter une aventure fictive dans une bibliothèque hantée",
-            "Vendre un produit révolutionnaire : des chaussures invisibles",
-            "Faire un discours de remerciement après avoir été élu maire d’un village imaginaire"
-        ];
-
-        document.getElementById('generate-subject-btn').addEventListener('click', () => {
-            const randomSubject = subjects[Math.floor(Math.random() * subjects.length)];
-            document.getElementById('subject-display').textContent = randomSubject;
         });
     </script>
 </body>
