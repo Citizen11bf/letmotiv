@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simulateur d'improvisation</title>
+    <!-- Lien vers Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         /* Général */
@@ -21,10 +22,43 @@
             min-height: 100vh;
         }
 
-        .container {
+        /* Titre rectangulaire */
+        .header {
+            background-color: #1E3B6F;
+            color: #FFFFFF;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            padding: 15px;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Boîte d'introduction */
+        .intro-box {
             width: 90%;
             max-width: 600px;
             margin-top: 80px;
+            background-color: rgba(255, 255, 255, 0.85);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            font-size: 14px;
+            border: 2px solid #cccccc;
+        }
+
+        /* Conteneur principal */
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin-top: 20px;
             margin-bottom: 100px;
             background-color: rgba(255, 255, 255, 0.85);
             border-radius: 10px;
@@ -35,9 +69,30 @@
             border: 2px solid #cccccc;
         }
 
+        /* Barre de progression */
+        #progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-top: 20px;
+            overflow: hidden;
+            position: relative;
+            border: 2px solid #cccccc;
+        }
+
+        #progress-bar-inner {
+            width: 0%;
+            height: 100%;
+            background-color: #FF0000;
+            transition: width 1s linear;
+        }
+
+        /* Boutons */
         button, a {
             background-color: #1E3B6F;
             color: #FFFFFF;
+            font-family: Helvetica, Arial, sans-serif;
             font-size: 16px;
             border: none;
             border-radius: 25px;
@@ -52,56 +107,124 @@
             background-color: #2F4A7E;
         }
 
-        .share-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 15px;
+        button:focus, a:focus {
+            outline: 2px solid #2F4A7E;
         }
 
-        .share-buttons button {
+        button i, a i {
+            margin-right: 8px;
+        }
+
+        /* Vidéos */
+        video {
+            width: 100%;
+            max-width: 500px;
+            margin: 20px auto;
+            border: 3px solid #1E3B6F;
+            border-radius: 6px;
+        }
+
+        /* Questionnaire */
+        .evaluation-box {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .evaluation-box p {
+            margin-bottom: 10px;
+        }
+
+        .evaluation-box textarea {
+            width: 100%;
+            height: 80px;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
             padding: 10px;
             font-size: 14px;
-            display: flex;
-            align-items: center;
         }
 
-        .share-buttons button i {
-            margin-right: 8px;
+        .evaluation-box button {
+            display: block;
+            margin: 20px auto;
+            background-color: #1E3B6F;
+            color: #FFFFFF;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .evaluation-box button:hover {
+            background-color: #2F4A7E;
+        }
+
+        /* Toast notification */
+        #toast {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #1E3B6F;
+            color: #FFFFFF;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        #toast.show {
+            display: block;
+            animation: fadein 0.5s, fadeout 0.5s 3.5s;
+        }
+
+        @keyframes fadein {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+
+        @keyframes fadeout {
+            from {opacity: 1;}
+            to {opacity: 0;}
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Simulateur d'improvisation</h1>
-        <button id="generate-subject-btn"><i class="fas fa-random"></i> Générer des sujets d'improvisation</button>
-        <div id="subject-display" style="margin-top: 10px; font-weight: bold;"></div>
-
-        <video id="playback" controls style="width: 100%; max-width: 500px; display: block;"></video>
-        <a id="download-link" style="display: inline-block; margin-top: 10px;"><i class="fas fa-download"></i> Télécharger la vidéo</a>
-
-        <!-- Boutons de partage -->
-        <div class="share-buttons">
-            <button id="share-facebook"><i class="fab fa-facebook"></i> Partager sur Facebook</button>
-            <button id="share-twitter"><i class="fab fa-twitter"></i> Partager sur Twitter</button>
-            <button id="share-linkedin"><i class="fab fa-linkedin"></i> Partager sur LinkedIn</button>
-            <button id="copy-link"><i class="fas fa-link"></i> Copier le lien</button>
-        </div>
+    <!-- Titre -->
+    <div class="header">
+        <i class="fas fa-microphone-alt"></i> Letmotiv | Simulateur d'improvisation en public
     </div>
 
-    <script>
-        const generateSubjectBtn = document.getElementById('generate-subject-btn');
-        const subjectDisplay = document.getElementById('subject-display');
-        const playback = document.getElementById('playback');
-        const downloadLink = document.getElementById('download-link');
-        const shareButtons = {
-            facebook: document.getElementById('share-facebook'),
-            twitter: document.getElementById('share-twitter'),
-            linkedin: document.getElementById('share-linkedin'),
-            copy: document.getElementById('copy-link'),
-        };
+    <!-- Introduction -->
+    <div class="intro-box">
+        <p>Vous voulez évaluer votre niveau en prise de parole en public ? Commencez par faire ce petit exercice avec ce simulateur d'improvisation. 
+        Générez un sujet d'improvisation et lancez-vous ! Vous avez 2 minutes top chrono : démarrez en enregistrant la vidéo et elle s'arrêtera au bout de 2 minutes. 
+        Ensuite, analysez vos gestes, votre voix, et vos éventuels tics de langage pour mieux comprendre vos points forts et vos axes d'amélioration.</p>
+    </div>
 
-        // Liste des sujets d'improvisation
+    <!-- Conteneur principal -->
+    <div class="container">
+        <button id="generate-subject-btn" tabindex="0"><i class="fas fa-random"></i> Générateur de sujets d'improvisation</button>
+        <div id="subject-display" style="margin-top: 10px; font-weight: bold;"></div>
+
+        <video id="preview" autoplay muted></video>
+
+        <div id="progress-bar">
+            <div id="progress-bar-inner"></div>
+        </div>
+        <div id="countdown-timer" style="margin-top: 10px; font-size: 18px;"></div>
+
+        <div>
+            <button id="start-btn" tabindex="0"><i class="fas fa-play"></i> Démarrer l'improvisation</button>
+            <button id="stop-btn" tabindex="0" disabled><i class="fas fa-stop"></i> Arrêter l'improvisation</button>
+        </div>
+
+        <p id="status">Appuyez sur "Démarrer l'improvisation" pour commencer.</p>
+
+        <video id="playback" controls style="display: none;"></video>
+        <a id="download-link" style="display: none;" tabindex="0"><i class="fas fa-download"></i> Télécharger la vidéo de votre prestation</a>
+
+   <script>
         const subjects = [
             "Faire un toast : célébrer un voyage autour du monde",
             "Un pitch improvisé : vendre un parapluie au Sahara",
@@ -152,12 +275,142 @@
             "Faire un discours de remerciement après avoir été élu maire d’un village imaginaire"
         ];
 
-        // Génération de sujets d'improvisation
-        generateSubjectBtn.addEventListener('click', () => {
-            const randomIndex = Math.floor(Math.random() * subjects.length);
-            subjectDisplay.textContent = subjects[randomIndex];
+        // Générateur de sujets
+        document.getElementById('generate-subject-btn').addEventListener('click', () => {
+            const randomSubject = subjects[Math.floor(Math.random() * subjects.length)];
+            document.getElementById('subject-display').textContent = randomSubject;
+        });
+        
+        <!-- Questionnaire intégré dans la même box -->
+        <div class="evaluation-box" id="evaluation-box" style="display: none;">
+            <h3>Questions d'auto-évaluation :</h3>
+            <p>1. Que penses-tu de la clarté de ton discours ?</p>
+            <textarea placeholder="Votre réponse ici..."></textarea>
+            <p>2. As-tu fait une introduction et une conclusion ? Est-ce qu'elles sont satisfaisantes selon toi ?</p>
+            <textarea placeholder="Votre réponse ici..."></textarea>
+            <p>3. Comment évalues-tu ton langage corporel ?</p>
+            <textarea placeholder="Votre réponse ici..."></textarea>
+            <p>4. Quels points positifs retires-tu de cette improvisation ?</p>
+            <textarea placeholder="Votre réponse ici..."></textarea>
+            <p>5. Quels axes d'amélioration prioriser ?</p>
+            <textarea placeholder="Votre réponse ici..."></textarea>
+            <button id="download-answers-btn">Télécharger les réponses</button>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast">Vidéo enregistrée avec succès !</div>
+
+    <script>
+        const startBtn = document.getElementById('start-btn');
+        const stopBtn = document.getElementById('stop-btn');
+        const preview = document.getElementById('preview');
+        const playback = document.getElementById('playback');
+        const downloadLink = document.getElementById('download-link');
+        const evaluationBox = document.getElementById('evaluation-box');
+        const progressBarInner = document.getElementById('progress-bar-inner');
+        const countdownTimer = document.getElementById('countdown-timer');
+        let mediaRecorder;
+        let recordedChunks = [];
+        let countdown;
+        let stream;
+
+        async function setupCamera() {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                preview.srcObject = stream;
+            } catch (err) {
+                alert("Impossible d'accéder à la webcam !");
+            }
+        }
+
+        startBtn.addEventListener('click', async () => {
+            await setupCamera();
+
+            mediaRecorder = new MediaRecorder(stream);
+            recordedChunks = [];
+
+            mediaRecorder.ondataavailable = event => recordedChunks.push(event.data);
+            mediaRecorder.onstop = () => {
+                const blob = new Blob(recordedChunks, { type: 'video/webm' });
+                const url = URL.createObjectURL(blob);
+                playback.src = url;
+                playback.style.display = 'block';
+                downloadLink.href = url;
+                downloadLink.style.display = 'inline-block';
+                evaluationBox.style.display = 'block';
+                showToast("Vidéo enregistrée avec succès !");
+            };
+
+            mediaRecorder.start();
+
+            // Chronomètre
+            let timeRemaining = 120;
+            progressBarInner.style.width = '0%';
+            countdownTimer.textContent = `Temps restant : ${timeRemaining} secondes`;
+
+            countdown = setInterval(() => {
+                timeRemaining--;
+                progressBarInner.style.width = `${(120 - timeRemaining) / 120 * 100}%`;
+                countdownTimer.textContent = `Temps restant : ${timeRemaining} secondes`;
+
+                if (timeRemaining <= 0) {
+                    clearInterval(countdown);
+                    mediaRecorder.stop();
+                    stopStream();
+                }
+            }, 1000);
+
+            startBtn.disabled = true;
+            stopBtn.disabled = false;
         });
 
-      </script>
-    </body>
+        stopBtn.addEventListener('click', () => {
+            if (mediaRecorder && mediaRecorder.state === 'recording') {
+                mediaRecorder.stop();
+                clearInterval(countdown);
+                stopStream();
+            }
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+            progressBarInner.style.width = '0%';
+            countdownTimer.textContent = '';
+        });
+
+        function stopStream() {
+            if (stream) {
+                const tracks = stream.getTracks();
+                tracks.forEach(track => track.stop());
+            }
+        }
+
+        document.getElementById('download-answers-btn').addEventListener('click', () => {
+            const questions = [
+                "1. Que penses-tu de la clarté de ton discours ?",
+                "2. As-tu fait une introduction et une conclusion ? Est-ce qu'elles sont satisfaisantes selon toi ?",
+                "3. Comment évalues-tu ton langage corporel ?",
+                "4. Quels points positifs retires-tu de cette improvisation ?",
+                "5. Quels axes d'amélioration prioriser ?"
+            ];
+
+            const answers = Array.from(document.querySelectorAll('.evaluation-box textarea')).map(
+                (textarea, index) => `${questions[index]}\nRéponse : ${textarea.value || "Non renseignée"}`
+            );
+
+            const content = answers.join('\n\n');
+            const blob = new Blob([content], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'Letmotiv_Simulatation_Questions_Reponses.txt';
+            link.click();
+        });
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 4000);
+        }
+    </script>
+</body>
 </html>
