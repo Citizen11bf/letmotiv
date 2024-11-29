@@ -38,8 +38,17 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            box-sizing: border-box;
         }
 
+        /* Réduire la taille et ajuster le padding pour les petits écrans */
+        @media (max-width: 600px) {
+        .header {
+        font-size: 18px;
+        padding: 10px;
+        line-height: 1.2;
+        word-wrap: break-word; /* Permet au texte de passer à la ligne */
+        
         .header i {
             margin: 0 10px;
         }
