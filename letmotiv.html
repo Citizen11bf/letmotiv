@@ -40,6 +40,10 @@
             align-items: center;
         }
 
+        .header i {
+            margin: 0 10px;
+        }
+
         /* Boîte d'introduction */
         .intro-box {
             width: 90%;
@@ -189,7 +193,7 @@
 <body>
     <!-- Header -->
     <div class="header">
-        <i class="fas fa-microphone-alt"></i> Letmotiv | Simulateur d'improvisation en public
+        Letmotiv <i class="fas fa-microphone-alt"></i> Simulateur d'improvisation en public
     </div>
 
     <!-- Introduction -->
@@ -219,7 +223,7 @@
         <p id="status">Appuyez sur "Démarrer l'improvisation" pour commencer.</p>
 
         <video id="playback" controls style="display: none;"></video>
-        <a id="download-link" style="display: none;"><i class="fas fa-download"></i> Télécharger la vidéo de votre prestation</a>
+        <a id="download-link" style="display: none;"><i class="fas fa-download"></i> Télécharger la vidéo</a>
 
         <!-- Questionnaire -->
         <div class="evaluation-box" id="evaluation-box" style="display: none;">
@@ -255,6 +259,7 @@
         const evaluationBox = document.getElementById('evaluation-box');
         const progressBarInner = document.getElementById('progress-bar-inner');
         const countdownTimer = document.getElementById('countdown-timer');
+        const statusText = document.getElementById('status');
         let mediaRecorder;
         let recordedChunks = [];
         let countdown;
@@ -298,9 +303,17 @@
                 const url = URL.createObjectURL(blob);
                 playback.src = url;
                 playback.style.display = 'block';
-                downloadLink.href = url;
-                downloadLink.style.display = 'inline-block';
+
+                // Téléchargement direct de la vidéo
+                const downloadLinkElement = document.createElement('a');
+                downloadLinkElement.href = url;
+                downloadLinkElement.download = 'improvisation.webm';
+                downloadLinkElement.click();
+
                 evaluationBox.style.display = 'block';
+
+                // Modifier le texte de statut
+                statusText.textContent = "Téléchargez votre vidéo pour analyser votre prestation";
 
                 // Scroll automatique
                 playback.scrollIntoView({ behavior: 'smooth', block: 'center' });
