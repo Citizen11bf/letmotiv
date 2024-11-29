@@ -27,12 +27,15 @@
             font-size: 24px;
             font-weight: bold;
             text-align: center;
-            padding: 20px 15px;
+            padding: 10px 15px;
             width: 100%;
             position: fixed;
             top: 0;
             left: 0;
             z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         /* Boîte d'introduction */
@@ -115,12 +118,12 @@
         .footer {
             background-color: #1E3B6F;
             color: #FFFFFF;
-            font-size: 16px;
+            font-size: 14px;
             text-align: center;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 16px;
+            padding: 8px;
             width: 100%;
             position: fixed;
             bottom: 0;
@@ -130,11 +133,11 @@
 
         .footer a {
             text-decoration: none;
-            font-size: 16px;
+            font-size: 14px;
             background-color: #FFFFFF;
             color: #1E3B6F;
-            padding: 8px 15px;
-            border-radius: 25px;
+            padding: 5px 10px;
+            border-radius: 20px;
             transition: background-color 0.3s;
         }
 
@@ -165,6 +168,23 @@
             padding: 10px;
             font-size: 14px;
         }
+
+        /* Bouton pour télécharger les réponses */
+        .evaluation-box button {
+            display: block;
+            margin: 20px auto;
+            background-color: #1E3B6F;
+            color: #FFFFFF;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .evaluation-box button:hover {
+            background-color: #2F4A7E;
+        }
     </style>
 </head>
 <body>
@@ -182,32 +202,24 @@
 
     <!-- Contenu principal -->
     <div class="container">
-        <!-- Générateur de sujets -->
         <button id="generate-subject-btn">Générateur de sujets d'improvisation</button>
         <div id="subject-display" style="margin-top: 10px; font-weight: bold;"></div>
 
-        <!-- Vidéo de prévisualisation -->
         <video id="preview" autoplay muted></video>
 
-        <!-- Barre de progression -->
         <div id="progress-bar">
             <div id="progress-bar-inner"></div>
         </div>
         <div id="countdown-timer" style="margin-top: 10px; font-size: 18px;"></div>
 
-        <!-- Boutons d'enregistrement -->
         <div>
             <button id="start-btn">Démarrer l'improvisation</button>
             <button id="stop-btn" disabled>Arrêter l'improvisation</button>
         </div>
 
-        <!-- Texte de statut -->
         <p id="status">Appuyez sur "Démarrer l'improvisation" pour commencer.</p>
 
-        <!-- Vidéo enregistrée -->
         <video id="playback" controls style="display: none;"></video>
-
-        <!-- Lien de téléchargement -->
         <a id="download-link" style="display: none;">Télécharger la vidéo de votre prestation</a>
 
         <!-- Section d'évaluation -->
@@ -223,115 +235,24 @@
             <textarea placeholder="Votre réponse ici..."></textarea>
             <p>5. Quels axes d'amélioration prioriser ?</p>
             <textarea placeholder="Votre réponse ici..."></textarea>
+            <button id="download-answers-btn">Télécharger les réponses</button>
         </div>
     </div>
 
-    <!-- Bandeau en bas -->
     <div class="footer">
         <a href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole" target="_blank">Revenir vers le site Letmotiv</a>
     </div>
 
     <script>
-        const subjects = [
-            "Faire un toast : célébrer un voyage autour du monde",
-            "Un pitch improvisé : vendre un parapluie au Sahara",
-            "Tu es Marylin Monroe après avoir chanté Happy Birthday au Président",
-            // ...
-        ];
-
-        const generateBtn = document.getElementById('generate-subject-btn');
-        const subjectDisplay = document.getElementById('subject-display');
-        const startBtn = document.getElementById('start-btn');
-        const stopBtn = document.getElementById('stop-btn');
-        const statusText = document.getElementById('status');
-        const progressBarInner = document.getElementById('progress-bar-inner');
-        const countdownTimer = document.getElementById('countdown-timer');
-        const evaluationBox = document.getElementById('evaluation-box');
-        const playback = document.getElementById('playback');
-
-        let mediaRecorder;
-        let recordedChunks = [];
-        let countdown;
-
-        async function setupCamera() {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-                document.getElementById('preview').srcObject = stream;
-                return stream;
-            } catch (err) {
-                alert('Accès à la webcam refusé ou indisponible.');
-                startBtn.disabled = true;
-                stopBtn.disabled = true;
-            }
-        }
-
-        generateBtn.addEventListener('click', () => {
-            const randomIndex = Math.floor(Math.random() * subjects.length);
-            subjectDisplay.textContent = subjects[randomIndex];
-        });
-
-        startBtn.addEventListener('click', async () => {
-            const stream = await setupCamera();
-            if (!stream) return;
-
-            mediaRecorder = new MediaRecorder(stream);
-            recordedChunks = [];
-
-            mediaRecorder.ondataavailable = event => recordedChunks.push(event.data);
-            mediaRecorder.onstop = () => {
-                const blob = new Blob(recordedChunks, { type: 'video/webm' });
-                const url = URL.createObjectURL(blob);
-                playback.src = url;
-                playback.style.display = 'block';
-
-                const downloadLink = document.getElementById('download-link');
-                downloadLink.href = url;
-                downloadLink.download = 'improvisation.webm';
-                downloadLink.style.display = 'block';
-                evaluationBox.style.display = 'block';
-                statusText.textContent = 'Analysez votre prestation en regardant la vidéo ci-dessous !';
-
-                // Défilement automatique vers la vidéo
-                playback.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            };
-
-            mediaRecorder.start();
-
-            startBtn.disabled = true;
-            stopBtn.disabled = false;
-            generateBtn.disabled = true;
-
-            let timeRemaining = 120;
-            countdownTimer.textContent = `Temps restant : ${timeRemaining} secondes`;
-
-            progressBarInner.style.width = '0%';
-            countdown = setInterval(() => {
-                timeRemaining--;
-                countdownTimer.textContent = `Temps restant : ${timeRemaining} secondes`;
-                progressBarInner.style.width = `${(120 - timeRemaining) / 120 * 100}%`;
-
-                if (timeRemaining <= 0) {
-                    clearInterval(countdown);
-                    mediaRecorder.stop();
-                    statusText.textContent = 'Temps écoulé !';
-                    stopBtn.disabled = true;
-                    generateBtn.disabled = false;
-                }
-            }, 1000);
-
-            statusText.textContent = 'Enregistrement en cours...';
-        });
-
-        stopBtn.addEventListener('click', () => {
-            if (mediaRecorder && mediaRecorder.state === 'recording') {
-                mediaRecorder.stop();
-                clearInterval(countdown);
-                statusText.textContent = 'Enregistrement arrêté.';
-            }
-
-            startBtn.disabled = false;
-            stopBtn.disabled = true;
-            generateBtn.disabled = false;
+        document.getElementById('download-answers-btn').addEventListener('click', () => {
+            const answers = Array.from(document.querySelectorAll('.evaluation-box textarea'))
+                .map((textarea, index) => `Question ${index + 1} : ${textarea.value}`)
+                .join('\n\n');
+            const blob = new Blob([answers], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'evaluation_reponses.txt';
+            link.click();
         });
     </script>
 </body>
