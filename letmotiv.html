@@ -391,16 +391,31 @@
             generateBtn.disabled = false;
         });
 
-        document.getElementById('download-answers-btn').addEventListener('click', () => {
-            const answers = Array.from(document.querySelectorAll('.evaluation-box textarea'))
-                .map((textarea, index) => `Question ${index + 1} : ${textarea.value}`)
-                .join('\n\n');
-            const blob = new Blob([answers], { type: 'text/plain' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'evaluation_reponses.txt';
-            link.click();
-        });
+       document.getElementById('download-answers-btn').addEventListener('click', () => {
+    // Récupérer toutes les questions et réponses
+    const questions = [
+        "1. Que penses-tu de la clarté de ton discours ?",
+        "2. As-tu fait une introduction et une conclusion ? Est-ce qu'elles sont satisfaisantes selon toi ?",
+        "3. Comment évalues-tu ton langage corporel ?",
+        "4. Quels points positifs retires-tu de cette improvisation ?",
+        "5. Quels axes d'amélioration prioriser ?"
+    ];
+
+    const answers = Array.from(document.querySelectorAll('.evaluation-box textarea')).map(
+        (textarea, index) => `${questions[index]}\nRéponse : ${textarea.value || "Non renseignée"}`
+    );
+
+    // Combiner questions et réponses
+    const content = answers.join('\n\n');
+
+    // Créer un fichier téléchargeable
+    const blob = new Blob([content], { type: 'text/plain' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'evaluation_reponses.txt';
+    link.click();
+});
+
     </script>
 </body>
 </html>
