@@ -223,7 +223,7 @@
         <p id="status">Appuyez sur "Démarrer l'improvisation" pour commencer.</p>
 
         <video id="playback" controls style="display: none;"></video>
-        <a id="download-link" style="display: none;"><i class="fas fa-download"></i> Télécharger la vidéo</a>
+        <button id="download-video-btn" style="display: none;"><i class="fas fa-download"></i> Téléchargez votre prestation</button>
 
         <!-- Questionnaire -->
         <div class="evaluation-box" id="evaluation-box" style="display: none;">
@@ -255,7 +255,7 @@
         const startBtn = document.getElementById('start-btn');
         const stopBtn = document.getElementById('stop-btn');
         const playback = document.getElementById('playback');
-        const downloadLink = document.getElementById('download-link');
+        const downloadVideoBtn = document.getElementById('download-video-btn');
         const evaluationBox = document.getElementById('evaluation-box');
         const progressBarInner = document.getElementById('progress-bar-inner');
         const countdownTimer = document.getElementById('countdown-timer');
@@ -304,11 +304,14 @@
                 playback.src = url;
                 playback.style.display = 'block';
 
-                // Téléchargement direct de la vidéo
-                const downloadLinkElement = document.createElement('a');
-                downloadLinkElement.href = url;
-                downloadLinkElement.download = 'improvisation.webm';
-                downloadLinkElement.click();
+                // Activer le bouton de téléchargement
+                downloadVideoBtn.style.display = 'inline-block';
+                downloadVideoBtn.addEventListener('click', () => {
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = 'improvisation.webm';
+                    link.click();
+                });
 
                 evaluationBox.style.display = 'block';
 
@@ -384,6 +387,7 @@
             link.download = 'evaluation_reponses.txt';
             link.click();
         });
+        
     </script>
 </body>
 </html>
