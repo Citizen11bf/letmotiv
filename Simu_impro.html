@@ -253,9 +253,6 @@
 </head>
 <body>
 
-    <meta name="description" content="Testez vos compétences en prise de parole avec notre simulateur Letmotiv intéractif et gratuit. Enregistrez, évaluez et améliorez vos performances !">
-    <meta name="keywords" content="prise de parole, développer votre prise de parole, improvisation, simulateur d'improvisation, coaching">
-    
     <!-- Header -->
     <div class="header">
         Letmotiv <i class="fas fa-microphone-alt"></i> Simulateur d'improvisation en public
@@ -263,15 +260,10 @@
 
     <!-- Introduction -->
     <div class="intro-box">
-        <p>Vous voulez évaluer et développer votre niveau en prise de parole en public ? <br>
-        Faites le rapidement et <b>gratuitement</b> avec le simulateur d'improvisation <span style="color: blue;"><b>Letmotiv</b></span>. <br><br>
-        <b>Etape 1 :</b> Générez un sujet d'improvisation aléatoire <br>
-        <b>Etape 2 :</b> Lancez-vous ! Vous avez 2 minutes top chrono <br>
-        <b>Etape 3 :</b> Revisionner ou télécharger votre prestation <br>
-        <b>Etape 4 :</b> Evaluer votre prise de parole <br>
+        <p>Vous voulez évaluer et développer votre niveau en prise de parole en public ? Faites-le rapidement et <b>gratuitement</b> avec le simulateur d'improvisation <span style="color: blue;"><b>Letmotiv</b></span>.</p>
     </div>
-    
-   <!-- Conteneur principal -->
+
+    <!-- Conteneur principal -->
     <div class="container">
         <button id="generate-subject-btn"><i class="fas fa-random"></i> Générer un sujet d'improvisation</button>
         <div id="subject-display" style="margin-top: 10px; font-weight: bold;"></div>
@@ -289,227 +281,40 @@
         <button id="download-video-btn" style="display: none;"><i class="fas fa-download"></i> Téléchargez votre prestation</button>
     </div>
 
-        <!-- Questionnaire -->
-        <div class="evaluation-box" id="evaluation-box" style="display: none;">
-           <p> Essayez d'analyser à froid et avec le plus d'<b>objectivité possible</b> (on sait, c'est compliqué) les éléments suivants : votre gestuelle, votre voix, votre charisme, vos défauts d'élocution (ton monotone et irrégulier, mots hachés, saccades, tics de langage de type "euh" ou "donc"), etc. <br><br>
-               On est parfois dans le déni de ses réels défauts, ou à l'inverse trop dur avec soi-même.
-               Revoir et analyser cette vidéo de vous-même peut en effet vous surprendre ! <br><br>
-               Cet exercice peut aussi vous permettre de sélectionner une <b>formule de coaching plus adéquate</b> à vos besoins réels. </p>
-                   
-            <h3>Questions d'auto-évaluation :</h3>
-            <p>1. Que penses-tu de la clarté de ton discours ?</p>
-            <textarea placeholder="Votre réponse ici..."></textarea>
-            <p>2. As-tu fait une introduction et une conclusion ? Est-ce qu'elles sont satisfaisantes selon toi ?</p>
-            <textarea placeholder="Votre réponse ici..."></textarea>
-            <p>3. Comment évalues-tu ton langage corporel ?</p>
-            <textarea placeholder="Votre réponse ici..."></textarea>
-            <p>4. Quels points positifs retires-tu de cette improvisation ?</p>
-            <textarea placeholder="Votre réponse ici..."></textarea>
-            <p>5. Quels axes d'amélioration prioriser ?</p>
-            <textarea placeholder="Votre réponse ici..."></textarea>
-            <button id="download-answers-btn">Télécharger les réponses</button>
-        </div>
-    </div>
-
-   <!-- Footer -->
+    <!-- Footer -->
     <div class="footer">
         <a href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole" target="_blank" class="footer-link">Réservez un coaching Letmotiv</a>
         <a href="https://alexetpierre.systeme.io/799d7fa4" target="_blank" class="footer-link">Formation en ligne Letmotiv</a>
     </div>
 
     <script>
-        const introBox = document.querySelector('.intro-box');
-        const evaluationBox = document.getElementById('evaluation-box');
+        const generateSubjectBtn = document.getElementById('generate-subject-btn');
+        const subjectDisplay = document.getElementById('subject-display');
         const playback = document.getElementById('playback');
+        const evaluationBox = document.getElementById('evaluation-box');
+        const stopBtn = document.getElementById('stop-btn');
+        const progressBarInner = document.getElementById('progress-bar-inner');
 
         function showElement(element) {
             element.classList.add('show');
         }
 
+        function hideElement(element) {
+            element.classList.remove('show');
+        }
+
         playback.addEventListener('loadeddata', () => showElement(playback));
-    </script>
-    
-    <script>
-        const generateSubjectBtn = document.getElementById('generate-subject-btn');
-        const subjectDisplay = document.getElementById('subject-display');
-        const startBtn = document.getElementById('start-btn');
-        const stopBtn = document.getElementById('stop-btn');
-        const playback = document.getElementById('playback');
-        const downloadVideoBtn = document.getElementById('download-video-btn');
-        const evaluationBox = document.getElementById('evaluation-box');
-        const progressBarInner = document.getElementById('progress-bar-inner');
-        const countdownTimer = document.getElementById('countdown-timer');
-        const statusText = document.getElementById('status');
-        let mediaRecorder;
-        let recordedChunks = [];
-        let countdown;
-        let stream;
 
-        // Liste des sujets
-        const subjects = [
-            "Faire un toast : célébrer un voyage autour du monde",
-            "Un pitch improvisé : vendre un parapluie au Sahara",
-            "Tu es Marylin Monroe après avoir chanté Happy Birthday au Président",
-            "Expliquer à des extraterrestres pourquoi ils devraient visiter la Terre",
-            "Convaincre un jury que le chocolat devrait être gratuit pour tout le monde",
-            "Présenter votre candidature pour devenir président de la planète Mars",
-            "Motiver une équipe avant une grande compétition sportive",
-            "Faire un discours de mariage pour un couple improbable",
-            "Défendre l'idée de remplacer les réunions par des pique-niques",
-            "Inventer une excuse farfelue pour arriver en retard à une réunion",
-            "Faire un discours inspirant pour des élèves diplômés",
-            "Convaincre un investisseur de financer votre machine à remonter le temps",
-            "Vous êtes un dragon et négociez avec des humains pour ne pas brûler leur village",
-            "Expliquer pourquoi vous avez décidé de devenir végétarien ce matin",
-            "Décrire une situation gênante dans un ascenseur bondé",
-            "Vendre une horloge qui tourne à l'envers",
-            "Faire un toast pour la réussite de la conférence sur le climat",
-            "Présenter un abonnement illimité pour les siestes en entreprise",
-            "Défendre que parler aux plantes améliore leur croissance",
-            "Remercier votre équipe après un projet réussi",
-            "Un détective résolvant une affaire mystérieuse en direct",
-            "Expliquer pourquoi marcher à reculons est bon pour la santé",
-            "Vendre des lunettes qui permettent de voir dans le passé",
-            "Faire un discours d’adieu en quittant un poste ou une ville",
-            "Convaincre un groupe d’amis que les pingouins dominent secrètement la planète",
-            "Présenter un guide touristique pour visiter le fond de l’océan",
-            "Un super-héros qui dévoile enfin son identité secrète",
-            "Motiver un groupe de pirates à conquérir une île mystérieuse",
-            "Convaincre que les chats sont des espions d’une autre planète",
-            "Faire un discours pour remercier après avoir reçu un prix fictif",
-            "Expliquer pourquoi votre réveil est toujours en retard, mais pas vous",
-            "Partager une technique pour ne jamais perdre à pierre-papier-ciseaux",
-            "Faire un discours de mariage inattendu pour un couple inconnu",
-            "Expliquer à des robots pourquoi ils devraient prendre des vacances",
-            "Convaincre des extraterrestres de choisir une autre planète que la Terre",
-            "Faire un pitch pour un restaurant qui ne sert que des plats orange",
-            "Argumenter que chanter sous la douche est une forme d'art méconnue",
-            "Faire un discours hilarant pour le départ en retraite de votre collègue préféré",
-            "Raconter votre pire rendez-vous amoureux et en tirer une leçon",
-            "Faire une critique exagérée d’un film que personne n’a vu",
-            "Proposer une nouvelle fête internationale, avec un thème farfelu",
-            "Faire un discours sur l'importance des siestes après le déjeuner",
-            "Convaincre un jury que vous êtes la meilleure personne pour coloniser Mars",
-            "Expliquer à un alien comment faire une omelette française",
-            "Raconter une aventure fictive dans une bibliothèque hantée",
-            "Vendre un produit révolutionnaire : des chaussures invisibles",
-            "Faire un discours de remerciement après avoir été élu maire d’un village imaginaire"
-        ];
-
-        // Générer un sujet
+        // Générer un sujet aléatoire
         generateSubjectBtn.addEventListener('click', () => {
+            const subjects = [
+                "Faire un toast pour un anniversaire.",
+                "Convaincre des extraterrestres d'adopter un chat.",
+                "Donner un discours à un mariage fictif."
+            ];
             const randomIndex = Math.floor(Math.random() * subjects.length);
             subjectDisplay.textContent = subjects[randomIndex];
         });
-
-        // Préparer la webcam
-        async function setupCamera() {
-            try {
-                stream = await navigator.mediaDevices.getUserMedia({ video: true });
-                document.getElementById('preview').srcObject = stream;
-            } catch (err) {
-                alert("Impossible d'accéder à la webcam !");
-            }
-        }
-
-        // Démarrer l'improvisation
-        startBtn.addEventListener('click', async () => {
-            await setupCamera();
-
-            mediaRecorder = new MediaRecorder(stream);
-            recordedChunks = [];
-
-            mediaRecorder.ondataavailable = event => recordedChunks.push(event.data);
-            mediaRecorder.onstop = () => {
-                const blob = new Blob(recordedChunks, { type: 'video/webm' });
-                const url = URL.createObjectURL(blob);
-                playback.src = url;
-                playback.style.display = 'block';
-
-                // Activer le bouton de téléchargement
-                downloadVideoBtn.style.display = 'inline-block';
-                downloadVideoBtn.addEventListener('click', () => {
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.download = 'Letmotiv_improvisation.webm';
-                    link.click();
-                });
-
-                evaluationBox.style.display = 'block';
-
-                // Modifier le texte de statut
-                statusText.textContent = "Revisionnez ou téléchargez votre vidéo pour analyser votre prestation";
-
-                // Scroll automatique
-                playback.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            };
-
-            mediaRecorder.start();
-
-            // Chronomètre
-            let timeRemaining = 120; // 2 minutes
-            progressBarInner.style.width = '0%';
-            countdownTimer.textContent = `Temps restant : ${timeRemaining} secondes`;
-
-            countdown = setInterval(() => {
-                timeRemaining--;
-                progressBarInner.style.width = `${(120 - timeRemaining) / 120 * 100}%`;
-                countdownTimer.textContent = `Temps restant : ${timeRemaining} secondes`;
-
-                if (timeRemaining <= 0) {
-                    clearInterval(countdown);
-                    mediaRecorder.stop();
-                    stopStream();
-                }
-            }, 1000);
-
-            startBtn.disabled = true;
-            stopBtn.disabled = false;
-        });
-
-        // Arrêter l'improvisation
-        stopBtn.addEventListener('click', () => {
-            if (mediaRecorder && mediaRecorder.state === 'recording') {
-                mediaRecorder.stop();
-                clearInterval(countdown);
-                stopStream();
-            }
-            startBtn.disabled = false;
-            stopBtn.disabled = true;
-            progressBarInner.style.width = '0%';
-            countdownTimer.textContent = '';
-        });
-
-        // Arrêter la webcam
-        function stopStream() {
-            if (stream) {
-                const tracks = stream.getTracks();
-                tracks.forEach(track => track.stop());
-            }
-        }
-
-        // Télécharger le questionnaire
-        document.getElementById('download-answers-btn').addEventListener('click', () => {
-            const questions = [
-                "1. Que pensez-vous de la construction de votre discours ?",
-                "2. Avez-vous proposé une introduction et une conclusion ? Est-ce qu'elles sont satisfaisantes selon vous ?",
-                "3. Comment évaluez-vous votre voix ?",
-                "4. Quels points positifs retirez-vous de cette improvisation ?",
-                "5. Quels axes d'amélioration sont à prioriser ?"
-            ];
-
-            const answers = Array.from(document.querySelectorAll('.evaluation-box textarea')).map(
-                (textarea, index) => `${questions[index]}\nRéponse : ${textarea.value || "Non renseignée"}`
-            );
-
-            const content = answers.join('\n\n');
-            const blob = new Blob([content], { type: 'text/plain' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'Simulateur_Letmotiv_Feedback.txt';
-            link.click();
-        });
-        
     </script>
 </body>
 </html>
