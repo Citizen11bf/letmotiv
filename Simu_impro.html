@@ -213,7 +213,139 @@
     </div>
 
     <script>
-        // Script similaire à celui donné précédemment
+             const subjects = [
+            "Faire un toast : célébrer un voyage autour du monde",
+            "Un pitch improvisé : vendre un parapluie au Sahara",
+            "Tu es Marylin Monroe après avoir chanté Happy Birthday au Président",
+            "Expliquer à des extraterrestres pourquoi ils devraient visiter la Terre",
+            "Convaincre un jury que le chocolat devrait être gratuit pour tout le monde",
+            "Présenter votre candidature pour devenir président de la planète Mars",
+            "Motiver une équipe avant une grande compétition sportive",
+            "Faire un discours de mariage pour un couple improbable",
+            "Défendre l'idée de remplacer les réunions par des pique-niques",
+            "Inventer une excuse farfelue pour arriver en retard à une réunion",
+            "Faire un discours inspirant pour des élèves diplômés",
+            "Convaincre un investisseur de financer votre machine à remonter le temps",
+            "Vous êtes un dragon et négociez avec des humains pour ne pas brûler leur village",
+            "Expliquer pourquoi vous avez décidé de devenir végétarien ce matin",
+            "Décrire une situation gênante dans un ascenseur bondé",
+            "Vendre une horloge qui tourne à l'envers",
+            "Faire un toast pour la réussite de la conférence sur le climat",
+            "Présenter un abonnement illimité pour les siestes en entreprise",
+            "Défendre que parler aux plantes améliore leur croissance",
+            "Remercier votre équipe après un projet réussi",
+            "Un détective résolvant une affaire mystérieuse en direct",
+            "Expliquer pourquoi marcher à reculons est bon pour la santé",
+            "Vendre des lunettes qui permettent de voir dans le passé",
+            "Faire un discours d’adieu en quittant un poste ou une ville",
+            "Convaincre un groupe d’amis que les pingouins dominent secrètement la planète",
+            "Présenter un guide touristique pour visiter le fond de l’océan",
+            "Un super-héros qui dévoile enfin son identité secrète",
+            "Motiver un groupe de pirates à conquérir une île mystérieuse",
+            "Convaincre que les chats sont des espions d’une autre planète",
+            "Faire un discours pour remercier après avoir reçu un prix fictif",
+            "Expliquer pourquoi votre réveil est toujours en retard, mais pas vous",
+            "Partager une technique pour ne jamais perdre à pierre-papier-ciseaux",
+            "Faire un discours de mariage inattendu pour un couple inconnu",
+            "Expliquer à des robots pourquoi ils devraient prendre des vacances",
+            "Convaincre des extraterrestres de choisir une autre planète que la Terre",
+            "Faire un pitch pour un restaurant qui ne sert que des plats orange",
+            "Argumenter que chanter sous la douche est une forme d'art méconnue",
+            "Faire un discours hilarant pour le départ en retraite de votre collègue préféré",
+            "Raconter votre pire rendez-vous amoureux et en tirer une leçon",
+            "Faire une critique exagérée d’un film que personne n’a vu",
+            "Proposer une nouvelle fête internationale, avec un thème farfelu",
+            "Faire un discours sur l'importance des siestes après le déjeuner",
+            "Convaincre un jury que vous êtes la meilleure personne pour coloniser Mars",
+            "Expliquer à un alien comment faire une omelette française",
+            "Raconter une aventure fictive dans une bibliothèque hantée",
+            "Vendre un produit révolutionnaire : des chaussures invisibles",
+            "Faire un discours de remerciement après avoir été élu maire d’un village imaginaire"
+        ];
+
+        // Générateur de sujets
+        document.getElementById('generate-subject-btn').addEventListener('click', () => {
+            const randomSubject = subjects[Math.floor(Math.random() * subjects.length)];
+            document.getElementById('subject-display').textContent = randomSubject;
+        });
+
+        let mediaRecorder;
+        let recordedChunks = [];
+        const preview = document.getElementById('preview');
+        const playback = document.getElementById('playback');
+        const startBtn = document.getElementById('start-btn');
+        const stopBtn = document.getElementById('stop-btn');
+        const statusText = document.getElementById('status');
+        const downloadLink = document.getElementById('download-link');
+        const progressBarInner = document.getElementById('progress-bar-inner');
+        let countdown;
+
+        async function setupCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                preview.srcObject = stream;
+                return stream;
+            } catch (error) {
+                statusText.textContent = 'Erreur : Impossible d\'accéder à la webcam.';
+                console.error('Erreur d\'accès à la webcam :', error);
+            }
+        }
+
+        function startTimer() {
+            let timeRemaining = 120;
+            progressBarInner.style.width = '0%';
+            countdown = setInterval(() => {
+                const progress = ((120 - timeRemaining) / 120) * 100;
+                progressBarInner.style.width = `${progress}%`;
+                timeRemaining--;
+                if (timeRemaining <= 0) {
+                    clearInterval(countdown);
+                    mediaRecorder.stop();
+                }
+            }, 1000);
+        }
+
+        startBtn.addEventListener('click', async () => {
+            const stream = await setupCamera();
+            if (!stream) return;
+
+            mediaRecorder = new MediaRecorder(stream);
+            recordedChunks = [];
+            mediaRecorder.ondataavailable = (event) => {
+                if (event.data.size > 0) recordedChunks.push(event.data);
+            };
+            mediaRecorder.onstop = () => {
+                const videoBlob = new Blob(recordedChunks, { type: 'video/webm' });
+                const videoURL = URL.createObjectURL(videoBlob);
+                playback.src = videoURL;
+                playback.style.display = 'block';
+                downloadLink.href = videoURL;
+                downloadLink.download = 'Letmotiv_Improvisation.webm';
+                downloadLink.style.display = 'inline-block';
+                stream.getTracks().forEach((track) => track.stop());
+            };
+
+            mediaRecorder.start();
+            statusText.textContent = 'Improvisation en cours...';
+            startBtn.disabled = true;
+            stopBtn.disabled = false;
+            startTimer();
+        });
+
+        stopBtn.addEventListener('click', () => {
+            if (mediaRecorder && mediaRecorder.state === 'recording') {
+                mediaRecorder.stop();
+                statusText.textContent = 'Improvisation terminée.';
+                startBtn.disabled = false;
+                stopBtn.disabled = true;
+                clearInterval(countdown);
+                
+                // Faire défiler jusqu'à la vidéo enregistrée
+                setTimeout(() => {
+                    playback.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 500); // Délai pour s'assurer que la vidéo est affichée
+            }
+        });
     </script>
 </body>
 </html>
