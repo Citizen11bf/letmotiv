@@ -58,6 +58,7 @@
         .header {
         font-size: 18px;
         padding: 10px;
+        margin-top: 100px;
         line-height: 1.2;
         word-wrap: break-word; /* Permet au texte de passer à la ligne */
               }
@@ -260,6 +261,30 @@
         margin: 10px 0;
         padding: 10px;
         }
+    }
+
+    /* Transitions douces pour l'apparition des vidéos */
+    video {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    video.show {
+    opacity: 1;
+    transform: translateY(0);
+    }
+
+    /* Transitions douces pour l'apparition des boîtes */
+    .evaluation-box {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .evaluation-box.show {
+    opacity: 1;
+    transform: translateY(0);
     }
         
     </style>
