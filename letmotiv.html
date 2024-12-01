@@ -413,7 +413,8 @@
                 stream = await navigator.mediaDevices.getUserMedia({ video: true });
                 document.getElementById('preview').srcObject = stream;
             } catch (err) {
-                alert("Impossible d'accéder à la webcam !");
+                alert("Impossible d'accéder à la webcam ! Vérifiez vos permissions.");
+                console.error(err);
             }
         }
 
@@ -468,9 +469,9 @@
                     stopStream();
                 }
             }, 1000);
-
-            startBtn.disabled = true;
-            stopBtn.disabled = false;
+            
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
         });
 
         // Arrêter l'improvisation
