@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -413,8 +413,7 @@
                 stream = await navigator.mediaDevices.getUserMedia({ video: true });
                 document.getElementById('preview').srcObject = stream;
             } catch (err) {
-                alert("Impossible d'accéder à la webcam ! Vérifiez vos permissions.");
-                console.error(err);
+                alert("Impossible d'accéder à la webcam !");
             }
         }
 
@@ -455,12 +454,11 @@
             // Chronomètre
             let timeRemaining = 120; // 2 minutes
             progressBarInner.style.width = '0%';
-            countdownTimer.textContent = `Temps restant : ${timeRemaining} secondes`;
+            countdownTimer.textContent = Temps restant : ${timeRemaining} secondes;
 
-            
             countdown = setInterval(() => {
                 timeRemaining--;
-                progressBarInner.style.width = `${(120 - timeRemaining) / 120 * 100}%`;
+                progressBarInner.style.width = ${(120 - timeRemaining) / 120 * 100}%;
                 countdownTimer.textContent = Temps restant : ${timeRemaining} secondes;
 
                 if (timeRemaining <= 0) {
@@ -469,9 +467,9 @@
                     stopStream();
                 }
             }, 1000);
-            
-            startBtn.disabled = false;
-            stopBtn.disabled = true;
+
+            startBtn.disabled = true;
+            stopBtn.disabled = false;
         });
 
         // Arrêter l'improvisation
@@ -506,9 +504,9 @@
             ];
 
             const answers = Array.from(document.querySelectorAll('.evaluation-box textarea')).map(
-                (textarea, index) => `${questions[index]}\nRéponse : ${textarea.value || "Non renseignée"}`
+                (textarea, index) => ${questions[index]}\nRéponse : ${textarea.value || "Non renseignée"}
             );
-        
+
             const content = answers.join('\n\n');
             const blob = new Blob([content], { type: 'text/plain' });
             const link = document.createElement('a');
