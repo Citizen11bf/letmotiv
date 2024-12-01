@@ -505,9 +505,9 @@
             ];
 
             const answers = Array.from(document.querySelectorAll('.evaluation-box textarea')).map(
-                (textarea, index) => ${questions[index]}\nRéponse : ${textarea.value || "Non renseignée"}
+                (textarea, index) => `${questions[index]}\nRéponse : ${textarea.value || "Non renseignée"}`
             );
-
+        
             const content = answers.join('\n\n');
             const blob = new Blob([content], { type: 'text/plain' });
             const link = document.createElement('a');
