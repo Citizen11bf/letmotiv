@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
     <title>Simulateur d'improvisation</title>
+    
+    <!-- Lien pour FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    
     <style>
         /* Général */
         body {
@@ -452,11 +457,11 @@
             // Chronomètre
             let timeRemaining = 120; // 2 minutes
             progressBarInner.style.width = '0%';
-            countdownTimer.textContent = Temps restant : ${timeRemaining} secondes;
-
+            countdownTimer.textContent = `Temps restant : ${timeRemaining} secondes`;
+            
             countdown = setInterval(() => {
                 timeRemaining--;
-                progressBarInner.style.width = ${(120 - timeRemaining) / 120 * 100}%;
+                progressBarInner.style.width = `${((120 - timeRemaining) / 120) * 100}%`;
                 countdownTimer.textContent = Temps restant : ${timeRemaining} secondes;
 
                 if (timeRemaining <= 0) {
