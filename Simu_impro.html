@@ -15,7 +15,6 @@
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
-            position: relative;
             color: #333333;
             display: flex;
             flex-direction: column;
@@ -30,7 +29,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.4); /* Filtre sombre */
+            background-color: rgba(0, 0, 0, 0.4);
             z-index: -1;
         }
 
@@ -69,7 +68,7 @@
             text-align: center;
             font-size: 15px;
             border: 2px solid #cccccc;
-            transition: all 0.4s ease; /* Transition douce */
+            transition: all 0.4s ease;
         }
 
         /* Conteneur principal */
@@ -85,7 +84,7 @@
             text-align: center;
             font-size: 14px;
             border: 2px solid #cccccc;
-            transition: all 0.4s ease; /* Transition douce */
+            transition: all 0.4s ease;
         }
 
         /* Barre de progression */
@@ -118,16 +117,12 @@
             cursor: pointer;
             margin: 10px;
             text-decoration: none;
-            transition: all 0.3s ease; /* Transition douce */
+            transition: all 0.3s ease;
         }
 
         button:hover, a:hover {
             background-color: #00a48a;
             transform: scale(1.05);
-        }
-
-        button:active, a:active {
-            transform: scale(0.95);
         }
 
         button i, a i {
@@ -143,7 +138,7 @@
             border-radius: 6px;
             opacity: 0;
             transform: translateY(20px);
-            transition: opacity 0.4s ease, transform 0.4s ease; /* Transition douce */
+            transition: opacity 0.4s ease, transform 0.4s ease;
         }
 
         video.show {
@@ -157,7 +152,7 @@
             text-align: left;
             opacity: 0;
             transform: translateY(20px);
-            transition: opacity 0.4s ease, transform 0.4s ease; /* Transition douce */
+            transition: opacity 0.4s ease, transform 0.4s ease;
         }
 
         .evaluation-box.show {
@@ -188,7 +183,7 @@
             border-radius: 25px;
             border: none;
             cursor: pointer;
-            transition: all 0.3s ease; /* Transition douce */
+            transition: all 0.3s ease;
         }
 
         .evaluation-box button:hover {
@@ -281,6 +276,22 @@
         <button id="download-video-btn" style="display: none;"><i class="fas fa-download"></i> Téléchargez votre prestation</button>
     </div>
 
+    <!-- Questionnaire -->
+    <div class="evaluation-box" id="evaluation-box" style="display: none;">
+        <h3>Questions d'auto-évaluation :</h3>
+        <p>1. Que penses-tu de la clarté de ton discours ?</p>
+        <textarea placeholder="Votre réponse ici..."></textarea>
+        <p>2. As-tu fait une introduction et une conclusion ?</p>
+        <textarea placeholder="Votre réponse ici..."></textarea>
+        <p>3. Comment évalues-tu ton langage corporel ?</p>
+        <textarea placeholder="Votre réponse ici..."></textarea>
+        <p>4. Quels points positifs retires-tu de cette improvisation ?</p>
+        <textarea placeholder="Votre réponse ici..."></textarea>
+        <p>5. Quels axes d'amélioration prioriser ?</p>
+        <textarea placeholder="Votre réponse ici..."></textarea>
+        <button id="download-answers-btn">Télécharger les réponses</button>
+    </div>
+
     <!-- Footer -->
     <div class="footer">
         <a href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole" target="_blank" class="footer-link">Réservez un coaching Letmotiv</a>
@@ -290,30 +301,138 @@
     <script>
         const generateSubjectBtn = document.getElementById('generate-subject-btn');
         const subjectDisplay = document.getElementById('subject-display');
-        const playback = document.getElementById('playback');
-        const evaluationBox = document.getElementById('evaluation-box');
+        const startBtn = document.getElementById('start-btn');
         const stopBtn = document.getElementById('stop-btn');
+        const playback = document.getElementById('playback');
+        const downloadVideoBtn = document.getElementById('download-video-btn');
+        const evaluationBox = document.getElementById('evaluation-box');
         const progressBarInner = document.getElementById('progress-bar-inner');
+        const countdownTimer = document.getElementById('countdown-timer');
+        const statusText = document.getElementById('status');
+        let mediaRecorder;
+        let recordedChunks = [];
+        let countdown;
+        let stream;
 
-        function showElement(element) {
-            element.classList.add('show');
-        }
+        // Liste des sujets
+        const subjects = [
+            "Faire un toast : célébrer un voyage autour du monde",
+            "Un pitch improvisé : vendre un parapluie au Sahara",
+            "Convaincre un jury que le chocolat devrait être gratuit pour tout le monde",
+        ];
 
-        function hideElement(element) {
-            element.classList.remove('show');
-        }
-
-        playback.addEventListener('loadeddata', () => showElement(playback));
-
-        // Générer un sujet aléatoire
+        // Générer un sujet
         generateSubjectBtn.addEventListener('click', () => {
-            const subjects = [
-                "Faire un toast pour un anniversaire.",
-                "Convaincre des extraterrestres d'adopter un chat.",
-                "Donner un discours à un mariage fictif."
-            ];
             const randomIndex = Math.floor(Math.random() * subjects.length);
             subjectDisplay.textContent = subjects[randomIndex];
+        });
+
+        // Préparer la webcam
+        async function setupCamera() {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                document.getElementById('preview').srcObject = stream;
+            } catch (err) {
+                alert("Impossible d'accéder à la webcam !");
+            }
+        }
+
+        // Démarrer l'improvisation
+        startBtn.addEventListener('click', async () => {
+            await setupCamera();
+
+            mediaRecorder = new MediaRecorder(stream);
+            recordedChunks = [];
+
+            mediaRecorder.ondataavailable = event => recordedChunks.push(event.data);
+            mediaRecorder.onstop = () => {
+                const blob = new Blob(recordedChunks, { type: 'video/webm' });
+                const url = URL.createObjectURL(blob);
+                playback.src = url;
+                playback.style.display = 'block';
+
+                // Activer le bouton de téléchargement
+                downloadVideoBtn.style.display = 'inline-block';
+                downloadVideoBtn.addEventListener('click', () => {
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = 'Letmotiv_improvisation.webm';
+                    link.click();
+                });
+
+                evaluationBox.style.display = 'block';
+
+                // Modifier le texte de statut
+                statusText.textContent = "Revisionnez ou téléchargez votre vidéo pour analyser votre prestation";
+
+                // Scroll automatique
+                playback.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            };
+
+            mediaRecorder.start();
+
+            // Chronomètre
+            let timeRemaining = 120; // 2 minutes
+            progressBarInner.style.width = '0%';
+            countdownTimer.textContent = `Temps restant : ${timeRemaining} secondes`;
+
+            countdown = setInterval(() => {
+                timeRemaining--;
+                progressBarInner.style.width = `${(120 - timeRemaining) / 120 * 100}%`;
+                countdownTimer.textContent = `Temps restant : ${timeRemaining} secondes`;
+
+                if (timeRemaining <= 0) {
+                    clearInterval(countdown);
+                    mediaRecorder.stop();
+                    stopStream();
+                }
+            }, 1000);
+
+            startBtn.disabled = true;
+            stopBtn.disabled = false;
+        });
+
+        // Arrêter l'improvisation
+        stopBtn.addEventListener('click', () => {
+            if (mediaRecorder && mediaRecorder.state === 'recording') {
+                mediaRecorder.stop();
+                clearInterval(countdown);
+                stopStream();
+            }
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+            progressBarInner.style.width = '0%';
+            countdownTimer.textContent = '';
+        });
+
+        // Arrêter la webcam
+        function stopStream() {
+            if (stream) {
+                const tracks = stream.getTracks();
+                tracks.forEach(track => track.stop());
+            }
+        }
+
+        // Télécharger le questionnaire
+        document.getElementById('download-answers-btn').addEventListener('click', () => {
+            const questions = [
+                "1. Que pensez-vous de la construction de votre discours ?",
+                "2. Avez-vous proposé une introduction et une conclusion ?",
+                "3. Comment évaluez-vous votre voix ?",
+                "4. Quels points positifs retirez-vous de cette improvisation ?",
+                "5. Quels axes d'amélioration sont à prioriser ?"
+            ];
+
+            const answers = Array.from(document.querySelectorAll('.evaluation-box textarea')).map(
+                (textarea, index) => `${questions[index]}\nRéponse : ${textarea.value || "Non renseignée"}`
+            );
+
+            const content = answers.join('\n\n');
+            const blob = new Blob([content], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'Simulateur_Letmotiv_Feedback.txt';
+            link.click();
         });
     </script>
 </body>
