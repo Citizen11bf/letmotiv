@@ -426,7 +426,7 @@
         stopBtn.addEventListener('click', () => {
             if (mediaRecorder && mediaRecorder.state === 'recording') {
                 mediaRecorder.stop();
-                statusText.textContent = 'Improvisation terminée.<br>Revisionnez ou téléchargez votre prestation pour vous évaluer.';
+                statusText.textContent = 'Improvisation terminée. Revisionnez ou téléchargez votre prestation pour vous évaluer.';
                 startBtn.disabled = false;
                 stopBtn.disabled = true;
                 clearInterval(countdown);
