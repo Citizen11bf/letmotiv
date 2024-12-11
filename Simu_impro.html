@@ -408,12 +408,6 @@
                 if (event.data.size > 0) recordedChunks.push(event.data);
             };
             mediaRecorder.onstop = () => {
-                const subject = document.getElementById('subject-display').textContent;
-                const shareLink = document.getElementById('linkedin-share-button');
-                shareLink.href = `https://www.linkedin.com/shareArticle?mini=true&url=https://citizen11bf.github.io/simulation-impro/letmotiv.html&summary=Je%20viens%20de%20r%C3%A9aliser%20une%20impro%20sur%20le%20sujet%20%22${encodeURIComponent(subject)}%22%20%23ChallengeImproLetmotiv`;
-                const subject = document.getElementById('subject-display').textContent;
-                const shareLink = document.querySelector('.linkedin-share-button');
-                shareLink.href = `https://www.linkedin.com/shareArticle?mini=true&url=https://citizen11bf.github.io/simulation-impro/letmotiv.html&summary=%23ChallengeImproLetmotiv%20Voici%20mon%20impro%20sur%20le%20sujet%20%22${subject}%22`;
                 const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
                 const videoURL = URL.createObjectURL(videoBlob);
                 playback.src = videoURL;
