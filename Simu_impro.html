@@ -284,7 +284,7 @@
     <!-- Boîte de partage sur les réseaux sociaux -->
     <div class="box-partage-RS" id="box-partage-RS" style="display: none;">
         <p>Partagez votre expérience et encouragez d'autres personnes à relever le défi. <br>Montrez votre courage et inspirez les autres à s'améliorer en improvisation !<br><b>#ChallengeImproLetmotiv</b></p>
-      <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://citizen11bf.github.io/simulation-impro/letmotiv.html&summary=%23ChallengeImproLetmotiv%20Voici%20mon%20impro%20sur%20le%20sujet%20%22{subject}%22" target="_blank" class="linkedin-share-button">
+      <a id="linkedin-share-button" href="https://www.linkedin.com/shareArticle?mini=true&url=https://citizen11bf.github.io/simulation-impro/letmotiv.html" target="_blank" class="linkedin-share-button">
             <i class="fab fa-linkedin"></i> Partager sur LinkedIn
         </a>
     </div>
@@ -408,6 +408,9 @@
                 if (event.data.size > 0) recordedChunks.push(event.data);
             };
             mediaRecorder.onstop = () => {
+                const subject = document.getElementById('subject-display').textContent;
+                const shareLink = document.getElementById('linkedin-share-button');
+                shareLink.href = `https://www.linkedin.com/shareArticle?mini=true&url=https://citizen11bf.github.io/simulation-impro/letmotiv.html&summary=Je%20viens%20de%20r%C3%A9aliser%20une%20impro%20sur%20le%20sujet%20%22${encodeURIComponent(subject)}%22%20%23ChallengeImproLetmotiv`;
                 const subject = document.getElementById('subject-display').textContent;
                 const shareLink = document.querySelector('.linkedin-share-button');
                 shareLink.href = `https://www.linkedin.com/shareArticle?mini=true&url=https://citizen11bf.github.io/simulation-impro/letmotiv.html&summary=%23ChallengeImproLetmotiv%20Voici%20mon%20impro%20sur%20le%20sujet%20%22${subject}%22`;
