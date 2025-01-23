@@ -1,536 +1,433 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulateur d'improvisation</title>
-    <meta name="description" content="Évaluer et développer gratuitement et rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv.">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        /* Général */
-        body {
-            margin: 0;
-            font-family: Helvetica, Arial, sans-serif;
-            background-image: url('https://i.postimg.cc/2yG5hbLL/Conference.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: #333333;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            overflow-x: hidden; /* Empêcher le défilement horizontal */
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simulateur d'improvisation</title>
+  <meta name="description" content="Évaluer et développer gratuitement et rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv.">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-        /* Titre rectangulaire */
-        .header {
-            background-color: #1E3B6F;
-            color: #FFFFFF;
-            font-size: 20px;
-            font-weight: bold;
-            text-align: center;
-            padding: 15px;
-            width: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 10;
-            word-break: break-word;
-            padding-left: 20px;
-            padding-right: 20px;
-            box-sizing: border-box;
-        }
+  <style>
+    /* Général */
+    body {
+      margin: 0;
+      font-family: Helvetica, Arial, sans-serif;
+      background-image: url('https://i.postimg.cc/2yG5hbLL/Conference.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: #333333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden; /* Empêcher le défilement horizontal */
+    }
 
-        /* Boîte d'introduction (nouvelle présentation) */
-        .intro-box {
-            width: 90%;
-            max-width: 600px;
-            margin-top: 80px;
-            background-color: rgba(255, 255, 255, 0.85);
-            border-radius: 10px;
-            padding: 15px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            font-size: 14px;
-            border: 2px solid #cccccc;
-        }
+    /* Titre rectangulaire */
+    .header {
+      background-color: #1E3B6F;
+      color: #FFFFFF;
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+      padding: 15px;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 10;
+      word-break: break-word;
+      padding-left: 20px;
+      padding-right: 20px;
+      box-sizing: border-box;
+    }
 
-        .intro-box h3 {
-            margin-top: 0;
-        }
+    /* Boîte d'introduction */
+    .intro-box {
+      width: 90%;
+      max-width: 600px;
+      margin-top: 80px;
+      background-color: rgba(255, 255, 255, 0.85);
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      font-size: 14px;
+      border: 2px solid #cccccc;
+    }
 
-        /* Style pour la rangée de boutons objectifs */
-        .objectives-container {
-            display: flex;
-            flex-wrap: wrap; /* pour que ça s'adapte sur plusieurs lignes sur petits écrans */
-            justify-content: center;
-            gap: 10px;
-            margin-top: 10px;
-        }
+    /* Conteneur principal */
+    .container {
+      width: 90%;
+      max-width: 600px;
+      margin-top: 20px;
+      margin-bottom: 10px; /* Ajout d'espace en bas pour éviter la collision avec autre contenu */
+      background-color: rgba(255, 255, 255, 0.85);
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      font-size: 14px;
+      border: 2px solid #cccccc;
+    }
 
-        /* Conteneur principal */
-        .container {
-            width: 90%;
-            max-width: 600px;
-            margin-top: 20px;
-            margin-bottom: 10px; /* Ajout d'espace en bas pour éviter la collision avec la boîte d'évaluation */
-            background-color: rgba(255, 255, 255, 0.85);
-            border-radius: 10px;
-            padding: 15px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            font-size: 14px;
-            border: 2px solid #cccccc;
-        }
+    /* Barre de progression */
+    #progress-bar {
+      width: 100%;
+      height: 10px;
+      background-color: #e0e0e0;
+      border-radius: 5px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      position: relative;
+      border: 2px solid #cccccc;
+    }
 
-        /* Barre de progression */
-        #progress-bar {
-            width: 100%;
-            height: 10px;
-            background-color: #e0e0e0;
-            border-radius: 5px;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            overflow: hidden;
-            position: relative;
-            border: 2px solid #cccccc;
-        }
+    #progress-bar-inner {
+      width: 0%;
+      height: 100%;
+      background-color: #00a48a;
+      transition: width 0.5s linear; /* Accélération de la transition */
+    }
 
-        #progress-bar-inner {
-            width: 0%;
-            height: 100%;
-            background-color: #00a48a;
-            transition: width 0.5s linear; /* Accélération de la transition */
-        }
+    /* Boutons génériques */
+    button, a {
+      background-color: #1E3B6F;
+      color: #FFFFFF;
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      border: none;
+      border-radius: 25px;
+      padding: 10px 20px;
+      cursor: pointer;
+      margin: 10px;
+      text-decoration: none;
+      transition: background-color 0.3s, transform 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-        /* Minuteur */
-        #timer {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            padding: 10px 20px;
-            border-radius: 25px;
-            background-color: #00a48a;
-            color: #FFFFFF;
-            display: inline-block;
-        }
+    button:hover, button:active, a:hover, a:active {
+      background-color: #00a48a;
+      transform: translateY(-3px);
+    }
 
-        /* Boutons */
-        button, a {
-            background-color: #1E3B6F;
-            color: #FFFFFF;
-            font-family: Helvetica, Arial, sans-serif;
-            font-size: 16px;
-            border: none;
-            border-radius: 25px;
-            padding: 10px 20px;
-            cursor: pointer;
-            margin: 5px; /* ajusté pour plus de souplesse si on enchaine plusieurs boutons */
-            text-decoration: none;
-            transition: background-color 0.3s, transform 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
+    /* Vidéos */
+    video {
+      width: 100%;
+      max-width: 500px;
+      margin: 20px auto;
+      border: 3px solid #1E3B6F;
+      border-radius: 6px;
+    }
 
-        button:hover, button:active, a:hover, a:active {
-            background-color: #00a48a;
-            transform: translateY(-3px);
-        }
+    /* Boîte de partage sur les réseaux sociaux */
+    .box-partage-RS {
+      width: 90%;
+      max-width: 600px;
+      margin-top: 10px;
+      background-color: rgba(255, 255, 255, 0.85);
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      font-size: 14px;
+      border: 2px solid #cccccc;
+    }
 
-        /* Vidéos */
-        video {
-            width: 100%;
-            max-width: 500px;
-            margin: 20px auto;
-            border: 3px solid #1E3B6F;
-            border-radius: 6px;
-        }
+    /* Footer engageant */
+    .footer {
+      background-color: #1E3B6F;
+      color: #FFFFFF;
+      font-size: 16px;
+      text-align: center;
+      padding: 20px;
+      width: 100%;
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
 
-        /* Questionnaire d'auto-évaluation */
-        .evaluation-box {
-            width: 90%;
-            max-width: 600px;
-            margin-top: 10px; /* Augmenter l'espace au-dessus pour éviter la collision avec la vidéo */
-            background-color: rgba(255, 255, 255, 0.85);
-            border-radius: 10px;
-            padding: 15px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            text-align: left;
-            font-size: 14px;
-            border: 2px solid #cccccc;
-        }
+    .footer-buttons a {
+      display: inline-block;
+      background-color: #FFFFFF;
+      color: #1E3B6F;
+      border: 2px solid #1E3B6F;
+      border-radius: 25px;
+      padding: 10px 20px;
+      font-weight: bold;
+      text-decoration: none;
+      transition: background-color 0.3s, color 0.3s, transform 0.3s;
+    }
 
-        .evaluation-box label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
+    .footer-buttons a:hover, .footer-buttons a:active {
+      background-color: #00a48a;
+      color: #FFFFFF;
+      transform: translateY(-3px);
+    }
 
-        .evaluation-box textarea {
-            width: calc(100% - 30px);
-            margin: 0 auto;
-            height: 60px;
-            border: 1px solid #cccccc;
-            border-radius: 5px;
-            padding: 8px;
-            font-family: Helvetica, Arial, sans-serif;
-            font-size: 14px;
-            margin-bottom: 15px;
-            resize: none;
-            display: block;
-        }
+    /* Masque initial du formulaire et du PDF si besoin */
+    .hidden {
+      display: none;
+    }
 
-        /* Bouton au centre de la boîte d'évaluation */
-        .download-btn-container {
-            text-align: center;
-            margin-top: 20px;
-        }
+    /* Formulaire pour prénom / email */
+    .download-section {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
 
-        /* Boîte de partage sur les réseaux sociaux */
-        .box-partage-RS {
-            width: 90%;
-            max-width: 600px;
-            margin-top: 10px;
-            background-color: rgba(255, 255, 255, 0.85);
-            border-radius: 10px;
-            padding: 15px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            font-size: 14px;
-            border: 2px solid #cccccc;
-        }
+    .download-section label {
+      display: block;
+      margin: 10px 0 5px;
+    }
 
-        /* Footer engageant */
-        .footer {
-            background-color: #1E3B6F;
-            color: #FFFFFF;
-            font-size: 16px;
-            text-align: center;
-            padding: 20px;
-            width: 100%;
-            margin-top: 30px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .footer-buttons a {
-            display: inline-block;
-            background-color: #FFFFFF;
-            color: #1E3B6F;
-            border: 2px solid #1E3B6F;
-            border-radius: 25px;
-            padding: 10px 20px;
-            font-weight: bold;
-            text-decoration: none;
-            transition: background-color 0.3s, color 0.3s, transform 0.3s;
-        }
-
-        .footer-buttons a:hover, .footer-buttons a:active {
-            background-color: #00a48a;
-            color: #FFFFFF;
-            transform: translateY(-3px);
-        }
-    </style>
+    .download-section input {
+      padding: 8px;
+      font-size: 14px;
+      margin-bottom: 10px;
+      width: 80%;
+      max-width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+  </style>
 </head>
 <body>
-    <!-- Titre de la page -->
-    <div class="header">
-        Letmotiv <i class="fas fa-microphone"></i> Simulateur d'improvisation en public
-    </div>
+  <!-- Titre de la page -->
+  <div class="header">
+    Letmotiv <i class="fas fa-microphone"></i> Simulateur d'improvisation en public
+  </div>
 
-    <!-- Box d'introduction -->
-    <div class="intro-box">
-        <h3>Quel est ton objectif&nbsp;?</h3>
-        <div class="objectives-container">
-            <!-- Les 7 boutons d'objectifs -->
-            <button data-category="convaincre">Convaincre</button>
-            <button data-category="inspirer">Inspirer</button>
-            <button data-category="lacher-prise">Lâcher prise</button>
-            <button data-category="toast">Porter un toast</button>
-            <button data-category="repartie">Avoir de la répartie</button>
-            <button data-category="vendre">Vendre</button>
-            <button data-category="conflit">Gérer un conflit</button>
-        </div>
-    </div>
+  <!-- Boîte d'introduction -->
+  <div class="intro-box">
+    <p>Bienvenue sur le simulateur d’improvisation Letmotiv. Lancez-vous pour 2 minutes et entraînez-vous !</p>
+  </div>
     
-    <!-- Contenu principal (sujets d'impro, vidéo, etc.) -->
-    <div class="container">
-        <!-- Affichage du sujet en cours -->
-        <div id="subject-display" style="margin-top: 10px; font-weight: bold;"></div>
-        
-        <video id="preview" autoplay muted></video>
-        
-        <div id="progress-bar">
-            <div id="progress-bar-inner"></div>
-        </div>
-        <div>
-            <button id="start-btn"><i class="fas fa-video"></i> Démarrer l'improvisation</button>
-            <button id="stop-btn" disabled><i class="fas fa-stop"></i> Arrêter l'improvisation</button>
-        </div>
-        <p id="status">Appuyez sur un bouton ci-dessus pour obtenir votre sujet, puis sur "Démarrer l'improvisation".</p>
-        <video id="playback" controls style="display: none;"></video>
-        <a id="download-link" style="display: none;"><i class="fas fa-download"></i> Télécharger la vidéo de votre prestation</a>
+  <!-- Contenu principal -->
+  <div class="container">
+    <video id="preview" autoplay muted></video>
+    <div id="progress-bar">
+      <div id="progress-bar-inner"></div>
     </div>
 
-    <!-- Questionnaire d'auto-évaluation -->
-    <div class="evaluation-box" id="evaluation-box" style="display: none;">
-        <h3>Questions d'auto-évaluation :</h3>
-        <label for="question1">1. Que pensez-vous de la construction de votre discours ?</label>
-        <textarea id="question1" placeholder="Votre réponse ici..."></textarea>
-        
-        <label for="question2">2. Avez-vous proposé une introduction et une conclusion ?</label>
-        <textarea id="question2" placeholder="Votre réponse ici..."></textarea>
-        
-        <label for="question3">3. Comment évaluez-vous votre voix ?</label>
-        <textarea id="question3" placeholder="Votre réponse ici..."></textarea>
-        
-        <label for="question4">4. Avez-vous remarqué des tics de langage ou des hésitations répétées ?</label>
-        <textarea id="question4" placeholder="Votre réponse ici..."></textarea>
-        
-        <label for="question5">5. Quels points positifs retirez-vous de cette improvisation ?</label>
-        <textarea id="question5" placeholder="Votre réponse ici..."></textarea>
-        
-        <label for="question6">6. Quels axes d'amélioration sont à prioriser ?</label>
-        <textarea id="question6" placeholder="Votre réponse ici..."></textarea>
-
-        <div class="download-btn-container">
-            <button id="download-answers-btn"><i class="fas fa-download"></i> Télécharger les réponses</button>
-        </div>
+    <div>
+      <button id="start-btn"><i class="fas fa-video"></i> Démarrer l'improvisation</button>
+      <button id="stop-btn" disabled><i class="fas fa-stop"></i> Arrêter l'improvisation</button>
     </div>
+    <p id="status">Appuyez sur "Démarrer l'improvisation" pour commencer.</p>
 
-    <!-- Boîte de partage sur les réseaux sociaux -->
-    <div class="box-partage-RS" id="box-partage-RS" style="display: none;">
-        <p>
-            Partagez votre expérience et encouragez d'autres personnes à relever le défi. <br>
-            Montrez votre courage et inspirez les autres à s'améliorer en improvisation !<br><b>#ChallengeImproLetmotiv</b>
-        </p>
-        <a id="linkedin-share-button" href="https://www.linkedin.com/shareArticle?mini=true&url=https://citizen11bf.github.io/simulation-impro/letmotiv.html" 
-           target="_blank" 
-           class="linkedin-share-button">
-            <i class="fab fa-linkedin"></i> Partager sur LinkedIn
-        </a>
+    <video id="playback" controls style="display: none;"></video>
+    <!-- Lien de téléchargement de la vidéo, caché avant la validation du formulaire -->
+    <a id="download-link" style="display: none;"><i class="fas fa-download"></i> Télécharger la vidéo de votre prestation</a>
+
+    <!-- Formulaire qui apparaît après la fin de l'enregistrement -->
+    <div id="download-section" class="download-section hidden">
+      <h3>Pour accéder à votre vidéo, merci de renseigner :</h3>
+      <label for="prenom">Prénom :</label>
+      <input type="text" id="prenom" placeholder="Votre prénom"/>
+
+      <label for="email">Email :</label>
+      <input type="email" id="email" placeholder="Votre email"/>
+
+      <div>
+        <button id="validate-form-btn">Valider</button>
+      </div>
+
+      <!-- Bouton pour télécharger un PDF listant les questions d'évaluation -->
+      <div>
+        <button id="download-pdf-btn">Télécharger le PDF d'évaluation</button>
+      </div>
     </div>
+  </div>
 
-    <!-- Footer engageant -->
-    <div class="footer">
-        <p>Vous souhaitez progresser rapidement et efficacement dans la prise de parole en public ?</p>
-        <div class="footer-buttons">
-            <a href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole" target="_blank">
-                <i class="fas fa-chalkboard-teacher"></i> Réservez un coaching Letmotiv
-            </a>
-            <a href="https://alexetpierre.systeme.io/799d7fa4" target="_blank">
-                <i class="fas fa-laptop"></i> Suivre la formation en ligne Letmotiv
-            </a>
-        </div>
+  <!-- Boîte de partage sur les réseaux sociaux -->
+  <div class="box-partage-RS" id="box-partage-RS" style="display: none;">
+    <p>Partagez votre expérience et encouragez d'autres personnes à relever le défi. 
+       <br>Montrez votre courage et inspirez les autres à s'améliorer en improvisation !<br><b>#ChallengeImproLetmotiv</b></p>
+    <a id="linkedin-share-button" href="https://www.linkedin.com/shareArticle?mini=true&url=https://citizen11bf.github.io/simulation-impro/letmotiv.html"
+       target="_blank" class="linkedin-share-button">
+       <i class="fab fa-linkedin"></i> Partager sur LinkedIn
+    </a>
+  </div>
+
+  <!-- Footer engageant -->
+  <div class="footer">
+    <p>Vous souhaitez progresser rapidement et efficacement dans la prise de parole en public ?</p>
+    <div class="footer-buttons">
+      <a href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole" target="_blank">
+          <i class="fas fa-chalkboard-teacher"></i> Réservez un coaching Letmotiv
+      </a>
+      <a href="https://alexetpierre.systeme.io/799d7fa4" target="_blank">
+          <i class="fas fa-laptop"></i> Suivre la formation en ligne Letmotiv
+      </a>
     </div>
+  </div>
 
-    <!-- Script -->
-    <script>
-        // Vérification de la compatibilité du navigateur
-        const statusText = document.getElementById('status');
-        
-        // Si MediaRecorder ou getUserMedia ne sont pas présents
-        if (typeof MediaRecorder === 'undefined' || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-            statusText.textContent = "Désolé, l'enregistrement vidéo n'est pas supporté par votre navigateur. Veuillez utiliser un navigateur plus récent ou un autre appareil.";
-            document.getElementById('start-btn').disabled = true;
-            document.getElementById('stop-btn').disabled = true;
+  <!-- Script -->
+  <script>
+    // Vérification de la compatibilité du navigateur
+    const statusText = document.getElementById('status');
+    if (typeof MediaRecorder === 'undefined' || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      statusText.textContent = "Désolé, l'enregistrement vidéo n'est pas supporté par votre navigateur. Veuillez utiliser un navigateur plus récent ou un autre appareil.";
+      document.getElementById('start-btn').disabled = true;
+      document.getElementById('stop-btn').disabled = true;
+    }
+
+    let mediaRecorder;
+    let recordedChunks = [];
+    const preview = document.getElementById('preview');
+    const playback = document.getElementById('playback');
+    const startBtn = document.getElementById('start-btn');
+    const stopBtn = document.getElementById('stop-btn');
+    const downloadLink = document.getElementById('download-link');
+    const progressBarInner = document.getElementById('progress-bar-inner');
+    const boxPartageRS = document.getElementById('box-partage-RS');
+    const downloadSection = document.getElementById('download-section');
+    const validateFormBtn = document.getElementById('validate-form-btn');
+    const prenomInput = document.getElementById('prenom');
+    const emailInput = document.getElementById('email');
+    const downloadPdfBtn = document.getElementById('download-pdf-btn');
+
+    let countdown;
+
+    async function setupCamera() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        preview.srcObject = stream;
+        return stream;
+      } catch (error) {
+        if (error.name === 'NotAllowedError' || error.name === 'SecurityError') {
+          statusText.textContent = "Vous avez refusé l'accès à la webcam et/ou au micro. Veuillez autoriser l'accès pour enregistrer une vidéo.";
+        } else if (error.name === 'NotFoundError' || error.name === 'DevicesNotFoundError') {
+          statusText.textContent = "Aucune caméra ou microphone n'a été trouvé(e). Vérifiez vos périphériques et réessayez.";
+        } else {
+          statusText.textContent = "Erreur : Impossible d'accéder à la webcam. Vérifiez vos permissions et/ou votre configuration.";
         }
+        console.error('Erreur d\'accès à la webcam :', error);
+        return null;
+      }
+    }
 
-        /***********************************************************
-         * Distribution des sujets par catégorie (exemple).
-         * Tu pourras remplacer ces contenus pour mettre les 50
-         * sujets répartis selon tes besoins.
-         ***********************************************************/
-        const subjectsByCategory = {
-            convaincre: [
-                "Convaincre un jury que le chocolat devrait être gratuit",
-                "Convaincre un investisseur de financer une machine à remonter le temps",
-                "Convaincre un groupe de touristes de te suivre dans une visite improvisée"
-            ],
-            inspirer: [
-                "Faire un discours inspirant pour des élèves diplômés",
-                "Motiver une équipe avant une grande compétition sportive",
-                "Faire un discours pour encourager des bénévoles"
-            ],
-            "lacher-prise": [
-                "Improviser une danse absurde et assumer jusqu'au bout",
-                "Raconter la blague la plus nulle possible comme si c'était un chef-d'œuvre",
-                "Décrire un rêve complètement loufoque que tu viens de faire"
-            ],
-            toast: [
-                "Faire un toast pour célébrer un voyage autour du monde",
-                "Faire un discours de mariage pour un couple improbable",
-                "Faire un toast hilarant pour l'anniversaire d'un ami imaginaire"
-            ],
-            repartie: [
-                "Répondre du tac-au-tac à un collègue qui t'accuse d'être en retard",
-                "Gérer les remarques d'une assemblée sceptique et garder le sourire",
-                "Retourner un compliment ironique pour en faire un éloge sincère"
-            ],
-            vendre: [
-                "Vendre un parapluie au Sahara",
-                "Vendre des lunettes qui permettent de voir dans le passé",
-                "Vendre une horloge qui tourne à l'envers"
-            ],
-            conflit: [
-                "Négocier avec des extraterrestres pour qu'ils ne détruisent pas la Terre",
-                "Vous êtes un dragon qui négocie avec des humains pour épargner leur village",
-                "Défendre l'idée de remplacer les réunions par des pique-niques face à une opposition farouche"
-            ]
-        };
-
-        // Lorsque l'utilisateur clique sur l'un des 7 boutons (catégories),
-        // on choisit un sujet aléatoire dans la catégorie correspondante.
-        const objectivesButtons = document.querySelectorAll('.objectives-container button');
-        const subjectDisplay = document.getElementById('subject-display');
-
-        objectivesButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const category = button.getAttribute('data-category');
-                const categorySubjects = subjectsByCategory[category] || [];
-                if (categorySubjects.length > 0) {
-                    const randomIndex = Math.floor(Math.random() * categorySubjects.length);
-                    const chosenSubject = categorySubjects[randomIndex];
-                    subjectDisplay.textContent = chosenSubject;
-                } else {
-                    subjectDisplay.textContent = "Pas de sujets disponibles dans cette catégorie (pour l'instant).";
-                }
-            });
-        });
-
-        /***********************************************************
-         * Script pour la gestion de l'enregistrement vidéo
-         ***********************************************************/
-        let mediaRecorder;
-        let recordedChunks = [];
-        const preview = document.getElementById('preview');
-        const playback = document.getElementById('playback');
-        const startBtn = document.getElementById('start-btn');
-        const stopBtn = document.getElementById('stop-btn');
-        const downloadLink = document.getElementById('download-link');
-        const progressBarInner = document.getElementById('progress-bar-inner');
-        const evaluationBox = document.getElementById('evaluation-box');
-        const boxPartageRS = document.getElementById('box-partage-RS');
-        let countdown;
-
-        async function setupCamera() {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-                preview.srcObject = stream;
-                return stream;
-            } catch (error) {
-                if (error.name === 'NotAllowedError' || error.name === 'SecurityError') {
-                    statusText.textContent = "Vous avez refusé l'accès à la webcam et/ou au micro. Veuillez autoriser l'accès pour enregistrer une vidéo.";
-                } else if (error.name === 'NotFoundError' || error.name === 'DevicesNotFoundError') {
-                    statusText.textContent = "Aucune caméra ou microphone n'a été trouvé(e). Vérifiez vos périphériques et réessayez.";
-                } else {
-                    statusText.textContent = "Erreur : Impossible d'accéder à la webcam. Vérifiez vos permissions et/ou votre configuration.";
-                }
-                console.error('Erreur d\'accès à la webcam :', error);
-                return null;
-            }
+    function startTimer() {
+      let timeRemaining = 120;
+      progressBarInner.style.width = '0%';
+      countdown = setInterval(() => {
+        const progress = ((120 - timeRemaining) / 120) * 100;
+        progressBarInner.style.width = `${progress}%`;
+        timeRemaining--;
+        if (timeRemaining < 0) {
+          clearInterval(countdown);
+          if (mediaRecorder && mediaRecorder.state === 'recording') {
+            mediaRecorder.stop();
+          }
         }
+      }, 1000);
+    }
 
-        function startTimer() {
-            let timeRemaining = 120;
-            progressBarInner.style.width = '0%';
-            countdown = setInterval(() => {
-                const progress = ((120 - timeRemaining) / 120) * 100;
-                progressBarInner.style.width = `${progress}%`;
-                timeRemaining--;
-                if (timeRemaining < 0) {
-                    clearInterval(countdown);
-                    if (mediaRecorder && mediaRecorder.state === 'recording') {
-                        mediaRecorder.stop();
-                    }
-                }
-            }, 1000);
-        }
+    startBtn.addEventListener('click', async () => {
+      if (typeof MediaRecorder === 'undefined' || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        statusText.textContent = "Désolé, l'enregistrement vidéo n'est pas supporté par votre navigateur.";
+        return;
+      }
+      if (!confirm("Attention : votre webcam va se lancer pour démarrer l'improvisation. Voulez-vous continuer ? Pour information, la vidéo s'enregistre seulement en local sur votre appareil.")) {
+        return;
+      }
 
-        startBtn.addEventListener('click', async () => {
-            if (typeof MediaRecorder === 'undefined' || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                statusText.textContent = "Désolé, l'enregistrement vidéo n'est pas supporté par votre navigateur.";
-                return;
-            }
-            if (!confirm("Attention : votre webcam va se lancer pour démarrer l'improvisation. Voulez-vous continuer ? Pour information, la vidéo s'enregistre seulement en local sur votre appareil.")) {
-                return;
-            }
+      const stream = await setupCamera();
+      if (!stream) return;
 
-            const stream = await setupCamera();
-            if (!stream) return;
+      if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
+        statusText.textContent = "Votre navigateur ne supporte pas l'enregistrement vidéo. Essayez avec Chrome, Firefox ou une version plus récente de Safari.";
+        return;
+      }
 
-            if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
-                statusText.textContent = "Votre navigateur ne supporte pas l'enregistrement vidéo. Essayez avec Chrome, Firefox ou une version plus récente de Safari.";
-                return;
-            }
+      mediaRecorder = new MediaRecorder(stream);
+      recordedChunks = [];
+      
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) recordedChunks.push(event.data);
+      };
+      
+      mediaRecorder.onstop = () => {
+        const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
+        const videoURL = URL.createObjectURL(videoBlob);
+        playback.src = videoURL;
+        playback.style.display = 'block';
+        // Cache la vidéo dans le lien de téléchargement, mais on le bloquera derrière le formulaire
+        downloadLink.href = videoURL;
+        downloadLink.download = 'Letmotiv_Improvisation.mp4';
 
-            mediaRecorder = new MediaRecorder(stream);
-            recordedChunks = [];
-            
-            mediaRecorder.ondataavailable = (event) => {
-                if (event.data.size > 0) recordedChunks.push(event.data);
-            };
-            
-            mediaRecorder.onstop = () => {
-                const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
-                const videoURL = URL.createObjectURL(videoBlob);
-                playback.src = videoURL;
-                playback.style.display = 'block';
-                downloadLink.href = videoURL;
-                downloadLink.download = 'Letmotiv_Improvisation.mp4';
-                downloadLink.style.display = 'inline-block';
-                stream.getTracks().forEach((track) => track.stop());
-                evaluationBox.style.display = 'block';
-                boxPartageRS.style.display = 'block';
-            };
+        // Arrêt des pistes
+        stream.getTracks().forEach((track) => track.stop());
 
-            mediaRecorder.start();
-            statusText.textContent = "Improvisation en cours...";
-            startBtn.disabled = true;
-            stopBtn.disabled = false;
-            startTimer();
-        });
+        // Afficher la section de formulaire (Prénom, Email)
+        downloadSection.classList.remove('hidden');
 
-        stopBtn.addEventListener('click', () => {
-            if (mediaRecorder && mediaRecorder.state === 'recording') {
-                mediaRecorder.stop();
-                statusText.textContent = "Improvisation terminée. Revisionnez ou téléchargez votre prestation pour vous évaluer.";
-                startBtn.disabled = false;
-                stopBtn.disabled = true;
-                clearInterval(countdown);
+        // Afficher le bloc de partage
+        boxPartageRS.style.display = 'block';
+      };
 
-                setTimeout(() => {
-                    playback.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }, 500);
-            }
-        });
+      mediaRecorder.start();
+      statusText.textContent = "Improvisation en cours...";
+      startBtn.disabled = true;
+      stopBtn.disabled = false;
+      startTimer();
+    });
 
-        // Script pour gérer le téléchargement des réponses du questionnaire
-        document.getElementById('download-answers-btn').addEventListener('click', () => {
-            const questions = [
-                "1. Que pensez-vous de la construction de votre discours ?",
-                "2. Avez-vous proposé une introduction et une conclusion ?",
-                "3. Comment évaluez-vous votre voix ?",
-                "4. Avez-vous remarqué des tics de langage ou des hésitations répétées ?",
-                "5. Quels points positifs retirez-vous de cette improvisation ?",
-                "6. Quels axes d'amélioration sont à prioriser ?"
-            ];
+    stopBtn.addEventListener('click', () => {
+      if (mediaRecorder && mediaRecorder.state === 'recording') {
+        mediaRecorder.stop();
+        statusText.textContent = "Improvisation terminée. Pour télécharger la vidéo, veuillez renseigner vos informations.";
+        startBtn.disabled = false;
+        stopBtn.disabled = true;
+        clearInterval(countdown);
 
-            const answers = Array.from(document.querySelectorAll('.evaluation-box textarea')).map(
-                (textarea, index) => `${questions[index]}\nRéponse : ${textarea.value || "Non renseignée"}`
-            );
+        setTimeout(() => {
+          playback.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 500);
+      }
+    });
 
-            const content = answers.join('\n\n');
-            const blob = new Blob([content], { type: 'text/plain' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'Simulateur_Letmotiv_Feedback.txt';
-            link.click();
-        });
-    </script>
+    // Bouton Valider du formulaire
+    validateFormBtn.addEventListener('click', () => {
+      const prenomValue = prenomInput.value.trim();
+      const emailValue = emailInput.value.trim();
+
+      // On peut personnaliser la validation (regex email, etc.)
+      if (!prenomValue || !emailValue) {
+        alert("Merci de renseigner un prénom et un email pour continuer.");
+        return;
+      }
+      // Si c'est ok, on autorise l'affichage du lien de téléchargement
+      downloadLink.style.display = 'inline-block';
+      // Eventuellement, on peut désactiver le bouton Valider pour éviter de relancer la validation
+      validateFormBtn.disabled = true;
+    });
+
+    // Bouton pour télécharger le PDF (liste de questions)
+    downloadPdfBtn.addEventListener('click', () => {
+      // Ici, on utilise un petit PDF encodé en base64 à titre d'exemple
+      // Remplace par ton propre fichier ou ta propre base64 si nécessaire
+      const base64PDF = "data:application/pdf;base64,JVBERi0xLjUNCiW1tbW1DQoxIDAgb2JqDQo8PA0KL0xlbmd0aCAxMzc+DQo+PnN0cmVhbQ0KQmVnaW4gR1MNCiBUaGlzIGlzIGFuIGV4YW1wbGUgcGRmLg0KQmllbiB2ZW51ZSBsYSBsaXN0ZSBkZXMgcXVlc3Rpb25zIDogDQoxLiBDb21tZW50IGphaSBzdSByZXByw6lua2U/DQoyLiBBdmV6LXZvdXMgcmVtYXJxdWVyIGRlcw0KMy4gRXQgY2V0YQ0KZW5kIEdTDQplbmRzdHJlYW0NCmVuZG9iaj0NCjIgMCBvYmoNCjw8DQovVHlwZSAvUGFnZQ0KL1BhcmVudCA0IDAgUg0KL01lZGlhQm94IFswIDAgNjEyIDc5Ml0NCj4+DQplbmRvYmoNCmVuZHN0cmVhbQ0KZW5kb2JqDQo0IDAgb2JqDQo8PA0KL1R5cGUgL1BhZ2VzDQovQ291bnQgMQ0KL0tpZHMgWyAyIDAgUiBdDQovUmVzb3VyY2VzIDw8IC9Qcm9jU2V0IFsvUERGL1RleHRdID4+DQpQPj4NCmVuZG9iaj0gCg==";
+      
+      // On crée un élément <a> temporaire pour le téléchargement
+      const link = document.createElement('a');
+      link.href = base64PDF;
+      link.download = "Questions_Evaluation.pdf";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+  </script>
 </body>
 </html>
