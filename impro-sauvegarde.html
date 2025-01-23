@@ -411,13 +411,13 @@
      *    (À adapter selon l'URL brute sur GitHub)
      ******************************************************/
     const txtFilesByCategory = {
-      convaincre:   "https://raw.githubusercontent.com/Citizen11bf/letmotiv/main/data/convaincre.txt",
-      inspirer:     "https://raw.githubusercontent.com/Citizen11bf/letmotiv/main/data/inspirer.txt",
-      'lacher-prise': "https://raw.githubusercontent.com/Citizen11bf/letmotiv/main/data/lacher_prise.txt",
-      toast:        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/main/data/toast.txt",
-      repartie:     "https://raw.githubusercontent.com/Citizen11bf/letmotiv/main/data/repartie.txt",
-      vendre:       "https://raw.githubusercontent.com/Citizen11bf/letmotiv/main/data/vendre.txt",
-      conflit:      "https://raw.githubusercontent.com/Citizen11bf/letmotiv/main/data/gerer_un_conflit.txt"
+      convaincre:   "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/convaincre.txt",
+      inspirer:     "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/inspirer.txt",
+      'lacher-prise': "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/lacher_prise.txt",
+      toast:        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/toast.txt",
+      repartie:     "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/repartie.txt",
+      vendre:       "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/vendre.txt",
+      conflit:      "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/gerer_un_conflit.txt"
     };
 
     let subjectsCache = {
@@ -632,14 +632,13 @@
 
     // Bouton PDF
     downloadPdfBtn.addEventListener('click', () => {
-      // Exemple PDF encodé en base64
-      const base64PDF = "data:application/pdf;base64,JVBERi0xLjUNCiW1...";
       const link = document.createElement('a');
-      link.href = base64PDF;
-      link.download = "Questions_Evaluation.pdf";
+      link.href = "https://drive.google.com/uc?export=download&id=1pKif7hwkdSQRXLv6uoSQawCs3DIIcb70";
+      link.download = "Questions_Evaluation.pdf"; // ou le nom de fichier que tu veux
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      
     });
   </script>
 </body>
