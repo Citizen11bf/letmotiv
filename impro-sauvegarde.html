@@ -67,6 +67,13 @@
       margin-top: 10px;
     }
 
+    /* Petit paragraphe pour l'explication du bouton sélectionné */
+    #explanation-text {
+      margin-top: 10px;
+      font-style: italic;
+      min-height: 40px; /* pour éviter le saut de mise en page */
+    }
+
     /* Conteneur principal */
     .container {
       width: 90%;
@@ -111,7 +118,7 @@
       border-radius: 25px;
       padding: 10px 20px;
       cursor: pointer;
-      margin: 5px; /* si plusieurs boutons */
+      margin: 5px;
       text-decoration: none;
       transition: background-color 0.3s, transform 0.3s;
       display: inline-flex;
@@ -222,6 +229,8 @@
   <!-- Box d'introduction : 7 objectifs -->
   <div class="intro-box">
     <h3>Quel est ton objectif&nbsp;?</h3>
+
+    <!-- Les 7 boutons -->
     <div class="objectives-container">
       <button data-category="convaincre">Convaincre</button>
       <button data-category="inspirer">Inspirer</button>
@@ -231,6 +240,9 @@
       <button data-category="vendre">Vendre</button>
       <button data-category="conflit">Gérer un conflit</button>
     </div>
+
+    <!-- Phrase explicative qui change selon le bouton cliqué -->
+    <p id="explanation-text"></p>
   </div>
   
   <!-- Contenu principal -->
@@ -301,60 +313,115 @@
 
   <!-- Script principal -->
   <script>
-    /* ========== Vérif compatibilité navigateur ========== */
-    const statusText = document.getElementById('status');
-    if (typeof MediaRecorder === 'undefined' || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-      statusText.textContent = "Désolé, l'enregistrement vidéo n'est pas supporté par votre navigateur. Veuillez utiliser un navigateur plus récent ou un autre appareil.";
-      document.getElementById('start-btn').disabled = true;
-      document.getElementById('stop-btn').disabled = true;
-    }
-
-    /* ========== Sujets par catégorie ========== */
-    const subjectsByCategory = {
-      convaincre: [
-        "Convaincre un jury que le chocolat devrait être gratuit",
-        "Convaincre un investisseur de financer votre machine à remonter le temps"
-      ],
-      inspirer: [
-        "Faire un discours inspirant pour des élèves diplômés",
-        "Motiver une équipe avant une grande compétition sportive"
-      ],
-      "lacher-prise": [
-        "Improviser une danse absurde et l'assumer pleinement",
-        "Raconter la blague la plus nulle possible comme un chef-d'oeuvre"
-      ],
-      toast: [
-        "Faire un toast pour célébrer un voyage autour du monde",
-        "Faire un discours de mariage pour un couple improbable"
-      ],
-      repartie: [
-        "Répondre du tac-au-tac à un collègue qui vous accuse d'être en retard",
-        "Retourner un compliment ironique en éloge sincère"
-      ],
-      vendre: [
-        "Vendre un parapluie au Sahara",
-        "Vendre une horloge qui tourne à l'envers"
-      ],
-      conflit: [
-        "Négocier avec des extraterrestres pour sauver la Terre",
-        "Défendre l'idée de remplacer les réunions par des pique-niques face à des collègues sceptiques"
-      ]
+    /******************************************************
+     * 1) Explications par catégorie (affiché sous les boutons)
+     ******************************************************/
+    const explanations = {
+      convaincre:   "Essaye de convaincre ton auditoire d’une idée générale.",
+      inspirer:     "Fais un discours inspirant et motive ton public.",
+      'lacher-prise': "Amuse-toi, libère-toi de tes freins et lâche prise.",
+      toast:        "Porter un toast marquant pour célébrer un événement.",
+      repartie:     "Réponds du tac-au-tac et montre ton sens de la répartie.",
+      vendre:       "Fais un argumentaire de vente percutant.",
+      conflit:      "Gère un désaccord ou une tension avec diplomatie."
     };
 
-    // Boutons objectifs (catégories)
+    /******************************************************
+     * 2) Fichiers .txt par catégorie
+     *    (À adapter avec l'URL brute de ton GitHub branch "data")
+     ******************************************************/
+    const txtFilesByCategory = {
+      convaincre:   "https://raw.githubusercontent.com/<TonPseudo>/<TonRepo>/main/data/convaincre.txt",
+      inspirer:     "https://raw.githubusercontent.com/<TonPseudo>/<TonRepo>/main/data/inspirer.txt",
+      'lacher-prise': "https://raw.githubusercontent.com/<TonPseudo>/<TonRepo>/main/data/lacher-prise.txt",
+      toast:        "https://raw.githubusercontent.com/<TonPseudo>/<TonRepo>/main/data/toast.txt",
+      repartie:     "https://raw.githubusercontent.com/<TonPseudo>/<TonRepo>/main/data/repartie.txt",
+      vendre:       "https://raw.githubusercontent.com/<TonPseudo>/<TonRepo>/main/data/vendre.txt",
+      conflit:      "https://raw.githubusercontent.com/<TonPseudo>/<TonRepo>/main/data/conflit.txt"
+    };
+
+    /******************************************************
+     * 3) Cache pour ne pas re-fetch chaque catégorie
+     ******************************************************/
+    let subjectsCache = {
+      convaincre: null,
+      inspirer: null,
+      'lacher-prise': null,
+      toast: null,
+      repartie: null,
+      vendre: null,
+      conflit: null
+    };
+
+    /******************************************************
+     * 4) Fonction pour charger un fichier .txt et le stocker
+     ******************************************************/
+    async function loadSubjects(category) {
+      // Si on a déjà en cache, on retourne direct
+      if (subjectsCache[category] !== null) {
+        return subjectsCache[category];
+      }
+
+      const filePath = txtFilesByCategory[category];
+      if (!filePath) {
+        console.error("Catégorie inconnue ou fichier manquant: ", category);
+        return [];
+      }
+
+      try {
+        const response = await fetch(filePath);
+        if (!response.ok) {
+          console.error("Erreur lors du fetch du fichier : " + filePath);
+          return [];
+        }
+        const text = await response.text();
+        // Séparer par lignes et nettoyer
+        const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+        subjectsCache[category] = lines;
+        return lines;
+      } catch (err) {
+        console.error("Erreur fetch: ", err);
+        return [];
+      }
+    }
+
+    /******************************************************
+     * 5) Variables globales
+     ******************************************************/
+    const statusText = document.getElementById('status');
     const objectivesButtons = document.querySelectorAll('.objectives-container button');
     const subjectDisplay = document.getElementById('subject-display');
+    const explanationText = document.getElementById('explanation-text');
 
+    // Pour savoir si un sujet est choisi (sinon on bloque le démarrage)
+    let currentSubject = "";
+
+    /******************************************************
+     * 6) Quand on clique sur un bouton, on charge la catégorie
+     *    et on pioche un sujet aléatoire
+     ******************************************************/
     objectivesButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        const category = button.getAttribute('data-category');
-        const categorySubjects = subjectsByCategory[category] || [];
-        if (categorySubjects.length > 0) {
-          const randomIndex = Math.floor(Math.random() * categorySubjects.length);
-          subjectDisplay.textContent = categorySubjects[randomIndex];
-        } else {
-          subjectDisplay.textContent = "Pas de sujets dans cette catégorie pour l'instant.";
+      button.addEventListener('click', async () => {
+        const category = button.dataset.category;
+        
+        // Mettre à jour le texte explicatif
+        explanationText.textContent = explanations[category] || "";
+
+        // Charger la liste de sujets
+        const subjects = await loadSubjects(category);
+
+        if (subjects.length === 0) {
+          subjectDisplay.textContent = "Pas de sujets disponibles ou erreur de chargement.";
+          currentSubject = "";
+          return;
         }
+
+        // Choix aléatoire
+        const randomIndex = Math.floor(Math.random() * subjects.length);
+        const chosenSubject = subjects[randomIndex];
+
+        subjectDisplay.textContent = chosenSubject;
+        currentSubject = chosenSubject;
       });
     });
 
@@ -380,6 +447,9 @@
 
     let countdown;
 
+    /******************************************************
+     * 7) Fonction pour initialiser la caméra
+     ******************************************************/
     async function setupCamera() {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
@@ -398,6 +468,9 @@
       }
     }
 
+    /******************************************************
+     * 8) Timer de 2 minutes
+     ******************************************************/
     function startTimer() {
       let timeRemaining = 120;
       progressBarInner.style.width = '0%';
@@ -414,7 +487,16 @@
       }, 1000);
     }
 
+    /******************************************************
+     * 9) Bouton "Démarrer l'improvisation"
+     ******************************************************/
     startBtn.addEventListener('click', async () => {
+      // On vérifie si un sujet a été choisi
+      if (!currentSubject) {
+        alert("Merci de choisir un objectif et de générer un sujet avant de démarrer l'improvisation.");
+        return;
+      }
+
       if (typeof MediaRecorder === 'undefined' || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
         statusText.textContent = "Désolé, l'enregistrement vidéo n'est pas supporté par votre navigateur.";
         return;
@@ -465,6 +547,9 @@
       startTimer();
     });
 
+    /******************************************************
+     * 10) Bouton "Arrêter l'improvisation"
+     ******************************************************/
     stopBtn.addEventListener('click', () => {
       if (mediaRecorder && mediaRecorder.state === 'recording') {
         mediaRecorder.stop();
@@ -475,7 +560,9 @@
       }
     });
 
-    // Validation du formulaire (Prénom / Email)
+    /******************************************************
+     * 11) Validation du formulaire (Prénom / Email)
+     ******************************************************/
     validateFormBtn.addEventListener('click', () => {
       const prenomValue = prenomInput.value.trim();
       const emailValue = emailInput.value.trim();
@@ -493,12 +580,14 @@
       validateFormBtn.disabled = true;
     });
 
-    // Bouton PDF
+    /******************************************************
+     * 12) Bouton PDF
+     ******************************************************/
     downloadPdfBtn.addEventListener('click', () => {
       // Exemple PDF encodé en base64
+      // Remplace par un lien direct : link.href = "monfichier.pdf";
+      // Ou un base64 plus complet si tu le souhaites.
       const base64PDF = "data:application/pdf;base64,JVBERi0xLjUNCiW1...";
-      // Ou un simple link.href vers tonfichier.pdf
-
       const link = document.createElement('a');
       link.href = base64PDF;
       link.download = "Questions_Evaluation.pdf";
