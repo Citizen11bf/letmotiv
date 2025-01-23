@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simulateur d'improvisation</title>
     <meta name="description" content="Évaluer et développer gratuitement et rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-      
         /* Général */
         body {
             margin: 0;
@@ -226,20 +224,22 @@
     </style>
 </head>
 <body>
-  
     <!-- Titre de la page -->
     <div class="header">
-    Letmotiv <i class="fas fa-microphone"></i> Simulateur d'improvisation en public
+        Letmotiv <i class="fas fa-microphone"></i> Simulateur d'improvisation en public
     </div>
 
     <!-- Texte d'introduction -->
     <div class="intro-box">
-        <p>Vous voulez évaluer et développer votre niveau en prise de parole en public ?
-        <br>Faites le <b>rapidement et gratuitement</b> avec le simulateur d'improvisation Letmotiv.
-        <br><br><b>Etape 1 :</b> Générez un sujet d'improvisation aléatoire
-        <br><b>Etape 2 :</b> Lancez-vous ! Vous avez 2 minutes top chrono
-        <br><b>Etape 3 :</b> Revisionner ou télécharger votre prestation
-        <br><b>Etape 4 :</b> Evaluer votre prise de parole</p>
+        <p>
+            Vous voulez évaluer et développer votre niveau en prise de parole en public ?<br>
+            Faites le <b>rapidement et gratuitement</b> avec le simulateur d'improvisation Letmotiv.<br><br>
+
+            <b>Etape 1 :</b> Générez un sujet d'improvisation aléatoire<br>
+            <b>Etape 2 :</b> Lancez-vous ! Vous avez 2 minutes top chrono<br>
+            <b>Etape 3 :</b> Revisionner ou télécharger votre prestation<br>
+            <b>Etape 4 :</b> Evaluer votre prise de parole
+        </p>
     </div>
     
     <!-- Contenu principal -->
@@ -248,7 +248,7 @@
         <div id="subject-display" style="margin-top: 10px; font-weight: bold;"></div>
         
         <video id="preview" autoplay muted></video>
-		
+        
         <div id="progress-bar">
             <div id="progress-bar-inner"></div>
         </div>
@@ -266,16 +266,22 @@
         <h3>Questions d'auto-évaluation :</h3>
         <label for="question1">1. Que pensez-vous de la construction de votre discours ?</label>
         <textarea id="question1" placeholder="Votre réponse ici..."></textarea>
+        
         <label for="question2">2. Avez-vous proposé une introduction et une conclusion ?</label>
         <textarea id="question2" placeholder="Votre réponse ici..."></textarea>
+        
         <label for="question3">3. Comment évaluez-vous votre voix ?</label>
         <textarea id="question3" placeholder="Votre réponse ici..."></textarea>
+        
         <label for="question4">4. Avez-vous remarqué des tics de langage ou des hésitations répétées ?</label>
         <textarea id="question4" placeholder="Votre réponse ici..."></textarea>
+        
         <label for="question5">5. Quels points positifs retirez-vous de cette improvisation ?</label>
         <textarea id="question5" placeholder="Votre réponse ici..."></textarea>
+        
         <label for="question6">6. Quels axes d'amélioration sont à prioriser ?</label>
         <textarea id="question6" placeholder="Votre réponse ici..."></textarea>
+
         <div class="download-btn-container">
             <button id="download-answers-btn"><i class="fas fa-download"></i> Télécharger les réponses</button>
         </div>
@@ -283,8 +289,13 @@
 
     <!-- Boîte de partage sur les réseaux sociaux -->
     <div class="box-partage-RS" id="box-partage-RS" style="display: none;">
-        <p>Partagez votre expérience et encouragez d'autres personnes à relever le défi. <br>Montrez votre courage et inspirez les autres à s'améliorer en improvisation !<br><b>#ChallengeImproLetmotiv</b></p>
-      <a id="linkedin-share-button" href="https://www.linkedin.com/shareArticle?mini=true&url=https://citizen11bf.github.io/simulation-impro/letmotiv.html" target="_blank" class="linkedin-share-button">
+        <p>
+            Partagez votre expérience et encouragez d'autres personnes à relever le défi. <br>
+            Montrez votre courage et inspirez les autres à s'améliorer en improvisation !<br><b>#ChallengeImproLetmotiv</b>
+        </p>
+        <a id="linkedin-share-button" href="https://www.linkedin.com/shareArticle?mini=true&url=https://citizen11bf.github.io/simulation-impro/letmotiv.html" 
+           target="_blank" 
+           class="linkedin-share-button">
             <i class="fab fa-linkedin"></i> Partager sur LinkedIn
         </a>
     </div>
@@ -293,13 +304,28 @@
     <div class="footer">
         <p>Vous souhaitez progresser rapidement et efficacement dans la prise de parole en public ?</p>
         <div class="footer-buttons">
-            <a href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole" target="_blank"><i class="fas fa-chalkboard-teacher"></i> Réservez un coaching Letmotiv</a>
-            <a href="https://alexetpierre.systeme.io/799d7fa4" target="_blank"><i class="fas fa-laptop"></i> Suivre la formation en ligne Letmotiv</a>
+            <a href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole" target="_blank">
+                <i class="fas fa-chalkboard-teacher"></i> Réservez un coaching Letmotiv
+            </a>
+            <a href="https://alexetpierre.systeme.io/799d7fa4" target="_blank">
+                <i class="fas fa-laptop"></i> Suivre la formation en ligne Letmotiv
+            </a>
         </div>
     </div>
 
-    <!-- Script pour gérer les sujets d'improvisation -->
+    <!-- Script -->
     <script>
+        // Vérification de la compatibilité du navigateur
+        const statusText = document.getElementById('status');
+        
+        // Si MediaRecorder ou getUserMedia ne sont pas présents
+        if (typeof MediaRecorder === 'undefined' || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+            statusText.textContent = "Désolé, l'enregistrement vidéo n'est pas supporté par votre navigateur. Veuillez utiliser un navigateur plus récent ou un autre appareil.";
+            document.getElementById('start-btn').disabled = true;
+            document.getElementById('stop-btn').disabled = true;
+        }
+
+        // Générateur de sujets
         const subjects = [
             "Faire un toast : célébrer un voyage autour du monde",
             "Un pitch improvisé : vendre un parapluie au Sahara",
@@ -350,20 +376,18 @@
             "Faire un discours de remerciement après avoir été élu maire d’un village imaginaire"
         ];
 
-        // Générateur de sujets
         document.getElementById('generate-subject-btn').addEventListener('click', () => {
             const randomSubject = subjects[Math.floor(Math.random() * subjects.length)];
             document.getElementById('subject-display').textContent = randomSubject;
         });
 
-        <!-- Script pour la gestion de l'enregistrement vidéo -->
+        // Script pour la gestion de l'enregistrement vidéo
         let mediaRecorder;
         let recordedChunks = [];
         const preview = document.getElementById('preview');
         const playback = document.getElementById('playback');
         const startBtn = document.getElementById('start-btn');
         const stopBtn = document.getElementById('stop-btn');
-        const statusText = document.getElementById('status');
         const downloadLink = document.getElementById('download-link');
         const progressBarInner = document.getElementById('progress-bar-inner');
         const evaluationBox = document.getElementById('evaluation-box');
@@ -372,12 +396,20 @@
 
         async function setupCamera() {
             try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
                 preview.srcObject = stream;
                 return stream;
             } catch (error) {
-                statusText.textContent = 'Erreur : Impossible d\'accéder à la webcam.';
+                // Gestion d'erreurs plus précise
+                if (error.name === 'NotAllowedError' || error.name === 'SecurityError') {
+                    statusText.textContent = "Vous avez refusé l'accès à la webcam et/ou au micro. Veuillez autoriser l'accès pour enregistrer une vidéo.";
+                } else if (error.name === 'NotFoundError' || error.name === 'DevicesNotFoundError') {
+                    statusText.textContent = "Aucune caméra ou microphone n'a été trouvé(e). Vérifiez vos périphériques et réessayez.";
+                } else {
+                    statusText.textContent = "Erreur : Impossible d'accéder à la webcam. Vérifiez vos permissions et/ou votre configuration.";
+                }
                 console.error('Erreur d\'accès à la webcam :', error);
+                return null;
             }
         }
 
@@ -390,23 +422,42 @@
                 timeRemaining--;
                 if (timeRemaining < 0) {
                     clearInterval(countdown);
-                    mediaRecorder.stop();
+                    // Vérification que la MediaRecorder est en cours d'enregistrement avant de stopper
+                    if (mediaRecorder && mediaRecorder.state === 'recording') {
+                        mediaRecorder.stop();
+                    }
                 }
             }, 1000);
         }
 
         startBtn.addEventListener('click', async () => {
-            if (!confirm('Attention : votre webcam va se lancer pour démarrer l\'improvisation. Voulez-vous continuer ? Pour information, la vidéo s\'enregistre seulement en local sur votre appareil.')) {
+            // Vérif de compatibilité avant de lancer
+            if (typeof MediaRecorder === 'undefined' || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                statusText.textContent = "Désolé, l'enregistrement vidéo n'est pas supporté par votre navigateur.";
                 return;
             }
-            const stream = await setupCamera();
-            if (!stream) return;
+            // Demande de confirmation
+            if (!confirm("Attention : votre webcam va se lancer pour démarrer l'improvisation. Voulez-vous continuer ? Pour information, la vidéo s'enregistre seulement en local sur votre appareil.")) {
+                return;
+            }
 
+            const stream = await setupCamera();
+            if (!stream) return; // Si on n'a pas de flux (erreur ou refus)
+
+            // Vérif finale : MediaRecorder est-il supporté (certaines versions Safari le prétendent, mais partiel)
+            if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
+                statusText.textContent = "Votre navigateur ne supporte pas l'enregistrement vidéo. Essayez avec Chrome, Firefox ou une version plus récente de Safari.";
+                return;
+            }
+
+            // Initialisation de l'enregistreur
             mediaRecorder = new MediaRecorder(stream);
             recordedChunks = [];
+            
             mediaRecorder.ondataavailable = (event) => {
                 if (event.data.size > 0) recordedChunks.push(event.data);
             };
+            
             mediaRecorder.onstop = () => {
                 const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
                 const videoURL = URL.createObjectURL(videoBlob);
@@ -420,8 +471,9 @@
                 boxPartageRS.style.display = 'block';
             };
 
+            // Démarrage enregistrement
             mediaRecorder.start();
-            statusText.textContent = 'Improvisation en cours...';
+            statusText.textContent = "Improvisation en cours...";
             startBtn.disabled = true;
             stopBtn.disabled = false;
             startTimer();
@@ -430,7 +482,7 @@
         stopBtn.addEventListener('click', () => {
             if (mediaRecorder && mediaRecorder.state === 'recording') {
                 mediaRecorder.stop();
-                statusText.textContent = 'Improvisation terminée. Revisionnez ou téléchargez votre prestation pour vous évaluer.';
+                statusText.textContent = "Improvisation terminée. Revisionnez ou téléchargez votre prestation pour vous évaluer.";
                 startBtn.disabled = false;
                 stopBtn.disabled = true;
                 clearInterval(countdown);
@@ -438,12 +490,11 @@
                 // Faire défiler jusqu'à la vidéo enregistrée
                 setTimeout(() => {
                     playback.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }, 500); // Délai pour s'assurer que la vidéo est affichée
+                }, 500);
             }
         });
 
-        // Télécharger le questionnaire
-        <!-- Script pour gérer le téléchargement des réponses du questionnaire -->
+        // Script pour gérer le téléchargement des réponses du questionnaire
         document.getElementById('download-answers-btn').addEventListener('click', () => {
             const questions = [
                 "1. Que pensez-vous de la construction de votre discours ?",
