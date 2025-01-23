@@ -94,7 +94,6 @@
       position: relative;
       border: 2px solid #cccccc;
     }
-
     #progress-bar-inner {
       width: 0%;
       height: 100%;
@@ -112,7 +111,7 @@
       border-radius: 25px;
       padding: 10px 20px;
       cursor: pointer;
-      margin: 5px; /* si plusieurs boutons s'enchaînent */
+      margin: 5px; /* si plusieurs boutons */
       text-decoration: none;
       transition: background-color 0.3s, transform 0.3s;
       display: inline-flex;
@@ -124,8 +123,8 @@
       transform: translateY(-3px);
     }
 
-    /* Vidéos */
-    video {
+    /* Vidéo de prévisualisation uniquement */
+    video#preview {
       width: 100%;
       max-width: 500px;
       margin: 20px auto;
@@ -183,7 +182,7 @@
       display: none;
     }
 
-    /* Section formulaire (Prénom / Email / PDF) */
+    /* Section formulaire (Prénom / Email + boutons après validation) */
     .download-section {
       margin-top: 20px;
       padding: 15px;
@@ -206,7 +205,7 @@
       border-radius: 5px;
     }
 
-    /* Pour le sujet choisi */
+    /* Sujet choisi */
     #subject-display {
       margin-top: 10px;
       font-weight: bold;
@@ -239,6 +238,7 @@
     <!-- Affichage du sujet (selon la catégorie) -->
     <div id="subject-display"></div>
 
+    <!-- Vidéo de prévisualisation (pas la relecture) -->
     <video id="preview" autoplay muted></video>
 
     <div id="progress-bar">
@@ -249,15 +249,9 @@
       <button id="start-btn"><i class="fas fa-video"></i> Démarrer l'improvisation</button>
       <button id="stop-btn" disabled><i class="fas fa-stop"></i> Arrêter l'improvisation</button>
     </div>
-    <p id="status">Choisissez d'abord un objectif, puis démarrez l'improvisation.</p>
+    <p id="status">Choisissez un objectif, puis démarrez l'improvisation.</p>
 
-    <!-- Vidéo enregistrée (lecture) -->
-    <video id="playback" controls style="display: none;"></video>
-
-    <!-- Lien de téléchargement de la vidéo (bloqué derrière la validation) -->
-    <a id="download-link" style="display: none;"><i class="fas fa-download"></i> Télécharger la vidéo de votre prestation</a>
-
-    <!-- Formulaire prénom + email + bouton PDF (apparaît après l'arrêt) -->
+    <!-- Formulaire prénom + email (caché avant l’arrêt) -->
     <div id="download-section" class="download-section hidden">
       <h3>Pour accéder à votre vidéo, merci de renseigner :</h3>
       <label for="prenom">Prénom :</label>
@@ -270,9 +264,12 @@
         <button id="validate-form-btn">Valider</button>
       </div>
 
-      <!-- Bouton pour télécharger le PDF (questions d'évaluation) -->
-      <div>
-        <button id="download-pdf-btn">Télécharger le PDF d'évaluation</button>
+      <!-- Boutons qui n'apparaissent qu'après validation -->
+      <div id="post-validation-btns" class="hidden">
+        <a id="download-link" class="hidden">
+          <i class="fas fa-download"></i> Télécharger la vidéo
+        </a>
+        <button id="download-pdf-btn" class="hidden">Télécharger le PDF d'évaluation</button>
       </div>
     </div>
   </div>
@@ -316,42 +313,35 @@
     const subjectsByCategory = {
       convaincre: [
         "Convaincre un jury que le chocolat devrait être gratuit",
-        "Convaincre un investisseur de financer votre machine à remonter le temps",
-        "Convaincre des touristes de vous suivre dans une visite improvisée"
+        "Convaincre un investisseur de financer votre machine à remonter le temps"
       ],
       inspirer: [
         "Faire un discours inspirant pour des élèves diplômés",
-        "Motiver une équipe avant une grande compétition sportive",
-        "Faire un discours pour encourager des bénévoles"
+        "Motiver une équipe avant une grande compétition sportive"
       ],
       "lacher-prise": [
         "Improviser une danse absurde et l'assumer pleinement",
-        "Raconter la blague la plus nulle possible comme un chef-d'oeuvre",
-        "Décrire un rêve complètement loufoque que vous venez de faire"
+        "Raconter la blague la plus nulle possible comme un chef-d'oeuvre"
       ],
       toast: [
         "Faire un toast pour célébrer un voyage autour du monde",
-        "Faire un discours de mariage pour un couple improbable",
-        "Prononcer un toast hilarant pour l'anniversaire d'un ami imaginaire"
+        "Faire un discours de mariage pour un couple improbable"
       ],
       repartie: [
         "Répondre du tac-au-tac à un collègue qui vous accuse d'être en retard",
-        "Gérer des remarques ironiques et garder le sourire",
         "Retourner un compliment ironique en éloge sincère"
       ],
       vendre: [
         "Vendre un parapluie au Sahara",
-        "Vendre des lunettes qui permettent de voir dans le passé",
         "Vendre une horloge qui tourne à l'envers"
       ],
       conflit: [
         "Négocier avec des extraterrestres pour sauver la Terre",
-        "Vous êtes un dragon qui négocie avec des humains pour ne pas brûler leur village",
         "Défendre l'idée de remplacer les réunions par des pique-niques face à des collègues sceptiques"
       ]
     };
 
-    // Gestion du clic sur les 7 boutons : affichage d'un sujet aléatoire
+    // Boutons objectifs (catégories)
     const objectivesButtons = document.querySelectorAll('.objectives-container button');
     const subjectDisplay = document.getElementById('subject-display');
 
@@ -361,8 +351,7 @@
         const categorySubjects = subjectsByCategory[category] || [];
         if (categorySubjects.length > 0) {
           const randomIndex = Math.floor(Math.random() * categorySubjects.length);
-          const chosenSubject = categorySubjects[randomIndex];
-          subjectDisplay.textContent = chosenSubject;
+          subjectDisplay.textContent = categorySubjects[randomIndex];
         } else {
           subjectDisplay.textContent = "Pas de sujets dans cette catégorie pour l'instant.";
         }
@@ -373,17 +362,21 @@
     let mediaRecorder;
     let recordedChunks = [];
     const preview = document.getElementById('preview');
-    const playback = document.getElementById('playback');
     const startBtn = document.getElementById('start-btn');
     const stopBtn = document.getElementById('stop-btn');
-    const downloadLink = document.getElementById('download-link');
     const progressBarInner = document.getElementById('progress-bar-inner');
     const boxPartageRS = document.getElementById('box-partage-RS');
+
+    // Formulaire, PDF, etc.
     const downloadSection = document.getElementById('download-section');
     const validateFormBtn = document.getElementById('validate-form-btn');
+    const postValidationBtns = document.getElementById('post-validation-btns');
     const prenomInput = document.getElementById('prenom');
     const emailInput = document.getElementById('email');
-    const downloadPdfBtn = document.getElementById('download-pdf-btn');
+
+    // Boutons cachés initialement
+    const downloadLink = document.getElementById('download-link'); // vidéo
+    const downloadPdfBtn = document.getElementById('download-pdf-btn'); // PDF
 
     let countdown;
 
@@ -422,18 +415,16 @@
     }
 
     startBtn.addEventListener('click', async () => {
-      // Vérif compat
       if (typeof MediaRecorder === 'undefined' || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
         statusText.textContent = "Désolé, l'enregistrement vidéo n'est pas supporté par votre navigateur.";
         return;
       }
-      // Confirmation
       if (!confirm("Attention : votre webcam va se lancer pour démarrer l'improvisation. Voulez-vous continuer ? Pour information, la vidéo s'enregistre seulement en local sur votre appareil.")) {
         return;
       }
 
       const stream = await setupCamera();
-      if (!stream) return; // en cas d'erreur d'accès
+      if (!stream) return;
 
       if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
         statusText.textContent = "Votre navigateur ne supporte pas l'enregistrement vidéo. Essayez avec Chrome, Firefox ou une version plus récente de Safari.";
@@ -450,22 +441,20 @@
       };
       
       mediaRecorder.onstop = () => {
+        // On fabrique le blob pour la vidéo
         const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
         const videoURL = URL.createObjectURL(videoBlob);
-        playback.src = videoURL;
-        playback.style.display = 'block';
 
-        // On prépare le lien de DL (mais on ne l'affichera qu'après validation)
+        // Lien de téléchargement (non visible tant que formulaire non validé)
         downloadLink.href = videoURL;
         downloadLink.download = 'Letmotiv_Improvisation.mp4';
 
         // Arrête la webcam
         stream.getTracks().forEach((track) => track.stop());
 
-        // On affiche la section avec le formulaire Prénom / Email
+        // Affiche la section de formulaire
         downloadSection.classList.remove('hidden');
-
-        // On affiche la box de partage LinkedIn
+        // Affiche la box de partage
         boxPartageRS.style.display = 'block';
       };
 
@@ -483,10 +472,6 @@
         startBtn.disabled = false;
         stopBtn.disabled = true;
         clearInterval(countdown);
-
-        setTimeout(() => {
-          playback.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 500);
       }
     });
 
@@ -499,19 +484,23 @@
         alert("Merci de renseigner un prénom et un email pour continuer.");
         return;
       }
-      // Si OK, on affiche le lien de téléchargement de la vidéo
-      downloadLink.style.display = 'inline-block';
-      validateFormBtn.disabled = true; // évite un nouveau clic, par exemple
+      // Afficher les 2 boutons (vidéo + PDF)
+      postValidationBtns.classList.remove('hidden');
+      downloadLink.classList.remove('hidden');
+      downloadPdfBtn.classList.remove('hidden');
+
+      // On peut désactiver le bouton Valider pour éviter re-clic
+      validateFormBtn.disabled = true;
     });
 
     // Bouton PDF
     downloadPdfBtn.addEventListener('click', () => {
       // Exemple PDF encodé en base64
       const base64PDF = "data:application/pdf;base64,JVBERi0xLjUNCiW1...";
-      // Ou un simple link.href vers un fichier PDF sur ton serveur
+      // Ou un simple link.href vers tonfichier.pdf
 
       const link = document.createElement('a');
-      link.href = base64PDF;  // Remplace par ton fichier PDF si besoin
+      link.href = base64PDF;
       link.download = "Questions_Evaluation.pdf";
       document.body.appendChild(link);
       link.click();
