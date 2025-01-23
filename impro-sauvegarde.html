@@ -69,8 +69,7 @@
     .box0 {
       width: 90%;
       max-width: 600px;
-      /* marge-top pour laisser de l'espace sous le header, surtout en mobile */
-      margin-top: 100px; 
+      margin-top: 50px; 
       background-color: rgba(255, 255, 255, 0.85);
       border-radius: 10px;
       padding: 15px;
@@ -80,7 +79,13 @@
       border: 2px solid #cccccc;
       position: relative;
       margin-bottom: 10px; 
+
+      @media (max-width: 600px) {
+    .box0 {
+      margin-top: 100px; /* marge plus grande en mobile */
+      }
     }
+  }
 
     /* Lien "Mode d'emploi" (texte + flèche) sur la droite */
     .mode-emploi-toggle {
