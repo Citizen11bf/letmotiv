@@ -25,7 +25,7 @@
 
         /* Titre rectangulaire */
         .header {
-            background-color: #182d84;
+            background-color: #1E3B6F;
             color: #FFFFFF;
             font-size: 20px;
             font-weight: bold;
@@ -105,7 +105,7 @@
 
         /* Boutons */
         button, a {
-            background-color: #182d84;
+            background-color: #1E3B6F;
             color: #FFFFFF;
             font-family: Helvetica, Arial, sans-serif;
             font-size: 16px;
@@ -131,7 +131,7 @@
             width: 100%;
             max-width: 500px;
             margin: 20px auto;
-            border: 3px solid #182d84;
+            border: 3px solid #1E3B6F;
             border-radius: 6px;
         }
 
@@ -191,7 +191,7 @@
 
         /* Footer engageant */
         .footer {
-            background-color: #182d84;
+            background-color: #1E3B6F;
             color: #FFFFFF;
             font-size: 16px;
             text-align: center;
@@ -207,8 +207,8 @@
         .footer-buttons a {
             display: inline-block;
             background-color: #FFFFFF;
-            color: #182d84;
-            border: 2px solid #182d84;
+            color: #1E3B6F;
+            border: 2px solid #1E3B6F;
             border-radius: 25px;
             padding: 10px 20px;
             font-weight: bold;
@@ -237,14 +237,14 @@
 
             <b>Etape 1 :</b> Générez un sujet d'improvisation aléatoire<br>
             <b>Etape 2 :</b> Lancez-vous ! Vous avez 2 minutes top chrono<br>
-            <b>Etape 3 :</b> Revisionnez ou téléchargez votre prestation<br>
-            <b>Etape 4 :</b> Evaluez votre prise de parole
+            <b>Etape 3 :</b> Revisionner ou télécharger votre prestation<br>
+            <b>Etape 4 :</b> Evaluer votre prise de parole
         </p>
     </div>
     
     <!-- Contenu principal -->
     <div class="container">
-        <button id="generate-subject-btn"><i class="fas fa-lightbulb"></i> Générer un sujet d'improvisation aléatoire</button>
+        <button id="generate-subject-btn"><i class="fas fa-lightbulb"></i> Générateur de sujets d'improvisation</button>
         <div id="subject-display" style="margin-top: 10px; font-weight: bold;"></div>
         
         <video id="preview" autoplay muted></video>
@@ -293,9 +293,9 @@
             Partagez votre expérience et encouragez d'autres personnes à relever le défi. <br>
             Montrez votre courage et inspirez les autres à s'améliorer en improvisation !<br><b>#ChallengeImproLetmotiv</b>
         </p>
-        <a id="linkedin-share-button" href="https://www.linkedin.com/shareArticle?mini=true&url=https://citizen11bf.github.io/simulation-impro/letmotiv.html" 
-           target="_blank" 
-           class="linkedin-share-button">
+        
+        <!-- Lien LinkedIn modifié, href="#" initial -->
+        <a id="linkedin-share-button" href="#" target="_blank" class="linkedin-share-button">
             <i class="fab fa-linkedin"></i> Partager sur LinkedIn
         </a>
     </div>
@@ -307,7 +307,7 @@
             <a href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole" target="_blank">
                 <i class="fas fa-chalkboard-teacher"></i> Réservez un coaching Letmotiv
             </a>
-            <a href="https://alexetpierre.systeme.io/inscription" target="_blank">
+            <a href="https://alexetpierre.systeme.io/799d7fa4" target="_blank">
                 <i class="fas fa-laptop"></i> Suivre la formation en ligne Letmotiv
             </a>
         </div>
@@ -516,6 +516,26 @@
             link.download = 'Simulateur_Letmotiv_Feedback.txt';
             link.click();
         });
+
+        // === Partage LinkedIn (méthode dynamique) ===
+        // On définit ici l'URL que l'on souhaite partager (et le titre, résumé...)
+        const linkedUrl = "https://citizen11bf.github.io/simulation-impro/letmotiv.html";
+        const linkedTitle = "Letmotiv - Simulateur gratuit d'improvisation en ligne selon vos objectifs : convaincre, avoir de la répartie, inspirer, divertir...";
+        const linkedSummary = "Letmotiv - Simulateur gratuit d'improvisation en ligne selon vos objectifs : convaincre, avoir de la répartie, inspirer, divertir...";
+        const linkedSource = "Letmotiv";
+
+        // Base LinkedIn
+        const linkedinBase = "https://www.linkedin.com/shareArticle?mini=true";
+
+        // Construction de l'URL de partage encodée
+        const shareHref = linkedinBase 
+            + "&url=" + encodeURIComponent(linkedUrl)
+            + "&title=" + encodeURIComponent(linkedTitle)
+            + "&summary=" + encodeURIComponent(linkedSummary)
+            + "&source=" + encodeURIComponent(linkedSource);
+
+        // Affectation du lien au bouton LinkedIn
+        document.getElementById("linkedin-share-button").href = shareHref;
     </script>
 </body>
 </html>
