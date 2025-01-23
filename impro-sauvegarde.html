@@ -42,7 +42,7 @@
             box-sizing: border-box;
         }
 
-        /* Boîte d'introduction */
+        /* Boîte d'introduction (nouvelle présentation) */
         .intro-box {
             width: 90%;
             max-width: 600px;
@@ -54,6 +54,19 @@
             text-align: center;
             font-size: 14px;
             border: 2px solid #cccccc;
+        }
+
+        .intro-box h3 {
+            margin-top: 0;
+        }
+
+        /* Style pour la rangée de boutons objectifs */
+        .objectives-container {
+            display: flex;
+            flex-wrap: wrap; /* pour que ça s'adapte sur plusieurs lignes sur petits écrans */
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
         }
 
         /* Conteneur principal */
@@ -113,7 +126,7 @@
             border-radius: 25px;
             padding: 10px 20px;
             cursor: pointer;
-            margin: 10px;
+            margin: 5px; /* ajusté pour plus de souplesse si on enchaine plusieurs boutons */
             text-decoration: none;
             transition: background-color 0.3s, transform 0.3s;
             display: inline-flex;
@@ -229,22 +242,24 @@
         Letmotiv <i class="fas fa-microphone"></i> Simulateur d'improvisation en public
     </div>
 
-    <!-- Texte d'introduction -->
+    <!-- Box d'introduction -->
     <div class="intro-box">
-        <p>
-            Vous voulez évaluer et développer votre niveau en prise de parole en public ?<br>
-            Faites le <b>rapidement et gratuitement</b> avec le simulateur d'improvisation Letmotiv.<br><br>
-
-            <b>Etape 1 :</b> Générez un sujet d'improvisation aléatoire<br>
-            <b>Etape 2 :</b> Lancez-vous ! Vous avez 2 minutes top chrono<br>
-            <b>Etape 3 :</b> Revisionner ou télécharger votre prestation<br>
-            <b>Etape 4 :</b> Evaluer votre prise de parole
-        </p>
+        <h3>Quel est ton objectif&nbsp;?</h3>
+        <div class="objectives-container">
+            <!-- Les 7 boutons d'objectifs -->
+            <button data-category="convaincre">Convaincre</button>
+            <button data-category="inspirer">Inspirer</button>
+            <button data-category="lacher-prise">Lâcher prise</button>
+            <button data-category="toast">Porter un toast</button>
+            <button data-category="repartie">Avoir de la répartie</button>
+            <button data-category="vendre">Vendre</button>
+            <button data-category="conflit">Gérer un conflit</button>
+        </div>
     </div>
     
-    <!-- Contenu principal -->
+    <!-- Contenu principal (sujets d'impro, vidéo, etc.) -->
     <div class="container">
-        <button id="generate-subject-btn"><i class="fas fa-lightbulb"></i> Générateur de sujets d'improvisation</button>
+        <!-- Affichage du sujet en cours -->
         <div id="subject-display" style="margin-top: 10px; font-weight: bold;"></div>
         
         <video id="preview" autoplay muted></video>
@@ -256,7 +271,7 @@
             <button id="start-btn"><i class="fas fa-video"></i> Démarrer l'improvisation</button>
             <button id="stop-btn" disabled><i class="fas fa-stop"></i> Arrêter l'improvisation</button>
         </div>
-        <p id="status">Appuyez sur "Démarrer l'improvisation" pour commencer.</p>
+        <p id="status">Appuyez sur un bouton ci-dessus pour obtenir votre sujet, puis sur "Démarrer l'improvisation".</p>
         <video id="playback" controls style="display: none;"></video>
         <a id="download-link" style="display: none;"><i class="fas fa-download"></i> Télécharger la vidéo de votre prestation</a>
     </div>
@@ -293,9 +308,9 @@
             Partagez votre expérience et encouragez d'autres personnes à relever le défi. <br>
             Montrez votre courage et inspirez les autres à s'améliorer en improvisation !<br><b>#ChallengeImproLetmotiv</b>
         </p>
-        
-        <!-- Lien LinkedIn modifié, href="#" initial -->
-        <a id="linkedin-share-button" href="#" target="_blank" class="linkedin-share-button">
+        <a id="linkedin-share-button" href="https://www.linkedin.com/shareArticle?mini=true&url=https://citizen11bf.github.io/simulation-impro/letmotiv.html" 
+           target="_blank" 
+           class="linkedin-share-button">
             <i class="fab fa-linkedin"></i> Partager sur LinkedIn
         </a>
     </div>
@@ -325,63 +340,71 @@
             document.getElementById('stop-btn').disabled = true;
         }
 
-        // Générateur de sujets
-        const subjects = [
-            "Faire un toast : célébrer un voyage autour du monde",
-            "Un pitch improvisé : vendre un parapluie au Sahara",
-            "Tu es Marylin Monroe après avoir chanté Happy Birthday au Président",
-            "Expliquer à des extraterrestres pourquoi ils devraient visiter la Terre",
-            "Convaincre un jury que le chocolat devrait être gratuit pour tout le monde",
-            "Présenter votre candidature pour devenir président de la planète Mars",
-            "Motiver une équipe avant une grande compétition sportive",
-            "Faire un discours de mariage pour un couple improbable",
-            "Défendre l'idée de remplacer les réunions par des pique-niques",
-            "Inventer une excuse farfelue pour arriver en retard à une réunion",
-            "Faire un discours inspirant pour des élèves diplômés",
-            "Convaincre un investisseur de financer votre machine à remonter le temps",
-            "Vous êtes un dragon et négociez avec des humains pour ne pas brûler leur village",
-            "Expliquer pourquoi vous avez décidé de devenir végétarien ce matin",
-            "Décrire une situation gênante dans un ascenseur bondé",
-            "Vendre une horloge qui tourne à l'envers",
-            "Faire un toast pour la réussite de la conférence sur le climat",
-            "Présenter un abonnement illimité pour les siestes en entreprise",
-            "Défendre que parler aux plantes améliore leur croissance",
-            "Remercier votre équipe après un projet réussi",
-            "Un détective résolvant une affaire mystérieuse en direct",
-            "Expliquer pourquoi marcher à reculons est bon pour la santé",
-            "Vendre des lunettes qui permettent de voir dans le passé",
-            "Faire un discours d’adieu en quittant un poste ou une ville",
-            "Convaincre un groupe d’amis que les pingouins dominent secrètement la planète",
-            "Présenter un guide touristique pour visiter le fond de l’océan",
-            "Un super-héros qui dévoile enfin son identité secrète",
-            "Motiver un groupe de pirates à conquérir une île mystérieuse",
-            "Convaincre que les chats sont des espions d’une autre planète",
-            "Faire un discours pour remercier après avoir reçu un prix fictif",
-            "Expliquer pourquoi votre réveil est toujours en retard, mais pas vous",
-            "Partager une technique pour ne jamais perdre à pierre-papier-ciseaux",
-            "Faire un discours de mariage inattendu pour un couple inconnu",
-            "Expliquer à des robots pourquoi ils devraient prendre des vacances",
-            "Convaincre des extraterrestres de choisir une autre planète que la Terre",
-            "Faire un pitch pour un restaurant qui ne sert que des plats orange",
-            "Argumenter que chanter sous la douche est une forme d'art méconnue",
-            "Faire un discours hilarant pour le départ en retraite de votre collègue préféré",
-            "Raconter votre pire rendez-vous amoureux et en tirer une leçon",
-            "Faire une critique exagérée d’un film que personne n’a vu",
-            "Proposer une nouvelle fête internationale, avec un thème farfelu",
-            "Faire un discours sur l'importance des siestes après le déjeuner",
-            "Convaincre un jury que vous êtes la meilleure personne pour coloniser Mars",
-            "Expliquer à un alien comment faire une omelette française",
-            "Raconter une aventure fictive dans une bibliothèque hantée",
-            "Vendre un produit révolutionnaire : des chaussures invisibles",
-            "Faire un discours de remerciement après avoir été élu maire d’un village imaginaire"
-        ];
+        /***********************************************************
+         * Distribution des sujets par catégorie (exemple).
+         * Tu pourras remplacer ces contenus pour mettre les 50
+         * sujets répartis selon tes besoins.
+         ***********************************************************/
+        const subjectsByCategory = {
+            convaincre: [
+                "Convaincre un jury que le chocolat devrait être gratuit",
+                "Convaincre un investisseur de financer une machine à remonter le temps",
+                "Convaincre un groupe de touristes de te suivre dans une visite improvisée"
+            ],
+            inspirer: [
+                "Faire un discours inspirant pour des élèves diplômés",
+                "Motiver une équipe avant une grande compétition sportive",
+                "Faire un discours pour encourager des bénévoles"
+            ],
+            "lacher-prise": [
+                "Improviser une danse absurde et assumer jusqu'au bout",
+                "Raconter la blague la plus nulle possible comme si c'était un chef-d'œuvre",
+                "Décrire un rêve complètement loufoque que tu viens de faire"
+            ],
+            toast: [
+                "Faire un toast pour célébrer un voyage autour du monde",
+                "Faire un discours de mariage pour un couple improbable",
+                "Faire un toast hilarant pour l'anniversaire d'un ami imaginaire"
+            ],
+            repartie: [
+                "Répondre du tac-au-tac à un collègue qui t'accuse d'être en retard",
+                "Gérer les remarques d'une assemblée sceptique et garder le sourire",
+                "Retourner un compliment ironique pour en faire un éloge sincère"
+            ],
+            vendre: [
+                "Vendre un parapluie au Sahara",
+                "Vendre des lunettes qui permettent de voir dans le passé",
+                "Vendre une horloge qui tourne à l'envers"
+            ],
+            conflit: [
+                "Négocier avec des extraterrestres pour qu'ils ne détruisent pas la Terre",
+                "Vous êtes un dragon qui négocie avec des humains pour épargner leur village",
+                "Défendre l'idée de remplacer les réunions par des pique-niques face à une opposition farouche"
+            ]
+        };
 
-        document.getElementById('generate-subject-btn').addEventListener('click', () => {
-            const randomSubject = subjects[Math.floor(Math.random() * subjects.length)];
-            document.getElementById('subject-display').textContent = randomSubject;
+        // Lorsque l'utilisateur clique sur l'un des 7 boutons (catégories),
+        // on choisit un sujet aléatoire dans la catégorie correspondante.
+        const objectivesButtons = document.querySelectorAll('.objectives-container button');
+        const subjectDisplay = document.getElementById('subject-display');
+
+        objectivesButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const category = button.getAttribute('data-category');
+                const categorySubjects = subjectsByCategory[category] || [];
+                if (categorySubjects.length > 0) {
+                    const randomIndex = Math.floor(Math.random() * categorySubjects.length);
+                    const chosenSubject = categorySubjects[randomIndex];
+                    subjectDisplay.textContent = chosenSubject;
+                } else {
+                    subjectDisplay.textContent = "Pas de sujets disponibles dans cette catégorie (pour l'instant).";
+                }
+            });
         });
 
-        // Script pour la gestion de l'enregistrement vidéo
+        /***********************************************************
+         * Script pour la gestion de l'enregistrement vidéo
+         ***********************************************************/
         let mediaRecorder;
         let recordedChunks = [];
         const preview = document.getElementById('preview');
@@ -400,7 +423,6 @@
                 preview.srcObject = stream;
                 return stream;
             } catch (error) {
-                // Gestion d'erreurs plus précise
                 if (error.name === 'NotAllowedError' || error.name === 'SecurityError') {
                     statusText.textContent = "Vous avez refusé l'accès à la webcam et/ou au micro. Veuillez autoriser l'accès pour enregistrer une vidéo.";
                 } else if (error.name === 'NotFoundError' || error.name === 'DevicesNotFoundError') {
@@ -422,7 +444,6 @@
                 timeRemaining--;
                 if (timeRemaining < 0) {
                     clearInterval(countdown);
-                    // Vérification que la MediaRecorder est en cours d'enregistrement avant de stopper
                     if (mediaRecorder && mediaRecorder.state === 'recording') {
                         mediaRecorder.stop();
                     }
@@ -431,26 +452,22 @@
         }
 
         startBtn.addEventListener('click', async () => {
-            // Vérif de compatibilité avant de lancer
             if (typeof MediaRecorder === 'undefined' || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
                 statusText.textContent = "Désolé, l'enregistrement vidéo n'est pas supporté par votre navigateur.";
                 return;
             }
-            // Demande de confirmation
             if (!confirm("Attention : votre webcam va se lancer pour démarrer l'improvisation. Voulez-vous continuer ? Pour information, la vidéo s'enregistre seulement en local sur votre appareil.")) {
                 return;
             }
 
             const stream = await setupCamera();
-            if (!stream) return; // Si on n'a pas de flux (erreur ou refus)
+            if (!stream) return;
 
-            // Vérif finale : MediaRecorder est-il supporté (certaines versions Safari le prétendent, mais partiel)
             if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
                 statusText.textContent = "Votre navigateur ne supporte pas l'enregistrement vidéo. Essayez avec Chrome, Firefox ou une version plus récente de Safari.";
                 return;
             }
 
-            // Initialisation de l'enregistreur
             mediaRecorder = new MediaRecorder(stream);
             recordedChunks = [];
             
@@ -471,7 +488,6 @@
                 boxPartageRS.style.display = 'block';
             };
 
-            // Démarrage enregistrement
             mediaRecorder.start();
             statusText.textContent = "Improvisation en cours...";
             startBtn.disabled = true;
@@ -487,7 +503,6 @@
                 stopBtn.disabled = true;
                 clearInterval(countdown);
 
-                // Faire défiler jusqu'à la vidéo enregistrée
                 setTimeout(() => {
                     playback.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }, 500);
@@ -516,26 +531,6 @@
             link.download = 'Simulateur_Letmotiv_Feedback.txt';
             link.click();
         });
-
-        // === Partage LinkedIn (méthode dynamique) ===
-        // On définit ici l'URL que l'on souhaite partager (et le titre, résumé...)
-        const linkedUrl = "https://citizen11bf.github.io/simulation-impro/letmotiv.html";
-        const linkedTitle = "Letmotiv - Simulateur gratuit d'improvisation en ligne selon vos objectifs : convaincre, avoir de la répartie, inspirer, divertir...";
-        const linkedSummary = "Letmotiv - Simulateur gratuit d'improvisation en ligne selon vos objectifs : convaincre, avoir de la répartie, inspirer, divertir...";
-        const linkedSource = "Letmotiv";
-
-        // Base LinkedIn
-        const linkedinBase = "https://www.linkedin.com/shareArticle?mini=true";
-
-        // Construction de l'URL de partage encodée
-        const shareHref = linkedinBase 
-            + "&url=" + encodeURIComponent(linkedUrl)
-            + "&title=" + encodeURIComponent(linkedTitle)
-            + "&summary=" + encodeURIComponent(linkedSummary)
-            + "&source=" + encodeURIComponent(linkedSource);
-
-        // Affectation du lien au bouton LinkedIn
-        document.getElementById("linkedin-share-button").href = shareHref;
     </script>
 </body>
 </html>
