@@ -41,24 +41,63 @@
       padding-right: 20px;
       box-sizing: border-box;
     }
+    .header a {
+      color: #FFFFFF;
+      text-decoration: none;
+    }
+    .header a:hover {
+      text-decoration: underline;
+    }
 
-    /* Boîte d'introduction */
+    /* Boîte d'introduction (Box 1) */
     .intro-box {
       width: 90%;
       max-width: 600px;
       margin-top: 80px;
       background-color: rgba(255, 255, 255, 0.85);
       border-radius: 10px;
-      padding: 15px;
+      padding: 15px 15px 5px; /* réduit la marge en bas (5px) */
       box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
       text-align: center;
       font-size: 14px;
       border: 2px solid #cccccc;
+      position: relative;
     }
-
     .intro-box h3 {
       margin-top: 0;
+      margin-bottom: 5px; /* réduit l’espace sous le titre */
     }
+
+    /* Bouton "Mode d'emploi" en haut à droite dans la box 1 */
+    .help-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #00a48a;
+      color: #FFFFFF;
+      padding: 6px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+    .help-button:hover {
+      background-color: #182d84;
+      transform: translateY(-2px);
+    }
+
+    /* Encadré du mode d'emploi (initialement caché) */
+    .help-content {
+      display: none;
+      margin-top: 10px;
+      background-color: #fefefe;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: left;
+      font-size: 14px;
+    }
+
     .objectives-container {
       display: flex;
       flex-wrap: wrap; /* sur plusieurs lignes si petit écran */
@@ -69,12 +108,12 @@
 
     /* Petit paragraphe pour l'explication du bouton sélectionné */
     #explanation-text {
-      margin-top: 10px;
+      margin-top: 20px; /* un peu d'espace au-dessus */
       font-style: italic;
       min-height: 40px; /* pour éviter le saut de mise en page */
     }
 
-    /* Conteneur principal */
+    /* Conteneur principal (Box 2) */
     .container {
       width: 90%;
       max-width: 600px;
@@ -109,7 +148,7 @@
     }
 
     /* Boutons */
-    button, a {
+    button, a.btn {
       background-color: #182d84;
       color: #FFFFFF;
       font-family: Helvetica, Arial, sans-serif;
@@ -125,7 +164,7 @@
       align-items: center;
       gap: 10px;
     }
-    button:hover, button:active, a:hover, a:active {
+    button:hover, button:active, a.btn:hover, a.btn:active {
       background-color: #00a48a;
       transform: translateY(-3px);
     }
@@ -218,16 +257,27 @@
       font-weight: bold;
       min-height: 40px;
     }
+
+    /* Petit texte en italique pour Box 2 avant qu'un sujet ne s'affiche */
+    #sujet-placeholder {
+      font-style: italic;
+      color: #666;
+    }
   </style>
 </head>
 <body>
-  <!-- Titre de la page -->
+  <!-- HEADER : lien Letmotiv -->
   <div class="header">
-    Letmotiv <i class="fas fa-microphone"></i> Simulateur d'improvisation en public
+    <a href="https://www.letmotiv.fr" target="_blank">Letmotiv</a> 
+    <i class="fas fa-microphone"></i> Simulateur d'improvisation en public
   </div>
 
-  <!-- Box d'introduction : 7 objectifs -->
+  <!-- BOX 1 : intro + boutons objectifs -->
   <div class="intro-box">
+    <!-- Bouton "Mode d'emploi" -->
+    <div class="help-button" id="help-btn">Mode d'emploi</div>
+
+    <!-- Titre -->
     <h3>Quel est ton objectif&nbsp;?</h3>
 
     <!-- Les 7 boutons -->
@@ -243,14 +293,31 @@
 
     <!-- Phrase explicative qui change selon le bouton cliqué -->
     <p id="explanation-text"></p>
+
+    <!-- Contenu du mode d'emploi (caché par défaut) -->
+    <div class="help-content" id="help-content">
+      <p>
+        Vous voulez évaluer et développer votre niveau en prise de parole en public ?<br>
+        Faites-le rapidement et gratuitement avec le simulateur d'improvisation Letmotiv.
+      </p>
+      <ul style="text-align:left;">
+        <li><b>Étape 1 :</b> Générez un sujet d'improvisation aléatoire selon votre objectif.</li>
+        <li><b>Étape 2 :</b> Lancez-vous ! Vous avez 2 minutes top chrono.</li>
+        <li><b>Étape 3 :</b> Indiquez votre prénom/email et téléchargez la vidéo de votre prestation.</li>
+        <li><b>Étape 4 :</b> Évaluez votre prise de parole grâce à la grille d'évaluation Letmotiv.</li>
+      </ul>
+    </div>
   </div>
   
-  <!-- Contenu principal -->
+  <!-- BOX 2 : enregistrement vidéo -->
   <div class="container">
+    <!-- Petit texte en italique avant affichage sujet -->
+    <p id="sujet-placeholder">Sujet d'improvisation aléatoire</p>
+
     <!-- Affichage du sujet (selon la catégorie) -->
     <div id="subject-display"></div>
 
-    <!-- Vidéo de prévisualisation (pas la relecture) -->
+    <!-- Vidéo de prévisualisation (pas de replay) -->
     <video id="preview" autoplay muted></video>
 
     <div id="progress-bar">
@@ -314,7 +381,20 @@
   <!-- Script principal -->
   <script>
     /******************************************************
-     * 1) Explications par catégorie (affiché sous les boutons)
+     * A) Mode d'emploi : toggler
+     ******************************************************/
+    const helpBtn = document.getElementById('help-btn');
+    const helpContent = document.getElementById('help-content');
+    helpBtn.addEventListener('click', () => {
+      if (helpContent.style.display === 'none' || helpContent.style.display === '') {
+        helpContent.style.display = 'block';
+      } else {
+        helpContent.style.display = 'none';
+      }
+    });
+
+    /******************************************************
+     * B) Explications par catégorie (affiché sous les boutons)
      ******************************************************/
     const explanations = {
       convaincre:   "Essaye de convaincre ton auditoire d’une idée générale.",
@@ -327,22 +407,19 @@
     };
 
     /******************************************************
-     * 2) Fichiers .txt par catégorie
-     *    (À adapter avec l'URL brute de ton GitHub branch "data")
+     * C) Fichiers .txt par catégorie
+     *    (À adapter selon l'URL brute sur GitHub)
      ******************************************************/
     const txtFilesByCategory = {
-      convaincre:   "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/convaincre.txt",
-      inspirer:     "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/inspirer.txt",
-      'lacher-prise': "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/lacher_prise.txt",
-      toast:        "https://raw.githubusercontent.com/<Citizen11bf/letmotiv/data/toast.txt",
-      repartie:     "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/repartie.txt",
-      vendre:       "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/vendre.txt",
-      conflit:      "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/gerer_un_conflit.txt"
+      convaincre:   "https://raw.githubusercontent.com/Citizen11bf/letmotiv/main/data/convaincre.txt",
+      inspirer:     "https://raw.githubusercontent.com/Citizen11bf/letmotiv/main/data/inspirer.txt",
+      'lacher-prise': "https://raw.githubusercontent.com/Citizen11bf/letmotiv/main/data/lacher_prise.txt",
+      toast:        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/main/data/toast.txt",
+      repartie:     "https://raw.githubusercontent.com/Citizen11bf/letmotiv/main/data/repartie.txt",
+      vendre:       "https://raw.githubusercontent.com/Citizen11bf/letmotiv/main/data/vendre.txt",
+      conflit:      "https://raw.githubusercontent.com/Citizen11bf/letmotiv/main/data/gerer_un_conflit.txt"
     };
 
-    /******************************************************
-     * 3) Cache pour ne pas re-fetch chaque catégorie
-     ******************************************************/
     let subjectsCache = {
       convaincre: null,
       inspirer: null,
@@ -353,21 +430,15 @@
       conflit: null
     };
 
-    /******************************************************
-     * 4) Fonction pour charger un fichier .txt et le stocker
-     ******************************************************/
     async function loadSubjects(category) {
-      // Si on a déjà en cache, on retourne direct
       if (subjectsCache[category] !== null) {
         return subjectsCache[category];
       }
-
       const filePath = txtFilesByCategory[category];
       if (!filePath) {
-        console.error("Catégorie inconnue ou fichier manquant: ", category);
+        console.error("Catégorie inconnue ou chemin manquant:", category);
         return [];
       }
-
       try {
         const response = await fetch(filePath);
         if (!response.ok) {
@@ -375,7 +446,6 @@
           return [];
         }
         const text = await response.text();
-        // Séparer par lignes et nettoyer
         const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
         subjectsCache[category] = lines;
         return lines;
@@ -386,70 +456,62 @@
     }
 
     /******************************************************
-     * 5) Variables globales
+     * D) Gestion de l'affichage du sujet
      ******************************************************/
-    const statusText = document.getElementById('status');
     const objectivesButtons = document.querySelectorAll('.objectives-container button');
-    const subjectDisplay = document.getElementById('subject-display');
     const explanationText = document.getElementById('explanation-text');
+    const subjectDisplay = document.getElementById('subject-display');
+    const sujetPlaceholder = document.getElementById('sujet-placeholder');
 
-    // Pour savoir si un sujet est choisi (sinon on bloque le démarrage)
-    let currentSubject = "";
+    let currentSubject = ""; // Pour vérifier si un sujet est choisi
 
-    /******************************************************
-     * 6) Quand on clique sur un bouton, on charge la catégorie
-     *    et on pioche un sujet aléatoire
-     ******************************************************/
     objectivesButtons.forEach(button => {
       button.addEventListener('click', async () => {
         const category = button.dataset.category;
-        
-        // Mettre à jour le texte explicatif
         explanationText.textContent = explanations[category] || "";
 
-        // Charger la liste de sujets
         const subjects = await loadSubjects(category);
-
         if (subjects.length === 0) {
           subjectDisplay.textContent = "Pas de sujets disponibles ou erreur de chargement.";
           currentSubject = "";
           return;
         }
-
         // Choix aléatoire
         const randomIndex = Math.floor(Math.random() * subjects.length);
         const chosenSubject = subjects[randomIndex];
+
+        // On masque le placeholder car on a un sujet concret
+        sujetPlaceholder.style.display = 'none';
 
         subjectDisplay.textContent = chosenSubject;
         currentSubject = chosenSubject;
       });
     });
 
-    /* ========== Enregistrement vidéo ========== */
+    /******************************************************
+     * E) Enregistrement vidéo (MediaRecorder)
+     ******************************************************/
     let mediaRecorder;
     let recordedChunks = [];
     const preview = document.getElementById('preview');
     const startBtn = document.getElementById('start-btn');
     const stopBtn = document.getElementById('stop-btn');
     const progressBarInner = document.getElementById('progress-bar-inner');
+    const statusText = document.getElementById('status');
+
     const boxPartageRS = document.getElementById('box-partage-RS');
 
-    // Formulaire, PDF, etc.
     const downloadSection = document.getElementById('download-section');
     const validateFormBtn = document.getElementById('validate-form-btn');
     const postValidationBtns = document.getElementById('post-validation-btns');
     const prenomInput = document.getElementById('prenom');
     const emailInput = document.getElementById('email');
 
-    // Boutons cachés initialement
     const downloadLink = document.getElementById('download-link'); // vidéo
     const downloadPdfBtn = document.getElementById('download-pdf-btn'); // PDF
 
     let countdown;
 
-    /******************************************************
-     * 7) Fonction pour initialiser la caméra
-     ******************************************************/
     async function setupCamera() {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
@@ -468,9 +530,6 @@
       }
     }
 
-    /******************************************************
-     * 8) Timer de 2 minutes
-     ******************************************************/
     function startTimer() {
       let timeRemaining = 120;
       progressBarInner.style.width = '0%';
@@ -487,16 +546,12 @@
       }, 1000);
     }
 
-    /******************************************************
-     * 9) Bouton "Démarrer l'improvisation"
-     ******************************************************/
+    // Bouton démarrer
     startBtn.addEventListener('click', async () => {
-      // On vérifie si un sujet a été choisi
       if (!currentSubject) {
         alert("Merci de choisir un objectif et de générer un sujet avant de démarrer l'improvisation.");
         return;
       }
-
       if (typeof MediaRecorder === 'undefined' || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
         statusText.textContent = "Désolé, l'enregistrement vidéo n'est pas supporté par votre navigateur.";
         return;
@@ -523,7 +578,6 @@
       };
       
       mediaRecorder.onstop = () => {
-        // On fabrique le blob pour la vidéo
         const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
         const videoURL = URL.createObjectURL(videoBlob);
 
@@ -547,9 +601,7 @@
       startTimer();
     });
 
-    /******************************************************
-     * 10) Bouton "Arrêter l'improvisation"
-     ******************************************************/
+    // Bouton arrêter
     stopBtn.addEventListener('click', () => {
       if (mediaRecorder && mediaRecorder.state === 'recording') {
         mediaRecorder.stop();
@@ -560,9 +612,7 @@
       }
     });
 
-    /******************************************************
-     * 11) Validation du formulaire (Prénom / Email)
-     ******************************************************/
+    // Validation du formulaire
     validateFormBtn.addEventListener('click', () => {
       const prenomValue = prenomInput.value.trim();
       const emailValue = emailInput.value.trim();
@@ -576,17 +626,13 @@
       downloadLink.classList.remove('hidden');
       downloadPdfBtn.classList.remove('hidden');
 
-      // On peut désactiver le bouton Valider pour éviter re-clic
+      // On peut désactiver le bouton Valider
       validateFormBtn.disabled = true;
     });
 
-    /******************************************************
-     * 12) Bouton PDF
-     ******************************************************/
+    // Bouton PDF
     downloadPdfBtn.addEventListener('click', () => {
       // Exemple PDF encodé en base64
-      // Remplace par un lien direct : link.href = "monfichier.pdf";
-      // Ou un base64 plus complet si tu le souhaites.
       const base64PDF = "data:application/pdf;base64,JVBERi0xLjUNCiW1...";
       const link = document.createElement('a');
       link.href = base64PDF;
