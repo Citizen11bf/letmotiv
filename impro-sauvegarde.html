@@ -23,6 +23,7 @@
 		  overflow-x: hidden; /* Empêcher le défilement horizontal */
 		}
 
+		/* --- HEADER sur 2 lignes en mobile --- */
 		.header {
 		  background-color: #182d84;
 		  color: #FFFFFF;
@@ -46,6 +47,9 @@
 		  gap: 10px;
 		  flex-wrap: wrap;
 		}
+		.header-l1, .header-l2 {
+		  display: inline-block; 
+		}
 		.header a {
 		  color: #FFFFFF;
 		  text-decoration: none;
@@ -55,7 +59,10 @@
 		}
 
 		@media (max-width: 600px) {
-		  font-size: 10px;
+		  /* Sur mobile, on force le retour à la ligne */
+		  .header-l1, .header-l2 {
+			display: block;
+		   
 		  }
 		}
 
@@ -76,7 +83,7 @@
 
 		  @media (max-width: 600px) {
 		.box0 {
-		  margin-top: 70px; /* marge plus grande en mobile */
+		  margin-top: 150px; /* marge plus grande en mobile */
 		  }
 		}
 	  }
