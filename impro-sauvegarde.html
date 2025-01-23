@@ -39,21 +39,17 @@
       word-break: break-word;
       box-sizing: border-box;
     }
-
     .header-content {
-      /* On sépare en 2 éléments : .header-l1, .header-l2 */
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: center;
-      gap: 10px; /* petit espace entre .header-l1 et .header-l2 */
-      flex-wrap: wrap; /* autorise le retour à la ligne si besoin */
+      gap: 10px;
+      flex-wrap: wrap;
     }
-
     .header-l1, .header-l2 {
-      display: inline-block; /* en desktop, même ligne */
+      display: inline-block; 
     }
-
     .header a {
       color: #FFFFFF;
       text-decoration: none;
@@ -69,11 +65,12 @@
       }
     }
 
-    /* --- BOX0 : contient le bouton mode d'emploi et son contenu --- */
+    /* --- BOX0 : contient le lien mode d'emploi + la description --- */
     .box0 {
       width: 90%;
       max-width: 600px;
-      margin-top: 80px; /* sous le header */
+      /* marge-top pour laisser de l'espace sous le header, surtout en mobile */
+      margin-top: 100px; 
       background-color: rgba(255, 255, 255, 0.85);
       border-radius: 10px;
       padding: 15px;
@@ -82,27 +79,30 @@
       font-size: 14px;
       border: 2px solid #cccccc;
       position: relative;
-      margin-bottom: 10px; /* un peu d'espace avant la box1 */
+      margin-bottom: 10px; 
     }
 
-    .box0 .help-button {
-      position: relative;
-      background-color: #00a48a;
-      color: #FFFFFF;
-      padding: 6px 12px;
-      border-radius: 20px;
+    /* Lien "Mode d'emploi" (texte + flèche) sur la droite */
+    .mode-emploi-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
       cursor: pointer;
-      font-size: 13px;
-      transition: background-color 0.3s, transform 0.3s;
-      margin-bottom: 10px;
-      border: none;
+      font-size: 16px;
+      color: #182d84;
+      font-weight: bold;
     }
-    .box0 .help-button:hover {
-      background-color: #182d84;
-      transform: translateY(-2px);
+    .mode-emploi-toggle i {
+      margin-left: 6px;
+      transition: transform 0.3s;
+      font-size: 18px;
+    }
+    /* Quand on clique, on pourra rajouter une classe "opened" si on veut faire tourner la flèche */
+    .opened {
+      transform: rotate(180deg);
     }
 
-    .box0 .help-content {
+    .help-content {
       display: none;
       margin-top: 10px;
       background-color: #fefefe;
@@ -119,18 +119,16 @@
       max-width: 600px;
       background-color: rgba(255, 255, 255, 0.85);
       border-radius: 10px;
-      padding: 15px 15px 5px; /* réduit la marge en bas (5px) */
+      padding: 15px 15px 5px;
       box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
       text-align: center;
       font-size: 14px;
       border: 2px solid #cccccc;
     }
-
     .intro-box h3 {
       margin-top: 0;
       margin-bottom: 5px;
     }
-
     .objectives-container {
       display: flex;
       flex-wrap: wrap;
@@ -138,13 +136,13 @@
       gap: 10px;
       margin-top: 10px;
     }
-
     #explanation-text {
       margin-top: 20px;
       font-style: italic;
+      min-height: 40px; /* si tu veux aucun espace, supprime min-height */
     }
 
-    /* --- BOX2 : Enregistrement vidéo --- */
+    /* --- BOX2 : vidéo, enregistrement... --- */
     .container {
       width: 90%;
       max-width: 600px;
@@ -159,27 +157,25 @@
       border: 2px solid #cccccc;
     }
 
-    /* Ecart réduit entre le sujet et la vidéo */
-    #subject-display {
-      margin-top: 10px; /* petit espace seulement */
-      font-weight: bold;
-    }
-
     #sujet-placeholder {
       font-style: italic;
       color: #666;
-      margin-bottom: 5px; /* réduit l'écart au-dessus de la vidéo */
+      margin-bottom: 5px; 
+    }
+    #subject-display {
+      margin-top: 10px;
+      font-weight: bold;
+      min-height: 40px; 
     }
 
     video#preview {
       width: 100%;
       max-width: 500px;
-      margin: 10px auto; /* réduit l'espace avant/après la vidéo */
+      margin: 10px auto;
       border: 3px solid #182d84;
       border-radius: 6px;
     }
 
-    /* Barre de progression */
     #progress-bar {
       width: 100%;
       height: 10px;
@@ -198,7 +194,6 @@
       transition: width 0.5s linear;
     }
 
-    /* Boutons */
     button, a.btn {
       background-color: #182d84;
       color: #FFFFFF;
@@ -220,7 +215,6 @@
       transform: translateY(-3px);
     }
 
-    /* Boîte de partage sur les réseaux sociaux */
     .box-partage-RS {
       width: 90%;
       max-width: 600px;
@@ -234,7 +228,6 @@
       border: 2px solid #cccccc;
     }
 
-    /* Footer */
     .footer {
       background-color: #182d84;
       color: #FFFFFF;
@@ -269,7 +262,6 @@
       display: none;
     }
 
-    /* Zone téléchargement (prénom / email + boutons ) */
     .download-section {
       margin-top: 20px;
       padding: 15px;
@@ -291,11 +283,10 @@
       border: 1px solid #ccc;
       border-radius: 5px;
     }
-
   </style>
 </head>
 <body>
-  <!-- HEADER sur 2 lignes en version mobile -->
+  <!-- HEADER -->
   <div class="header">
     <div class="header-content">
       <div class="header-l1">
@@ -308,9 +299,12 @@
     </div>
   </div>
 
-  <!-- BOX0 : contient le bouton et le mode d'emploi -->
+  <!-- BOX0 : Mode d'emploi (plus sexy) -->
   <div class="box0">
-    <button class="help-button" id="help-btn">Mode d'emploi</button>
+    <!-- Lien / texte cliquable -->
+    <div class="mode-emploi-toggle" id="mode-emploi-toggle">
+      Mode d'emploi <i class="fas fa-angle-down" id="arrow-icon"></i>
+    </div>
     <div class="help-content" id="help-content">
       <p>
         Vous voulez évaluer et développer votre niveau en prise de parole en public ?<br>
@@ -325,7 +319,7 @@
     </div>
   </div>
 
-  <!-- BOX1 : Intro et 7 objectifs -->
+  <!-- BOX1 : Choix d'objectif -->
   <div class="intro-box">
     <h3>Quel est ton objectif&nbsp;?</h3>
     <div class="objectives-container">
@@ -374,11 +368,11 @@
       <div id="post-validation-btns" class="hidden">
         <!-- Bouton pour la VIDEO -->
         <button id="download-video-btn" class="hidden">
-          <i class="fas fa-download"></i> Télécharger la vidéo de votre prestation
+          <i class="fas fa-download"></i> Télécharger la vidéo de votre prestation (mp4)
         </button>
         <!-- Bouton PDF -->
         <button id="download-pdf-btn" class="hidden">
-          <i class="fas fa-download"></i> Télécharger la grille d'évaluation
+          <i class="fas fa-download"></i> Télécharger la grille d'évaluation (pdf)
         </button>
       </div>
     </div>
@@ -401,7 +395,7 @@
     <p>Vous souhaitez progresser rapidement et efficacement dans la prise de parole en public ?</p>
     <div class="footer-buttons">
       <a href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole" target="_blank">
-        <i class="fas fa-chalkboard-teacher"></i> Réserver un coaching Letmotiv
+        <i class="fas fa-chalkboard-teacher"></i> Réservez un coaching Letmotiv
       </a>
       <a href="https://alexetpierre.systeme.io/inscription" target="_blank">
         <i class="fas fa-laptop"></i> Suivre la formation en ligne Letmotiv
@@ -411,22 +405,26 @@
 
   <!-- SCRIPT -->
   <script>
-    /*************************************
-     * 1) Mode d’emploi : toggle
-     *************************************/
-    const helpBtn = document.getElementById('help-btn');
+    /**************************
+     * 1) Mode d'emploi toggle
+     **************************/
+    const modeEmploiToggle = document.getElementById('mode-emploi-toggle');
+    const arrowIcon = document.getElementById('arrow-icon');
     const helpContent = document.getElementById('help-content');
-    helpBtn.addEventListener('click', () => {
+
+    modeEmploiToggle.addEventListener('click', () => {
       if (helpContent.style.display === 'none' || helpContent.style.display === '') {
         helpContent.style.display = 'block';
+        arrowIcon.classList.add('opened'); // rotation
       } else {
         helpContent.style.display = 'none';
+        arrowIcon.classList.remove('opened');
       }
     });
 
-    /*************************************
+    /**************************
      * 2) Explications par catégorie
-     *************************************/
+     **************************/
     const explanations = {
       convaincre:   "Essaye de convaincre ton auditoire d’une idée générale.",
       inspirer:     "Fais un discours inspirant et motive ton public.",
@@ -437,10 +435,9 @@
       conflit:      "Gère un désaccord ou une tension avec diplomatie."
     };
 
-    /*************************************
-     * 3) Fichiers .txt par catégorie
-     *    (exemple, à adapter)
-     *************************************/
+    /**************************
+     * 3) Fichiers .txt par catégorie (exemple)
+     **************************/
     const txtFilesByCategory = {
       convaincre:   "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/convaincre.txt",
       inspirer:     "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/inspirer.txt",
@@ -486,9 +483,9 @@
       }
     }
 
-    /*************************************
+    /**************************
      * 4) Gestion de l'affichage du sujet
-     *************************************/
+     **************************/
     const objectivesButtons = document.querySelectorAll('.objectives-container button');
     const explanationText = document.getElementById('explanation-text');
     const sujetPlaceholder = document.getElementById('sujet-placeholder');
@@ -517,9 +514,9 @@
       });
     });
 
-    /*************************************
+    /**************************
      * 5) Enregistrement vidéo
-     *************************************/
+     **************************/
     let mediaRecorder;
     let recordedChunks = [];
     const preview = document.getElementById('preview');
@@ -652,14 +649,14 @@
       downloadVideoBtn.classList.remove('hidden');
       downloadPdfBtn.classList.remove('hidden');
 
-      // On peut désactiver le bouton Valider
+      // On désactive le bouton Valider
       validateFormBtn.disabled = true;
     });
 
-    // Bouton pour TELECHARGER LA VIDEO (mp4)
+    // Bouton VIDEO
     downloadVideoBtn.addEventListener('click', () => {
       if (!videoURL) {
-        alert("La vidéo n'est pas disponible ou l'enregistrement n'est pas terminé.");
+        alert("La vidéo n'est pas encore prête ou pas enregistrée.");
         return;
       }
       const link = document.createElement('a');
@@ -670,11 +667,11 @@
       document.body.removeChild(link);
     });
 
-    // Bouton pour TELECHARGER LE PDF (Google Drive)
+    // Bouton PDF (Google Drive)
     downloadPdfBtn.addEventListener('click', () => {
       const link = document.createElement('a');
       link.href = "https://drive.google.com/uc?export=download&id=1pKif7hwkdSQRXLv6uoSQawCs3DIIcb70";
-      link.download = "Questions_Evaluation.pdf"; 
+      link.download = "Questions_Evaluation.pdf";
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
