@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Simulateur d'improvisation</title>
-  <meta name="description" content="Évaluer et développer rapidement votre niveau en prise de parole en public <li>avec le simulateur d'improvisation Letmotiv.">
+  <meta name="description" content="Évaluer et développer rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv.">
 
   <!-- Import de la police Sour Gummy depuis Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -135,6 +135,30 @@
       font-size: 14px;
     }
 
+    /* Liste des étapes avec icônes dans des ronds */
+    .step-list {
+      list-style: none; /* On enlève les puces par défaut */
+      padding-left: 0;  
+      margin: 0;
+    }
+    .step-list li {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .step-icon {
+      background-color: #00a48a; /* couleur de fond du rond */
+      border-radius: 50%;
+      color: #fff;               /* couleur de l'icône */
+      width: 32px;
+      height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 10px;
+      font-size: 16px; /* Taille de l'icône */
+    }
+
     /* BOX1 : Choix d’objectif */
     .intro-box h3 {
       margin-top: 0;
@@ -160,7 +184,6 @@
       border: 2px solid #ccc;
       border-radius: 8px;
       padding: 10px;
-      font-family: 'Sour Gummy', cursive;
       text-align: center;       /* centré */
       font-weight: bold;        /* en gras */
     }
@@ -290,7 +313,7 @@
 
   <!-- Titre principal -->
   <h1 class="main-title">
-    Entraine-toi à la prise de parole en public avec le simulateur Letmotiv
+    Entrainez-vous à la prise de parole en public avec le simulateur Letmotiv
   </h1>
 
   <!-- BOX0 : Mode d'emploi -->
@@ -298,13 +321,31 @@
     <div class="mode-emploi-toggle" id="mode-emploi-toggle">
       Mode d'emploi <i class="fas fa-angle-down" id="arrow-icon"></i>
     </div>
+
     <div class="help-content" id="help-content">
-      <ul style="text-align:left;">
-        <li><b>Étape 1 :</b> Sélectionne ton objectif de prise de parole.</li>
-        <li><b>Étape 2 :</b> Génére un sujet d'improvisation aléatoire.</li>
-        <li><b>Étape 3 :</b> Lance ton improvisation. Tu as 2 minutes top chrono !</li>
-        <li><b>Étape 4 :</b> Indique ton prénom/email pour télécharger et revoir ta prestation.</li>
-        <li><b>Étape 5 :</b> Télécharge la grille d'évaluation Letmotiv et évalue ta performance.</li>
+      <p>
+        Vous voulez évaluer et développer votre niveau en prise de parole en public ? 
+        Faites-le rapidement et gratuitement avec le simulateur d'improvisation Letmotiv : 
+      </p>
+
+      <!-- Liste avec icônes dans des ronds -->
+      <ul class="step-list">
+        <li>
+          <span class="step-icon"><i class="fas fa-bullseye"></i></span>
+          Sélectionnez un objectif.
+        </li>
+        <li>
+          <span class="step-icon"><i class="fas fa-dice"></i></span>
+          Générez un sujet d'improvisation aléatoire.
+        </li>
+        <li>
+          <span class="step-icon"><i class="fas fa-video"></i></span>
+          Lancez votre improvisation (2 minutes top chrono) et enregistrez-vous.
+        </li>
+        <li>
+          <span class="step-icon"><i class="fas fa-download"></i></span>
+          Indiquez votre prénom/email pour télécharger la vidéo et la grille d'évaluation.
+        </li>
       </ul>
     </div>
   </div>
@@ -331,7 +372,6 @@
     <!-- Bouton pour générer le sujet d'impro (selon l’objectif sélectionné) -->
     <button id="generate-subject-btn">Générer un sujet d'improvisation</button>
 
-    <!-- Supprimé le texte en italique "Sujet d'improvisation aléatoire" -->
     <div id="subject-display" style="margin-top:10px; font-weight:bold;"></div>
 
     <video id="preview" autoplay muted></video>
