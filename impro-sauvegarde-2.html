@@ -6,11 +6,11 @@
   <title>Simulateur d'improvisation</title>
   <meta name="description" content="Évaluer et développer rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv.">
 
-  <!-- Import de la police Montserrat depuis Google Fonts -->
+  <!-- Import de la police Sour Gummy depuis Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Sour+Gummy&display=swap"
     rel="stylesheet"
   />
 
@@ -25,8 +25,7 @@
     body {
       margin: 0;
       font-family: Helvetica, Arial, sans-serif;
-      /* Fond blanc à la place de l’image */
-      background-color: #ffffff;
+      background-color: #ffffff; /* Fond blanc */
       color: #333333;
       display: flex;
       flex-direction: column;
@@ -79,22 +78,25 @@
       }
     }
 
-    /* --- Titre principal (au-dessus box0) --- */
+    /* --- Titre principal (avec la police "Sour Gummy") --- */
     .main-title {
-      margin-top: 80px;  /* pour ne pas empiéter sur le header fixe */
+      margin-top: 80px; /* espace pour ne pas empiéter sur le header fixe */
       text-align: center;
+      font-family: 'Sour Gummy', cursive; /* Police importée */
+      font-size: 1.3rem; /* ajuste la taille si besoin */
       font-weight: bold;
-      font-family: 'Montserrat', sans-serif; /* police importée */
-      font-size: 1.3rem;
       padding: 0 1rem;
     }
 
-    /* --- BOX0 : Mode d'emploi --- */
-    .box0 {
+    /* --- BOXES : couleur de fond #E2E7E3, centrage, marges --- */
+    .box0,
+    .intro-box,
+    .container,
+    .box-partage-RS {
       width: 90%;
       max-width: 600px;
-      margin-top: 20px; /* ajustement après le titre */
-      background-color: #f9f9f9;
+      margin: 20px auto; /* centrage horizontal + marge verticale */
+      background-color: #E2E7E3; 
       border-radius: 10px;
       padding: 15px;
       box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
@@ -102,9 +104,9 @@
       font-size: 14px;
       border: 2px solid #eeeeee;
       position: relative;
-      margin-bottom: 10px;
     }
 
+    /* BOX0 : Mode d'emploi */
     .mode-emploi-toggle {
       display: flex;
       align-items: center;
@@ -133,25 +135,7 @@
       font-size: 14px;
     }
 
-    @media (max-width: 600px) {
-      .box0 {
-        margin-top: 20px; /* marge plus grande en mobile si besoin */
-      }
-    }
-
-    /* --- BOX1 : Intro, objectifs, explications --- */
-    .intro-box {
-      width: 90%;
-      max-width: 600px;
-      background-color: #f9f9f9;
-      border-radius: 10px;
-      padding: 15px;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      font-size: 14px;
-      border: 2px solid #eeeeee;
-      margin-bottom: 10px;
-    }
+    /* BOX1 : Choix d’objectif */
     .intro-box h3 {
       margin-top: 0;
       margin-bottom: 5px;
@@ -163,43 +147,24 @@
       gap: 10px;
       margin-top: 10px;
     }
+    /* Bouton objectif sélectionné = vert */
+    .selected-objective {
+      background-color: #00a48a !important;
+    }
 
-    /* Petit encadré comme la box0 pour l’explication */
+    /* Petit encadré pour l’explication (texte centré et en gras) */
     .explanation-box {
-      display: none; /* caché par défaut, s’affiche quand on clique un objectif */
+      display: none;
       margin-top: 10px;
       background-color: #fefefe;
       border: 2px solid #ccc;
       border-radius: 8px;
       padding: 10px;
-      text-align: left;
+      text-align: center;       /* centré */
+      font-weight: bold;        /* en gras */
     }
 
-    /* --- BOX2 : vidéo, enregistrement... --- */
-    .container {
-      width: 90%;
-      max-width: 600px;
-      margin-top: 20px;
-      margin-bottom: 10px;
-      background-color: #f9f9f9;
-      border-radius: 10px;
-      padding: 15px;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      font-size: 14px;
-      border: 2px solid #eeeeee;
-    }
-
-    #sujet-placeholder {
-      font-style: italic;
-      color: #666;
-      margin-bottom: 5px;
-    }
-    #subject-display {
-      margin-top: 10px;
-      font-weight: bold;
-    }
-
+    /* BOX2 : Vidéo, enregistrement, etc. */
     video#preview {
       width: 100%;
       max-width: 500px;
@@ -207,7 +172,6 @@
       border: 3px solid #182d84;
       border-radius: 6px;
     }
-
     #progress-bar {
       width: 100%;
       height: 10px;
@@ -249,19 +213,6 @@
     a.btn:active {
       background-color: #00a48a;
       transform: translateY(-3px);
-    }
-
-    .box-partage-RS {
-      width: 90%;
-      max-width: 600px;
-      margin-top: 10px;
-      background-color: #f9f9f9;
-      border-radius: 10px;
-      padding: 15px;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      font-size: 14px;
-      border: 2px solid #eeeeee;
     }
 
     .footer {
@@ -331,7 +282,7 @@
         <a href="https://www.letmotiv.fr" target="_blank">Letmotiv</a>
         <i class="fas fa-microphone"></i>
       </div>
-      <!-- L2 : (on peut supprimer ou laisser vide si besoin) -->
+      <!-- L2 : vide ou masqué -->
       <div class="header-l2"></div>
     </div>
   </div>
@@ -382,8 +333,8 @@
     <!-- Bouton pour générer le sujet d'impro (selon l’objectif sélectionné) -->
     <button id="generate-subject-btn">Générer un sujet d'improvisation</button>
 
-    <p id="sujet-placeholder" style="display:none;">Sujet d'improvisation aléatoire</p>
-    <div id="subject-display"></div>
+    <!-- Supprimé le texte en italique "Sujet d'improvisation aléatoire" -->
+    <div id="subject-display" style="margin-top:10px; font-weight:bold;"></div>
 
     <video id="preview" autoplay muted></video>
 
@@ -393,7 +344,8 @@
 
     <div>
       <button id="start-btn"><i class="fas fa-video"></i> Démarrer l'improvisation</button>
-      <button id="stop-btn" disabled><i class="fas fa-stop"></i> Arrêter l'improvisation</button>
+      <!-- Bouton "Arrêter" caché par défaut -->
+      <button id="stop-btn" class="hidden"><i class="fas fa-stop"></i> Arrêter l'improvisation</button>
     </div>
     <p id="status">Sélectionnez un objectif puis cliquez sur « Générer un sujet ».</p>
 
@@ -423,7 +375,7 @@
   </div>
 
   <!-- Partage sur les réseaux sociaux -->
-  <div class="box-partage-RS" id="box-partage-RS" style="display: none;">
+  <div class="box-partage-RS hidden" id="box-partage-RS">
     <p>
       Partagez votre expérience et encouragez d'autres personnes à relever le défi. <br>
       Montrez votre courage et inspirez les autres à s'améliorer en improvisation !<br>
@@ -522,10 +474,16 @@
 
     objectivesButtons.forEach(button => {
       button.addEventListener('click', async () => {
+        // Retire la classe "selected-objective" de tous les boutons
+        objectivesButtons.forEach(btn => btn.classList.remove('selected-objective'));
+
+        // Ajoute la classe "selected-objective" au bouton cliqué
+        button.classList.add('selected-objective');
+
         currentCategory = button.dataset.category;
         const explication = explanations[currentCategory] || "";
-        
-        // Affiche l'explication dans l'encadré
+
+        // Affiche l'explication dans l'encadré (centré, en gras)
         explanationBox.textContent = explication;
         explanationBox.style.display = 'block';
 
@@ -565,14 +523,13 @@
      * 5) Bouton "Générer un sujet"
      **************************/
     const generateSubjectBtn = document.getElementById('generate-subject-btn');
-    const sujetPlaceholder = document.getElementById('sujet-placeholder');
     const subjectDisplay = document.getElementById('subject-display');
     let currentSubject = "";
 
     generateSubjectBtn.addEventListener('click', () => {
       // Vérifie que l'utilisateur a sélectionné un objectif
       if (!currentCategory) {
-        alert("Merci de sélectionner d'abord un objectif dans la box1.");
+        alert("Merci de sélectionner d'abord un objectif.");
         return;
       }
       const subjects = subjectsCache[currentCategory];
@@ -581,8 +538,6 @@
         currentSubject = "";
         return;
       }
-      // Affiche le placeholder et le sujet
-      sujetPlaceholder.style.display = 'block';
       const randomIndex = Math.floor(Math.random() * subjects.length);
       currentSubject = subjects[randomIndex];
       subjectDisplay.textContent = currentSubject;
@@ -689,22 +644,28 @@
         // Affiche la section de formulaire
         downloadSection.classList.remove('hidden');
         // Affiche la box de partage
-        boxPartageRS.style.display = 'block';
+        boxPartageRS.classList.remove('hidden');
       };
 
+      // On lance l'enregistrement
       mediaRecorder.start();
       statusText.textContent = "Improvisation en cours...";
+
+      // Désactive "Démarrer", affiche et active "Arrêter"
       startBtn.disabled = true;
+      stopBtn.classList.remove('hidden');
       stopBtn.disabled = false;
+
       startTimer();
     });
 
     stopBtn.addEventListener('click', () => {
       if (mediaRecorder && mediaRecorder.state === 'recording') {
         mediaRecorder.stop();
-        statusText.textContent = "Improvisation terminée. Renseignez vos informations pour accéder au téléchargement.";
+        statusText.textContent = "Improvisation terminée. Renseignez vos informations pour télécharger.";
         startBtn.disabled = false;
         stopBtn.disabled = true;
+        stopBtn.classList.add('hidden');
         clearInterval(countdown);
       }
     });
