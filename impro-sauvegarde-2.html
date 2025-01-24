@@ -106,18 +106,22 @@
       position: relative;
     }
 
+    /* Sous-titres (ex: Mode d'emploi, Objectif) -> même police/couleur */
+    .section-subtitle {
+      font-size: 16px;
+      color: #000000;
+      font-weight: bold;
+      margin: 0; /* pour éviter un double espace */
+    }
+
     /* BOX0 : Mode d'emploi */
     .mode-emploi-toggle {
-      display: flex;
-      align-items: center;
-      justify-content: center;
       cursor: pointer;
-      font-size: 16px;
-      color: #000;
-      font-weight: bold;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
     .mode-emploi-toggle i {
-      margin-left: 6px;
       transition: transform 0.3s;
       font-size: 18px;
     }
@@ -145,7 +149,7 @@
       display: flex;
       align-items: center;
       margin-bottom: 8px;
-      flex-wrap: nowrap; /* on évite que le texte ne vienne forcer un retour à la ligne */
+      flex-wrap: nowrap; /* évite que l’icône passe à la ligne sur mobile */
     }
     .step-icon {
       background-color: #00a48a; /* couleur de fond du rond */
@@ -157,14 +161,17 @@
       align-items: center;
       justify-content: center;
       margin-right: 10px;
-      font-size: 16px; /* Taille de l'icône */
-      flex-shrink: 0; /* Empêche le rond de se déformer même sur petits écrans */
+      font-size: 16px;
+      flex-shrink: 0; /* empêche la pastille de se déformer sur mobile */
     }
 
     /* BOX1 : Choix d’objectif */
     .intro-box h3 {
       margin-top: 0;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
+      font-size: 16px;
+      color: #000000;
+      font-weight: bold;
     }
     .objectives-container {
       display: flex;
@@ -186,9 +193,10 @@
       border: 2px solid #ccc;
       border-radius: 8px;
       padding: 10px;
-      font-family: 'Sour Gummy', cursive;
       text-align: center;       /* centré */
       font-weight: bold;        /* en gras */
+      font-size: 14px;
+      color: #333;
     }
 
     /* BOX2 : Vidéo, enregistrement, etc. */
@@ -215,6 +223,23 @@
       height: 100%;
       background-color: #00a48a;
       transition: width 0.5s linear;
+    }
+
+    /* Sujet dans un encadré blanc */
+    .subject-wrapper {
+      margin-top: 10px;
+      background-color: #fefefe;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+      font-size: 14px;
+      color: #333;
+      display: none; /* caché tant qu'il n'y a pas de sujet */
+    }
+    /* Texte en gras pour le sujet */
+    .subject-wrapper span {
+      font-weight: bold;
     }
 
     button,
@@ -298,6 +323,28 @@
       border: 1px solid #ccc;
       border-radius: 5px;
     }
+
+    /* Nouvelle box pour les téléchargements */
+    .downloads-box {
+      width: 90%;
+      max-width: 600px;
+      margin: 20px auto;
+      background-color: #E2E7E3; 
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      font-size: 14px;
+      border: 2px solid #eeeeee;
+      position: relative;
+    }
+    .downloads-box h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 16px;
+      color: #000000;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -321,32 +368,33 @@
 
   <!-- BOX0 : Mode d'emploi -->
   <div class="box0">
-    <div class="mode-emploi-toggle" id="mode-emploi-toggle">
+    <h3 class="section-subtitle mode-emploi-toggle" id="mode-emploi-toggle">
       Mode d'emploi <i class="fas fa-angle-down" id="arrow-icon"></i>
-    </div>
+    </h3>
 
     <div class="help-content" id="help-content">
+      <p>
+        Vous voulez évaluer et développer votre niveau en prise de parole en public ? 
+        Faites-le rapidement et gratuitement avec le simulateur d'improvisation Letmotiv : 
+      </p>
+
       <!-- Liste avec icônes dans des ronds -->
       <ul class="step-list">
         <li>
           <span class="step-icon"><i class="fas fa-bullseye"></i></span>
-          Sélectionne ton objectif de prise de parole. 
+          Sélectionnez un objectif.
         </li>
         <li>
           <span class="step-icon"><i class="fas fa-dice"></i></span>
-          Génére un sujet d'improvisation aléatoire.
+          Générez un sujet d'improvisation aléatoire.
         </li>
         <li>
           <span class="step-icon"><i class="fas fa-video"></i></span>
-          Lance ton improvisation : tu as 2 minutes top chrono !
+          Lancez votre improvisation (2 minutes top chrono) et enregistrez-vous.
         </li>
         <li>
           <span class="step-icon"><i class="fas fa-download"></i></span>
-          Indique ton prénom/email pour télécharger ta vidéo et revoir ta prestation.  
-         </li>
-        <li>
-          <span class="step-icon"><i class="fas fa-chart-line"></i></span>
-          Evalue ta prestation avec la grille d'évaluation Letmotiv. 
+          Indiquez votre prénom/email pour télécharger la vidéo et la grille d'évaluation.
         </li>
       </ul>
     </div>
@@ -374,7 +422,10 @@
     <!-- Bouton pour générer le sujet d'impro (selon l’objectif sélectionné) -->
     <button id="generate-subject-btn">Générer un sujet d'improvisation</button>
 
-    <div id="subject-display" style="margin-top:10px; font-weight:bold;"></div>
+    <!-- Cadre blanc pour le sujet -->
+    <div id="subject-wrapper" class="subject-wrapper">
+      <span id="subject-display"></span>
+    </div>
 
     <video id="preview" autoplay muted></video>
 
@@ -401,17 +452,18 @@
       <div>
         <button id="validate-form-btn">Valider</button>
       </div>
-
-      <!-- Boutons après validation -->
-      <div id="post-validation-btns" class="hidden">
-        <button id="download-video-btn" class="hidden">
-          <i class="fas fa-download"></i> Télécharger la vidéo (mp4)
-        </button>
-        <button id="download-pdf-btn" class="hidden">
-          <i class="fas fa-download"></i> Télécharger la grille d'évaluation (pdf)
-        </button>
-      </div>
     </div>
+  </div>
+
+  <!-- Nouvelle box : Vos téléchargements (apparaît après validation) -->
+  <div id="downloads-box" class="downloads-box hidden">
+    <h3>Vos téléchargements</h3>
+    <button id="download-video-btn" class="hidden">
+      <i class="fas fa-download"></i> Télécharger la vidéo (mp4)
+    </button>
+    <button id="download-pdf-btn" class="hidden">
+      <i class="fas fa-download"></i> Télécharger la grille d'évaluation (pdf)
+    </button>
   </div>
 
   <!-- Partage sur les réseaux sociaux -->
@@ -563,6 +615,7 @@
      * 5) Bouton "Générer un sujet"
      **************************/
     const generateSubjectBtn = document.getElementById('generate-subject-btn');
+    const subjectWrapper = document.getElementById('subject-wrapper');
     const subjectDisplay = document.getElementById('subject-display');
     let currentSubject = "";
 
@@ -575,12 +628,16 @@
       const subjects = subjectsCache[currentCategory];
       if (!subjects || subjects.length === 0) {
         subjectDisplay.textContent = "Pas de sujets disponibles ou erreur de chargement.";
+        subjectWrapper.style.display = 'block';
         currentSubject = "";
         return;
       }
       const randomIndex = Math.floor(Math.random() * subjects.length);
       currentSubject = subjects[randomIndex];
+
+      // On affiche le cadre blanc + texte
       subjectDisplay.textContent = currentSubject;
+      subjectWrapper.style.display = 'block';
     });
 
     /**************************
@@ -598,11 +655,11 @@
     // Formulaire
     const downloadSection = document.getElementById('download-section');
     const validateFormBtn = document.getElementById('validate-form-btn');
-    const postValidationBtns = document.getElementById('post-validation-btns');
     const prenomInput = document.getElementById('prenom');
     const emailInput = document.getElementById('email');
 
-    // Nouveaux boutons
+    // Nouvelle box de téléchargements
+    const downloadsBox = document.getElementById('downloads-box');
     const downloadVideoBtn = document.getElementById('download-video-btn');
     const downloadPdfBtn = document.getElementById('download-pdf-btn');
 
@@ -710,7 +767,7 @@
       }
     });
 
-    // Validation du formulaire
+    // Validation du formulaire -> affichage de la box "Vos téléchargements"
     validateFormBtn.addEventListener('click', () => {
       const prenomValue = prenomInput.value.trim();
       const emailValue = emailInput.value.trim();
@@ -720,12 +777,14 @@
         return;
       }
 
-      // On rend les 2 boutons visibles
-      postValidationBtns.classList.remove('hidden');
+      // On affiche la nouvelle box "Vos téléchargements"
+      downloadsBox.classList.remove('hidden');
+
+      // Affiche les deux boutons
       downloadVideoBtn.classList.remove('hidden');
       downloadPdfBtn.classList.remove('hidden');
 
-      // On désactive le bouton Valider
+      // On désactive le bouton Valider (pour éviter multiple envois, etc.)
       validateFormBtn.disabled = true;
     });
 
