@@ -80,13 +80,13 @@
 		  border: 2px solid #cccccc;
 		  position: relative;
 		  margin-bottom: 10px; 
+		}
 
 		  @media (max-width: 600px) {
 		.box0 {
-		  margin-top: 50px; /* marge plus grande en mobile */
+		  margin-top: 150px; /* marge plus grande en mobile */
 		  }
 		}
-	  }
 
 		/* Lien "Mode d'emploi" (texte + flèche) sur la droite */
 		.mode-emploi-toggle {
