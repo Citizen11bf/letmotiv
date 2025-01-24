@@ -774,7 +774,7 @@
     stopBtn.addEventListener('click', () => {
       if (mediaRecorder && mediaRecorder.state === 'recording') {
         mediaRecorder.stop();
-        statusText.textContent = "Improvisation terminée. Renseignez vos informations pour télécharger.";
+        statusText.textContent = "Improvisation terminée.";
         startBtn.disabled = false;
         stopBtn.disabled = true;
         stopBtn.classList.add('hidden');
