@@ -347,6 +347,17 @@
       color: #000000;
       font-weight: bold;
     }
+
+    .desktop-break {
+  display: none; /* caché par défaut (mobile) */
+  }
+
+  @media (min-width: 768px) {
+  .desktop-break {
+    display: inline; /* affiché sur desktop */
+  }
+  }
+    
   </style>
 </head>
 <body>
@@ -364,9 +375,11 @@
   </div>
 
   <!-- Titre principal -->
-  <h1 class="main-title">
-    Entraine-toi à la prise de parole en public <br/> avec le simulateur gratuit d'improvisation Letmotiv
-  </h1>
+ <h1 class="main-title">
+  Entrainez-vous à la prise de parole en public
+  <br class="desktop-break">
+  avec le simulateur gratuit Letmotiv
+</h1>
 
   <!-- BOX0 : Mode d'emploi -->
   <div class="box0">
