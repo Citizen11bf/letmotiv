@@ -145,6 +145,7 @@
       display: flex;
       align-items: center;
       margin-bottom: 8px;
+      flex-wrap: nowrap; /* on évite que le texte ne vienne forcer un retour à la ligne */
     }
     .step-icon {
       background-color: #00a48a; /* couleur de fond du rond */
@@ -157,6 +158,7 @@
       justify-content: center;
       margin-right: 10px;
       font-size: 16px; /* Taille de l'icône */
+      flex-shrink: 0; /* Empêche le rond de se déformer même sur petits écrans */
     }
 
     /* BOX1 : Choix d’objectif */
