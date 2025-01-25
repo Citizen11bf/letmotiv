@@ -451,10 +451,11 @@
       margin-top: 15px;
       cursor: pointer;
       font-size: 24px;
-      color: #FFFFFF; /* Flèche blanche */
-      background-color: #182d84; /* Fond bleu */
-      width: 50px;
+      color: #182d84; 
+      background-color: transparent;
+            width: 50px;
       height: 50px;
+      border: 2px solid #182d84; 
       border-radius: 50%; /* Cercle */
       display: flex;
       align-items: center;
@@ -464,8 +465,10 @@
     }
     .scroll-down:hover {
       transform: translateY(-5px);
-      background-color: #105a5e; /* Optionnel: bleu plus foncé au survol */
+      background-color: #182d84; /* Fond bleu au survol */
+      color: #FFFFFF; /* Flèche blanche au survol */
     }
+    
   </style>
 </head>
 <body>
