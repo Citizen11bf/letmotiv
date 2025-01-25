@@ -77,6 +77,7 @@
       font-size: 1.3rem; /* ajuste la taille si besoin */
       font-weight: bold;
       padding: 0 1rem;
+      transition: opacity 0.5s ease, transform 0.5s ease;
     }
 
     /* --- BOXES : couleur de fond #E2E7E3, centrage, marges --- */
@@ -93,6 +94,8 @@
       border: 2px solid #eeeeee;
       position: relative;
       display: none; /* Masqué par défaut */
+      opacity: 0;
+      transform: translateY(20px);
       transition: opacity 0.5s ease, transform 0.5s ease;
     }
     .box.active {
@@ -145,6 +148,7 @@
     /* Bouton objectif sélectionné = vert */
     .selected-objective {
       background-color: #00a48a !important;
+      color: #ffffff;
     }
 
     /* Icône de flèche pour navigation */
@@ -161,6 +165,7 @@
       background-color: transparent;
       cursor: pointer;
       transition: background-color 0.3s, color 0.3s;
+      margin: 10px auto; /* Centrer horizontalement */
     }
 
     /* Flèches "Retour" */
@@ -333,6 +338,12 @@
       box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
       display: none; /* Caché par défaut */
       text-align: center;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .download-buttons.show {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
     }
 
     /* BOX4 : Partage LinkedIn et Options de Progression */
@@ -384,22 +395,6 @@
       box-sizing: border-box;
     }
 
-    /* Bouton flèche "Suivant" */
-    /* Déjà stylisé ci-dessus */
-
-    /* Bouton flèche "Retour" */
-    /* Déjà stylisé ci-dessus */
-
-    .desktop-break {
-      display: none; /* caché par défaut (mobile) */
-    }
-
-    @media (min-width: 768px) {
-      .desktop-break {
-        display: inline; /* affiché sur desktop */
-      }
-    }
-
     /* Styles pour les boutons bleus dans Box4 */
     .progression-buttons {
       margin-top: 20px;
@@ -411,6 +406,18 @@
     .progression-buttons a {
       width: 100%;
       max-width: 300px;
+    }
+
+    /* Transition pour le titre principal */
+    .main-title {
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    /* Media Queries pour s'assurer que Box2 n'est pas cachée par le footer */
+    @media (max-height: 600px) {
+      .box {
+        margin-bottom: 80px; /* Ajout d'un espace suffisant pour le footer */
+      }
     }
 
   </style>
@@ -478,6 +485,11 @@
 
     <!-- Bouton pour générer le sujet d'impro (selon l’objectif sélectionné) -->
     <button id="generate-subject-btn">Générer un sujet aléatoire</button>
+
+    <!-- Message d'erreur déplacé ici -->
+    <div id="objective-error" class="error-message" style="color: red; display: none; margin-top: 10px;">
+      Merci de sélectionner un objectif avant de continuer.
+    </div>
 
     <!-- Cadre blanc pour le sujet -->
     <div id="subject-wrapper" class="subject-wrapper">
@@ -633,7 +645,17 @@
     }
 
     // Ajouter des écouteurs pour les boutons "Suivant"
-    nextBtns[1].addEventListener('click', () => showBox(1, 2));
+    nextBtns[1].addEventListener('click', () => {
+      // Vérifier si un objectif est sélectionné
+      const selected = document.querySelector('.objectives-container .selected-objective');
+      if (!selected) {
+        // Afficher le message d'erreur
+        const errorDiv = document.getElementById('objective-error');
+        errorDiv.style.display = 'block';
+        return;
+      }
+      showBox(1, 2);
+    });
     nextBtns[2].addEventListener('click', () => showBox(2, 3));
     nextBtns[3].addEventListener('click', () => showBox(3, 4));
     // Aucun bouton "Suivant" dans Box4
@@ -701,6 +723,12 @@
         if (subjectsCache[currentCategory] === null) {
           await loadSubjects(currentCategory);
         }
+
+        // Masquer le message d'erreur si visible
+        const errorDiv = document.getElementById('objective-error');
+        if (errorDiv.style.display === 'block') {
+          errorDiv.style.display = 'none';
+        }
       });
     });
 
@@ -739,7 +767,9 @@
 
     generateSubjectBtn.addEventListener('click', () => {
       if (!currentCategory) {
-        alert("Merci de sélectionner d'abord un objectif.");
+        // Afficher le message d'erreur si pas d'objectif sélectionné
+        const errorDiv = document.getElementById('objective-error');
+        errorDiv.style.display = 'block';
         return;
       }
       const subjects = subjectsCache[currentCategory];
@@ -759,7 +789,7 @@
     /***********************
      * 4) Enregistrement vidéo
      ***********************/
-    let mediaRecorder;
+    let mediaRecorderInstance;
     let recordedChunks = [];
     const preview = document.getElementById('preview');
     const startBtn = document.getElementById('start-btn');
@@ -800,16 +830,16 @@
         return;
       }
 
-      mediaRecorder = new MediaRecorder(stream);
+      mediaRecorderInstance = new MediaRecorder(stream);
       recordedChunks = [];
 
-      mediaRecorder.ondataavailable = (event) => {
+      mediaRecorderInstance.ondataavailable = (event) => {
         if (event.data.size > 0) {
           recordedChunks.push(event.data);
         }
       };
 
-      mediaRecorder.onstop = () => {
+      mediaRecorderInstance.onstop = () => {
         const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
         videoURL = URL.createObjectURL(videoBlob);
 
@@ -822,7 +852,7 @@
         statusText.textContent = "Improvisation terminée.";
       };
 
-      mediaRecorder.start();
+      mediaRecorderInstance.start();
       statusText.textContent = "Improvisation en cours...";
 
       // Supprime le texte explicatif dans la vidéo box
@@ -865,10 +895,10 @@
         timeRemaining--;
         if (timeRemaining < 0) {
           clearInterval(countdown);
-          if (mediaRecorder && mediaRecorder.state === 'recording') {
-            mediaRecorder.stop();
-            // Supprime le texte explicatif si l'enregistrement se termine automatiquement
-            videoText.style.display = 'none';
+          if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
+            mediaRecorderInstance.stop();
+            // Afficher le bouton "Récommencer ton impro"
+            restartBtn.classList.remove('hidden');
           }
         }
       }, 1000);
@@ -879,8 +909,8 @@
 
     // Bouton "Arrêter ton impro"
     stopBtn.addEventListener('click', () => {
-      if (mediaRecorder && mediaRecorder.state === 'recording') {
-        mediaRecorder.stop();
+      if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
+        mediaRecorderInstance.stop();
         clearInterval(countdown);
 
         stopBtn.classList.add('hidden');
@@ -892,6 +922,7 @@
     // Bouton "Recommencer ton impro"
     restartBtn.addEventListener('click', () => {
       // Relancer simplement la fonction startImpro()
+      restartBtn.classList.add('hidden');
       startImpro();
     });
 
@@ -926,7 +957,7 @@
       }
 
       // Afficher les boutons de téléchargement dans le cadre blanc
-      downloadButtons.style.display = 'block';
+      downloadButtons.classList.add('show');
 
       // Activer le bouton "Suivant" pour passer à la box4
       nextBtns[3].disabled = false;
