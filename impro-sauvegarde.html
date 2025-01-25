@@ -420,6 +420,18 @@
       }
     }
 
+    /* Styles pour le message d'erreur */
+    .error-message {
+      color: red;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    /* Masquer les boutons "Retour" dans Box1 */
+    #back-btn1.hidden {
+      display: none;
+    }
+
   </style>
 </head>
 <body>
@@ -464,6 +476,11 @@
       <button data-category="diction">Diction</button>
     </div>
 
+    <!-- Message d'erreur dans Box1 -->
+    <div id="objective-error" class="error-message" style="display: none;">
+      Merci de sélectionner un objectif avant de continuer.
+    </div>
+
     <!-- Encadré pour l'explication -->
     <div class="explanation-box" id="explanation-box"></div>
 
@@ -485,11 +502,6 @@
 
     <!-- Bouton pour générer le sujet d'impro (selon l’objectif sélectionné) -->
     <button id="generate-subject-btn">Générer un sujet aléatoire</button>
-
-    <!-- Message d'erreur déplacé ici -->
-    <div id="objective-error" class="error-message" style="color: red; display: none; margin-top: 10px;">
-      Merci de sélectionner un objectif avant de continuer.
-    </div>
 
     <!-- Cadre blanc pour le sujet -->
     <div id="subject-wrapper" class="subject-wrapper">
@@ -541,7 +553,7 @@
 
       <label for="email">Email :</label>
       <input type="email" id="email" placeholder="Votre email"/>
-      <span id="email-error" class="error-message" style="color: red; display: none;"></span> <!-- Élément pour le message d'erreur -->
+      <span id="email-error" class="error-message" style="display: none;"></span> <!-- Élément pour le message d'erreur -->
 
       <div>
         <button id="validate-form-btn">Valider</button>
