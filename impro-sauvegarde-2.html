@@ -177,6 +177,18 @@
       background-color: #00a48a !important;
     }
 
+    /* Icône de flèche vers le bas */
+    .scroll-down {
+      margin-top: 15px;
+      cursor: pointer;
+      font-size: 24px;
+      color: #182d84;
+      transition: transform 0.3s;
+    }
+    .scroll-down:hover {
+      transform: translateY(-5px);
+    }
+
     /* Encadré pour l'explication des objectifs de prise de parole*/
     .explanation-box {
       visibility: hidden;    /* pour autoriser la transition */
@@ -375,6 +387,15 @@
       border-radius: 5px;
     }
 
+    /* Styles pour le message d'erreur */
+    .error-message {
+      color: red;
+      font-size: 12px;
+      display: none; /* Caché par défaut */
+      margin-top: -5px;
+      margin-bottom: 10px;
+    }
+
     /* Nouvelle box pour les téléchargements */
     .downloads-box {
       width: 90%;
@@ -547,6 +568,7 @@
 
       <label for="email">Email :</label>
       <input type="email" id="email" placeholder="Votre email"/>
+      <span id="email-error" class="error-message"></span> <!-- Élément pour le message d'erreur -->
 
       <div>
         <button id="validate-form-btn">Valider</button>
@@ -884,9 +906,27 @@
     validateFormBtn.addEventListener('click', () => {
       const prenomValue = prenomInput.value.trim();
       const emailValue = emailInput.value.trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Regex pour la validation de l'email
+      const emailError = document.getElementById('email-error'); // Élément du message d'erreur
+
+      let valid = true;
+
+      // Réinitialiser le message d'erreur
+      emailError.textContent = "";
+      emailError.style.display = 'none';
 
       if (!prenomValue || !emailValue) {
         alert("Merci de renseigner un prénom et un email pour continuer.");
+        return;
+      }
+
+      if (!emailRegex.test(emailValue)) {
+        emailError.textContent = "Veuillez entrer une adresse email valide.";
+        emailError.style.display = 'block';
+        valid = false;
+      }
+
+      if (!valid) {
         return;
       }
 
