@@ -241,6 +241,7 @@
       display: flex;
       justify-content: center;   /* centre horizontal */
       align-items: center;       /* centre vertical */
+      overflow: hidden; /* Pour assurer que le texte ne déborde pas */
     }
     .video-box video {
       width: 100%;
@@ -250,7 +251,19 @@
       position: absolute;
       top: 0;
       left: 0;
-      z-index: 1; /* derrière le bouton */
+      z-index: 1; /* derrière le texte */
+    }
+
+    /* Texte explicatif dans la vidéo box */
+    .video-box .video-text {
+      position: absolute;
+      z-index: 2; /* Au-dessus de la vidéo */
+      color: #555;
+      font-style: italic;
+      font-size: 16px;
+      text-align: center;
+      padding: 20px;
+      pointer-events: none; /* Permet de cliquer sur les boutons en dessous */
     }
 
     /* Les boutons "Arrêter" et "Récommencer" seront en-dessous de la box */
@@ -384,6 +397,15 @@
       font-weight: bold;
     }
 
+    /* Titre de la box LinkedIn */
+    .box-partage-RS h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 18px;
+      color: #000000;
+      font-weight: bold;
+    }
+
     .desktop-break {
       display: none; /* caché par défaut (mobile) */
     }
@@ -394,6 +416,17 @@
       }
     }
     
+    /* Icône de flèche vers le bas */
+    .scroll-down {
+      margin-top: 15px;
+      cursor: pointer;
+      font-size: 24px;
+      color: #182d84;
+      transition: transform 0.3s;
+    }
+    .scroll-down:hover {
+      transform: translateY(-5px);
+    }
   </style>
 </head>
 <body>
@@ -464,6 +497,11 @@
       <button data-category="diction">Diction</button>
     </div>
 
+    <!-- Icône de flèche vers le bas pour inciter l'utilisateur à descendre -->
+    <div class="scroll-down" id="scroll-down">
+      <i class="fas fa-arrow-down"></i>
+    </div>
+
     <!-- Encadré pour l'explication (transition bordure/opacité/position) -->
     <div class="explanation-box" id="explanation-box"></div>
   </div>
@@ -480,9 +518,12 @@
       <span id="subject-display"></span>
     </div>
 
-    <!-- Box vidéo -->
+    <!-- Box vidéo avec texte explicatif -->
     <div class="video-box">
       <video id="preview" autoplay muted></video>
+      <div class="video-text" id="video-text">
+        Ici va s'enregistrer ton improvisation en vidéo. Lorsque tu es prêt, clique sur le bouton "Démarrer ton impro" en-dessous.
+      </div>
     </div>
 
     <!-- Boutons en dessous de l'encart bleu -->
@@ -496,7 +537,7 @@
       <div id="progress-bar-inner"></div>
     </div>
 
-    <p id="status">Sélectionne un objectif, génère un sujet aléatoire et clique sur "Démarrer" quand tu es prêt.</p>
+    <p id="status">Sélectionne un objectif, génère un sujet aléatoire et clique sur "Démarrer ton impro" quand tu es prêt.</p>
 
     <!-- Formulaire prénom + email -->
     <div id="download-section" class="download-section hidden">
@@ -526,6 +567,8 @@
 
   <!-- Partage sur les réseaux sociaux -->
   <div class="box-partage-RS hidden" id="box-partage-RS">
+    <!-- Ajout du titre "Partage ton expérience" -->
+    <h3>Partage ton expérience</h3>
     <p>
       Partagez votre expérience et encouragez d'autres personnes à relever le défi. <br>
       Montrez votre courage et inspirez les autres à s'améliorer en improvisation !<br>
@@ -638,18 +681,8 @@
           await loadSubjects(currentCategory);
         }
 
-        // Attendre 2 secondes, puis scroller
-        setTimeout(() => {
-          const box2 = document.querySelector('.container');
-          const headerHeight = header ? header.offsetHeight : 0;
-          if (box2) {
-            const box2Y = box2.getBoundingClientRect().top + window.scrollY - headerHeight - 10;
-            window.scrollTo({
-              top: box2Y,
-              behavior: 'smooth'
-            });
-          }
-        }, 2000);
+        // Suppression du défilement automatique
+        // Nous allons gérer le défilement manuellement via l'icône de flèche
       });
     });
 
@@ -724,6 +757,7 @@
     const downloadsBox = document.getElementById('downloads-box');
     const downloadVideoBtn = document.getElementById('download-video-btn');
     const downloadPdfBtn = document.getElementById('download-pdf-btn');
+    const videoText = document.getElementById('video-text'); // Nouveau
 
     let countdown;
     let videoURL = "";
@@ -775,6 +809,9 @@
       mediaRecorder.start();
       statusText.textContent = "Improvisation en cours...";
 
+      // Supprime le texte explicatif dans la vidéo box
+      videoText.style.display = 'none';
+
       // Gérer les boutons
       startBtn.classList.add('hidden');
       stopBtn.classList.remove('hidden');
@@ -814,15 +851,17 @@
           clearInterval(countdown);
           if (mediaRecorder && mediaRecorder.state === 'recording') {
             mediaRecorder.stop();
+            // Supprime le texte explicatif si l'enregistrement se termine automatiquement
+            videoText.style.display = 'none';
           }
         }
       }, 1000);
     }
 
-    // Bouton "Démarrer l'impro"
+    // Bouton "Démarrer ton impro"
     startBtn.addEventListener('click', startImpro);
 
-    // Bouton "Arrêter l'impro"
+    // Bouton "Arrêter ton impro"
     stopBtn.addEventListener('click', () => {
       if (mediaRecorder && mediaRecorder.state === 'recording') {
         mediaRecorder.stop();
@@ -835,9 +874,9 @@
       }
     });
 
-    // Bouton "Récommencer l'impro"
+    // Bouton "Récommencer ton impro"
     restartBtn.addEventListener('click', () => {
-      // On relance simplement la fonction startImpro()
+      // Relancer simplement la fonction startImpro()
       startImpro();
     });
 
@@ -879,6 +918,23 @@
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+    });
+
+    /***********************
+     * 5) Scroll Down vers Box2
+     ***********************/
+    const scrollDownBtn = document.getElementById('scroll-down');
+
+    scrollDownBtn.addEventListener('click', () => {
+      const box2 = document.querySelector('.container');
+      const headerHeight = header ? header.offsetHeight : 0;
+      if (box2) {
+        const box2Y = box2.getBoundingClientRect().top + window.scrollY - headerHeight - 10;
+        window.scrollTo({
+          top: box2Y,
+          behavior: 'smooth'
+        });
+      }
     });
   </script>
 </body>
