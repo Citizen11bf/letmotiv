@@ -177,16 +177,25 @@
       background-color: #00a48a !important;
     }
 
-    /* Icône de flèche vers le bas */
+    /* Icône de flèche vers le bas stylisée en blanc dans un rond bleu */
     .scroll-down {
       margin-top: 15px;
       cursor: pointer;
       font-size: 24px;
-      color: #182d84;
-      transition: transform 0.3s;
+      color: #FFFFFF; /* Flèche blanche */
+      background-color: #182d84; /* Fond bleu */
+      width: 50px;
+      height: 50px;
+      border-radius: 50%; /* Cercle */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s, background-color 0.3s;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optionnel: ombre pour un meilleur contraste */
     }
     .scroll-down:hover {
       transform: translateY(-5px);
+      background-color: #105a5e; /* Optionnel: bleu plus foncé au survol */
     }
 
     /* Encadré pour l'explication des objectifs de prise de parole*/
@@ -437,16 +446,25 @@
       }
     }
     
-    /* Icône de flèche vers le bas */
+    /* Icône de flèche vers le bas stylisée en blanc dans un rond bleu */
     .scroll-down {
       margin-top: 15px;
       cursor: pointer;
       font-size: 24px;
-      color: #182d84;
-      transition: transform 0.3s;
+      color: #FFFFFF; /* Flèche blanche */
+      background-color: #182d84; /* Fond bleu */
+      width: 50px;
+      height: 50px;
+      border-radius: 50%; /* Cercle */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s, background-color 0.3s;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optionnel: ombre pour un meilleur contraste */
     }
     .scroll-down:hover {
       transform: translateY(-5px);
+      background-color: #105a5e; /* Optionnel: bleu plus foncé au survol */
     }
   </style>
 </head>
@@ -518,13 +536,13 @@
       <button data-category="diction">Diction</button>
     </div>
 
-    <!-- Icône de flèche vers le bas pour inciter l'utilisateur à descendre -->
+    <!-- Encadré pour l'explication -->
+    <div class="explanation-box" id="explanation-box"></div>
+
+    <!-- Icône de flèche vers le bas -->
     <div class="scroll-down" id="scroll-down">
       <i class="fas fa-arrow-down"></i>
     </div>
-
-    <!-- Encadré pour l'explication (transition bordure/opacité/position) -->
-    <div class="explanation-box" id="explanation-box"></div>
   </div>
 
   <!-- BOX2 : Vidéo, enregistrement, etc. -->
