@@ -6,11 +6,11 @@
   <title>Simulateur d'improvisation</title>
   <meta name="description" content="Évaluer et développer rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv.">
 
-  <!-- Import de la police Sour Gummy depuis Google Fonts -->
+  <!-- Import de la police DM SANS depuis Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Sour+Gummy&display=swap"
+    href="https://fonts.googleapis.com/css2?family=DM+Sans&display=swap"
     rel="stylesheet"
   />
 
@@ -24,7 +24,7 @@
     /* --- GLOBAL --- */
     body {
       margin: 0;
-      font-family: Helvetica, Arial, sans-serif;
+      font-family: 'DM Sans', sans-serif;
       background-color: #ffffff; /* Fond blanc */
       color: #333333;
       display: flex;
@@ -59,10 +59,7 @@
       max-width: 100%;
       overflow-wrap: break-word; /* évite débordement si texte trop long */
     }
-    .header-l1,
-    .header-l2 {
-      display: inline-block;
-    }
+    
     .header a {
       color: #FFFFFF;
       text-decoration: none;
@@ -71,18 +68,12 @@
       text-decoration: none;
     }
 
-    @media (max-width: 600px) {
-      .header-l1,
-      .header-l2 {
-        display: block;
-      }
-    }
-
-    /* --- Titre principal (avec la police "Sour Gummy") --- */
+    /* --- Titre principal (avec la police "DM SANS") --- */
     .main-title {
       margin-top: 80px; /* espace pour ne pas empiéter sur le header fixe */
       text-align: center;
-      font-family: 'Sour Gummy', cursive; /* Police importée */
+      font-family: 'DM Sans', sans-serif; /* Police importée */
+      color: #182d84; 
       font-size: 1.3rem; /* ajuste la taille si besoin */
       font-weight: bold;
       padding: 0 1rem;
@@ -92,7 +83,8 @@
     .box0,
     .intro-box,
     .container,
-    .box-partage-RS {
+    .box-partage-RS,
+    .download-box {
       width: 90%;
       max-width: 600px;
       margin: 20px auto; /* centrage horizontal + marge verticale */
@@ -179,19 +171,42 @@
       justify-content: center;
       gap: 10px;
       margin-top: 10px;
+      margin-bottom: 0; /* Ajouté pour supprimer la marge en bas */
     }
     /* Bouton objectif sélectionné = vert */
     .selected-objective {
       background-color: #00a48a !important;
     }
 
-    /* Encadré pour l'explication (texte centré et en gras) + animation */
+    /* Icône de flèche vers le bas stylisée en blanc dans un rond bleu */
+    .scroll-down {
+      margin: 15px auto 0 auto; /* Centrage horizontal */
+      cursor: pointer;
+      font-size: 20px;
+      color: #182d84; /* Couleur de la flèche */
+      background-color: transparent; /* Fond transparent */
+      width: 50px;
+      height: 50px;
+      border: 2px solid #182d84; /* Bordure bleue */
+      border-radius: 50%; /* Cercle */
+      display: flex; /* Utilise Flexbox */
+      align-items: center; /* Centre verticalement */
+      justify-content: center; /* Centre horizontalement */
+      transition: transform 0.3s, background-color 0.3s, color 0.3s;
+    }
+    .scroll-down:hover {
+      transform: translateY(-5px);
+      background-color: #182d84; /* Fond bleu au survol */
+      color: #FFFFFF; /* Flèche blanche au survol */
+    }
+
+    /* Encadré pour l'explication des objectifs de prise de parole*/
     .explanation-box {
       visibility: hidden;    /* pour autoriser la transition */
       opacity: 0;
       transform: translateY(-10px);
 
-      margin-top: 10px;
+      margin-top: 0; /* Modifié de 10px à 0 */
       background-color: #fefefe;
       border: 0 solid #ccc; /* part de 0px */
       border-radius: 8px;
@@ -199,6 +214,7 @@
       text-align: center;
       font-weight: bold;
       font-size: 14px;
+      font-style: italic;
       color: #333;
 
       transition: border 0.5s ease, opacity 0.5s ease, transform 0.5s ease;
@@ -219,6 +235,7 @@
       font-weight: bold;
     }
 
+    /* Encadré pour afficher les sujets d'improvisation aléatoires*/
     .subject-wrapper {
       margin-top: 10px;
       background-color: #fefefe;
@@ -227,6 +244,7 @@
       padding: 10px;
       text-align: center;
       font-size: 14px;
+      font-style: italic;
       color: #333;
       display: none; /* caché tant qu'il n'y a pas de sujet */
     }
@@ -246,6 +264,7 @@
       display: flex;
       justify-content: center;   /* centre horizontal */
       align-items: center;       /* centre vertical */
+      overflow: hidden; /* Pour assurer que le texte ne déborde pas */
     }
     .video-box video {
       width: 100%;
@@ -255,7 +274,19 @@
       position: absolute;
       top: 0;
       left: 0;
-      z-index: 1; /* derrière le bouton */
+      z-index: 1; /* derrière le texte */
+    }
+
+    /* Texte explicatif dans la vidéo box */
+    .video-box .video-text {
+      position: absolute;
+      z-index: 2; /* Au-dessus de la vidéo */
+      color: #555;
+      font-style: italic;
+      font-size: 16px;
+      text-align: center;
+      padding: 20px;
+      pointer-events: none; /* Permet de cliquer sur les boutons en dessous */
     }
 
     /* Les boutons "Arrêter" et "Récommencer" seront en-dessous de la box */
@@ -367,6 +398,15 @@
       border-radius: 5px;
     }
 
+    /* Styles pour le message d'erreur */
+    .error-message {
+      color: red;
+      font-size: 12px;
+      display: none; /* Caché par défaut */
+      margin-top: -5px;
+      margin-bottom: 10px;
+    }
+
     /* Nouvelle box pour les téléchargements */
     .downloads-box {
       width: 90%;
@@ -388,6 +428,25 @@
       color: #000000;
       font-weight: bold;
     }
+
+    /* Titre de la box LinkedIn */
+    .box-partage-RS h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 18px;
+      color: #000000;
+      font-weight: bold;
+    }
+
+    .desktop-break {
+      display: none; /* caché par défaut (mobile) */
+    }
+
+    @media (min-width: 768px) {
+      .desktop-break {
+        display: inline; /* affiché sur desktop */
+      }
+    }
   </style>
 </head>
 <body>
@@ -406,7 +465,9 @@
 
   <!-- Titre principal -->
   <h1 class="main-title">
-    Entrainez-vous à la prise de parole en public avec le simulateur Letmotiv
+  Entrainez-vous à la prise de parole en public
+  <br class="desktop-break">
+  avec le simulateur Letmotiv
   </h1>
 
   <!-- BOX0 : Mode d'emploi -->
@@ -416,28 +477,27 @@
     </h3>
 
     <div class="help-content" id="help-content">
-      <p>
-        Vous voulez évaluer et développer votre niveau en prise de parole en public ? 
-        Faites-le rapidement et gratuitement avec le simulateur d'improvisation Letmotiv : 
-      </p>
-
-      <!-- Liste avec icônes dans des ronds -->
+           <!-- Mode d'emploi du simulateur sous forme de liste avec icônes -->
       <ul class="step-list">
         <li>
           <span class="step-icon"><i class="fas fa-bullseye"></i></span>
-          Sélectionnez un objectif.
+          1) Sélectionne un objectif de prise de parole.
         </li>
         <li>
           <span class="step-icon"><i class="fas fa-dice"></i></span>
-          Générez un sujet d'improvisation aléatoire.
+          2) Génère un sujet d'improvisation aléatoire.
         </li>
         <li>
           <span class="step-icon"><i class="fas fa-video"></i></span>
-          Lancez votre improvisation (2 minutes top chrono) et enregistrez-vous.
+          3) Lance ton improvisation : tu as 2 minutes top chrono !
         </li>
         <li>
           <span class="step-icon"><i class="fas fa-download"></i></span>
-          Indiquez votre prénom/email pour télécharger la vidéo et la grille d'évaluation.
+          4) Indique ton prénom/email pour télécharger et revoir ton improvisation. 
+        </li>
+        <li>
+          <span class="step-icon"><i class="fas fa-chart-line"></i></span>
+          5) Télécharge la grille d'évaluation Letmotiv et analyse ta prestation. 
         </li>
       </ul>
     </div>
@@ -454,52 +514,63 @@
       <button data-category="repartie">Avoir de la répartie</button>
       <button data-category="vendre">Vendre</button>
       <button data-category="conflit">Gérer un conflit</button>
-      <!-- Nouvel objectif -->
       <button data-category="diction">Diction</button>
     </div>
 
-    <!-- Encadré pour l'explication (transition bordure/opacité/position) -->
+    <!-- Encadré pour l'explication -->
     <div class="explanation-box" id="explanation-box"></div>
+
+    <!-- Icône de flèche vers le bas -->
+    <div class="scroll-down" id="scroll-down">
+      <i class="fas fa-arrow-down"></i>
+    </div>
   </div>
 
   <!-- BOX2 : Vidéo, enregistrement, etc. -->
   <div class="container">
-    <h3 class="box-title">Lance ton impro&nbsp;!</h3>
+    <h3 class="box-title">Lance ton improvisation&nbsp;!</h3>
 
     <!-- Bouton pour générer le sujet d'impro (selon l’objectif sélectionné) -->
-    <button id="generate-subject-btn">Générer un sujet d'improvisation</button>
+    <button id="generate-subject-btn">Générer un sujet aléatoire</button>
 
     <!-- Cadre blanc pour le sujet -->
     <div id="subject-wrapper" class="subject-wrapper">
       <span id="subject-display"></span>
     </div>
 
-    <!-- Box vidéo -->
+    <!-- Box vidéo avec texte explicatif -->
     <div class="video-box">
       <video id="preview" autoplay muted></video>
+      <div class="video-text" id="video-text">
+        Ici va s'enregistrer ton improvisation en vidéo. Lorsque tu es prêt, clique sur le bouton "Démarrer ton impro" en-dessous.
+      </div>
     </div>
 
     <!-- Boutons en dessous de l'encart bleu -->
     <div class="impro-actions">
-      <button id="start-btn"><i class="fas fa-video"></i> Démarrer l'impro</button>
-      <button id="stop-btn" class="hidden"><i class="fas fa-stop"></i> Arrêter l'impro</button>
-      <button id="restart-btn" class="hidden"><i class="fas fa-redo"></i> Récommencer l'impro</button>
+      <button id="start-btn"><i class="fas fa-video"></i> Démarrer ton impro</button>
+      <button id="stop-btn" class="hidden"><i class="fas fa-stop"></i> Arrêter ton impro</button>
+      <button id="restart-btn" class="hidden"><i class="fas fa-redo"></i> Récommencer ton impro</button>
     </div>
 
     <div id="progress-bar">
       <div id="progress-bar-inner"></div>
     </div>
 
-    <p id="status">Sélectionnez un objectif puis cliquez sur « Générer un sujet ».</p>
+    <p id="status">Sélectionne un objectif, génère un sujet aléatoire et clique sur "Démarrer ton impro" quand tu es prêt.</p>
+  </div>
 
-    <!-- Formulaire prénom + email -->
-    <div id="download-section" class="download-section hidden">
+  <!-- Nouvelle box : Télécharge et analyse ta prestation -->
+  <div id="download-box" class="download-box hidden">
+    <h3>Télécharge et analyse ta prestation</h3>
+    <div class="download-section">
       <h3>Pour télécharger votre prestation et une grille d'analyse Letmotiv :</h3>
       <label for="prenom">Prénom :</label>
       <input type="text" id="prenom" placeholder="Votre prénom"/>
 
       <label for="email">Email :</label>
       <input type="email" id="email" placeholder="Votre email"/>
+      <span id="email-error" class="error-message"></span> <!-- Élément pour le message d'erreur -->
 
       <div>
         <button id="validate-form-btn">Valider</button>
@@ -520,6 +591,8 @@
 
   <!-- Partage sur les réseaux sociaux -->
   <div class="box-partage-RS hidden" id="box-partage-RS">
+    <!-- Ajout du titre "Partage ton expérience" -->
+    <h3>Partage ton expérience</h3>
     <p>
       Partagez votre expérience et encouragez d'autres personnes à relever le défi. <br>
       Montrez votre courage et inspirez les autres à s'améliorer en improvisation !<br>
@@ -584,8 +657,7 @@
       repartie:     "Objectif : réponds du tac-au-tac et montre ton sens de la répartie.",
       vendre:       "Objectif : fais un argumentaire de vente percutant.",
       conflit:      "Objectif : gère un désaccord ou une tension avec diplomatie.",
-      // Nouvel objectif
-      diction:      "Objectif : Améliore ta diction et la clarté de ton discours."
+      diction:      "Objectif : Améliore ta diction et in fine la clarté de ton discours."
     };
 
     const txtFilesByCategory = {
@@ -633,18 +705,8 @@
           await loadSubjects(currentCategory);
         }
 
-        // Attendre 2 secondes, puis scroller
-        setTimeout(() => {
-          const box2 = document.querySelector('.container');
-          const headerHeight = header ? header.offsetHeight : 0;
-          if (box2) {
-            const box2Y = box2.getBoundingClientRect().top + window.scrollY - headerHeight - 10;
-            window.scrollTo({
-              top: box2Y,
-              behavior: 'smooth'
-            });
-          }
-        }, 2000);
+        // Suppression du défilement automatique
+        // Nous allons gérer le défilement manuellement via l'icône de flèche
       });
     });
 
@@ -712,13 +774,14 @@
     const progressBarInner = document.getElementById('progress-bar-inner');
     const statusText = document.getElementById('status');
     const boxPartageRS = document.getElementById('box-partage-RS');
-    const downloadSection = document.getElementById('download-section');
+    const downloadBox = document.getElementById('download-box'); // Nouvelle boîte
     const validateFormBtn = document.getElementById('validate-form-btn');
     const prenomInput = document.getElementById('prenom');
     const emailInput = document.getElementById('email');
     const downloadsBox = document.getElementById('downloads-box');
     const downloadVideoBtn = document.getElementById('download-video-btn');
     const downloadPdfBtn = document.getElementById('download-pdf-btn');
+    const videoText = document.getElementById('video-text'); // Nouveau
 
     let countdown;
     let videoURL = "";
@@ -761,14 +824,29 @@
         // Arrête la webcam
         stream.getTracks().forEach((track) => track.stop());
 
-        // Affiche la section de formulaire
-        downloadSection.classList.remove('hidden');
+        // Affiche la boîte "Télécharge et analyse ta prestation"
+        if (downloadBox) {
+          downloadBox.classList.remove('hidden');
+
+          // Défilement vers la nouvelle boîte en tenant compte du header fixe
+          const headerHeight = header ? header.offsetHeight : 0;
+          const boxPosition = downloadBox.getBoundingClientRect().top + window.scrollY - headerHeight - 20; // Ajuste la valeur 20 selon ton besoin
+
+          window.scrollTo({
+            top: boxPosition,
+            behavior: 'smooth'
+          });
+        }
+
         // Affiche la box de partage
         boxPartageRS.classList.remove('hidden');
       };
 
       mediaRecorder.start();
       statusText.textContent = "Improvisation en cours...";
+
+      // Supprime le texte explicatif dans la vidéo box
+      videoText.style.display = 'none';
 
       // Gérer les boutons
       startBtn.classList.add('hidden');
@@ -809,15 +887,17 @@
           clearInterval(countdown);
           if (mediaRecorder && mediaRecorder.state === 'recording') {
             mediaRecorder.stop();
+            // Supprime le texte explicatif si l'enregistrement se termine automatiquement
+            videoText.style.display = 'none';
           }
         }
       }, 1000);
     }
 
-    // Bouton "Démarrer l'impro"
+    // Bouton "Démarrer ton impro"
     startBtn.addEventListener('click', startImpro);
 
-    // Bouton "Arrêter l'impro"
+    // Bouton "Arrêter ton impro"
     stopBtn.addEventListener('click', () => {
       if (mediaRecorder && mediaRecorder.state === 'recording') {
         mediaRecorder.stop();
@@ -830,9 +910,9 @@
       }
     });
 
-    // Bouton "Récommencer l'impro"
+    // Bouton "Récommencer ton impro"
     restartBtn.addEventListener('click', () => {
-      // On relance simplement la fonction startImpro()
+      // Relancer simplement la fonction startImpro()
       startImpro();
     });
 
@@ -840,9 +920,27 @@
     validateFormBtn.addEventListener('click', () => {
       const prenomValue = prenomInput.value.trim();
       const emailValue = emailInput.value.trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Regex pour la validation de l'email
+      const emailError = document.getElementById('email-error'); // Élément du message d'erreur
+
+      let valid = true;
+
+      // Réinitialiser le message d'erreur
+      emailError.textContent = "";
+      emailError.style.display = 'none';
 
       if (!prenomValue || !emailValue) {
         alert("Merci de renseigner un prénom et un email pour continuer.");
+        return;
+      }
+
+      if (!emailRegex.test(emailValue)) {
+        emailError.textContent = "Veuillez entrer une adresse email valide.";
+        emailError.style.display = 'block';
+        valid = false;
+      }
+
+      if (!valid) {
         return;
       }
 
@@ -874,6 +972,23 @@
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+    });
+
+    /***********************
+     * 5) Scroll Down vers Box2
+     ***********************/
+    const scrollDownBtn = document.getElementById('scroll-down');
+
+    scrollDownBtn.addEventListener('click', () => {
+      const box2 = document.querySelector('.container');
+      const headerHeight = header ? header.offsetHeight : 0;
+      if (box2) {
+        const box2Y = box2.getBoundingClientRect().top + window.scrollY - headerHeight - 10;
+        window.scrollTo({
+          top: box2Y,
+          behavior: 'smooth'
+        });
+      }
     });
   </script>
 </body>
