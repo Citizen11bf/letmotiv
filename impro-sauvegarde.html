@@ -144,29 +144,6 @@
       color: #00a48a;
     }
 
-    /* Icône de flèche vers le bas stylisée en transparent avec bordure bleue */
-    .scroll-down {
-      margin: 15px auto 0 auto; /* Centrage horizontal */
-      cursor: pointer;
-      font-size: 20px;
-      color: #182d84; /* Couleur de la flèche */
-      background-color: transparent; /* Fond transparent */
-      width: 50px;
-      height: 50px;
-      border: 2px solid #182d84; /* Bordure bleue */
-      border-radius: 50%; /* Cercle */
-      display: flex; /* Utilise Flexbox */
-      align-items: center; /* Centre verticalement */
-      justify-content: center; /* Centre horizontalement */
-      transition: transform 0.3s, background-color 0.3s, color 0.3s;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optionnel: ombre pour un meilleur contraste */
-    }
-    .scroll-down:hover {
-      transform: translateY(-5px);
-      background-color: #182d84; /* Fond bleu au survol */
-      color: #FFFFFF; /* Flèche blanche au survol */
-    }
-
     /* Encadré pour l'explication des objectifs de prise de parole*/
     .explanation-box {
       visibility: hidden;    /* pour autoriser la transition */
@@ -308,68 +285,77 @@
       transform: translateY(-3px);
     }
 
-    .footer {
-      background-color: #182d84;
-      color: #FFFFFF;
-      font-size: 16px;
+    /* Nouveau style pour le cadre blanc des téléchargements dans Box3 */
+    .download-buttons {
+      margin-top: 20px;
+      background-color: #fefefe;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      padding: 15px;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+      display: none; /* Caché par défaut */
       text-align: center;
-      padding: 20px;
-      width: 100%;
-      margin-top: 30px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 15px;
     }
-    .footer-buttons a {
-      display: inline-block;
-      background-color: #FFFFFF;
+
+    /* BOX4 : Partage LinkedIn et Section Récapitulative */
+    .box4-content {
+      margin-top: 20px;
+      background-color: #fefefe;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      padding: 15px;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    /* Simplifié footer dans Box4 */
+    .recap-footer {
+      margin-top: 20px;
+      font-size: 16px;
       color: #182d84;
-      border: 2px solid #182d84;
+      font-weight: bold;
+    }
+
+    /* BOX4 : Boutons de partage LinkedIn */
+    .linkedin-share-button {
+      display: inline-block;
+      background-color: #0e76a8;
+      color: #FFFFFF;
+      border: none;
       border-radius: 25px;
       padding: 10px 20px;
       font-weight: bold;
       text-decoration: none;
-      transition: background-color 0.3s, color 0.3s, transform 0.3s;
+      transition: background-color 0.3s, transform 0.3s;
+      cursor: pointer;
+      margin: 5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
     }
-    .footer-buttons a:hover,
-    .footer-buttons a:active {
-      background-color: #00a48a;
-      color: #FFFFFF;
+    .linkedin-share-button:hover,
+    .linkedin-share-button:active {
+      background-color: #085a8c;
       transform: translateY(-3px);
+    }
+
+    /* Simplification du Footer */
+    .footer {
+      background-color: #182d84;
+      color: #FFFFFF;
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+      padding: 15px;
+      width: 100%;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      box-sizing: border-box;
     }
 
     .hidden {
       display: none;
-    }
-
-    /* Nouvelle box pour les téléchargements */
-    .downloads-box {
-      width: 90%;
-      max-width: 600px;
-      margin: 20px auto;
-      background-color: #E2E7E3; 
-      border-radius: 10px;
-      padding: 15px;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      font-size: 14px;
-      border: 2px solid #eeeeee;
-      position: relative;
-      display: none; /* Masqué par défaut */
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-    .downloads-box.active {
-      display: block;
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .downloads-box h3 {
-      margin-top: 0;
-      margin-bottom: 10px;
-      font-size: 16px;
-      color: #000000;
-      font-weight: bold;
     }
 
     /* Bouton flèche "Suivant" */
@@ -519,11 +505,21 @@
 
       <label for="email">Email :</label>
       <input type="email" id="email" placeholder="Votre email"/>
-      <span id="email-error" class="error-message"></span> <!-- Élément pour le message d'erreur -->
+      <span id="email-error" class="error-message" style="color: red; display: none;"></span> <!-- Élément pour le message d'erreur -->
 
       <div>
         <button id="validate-form-btn">Valider</button>
       </div>
+    </div>
+
+    <!-- Cadre blanc pour les boutons de téléchargement (invisible par défaut) -->
+    <div class="download-buttons" id="download-buttons">
+      <button id="download-video-btn">
+        <i class="fas fa-download"></i> Télécharger la vidéo (mp4)
+      </button>
+      <button id="download-pdf-btn">
+        <i class="fas fa-download"></i> Télécharger la grille d'évaluation (pdf)
+      </button>
     </div>
 
     <!-- Bouton "Suivant" (désactivé jusqu'à validation) -->
@@ -532,27 +528,9 @@
     </button>
   </div>
 
-  <!-- BOX4 : Vos téléchargements (apparaît après validation) -->
+  <!-- BOX4 : Partage LinkedIn et Section Récapitulative -->
   <div class="box" id="box4">
     <button class="back-btn" id="back-btn4">
-      <i class="fas fa-arrow-left"></i>
-    </button>
-    <h3>Vos téléchargements</h3>
-    <button id="download-video-btn" class="hidden">
-      <i class="fas fa-download"></i> Télécharger la vidéo (mp4)
-    </button>
-    <button id="download-pdf-btn" class="hidden">
-      <i class="fas fa-download"></i> Télécharger la grille d'évaluation (pdf)
-    </button>
-    <!-- Bouton "Suivant" pour passer à la partage sur réseaux sociaux -->
-    <button class="next-btn" id="next-btn4">
-      <i class="fas fa-arrow-right"></i>
-    </button>
-  </div>
-
-  <!-- BOX5 : Partage sur les réseaux sociaux -->
-  <div class="box" id="box5">
-    <button class="back-btn" id="back-btn5">
       <i class="fas fa-arrow-left"></i>
     </button>
     <h3>Partage ton expérience</h3>
@@ -567,29 +545,21 @@
     >
       <i class="fab fa-linkedin"></i> Partager sur LinkedIn
     </a>
-    <!-- Bouton "Suivant" pour passer au Footer -->
-    <button class="next-btn" id="next-btn5">
+
+    <!-- Section Récapitulative avec le Footer Simplifié -->
+    <div class="box4-content">
+      <p class="recap-footer">Simulateur d'improvisation by Letmotiv</p>
+    </div>
+
+    <!-- Bouton "Suivant" pour passer au Footer (peut être optionnel) -->
+    <button class="next-btn" id="next-btn4">
       <i class="fas fa-arrow-right"></i>
     </button>
   </div>
 
   <!-- FOOTER -->
   <div class="footer">
-    <p>Tu souhaites progresser rapidement et efficacement dans la prise de parole en public&nbsp;?</p>
-    <div class="footer-buttons">
-      <a
-        href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole"
-        target="_blank"
-      >
-        <i class="fas fa-chalkboard-teacher"></i> Réservez un coaching Letmotiv
-      </a>
-      <a
-        href="https://alexetpierre.systeme.io/inscription"
-        target="_blank"
-      >
-        <i class="fas fa-laptop"></i> Suivre la formation en ligne Letmotiv
-      </a>
-    </div>
+    Simulateur d'improvisation by Letmotiv
   </div>
 
   <!-- SCRIPT -->
@@ -601,23 +571,20 @@
       1: document.getElementById('box1'),
       2: document.getElementById('box2'),
       3: document.getElementById('box3'),
-      4: document.getElementById('box4'),
-      5: document.getElementById('box5')
+      4: document.getElementById('box4')
     };
 
     const nextBtns = {
       1: document.getElementById('next-btn1'),
       2: document.getElementById('next-btn2'),
       3: document.getElementById('next-btn3'),
-      4: document.getElementById('next-btn4'),
-      5: document.getElementById('next-btn5')
+      4: document.getElementById('next-btn4')
     };
 
     const backBtns = {
       2: document.getElementById('back-btn2'),
       3: document.getElementById('back-btn3'),
-      4: document.getElementById('back-btn4'),
-      5: document.getElementById('back-btn5')
+      4: document.getElementById('back-btn4')
     };
 
     function showBox(current, next) {
@@ -639,8 +606,7 @@
     nextBtns[1].addEventListener('click', () => showBox(1, 2));
     nextBtns[2].addEventListener('click', () => showBox(2, 3));
     nextBtns[3].addEventListener('click', () => showBox(3, 4));
-    nextBtns[4].addEventListener('click', () => showBox(4, 5));
-    nextBtns[5].addEventListener('click', () => {
+    nextBtns[4].addEventListener('click', () => {
       // Aller au Footer
       window.scrollTo({
         top: document.body.scrollHeight,
@@ -652,15 +618,9 @@
     backBtns[2].addEventListener('click', () => showBox(2, 1));
     backBtns[3].addEventListener('click', () => showBox(3, 2));
     backBtns[4].addEventListener('click', () => showBox(4, 3));
-    backBtns[5].addEventListener('click', () => showBox(5, 4));
 
     /***********************
-     * 2) Mode d'emploi toggle (SUPPRIMÉ)
-     ***********************/
-    // La Box0 a été supprimée, donc cette section est supprimée
-
-    /***********************
-     * 3) Explications par catégorie
+     * 2) Explications par catégorie
      ***********************/
     const explanations = {
       convaincre:   "Objectif : essaye de convaincre ton auditoire d’une idée générale.",
@@ -746,7 +706,7 @@
     }
 
     /***********************
-     * 4) Gérer le sujet d'impro
+     * 3) Gérer le sujet d'impro
      ***********************/
     const generateSubjectBtn = document.getElementById('generate-subject-btn');
     const subjectWrapper = document.getElementById('subject-wrapper');
@@ -773,7 +733,7 @@
     });
 
     /***********************
-     * 5) Enregistrement vidéo
+     * 4) Enregistrement vidéo
      ***********************/
     let mediaRecorder;
     let recordedChunks = [];
@@ -783,12 +743,10 @@
     const restartBtn = document.getElementById('restart-btn');
     const progressBarInner = document.getElementById('progress-bar-inner');
     const statusText = document.getElementById('status');
-    const boxPartageRS = document.getElementById('box-partage-RS');
-    const box3 = document.getElementById('box3'); // Téléchargements
     const validateFormBtn = document.getElementById('validate-form-btn');
     const prenomInput = document.getElementById('prenom');
     const emailInput = document.getElementById('email');
-    const downloadsBox = document.getElementById('downloads-box');
+    const downloadButtons = document.getElementById('download-buttons');
     const downloadVideoBtn = document.getElementById('download-video-btn');
     const downloadPdfBtn = document.getElementById('download-pdf-btn');
     const videoText = document.getElementById('video-text'); // Nouveau
@@ -914,7 +872,7 @@
     });
 
     /***********************
-     * 6) Validation du formulaire et Affichage de la box "Vos téléchargements"
+     * 5) Validation du formulaire et Affichage des Boutons de Téléchargement
      ***********************/
     validateFormBtn.addEventListener('click', () => {
       const prenomValue = prenomInput.value.trim();
@@ -943,16 +901,11 @@
         return;
       }
 
+      // Afficher les boutons de téléchargement dans le cadre blanc
+      downloadButtons.style.display = 'block';
+
       // Activer le bouton "Suivant" pour passer à la box4
       nextBtns[3].disabled = false;
-
-      // Afficher les boutons de téléchargement dans Box4 en naviguant vers Box4
-      showBox(3,4);
-
-      // Mettre à jour les boutons de téléchargement
-      downloadVideoBtn.classList.remove('hidden');
-      downloadPdfBtn.classList.remove('hidden');
-      validateFormBtn.disabled = true;
     });
 
     // Téléchargement de la vidéo
@@ -980,15 +933,16 @@
     });
 
     /***********************
-     * 7) Navigation Séquentielle des Boîtes
+     * 6) Navigation Séquentielle des Boîtes
      ***********************/
     // Cette logique est déjà gérée par les écouteurs "Suivant" et "Retour"
     // Assure-toi que les boutons "Suivant" sont activés/désactivés selon les besoins
 
     /***********************
-     * 8) Gestion des flèches de navigation pour les boîtes
+     * 7) Gestion des flèches de navigation pour les boîtes
      ***********************/
     // Aucun code supplémentaire n'est nécessaire ici car la navigation est gérée par les boutons "Suivant" et "Retour"
+
   </script>
 </body>
 </html>
