@@ -297,7 +297,7 @@
       text-align: center;
     }
 
-    /* BOX4 : Partage LinkedIn et Section Récapitulative */
+    /* BOX4 : Partage LinkedIn et Options de Progression */
     .box4-content {
       margin-top: 20px;
       background-color: #fefefe;
@@ -339,7 +339,7 @@
       transform: translateY(-3px);
     }
 
-    /* Simplification du Footer */
+    /* Footer Simplifié */
     .footer {
       background-color: #182d84;
       color: #FFFFFF;
@@ -352,10 +352,6 @@
       bottom: 0;
       left: 0;
       box-sizing: border-box;
-    }
-
-    .hidden {
-      display: none;
     }
 
     /* Bouton flèche "Suivant" */
@@ -398,6 +394,18 @@
       }
     }
 
+    /* Styles pour les boutons bleus dans Box4 */
+    .progression-buttons {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .progression-buttons a {
+      width: 100%;
+      max-width: 300px;
+    }
   </style>
 </head>
 <body>
@@ -528,7 +536,7 @@
     </button>
   </div>
 
-  <!-- BOX4 : Partage LinkedIn et Section Récapitulative -->
+  <!-- BOX4 : Partage LinkedIn et Options de Progression -->
   <div class="box" id="box4">
     <button class="back-btn" id="back-btn4">
       <i class="fas fa-arrow-left"></i>
@@ -546,18 +554,21 @@
       <i class="fab fa-linkedin"></i> Partager sur LinkedIn
     </a>
 
-    <!-- Section Récapitulative avec le Footer Simplifié -->
-    <div class="box4-content">
-      <p class="recap-footer">Simulateur d'improvisation by Letmotiv</p>
+    <!-- Nouvelle Section pour la Progression -->
+    <div class="progression-buttons">
+      <p>Tu souhaites progresser rapidement et efficacement dans la prise de parole en public ?</p>
+      <a href="https://alexetpierre.systeme.io/inscription" class="btn">
+        <i class="fas fa-laptop"></i> Suis notre formation en ligne
+      </a>
+      <a href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole" class="btn">
+        <i class="fas fa-chalkboard-teacher"></i> Réserve un coaching
+      </a>
     </div>
 
-    <!-- Bouton "Suivant" pour passer au Footer (peut être optionnel) -->
-    <button class="next-btn" id="next-btn4">
-      <i class="fas fa-arrow-right"></i>
-    </button>
+    <!-- Bouton "Suivant" supprimé car c'est la dernière étape -->
   </div>
 
-  <!-- FOOTER -->
+  <!-- FOOTER Simplifié -->
   <div class="footer">
     Simulateur d'improvisation by Letmotiv
   </div>
@@ -578,7 +589,7 @@
       1: document.getElementById('next-btn1'),
       2: document.getElementById('next-btn2'),
       3: document.getElementById('next-btn3'),
-      4: document.getElementById('next-btn4')
+      // 4: Aucun bouton "Suivant" dans Box4
     };
 
     const backBtns = {
@@ -606,13 +617,7 @@
     nextBtns[1].addEventListener('click', () => showBox(1, 2));
     nextBtns[2].addEventListener('click', () => showBox(2, 3));
     nextBtns[3].addEventListener('click', () => showBox(3, 4));
-    nextBtns[4].addEventListener('click', () => {
-      // Aller au Footer
-      window.scrollTo({
-        top: document.body.scrollHeight,
-        behavior: 'smooth'
-      });
-    });
+    // Aucun bouton "Suivant" dans Box4
 
     // Ajouter des écouteurs pour les boutons "Retour"
     backBtns[2].addEventListener('click', () => showBox(2, 1));
@@ -942,7 +947,6 @@
      * 7) Gestion des flèches de navigation pour les boîtes
      ***********************/
     // Aucun code supplémentaire n'est nécessaire ici car la navigation est gérée par les boutons "Suivant" et "Retour"
-
   </script>
 </body>
 </html>
