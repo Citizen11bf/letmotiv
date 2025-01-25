@@ -185,29 +185,31 @@
       background-color: #00a48a !important;
     }
 
-    /* Petit encadré pour l’explication (texte centré et en gras) + animation */
+    /* Petit encadré pour l’explication (texte centré et en gras) + animation de bordure */
     .explanation-box {
       display: none;
       margin-top: 10px;
       background-color: #fefefe;
-      border: 2px solid #ccc;
+      border: 0 solid #ccc; /* On part d'une bordure 0 */
       border-radius: 8px;
       padding: 10px;
       text-align: center;
       font-weight: bold;
       font-size: 14px;
       color: #333;
-
-      /* Animation par transition */
-      opacity: 0;
-      transform: translateY(-10px);
-      transition: opacity 0.4s ease, transform 0.4s ease;
     }
-    /* Classe "show" pour l'afficher avec animation */
+    /* Quand on ajoute .show, on anime la bordure de 0px à 2px */
     .explanation-box.show {
       display: block;
-      opacity: 1;
-      transform: translateY(0);
+      animation: borderGrow 2s forwards; /* 2s = temps d'animation */
+    }
+    @keyframes borderGrow {
+      0% {
+        border-width: 0;
+      }
+      100% {
+        border-width: 2px;
+      }
     }
 
     /* BOX2 : Vidéo, enregistrement, etc. */
@@ -220,23 +222,48 @@
       font-weight: bold;
     }
 
+    .subject-wrapper {
+      margin-top: 10px;
+      background-color: #fefefe;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+      font-size: 14px;
+      color: #333;
+      display: none; /* caché tant qu'il n'y a pas de sujet */
+    }
+    .subject-wrapper span {
+      font-weight: bold;
+    }
+
     /* Encadré bleu + vidéo + boutons */
     .video-box {
       margin: 10px auto;
       border: 3px solid #182d84;
       border-radius: 6px;
       max-width: 500px;
-      padding: 10px;
-      background-color: #fefefe; /* pour contraster */
+      background-color: #fefefe;
+      /* On fixe une hauteur pour pouvoir centrer verticalement */
+      height: 300px;
+      position: relative;
+      display: flex;
+      justify-content: center;   /* centre horizontal */
+      align-items: center;       /* centre vertical */
     }
     .video-box video {
       width: 100%;
-      display: block;
+      height: 100%;
+      object-fit: cover;
       border-radius: 4px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      /* On le met derrière le bouton */
+      z-index: 1; 
     }
     .video-controls {
-      margin-top: 10px;
-      text-align: center;
+      z-index: 2; /* Au-dessus de la vidéo */
     }
 
     #progress-bar {
@@ -255,21 +282,6 @@
       height: 100%;
       background-color: #00a48a;
       transition: width 0.5s linear;
-    }
-
-    .subject-wrapper {
-      margin-top: 10px;
-      background-color: #fefefe;
-      border: 2px solid #ccc;
-      border-radius: 8px;
-      padding: 10px;
-      text-align: center;
-      font-size: 14px;
-      color: #333;
-      display: none; /* caché tant qu'il n'y a pas de sujet */
-    }
-    .subject-wrapper span {
-      font-weight: bold;
     }
 
     button,
@@ -443,7 +455,7 @@
       <button data-category="conflit">Gérer un conflit</button>
     </div>
 
-    <!-- Encadré pour l'explication de l'objectif (nouvelle animation + auto-scroll ensuite) -->
+    <!-- Encadré pour l'explication de l'objectif (anime la bordure + scroll après 2s) -->
     <div class="explanation-box" id="explanation-box"></div>
   </div>
 
@@ -459,7 +471,7 @@
       <span id="subject-display"></span>
     </div>
 
-    <!-- Encadré bleu + vidéo + boutons "Démarrer"/"Arrêter" -->
+    <!-- Box vidéo + boutons centrés -->
     <div class="video-box">
       <video id="preview" autoplay muted></video>
       <div class="video-controls">
@@ -609,24 +621,24 @@
         currentCategory = button.dataset.category;
         const explication = explanations[currentCategory] || "";
 
-        // Affiche l'explication dans l'encadré (avec animation fade/slide)
-        // 1) On le rend visible (display:block)
-        explanationBox.style.display = 'block';
-        // 2) On change son contenu
-        explanationBox.textContent = explication;
-        // 3) Petit délai pour déclencher l'animation
-        setTimeout(() => explanationBox.classList.add('show'), 50);
+        // Affiche l'explication
+        explanationBox.style.display = 'block';  // rend l'encadré visible
+        explanationBox.textContent = explication; 
+        explanationBox.classList.add('show');    // lance l'animation de bordure
 
         // On pré-charge déjà les sujets .txt pour éviter d'attendre plus tard
         if (subjectsCache[currentCategory] === null) {
           await loadSubjects(currentCategory);
         }
 
-        // Après avoir affiché la phrase d'objectif, on scroll vers la box2
-        const box2 = document.querySelector('.container');
-        if (box2) {
-          box2.scrollIntoView({ behavior: 'smooth' });
-        }
+        // On attend 2 secondes pour laisser l'animation + lecture
+        setTimeout(() => {
+          // Ensuite, on scroll vers la box2
+          const box2 = document.querySelector('.container');
+          if (box2) {
+            box2.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 2000);
       });
     });
 
