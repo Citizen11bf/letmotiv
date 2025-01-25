@@ -54,18 +54,28 @@
       flex-direction: row;
       align-items: center;
       justify-content: center;
-      max-width: 100%;
-      gap: 5px;
+      gap: 10px;
       flex-wrap: wrap;
+      max-width: 100%;
+      overflow-wrap: break-word; /* évite débordement si texte trop long */
     }
-
-    /* Lien Letmotiv pas souligné même au survol */
+    .header-l1,
+    .header-l2 {
+      display: inline-block;
+    }
     .header a {
       color: #FFFFFF;
       text-decoration: none;
     }
     .header a:hover {
       text-decoration: none;
+    }
+
+    @media (max-width: 600px) {
+      .header-l1,
+      .header-l2 {
+        display: block;
+      }
     }
 
     /* --- Titre principal (avec la police "Sour Gummy") --- */
@@ -96,12 +106,12 @@
       position: relative;
     }
 
-    /* Sous-titres (ex: Mode d'emploi, Objectif) -> même police/couleur */
+    /* Sous-titres de sections (mode d'emploi, etc.) */
     .section-subtitle {
       font-size: 16px;
       color: #000000;
       font-weight: bold;
-      margin: 0; /* pour éviter un double espace */
+      margin: 0 0 10px;
     }
 
     /* BOX0 : Mode d'emploi */
@@ -139,12 +149,12 @@
       display: flex;
       align-items: center;
       margin-bottom: 8px;
-      flex-wrap: nowrap; /* évite que l’icône passe à la ligne sur mobile */
+      flex-wrap: nowrap; /* évite retour ligne sur icônes */
     }
     .step-icon {
-      background-color: #00a48a; /* couleur de fond du rond */
+      background-color: #00a48a; 
       border-radius: 50%;
-      color: #fff;               /* couleur de l'icône */
+      color: #fff;
       width: 32px;
       height: 32px;
       display: inline-flex;
@@ -175,7 +185,7 @@
       background-color: #00a48a !important;
     }
 
-    /* Petit encadré pour l’explication (texte centré et en gras) */
+    /* Petit encadré pour l’explication (texte centré et en gras) + animation */
     .explanation-box {
       display: none;
       margin-top: 10px;
@@ -183,21 +193,52 @@
       border: 2px solid #ccc;
       border-radius: 8px;
       padding: 10px;
-      text-align: center;       /* centré */
-      font-weight: bold;        /* en gras */
-      font-family: 'Sour Gummy', cursive;
+      text-align: center;
+      font-weight: bold;
       font-size: 14px;
       color: #333;
+
+      /* Animation par transition */
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    /* Classe "show" pour l'afficher avec animation */
+    .explanation-box.show {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
     }
 
     /* BOX2 : Vidéo, enregistrement, etc. */
-    video#preview {
-      width: 100%;
-      max-width: 500px;
+    /* Titre pour la box2, même style que box1 (cf. .intro-box h3) */
+    .container .box-title {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 16px;
+      color: #000000;
+      font-weight: bold;
+    }
+
+    /* Encadré bleu + vidéo + boutons */
+    .video-box {
       margin: 10px auto;
       border: 3px solid #182d84;
       border-radius: 6px;
+      max-width: 500px;
+      padding: 10px;
+      background-color: #fefefe; /* pour contraster */
     }
+    .video-box video {
+      width: 100%;
+      display: block;
+      border-radius: 4px;
+    }
+    .video-controls {
+      margin-top: 10px;
+      text-align: center;
+    }
+
     #progress-bar {
       width: 100%;
       height: 10px;
@@ -216,7 +257,6 @@
       transition: width 0.5s linear;
     }
 
-    /* Sujet dans un encadré blanc */
     .subject-wrapper {
       margin-top: 10px;
       background-color: #fefefe;
@@ -225,11 +265,9 @@
       padding: 10px;
       text-align: center;
       font-size: 14px;
-      font-family: 'Sour Gummy', cursive;
       color: #333;
       display: none; /* caché tant qu'il n'y a pas de sujet */
     }
-    /* Texte en gras pour le sujet */
     .subject-wrapper span {
       font-weight: bold;
     }
@@ -337,17 +375,6 @@
       color: #000000;
       font-weight: bold;
     }
-
-    .desktop-break {
-  display: none; /* caché par défaut (mobile) */
-  }
-
-  @media (min-width: 760px) {
-  .desktop-break {
-    display: inline; /* affiché sur desktop */
-  }
-  }
-    
   </style>
 </head>
 <body>
@@ -365,11 +392,9 @@
   </div>
 
   <!-- Titre principal -->
- <h1 class="main-title">
-  Entraine-toi à la prise de parole en public
-  <br class="desktop-break">
-  avec le simulateur gratuit Letmotiv
-</h1>
+  <h1 class="main-title">
+    Entrainez-vous à la prise de parole en public avec le simulateur Letmotiv
+  </h1>
 
   <!-- BOX0 : Mode d'emploi -->
   <div class="box0">
@@ -378,28 +403,28 @@
     </h3>
 
     <div class="help-content" id="help-content">
-      
+      <p>
+        Vous voulez évaluer et développer votre niveau en prise de parole en public ? 
+        Faites-le rapidement et gratuitement avec le simulateur d'improvisation Letmotiv : 
+      </p>
+
       <!-- Liste avec icônes dans des ronds -->
       <ul class="step-list">
         <li>
           <span class="step-icon"><i class="fas fa-bullseye"></i></span>
-          Sélectionne un objectif de prise de parole. 
+          Sélectionnez un objectif.
         </li>
         <li>
           <span class="step-icon"><i class="fas fa-dice"></i></span>
-          Génére un sujet d'improvisation aléatoire.
+          Générez un sujet d'improvisation aléatoire.
         </li>
         <li>
           <span class="step-icon"><i class="fas fa-video"></i></span>
-          Lance ton improvisation : tu as 2 minutes top chrono !
+          Lancez votre improvisation (2 minutes top chrono) et enregistrez-vous.
         </li>
         <li>
           <span class="step-icon"><i class="fas fa-download"></i></span>
-          Indique ton prénom/email pour télécharger ta vidéo et revoir ton improvisation.  
-         </li>
-        <li>
-          <span class="step-icon"><i class="fas fa-chart-line"></i></span>
-          Télécharge la grille d'analyse Letmotiv et évalue ta prestation.  
+          Indiquez votre prénom/email pour télécharger la vidéo et la grille d'évaluation.
         </li>
       </ul>
     </div>
@@ -418,12 +443,14 @@
       <button data-category="conflit">Gérer un conflit</button>
     </div>
 
-    <!-- Encadré pour l'explication de l'objectif choisi -->
+    <!-- Encadré pour l'explication de l'objectif (nouvelle animation + auto-scroll ensuite) -->
     <div class="explanation-box" id="explanation-box"></div>
   </div>
 
   <!-- BOX2 : Vidéo, enregistrement, etc. -->
   <div class="container">
+    <h3 class="box-title">Lance ton impro&nbsp;!</h3>
+
     <!-- Bouton pour générer le sujet d'impro (selon l’objectif sélectionné) -->
     <button id="generate-subject-btn">Générer un sujet d'improvisation</button>
 
@@ -432,22 +459,24 @@
       <span id="subject-display"></span>
     </div>
 
-    <video id="preview" autoplay muted></video>
+    <!-- Encadré bleu + vidéo + boutons "Démarrer"/"Arrêter" -->
+    <div class="video-box">
+      <video id="preview" autoplay muted></video>
+      <div class="video-controls">
+        <button id="start-btn"><i class="fas fa-video"></i> Démarrer ton impro</button>
+        <button id="stop-btn" class="hidden"><i class="fas fa-stop"></i> Arrêter l'improvisation</button>
+      </div>
+    </div>
 
     <div id="progress-bar">
       <div id="progress-bar-inner"></div>
     </div>
 
-    <div>
-      <button id="start-btn"><i class="fas fa-video"></i> Démarrer l'improvisation</button>
-      <!-- Bouton "Arrêter" caché par défaut -->
-      <button id="stop-btn" class="hidden"><i class="fas fa-stop"></i> Arrêter l'improvisation</button>
-    </div>
-    <p id="status">Sélectionne un objectif puis clique sur « Générer un sujet d'improvisation ».</p>
+    <p id="status">Sélectionnez un objectif puis cliquez sur « Générer un sujet ».</p>
 
     <!-- Formulaire prénom + email -->
     <div id="download-section" class="download-section hidden">
-      <h3>Indique deux infos pour télécharger ta prestation et une grille d'analyse Letmotiv :</h3>
+      <h3>Pour télécharger votre prestation et une grille d'analyse Letmotiv :</h3>
       <label for="prenom">Prénom :</label>
       <input type="text" id="prenom" placeholder="Votre prénom"/>
 
@@ -464,18 +493,18 @@
   <div id="downloads-box" class="downloads-box hidden">
     <h3>Vos téléchargements</h3>
     <button id="download-video-btn" class="hidden">
-      <i class="fas fa-download"></i> Ta vidéo (mp4)
+      <i class="fas fa-download"></i> Télécharger la vidéo (mp4)
     </button>
     <button id="download-pdf-btn" class="hidden">
-      <i class="fas fa-download"></i> La grille d'évaluation Letmotiv (pdf)
+      <i class="fas fa-download"></i> Télécharger la grille d'évaluation (pdf)
     </button>
   </div>
 
   <!-- Partage sur les réseaux sociaux -->
   <div class="box-partage-RS hidden" id="box-partage-RS">
     <p>
-      Partage ton expérience et encourage d'autres personnes à relever le défi. <br>
-      Montre ton courage et inspire les autres à s'améliorer en improvisation !<br>
+      Partagez votre expérience et encouragez d'autres personnes à relever le défi. <br>
+      Montrez votre courage et inspirez les autres à s'améliorer en improvisation !<br>
       <b>#ChallengeImproLetmotiv</b>
     </p>
     <a
@@ -490,13 +519,13 @@
 
   <!-- FOOTER -->
   <div class="footer">
-    <p>Tu souhaites progresser rapidement et efficacement dans la prise de parole en public&nbsp;?</p>
+    <p>Vous souhaitez progresser rapidement et efficacement dans la prise de parole en public&nbsp;?</p>
     <div class="footer-buttons">
       <a
         href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole"
         target="_blank"
       >
-        <i class="fas fa-chalkboard-teacher"></i> Réserver un coaching Letmotiv
+        <i class="fas fa-chalkboard-teacher"></i> Réservez un coaching Letmotiv
       </a>
       <a
         href="https://alexetpierre.systeme.io/inscription"
@@ -580,13 +609,23 @@
         currentCategory = button.dataset.category;
         const explication = explanations[currentCategory] || "";
 
-        // Affiche l'explication dans l'encadré (centré, en gras)
-        explanationBox.textContent = explication;
+        // Affiche l'explication dans l'encadré (avec animation fade/slide)
+        // 1) On le rend visible (display:block)
         explanationBox.style.display = 'block';
+        // 2) On change son contenu
+        explanationBox.textContent = explication;
+        // 3) Petit délai pour déclencher l'animation
+        setTimeout(() => explanationBox.classList.add('show'), 50);
 
         // On pré-charge déjà les sujets .txt pour éviter d'attendre plus tard
         if (subjectsCache[currentCategory] === null) {
           await loadSubjects(currentCategory);
+        }
+
+        // Après avoir affiché la phrase d'objectif, on scroll vers la box2
+        const box2 = document.querySelector('.container');
+        if (box2) {
+          box2.scrollIntoView({ behavior: 'smooth' });
         }
       });
     });
@@ -764,7 +803,7 @@
     stopBtn.addEventListener('click', () => {
       if (mediaRecorder && mediaRecorder.state === 'recording') {
         mediaRecorder.stop();
-        statusText.textContent = "Improvisation terminée.";
+        statusText.textContent = "Improvisation terminée. Renseignez vos informations pour télécharger.";
         startBtn.disabled = false;
         stopBtn.disabled = true;
         stopBtn.classList.add('hidden');
