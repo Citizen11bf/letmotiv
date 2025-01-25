@@ -187,9 +187,8 @@
 
     /* Encadré pour l'explication (texte centré et en gras) + animation */
     .explanation-box {
-      /* On n'utilise pas display:none pour permettre la transition */
-      visibility: hidden;    /* caché par défaut */
-      opacity: 0;           /* transparent */
+      visibility: hidden;    /* pour autoriser la transition */
+      opacity: 0;
       transform: translateY(-10px);
 
       margin-top: 10px;
@@ -202,14 +201,13 @@
       font-size: 14px;
       color: #333;
 
-      /* On anime la bordure, l'opacité et la translation */
       transition: border 0.5s ease, opacity 0.5s ease, transform 0.5s ease;
     }
     .explanation-box.show {
-      visibility: visible;   /* rend visible */
-      opacity: 1;            /* opacité 1 */
+      visibility: visible;
+      opacity: 1;
       transform: translateY(0);
-      border: 2px solid #ccc; /* la bordure passe de 0 à 2px */
+      border: 2px solid #ccc; /* la bordure passe de 0px à 2px */
     }
 
     /* BOX2 : Vidéo, enregistrement, etc. */
@@ -236,7 +234,7 @@
       font-weight: bold;
     }
 
-    /* Encadré bleu + vidéo + boutons centrés */
+    /* Encadré bleu + vidéo */
     .video-box {
       margin: 10px auto;
       border: 3px solid #182d84;
@@ -259,8 +257,14 @@
       left: 0;
       z-index: 1; /* derrière le bouton */
     }
-    .video-controls {
-      z-index: 2; /* au-dessus de la vidéo */
+
+    /* Les boutons "Arrêter" et "Récommencer" seront en-dessous de la box */
+    .impro-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center; 
+      margin-top: 10px;
     }
 
     #progress-bar {
@@ -450,6 +454,7 @@
       <button data-category="repartie">Avoir de la répartie</button>
       <button data-category="vendre">Vendre</button>
       <button data-category="conflit">Gérer un conflit</button>
+            <button data-category="diction">Diction</button>
     </div>
 
     <!-- Encadré pour l'explication (transition bordure/opacité/position) -->
@@ -468,13 +473,16 @@
       <span id="subject-display"></span>
     </div>
 
-    <!-- Box vidéo + boutons centrés -->
+    <!-- Box vidéo -->
     <div class="video-box">
       <video id="preview" autoplay muted></video>
-      <div class="video-controls">
-        <button id="start-btn"><i class="fas fa-video"></i> Démarrer ton impro</button>
-        <button id="stop-btn" class="hidden"><i class="fas fa-stop"></i> Arrêter l'improvisation</button>
-      </div>
+    </div>
+
+    <!-- Boutons en dessous de l'encart bleu -->
+    <div class="impro-actions">
+      <button id="start-btn"><i class="fas fa-video"></i> Démarrer l'impro</button>
+      <button id="stop-btn" class="hidden"><i class="fas fa-stop"></i> Arrêter l'impro</button>
+      <button id="restart-btn" class="hidden"><i class="fas fa-redo"></i> Récommencer l'impro</button>
     </div>
 
     <div id="progress-bar">
@@ -547,9 +555,9 @@
 
   <!-- SCRIPT -->
   <script>
-    /**************************
+    /***********************
      * 1) Mode d'emploi toggle
-     **************************/
+     ***********************/
     const modeEmploiToggle = document.getElementById('mode-emploi-toggle');
     const arrowIcon = document.getElementById('arrow-icon');
     const helpContent = document.getElementById('help-content');
@@ -564,9 +572,9 @@
       }
     });
 
-    /**************************
+    /***********************
      * 2) Explications par catégorie
-     **************************/
+     ***********************/
     const explanations = {
       convaincre:   "Objectif : essaye de convaincre ton auditoire d’une idée générale.",
       inspirer:     "Objectif : fais un discours inspirant et motive ton public.",
@@ -574,7 +582,8 @@
       toast:        "Objectif : porter un toast marquant pour célébrer un événement.",
       repartie:     "Objectif : réponds du tac-au-tac et montre ton sens de la répartie.",
       vendre:       "Objectif : fais un argumentaire de vente percutant.",
-      conflit:      "Objectif : gère un désaccord ou une tension avec diplomatie."
+      conflit:      "Objectif : gère un désaccord ou une tension avec diplomatie.",
+            diction:      "Objectif : Améliore ta diction et in fine la clarté de ton discours."
     };
 
     const txtFilesByCategory = {
@@ -584,7 +593,8 @@
       toast:        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/toast.txt",
       repartie:     "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/repartie.txt",
       vendre:       "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/vendre.txt",
-      conflit:      "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/gerer_un_conflit.txt"
+      conflit:      "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/gerer_un_conflit.txt",
+      diction:      "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/diction.txt"
     };
 
     let subjectsCache = {
@@ -594,40 +604,37 @@
       toast: null,
       repartie: null,
       vendre: null,
-      conflit: null
+      conflit: null,
+      diction: null
     };
 
     const objectivesButtons = document.querySelectorAll('.objectives-container button');
     const explanationBox = document.getElementById('explanation-box');
-    const header = document.querySelector('.header'); // pour le scroll offset
-    let currentCategory = null; // la catégorie en cours
+    const header = document.querySelector('.header');
+    let currentCategory = null;
 
     objectivesButtons.forEach(button => {
       button.addEventListener('click', async () => {
-        // Retire la classe "selected-objective" de tous les boutons
+        // Bouton sélectionné = vert
         objectivesButtons.forEach(btn => btn.classList.remove('selected-objective'));
-
-        // Ajoute la classe "selected-objective" au bouton cliqué
         button.classList.add('selected-objective');
 
         currentCategory = button.dataset.category;
         const explication = explanations[currentCategory] || "";
 
-        // Animer l'explanation box (bordure + fade)
+        // Animer l'explication (bordure + fade)
         explanationBox.textContent = explication;
         explanationBox.classList.add('show');   // applique .show
-       
-        // On pré-charge déjà les sujets .txt pour éviter d'attendre plus tard
+
+        // Pré-charger le fichier .txt
         if (subjectsCache[currentCategory] === null) {
           await loadSubjects(currentCategory);
         }
 
-        // On attend 2 secondes de lecture + animation, puis scroll
+        // Attendre 2 secondes, puis scroller
         setTimeout(() => {
-          // Scroll manuel pour compenser la hauteur du header
           const box2 = document.querySelector('.container');
           const headerHeight = header ? header.offsetHeight : 0;
-
           if (box2) {
             const box2Y = box2.getBoundingClientRect().top + window.scrollY - headerHeight - 10;
             window.scrollTo({
@@ -664,6 +671,9 @@
       }
     }
 
+    /***********************
+     * 3) Gérer le sujet d'impro
+     ***********************/
     const generateSubjectBtn = document.getElementById('generate-subject-btn');
     const subjectWrapper = document.getElementById('subject-wrapper');
     const subjectDisplay = document.getElementById('subject-display');
@@ -688,23 +698,22 @@
       subjectWrapper.style.display = 'block';
     });
 
-    /**************************
-     * Enregistrement vidéo
-     **************************/
+    /***********************
+     * 4) Enregistrement vidéo
+     ***********************/
     let mediaRecorder;
     let recordedChunks = [];
     const preview = document.getElementById('preview');
     const startBtn = document.getElementById('start-btn');
     const stopBtn = document.getElementById('stop-btn');
+    const restartBtn = document.getElementById('restart-btn');
     const progressBarInner = document.getElementById('progress-bar-inner');
     const statusText = document.getElementById('status');
     const boxPartageRS = document.getElementById('box-partage-RS');
-
     const downloadSection = document.getElementById('download-section');
     const validateFormBtn = document.getElementById('validate-form-btn');
     const prenomInput = document.getElementById('prenom');
     const emailInput = document.getElementById('email');
-
     const downloadsBox = document.getElementById('downloads-box');
     const downloadVideoBtn = document.getElementById('download-video-btn');
     const downloadPdfBtn = document.getElementById('download-pdf-btn');
@@ -712,41 +721,8 @@
     let countdown;
     let videoURL = "";
 
-    async function setupCamera() {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-        preview.srcObject = stream;
-        return stream;
-      } catch (error) {
-        if (error.name === 'NotAllowedError' || error.name === 'SecurityError') {
-          statusText.textContent = "Vous avez refusé l'accès à la webcam ou au micro. Veuillez autoriser l'accès.";
-        } else if (error.name === 'NotFoundError' || error.name === 'DevicesNotFoundError') {
-          statusText.textContent = "Aucune caméra ou micro détecté(e). Vérifiez vos périphériques.";
-        } else {
-          statusText.textContent = "Erreur : Impossible d'accéder à la webcam. Vérifiez vos permissions.";
-        }
-        console.error('Erreur d\'accès à la webcam :', error);
-        return null;
-      }
-    }
-
-    function startTimer() {
-      let timeRemaining = 120; // 2 minutes
-      progressBarInner.style.width = '0%';
-      countdown = setInterval(() => {
-        const progress = ((120 - timeRemaining) / 120) * 100;
-        progressBarInner.style.width = `${progress}%`;
-        timeRemaining--;
-        if (timeRemaining < 0) {
-          clearInterval(countdown);
-          if (mediaRecorder && mediaRecorder.state === 'recording') {
-            mediaRecorder.stop();
-          }
-        }
-      }, 1000);
-    }
-
-    startBtn.addEventListener('click', async () => {
+    // On factorise la logique de démarrage dans une fonction
+    async function startImpro() {
       if (!currentSubject) {
         alert("Merci de sélectionner un objectif et de générer un sujet avant de démarrer.");
         return;
@@ -792,21 +768,70 @@
       mediaRecorder.start();
       statusText.textContent = "Improvisation en cours...";
 
-      startBtn.disabled = true;
+      // Gérer les boutons
+      startBtn.classList.add('hidden');
       stopBtn.classList.remove('hidden');
       stopBtn.disabled = false;
-      startTimer();
-    });
+      restartBtn.classList.add('hidden');
 
+      startTimer();
+    }
+
+    // Lance la webcam
+    async function setupCamera() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        preview.srcObject = stream;
+        return stream;
+      } catch (error) {
+        if (error.name === 'NotAllowedError' || error.name === 'SecurityError') {
+          statusText.textContent = "Vous avez refusé l'accès à la webcam ou au micro. Veuillez autoriser l'accès.";
+        } else if (error.name === 'NotFoundError' || error.name === 'DevicesNotFoundError') {
+          statusText.textContent = "Aucune caméra ou micro détecté(e). Vérifiez vos périphériques.";
+        } else {
+          statusText.textContent = "Erreur : Impossible d'accéder à la webcam. Vérifiez vos permissions.";
+        }
+        console.error('Erreur d\'accès à la webcam :', error);
+        return null;
+      }
+    }
+
+    function startTimer() {
+      let timeRemaining = 120; // 2 minutes
+      progressBarInner.style.width = '0%';
+      countdown = setInterval(() => {
+        const progress = ((120 - timeRemaining) / 120) * 100;
+        progressBarInner.style.width = `${progress}%`;
+        timeRemaining--;
+        if (timeRemaining < 0) {
+          clearInterval(countdown);
+          if (mediaRecorder && mediaRecorder.state === 'recording') {
+            mediaRecorder.stop();
+          }
+        }
+      }, 1000);
+    }
+
+    // Bouton "Démarrer l'impro"
+    startBtn.addEventListener('click', startImpro);
+
+    // Bouton "Arrêter l'impro"
     stopBtn.addEventListener('click', () => {
       if (mediaRecorder && mediaRecorder.state === 'recording') {
         mediaRecorder.stop();
         statusText.textContent = "Improvisation terminée. Renseignez vos informations pour télécharger.";
-        startBtn.disabled = false;
-        stopBtn.disabled = true;
-        stopBtn.classList.add('hidden');
         clearInterval(countdown);
+
+        stopBtn.classList.add('hidden');
+        stopBtn.disabled = true;
+        restartBtn.classList.remove('hidden'); 
       }
+    });
+
+    // Bouton "Récommencer l'impro"
+    restartBtn.addEventListener('click', () => {
+      // On relance simplement la fonction startImpro()
+      startImpro();
     });
 
     // Validation du formulaire -> affichage "Vos téléchargements"
@@ -825,6 +850,7 @@
       validateFormBtn.disabled = true;
     });
 
+    // Téléchargement de la vidéo
     downloadVideoBtn.addEventListener('click', () => {
       if (!videoURL) {
         alert("La vidéo n'est pas encore prête ou pas enregistrée.");
@@ -838,6 +864,7 @@
       document.body.removeChild(link);
     });
 
+    // Téléchargement du PDF
     downloadPdfBtn.addEventListener('click', () => {
       const link = document.createElement('a');
       link.href = "https://drive.google.com/uc?export=download&id=1pKif7hwkdSQRXLv6uoSQawCs3DIIcb70";
