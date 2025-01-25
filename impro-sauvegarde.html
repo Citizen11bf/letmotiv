@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -108,57 +107,6 @@
       color: #000000;
       font-weight: bold;
       margin: 0 0 10px;
-    }
-
-    /* BOX0 : Mode d'emploi */
-    .mode-emploi-toggle {
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .mode-emploi-toggle i {
-      transition: transform 0.3s;
-      font-size: 18px;
-    }
-    .opened {
-      transform: rotate(180deg);
-    }
-    .help-content {
-      display: none;
-      margin-top: 10px;
-      background-color: #fefefe;
-      border: 2px solid #ccc;
-      border-radius: 8px;
-      padding: 10px;
-      text-align: left;
-      font-size: 14px;
-    }
-
-    /* Liste des étapes avec icônes dans des ronds */
-    .step-list {
-      list-style: none; /* On enlève les puces par défaut */
-      padding-left: 0;  
-      margin: 0;
-    }
-    .step-list li {
-      display: flex;
-      align-items: center;
-      margin-bottom: 8px;
-      flex-wrap: nowrap; /* évite retour ligne sur icônes */
-    }
-    .step-icon {
-      background-color: #00a48a; 
-      border-radius: 50%;
-      color: #fff;
-      width: 32px;
-      height: 32px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      margin-right: 10px;
-      font-size: 16px;
-      flex-shrink: 0; /* empêche la pastille de se déformer sur mobile */
     }
 
     /* BOX1 : Choix d’objectif */
@@ -424,25 +372,6 @@
       font-weight: bold;
     }
 
-    /* Titre de la box LinkedIn */
-    .box-partage-RS h3 {
-      margin-top: 0;
-      margin-bottom: 10px;
-      font-size: 18px;
-      color: #000000;
-      font-weight: bold;
-    }
-
-    .desktop-break {
-      display: none; /* caché par défaut (mobile) */
-    }
-
-    @media (min-width: 768px) {
-      .desktop-break {
-        display: inline; /* affiché sur desktop */
-      }
-    }
-    
     /* Bouton flèche "Suivant" */
     .next-btn {
       margin-top: 15px;
@@ -473,6 +402,16 @@
       color: #00a48a;
     }
 
+    .desktop-break {
+      display: none; /* caché par défaut (mobile) */
+    }
+
+    @media (min-width: 768px) {
+      .desktop-break {
+        display: inline; /* affiché sur desktop */
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -496,50 +435,10 @@
     avec le simulateur Letmotiv
   </h1>
 
-  <!-- BOX0 : Mode d'emploi -->
-  <div class="box active" id="box0">
-    <button class="back-btn hidden" id="back-btn0">
-      <i class="fas fa-arrow-left"></i>
-    </button>
-    <h3 class="section-subtitle mode-emploi-toggle" id="mode-emploi-toggle">
-      Mode d'emploi <i class="fas fa-angle-down" id="arrow-icon"></i>
-    </h3>
-
-    <div class="help-content" id="help-content">
-      <!-- Mode d'emploi du simulateur sous forme de liste avec icônes -->
-      <ul class="step-list">
-        <li>
-          <span class="step-icon"><i class="fas fa-bullseye"></i></span>
-          1) Sélectionne un objectif de prise de parole.
-        </li>
-        <li>
-          <span class="step-icon"><i class="fas fa-dice"></i></span>
-          2) Génère un sujet d'improvisation aléatoire.
-        </li>
-        <li>
-          <span class="step-icon"><i class="fas fa-video"></i></span>
-          3) Lance ton improvisation : tu as 2 minutes top chrono !
-        </li>
-        <li>
-          <span class="step-icon"><i class="fas fa-download"></i></span>
-          4) Indique ton prénom/email pour télécharger et revoir ton improvisation. 
-        </li>
-        <li>
-          <span class="step-icon"><i class="fas fa-chart-line"></i></span>
-          5) Télécharge la grille d'évaluation Letmotiv et analyse ta prestation. 
-        </li>
-      </ul>
-    </div>
-
-    <!-- Bouton "Suivant" -->
-    <button class="next-btn" id="next-btn0">
-      <i class="fas fa-arrow-right"></i>
-    </button>
-  </div>
-
   <!-- BOX1 : Choix d'objectif -->
-  <div class="box" id="box1">
-    <button class="back-btn" id="back-btn1">
+  <div class="box active" id="box1">
+    <!-- Bouton "Retour" masqué car c'est la première boîte -->
+    <button class="back-btn hidden" id="back-btn1">
       <i class="fas fa-arrow-left"></i>
     </button>
     <h3>Quel est ton objectif de prise de parole&nbsp;?</h3>
@@ -601,7 +500,7 @@
 
     <p id="status">Improvisation non commencée.</p>
 
-    <!-- Bouton "Suivant" -->
+    <!-- Bouton "Suivant" (désactivé jusqu'à ce que l'impro soit arrêtée) -->
     <button class="next-btn" id="next-btn2" disabled>
       <i class="fas fa-arrow-right"></i>
     </button>
@@ -627,7 +526,7 @@
       </div>
     </div>
 
-    <!-- Bouton "Suivant" -->
+    <!-- Bouton "Suivant" (désactivé jusqu'à validation) -->
     <button class="next-btn" id="next-btn3" disabled>
       <i class="fas fa-arrow-right"></i>
     </button>
@@ -699,7 +598,6 @@
      * 1) Navigation entre les boxes
      ***********************/
     const boxes = {
-      0: document.getElementById('box0'),
       1: document.getElementById('box1'),
       2: document.getElementById('box2'),
       3: document.getElementById('box3'),
@@ -708,7 +606,6 @@
     };
 
     const nextBtns = {
-      0: document.getElementById('next-btn0'),
       1: document.getElementById('next-btn1'),
       2: document.getElementById('next-btn2'),
       3: document.getElementById('next-btn3'),
@@ -717,7 +614,6 @@
     };
 
     const backBtns = {
-      1: document.getElementById('back-btn1'),
       2: document.getElementById('back-btn2'),
       3: document.getElementById('back-btn3'),
       4: document.getElementById('back-btn4'),
@@ -740,16 +636,8 @@
     }
 
     // Ajouter des écouteurs pour les boutons "Suivant"
-    nextBtns[0].addEventListener('click', () => showBox(0, 1));
     nextBtns[1].addEventListener('click', () => showBox(1, 2));
-    nextBtns[2].addEventListener('click', () => {
-      // Vérifier que l'utilisateur a enregistré une vidéo
-      if (downloadBox.classList.contains('active')) {
-        showBox(2, 3);
-      } else {
-        alert("Veuillez arrêter l'improvisation pour continuer.");
-      }
-    });
+    nextBtns[2].addEventListener('click', () => showBox(2, 3));
     nextBtns[3].addEventListener('click', () => showBox(3, 4));
     nextBtns[4].addEventListener('click', () => showBox(4, 5));
     nextBtns[5].addEventListener('click', () => {
@@ -761,28 +649,15 @@
     });
 
     // Ajouter des écouteurs pour les boutons "Retour"
-    backBtns[1].addEventListener('click', () => showBox(1, 0));
     backBtns[2].addEventListener('click', () => showBox(2, 1));
     backBtns[3].addEventListener('click', () => showBox(3, 2));
     backBtns[4].addEventListener('click', () => showBox(4, 3));
     backBtns[5].addEventListener('click', () => showBox(5, 4));
 
     /***********************
-     * 2) Mode d'emploi toggle
+     * 2) Mode d'emploi toggle (SUPPRIMÉ)
      ***********************/
-    const modeEmploiToggle = document.getElementById('mode-emploi-toggle');
-    const arrowIcon = document.getElementById('arrow-icon');
-    const helpContent = document.getElementById('help-content');
-
-    modeEmploiToggle.addEventListener('click', () => {
-      if (helpContent.style.display === 'none' || helpContent.style.display === '') {
-        helpContent.style.display = 'block';
-        arrowIcon.classList.add('opened'); // rotation
-      } else {
-        helpContent.style.display = 'none';
-        arrowIcon.classList.remove('opened');
-      }
-    });
+    // La Box0 a été supprimée, donc cette section est supprimée
 
     /***********************
      * 3) Explications par catégorie
@@ -909,7 +784,7 @@
     const progressBarInner = document.getElementById('progress-bar-inner');
     const statusText = document.getElementById('status');
     const boxPartageRS = document.getElementById('box-partage-RS');
-    const downloadBox = document.getElementById('box3'); // Nouvelle boîte
+    const box3 = document.getElementById('box3'); // Téléchargements
     const validateFormBtn = document.getElementById('validate-form-btn');
     const prenomInput = document.getElementById('prenom');
     const emailInput = document.getElementById('email');
@@ -959,20 +834,10 @@
         // Arrête la webcam
         stream.getTracks().forEach((track) => track.stop());
 
-        // Affiche la boîte "Télécharge et analyse ta prestation"
-        downloadBox.classList.add('active');
+        // Activer le bouton "Suivant" dans Box2
+        nextBtns[2].disabled = false;
 
-        // Défilement vers la nouvelle boîte en tenant compte du header fixe
-        const headerHeight = header ? header.offsetHeight : 0;
-        const boxPosition = downloadBox.getBoundingClientRect().top + window.scrollY - headerHeight - 20; // Ajuste la valeur 20 selon ton besoin
-
-        window.scrollTo({
-          top: boxPosition,
-          behavior: 'smooth'
-        });
-
-        // Affiche la box de partage
-        boxPartageRS.classList.remove('hidden');
+        statusText.textContent = "Improvisation terminée.";
       };
 
       mediaRecorder.start();
@@ -1034,7 +899,6 @@
     stopBtn.addEventListener('click', () => {
       if (mediaRecorder && mediaRecorder.state === 'recording') {
         mediaRecorder.stop();
-        statusText.textContent = "Improvisation terminée.";
         clearInterval(countdown);
 
         stopBtn.classList.add('hidden');
@@ -1052,6 +916,9 @@
     /***********************
      * 6) Validation du formulaire et Affichage de la box "Vos téléchargements"
      ***********************/
+    const box3Form = document.querySelector('#box3 .download-section');
+    const box3NextBtn = document.getElementById('next-btn3');
+
     validateFormBtn.addEventListener('click', () => {
       const prenomValue = prenomInput.value.trim();
       const emailValue = emailInput.value.trim();
@@ -1113,29 +980,15 @@
     });
 
     /***********************
-     * 7) Scroll Down vers Box2 (Déjà géré par navigation séquentielle)
+     * 7) Navigation Séquentielle des Boîtes
      ***********************/
-    /*
-    const scrollDownBtn = document.getElementById('scroll-down');
-
-    scrollDownBtn.addEventListener('click', () => {
-      const box2 = document.querySelector('.container');
-      const headerHeight = header ? header.offsetHeight : 0;
-      if (box2) {
-        const box2Y = box2.getBoundingClientRect().top + window.scrollY - headerHeight - 10;
-        window.scrollTo({
-          top: box2Y,
-          behavior: 'smooth'
-        });
-      }
-    });
-    */
+    // Cette logique est déjà gérée par les écouteurs "Suivant" et "Retour"
+    // Assure-toi que les boutons "Suivant" sont activés/désactivés selon les besoins
 
     /***********************
      * 8) Gestion des flèches de navigation pour les boîtes
      ***********************/
     // Aucun code supplémentaire n'est nécessaire ici car la navigation est gérée par les boutons "Suivant" et "Retour"
-
   </script>
 </body>
 </html>
