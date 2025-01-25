@@ -59,10 +59,7 @@
       max-width: 100%;
       overflow-wrap: break-word; /* évite débordement si texte trop long */
     }
-    .header-l1,
-    .header-l2 {
-      display: inline-block;
-    }
+    
     .header a {
       color: #FFFFFF;
       text-decoration: none;
@@ -71,18 +68,12 @@
       text-decoration: none;
     }
 
-    @media (max-width: 600px) {
-      .header-l1,
-      .header-l2 {
-        display: block;
-      }
-    }
-
     /* --- Titre principal (avec la police "DM SANS") --- */
     .main-title {
       margin-top: 80px; /* espace pour ne pas empiéter sur le header fixe */
       text-align: center;
       font-family: 'DM Sans'; /* Police importée */
+      color: #182d84; 
       font-size: 1.3rem; /* ajuste la taille si besoin */
       font-weight: bold;
       padding: 0 1rem;
