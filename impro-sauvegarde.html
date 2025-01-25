@@ -101,6 +101,23 @@
       transform: translateY(0);
     }
 
+    /* Indicateur de progression */
+    .step-indicator {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      width: 40px;
+      height: 40px;
+      background-color: #182d84;
+      color: #FFFFFF;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
     /* Sous-titres de sections (mode d'emploi, etc.) */
     .section-subtitle {
       font-size: 16px;
@@ -131,17 +148,38 @@
     }
 
     /* Icône de flèche pour navigation */
-    .nav-arrow {
-      position: absolute;
-      top: 10px;
-      right: 10px;
+    /* Styles communs */
+    .back-btn,
+    .next-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid;
+      background-color: transparent;
       cursor: pointer;
-      font-size: 20px;
-      color: #182d84;
-      transition: color 0.3s;
+      transition: background-color 0.3s, color 0.3s;
     }
-    .nav-arrow:hover {
-      color: #00a48a;
+
+    /* Flèches "Retour" */
+    .back-btn {
+      border-color: #808080; /* Bordure grise */
+      color: #808080; /* Flèche grise */
+    }
+    .back-btn:hover {
+      background-color: #505050; /* Fond gris foncé au survol */
+    }
+
+    /* Flèches "Suivant" */
+    .next-btn {
+      border-color: #182d84; /* Bordure bleue */
+      color: #182d84; /* Flèche bleue */
+    }
+    .next-btn:hover {
+      background-color: #00a48a; /* Fond bleu foncé au survol */
+      color: #00a48a; /* Flèche reste bleue */
     }
 
     /* Encadré pour l'explication des objectifs de prise de parole*/
@@ -308,14 +346,6 @@
       text-align: center;
     }
 
-    /* Simplifié footer dans Box4 */
-    .recap-footer {
-      margin-top: 20px;
-      font-size: 16px;
-      color: #182d84;
-      font-weight: bold;
-    }
-
     /* BOX4 : Boutons de partage LinkedIn */
     .linkedin-share-button {
       display: inline-block;
@@ -339,7 +369,7 @@
       transform: translateY(-3px);
     }
 
-    /* Footer Simplifié */
+    /* Simplification du Footer */
     .footer {
       background-color: #182d84;
       color: #FFFFFF;
@@ -355,34 +385,10 @@
     }
 
     /* Bouton flèche "Suivant" */
-    .next-btn {
-      margin-top: 15px;
-      cursor: pointer;
-      font-size: 24px;
-      color: #182d84;
-      background-color: transparent;
-      border: none;
-      transition: color 0.3s;
-    }
-    .next-btn:hover {
-      color: #00a48a;
-    }
+    /* Déjà stylisé ci-dessus */
 
     /* Bouton flèche "Retour" */
-    .back-btn {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      cursor: pointer;
-      font-size: 20px;
-      color: #182d84;
-      background-color: transparent;
-      border: none;
-      transition: color 0.3s;
-    }
-    .back-btn:hover {
-      color: #00a48a;
-    }
+    /* Déjà stylisé ci-dessus */
 
     .desktop-break {
       display: none; /* caché par défaut (mobile) */
@@ -406,6 +412,7 @@
       width: 100%;
       max-width: 300px;
     }
+
   </style>
 </head>
 <body>
@@ -431,6 +438,9 @@
 
   <!-- BOX1 : Choix d'objectif -->
   <div class="box active" id="box1">
+    <!-- Indicateur de progression -->
+    <div class="step-indicator">1/4</div>
+
     <!-- Bouton "Retour" masqué car c'est la première boîte -->
     <button class="back-btn hidden" id="back-btn1">
       <i class="fas fa-arrow-left"></i>
@@ -458,6 +468,9 @@
 
   <!-- BOX2 : Vidéo, enregistrement, etc. -->
   <div class="box" id="box2">
+    <!-- Indicateur de progression -->
+    <div class="step-indicator">2/4</div>
+
     <button class="back-btn" id="back-btn2">
       <i class="fas fa-arrow-left"></i>
     </button>
@@ -502,6 +515,9 @@
 
   <!-- BOX3 : Télécharge et analyse ta prestation -->
   <div class="box" id="box3">
+    <!-- Indicateur de progression -->
+    <div class="step-indicator">3/4</div>
+
     <button class="back-btn" id="back-btn3">
       <i class="fas fa-arrow-left"></i>
     </button>
@@ -538,6 +554,9 @@
 
   <!-- BOX4 : Partage LinkedIn et Options de Progression -->
   <div class="box" id="box4">
+    <!-- Indicateur de progression -->
+    <div class="step-indicator">4/4</div>
+
     <button class="back-btn" id="back-btn4">
       <i class="fas fa-arrow-left"></i>
     </button>
@@ -947,6 +966,7 @@
      * 7) Gestion des flèches de navigation pour les boîtes
      ***********************/
     // Aucun code supplémentaire n'est nécessaire ici car la navigation est gérée par les boutons "Suivant" et "Retour"
+
   </script>
 </body>
 </html>
