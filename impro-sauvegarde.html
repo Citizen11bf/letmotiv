@@ -916,9 +916,6 @@
     /***********************
      * 6) Validation du formulaire et Affichage de la box "Vos téléchargements"
      ***********************/
-    const box3Form = document.querySelector('#box3 .download-section');
-    const box3NextBtn = document.getElementById('next-btn3');
-
     validateFormBtn.addEventListener('click', () => {
       const prenomValue = prenomInput.value.trim();
       const emailValue = emailInput.value.trim();
@@ -946,13 +943,16 @@
         return;
       }
 
-      downloadsBox.classList.add('active');
+      // Activer le bouton "Suivant" pour passer à la box4
+      nextBtns[3].disabled = false;
+
+      // Afficher les boutons de téléchargement dans Box4 en naviguant vers Box4
+      showBox(3,4);
+
+      // Mettre à jour les boutons de téléchargement
       downloadVideoBtn.classList.remove('hidden');
       downloadPdfBtn.classList.remove('hidden');
       validateFormBtn.disabled = true;
-
-      // Activer le bouton "Suivant" pour passer à la box4
-      nextBtns[3].disabled = false;
     });
 
     // Téléchargement de la vidéo
