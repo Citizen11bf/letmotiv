@@ -24,7 +24,7 @@
     /* --- GLOBAL --- */
     body {
       margin: 0;
-      font-family: 'DM Sans';
+      font-family: 'DM Sans', sans-serif;
       background-color: #ffffff; /* Fond blanc */
       color: #333333;
       display: flex;
@@ -72,7 +72,7 @@
     .main-title {
       margin-top: 80px; /* espace pour ne pas empiéter sur le header fixe */
       text-align: center;
-      font-family: 'DM Sans'; /* Police importée */
+      font-family: 'DM Sans', sans-serif; /* Police importée */
       color: #182d84; 
       font-size: 1.3rem; /* ajuste la taille si besoin */
       font-weight: bold;
@@ -170,6 +170,7 @@
       justify-content: center;
       gap: 10px;
       margin-top: 10px;
+      margin-bottom: 0; /* Ajouté pour supprimer la marge en bas */
     }
     /* Bouton objectif sélectionné = vert */
     .selected-objective {
@@ -182,7 +183,7 @@
       opacity: 0;
       transform: translateY(-10px);
 
-      margin-top: 10px;
+      margin-top: 0; /* Modifié de 10px à 0 */
       background-color: #fefefe;
       border: 0 solid #ccc; /* part de 0px */
       border-radius: 8px;
@@ -439,8 +440,8 @@
         </li>
         <li>
           <span class="step-icon"><i class="fas fa-download"></i></span>
-          4) Indique ton prénom/email pour télécharger et revoir ton improvisaiton. 
-          </li>
+          4) Indique ton prénom/email pour télécharger et revoir ton improvisation. 
+        </li>
         <li>
           <span class="step-icon"><i class="fas fa-chart-line"></i></span>
           5) Télécharge la grille d'évaluation Letmotiv et analyse ta prestation. 
@@ -460,7 +461,7 @@
       <button data-category="repartie">Avoir de la répartie</button>
       <button data-category="vendre">Vendre</button>
       <button data-category="conflit">Gérer un conflit</button>
-            <button data-category="diction">Diction</button>
+      <button data-category="diction">Diction</button>
     </div>
 
     <!-- Encadré pour l'explication (transition bordure/opacité/position) -->
@@ -589,7 +590,7 @@
       repartie:     "Objectif : réponds du tac-au-tac et montre ton sens de la répartie.",
       vendre:       "Objectif : fais un argumentaire de vente percutant.",
       conflit:      "Objectif : gère un désaccord ou une tension avec diplomatie.",
-            diction:      "Objectif : Améliore ta diction et in fine la clarté de ton discours."
+      diction:      "Objectif : Améliore ta diction et in fine la clarté de ton discours."
     };
 
     const txtFilesByCategory = {
