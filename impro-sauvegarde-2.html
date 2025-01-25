@@ -185,35 +185,34 @@
       background-color: #00a48a !important;
     }
 
-    /* Petit encadré pour l’explication (texte centré et en gras) + animation de bordure */
+    /* Encadré pour l'explication (texte centré et en gras) + animation */
     .explanation-box {
-      display: none;
+      /* On n'utilise pas display:none pour permettre la transition */
+      visibility: hidden;    /* caché par défaut */
+      opacity: 0;           /* transparent */
+      transform: translateY(-10px);
+
       margin-top: 10px;
       background-color: #fefefe;
-      border: 0 solid #ccc; /* On part d'une bordure 0 */
+      border: 0 solid #ccc; /* part de 0px */
       border-radius: 8px;
       padding: 10px;
       text-align: center;
       font-weight: bold;
       font-size: 14px;
       color: #333;
+
+      /* On anime la bordure, l'opacité et la translation */
+      transition: border 0.5s ease, opacity 0.5s ease, transform 0.5s ease;
     }
-    /* Quand on ajoute .show, on anime la bordure de 0px à 2px */
     .explanation-box.show {
-      display: block;
-      animation: borderGrow 2s forwards; /* 2s = temps d'animation */
-    }
-    @keyframes borderGrow {
-      0% {
-        border-width: 0;
-      }
-      100% {
-        border-width: 2px;
-      }
+      visibility: visible;   /* rend visible */
+      opacity: 1;            /* opacité 1 */
+      transform: translateY(0);
+      border: 2px solid #ccc; /* la bordure passe de 0 à 2px */
     }
 
     /* BOX2 : Vidéo, enregistrement, etc. */
-    /* Titre pour la box2, même style que box1 (cf. .intro-box h3) */
     .container .box-title {
       margin-top: 0;
       margin-bottom: 10px;
@@ -237,15 +236,14 @@
       font-weight: bold;
     }
 
-    /* Encadré bleu + vidéo + boutons */
+    /* Encadré bleu + vidéo + boutons centrés */
     .video-box {
       margin: 10px auto;
       border: 3px solid #182d84;
       border-radius: 6px;
       max-width: 500px;
       background-color: #fefefe;
-      /* On fixe une hauteur pour pouvoir centrer verticalement */
-      height: 300px;
+      height: 300px; /* on fixe une hauteur */
       position: relative;
       display: flex;
       justify-content: center;   /* centre horizontal */
@@ -259,11 +257,10 @@
       position: absolute;
       top: 0;
       left: 0;
-      /* On le met derrière le bouton */
-      z-index: 1; 
+      z-index: 1; /* derrière le bouton */
     }
     .video-controls {
-      z-index: 2; /* Au-dessus de la vidéo */
+      z-index: 2; /* au-dessus de la vidéo */
     }
 
     #progress-bar {
@@ -455,7 +452,7 @@
       <button data-category="conflit">Gérer un conflit</button>
     </div>
 
-    <!-- Encadré pour l'explication de l'objectif (anime la bordure + scroll après 2s) -->
+    <!-- Encadré pour l'explication (transition bordure/opacité/position) -->
     <div class="explanation-box" id="explanation-box"></div>
   </div>
 
@@ -580,9 +577,6 @@
       conflit:      "Objectif : gère un désaccord ou une tension avec diplomatie."
     };
 
-    /**************************
-     * 3) Fichiers .txt par catégorie
-     **************************/
     const txtFilesByCategory = {
       convaincre:   "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/convaincre.txt",
       inspirer:     "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/inspirer.txt",
@@ -603,11 +597,9 @@
       conflit: null
     };
 
-    /**************************
-     * 4) Gestion objectif + explication
-     **************************/
     const objectivesButtons = document.querySelectorAll('.objectives-container button');
     const explanationBox = document.getElementById('explanation-box');
+    const header = document.querySelector('.header'); // pour le scroll offset
     let currentCategory = null; // la catégorie en cours
 
     objectivesButtons.forEach(button => {
@@ -621,22 +613,27 @@
         currentCategory = button.dataset.category;
         const explication = explanations[currentCategory] || "";
 
-        // Affiche l'explication
-        explanationBox.style.display = 'block';  // rend l'encadré visible
-        explanationBox.textContent = explication; 
-        explanationBox.classList.add('show');    // lance l'animation de bordure
-
+        // Animer l'explanation box (bordure + fade)
+        explanationBox.textContent = explication;
+        explanationBox.classList.add('show');   // applique .show
+       
         // On pré-charge déjà les sujets .txt pour éviter d'attendre plus tard
         if (subjectsCache[currentCategory] === null) {
           await loadSubjects(currentCategory);
         }
 
-        // On attend 2 secondes pour laisser l'animation + lecture
+        // On attend 2 secondes de lecture + animation, puis scroll
         setTimeout(() => {
-          // Ensuite, on scroll vers la box2
+          // Scroll manuel pour compenser la hauteur du header
           const box2 = document.querySelector('.container');
+          const headerHeight = header ? header.offsetHeight : 0;
+
           if (box2) {
-            box2.scrollIntoView({ behavior: 'smooth' });
+            const box2Y = box2.getBoundingClientRect().top + window.scrollY - headerHeight - 10;
+            window.scrollTo({
+              top: box2Y,
+              behavior: 'smooth'
+            });
           }
         }, 2000);
       });
@@ -667,16 +664,12 @@
       }
     }
 
-    /**************************
-     * 5) Bouton "Générer un sujet"
-     **************************/
     const generateSubjectBtn = document.getElementById('generate-subject-btn');
     const subjectWrapper = document.getElementById('subject-wrapper');
     const subjectDisplay = document.getElementById('subject-display');
     let currentSubject = "";
 
     generateSubjectBtn.addEventListener('click', () => {
-      // Vérifie que l'utilisateur a sélectionné un objectif
       if (!currentCategory) {
         alert("Merci de sélectionner d'abord un objectif.");
         return;
@@ -691,13 +684,12 @@
       const randomIndex = Math.floor(Math.random() * subjects.length);
       currentSubject = subjects[randomIndex];
 
-      // On affiche le cadre blanc + texte
       subjectDisplay.textContent = currentSubject;
       subjectWrapper.style.display = 'block';
     });
 
     /**************************
-     * 6) Enregistrement vidéo
+     * Enregistrement vidéo
      **************************/
     let mediaRecorder;
     let recordedChunks = [];
@@ -708,19 +700,17 @@
     const statusText = document.getElementById('status');
     const boxPartageRS = document.getElementById('box-partage-RS');
 
-    // Formulaire
     const downloadSection = document.getElementById('download-section');
     const validateFormBtn = document.getElementById('validate-form-btn');
     const prenomInput = document.getElementById('prenom');
     const emailInput = document.getElementById('email');
 
-    // Nouvelle box de téléchargements
     const downloadsBox = document.getElementById('downloads-box');
     const downloadVideoBtn = document.getElementById('download-video-btn');
     const downloadPdfBtn = document.getElementById('download-pdf-btn');
 
     let countdown;
-    let videoURL = ""; // Pour stocker l'URL du blob
+    let videoURL = "";
 
     async function setupCamera() {
       try {
@@ -757,7 +747,6 @@
     }
 
     startBtn.addEventListener('click', async () => {
-      // Vérifier qu'il y a bien un sujet
       if (!currentSubject) {
         alert("Merci de sélectionner un objectif et de générer un sujet avant de démarrer.");
         return;
@@ -800,15 +789,12 @@
         boxPartageRS.classList.remove('hidden');
       };
 
-      // On lance l'enregistrement
       mediaRecorder.start();
       statusText.textContent = "Improvisation en cours...";
 
-      // Désactive "Démarrer", affiche et active "Arrêter"
       startBtn.disabled = true;
       stopBtn.classList.remove('hidden');
       stopBtn.disabled = false;
-
       startTimer();
     });
 
@@ -823,7 +809,7 @@
       }
     });
 
-    // Validation du formulaire -> affichage de la box "Vos téléchargements"
+    // Validation du formulaire -> affichage "Vos téléchargements"
     validateFormBtn.addEventListener('click', () => {
       const prenomValue = prenomInput.value.trim();
       const emailValue = emailInput.value.trim();
@@ -833,18 +819,12 @@
         return;
       }
 
-      // On affiche la nouvelle box "Vos téléchargements"
       downloadsBox.classList.remove('hidden');
-
-      // Affiche les deux boutons
       downloadVideoBtn.classList.remove('hidden');
       downloadPdfBtn.classList.remove('hidden');
-
-      // On désactive le bouton Valider (pour éviter multiple envois, etc.)
       validateFormBtn.disabled = true;
     });
 
-    // Bouton VIDEO
     downloadVideoBtn.addEventListener('click', () => {
       if (!videoURL) {
         alert("La vidéo n'est pas encore prête ou pas enregistrée.");
@@ -858,7 +838,6 @@
       document.body.removeChild(link);
     });
 
-    // Bouton PDF (hébergé sur Google Drive)
     downloadPdfBtn.addEventListener('click', () => {
       const link = document.createElement('a');
       link.href = "https://drive.google.com/uc?export=download&id=1pKif7hwkdSQRXLv6uoSQawCs3DIIcb70";
