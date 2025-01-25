@@ -580,7 +580,7 @@
 
     <!-- Formulaire prénom + email -->
     <div id="download-section" class="download-section hidden">
-      <h3>Pour télécharger votre prestation et une grille d'analyse Letmotiv :</h3>
+      <h3>Renseigne deux infos pour télécharger ta prestation et une grille d'analyse Letmotiv :</h3>
       <label for="prenom">Prénom :</label>
       <input type="text" id="prenom" placeholder="Votre prénom"/>
 
@@ -903,7 +903,7 @@
     stopBtn.addEventListener('click', () => {
       if (mediaRecorder && mediaRecorder.state === 'recording') {
         mediaRecorder.stop();
-        statusText.textContent = "Improvisation terminée. Renseignez vos informations pour télécharger.";
+        statusText.textContent = "Improvisation terminée.";
         clearInterval(countdown);
 
         stopBtn.classList.add('hidden');
@@ -918,7 +918,7 @@
       startImpro();
     });
 
-    // Validation du formulaire -> affichage "Vos téléchargements"
+    // Validation du formulaire -> Affichage de la box "Vos téléchargements"
     validateFormBtn.addEventListener('click', () => {
       const prenomValue = prenomInput.value.trim();
       const emailValue = emailInput.value.trim();
