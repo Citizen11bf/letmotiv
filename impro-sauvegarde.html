@@ -159,7 +159,7 @@
 
     /* BOX1 : Choix d’objectif */
     .intro-box h3 {
-      margin-top: 0;
+      margin-top: 0px;
       margin-bottom: 10px;
       font-size: 16px;
       color: #000000;
@@ -171,14 +171,14 @@
       justify-content: center;
       gap: 10px;
       margin-top: 10px;
-      margin-bottom: 0; /* Ajouté pour supprimer la marge en bas */
+      margin-bottom: 10px; /* Ajouté pour supprimer la marge en bas */
     }
     /* Bouton objectif sélectionné = vert */
     .selected-objective {
       background-color: #00a48a !important;
     }
 
-    /* Icône de flèche vers le bas stylisée en blanc dans un rond bleu */
+    /* Icône de flèche vers le bas stylisée en transparent avec bordure bleue */
     .scroll-down {
       margin: 15px auto 0 auto; /* Centrage horizontal */
       cursor: pointer;
@@ -193,6 +193,7 @@
       align-items: center; /* Centre verticalement */
       justify-content: center; /* Centre horizontalement */
       transition: transform 0.3s, background-color 0.3s, color 0.3s;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optionnel: ombre pour un meilleur contraste */
     }
     .scroll-down:hover {
       transform: translateY(-5px);
@@ -206,9 +207,9 @@
       opacity: 0;
       transform: translateY(-10px);
 
-      margin-top: 0; /* Modifié de 10px à 0 */
+      margin-top: 0;
       background-color: #fefefe;
-      border: 0 solid #ccc; /* part de 0px */
+      border: 0 solid #ccc;
       border-radius: 8px;
       padding: 10px;
       text-align: center;
@@ -262,8 +263,8 @@
       height: 300px; /* on fixe une hauteur */
       position: relative;
       display: flex;
-      justify-content: center;   /* centre horizontal */
-      align-items: center;       /* centre vertical */
+      justify-content: center; 
+      align-items: center;     
       overflow: hidden; /* Pour assurer que le texte ne déborde pas */
     }
     .video-box video {
@@ -283,7 +284,7 @@
       z-index: 2; /* Au-dessus de la vidéo */
       color: #555;
       font-style: italic;
-      font-size: 16px;
+      font-size: 14px;
       text-align: center;
       padding: 20px;
       pointer-events: none; /* Permet de cliquer sur les boutons en dessous */
@@ -447,6 +448,7 @@
         display: inline; /* affiché sur desktop */
       }
     }
+
   </style>
 </head>
 <body>
@@ -465,9 +467,9 @@
 
   <!-- Titre principal -->
   <h1 class="main-title">
-  Entrainez-vous à la prise de parole en public
-  <br class="desktop-break">
-  avec le simulateur Letmotiv
+    Entrainez-vous à la prise de parole en public
+    <br class="desktop-break">
+    avec le simulateur Letmotiv
   </h1>
 
   <!-- BOX0 : Mode d'emploi -->
@@ -477,7 +479,7 @@
     </h3>
 
     <div class="help-content" id="help-content">
-           <!-- Mode d'emploi du simulateur sous forme de liste avec icônes -->
+      <!-- Mode d'emploi du simulateur sous forme de liste avec icônes -->
       <ul class="step-list">
         <li>
           <span class="step-icon"><i class="fas fa-bullseye"></i></span>
@@ -542,7 +544,9 @@
     <div class="video-box">
       <video id="preview" autoplay muted></video>
       <div class="video-text" id="video-text">
-        Ici va s'enregistrer ton improvisation en vidéo. Lorsque tu es prêt, clique sur le bouton "Démarrer ton impro" en-dessous.
+        Ici va s'enregistrer ton improvisation en vidéo. <br> 
+        Lorsque tu es prêt, clique sur le bouton "Démarrer ton impro" en-dessous. <br><br>
+        NB : ta vidéo est stockée directement sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv. 
       </div>
     </div>
 
@@ -557,14 +561,14 @@
       <div id="progress-bar-inner"></div>
     </div>
 
-    <p id="status">Sélectionne un objectif, génère un sujet aléatoire et clique sur "Démarrer ton impro" quand tu es prêt.</p>
+    <p id="status">Improvisation non commencée.</p>
   </div>
 
   <!-- Nouvelle box : Télécharge et analyse ta prestation -->
   <div id="download-box" class="download-box hidden">
     <h3>Télécharge et analyse ta prestation</h3>
     <div class="download-section">
-      <h3>Pour télécharger votre prestation et une grille d'analyse Letmotiv :</h3>
+      <h3>Renseigne deux infos pour télécharger ta prestation et une grille d'analyse Letmotiv :</h3>
       <label for="prenom">Prénom :</label>
       <input type="text" id="prenom" placeholder="Votre prénom"/>
 
@@ -591,12 +595,9 @@
 
   <!-- Partage sur les réseaux sociaux -->
   <div class="box-partage-RS hidden" id="box-partage-RS">
-    <!-- Ajout du titre "Partage ton expérience" -->
     <h3>Partage ton expérience</h3>
     <p>
-      Partagez votre expérience et encouragez d'autres personnes à relever le défi. <br>
-      Montrez votre courage et inspirez les autres à s'améliorer en improvisation !<br>
-      <b>#ChallengeImproLetmotiv</b>
+      Encourage d'autres personnes à relever le défi ! Montre ton courage et inspire les autres à s'améliorer en improvisation ! <b>#ChallengeImproLetmotiv</b>
     </p>
     <a
       id="linkedin-share-button"
@@ -610,7 +611,7 @@
 
   <!-- FOOTER -->
   <div class="footer">
-    <p>Vous souhaitez progresser rapidement et efficacement dans la prise de parole en public&nbsp;?</p>
+    <p>Tu souhaites progresser rapidement et efficacement dans la prise de parole en public&nbsp;?</p>
     <div class="footer-buttons">
       <a
         href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole"
@@ -901,7 +902,7 @@
     stopBtn.addEventListener('click', () => {
       if (mediaRecorder && mediaRecorder.state === 'recording') {
         mediaRecorder.stop();
-        statusText.textContent = "Improvisation terminée. Renseignez vos informations pour télécharger.";
+        statusText.textContent = "Improvisation terminée.";
         clearInterval(countdown);
 
         stopBtn.classList.add('hidden');
@@ -910,13 +911,13 @@
       }
     });
 
-    // Bouton "Récommencer ton impro"
+    // Bouton "Recommencer ton impro"
     restartBtn.addEventListener('click', () => {
       // Relancer simplement la fonction startImpro()
       startImpro();
     });
 
-    // Validation du formulaire -> affichage "Vos téléchargements"
+    // Validation du formulaire -> Affichage de la box "Vos téléchargements"
     validateFormBtn.addEventListener('click', () => {
       const prenomValue = prenomInput.value.trim();
       const emailValue = emailInput.value.trim();
