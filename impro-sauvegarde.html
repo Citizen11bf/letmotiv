@@ -32,6 +32,7 @@
       align-items: center;
       min-height: 100vh;
       overflow-x: hidden; /* Empêche le défilement horizontal */
+      padding-bottom: 60px; /* Espace pour le footer */
     }
 
     /* --- HEADER --- */
@@ -74,7 +75,7 @@
       text-align: center;
       font-family: 'DM Sans', sans-serif; /* Police importée */
       color: #182d84; 
-      font-size: 1.3rem; /* ajuste la taille si besoin */
+      font-size: 1.5rem; /* ajuste la taille si besoin */
       font-weight: bold;
       padding: 0 1rem;
       transition: opacity 0.5s ease, transform 0.5s ease;
@@ -104,11 +105,39 @@
       transform: translateY(0);
     }
 
-    /* Indicateur de progression */
+    /* --- Header interne des boîtes --- */
+    .box-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      border: none;
+      background: none;
+      color: #808080; /* Flèche grise */
+      font-size: 20px;
+      cursor: pointer;
+      transition: color 0.3s, transform 0.3s;
+    }
+    .back-btn:hover {
+      color: #505050; /* Flèche gris foncé au survol */
+      transform: scale(1.1);
+    }
+    .back-btn.hidden {
+      visibility: hidden;
+    }
+
+    .box-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #182d84;
+      flex-grow: 1;
+      text-align: center;
+    }
+
     .step-indicator {
-      position: absolute;
-      top: 15px;
-      right: 15px;
       width: 40px;
       height: 40px;
       background-color: #182d84;
@@ -130,13 +159,6 @@
     }
 
     /* BOX1 : Choix d’objectif */
-    .intro-box h3 {
-      margin-top: 0px;
-      margin-bottom: 10px;
-      font-size: 16px;
-      color: #000000;
-      font-weight: bold;
-    }
     .objectives-container {
       display: flex;
       flex-wrap: wrap;
@@ -153,7 +175,6 @@
 
     /* Icône de flèche pour navigation */
     /* Styles communs */
-    .back-btn,
     .next-btn {
       width: 40px;
       height: 40px;
@@ -161,30 +182,17 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 2px solid;
+      border: 2px solid #182d84; /* Bordure bleue */
       background-color: transparent;
-      cursor: pointer;
-      transition: background-color 0.3s, color 0.3s;
-      margin: 10px auto; /* Centrer horizontalement */
-    }
-
-    /* Flèches "Retour" */
-    .back-btn {
-      border-color: #808080; /* Bordure grise */
-      color: #808080; /* Flèche grise */
-    }
-    .back-btn:hover {
-      background-color: #505050; /* Fond gris foncé au survol */
-    }
-
-    /* Flèches "Suivant" */
-    .next-btn {
-      border-color: #182d84; /* Bordure bleue */
       color: #182d84; /* Flèche bleue */
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s, transform 0.3s;
+      margin: 10px auto; /* Centrer horizontalement */
     }
     .next-btn:hover {
       background-color: #00a48a; /* Fond bleu foncé au survol */
       color: #00a48a; /* Flèche reste bleue */
+      transform: scale(1.1);
     }
 
     /* Encadré pour l'explication des objectifs de prise de parole*/
@@ -214,12 +222,10 @@
     }
 
     /* BOX2 : Vidéo, enregistrement, etc. */
-    .container .box-title {
-      margin-top: 0;
-      margin-bottom: 10px;
-      font-size: 16px;
-      color: #000000;
+    .box2 .box-title {
+      font-size: 18px;
       font-weight: bold;
+      color: #182d84;
     }
 
     /* Encadré pour afficher les sujets d'improvisation aléatoires*/
@@ -307,7 +313,7 @@
     a.btn {
       background-color: #182d84;
       color: #FFFFFF;
-      font-family: Helvetica, Arial, sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 16px;
       border: none;
       border-radius: 25px;
@@ -413,7 +419,7 @@
       transition: opacity 0.5s ease, transform 0.5s ease;
     }
 
-    /* Media Queries pour s'assurer que Box2 n'est pas cachée par le footer */
+    /* Media Queries pour s'assurer que les boîtes ne sont pas cachées par le footer */
     @media (max-height: 600px) {
       .box {
         margin-bottom: 80px; /* Ajout d'un espace suffisant pour le footer */
@@ -425,11 +431,6 @@
       color: red;
       margin-top: 10px;
       font-weight: bold;
-    }
-
-    /* Masquer les boutons "Retour" dans Box1 */
-    #back-btn1.hidden {
-      display: none;
     }
 
   </style>
@@ -457,14 +458,15 @@
 
   <!-- BOX1 : Choix d'objectif -->
   <div class="box active" id="box1">
-    <!-- Indicateur de progression -->
-    <div class="step-indicator">1/4</div>
+    <!-- Header interne de la boîte -->
+    <div class="box-header">
+      <button class="back-btn hidden" id="back-btn1">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+      <div class="box-title">Choisis ton objectif.</div>
+      <div class="step-indicator">1/4</div>
+    </div>
 
-    <!-- Bouton "Retour" masqué car c'est la première boîte -->
-    <button class="back-btn hidden" id="back-btn1">
-      <i class="fas fa-arrow-left"></i>
-    </button>
-    <h3>Quel est ton objectif de prise de parole&nbsp;?</h3>
     <div class="objectives-container">
       <button data-category="convaincre">Convaincre</button>
       <button data-category="inspirer">Inspirer</button>
@@ -492,13 +494,14 @@
 
   <!-- BOX2 : Vidéo, enregistrement, etc. -->
   <div class="box" id="box2">
-    <!-- Indicateur de progression -->
-    <div class="step-indicator">2/4</div>
-
-    <button class="back-btn" id="back-btn2">
-      <i class="fas fa-arrow-left"></i>
-    </button>
-    <h3 class="box-title">Lance ton improvisation&nbsp;!</h3>
+    <!-- Header interne de la boîte -->
+    <div class="box-header">
+      <button class="back-btn" id="back-btn2">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+      <div class="box-title">Lance ton improvisation&nbsp;!</div>
+      <div class="step-indicator">2/4</div>
+    </div>
 
     <!-- Bouton pour générer le sujet d'impro (selon l’objectif sélectionné) -->
     <button id="generate-subject-btn">Générer un sujet aléatoire</button>
@@ -531,6 +534,11 @@
 
     <p id="status">Improvisation non commencée.</p>
 
+    <!-- Message d'erreur dans Box2 -->
+    <div id="impro-error" class="error-message" style="display: none;">
+      Tu dois d'abord réaliser ta prestation d'improvisation.
+    </div>
+
     <!-- Bouton "Suivant" (désactivé jusqu'à ce que l'impro soit arrêtée) -->
     <button class="next-btn" id="next-btn2" disabled>
       <i class="fas fa-arrow-right"></i>
@@ -539,20 +547,28 @@
 
   <!-- BOX3 : Télécharge et analyse ta prestation -->
   <div class="box" id="box3">
-    <!-- Indicateur de progression -->
-    <div class="step-indicator">3/4</div>
+    <!-- Header interne de la boîte -->
+    <div class="box-header">
+      <button class="back-btn" id="back-btn3">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+      <div class="box-title">Télécharge et analyse ta prestation</div>
+      <div class="step-indicator">3/4</div>
+    </div>
 
-    <button class="back-btn" id="back-btn3">
-      <i class="fas fa-arrow-left"></i>
-    </button>
-    <h3>Télécharge et analyse ta prestation</h3>
     <div class="download-section">
       <h3>Renseigne deux infos pour télécharger ta prestation et une grille d'analyse Letmotiv :</h3>
-      <label for="prenom">Prénom :</label>
-      <input type="text" id="prenom" placeholder="Votre prénom"/>
+      
+      <div class="input-group">
+        <label for="prenom">Prénom :</label>
+        <input type="text" id="prenom" placeholder="Votre prénom"/>
+      </div>
 
-      <label for="email">Email :</label>
-      <input type="email" id="email" placeholder="Votre email"/>
+      <div class="input-group">
+        <label for="email">Email :</label>
+        <input type="email" id="email" placeholder="Votre email"/>
+      </div>
+
       <span id="email-error" class="error-message" style="display: none;"></span> <!-- Élément pour le message d'erreur -->
 
       <div>
@@ -578,13 +594,15 @@
 
   <!-- BOX4 : Partage LinkedIn et Options de Progression -->
   <div class="box" id="box4">
-    <!-- Indicateur de progression -->
-    <div class="step-indicator">4/4</div>
+    <!-- Header interne de la boîte -->
+    <div class="box-header">
+      <button class="back-btn" id="back-btn4">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+      <div class="box-title">Partage ton expérience</div>
+      <div class="step-indicator">4/4</div>
+    </div>
 
-    <button class="back-btn" id="back-btn4">
-      <i class="fas fa-arrow-left"></i>
-    </button>
-    <h3>Partage ton expérience</h3>
     <p>
       Encourage d'autres personnes à relever le défi ! Montre ton courage et inspire les autres à s'améliorer en improvisation ! <b>#ChallengeImproLetmotiv</b>
     </p>
@@ -668,7 +686,17 @@
       }
       showBox(1, 2);
     });
-    nextBtns[2].addEventListener('click', () => showBox(2, 3));
+    nextBtns[2].addEventListener('click', () => {
+      // Vérifier si l'improvisation est réalisée
+      const improDone = !document.getElementById('next-btn2').disabled;
+      if (improDone === false) {
+        // Afficher le message d'erreur
+        const improErrorDiv = document.getElementById('impro-error');
+        improErrorDiv.style.display = 'block';
+        return;
+      }
+      showBox(2, 3);
+    });
     nextBtns[3].addEventListener('click', () => showBox(3, 4));
     // Aucun bouton "Suivant" dans Box4
 
