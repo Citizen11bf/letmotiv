@@ -538,7 +538,7 @@
 <body>
   <!-- BOÎTE D'INTRODUCTION -->
   <div class="intro-box" id="intro-box">
-    <h1>Entraine-toi à la prise de parole en public<br>avec le simulateur Letmotiv</h1>
+    <h1>Entrainez-vous à la prise de parole en public<br>avec le simulateur Letmotiv</h1>
     <button id="start-intro-btn">Je commence</button>
   </div>
 
@@ -1062,7 +1062,7 @@
       progressBarInner.style.width = '0%';
       countdown = setInterval(() => {
         const progress = ((120 - timeRemaining) / 120) * 100;
-        progressBarInner.style.width = ${progress}%;
+        progressBarInner.style.width = `${progress}%`;
         timeRemaining--;
         if (timeRemaining < 0) {
           clearInterval(countdown);
