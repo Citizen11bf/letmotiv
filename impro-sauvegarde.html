@@ -170,7 +170,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: center; /* Centre verticalement */
       flex-grow: 1;
       width: 100%;
       padding: 20px;
@@ -647,7 +647,7 @@
 <body>
   <!-- BOÎTE D'INTRODUCTION -->
   <div class="intro-box" id="intro-box">
-    <h1>Entraine-toi à la prise de parole en public</h1>
+    <h1>Entraine-toi à la prise de parole en public<br>avec le simulateur Letmotiv</h1>
     <button id="start-intro-btn" aria-label="Je commence">Je commence</button>
   </div>
 
@@ -758,11 +758,6 @@
       <!-- Message d'erreur dans Box2 -->
       <div id="impro-error" class="error-message">
         Tu dois réaliser ton improvisation avant de continuer.
-      </div>
-
-      <!-- Nouveau Message d'erreur pour la tentative de retour sans improvisation -->
-      <div id="back-impro-error" class="error-message">
-        Réalise ton impro avant de passer à l'étape suivante.
       </div>
 
       <!-- Bouton "Suivant" (désactivé jusqu'à ce que l'impro soit arrêtée) -->
@@ -940,6 +935,7 @@
       if (!selected) {
         // Afficher le message d'erreur
         const errorDiv = document.getElementById('objective-error');
+        errorDiv.textContent = "Merci de sélectionner un objectif avant de continuer.";
         errorDiv.style.display = 'block';
         return;
       }
@@ -963,12 +959,6 @@
     // Ajouter des écouteurs pour les boutons "Retour" uniquement s'ils existent
     if (backBtns[2]) {
       backBtns[2].addEventListener('click', () => {
-        if (!improStarted) {
-          // Afficher le message d'erreur spécifique
-          const backImproErrorDiv = document.getElementById('back-impro-error');
-          backImproErrorDiv.style.display = 'block';
-          return;
-        }
         showBox(2, 1);
       });
     }
@@ -1066,9 +1056,9 @@
         if (errorDiv.style.display === 'block') {
           errorDiv.style.display = 'none';
         }
-        const backImproErrorDiv = document.getElementById('back-impro-error');
-        if (backImproErrorDiv.style.display === 'block') {
-          backImproErrorDiv.style.display = 'none';
+        const improErrorDiv = document.getElementById('impro-error');
+        if (improErrorDiv.style.display === 'block') {
+          improErrorDiv.style.display = 'none';
         }
       });
     });
@@ -1111,6 +1101,7 @@
         // Afficher le message d'erreur si pas d'objectif sélectionné
         const errorDiv = document.getElementById('objective-error');
         errorDiv.style.display = 'block';
+        errorDiv.textContent = "Merci de sélectionner un objectif avant de générer un sujet.";
         return;
       }
       const subjects = subjectsCache[currentCategory];
@@ -1426,7 +1417,7 @@
       link.click();
       document.body.removeChild(link);
     });
-    
+
   </script>
 </body>
 </html>
