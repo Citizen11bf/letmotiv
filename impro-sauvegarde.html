@@ -386,16 +386,15 @@
     /* Décompte avec fond grisé */
     .countdown {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 48px;
-      color: #ff0000;
+      bottom: 10px; /* Positionné en bas */
+      right: 10px;  /* Positionné à droite */
+      font-size: 24px;
+      color: #ffffff;
       display: none;
       z-index: 4;
       background-color: rgba(0, 0, 0, 0.5); /* Fond grisé */
-      padding: 20px 40px;
-      border-radius: 10px;
+      padding: 5px 10px;
+      border-radius: 5px;
     }
 
     /* Les boutons "Arrêter" et "Récommencer" seront en-dessous de la box */
@@ -411,8 +410,6 @@
     .hidden-btn {
       display: none;
     }
-
-    /* Supprimé la barre de progression interne */
 
     /* Styles pour les boutons bleus dans Box4 */
     .progression-buttons {
@@ -452,9 +449,6 @@
       margin-bottom: 20px;
     }
 
-    /* Encadré bleu + vidéo */
-    /* (Styles déjà définis ci-dessus) */
-
     /* Styles pour les boutons */
     button,
     a.btn {
@@ -481,7 +475,7 @@
       transform: translateY(-3px);
     }
 
-    /* Nouveau style pour le cadre blanc des téléchargements dans Box4 */
+    /* Nouveau style pour le cadre blanc des téléchargements dans Box3 */
     .download-buttons {
       margin-top: 20px;
       background-color: #fefefe;
@@ -709,9 +703,6 @@
   <div class="box" id="box4">
     <!-- Header interne de la boîte -->
     <div class="box-header">
-      <button class="back-btn" id="back-btn4" aria-label="Retour à l'enregistrement vidéo">
-        <i class="fas fa-arrow-left"></i>
-      </button>
       <div class="box-title">Partage ton expérience</div>
       <div class="step-indicator">3/4</div>
     </div>
@@ -806,21 +797,21 @@
     const boxes = {
       1: document.getElementById('box1'),
       2: document.getElementById('box2'),
-      3: document.getElementById('box4'), // Inversion de box3 et box4
-      4: document.getElementById('box3')  // Inversion de box3 et box4
+      3: document.getElementById('box4'), // Partage LinkedIn
+      4: document.getElementById('box3')  // Téléchargement et Analyse
     };
 
     const nextBtns = {
       1: document.getElementById('next-btn1'),
       2: document.getElementById('next-btn2'),
       3: document.getElementById('next-btn3'),
-      // 4: Aucun bouton "Suivant" dans Box4
+      // 4: Aucun bouton "Suivant" dans Box3 (Téléchargement)
     };
 
     const backBtns = {
       2: document.getElementById('back-btn2'),
-      3: document.getElementById('back-btn4'), // Inversion de box3 et box4
-      4: document.getElementById('back-btn3')  // Inversion de box3 et box4
+      3: document.getElementById('back-btn4'), // Partage LinkedIn
+      4: document.getElementById('back-btn3')  // Téléchargement
     };
 
     const introBox = document.getElementById('intro-box');
@@ -888,7 +879,7 @@
       showBox(2, 3);
     });
     nextBtns[3].addEventListener('click', () => showBox(3, 4));
-    // Aucun bouton "Suivant" dans Box4
+    // Aucun bouton "Suivant" dans Box4 (Téléchargement)
 
     // Ajouter des écouteurs pour les boutons "Retour" uniquement s'ils existent
     if (backBtns[2]) {
@@ -1133,7 +1124,7 @@
         nextBtns[2].disabled = false;
 
         // Afficher "Improvisation terminée." dans la vidéo-box
-        videoText.textContent = "Improvisation terminée.";
+        videoText.innerHTML = "Improvisation terminée.";
         videoText.style.display = 'block';
 
         // Masquer le message d'erreur si visible
@@ -1212,6 +1203,7 @@
       const seconds = timeRemaining % 60;
       const formattedTime = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
       countdownElement.textContent = formattedTime;
+      countdownElement.style.display = 'block';
     }
 
     // Bouton "Démarrer ton impro"
@@ -1237,7 +1229,7 @@
     restartBtn.addEventListener('click', () => {
       // Relancer simplement la fonction startImpro()
       restartBtn.classList.add('hidden-btn'); // Masquer "Récommencer"
-      videoText.textContent = "Ici va s'enregistrer ton improvisation en vidéo. <br> Lorsque tu es prêt, clique sur le bouton \"Démarrer ton impro\" en-dessous. <br><br> NB : ta vidéo est stockée directement sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.";
+      videoText.innerHTML = "Ici va s'enregistrer ton improvisation en vidéo. <br> Lorsque tu es prêt, clique sur le bouton \"Démarrer ton impro\" en-dessous. <br><br> NB : ta vidéo est stockée directement sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.";
       videoText.style.display = 'block';
       startImpro();
     });
@@ -1283,7 +1275,7 @@
       // Afficher les boutons de téléchargement dans le cadre blanc
       downloadButtons.classList.add('show');
 
-      // Activer le bouton "Suivant" pour passer à la box4
+      // Activer le bouton "Suivant" pour passer à la box4 (Téléchargement)
       nextBtns[3].disabled = false;
     });
 
