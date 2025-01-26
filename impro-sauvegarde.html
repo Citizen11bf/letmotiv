@@ -6,6 +6,22 @@
   <title>Simulateur d'improvisation</title>
   <meta name="description" content="Évaluer et développer rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv.">
 
+  <!-- Balises Open Graph pour LinkedIn -->
+  <meta property="og:title" content="Simulateur d'improvisation Letmotiv" />
+  <meta property="og:description" content="Évaluez et développez rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://letmotiv-simulateur.fr" />
+  <meta property="og:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png" />
+  <meta property="og:image:alt" content="Illustration d'une improvisation en public avec un orateur sur scène." />
+  <meta name="author" content="Letmotiv" />
+  <meta property="article:published_time" content="2025-01-26" />
+
+  <!-- Balises Twitter (optionnel) -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Simulateur d'improvisation Letmotiv">
+  <meta name="twitter:description" content="Évaluez et développez rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv.">
+  <meta name="twitter:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png">
+
   <!-- Import de la police DM SANS et Montserrat depuis Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -179,6 +195,7 @@
       align-items: center;
       justify-content: space-between;
       margin-bottom: 20px;
+      position: relative;
     }
 
     .back-btn {
@@ -552,6 +569,8 @@
       color: red;
       margin-top: 10px;
       font-weight: bold;
+      display: none;
+      text-align: left;
     }
 
     /* Styles pour les groupes de formulaires */
@@ -604,7 +623,7 @@
 <body>
   <!-- BOÎTE D'INTRODUCTION -->
   <div class="intro-box" id="intro-box">
-    <h1>Entrainez-vous à la prise de parole en public<br>avec le simulateur Letmotiv</h1>
+    <h1>Entraine-toi à la prise de parole en public<br>avec le simulateur Letmotiv</h1>
     <button id="start-intro-btn" aria-label="Je commence">Je commence</button>
   </div>
 
@@ -650,7 +669,7 @@
     </div>
 
     <!-- Message d'erreur dans Box1 -->
-    <div id="objective-error" class="error-message" style="display: none;">
+    <div id="objective-error" class="error-message">
       Merci de sélectionner un objectif avant de continuer.
     </div>
 
@@ -711,8 +730,13 @@
     </div>
 
     <!-- Message d'erreur dans Box2 -->
-    <div id="impro-error" class="error-message" style="display: none;">
+    <div id="impro-error" class="error-message">
       Tu dois réaliser ton improvisation avant de continuer.
+    </div>
+
+    <!-- Nouveau Message d'erreur pour la tentative de retour sans improvisation -->
+    <div id="back-impro-error" class="error-message">
+      Réalise ton impro avant de passer à l'étape suivante.
     </div>
 
     <!-- Bouton "Suivant" (désactivé jusqu'à ce que l'impro soit arrêtée) -->
@@ -737,7 +761,7 @@
     </p>
     <a
       id="linkedin-share-button"
-      href="https://www.linkedin.com/shareArticle?mini=true&url=https://citizen11bf.github.io/simulation-impro/letmotiv.html"
+      href="https://www.linkedin.com/shareArticle?mini=true&url=https://letmotiv-simulateur.fr"
       target="_blank"
       rel="noopener noreferrer"
       class="linkedin-share-button"
@@ -781,15 +805,15 @@
         <div class="input-group">
           <label for="prenom">Prénom :</label>
           <input type="text" id="prenom" placeholder="Votre prénom" aria-label="Prénom"/>
+          <div id="prenom-error" class="error-message">Veuillez entrer un prénom valide sans chiffres ni caractères spéciaux.</div>
         </div>
 
         <div class="input-group">
           <label for="email">Email :</label>
           <input type="email" id="email" placeholder="Votre email" aria-label="Email"/>
+          <div id="email-error" class="error-message">Veuillez entrer une adresse email valide.</div>
         </div>
       </div>
-
-      <span id="email-error" class="error-message" style="display: none;"></span> <!-- Élément pour le message d'erreur -->
 
       <div>
         <button id="validate-form-btn" aria-label="Valider les informations">Valider</button>
@@ -848,6 +872,8 @@
       const progress = step * 25; // Chaque étape représente 25%
       topProgressBar.style.width = `${progress}%`;
     }
+
+    let improStarted = false; // Variable pour suivre si l'impro a été démarrée
 
     function showBox(current, next) {
       if (boxes[current]) boxes[current].classList.remove('active');
@@ -909,7 +935,15 @@
 
     // Ajouter des écouteurs pour les boutons "Retour" uniquement s'ils existent
     if (backBtns[2]) {
-      backBtns[2].addEventListener('click', () => showBox(2, 1));
+      backBtns[2].addEventListener('click', () => {
+        if (!improStarted) {
+          // Afficher le message d'erreur spécifique
+          const backImproErrorDiv = document.getElementById('back-impro-error');
+          backImproErrorDiv.style.display = 'block';
+          return;
+        }
+        showBox(2, 1);
+      });
     }
     if (backBtns[3]) {
       backBtns[3].addEventListener('click', () => showBox(3, 2));
@@ -1093,11 +1127,17 @@
     // On factorise la logique de démarrage dans une fonction
     async function startImpro() {
       if (!currentSubject) {
-        alert("Merci de sélectionner un objectif et de générer un sujet avant de démarrer.");
+        // Afficher le message d'erreur dans Box2
+        const improErrorDiv = document.getElementById('impro-error');
+        improErrorDiv.textContent = "Merci de sélectionner un objectif et de générer un sujet avant de démarrer.";
+        improErrorDiv.style.display = 'block';
         return;
       }
       if (typeof MediaRecorder === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
-        alert("Désolé, l'enregistrement vidéo n'est pas supporté par votre navigateur.");
+        // Afficher le message d'erreur dans Box2
+        const improErrorDiv = document.getElementById('impro-error');
+        improErrorDiv.textContent = "Désolé, l'enregistrement vidéo n'est pas supporté par votre navigateur.";
+        improErrorDiv.style.display = 'block';
         return;
       }
       if (!confirm("Votre webcam va se lancer pour démarrer l'improvisation. Voulez-vous continuer ?")) {
@@ -1130,7 +1170,10 @@
       if (!stream) return;
 
       if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
-        alert("Votre navigateur ne supporte pas l'enregistrement vidéo. Essayez Chrome/Firefox.");
+        // Afficher le message d'erreur dans Box2
+        const improErrorDiv = document.getElementById('impro-error');
+        improErrorDiv.textContent = "Votre navigateur ne supporte pas l'enregistrement vidéo. Essayez Chrome ou Firefox.";
+        improErrorDiv.style.display = 'block';
         return;
       }
 
@@ -1166,6 +1209,9 @@
 
         // Arrêter le décompte en temps réel
         clearInterval(timerInterval);
+
+        // Marquer l'impro comme démarrée
+        improStarted = true;
       };
 
       mediaRecorderInstance.start();
@@ -1197,11 +1243,20 @@
         return stream;
       } catch (error) {
         if (error.name === 'NotAllowedError' || error.name === 'SecurityError') {
-          alert("Vous avez refusé l'accès à la webcam ou au micro. Veuillez autoriser l'accès.");
+          // Afficher le message d'erreur dans Box2
+          const improErrorDiv = document.getElementById('impro-error');
+          improErrorDiv.textContent = "Vous avez refusé l'accès à la webcam ou au micro. Veuillez autoriser l'accès.";
+          improErrorDiv.style.display = 'block';
         } else if (error.name === 'NotFoundError' || error.name === 'DevicesNotFoundError') {
-          alert("Aucune caméra ou micro détecté(e). Vérifiez vos périphériques.");
+          // Afficher le message d'erreur dans Box2
+          const improErrorDiv = document.getElementById('impro-error');
+          improErrorDiv.textContent = "Aucune caméra ou micro détecté(e). Vérifiez vos périphériques.";
+          improErrorDiv.style.display = 'block';
         } else {
-          alert("Erreur : Impossible d'accéder à la webcam. Vérifiez vos permissions.");
+          // Afficher le message d'erreur dans Box2
+          const improErrorDiv = document.getElementById('impro-error');
+          improErrorDiv.textContent = "Erreur : Impossible d'accéder à la webcam. Vérifiez vos permissions.";
+          improErrorDiv.style.display = 'block';
         }
         console.error('Erreur d\'accès à la webcam :', error);
         return null;
@@ -1261,6 +1316,7 @@
       restartBtn.classList.add('hidden-btn'); // Masquer "Récommencer"
       videoText.innerHTML = "Ici va s'enregistrer ton improvisation en vidéo. <br> Lorsque tu es prêt, clique sur le bouton \"Démarrer ton impro\" en-dessous. <br><br> NB : ta vidéo est stockée directement sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.";
       videoText.style.display = 'block';
+      improStarted = false; // Réinitialiser l'état de l'impro
       startImpro();
     });
 
@@ -1271,28 +1327,28 @@
       const prenomValue = prenomInput.value.trim();
       const emailValue = emailInput.value.trim();
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Regex pour la validation de l'email
-      const emailError = document.getElementById('email-error'); // Élément du message d'erreur
+      const prenomError = document.getElementById('prenom-error'); // Élément du message d'erreur pour prénom
+      const emailError = document.getElementById('email-error'); // Élément du message d'erreur pour email
 
       let valid = true;
 
-      // Réinitialiser le message d'erreur
-      emailError.textContent = "";
+      // Réinitialiser les messages d'erreur
+      prenomError.style.display = 'none';
       emailError.style.display = 'none';
 
       // Validation du prénom
       const prenomRegex = /^[A-Za-zÀ-ÿ '-]+$/; // Autorise les lettres, accents, espaces, apostrophes et tirets
       if (!prenomValue || !prenomRegex.test(prenomValue)) {
-        alert("Veuillez entrer un prénom valide sans chiffres ni caractères spéciaux.");
-        return;
+        prenomError.style.display = 'block';
+        valid = false;
       }
 
       // Validation de l'email
       if (!emailValue) {
-        alert("Merci de renseigner votre email pour continuer.");
-        return;
-      }
-
-      if (!emailRegex.test(emailValue)) {
+        emailError.textContent = "Merci de renseigner votre email pour continuer.";
+        emailError.style.display = 'block';
+        valid = false;
+      } else if (!emailRegex.test(emailValue)) {
         emailError.textContent = "Veuillez entrer une adresse email valide.";
         emailError.style.display = 'block';
         valid = false;
@@ -1312,7 +1368,10 @@
     // Téléchargement de la vidéo
     downloadVideoBtn.addEventListener('click', () => {
       if (!videoURL) {
-        alert("La vidéo n'est pas encore prête ou pas enregistrée.");
+        // Afficher le message d'erreur dans Box3
+        const improErrorDiv = document.getElementById('impro-error');
+        improErrorDiv.textContent = "La vidéo n'est pas encore prête ou pas enregistrée.";
+        improErrorDiv.style.display = 'block';
         return;
       }
       const link = document.createElement('a');
@@ -1333,21 +1392,6 @@
       document.body.removeChild(link);
     });
 
-    /***********************
-     * 6) Navigation Séquentielle des Boîtes
-     ***********************/
-    // Cette logique est déjà gérée par les écouteurs "Suivant" et "Retour"
-    // Assure-toi que les boutons "Suivant" sont activés/désactivés selon les besoins
-
-    /***********************
-     * 7) Gestion des flèches de navigation pour les boîtes
-     ***********************/
-    // Aucun code supplémentaire n'est nécessaire ici car la navigation est gérée par les boutons "Suivant" et "Retour"
-
-    /***********************
-     * 8) Mise à jour de la barre de progression
-     ***********************/
-    // Cette fonctionnalité est déjà intégrée dans la fonction showBox()
   </script>
 </body>
 </html>
