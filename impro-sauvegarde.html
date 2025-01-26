@@ -75,10 +75,10 @@
       text-align: center;
       font-family: 'DM Sans', sans-serif; /* Police importée */
       color: #182d84; 
-      font-size: 1.5rem; /* ajuste la taille si besoin */
+      font-size: 1.5rem; /* ajusté pour plus de visibilité */
       font-weight: bold;
       padding: 0 1rem;
-      transition: opacity 0.5s ease, transform 0.5s ease;
+      transition: opacity 1s ease, transform 1s ease; /* Augmentation de la durée des transitions */
     }
 
     /* --- BOXES : couleur de fond #E2E7E3, centrage, marges --- */
@@ -97,7 +97,7 @@
       display: none; /* Masqué par défaut */
       opacity: 0;
       transform: translateY(20px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
+      transition: opacity 1s ease, transform 1s ease; /* Augmentation de la durée des transitions */
     }
     .box.active {
       display: block;
@@ -115,15 +115,24 @@
 
     .back-btn {
       border: none;
-      background: none;
-      color: #808080; /* Flèche grise */
-      font-size: 20px;
+      background-color: #808080; /* Gray background */
+      color: #FFFFFF; /* White arrow */
+      font-size: 16px;
       cursor: pointer;
-      transition: color 0.3s, transform 0.3s;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s, transform 0.3s;
     }
     .back-btn:hover {
-      color: #505050; /* Flèche gris foncé au survol */
+      background-color: #505050; /* Dark gray on hover */
       transform: scale(1.1);
+    }
+    .back-btn:active {
+      background-color: #303030; /* Even darker on click */
     }
     .back-btn.hidden {
       visibility: hidden;
@@ -192,7 +201,7 @@
     .next-btn:hover {
       background-color: #00a48a; /* Fond bleu foncé au survol */
       color: #00a48a; /* Flèche reste bleue */
-      transform: scale(1.1);
+      transform: scale(1.1); /* Légère augmentation de taille au survol */
     }
 
     /* Encadré pour l'explication des objectifs de prise de parole*/
@@ -399,6 +408,10 @@
       bottom: 0;
       left: 0;
       box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
     }
 
     /* Styles pour les boutons bleus dans Box4 */
@@ -416,7 +429,7 @@
 
     /* Transition pour le titre principal */
     .main-title {
-      transition: opacity 0.5s ease, transform 0.5s ease;
+      transition: opacity 1s ease, transform 1s ease; /* Ajustée pour correspondre à la transition des boîtes */
     }
 
     /* Media Queries pour s'assurer que les boîtes ne sont pas cachées par le footer */
@@ -433,16 +446,53 @@
       font-weight: bold;
     }
 
+    /* Styles pour les groupes de formulaires */
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 48%; /* Pour occuper la moitié de la largeur dans la Box3 */
+    }
+
+    .input-group label {
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #000;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      box-sizing: border-box;
+      transition: border-color 0.3s;
+    }
+
+    .input-group input:focus {
+      border-color: #00a48a;
+      outline: none;
+    }
+
+    /* Conteneur des champs Prénom et Email */
+    .download-fields {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 15px;
+    }
+
   </style>
 </head>
 <body>
   <!-- HEADER -->
   <div class="header">
     <div class="header-content">
-      <!-- L1 : Letmotiv + icône -->
+      <!-- L1 : Simulateur d'improvisation eu public -->
       <div class="header-l1">
-        <a href="https://www.letmotiv.fr" target="_blank">Letmotiv</a>
-        <i class="fas fa-microphone"></i>
+        Simulateur d'improvisation eu public
       </div>
       <!-- L2 : vide ou masqué -->
       <div class="header-l2"></div>
@@ -559,14 +609,16 @@
     <div class="download-section">
       <h3>Renseigne deux infos pour télécharger ta prestation et une grille d'analyse Letmotiv :</h3>
       
-      <div class="input-group">
-        <label for="prenom">Prénom :</label>
-        <input type="text" id="prenom" placeholder="Votre prénom"/>
-      </div>
+      <div class="download-fields">
+        <div class="input-group">
+          <label for="prenom">Prénom :</label>
+          <input type="text" id="prenom" placeholder="Votre prénom"/>
+        </div>
 
-      <div class="input-group">
-        <label for="email">Email :</label>
-        <input type="email" id="email" placeholder="Votre email"/>
+        <div class="input-group">
+          <label for="email">Email :</label>
+          <input type="email" id="email" placeholder="Votre email"/>
+        </div>
       </div>
 
       <span id="email-error" class="error-message" style="display: none;"></span> <!-- Élément pour le message d'erreur -->
@@ -631,7 +683,7 @@
 
   <!-- FOOTER Simplifié -->
   <div class="footer">
-    Simulateur d'improvisation by Letmotiv
+    by Letmotiv <i class="fas fa-microphone"></i>
   </div>
 
   <!-- SCRIPT -->
@@ -688,8 +740,7 @@
     });
     nextBtns[2].addEventListener('click', () => {
       // Vérifier si l'improvisation est réalisée
-      const improDone = !document.getElementById('next-btn2').disabled;
-      if (improDone === false) {
+      if (nextBtns[2].disabled) {
         // Afficher le message d'erreur
         const improErrorDiv = document.getElementById('impro-error');
         improErrorDiv.style.display = 'block';
@@ -890,6 +941,10 @@
         nextBtns[2].disabled = false;
 
         statusText.textContent = "Improvisation terminée.";
+
+        // Masquer le message d'erreur si visible
+        const improErrorDiv = document.getElementById('impro-error');
+        improErrorDiv.style.display = 'none';
       };
 
       mediaRecorderInstance.start();
@@ -903,6 +958,9 @@
       stopBtn.classList.remove('hidden');
       stopBtn.disabled = false;
       restartBtn.classList.add('hidden');
+
+      // Désactiver le bouton "Suivant" pendant l'impro
+      nextBtns[2].disabled = true;
 
       startTimer();
     }
