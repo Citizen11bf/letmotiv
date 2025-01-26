@@ -397,7 +397,7 @@
       border-radius: 5px;
     }
 
-    /* Les boutons "Arrêter" et "Récommencer" seront en-dessous de la box */
+    /* Les boutons "Arrêter" et "Recommencer" seront en-dessous de la box */
     .impro-actions {
       display: flex;
       flex-wrap: wrap;
@@ -595,16 +595,16 @@
 <body>
   <!-- BOÎTE D'INTRODUCTION -->
   <div class="intro-box" id="intro-box">
-    <h1>Entrainez-vous à la prise de parole en public<br>avec le simulateur Letmotiv</h1>
+    <h1>Entraine-toi à la prise de parole en public</h1>
     <button id="start-intro-btn" aria-label="Je commence">Je commence</button>
   </div>
 
   <!-- HEADER -->
   <div class="header">
     <div class="header-content">
-      <!-- L1 : Simulateur d'improvisation eu public -->
+      <!-- L1 : Simulateur d'improvisation en public -->
       <div class="header-l1">
-        Simulateur d'improvisation eu public
+        Simulateur d'improvisation en public
       </div>
       <!-- L2 : vide ou masqué -->
       <div class="header-l2"></div>
@@ -623,7 +623,7 @@
       <button class="back-btn hidden-visibility" id="back-btn1" aria-label="Retour à l'objectif">
         <i class="fas fa-arrow-left"></i>
       </button>
-      <div class="box-title">Choisis ton objectif.</div>
+      <div class="box-title">Choisis ton objectif</div>
       <div class="step-indicator">1/4</div>
     </div>
 
@@ -659,7 +659,7 @@
       <button class="back-btn" id="back-btn2" aria-label="Retour à la sélection d'objectif">
         <i class="fas fa-arrow-left"></i>
       </button>
-      <div class="box-title">Lance ton improvisation&nbsp;!</div>
+      <div class="box-title">Lance ton improvisation&nbsp;</div>
       <div class="step-indicator">2/4</div>
     </div>
 
@@ -691,7 +691,7 @@
     <div class="impro-actions">
       <button id="start-btn" aria-label="Démarrer l'improvisation">Démarrer ton impro <i class="fas fa-video"></i></button>
       <button id="stop-btn" class="hidden-btn" aria-label="Arrêter l'improvisation">Arrêter ton impro <i class="fas fa-stop"></i></button>
-      <button id="restart-btn" class="hidden-btn" aria-label="Récommencer l'improvisation">Récommencer ton impro <i class="fas fa-redo"></i></button>
+      <button id="restart-btn" class="hidden-btn" aria-label="Recommencer l'improvisation">Recommencer ton impro <i class="fas fa-redo"></i></button>
     </div>
 
     <!-- Supprimé la barre de progression interne -->
@@ -759,12 +759,12 @@
       <button class="back-btn" id="back-btn3" aria-label="Retour au partage et progression">
         <i class="fas fa-arrow-left"></i>
       </button>
-      <div class="box-title">Télécharge et analyse ta prestation</div>
+      <div class="box-title">Analyse ta prestation</div>
       <div class="step-indicator">4/4</div>
     </div>
 
     <div class="download-section">
-      <h3>Renseigne deux infos pour télécharger ta prestation et une grille d'analyse Letmotiv :</h3>
+      <h3>Obtiens la vidéo de ta prestation et une grille d'analyse Letmotiv :</h3>
       
       <div class="download-fields">
         <div class="input-group">
@@ -788,14 +788,12 @@
     <!-- Cadre blanc pour les boutons de téléchargement (invisible par défaut) -->
     <div class="download-buttons" id="download-buttons">
       <button id="download-video-btn" aria-label="Télécharger la vidéo">
-        <i class="fas fa-download"></i> Télécharger la vidéo (mp4)
+        <i class="fas fa-download"></i> Télécharge ta vidéo (mp4)
       </button>
       <button id="download-pdf-btn" aria-label="Télécharger la grille d'évaluation">
-        <i class="fas fa-download"></i> Télécharger la grille d'évaluation (pdf)
+        <i class="fas fa-download"></i> Télécharge la grille d'évaluation (pdf)
       </button>
     </div>
-
-    <!-- Bouton "Suivant" supprimé car c'est la dernière étape -->
   </div>
 
   <!-- FOOTER Simplifié -->
@@ -1165,7 +1163,7 @@
       startBtn.classList.add('hidden-btn'); // Masquer "Démarrer"
       stopBtn.classList.remove('hidden-btn'); // Afficher "Arrêter"
       stopBtn.disabled = false;
-      restartBtn.classList.add('hidden-btn'); // Masquer "Récommencer"
+      restartBtn.classList.add('hidden-btn'); // Masquer "Recommencer"
 
       // Désactiver le bouton "Suivant" pendant l'impro
       nextBtns[2].disabled = true;
@@ -1206,7 +1204,7 @@
           clearInterval(timerInterval);
           if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
             mediaRecorderInstance.stop();
-            // Afficher le bouton "Récommencer ton impro"
+            // Afficher le bouton "Recommencer ton impro"
             restartBtn.classList.remove('hidden-btn');
           }
         }
@@ -1233,7 +1231,7 @@
 
         stopBtn.classList.add('hidden-btn'); // Masquer "Arrêter"
         stopBtn.disabled = true;
-        restartBtn.classList.remove('hidden-btn'); // Afficher "Récommencer"
+        restartBtn.classList.remove('hidden-btn'); // Afficher "Recommencer"
 
         // Masquer l'indicateur d'enregistrement
         recordingIndicator.style.display = 'none';
@@ -1243,7 +1241,7 @@
     // Bouton "Recommencer ton impro"
     restartBtn.addEventListener('click', () => {
       // Relancer simplement la fonction startImpro()
-      restartBtn.classList.add('hidden-btn'); // Masquer "Récommencer"
+      restartBtn.classList.add('hidden-btn'); // Masquer "Recommencer"
       videoText.innerHTML = "Ici va s'enregistrer ton improvisation en vidéo. <br> Lorsque tu es prêt, clique sur le bouton \"Démarrer ton impro\" en-dessous. <br><br> NB : ta vidéo est stockée directement sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.";
       videoText.style.display = 'block';
       startImpro();
