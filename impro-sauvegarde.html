@@ -6,7 +6,7 @@
   <title>Simulateur d'improvisation</title>
   <meta name="description" content="Évaluer et développer rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv.">
 
-  <!-- Import de la police DM SANS et Montserrat depuis Google Fonts -->
+  <!-- Import de la police DM Sans et Montserrat depuis Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -117,8 +117,8 @@
     }
 
     .intro-box button {
-      background-color: #ffffff;
-      color: #182d84;
+      background-color: #182d84; /* Fond bleu */
+      color: #ffffff; /* Texte blanc */
       font-family: 'DM Sans', sans-serif;
       font-size: 1.2rem;
       border: 2px solid #182d84; /* Contour bleu */
@@ -130,10 +130,10 @@
     }
 
     .intro-box button:hover {
-      background-color: #00a48a;
+      background-color: #00a48a; /* Fond vert au survol */
       color: #ffffff;
       border-color: #00a48a;
-      transform: scale(1.05);
+      transform: translateY(-3px); /* Levée */
     }
 
     /* Animations */
@@ -152,7 +152,7 @@
       width: 100vw;
       height: 100vh;
       margin: 0;
-      background-color: #ffffff; /* Changement de gris à blanc */
+      background-color: #ffffff; /* Fond blanc */
       border-radius: 0;
       padding: 15px;
       box-shadow: none;
@@ -163,7 +163,7 @@
       display: none; /* Masqué par défaut */
       opacity: 0;
       transform: translateY(20px);
-      transition: opacity 1s ease, transform 1s ease; /* Augmentation de la durée des transitions */
+      transition: opacity 1s ease, transform 1s ease; /* Transitions */
       overflow-y: auto;
     }
     .box.active {
@@ -182,7 +182,7 @@
 
     .back-btn {
       border: none;
-      background-color: #808080; /* Fond gris */
+      background-color: #182d84; /* Fond bleu */
       color: #FFFFFF; /* Flèche blanche */
       font-size: 16px;
       cursor: pointer;
@@ -195,11 +195,11 @@
       transition: background-color 0.3s, transform 0.3s;
     }
     .back-btn:hover {
-      background-color: #505050; /* Gris foncé au survol */
-      transform: scale(1.1);
+      background-color: #00a48a; /* Fond vert au survol */
+      transform: translateY(-3px); /* Levée */
     }
     .back-btn:active {
-      background-color: #303030; /* Gris encore plus foncé au clic */
+      background-color: #007a6e; /* Fond plus foncé au clic */
     }
     .back-btn.hidden-visibility {
       visibility: hidden;
@@ -260,17 +260,23 @@
       align-items: center;
       justify-content: center;
       border: 2px solid #182d84; /* Contour bleu */
-      background-color: transparent;
-      color: #182d84; /* Flèche bleue */
+      background-color: #182d84; /* Fond bleu */
+      color: #ffffff; /* Flèche blanche */
       cursor: pointer;
       transition: background-color 0.3s, color 0.3s, transform 0.3s, border-color 0.3s;
       margin: 10px auto; /* Centrer horizontalement */
     }
     .next-btn:hover {
-      background-color: #00a48a; /* Fond bleu foncé au survol */
-      color: #ffffff; /* Flèche blanche au survol */
-      border-color: #00a48a; /* Bordure bleu foncé au survol */
-      transform: scale(1.05); /* Légère augmentation de taille au survol */
+      background-color: #00a48a; /* Fond vert au survol */
+      border-color: #00a48a;
+      transform: translateY(-3px); /* Levée */
+    }
+    .next-btn:disabled {
+      background-color: #cccccc;
+      border-color: #cccccc;
+      cursor: not-allowed;
+      color: #666666;
+      transform: none;
     }
 
     /* Encadré pour l'explication des objectifs de prise de parole*/
@@ -351,13 +357,17 @@
     /* Texte explicatif dans la vidéo box */
     .video-box .video-text {
       position: absolute;
+      top: 10px;
+      right: 10px;
       z-index: 2; /* Au-dessus de la vidéo */
-      color: #555;
+      color: #ffffff;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 5px 10px;
+      border-radius: 5px;
       font-style: italic;
       font-size: 14px;
-      text-align: center;
-      padding: 20px;
       pointer-events: none; /* Permet de cliquer sur les boutons en dessous */
+      display: none; /* Caché par défaut */
     }
 
     /* Indicateur visuel d'enregistrement */
@@ -411,7 +421,7 @@
       width: 100vw;
       height: 100vh;
       margin: 0;
-      background-color: #ffffff; /* Changement de gris à blanc */
+      background-color: #ffffff; /* Fond blanc */
       border-radius: 0;
       padding: 15px;
       box-shadow: none;
@@ -422,7 +432,7 @@
       display: none; /* Masqué par défaut */
       opacity: 0;
       transform: translateY(20px);
-      transition: opacity 1s ease, transform 1s ease; /* Augmentation de la durée des transitions */
+      transition: opacity 1s ease, transform 1s ease; /* Transitions */
       overflow-y: auto;
     }
     .box5.active {
@@ -476,18 +486,21 @@
     .progression-buttons a {
       width: 100%;
       max-width: 300px;
-      background-color: #00a48a;
-      color: #ffffff;
+      background-color: #182d84; /* Fond bleu */
+      color: #ffffff; /* Texte blanc */
       text-decoration: none;
       padding: 10px 20px;
       border-radius: 25px;
       font-family: 'DM Sans', sans-serif;
       font-size: 1rem;
       transition: background-color 0.3s, transform 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .progression-buttons a:hover {
-      background-color: #007a6e;
-      transform: scale(1.05);
+      background-color: #00a48a; /* Fond vert au survol */
+      transform: translateY(-3px); /* Levée */
     }
 
     /* Styles pour les messages d'erreur */
@@ -536,39 +549,46 @@
 
     /* Styles pour le bouton Valider */
     #validate-form-btn {
-      background-color: #00a48a;
-      color: #ffffff;
-      border: none;
+      background-color: #182d84; /* Fond bleu */
+      color: #ffffff; /* Texte blanc */
+      border: 2px solid #182d84; /* Contour bleu */
       border-radius: 25px;
       padding: 10px 20px;
       font-family: 'DM Sans', sans-serif;
       font-size: 1rem;
       cursor: pointer;
-      transition: background-color 0.3s, transform 0.3s;
+      transition: background-color 0.3s, transform 0.3s, border-color 0.3s;
     }
     #validate-form-btn:hover {
-      background-color: #007a6e;
-      transform: scale(1.05);
+      background-color: #00a48a; /* Fond vert au survol */
+      border-color: #00a48a;
+      transform: translateY(-3px); /* Levée */
     }
 
     /* Styles pour les boutons de téléchargement */
     .download-buttons button {
-      background-color: #00a48a;
-      color: #ffffff;
-      border: none;
+      background-color: #182d84; /* Fond bleu */
+      color: #ffffff; /* Texte blanc */
+      border: 2px solid #182d84; /* Contour bleu */
       border-radius: 25px;
       padding: 10px 20px;
       font-family: 'DM Sans', sans-serif;
       font-size: 1rem;
       cursor: pointer;
-      transition: background-color 0.3s, transform 0.3s;
+      transition: background-color 0.3s, transform 0.3s, border-color 0.3s;
       margin: 10px 0;
       width: 80%;
       max-width: 300px;
     }
     .download-buttons button:hover {
-      background-color: #007a6e;
-      transform: scale(1.05);
+      background-color: #00a48a; /* Fond vert au survol */
+      border-color: #00a48a;
+      transform: translateY(-3px); /* Levée */
+    }
+
+    /* Hidden buttons */
+    .hidden-btn {
+      display: none;
     }
   </style>
 </head>
@@ -598,7 +618,7 @@
   <!-- HEADER -->
   <div class="header">
     <div class="header-content">
-      <!-- L1 : Simulateur d'improvisation eu public -->
+      <!-- L1 : Simulateur d'improvisation en public -->
       <div class="header-l1">
         Simulateur d'improvisation en public
       </div>
@@ -666,9 +686,7 @@
     <div class="video-box">
       <video id="preview" autoplay muted></video>
       <div class="video-text" id="video-text">
-        Ici va s'enregistrer ton improvisation en vidéo. <br> 
-        Lorsque tu es prêt, clique sur le bouton "Démarrer ton impro" en-dessous. <br><br>
-        NB : ta vidéo est stockée directement sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.
+        Enregistrement en cours...
       </div>
     </div>
 
@@ -1131,8 +1149,7 @@
       mediaRecorderInstance.start();
       statusText.textContent = "Improvisation en cours...";
 
-      // Supprime le texte explicatif dans la vidéo box
-      videoText.textContent = "Enregistrement en cours..."; // Ajout du texte
+      // Afficher le texte "Enregistrement en cours" en haut à droite
       videoText.style.display = 'block'; // Afficher le texte
 
       // Gérer les boutons
@@ -1207,8 +1224,8 @@
         // Désactiver l'indicateur visuel
         recordingIndicator.classList.remove('active');
 
-        // Afficher le texte explicatif à nouveau
-        videoText.textContent = "Enregistrement terminé. Vous pouvez télécharger votre vidéo.";
+        // Mettre à jour le texte explicatif
+        videoText.textContent = "Enregistrement terminé.";
       }
     });
 
@@ -1253,9 +1270,9 @@
       nextBtns[3].disabled = false;
     });
 
-    // Bouton "Suivant" de Box3 pour aller à Box4
-    nextBtns[3].addEventListener('click', () => {
-      showBox(3, 4);
+    // Bouton "Suivant" de Box4 pour aller à Box5
+    nextBtns[4].addEventListener('click', () => {
+      showBox(4, 5);
     });
 
     // Téléchargement de la vidéo
@@ -1286,7 +1303,6 @@
      * 6) Navigation Séquentielle des Boîtes
      ***********************/
     // Cette logique est déjà gérée par les écouteurs "Suivant" et "Retour"
-    // Assure-toi que les boutons "Suivant" sont activés/désactivés selon les besoins
 
     /***********************
      * 7) Gestion des flèches de navigation pour les boîtes
