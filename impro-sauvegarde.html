@@ -732,7 +732,10 @@
       </a>
     </div>
 
-    <!-- Bouton "Suivant" supprimé car c'est la dernière étape -->
+    <!-- Bouton "Suivant" pour passer à la Box3 (Téléchargement) -->
+    <button class="next-btn" id="next-btn4" aria-label="Passer à l'étape suivante">
+      <i class="fas fa-arrow-right"></i>
+    </button>
   </div>
 
   <!-- BOX3 : Télécharge et analyse ta prestation -->
@@ -778,10 +781,7 @@
       </button>
     </div>
 
-    <!-- Bouton "Suivant" (désactivé jusqu'à validation) -->
-    <button class="next-btn" id="next-btn3" disabled aria-label="Passer à l'étape suivante">
-      <i class="fas fa-arrow-right"></i>
-    </button>
+    <!-- Bouton "Suivant" supprimé car c'est la dernière étape -->
   </div>
 
   <!-- FOOTER Simplifié -->
@@ -804,14 +804,14 @@
     const nextBtns = {
       1: document.getElementById('next-btn1'),
       2: document.getElementById('next-btn2'),
-      3: document.getElementById('next-btn3'),
+      3: document.getElementById('next-btn4'), // Ajout du next-btn4 pour Box4
       // 4: Aucun bouton "Suivant" dans Box3 (Téléchargement)
     };
 
     const backBtns = {
       2: document.getElementById('back-btn2'),
-      3: document.getElementById('back-btn4'), // Partage LinkedIn
-      4: document.getElementById('back-btn3')  // Téléchargement
+      3: document.getElementById('back-btn4'), // Retour depuis Partage LinkedIn
+      4: document.getElementById('back-btn3')  // Retour depuis Téléchargement
     };
 
     const introBox = document.getElementById('intro-box');
@@ -879,7 +879,7 @@
       showBox(2, 3);
     });
     nextBtns[3].addEventListener('click', () => showBox(3, 4));
-    // Aucun bouton "Suivant" dans Box4 (Téléchargement)
+    // Aucun bouton "Suivant" dans Box3 (Téléchargement)
 
     // Ajouter des écouteurs pour les boutons "Retour" uniquement s'ils existent
     if (backBtns[2]) {
