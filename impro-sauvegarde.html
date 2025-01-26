@@ -32,6 +32,25 @@
       align-items: center;
       min-height: 100vh;
       overflow-x: hidden; /* Empêche le défilement horizontal */
+      padding-top: 60px; /* Compense la hauteur du header fixe */
+      padding-bottom: 60px; /* Espace pour le footer */
+    }
+
+    /* --- BARRE DE PROGRESSION --- */
+    .progression-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background-color: #e0e0e0;
+      z-index: 15;
+    }
+    .progression-bar-inner {
+      width: 0%;
+      height: 100%;
+      background-color: #00a48a;
+      transition: width 0.5s ease;
     }
 
     /* --- HEADER --- */
@@ -44,7 +63,7 @@
       padding: 15px;
       width: 100%;
       position: fixed;
-      top: 0;
+      top: 5px; /* Ajusté pour ne pas chevaucher la barre de progression */
       left: 0;
       z-index: 10;
       box-sizing: border-box;
@@ -69,23 +88,6 @@
     }
     .header a:hover {
       text-decoration: none;
-    }
-
-    /* --- BARRE DE PROGRESSION --- */
-    .progression-bar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 5px;
-      background-color: #e0e0e0;
-      z-index: 15;
-    }
-    .progression-bar-inner {
-      width: 0%;
-      height: 100%;
-      background-color: #00a48a;
-      transition: width 0.5s ease;
     }
 
     /* --- BOÎTE D'INTRODUCTION --- */
@@ -144,6 +146,52 @@
       to { transform: translateY(0); opacity: 1; }
     }
 
+    /* --- BOÎTE DE COMPTE À REBOURS --- */
+    .countdown-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 5rem;
+      z-index: 25;
+      display: none; /* Caché par défaut */
+    }
+    .countdown-overlay.active {
+      display: flex;
+    }
+
+    /* --- INDICATEUR DE RECORDING VISUEL --- */
+    .recording-indicator {
+      position: fixed;
+      top: 10px; /* Juste en dessous de la barre de progression */
+      right: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 30;
+      display: none; /* Caché par défaut */
+    }
+    .recording-indicator.active {
+      display: flex;
+    }
+    .recording-indicator .record-dot {
+      width: 15px;
+      height: 15px;
+      background-color: red;
+      border-radius: 50%;
+      animation: blink 1s infinite;
+    }
+    @keyframes blink {
+      0%, 50%, 100% { opacity: 1; }
+      25%, 75% { opacity: 0; }
+    }
+
     /* --- BOXES : couleur de fond #E2E7E3, centrage, marges --- */
     .box {
       width: 100vw;
@@ -151,7 +199,7 @@
       margin: 0;
       background-color: #E2E7E3; 
       border-radius: 0;
-      padding: 20px;
+      padding: 15px;
       box-shadow: none;
       text-align: center;
       font-size: 14px;
@@ -358,12 +406,12 @@
     /* Indicateur visuel d'enregistrement */
     .recording-indicator {
       position: fixed;
-      top: 60px; /* Juste en dessous de la barre de progression */
+      top: 10px; /* Juste en dessous de la barre de progression */
       right: 20px;
       display: flex;
       align-items: center;
       gap: 10px;
-      z-index: 25;
+      z-index: 30;
       display: none; /* Caché par défaut */
     }
     .recording-indicator.active {
@@ -394,7 +442,7 @@
       justify-content: center;
       color: #ffffff;
       font-size: 5rem;
-      z-index: 30;
+      z-index: 35;
       display: none; /* Caché par défaut */
     }
     .countdown-overlay.active {
@@ -408,7 +456,7 @@
       margin: 0;
       background-color: #E2E7E3; 
       border-radius: 0;
-      padding: 20px;
+      padding: 15px;
       box-shadow: none;
       text-align: center;
       font-size: 14px;
@@ -417,7 +465,7 @@
       display: none; /* Masqué par défaut */
       opacity: 0;
       transform: translateY(20px);
-      transition: opacity 1s ease, transform 1s ease;
+      transition: opacity 1s ease, transform 1s ease; /* Augmentation de la durée des transitions */
       overflow-y: auto;
     }
     .box5.active {
@@ -498,7 +546,7 @@
   <!-- BOÎTE D'INTRODUCTION -->
   <div class="intro-box" id="intro-box">
     <h1>Entraine-toi à la prise de parole en public<br></h1>
-    <button id="start-intro-btn">Commencer</button>
+    <button id="start-intro-btn">Commencer</button> <!-- Modification du texte ici -->
   </div>
 
   <!-- HEADER -->
@@ -521,7 +569,7 @@
         <i class="fas fa-arrow-left" aria-hidden="true"></i>
       </button>
       <div class="box-title">Choisis ton objectif.</div>
-      <div class="step-indicator">1/5</div>
+      <div class="step-indicator">1/5</div> <!-- Mise à jour de l'indicateur -->
     </div>
 
     <div class="objectives-container">
@@ -557,7 +605,7 @@
         <i class="fas fa-arrow-left" aria-hidden="true"></i>
       </button>
       <div class="box-title">Lance ton improvisation&nbsp;!</div>
-      <div class="step-indicator">2/5</div>
+      <div class="step-indicator">2/5</div> <!-- Mise à jour de l'indicateur -->
     </div>
 
     <!-- Bouton pour générer le sujet d'impro (selon l’objectif sélectionné) -->
@@ -610,7 +658,7 @@
         <i class="fas fa-arrow-left" aria-hidden="true"></i>
       </button>
       <div class="box-title">Télécharge et analyse ta prestation</div>
-      <div class="step-indicator">3/5</div>
+      <div class="step-indicator">3/5</div> <!-- Mise à jour de l'indicateur -->
     </div>
 
     <div class="download-section">
@@ -649,7 +697,7 @@
         <i class="fas fa-arrow-left" aria-hidden="true"></i>
       </button>
       <div class="box-title">Partage ton expérience</div>
-      <div class="step-indicator">4/5</div>
+      <div class="step-indicator">4/5</div> <!-- Mise à jour de l'indicateur -->
     </div>
 
     <p>
@@ -675,21 +723,21 @@
       </a>
     </div>
 
-    <!-- Bouton "Suivant" -->
-    <button class="next-btn" id="next-btn4">
+    <!-- Bouton "Suivant" (désactivé) -->
+    <button class="next-btn" id="next-btn4" disabled>
       <i class="fas fa-arrow-right"></i>
     </button>
   </div>
 
   <!-- BOX5 : Téléchargements -->
-  <div class="box box5" id="box5">
+  <div class="box" id="box5">
     <!-- Header interne de la boîte -->
     <div class="box-header">
       <button class="back-btn" id="back-btn5" aria-label="Retour à la boîte précédente">
-        <i class="fas fa-arrow-left"></i>
+        <i class="fas fa-arrow-left" aria-hidden="true"></i>
       </button>
       <div class="box-title">Téléchargements</div>
-      <div class="step-indicator">5/5</div>
+      <div class="step-indicator">5/5</div> <!-- Mise à jour de l'indicateur -->
     </div>
 
     <!-- Encadré blanc pour les boutons de téléchargement -->
@@ -708,7 +756,7 @@
     by Letmotiv <i class="fas fa-microphone"></i>
   </div>
 
-  <!-- Countdown Audio -->
+  <!-- Sons pour le feedback auditif -->
   <audio id="countdown-sound" src="https://freesound.org/data/previews/337/337049_3232196-lq.mp3" preload="auto"></audio>
   <audio id="start-sound" src="https://freesound.org/data/previews/256/256113_3263906-lq.mp3" preload="auto"></audio>
   <audio id="stop-sound" src="https://freesound.org/data/previews/256/256114_3263906-lq.mp3" preload="auto"></audio>
@@ -723,7 +771,7 @@
       2: document.getElementById('box2'),
       3: document.getElementById('box3'),
       4: document.getElementById('box4'),
-      5: document.getElementById('box5')
+      5: document.getElementById('box5') // Ajout de Box5
     };
 
     const nextBtns = {
@@ -738,7 +786,7 @@
       2: document.getElementById('back-btn2'),
       3: document.getElementById('back-btn3'),
       4: document.getElementById('back-btn4'),
-      5: document.getElementById('back-btn5')
+      5: document.getElementById('back-btn5') // Ajout du bouton de retour pour Box5
     };
 
     const introBox = document.getElementById('intro-box');
@@ -979,7 +1027,7 @@
       let count = 5;
       countdownNumber.textContent = count;
       countdownOverlay.classList.add('active');
-      recordingIndicator.classList.add('active');
+      recordingIndicator.classList.remove('active'); // Assurer que l'indicateur est caché pendant le décompte
 
       countdownSound.play();
 
@@ -1151,12 +1199,9 @@
         return;
       }
 
-      // Afficher les boutons de téléchargement dans la boîte5
+      // Afficher la Box5 avec les boutons de téléchargement
       showBox(3, 5);
       downloadButtons.classList.add('show');
-
-      // Activer le bouton "Suivant" pour passer à la box5
-      nextBtns[3].disabled = false;
     });
 
     // Téléchargement de la vidéo
