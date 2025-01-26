@@ -134,7 +134,7 @@
     .back-btn:active {
       background-color: #303030; /* Even darker on click */
     }
-    .back-btn.hidden {
+    .back-btn.hidden-visibility {
       visibility: hidden;
     }
 
@@ -200,7 +200,7 @@
     }
     .next-btn:hover {
       background-color: #00a48a; /* Fond bleu foncé au survol */
-      color: #00a48a; /* Flèche reste bleue */
+      color: #ffffff; /* Flèche blanche au survol */
       transform: scale(1.1); /* Légère augmentation de taille au survol */
     }
 
@@ -298,6 +298,11 @@
       gap: 10px;
       justify-content: center; 
       margin-top: 10px;
+    }
+
+    /* Classe pour masquer les boutons via display: none */
+    .hidden-btn {
+      display: none;
     }
 
     #progress-bar {
@@ -429,7 +434,7 @@
 
     /* Transition pour le titre principal */
     .main-title {
-      transition: opacity 1s ease, transform 1s ease; /* Ajustée pour correspondre à la transition des boîtes */
+      transition: opacity 1s ease, transform 1s ease; /* Correspond à la transition des boîtes */
     }
 
     /* Media Queries pour s'assurer que les boîtes ne sont pas cachées par le footer */
@@ -510,7 +515,7 @@
   <div class="box active" id="box1">
     <!-- Header interne de la boîte -->
     <div class="box-header">
-      <button class="back-btn hidden" id="back-btn1">
+      <button class="back-btn hidden-visibility" id="back-btn1">
         <i class="fas fa-arrow-left"></i>
       </button>
       <div class="box-title">Choisis ton objectif.</div>
@@ -573,9 +578,9 @@
 
     <!-- Boutons en dessous de l'encart bleu -->
     <div class="impro-actions">
-      <button id="start-btn"><i class="fas fa-video"></i> Démarrer ton impro</button>
-      <button id="stop-btn" class="hidden"><i class="fas fa-stop"></i> Arrêter ton impro</button>
-      <button id="restart-btn" class="hidden"><i class="fas fa-redo"></i> Récommencer ton impro</button>
+      <button id="start-btn">Démarrer ton impro <i class="fas fa-video"></i></button>
+      <button id="stop-btn" class="hidden-btn">Arrêter ton impro <i class="fas fa-stop"></i></button>
+      <button id="restart-btn" class="hidden-btn">Récommencer ton impro <i class="fas fa-redo"></i></button>
     </div>
 
     <div id="progress-bar">
@@ -954,10 +959,10 @@
       videoText.style.display = 'none';
 
       // Gérer les boutons
-      startBtn.classList.add('hidden');
-      stopBtn.classList.remove('hidden');
+      startBtn.classList.add('hidden-btn');
+      stopBtn.classList.remove('hidden-btn');
       stopBtn.disabled = false;
-      restartBtn.classList.add('hidden');
+      restartBtn.classList.add('hidden-btn');
 
       // Désactiver le bouton "Suivant" pendant l'impro
       nextBtns[2].disabled = true;
@@ -996,7 +1001,7 @@
           if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
             mediaRecorderInstance.stop();
             // Afficher le bouton "Récommencer ton impro"
-            restartBtn.classList.remove('hidden');
+            restartBtn.classList.remove('hidden-btn');
           }
         }
       }, 1000);
@@ -1011,16 +1016,16 @@
         mediaRecorderInstance.stop();
         clearInterval(countdown);
 
-        stopBtn.classList.add('hidden');
+        stopBtn.classList.add('hidden-btn');
         stopBtn.disabled = true;
-        restartBtn.classList.remove('hidden'); 
+        restartBtn.classList.remove('hidden-btn'); 
       }
     });
 
     // Bouton "Recommencer ton impro"
     restartBtn.addEventListener('click', () => {
       // Relancer simplement la fonction startImpro()
-      restartBtn.classList.add('hidden');
+      restartBtn.classList.add('hidden-btn');
       startImpro();
     });
 
