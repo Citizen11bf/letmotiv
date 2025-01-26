@@ -6,11 +6,11 @@
   <title>Simulateur d'improvisation</title>
   <meta name="description" content="Évaluer et développer rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv.">
 
-  <!-- Import de la police DM SANS depuis Google Fonts -->
+  <!-- Import de la police DM SANS et Montserrat depuis Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=DM+Sans&display=swap"
+    href="https://fonts.googleapis.com/css2?family=DM+Sans&family=Montserrat:wght@700&display=swap"
     rel="stylesheet"
   />
 
@@ -69,17 +69,63 @@
       text-decoration: none;
     }
 
-    /* --- Titre principal (avec la police "DM SANS") --- */
-    .main-title {
-      margin-top: 80px; /* espace pour ne pas empiéter sur le header fixe */
+    /* --- BOÎTE D'INTRODUCTION --- */
+    .intro-box {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #182d84, #00a48a);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       text-align: center;
-      font-family: 'DM Sans', sans-serif; /* Police importée */
-      color: #182d84; 
-      font-size: 1.5rem; /* ajusté pour plus de visibilité */
-      font-weight: bold;
-      padding: 0 1rem;
-      transition: opacity 1s ease, transform 1s ease; /* Augmentation de la durée des transitions */
+      color: #ffffff;
+      z-index: 20;
+      animation: fadeIn 1s ease forwards;
     }
+
+    .intro-box h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      animation: slideDown 1s ease forwards;
+    }
+
+    .intro-box button {
+      background-color: #ffffff;
+      color: #182d84;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 25px;
+      padding: 15px 30px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s, color 0.3s;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .intro-box button:hover {
+      background-color: #00a48a;
+      color: #ffffff;
+      transform: scale(1.05);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* --- Titre principal (supprimé) --- */
+    /* Suppression de .main-title */
 
     /* --- BOXES : couleur de fond #E2E7E3, centrage, marges --- */
     .box {
@@ -201,7 +247,7 @@
     .next-btn:hover {
       background-color: #00a48a; /* Fond bleu foncé au survol */
       color: #ffffff; /* Flèche blanche au survol */
-      transform: scale(1.1); /* Légère augmentation de taille au survol */
+      transform: scale(1.05); /* Légère augmentation de taille au survol */
     }
 
     /* Encadré pour l'explication des objectifs de prise de parole*/
@@ -492,6 +538,12 @@
   </style>
 </head>
 <body>
+  <!-- BOÎTE D'INTRODUCTION -->
+  <div class="intro-box" id="intro-box">
+    <h1>Entrainez-vous à la prise de parole en public<br>avec le simulateur Letmotiv</h1>
+    <button id="start-intro-btn">Je commence</button>
+  </div>
+
   <!-- HEADER -->
   <div class="header">
     <div class="header-content">
@@ -503,13 +555,6 @@
       <div class="header-l2"></div>
     </div>
   </div>
-
-  <!-- Titre principal -->
-  <h1 class="main-title">
-    Entrainez-vous à la prise de parole en public
-    <br class="desktop-break">
-    avec le simulateur Letmotiv
-  </h1>
 
   <!-- BOX1 : Choix d'objectif -->
   <div class="box active" id="box1">
@@ -716,6 +761,9 @@
       4: document.getElementById('back-btn4')
     };
 
+    const introBox = document.getElementById('intro-box');
+    const startIntroBtn = document.getElementById('start-intro-btn');
+
     function showBox(current, next) {
       boxes[current].classList.remove('active');
       boxes[next].classList.add('active');
@@ -760,6 +808,23 @@
     backBtns[2].addEventListener('click', () => showBox(2, 1));
     backBtns[3].addEventListener('click', () => showBox(3, 2));
     backBtns[4].addEventListener('click', () => showBox(4, 3));
+
+    // Gestion de la boîte d'introduction
+    startIntroBtn.addEventListener('click', () => {
+      // Cacher la boîte d'introduction
+      introBox.style.display = 'none';
+      // Afficher la Box1
+      boxes[1].classList.add('active');
+      // Scroll vers la Box1
+      const header = document.querySelector('.header');
+      const headerHeight = header ? header.offsetHeight : 0;
+      const boxPosition = boxes[1].getBoundingClientRect().top + window.scrollY - headerHeight - 20;
+
+      window.scrollTo({
+        top: boxPosition,
+        behavior: 'smooth'
+      });
+    });
 
     /***********************
      * 2) Explications par catégorie
@@ -959,10 +1024,10 @@
       videoText.style.display = 'none';
 
       // Gérer les boutons
-      startBtn.classList.add('hidden-btn');
-      stopBtn.classList.remove('hidden-btn');
+      startBtn.classList.add('hidden-btn'); // Masquer "Démarrer"
+      stopBtn.classList.remove('hidden-btn'); // Afficher "Arrêter"
       stopBtn.disabled = false;
-      restartBtn.classList.add('hidden-btn');
+      restartBtn.classList.add('hidden-btn'); // Masquer "Récommencer"
 
       // Désactiver le bouton "Suivant" pendant l'impro
       nextBtns[2].disabled = true;
@@ -1016,16 +1081,16 @@
         mediaRecorderInstance.stop();
         clearInterval(countdown);
 
-        stopBtn.classList.add('hidden-btn');
+        stopBtn.classList.add('hidden-btn'); // Masquer "Arrêter"
         stopBtn.disabled = true;
-        restartBtn.classList.remove('hidden-btn'); 
+        restartBtn.classList.remove('hidden-btn'); // Afficher "Récommencer"
       }
     });
 
     // Bouton "Recommencer ton impro"
     restartBtn.addEventListener('click', () => {
       // Relancer simplement la fonction startImpro()
-      restartBtn.classList.add('hidden-btn');
+      restartBtn.classList.add('hidden-btn'); // Masquer "Récommencer"
       startImpro();
     });
 
@@ -1100,7 +1165,6 @@
      * 7) Gestion des flèches de navigation pour les boîtes
      ***********************/
     // Aucun code supplémentaire n'est nécessaire ici car la navigation est gérée par les boutons "Suivant" et "Retour"
-
   </script>
 </body>
 </html>
