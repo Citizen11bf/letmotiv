@@ -335,7 +335,7 @@
       pointer-events: none; /* Permet de cliquer sur les boutons en dessous */
     }
 
-    /* Les boutons "Arrêter" et "Récommencer" seront en-dessous de la box */
+    /* Les boutons "Arrêter" et "Recommencer" seront en-dessous de la box */
     .impro-actions {
       display: flex;
       flex-wrap: wrap;
@@ -538,8 +538,8 @@
 <body>
   <!-- BOÎTE D'INTRODUCTION -->
   <div class="intro-box" id="intro-box">
-    <h1>Entraine-toi à la prise de parole en public<br>avec le simulateur Letmotiv</h1>
-    <button id="start-intro-btn">Je commence</button>
+    <h1>Entraine-toi à la prise de parole en public<br></h1>
+    <button id="start-intro-btn">Commencer</button>
   </div>
 
   <!-- HEADER -->
@@ -623,7 +623,7 @@
     <div class="impro-actions">
       <button id="start-btn">Démarrer ton impro <i class="fas fa-video"></i></button>
       <button id="stop-btn" class="hidden-btn">Arrêter ton impro <i class="fas fa-stop"></i></button>
-      <button id="restart-btn" class="hidden-btn">Récommencer ton impro <i class="fas fa-redo"></i></button>
+      <button id="restart-btn" class="hidden-btn">Recommencer ton impro <i class="fas fa-redo"></i></button>
     </div>
 
     <div id="progress-bar">
@@ -1030,7 +1030,7 @@
       startBtn.classList.add('hidden-btn'); // Masquer "Démarrer"
       stopBtn.classList.remove('hidden-btn'); // Afficher "Arrêter"
       stopBtn.disabled = false;
-      restartBtn.classList.add('hidden-btn'); // Masquer "Récommencer"
+      restartBtn.classList.add('hidden-btn'); // Masquer "Recommencer"
 
       // Désactiver le bouton "Suivant" pendant l'impro
       nextBtns[2].disabled = true;
@@ -1068,7 +1068,7 @@
           clearInterval(countdown);
           if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
             mediaRecorderInstance.stop();
-            // Afficher le bouton "Récommencer ton impro"
+            // Afficher le bouton "Recommencer ton impro"
             restartBtn.classList.remove('hidden-btn');
           }
         }
@@ -1086,14 +1086,14 @@
 
         stopBtn.classList.add('hidden-btn'); // Masquer "Arrêter"
         stopBtn.disabled = true;
-        restartBtn.classList.remove('hidden-btn'); // Afficher "Récommencer"
+        restartBtn.classList.remove('hidden-btn'); // Afficher "Recommencer"
       }
     });
 
     // Bouton "Recommencer ton impro"
     restartBtn.addEventListener('click', () => {
       // Relancer simplement la fonction startImpro()
-      restartBtn.classList.add('hidden-btn'); // Masquer "Récommencer"
+      restartBtn.classList.add('hidden-btn'); // Masquer "Recommencer"
       startImpro();
     });
 
