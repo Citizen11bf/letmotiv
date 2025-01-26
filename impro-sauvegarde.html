@@ -383,6 +383,21 @@
       100% { opacity: 1; }
     }
 
+    /* Décompte avec fond grisé */
+    .countdown {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 48px;
+      color: #ff0000;
+      display: none;
+      z-index: 4;
+      background-color: rgba(0, 0, 0, 0.5); /* Fond grisé */
+      padding: 20px 40px;
+      border-radius: 10px;
+    }
+
     /* Les boutons "Arrêter" et "Récommencer" seront en-dessous de la box */
     .impro-actions {
       display: flex;
@@ -675,9 +690,7 @@
         <span class="dot"></span> Enregistrement en cours
       </div>
       <!-- Décompte -->
-      <div class="countdown" id="countdown" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 48px; color: #ff0000; display: none; z-index: 4;">
-        3
-      </div>
+      <div class="countdown" id="countdown">3</div>
     </div>
 
     <!-- Boutons en dessous de l'encart bleu -->
@@ -691,11 +704,9 @@
       <div id="progress-bar-inner"></div>
     </div>
 
-    <p id="status">Improvisation non commencée.</p>
-
     <!-- Message d'erreur dans Box2 -->
     <div id="impro-error" class="error-message" style="display: none;">
-      Tu dois d'abord réaliser ta prestation d'improvisation.
+      Tu dois réaliser ton improvisation avant de continuer.
     </div>
 
     <!-- Bouton "Suivant" (désactivé jusqu'à ce que l'impro soit arrêtée) -->
@@ -877,8 +888,9 @@
     nextBtns[2].addEventListener('click', () => {
       // Vérifier si l'improvisation est réalisée
       if (nextBtns[2].disabled) {
-        // Afficher le message d'erreur
+        // Afficher le message d'erreur personnalisé
         const improErrorDiv = document.getElementById('impro-error');
+        improErrorDiv.textContent = "Tu dois réaliser ton improvisation avant de continuer.";
         improErrorDiv.style.display = 'block';
         return;
       }
@@ -1052,14 +1064,13 @@
     const stopBtn = document.getElementById('stop-btn');
     const restartBtn = document.getElementById('restart-btn');
     const progressBarInner = document.getElementById('progress-bar-inner');
-    const statusText = document.getElementById('status');
     const validateFormBtn = document.getElementById('validate-form-btn');
     const prenomInput = document.getElementById('prenom');
     const emailInput = document.getElementById('email');
     const downloadButtons = document.getElementById('download-buttons');
     const downloadVideoBtn = document.getElementById('download-video-btn');
     const downloadPdfBtn = document.getElementById('download-pdf-btn');
-    const videoText = document.getElementById('video-text'); // Nouveau
+    const videoText = document.getElementById('video-text'); // Texte dans la video-box
     const recordingIndicator = document.getElementById('recording-indicator');
     const countdownElement = document.getElementById('countdown');
 
@@ -1073,7 +1084,7 @@
         return;
       }
       if (typeof MediaRecorder === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
-        statusText.textContent = "Désolé, l'enregistrement vidéo n'est pas supporté par votre navigateur.";
+        alert("Désolé, l'enregistrement vidéo n'est pas supporté par votre navigateur.");
         return;
       }
       if (!confirm("Votre webcam va se lancer pour démarrer l'improvisation. Voulez-vous continuer ?")) {
@@ -1106,7 +1117,7 @@
       if (!stream) return;
 
       if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
-        statusText.textContent = "Votre navigateur ne supporte pas l'enregistrement vidéo. Essayez Chrome/Firefox.";
+        alert("Votre navigateur ne supporte pas l'enregistrement vidéo. Essayez Chrome/Firefox.");
         return;
       }
 
@@ -1129,7 +1140,9 @@
         // Activer le bouton "Suivant" dans Box2
         nextBtns[2].disabled = false;
 
-        statusText.textContent = "Improvisation terminée.";
+        // Afficher "Improvisation terminée." dans la vidéo-box
+        videoText.textContent = "Improvisation terminée.";
+        videoText.style.display = 'block';
 
         // Masquer le message d'erreur si visible
         const improErrorDiv = document.getElementById('impro-error');
@@ -1140,7 +1153,6 @@
       };
 
       mediaRecorderInstance.start();
-      statusText.textContent = "Improvisation en cours...";
 
       // Afficher l'indicateur d'enregistrement
       recordingIndicator.style.display = 'flex';
@@ -1168,11 +1180,11 @@
         return stream;
       } catch (error) {
         if (error.name === 'NotAllowedError' || error.name === 'SecurityError') {
-          statusText.textContent = "Vous avez refusé l'accès à la webcam ou au micro. Veuillez autoriser l'accès.";
+          alert("Vous avez refusé l'accès à la webcam ou au micro. Veuillez autoriser l'accès.");
         } else if (error.name === 'NotFoundError' || error.name === 'DevicesNotFoundError') {
-          statusText.textContent = "Aucune caméra ou micro détecté(e). Vérifiez vos périphériques.";
+          alert("Aucune caméra ou micro détecté(e). Vérifiez vos périphériques.");
         } else {
-          statusText.textContent = "Erreur : Impossible d'accéder à la webcam. Vérifiez vos permissions.";
+          alert("Erreur : Impossible d'accéder à la webcam. Vérifiez vos permissions.");
         }
         console.error('Erreur d\'accès à la webcam :', error);
         return null;
@@ -1306,7 +1318,6 @@
      * 8) Mise à jour de la barre de progression
      ***********************/
     // Cette fonctionnalité est déjà intégrée dans la fonction showBox()
-
   </script>
 </body>
 </html>
