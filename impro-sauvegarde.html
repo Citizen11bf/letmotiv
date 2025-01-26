@@ -412,24 +412,50 @@
       display: none;
     }
 
-    #progress-bar {
-      width: 100%;
-      height: 10px;
-      background-color: #e0e0e0;
-      border-radius: 5px;
-      margin-top: 10px;
-      margin-bottom: 10px;
-      overflow: hidden;
-      position: relative;
-      border: 2px solid #cccccc;
+    /* Supprimé la barre de progression interne */
+
+    /* Styles pour les boutons bleus dans Box4 */
+    .progression-buttons {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
     }
-    #progress-bar-inner {
-      width: 0%;
-      height: 100%;
-      background-color: #00a48a;
-      transition: width 0.5s linear;
+    .progression-buttons a {
+      width: 100%;
+      max-width: 300px;
     }
 
+    /* Simplification du Footer */
+    .footer {
+      background-color: #182d84;
+      color: #FFFFFF;
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+      padding: 15px;
+      width: 100%;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    /* Encadré pour l'explication */
+    .download-section {
+      text-align: left;
+      margin-bottom: 20px;
+    }
+
+    /* Encadré bleu + vidéo */
+    /* (Styles déjà définis ci-dessus) */
+
+    /* Styles pour les boutons */
     button,
     a.btn {
       background-color: #182d84;
@@ -455,7 +481,7 @@
       transform: translateY(-3px);
     }
 
-    /* Nouveau style pour le cadre blanc des téléchargements dans Box3 */
+    /* Nouveau style pour le cadre blanc des téléchargements dans Box4 */
     .download-buttons {
       margin-top: 20px;
       background-color: #fefefe;
@@ -505,43 +531,6 @@
     .linkedin-share-button:active {
       background-color: #085a8c;
       transform: translateY(-3px);
-    }
-
-    /* Simplification du Footer */
-    .footer {
-      background-color: #182d84;
-      color: #FFFFFF;
-      font-size: 20px;
-      font-weight: bold;
-      text-align: center;
-      padding: 15px;
-      width: 100%;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      box-sizing: border-box;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-
-    /* Styles pour les boutons bleus dans Box4 */
-    .progression-buttons {
-      margin-top: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-    }
-    .progression-buttons a {
-      width: 100%;
-      max-width: 300px;
-    }
-
-    /* Transition pour le titre principal */
-    .main-title {
-      transition: opacity 1s ease, transform 1s ease; /* Correspond à la transition des boîtes */
     }
 
     /* Media Queries pour s'assurer que les boîtes ne sont pas cachées par le footer */
@@ -601,7 +590,7 @@
 <body>
   <!-- BOÎTE D'INTRODUCTION -->
   <div class="intro-box" id="intro-box">
-    <h1>Entraine-toi à la prise de parole en public</h1>
+    <h1>Entrainez-vous à la prise de parole en public<br>avec le simulateur Letmotiv</h1>
     <button id="start-intro-btn" aria-label="Je commence">Je commence</button>
   </div>
 
@@ -689,8 +678,8 @@
       <div class="recording-indicator" id="recording-indicator">
         <span class="dot"></span> Enregistrement en cours
       </div>
-      <!-- Décompte -->
-      <div class="countdown" id="countdown">3</div>
+      <!-- Décompte en temps réel -->
+      <div class="countdown" id="countdown">1:59</div>
     </div>
 
     <!-- Boutons en dessous de l'encart bleu -->
@@ -700,9 +689,10 @@
       <button id="restart-btn" class="hidden-btn" aria-label="Récommencer l'improvisation">Récommencer ton impro <i class="fas fa-redo"></i></button>
     </div>
 
-    <div id="progress-bar">
+    <!-- Supprimé la barre de progression interne -->
+    <!-- Supprimé : <div id="progress-bar">
       <div id="progress-bar-inner"></div>
-    </div>
+    </div> -->
 
     <!-- Message d'erreur dans Box2 -->
     <div id="impro-error" class="error-message" style="display: none;">
@@ -715,15 +705,54 @@
     </button>
   </div>
 
+  <!-- BOX4 : Partage LinkedIn et Options de Progression -->
+  <div class="box" id="box4">
+    <!-- Header interne de la boîte -->
+    <div class="box-header">
+      <button class="back-btn" id="back-btn4" aria-label="Retour à l'enregistrement vidéo">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+      <div class="box-title">Partage ton expérience</div>
+      <div class="step-indicator">3/4</div>
+    </div>
+
+    <p>
+      Encourage d'autres personnes à relever le défi ! Montre ton courage et inspire les autres à s'améliorer en improvisation ! <b>#ChallengeImproLetmotiv</b>
+    </p>
+    <a
+      id="linkedin-share-button"
+      href="https://www.linkedin.com/shareArticle?mini=true&url=https://citizen11bf.github.io/simulation-impro/letmotiv.html"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="linkedin-share-button"
+      aria-label="Partager sur LinkedIn"
+    >
+      <i class="fab fa-linkedin"></i> Partager sur LinkedIn
+    </a>
+
+    <!-- Nouvelle Section pour la Progression -->
+    <div class="progression-buttons">
+      <p>Tu souhaites progresser rapidement et efficacement dans la prise de parole en public ?</p>
+      <a href="https://alexetpierre.systeme.io/inscription" target="_blank" rel="noopener noreferrer" class="btn" aria-label="S'inscrire à la formation en ligne">
+        <i class="fas fa-laptop"></i> Suis notre formation en ligne
+      </a>
+      <a href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole" target="_blank" rel="noopener noreferrer" class="btn" aria-label="Réserver un coaching">
+        <i class="fas fa-chalkboard-teacher"></i> Réserve un coaching
+      </a>
+    </div>
+
+    <!-- Bouton "Suivant" supprimé car c'est la dernière étape -->
+  </div>
+
   <!-- BOX3 : Télécharge et analyse ta prestation -->
   <div class="box" id="box3">
     <!-- Header interne de la boîte -->
     <div class="box-header">
-      <button class="back-btn" id="back-btn3" aria-label="Retour à l'enregistrement vidéo">
+      <button class="back-btn" id="back-btn3" aria-label="Retour au partage et progression">
         <i class="fas fa-arrow-left"></i>
       </button>
       <div class="box-title">Télécharge et analyse ta prestation</div>
-      <div class="step-indicator">3/4</div>
+      <div class="step-indicator">4/4</div>
     </div>
 
     <div class="download-section">
@@ -764,44 +793,6 @@
     </button>
   </div>
 
-  <!-- BOX4 : Partage LinkedIn et Options de Progression -->
-  <div class="box" id="box4">
-    <!-- Header interne de la boîte -->
-    <div class="box-header">
-      <button class="back-btn" id="back-btn4" aria-label="Retour à la téléchargement et analyse">
-        <i class="fas fa-arrow-left"></i>
-      </button>
-      <div class="box-title">Partage ton expérience</div>
-      <div class="step-indicator">4/4</div>
-    </div>
-
-    <p>
-      Encourage d'autres personnes à relever le défi ! Montre ton courage et inspire les autres à s'améliorer en improvisation ! <b>#ChallengeImproLetmotiv</b>
-    </p>
-    <a
-      id="linkedin-share-button"
-      href="https://www.linkedin.com/shareArticle?mini=true&url=https://citizen11bf.github.io/simulation-impro/letmotiv.html"
-      target="_blank"
-      class="linkedin-share-button"
-      aria-label="Partager sur LinkedIn"
-    >
-      <i class="fab fa-linkedin"></i> Partager sur LinkedIn
-    </a>
-
-    <!-- Nouvelle Section pour la Progression -->
-    <div class="progression-buttons">
-      <p>Tu souhaites progresser rapidement et efficacement dans la prise de parole en public ?</p>
-      <a href="https://alexetpierre.systeme.io/inscription" class="btn" aria-label="S'inscrire à la formation en ligne">
-        <i class="fas fa-laptop"></i> Suis notre formation en ligne
-      </a>
-      <a href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole" class="btn" aria-label="Réserver un coaching">
-        <i class="fas fa-chalkboard-teacher"></i> Réserve un coaching
-      </a>
-    </div>
-
-    <!-- Bouton "Suivant" supprimé car c'est la dernière étape -->
-  </div>
-
   <!-- FOOTER Simplifié -->
   <div class="footer">
     by Letmotiv <i class="fas fa-microphone"></i>
@@ -815,8 +806,8 @@
     const boxes = {
       1: document.getElementById('box1'),
       2: document.getElementById('box2'),
-      3: document.getElementById('box3'),
-      4: document.getElementById('box4')
+      3: document.getElementById('box4'), // Inversion de box3 et box4
+      4: document.getElementById('box3')  // Inversion de box3 et box4
     };
 
     const nextBtns = {
@@ -828,8 +819,8 @@
 
     const backBtns = {
       2: document.getElementById('back-btn2'),
-      3: document.getElementById('back-btn3'),
-      4: document.getElementById('back-btn4')
+      3: document.getElementById('back-btn4'), // Inversion de box3 et box4
+      4: document.getElementById('back-btn3')  // Inversion de box3 et box4
     };
 
     const introBox = document.getElementById('intro-box');
@@ -1063,7 +1054,6 @@
     const startBtn = document.getElementById('start-btn');
     const stopBtn = document.getElementById('stop-btn');
     const restartBtn = document.getElementById('restart-btn');
-    const progressBarInner = document.getElementById('progress-bar-inner');
     const validateFormBtn = document.getElementById('validate-form-btn');
     const prenomInput = document.getElementById('prenom');
     const emailInput = document.getElementById('email');
@@ -1076,6 +1066,8 @@
 
     let countdown;
     let videoURL = "";
+    let timerInterval; // Interval pour le décompte en temps réel
+    let timeRemaining = 120; // 2 minutes en secondes
 
     // On factorise la logique de démarrage dans une fonction
     async function startImpro() {
@@ -1150,6 +1142,9 @@
 
         // Masquer l'indicateur d'enregistrement
         recordingIndicator.style.display = 'none';
+
+        // Arrêter le décompte en temps réel
+        clearInterval(timerInterval);
       };
 
       mediaRecorderInstance.start();
@@ -1169,6 +1164,7 @@
       // Désactiver le bouton "Suivant" pendant l'impro
       nextBtns[2].disabled = true;
 
+      // Démarrer le décompte en temps réel
       startTimer();
     }
 
@@ -1192,14 +1188,16 @@
     }
 
     function startTimer() {
-      let timeRemaining = 120; // 2 minutes
-      progressBarInner.style.width = '0%';
-      countdown = setInterval(() => {
-        const progress = ((120 - timeRemaining) / 120) * 100;
-        progressBarInner.style.width = `${progress}%`; // Correction ici
+      timeRemaining = 120; // Réinitialiser à 2 minutes
+      updateCountdownDisplay();
+
+      timerInterval = setInterval(() => {
         timeRemaining--;
+        if (timeRemaining >= 0) {
+          updateCountdownDisplay();
+        }
         if (timeRemaining < 0) {
-          clearInterval(countdown);
+          clearInterval(timerInterval);
           if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
             mediaRecorderInstance.stop();
             // Afficher le bouton "Récommencer ton impro"
@@ -1207,6 +1205,13 @@
           }
         }
       }, 1000);
+    }
+
+    function updateCountdownDisplay() {
+      const minutes = Math.floor(timeRemaining / 60);
+      const seconds = timeRemaining % 60;
+      const formattedTime = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+      countdownElement.textContent = formattedTime;
     }
 
     // Bouton "Démarrer ton impro"
@@ -1217,6 +1222,7 @@
       if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
         mediaRecorderInstance.stop();
         clearInterval(countdown);
+        clearInterval(timerInterval);
 
         stopBtn.classList.add('hidden-btn'); // Masquer "Arrêter"
         stopBtn.disabled = true;
@@ -1231,6 +1237,8 @@
     restartBtn.addEventListener('click', () => {
       // Relancer simplement la fonction startImpro()
       restartBtn.classList.add('hidden-btn'); // Masquer "Récommencer"
+      videoText.textContent = "Ici va s'enregistrer ton improvisation en vidéo. <br> Lorsque tu es prêt, clique sur le bouton \"Démarrer ton impro\" en-dessous. <br><br> NB : ta vidéo est stockée directement sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.";
+      videoText.style.display = 'block';
       startImpro();
     });
 
