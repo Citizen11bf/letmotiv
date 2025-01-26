@@ -22,6 +22,10 @@
 
   <style>
     /* --- GLOBAL --- */
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: 'DM Sans', sans-serif;
@@ -60,13 +64,17 @@
       max-width: 100%;
       overflow-wrap: break-word; /* évite débordement si texte trop long */
     }
-    
+
     .header a {
       color: #FFFFFF;
       text-decoration: none;
     }
     .header a:hover {
       text-decoration: none;
+    }
+
+    .header-l2 {
+      font-size: 14px; /* Taille de police plus petite pour la ligne 2 */
     }
 
     /* --- BARRE DE PROGRESSION --- */
@@ -396,6 +404,27 @@
       border-radius: 5px;
     }
 
+    /* Initial Countdown Overlay */
+    .initial-countdown-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(128, 128, 128, 0.6); /* Grisé semi-transparent */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 5;
+      display: none; /* Caché par défaut */
+      border-radius: 6px;
+    }
+    .initial-countdown {
+      font-size: 48px;
+      color: #ffffff;
+      font-weight: bold;
+    }
+
     /* Les boutons "Arrêter" et "Récommencer" seront en-dessous de la box */
     .impro-actions {
       display: flex;
@@ -425,25 +454,6 @@
       align-items: center;
       justify-content: center; /* Centre le contenu horizontalement */
     }
-
-    /* Simplification du Footer - supprimé */
-    /* .footer {
-      background-color: #182d84;
-      color: #FFFFFF;
-      font-size: 20px;
-      font-weight: bold;
-      text-align: center;
-      padding: 15px;
-      width: 100%;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      box-sizing: border-box;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    } */
 
     /* Encadré pour l'explication */
     .download-section {
@@ -606,7 +616,7 @@
         Simulateur d'improvisation en public
       </div>
       <!-- L2 : by Letmotiv -->
-      <div class="header-l2" style="font-size: 14px;">
+      <div class="header-l2">
         by Letmotiv
       </div>
     </div>
@@ -686,6 +696,11 @@
       </div>
       <!-- Décompte en temps réel -->
       <div class="countdown" id="countdown">1:59</div>
+
+      <!-- Initial Countdown Overlay -->
+      <div class="initial-countdown-overlay" id="initial-countdown-overlay">
+        <div class="initial-countdown" id="initial-countdown">3</div>
+      </div>
     </div>
 
     <!-- Boutons en dessous de l'encart bleu -->
@@ -694,11 +709,6 @@
       <button id="stop-btn" class="hidden-btn" aria-label="Arrêter l'improvisation">Arrêter ton impro <i class="fas fa-stop"></i></button>
       <button id="restart-btn" class="hidden-btn" aria-label="Récommencer l'improvisation">Récommencer ton impro <i class="fas fa-redo"></i></button>
     </div>
-
-    <!-- Supprimé la barre de progression interne -->
-    <!-- Supprimé : <div id="progress-bar">
-      <div id="progress-bar-inner"></div>
-    </div> -->
 
     <!-- Message d'erreur dans Box2 -->
     <div id="impro-error" class="error-message" style="display: none;">
@@ -1071,6 +1081,10 @@
     const recordingIndicator = document.getElementById('recording-indicator');
     const countdownElement = document.getElementById('countdown');
 
+    // Nouvel élément pour le premier décompte
+    const initialCountdownOverlay = document.getElementById('initial-countdown-overlay');
+    const initialCountdown = document.getElementById('initial-countdown');
+
     let countdown;
     let videoURL = "";
     let timerInterval; // Interval pour le décompte en temps réel
@@ -1090,22 +1104,22 @@
         return;
       }
 
-      // Afficher le décompte
-      startCountdown();
+      // Afficher le décompte initial
+      startInitialCountdown();
     }
 
-    function startCountdown() {
+    function startInitialCountdown() {
       let count = 3;
-      countdownElement.textContent = count;
-      countdownElement.style.display = 'block';
+      initialCountdown.textContent = count;
+      initialCountdownOverlay.style.display = 'flex';
 
       countdown = setInterval(() => {
         count--;
         if (count > 0) {
-          countdownElement.textContent = count;
+          initialCountdown.textContent = count;
         } else {
           clearInterval(countdown);
-          countdownElement.style.display = 'none';
+          initialCountdownOverlay.style.display = 'none';
           initiateRecording();
         }
       }, 1000);
