@@ -352,6 +352,37 @@
       pointer-events: none; /* Permet de cliquer sur les boutons en dessous */
     }
 
+    /* Indicateur "Enregistrement en cours" */
+    .recording-indicator {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      align-items: center;
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 14px;
+      color: #ff0000;
+      display: none; /* Caché par défaut */
+      z-index: 3;
+    }
+    .recording-indicator .dot {
+      height: 10px;
+      width: 10px;
+      background-color: #ff0000;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 5px;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0% { opacity: 1; }
+      50% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
     /* Les boutons "Arrêter" et "Récommencer" seront en-dessous de la box */
     .impro-actions {
       display: flex;
@@ -639,6 +670,14 @@
         Lorsque tu es prêt, clique sur le bouton "Démarrer ton impro" en-dessous. <br><br>
         NB : ta vidéo est stockée directement sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv. 
       </div>
+      <!-- Indicateur "Enregistrement en cours" -->
+      <div class="recording-indicator" id="recording-indicator">
+        <span class="dot"></span> Enregistrement en cours
+      </div>
+      <!-- Décompte -->
+      <div class="countdown" id="countdown" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 48px; color: #ff0000; display: none; z-index: 4;">
+        3
+      </div>
     </div>
 
     <!-- Boutons en dessous de l'encart bleu -->
@@ -788,8 +827,7 @@
     const topProgressBar = document.getElementById('top-progress-bar');
 
     function updateProgressBar(step) {
-      const totalSteps = 4;
-      const progress = ((step - 1) / (totalSteps - 1)) * 100;
+      const progress = step * 25; // Chaque étape représente 25%
       topProgressBar.style.width = `${progress}%`;
     }
 
@@ -822,7 +860,7 @@
     }
 
     // Initialisation de la barre de progression
-    updateProgressBar(1);
+    updateProgressBar(0);
 
     // Ajouter des écouteurs pour les boutons "Suivant"
     nextBtns[1].addEventListener('click', () => {
@@ -1022,6 +1060,8 @@
     const downloadVideoBtn = document.getElementById('download-video-btn');
     const downloadPdfBtn = document.getElementById('download-pdf-btn');
     const videoText = document.getElementById('video-text'); // Nouveau
+    const recordingIndicator = document.getElementById('recording-indicator');
+    const countdownElement = document.getElementById('countdown');
 
     let countdown;
     let videoURL = "";
@@ -1040,6 +1080,28 @@
         return;
       }
 
+      // Afficher le décompte
+      startCountdown();
+    }
+
+    function startCountdown() {
+      let count = 3;
+      countdownElement.textContent = count;
+      countdownElement.style.display = 'block';
+
+      countdown = setInterval(() => {
+        count--;
+        if (count > 0) {
+          countdownElement.textContent = count;
+        } else {
+          clearInterval(countdown);
+          countdownElement.style.display = 'none';
+          initiateRecording();
+        }
+      }, 1000);
+    }
+
+    async function initiateRecording() {
       const stream = await setupCamera();
       if (!stream) return;
 
@@ -1072,10 +1134,16 @@
         // Masquer le message d'erreur si visible
         const improErrorDiv = document.getElementById('impro-error');
         improErrorDiv.style.display = 'none';
+
+        // Masquer l'indicateur d'enregistrement
+        recordingIndicator.style.display = 'none';
       };
 
       mediaRecorderInstance.start();
       statusText.textContent = "Improvisation en cours...";
+
+      // Afficher l'indicateur d'enregistrement
+      recordingIndicator.style.display = 'flex';
 
       // Supprime le texte explicatif dans la vidéo box
       videoText.style.display = 'none';
@@ -1141,6 +1209,9 @@
         stopBtn.classList.add('hidden-btn'); // Masquer "Arrêter"
         stopBtn.disabled = true;
         restartBtn.classList.remove('hidden-btn'); // Afficher "Récommencer"
+
+        // Masquer l'indicateur d'enregistrement
+        recordingIndicator.style.display = 'none';
       }
     });
 
