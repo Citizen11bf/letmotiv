@@ -422,6 +422,9 @@
     .progression-buttons a {
       width: 100%;
       max-width: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center; /* Centre le contenu horizontalement */
     }
 
     /* Simplification du Footer */
@@ -465,6 +468,7 @@
       transition: background-color 0.3s, transform 0.3s;
       display: inline-flex;
       align-items: center;
+      justify-content: center; /* Centre le contenu verticalement */
       gap: 10px;
     }
     button:hover,
@@ -506,7 +510,9 @@
 
     /* BOX4 : Boutons de partage LinkedIn */
     .linkedin-share-button {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center; /* Centre le contenu horizontalement */
       background-color: #0e76a8;
       color: #FFFFFF;
       border: none;
@@ -517,8 +523,6 @@
       transition: background-color 0.3s, transform 0.3s;
       cursor: pointer;
       margin: 5px;
-      display: inline-flex;
-      align-items: center;
       gap: 10px;
     }
     .linkedin-share-button:hover,
@@ -579,6 +583,13 @@
       margin-bottom: 15px;
     }
 
+    /* Centrage horizontal du bouton "Valider" */
+    .download-section button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto; /* Centre le bouton horizontalement */
+    }
   </style>
 </head>
 <body>
@@ -703,6 +714,9 @@
   <div class="box" id="box4">
     <!-- Header interne de la boîte -->
     <div class="box-header">
+      <button class="back-btn" id="back-btn4" aria-label="Retour à l'improvisation">
+        <i class="fas fa-arrow-left"></i>
+      </button>
       <div class="box-title">Partage ton expérience</div>
       <div class="step-indicator">3/4</div>
     </div>
@@ -878,7 +892,8 @@
       }
       showBox(2, 3);
     });
-    nextBtns[3].addEventListener('click', () => showBox(3, 4));
+    nextBtns[3].addEventListener('click', () => showBox(3, 4)); // Navigue de Box4 à Box3
+
     // Aucun bouton "Suivant" dans Box3 (Téléchargement)
 
     // Ajouter des écouteurs pour les boutons "Retour" uniquement s'ils existent
