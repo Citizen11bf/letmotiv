@@ -121,17 +121,18 @@
       color: #182d84;
       font-family: 'DM Sans', sans-serif;
       font-size: 1.2rem;
-      border: none;
+      border: 2px solid #182d84; /* Contour bleu */
       border-radius: 25px;
       padding: 15px 30px;
       cursor: pointer;
-      transition: background-color 0.3s, transform 0.3s, color 0.3s;
+      transition: background-color 0.3s, transform 0.3s, color 0.3s, border-color 0.3s;
       box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
     }
 
     .intro-box button:hover {
       background-color: #00a48a;
       color: #ffffff;
+      border-color: #00a48a;
       transform: scale(1.05);
     }
 
@@ -146,58 +147,12 @@
       to { transform: translateY(0); opacity: 1; }
     }
 
-    /* --- BOÎTE DE COMPTE À REBOURS --- */
-    .countdown-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.7);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #ffffff;
-      font-size: 5rem;
-      z-index: 25;
-      display: none; /* Caché par défaut */
-    }
-    .countdown-overlay.active {
-      display: flex;
-    }
-
-    /* --- INDICATEUR DE RECORDING VISUEL --- */
-    .recording-indicator {
-      position: fixed;
-      top: 10px; /* Juste en dessous de la barre de progression */
-      right: 20px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      z-index: 30;
-      display: none; /* Caché par défaut */
-    }
-    .recording-indicator.active {
-      display: flex;
-    }
-    .recording-indicator .record-dot {
-      width: 15px;
-      height: 15px;
-      background-color: red;
-      border-radius: 50%;
-      animation: blink 1s infinite;
-    }
-    @keyframes blink {
-      0%, 50%, 100% { opacity: 1; }
-      25%, 75% { opacity: 0; }
-    }
-
-    /* --- BOXES : couleur de fond #E2E7E3, centrage, marges --- */
+    /* --- BOÎTES : couleur de fond blanc, centrage, marges --- */
     .box {
       width: 100vw;
       height: 100vh;
       margin: 0;
-      background-color: #E2E7E3; 
+      background-color: #ffffff; /* Changement de gris à blanc */
       border-radius: 0;
       padding: 15px;
       box-shadow: none;
@@ -227,8 +182,8 @@
 
     .back-btn {
       border: none;
-      background-color: #808080; /* Gray background */
-      color: #FFFFFF; /* White arrow */
+      background-color: #808080; /* Fond gris */
+      color: #FFFFFF; /* Flèche blanche */
       font-size: 16px;
       cursor: pointer;
       border-radius: 50%;
@@ -240,11 +195,11 @@
       transition: background-color 0.3s, transform 0.3s;
     }
     .back-btn:hover {
-      background-color: #505050; /* Dark gray on hover */
+      background-color: #505050; /* Gris foncé au survol */
       transform: scale(1.1);
     }
     .back-btn:active {
-      background-color: #303030; /* Even darker on click */
+      background-color: #303030; /* Gris encore plus foncé au clic */
     }
     .back-btn.hidden-visibility {
       visibility: hidden;
@@ -292,6 +247,7 @@
     .selected-objective {
       background-color: #00a48a !important;
       color: #ffffff;
+      border-color: #00a48a !important;
     }
 
     /* Icône de flèche pour navigation */
@@ -303,16 +259,17 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 2px solid #182d84; /* Bordure bleue */
+      border: 2px solid #182d84; /* Contour bleu */
       background-color: transparent;
       color: #182d84; /* Flèche bleue */
       cursor: pointer;
-      transition: background-color 0.3s, color 0.3s, transform 0.3s;
+      transition: background-color 0.3s, color 0.3s, transform 0.3s, border-color 0.3s;
       margin: 10px auto; /* Centrer horizontalement */
     }
     .next-btn:hover {
       background-color: #00a48a; /* Fond bleu foncé au survol */
       color: #ffffff; /* Flèche blanche au survol */
+      border-color: #00a48a; /* Bordure bleu foncé au survol */
       transform: scale(1.05); /* Légère augmentation de taille au survol */
     }
 
@@ -454,7 +411,7 @@
       width: 100vw;
       height: 100vh;
       margin: 0;
-      background-color: #E2E7E3; 
+      background-color: #ffffff; /* Changement de gris à blanc */
       border-radius: 0;
       padding: 15px;
       box-shadow: none;
@@ -519,11 +476,100 @@
     .progression-buttons a {
       width: 100%;
       max-width: 300px;
+      background-color: #00a48a;
+      color: #ffffff;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+    .progression-buttons a:hover {
+      background-color: #007a6e;
+      transform: scale(1.05);
     }
 
-    /* Styles pour les messages d'erreur et les formulaires restent inchangés */
+    /* Styles pour les messages d'erreur */
+    .error-message {
+      color: red;
+      font-size: 14px;
+      margin-top: 10px;
+    }
 
-    /* Les autres styles restent inchangés */
+    /* Styles pour les formulaires */
+    .download-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+    .download-fields {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 80%;
+      max-width: 300px;
+    }
+    .input-group label {
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    .input-group input {
+      width: 100%;
+      padding: 8px;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+    .input-group input:focus {
+      border-color: #00a48a;
+      outline: none;
+    }
+
+    /* Styles pour le bouton Valider */
+    #validate-form-btn {
+      background-color: #00a48a;
+      color: #ffffff;
+      border: none;
+      border-radius: 25px;
+      padding: 10px 20px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+    #validate-form-btn:hover {
+      background-color: #007a6e;
+      transform: scale(1.05);
+    }
+
+    /* Styles pour les boutons de téléchargement */
+    .download-buttons button {
+      background-color: #00a48a;
+      color: #ffffff;
+      border: none;
+      border-radius: 25px;
+      padding: 10px 20px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+      margin: 10px 0;
+      width: 80%;
+      max-width: 300px;
+    }
+    .download-buttons button:hover {
+      background-color: #007a6e;
+      transform: scale(1.05);
+    }
   </style>
 </head>
 <body>
@@ -545,7 +591,7 @@
 
   <!-- BOÎTE D'INTRODUCTION -->
   <div class="intro-box" id="intro-box">
-    <h1>Entraine-toi à la prise de parole en public<br></h1>
+    <h1>Entraine-toi à la prise de parole en public</h1>
     <button id="start-intro-btn">Commencer</button> <!-- Modification du texte ici -->
   </div>
 
@@ -554,7 +600,7 @@
     <div class="header-content">
       <!-- L1 : Simulateur d'improvisation eu public -->
       <div class="header-l1">
-        Simulateur d'improvisation eu public
+        Simulateur d'improvisation en public
       </div>
       <!-- L2 : vide ou masqué -->
       <div class="header-l2"></div>
@@ -622,7 +668,7 @@
       <div class="video-text" id="video-text">
         Ici va s'enregistrer ton improvisation en vidéo. <br> 
         Lorsque tu es prêt, clique sur le bouton "Démarrer ton impro" en-dessous. <br><br>
-        NB : ta vidéo est stockée directement sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv. 
+        NB : ta vidéo est stockée directement sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.
       </div>
     </div>
 
@@ -1086,7 +1132,8 @@
       statusText.textContent = "Improvisation en cours...";
 
       // Supprime le texte explicatif dans la vidéo box
-      videoText.style.display = 'none';
+      videoText.textContent = "Enregistrement en cours..."; // Ajout du texte
+      videoText.style.display = 'block'; // Afficher le texte
 
       // Gérer les boutons
       startBtn.classList.add('hidden-btn'); // Masquer "Démarrer"
@@ -1159,6 +1206,9 @@
 
         // Désactiver l'indicateur visuel
         recordingIndicator.classList.remove('active');
+
+        // Afficher le texte explicatif à nouveau
+        videoText.textContent = "Enregistrement terminé. Vous pouvez télécharger votre vidéo.";
       }
     });
 
@@ -1199,9 +1249,13 @@
         return;
       }
 
-      // Afficher la Box5 avec les boutons de téléchargement
-      showBox(3, 5);
-      downloadButtons.classList.add('show');
+      // Activer le bouton "Suivant" pour passer à la box4
+      nextBtns[3].disabled = false;
+    });
+
+    // Bouton "Suivant" de Box3 pour aller à Box4
+    nextBtns[3].addEventListener('click', () => {
+      showBox(3, 4);
     });
 
     // Téléchargement de la vidéo
