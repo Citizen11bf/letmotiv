@@ -90,6 +90,11 @@
       to { opacity: 1; }
     }
 
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+
     @keyframes slideDown {
       from { transform: translateY(-50px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
@@ -472,7 +477,7 @@
 </head>
 <body>
   <!-- BOÎTE D'INTRODUCTION -->
-  <div class="intro-box" id="intro-box">
+  <div class="intro-box active" id="intro-box">
     <h1>Entraine-toi à la prise de parole en public<br>avec le simulateur Letmotiv</h1>
     <button id="start-intro-btn">Je commence</button>
     <div class="letmotiv-footer">Simulateur d'improvisation by Letmotiv</div>
@@ -677,6 +682,7 @@
      * 1) Navigation entre les boxes
      ***********************/
     const boxes = {
+      0: document.getElementById('intro-box'), // Ajout de l'intro-box
       1: document.getElementById('box1'),
       2: document.getElementById('box2'),
       3: document.getElementById('box3'),
@@ -1033,7 +1039,7 @@
     const prenomInput = document.getElementById('prenom');
     const emailInput = document.getElementById('email');
     const emailError = document.getElementById('email-error');
-    const downloadButtons = document.getElementById('download-buttons');
+    const downloadButtonsDiv = document.getElementById('download-buttons');
 
     validateFormBtn.addEventListener('click', () => {
       const prenomValue = prenomInput.value.trim();
@@ -1062,7 +1068,7 @@
       }
 
       // Afficher les boutons de téléchargement dans le cadre blanc
-      downloadButtons.classList.add('show');
+      downloadButtonsDiv.classList.add('show');
 
       // Activer le bouton "Suivant" pour passer à la box4
       nextBtns[3].disabled = false;
@@ -1091,7 +1097,6 @@
     });
 
     // Téléchargement de la vidéo
-    const downloadVideoBtn = document.getElementById('download-video-btn');
     downloadVideoBtn.addEventListener('click', () => {
       if (!videoURL) {
         alert("La vidéo n'est pas encore prête ou pas enregistrée.");
@@ -1106,7 +1111,6 @@
     });
 
     // Téléchargement du PDF
-    const downloadPdfBtn = document.getElementById('download-pdf-btn');
     downloadPdfBtn.addEventListener('click', () => {
       const link = document.createElement('a');
       link.href = "https://drive.google.com/uc?export=download&id=1pKif7hwkdSQRXLv6uoSQawCs3DIIcb70";
@@ -1117,12 +1121,7 @@
     });
 
     /***********************
-     * 6) Navigation Séquentielle des Boîtes
-     ***********************/
-    // La navigation est déjà gérée par les écouteurs "Suivant" et "Retour"
-
-    /***********************
-     * 7) Téléchargement du CSV dans Box4
+     * 6) Téléchargement du CSV dans Box4
      ***********************/
     const downloadCsvBtn = document.getElementById('download-csv-btn');
     downloadCsvBtn.addEventListener('click', () => {
@@ -1130,7 +1129,7 @@
     });
 
     /***********************
-     * 8) Suppression du Header et Footer
+     * 7) Suppression du Header et Footer
      ***********************/
     // Déjà effectué dans le HTML et le CSS
   </script>
