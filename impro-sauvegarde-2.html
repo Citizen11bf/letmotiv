@@ -643,17 +643,33 @@
       padding: 20px;
     }
 
-    /* Styles pour le bouton "Générer un sujet" après génération */
+    /* 1) Styles pour le bouton "Générer un sujet" après génération (icône) */
     #generate-subject-btn.subject-generated {
       background-color: #00a48a;
       color: #ffffff;
+      position: relative;
+      padding-right: 40px; /* Pour laisser de la place à l'icône */
     }
     #generate-subject-btn.subject-generated::after {
-      content: " (Nouvelle génération)";
-      font-size: 12px;
-      margin-left: 5px;
+      /* Exemple : icône Font Awesome fa-sync-alt (Unicode \f2f9) */
+      content: "\f2f9";
+      font-family: "Font Awesome 5 Free";
+      font-weight: 900;
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
     }
 
+    /* 2) Centrer, réduire la police et enlever le gras pour 
+       "Obtiens la vidéo de ta prestation..." */
+    .download-section h3 {
+      text-align: center;
+      font-size: 14px;
+      font-weight: normal;
+      margin-bottom: 15px;
+    }
   </style>
 </head>
 <body>
@@ -830,6 +846,7 @@
       </div>
 
       <div class="download-section">
+        <!-- 2) Texte désormais centré, font-size réduit et non gras -->
         <h3>Obtiens la vidéo de ta prestation et une grille Letmotiv pour l'analyser :</h3>
         
         <div class="download-fields">
@@ -864,11 +881,6 @@
       <!-- Bouton "Suivant" supprimé car c'est la dernière étape -->
     </div>
   </div>
-
-  <!-- FOOTER Supprimé -->
-  <!-- <div class="footer">
-    by Letmotiv <i class="fas fa-microphone"></i>
-  </div> -->
 
   <!-- SCRIPT -->
   <script>
@@ -914,7 +926,7 @@
       // Mettre à jour la barre de progression
       updateProgressBar(next);
 
-      // Mettre à jour le step-indicator
+      // Mettre à jour le step-indicator (texte "x/4")
       const stepIndicators = document.querySelectorAll('.step-indicator');
       stepIndicators.forEach(indicator => {
         const stepText = indicator.textContent.trim();
@@ -927,7 +939,7 @@
       // Scroll vers la boîte active en tenant compte du header
       const header = document.querySelector('.header');
       const headerHeight = header ? header.offsetHeight : 0;
-      const boxPosition = boxes[next].getBoundingClientRect().top + window.scrollY - headerHeight - 20; // Ajuste la valeur 20 selon ton besoin
+      const boxPosition = boxes[next].getBoundingClientRect().top + window.scrollY - headerHeight - 20; // Ajuste la valeur 20 si besoin
 
       window.scrollTo({
         top: boxPosition,
@@ -955,8 +967,9 @@
     nextBtns[2].addEventListener('click', () => {
       // Vérifier les conditions avant de passer à l'étape suivante
       const improErrorDiv = document.getElementById('impro-error');
-      improErrorDiv.style.display = 'none'; // Masquer tout message d'erreur précédent
+      improErrorDiv.style.display = 'none'; // Masquer le message d'erreur précédent
 
+      // Condition : sujet généré + impro lancée
       if (!currentSubject && !improStarted) {
         improErrorDiv.textContent = "Tu dois d'abord générer un sujet et lancer ton impro avant de continuer.";
         improErrorDiv.style.display = 'block';
@@ -973,7 +986,7 @@
 
     // Aucun bouton "Suivant" dans Step3 (Téléchargement)
 
-    // Ajouter des écouteurs pour les boutons "Retour" uniquement s'ils existent
+    // Ajouter des écouteurs pour les boutons "Retour"
     if (backBtns[2]) {
       backBtns[2].addEventListener('click', () => {
         showBox(2, 1);
@@ -1049,6 +1062,7 @@
     const explanationBox = document.getElementById('explanation-box');
     const header = document.querySelector('.header');
     let currentCategory = null;
+    let currentSubject = ""; // Pour stocker le sujet en cours
 
     objectivesButtons.forEach(button => {
       button.addEventListener('click', async () => {
@@ -1063,7 +1077,7 @@
         explanationBox.textContent = explication;
         explanationBox.classList.add('show');   // applique .show
 
-        // Pré-charger le fichier .txt
+        // Pré-charger le fichier .txt si ce n'est pas déjà fait
         if (subjectsCache[currentCategory] === null) {
           await loadSubjects(currentCategory);
         }
@@ -1111,7 +1125,6 @@
     const generateSubjectBtn = document.getElementById('generate-subject-btn');
     const subjectWrapper = document.getElementById('subject-wrapper');
     const subjectDisplay = document.getElementById('subject-display');
-    let currentSubject = "";
 
     generateSubjectBtn.addEventListener('click', () => {
       if (!currentCategory) {
@@ -1134,10 +1147,10 @@
       subjectDisplay.textContent = currentSubject;
       subjectWrapper.style.display = 'block';
 
-      // Mettre à jour le bouton pour indiquer qu'un sujet a été généré
+      // Mettre à jour le bouton pour indiquer qu'un sujet a été généré (icône)
       generateSubjectBtn.classList.add('subject-generated');
 
-      // Cacher le message d'erreur "Tu dois générer un sujet avant de démarrer l'improvisation"
+      // Cacher le message d'erreur dans Step2 s'il y en avait un
       const improErrorDiv = document.getElementById('impro-error');
       improErrorDiv.style.display = 'none';
     });
@@ -1157,7 +1170,7 @@
     const downloadButtons = document.getElementById('download-buttons');
     const downloadVideoBtn = document.getElementById('download-video-btn');
     const downloadPdfBtn = document.getElementById('download-pdf-btn');
-    const videoText = document.getElementById('video-text'); // Texte dans la video-box
+    const videoText = document.getElementById('video-text');
     const recordingIndicator = document.getElementById('recording-indicator');
     const countdownElement = document.getElementById('countdown');
 
@@ -1239,9 +1252,6 @@
         // Arrête la webcam
         stream.getTracks().forEach((track) => track.stop());
 
-        // Activer le bouton "Suivant" dans Step2
-        // nextBtns[2].disabled = false; // Suppression de la logique de désactivation
-
         // Afficher "Improvisation terminée." dans la vidéo-box
         videoText.innerHTML = "Improvisation terminée.";
         videoText.style.display = 'block';
@@ -1274,9 +1284,6 @@
       stopBtn.disabled = false;
       restartBtn.classList.add('hidden-btn'); // Masquer "Récommencer"
 
-      // Désactiver le bouton "Suivant" pendant l'impro
-      // nextBtns[2].disabled = true; // Suppression de la logique de désactivation
-
       // Démarrer le décompte en temps réel
       startTimer();
     }
@@ -1288,22 +1295,15 @@
         preview.srcObject = stream;
         return stream;
       } catch (error) {
+        const improErrorDiv = document.getElementById('impro-error');
         if (error.name === 'NotAllowedError' || error.name === 'SecurityError') {
-          // Afficher le message d'erreur dans Step2
-          const improErrorDiv = document.getElementById('impro-error');
           improErrorDiv.textContent = "Vous avez refusé l'accès à la webcam ou au micro. Veuillez autoriser l'accès.";
-          improErrorDiv.style.display = 'block';
         } else if (error.name === 'NotFoundError' || error.name === 'DevicesNotFoundError') {
-          // Afficher le message d'erreur dans Step2
-          const improErrorDiv = document.getElementById('impro-error');
           improErrorDiv.textContent = "Aucune caméra ou micro détecté(e). Vérifiez vos périphériques.";
-          improErrorDiv.style.display = 'block';
         } else {
-          // Afficher le message d'erreur dans Step2
-          const improErrorDiv = document.getElementById('impro-error');
           improErrorDiv.textContent = "Erreur : Impossible d'accéder à la webcam. Vérifiez vos permissions.";
-          improErrorDiv.style.display = 'block';
         }
+        improErrorDiv.style.display = 'block';
         console.error('Erreur d\'accès à la webcam :', error);
         return null;
       }
@@ -1373,8 +1373,8 @@
       const prenomValue = prenomInput.value.trim();
       const emailValue = emailInput.value.trim();
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Regex pour la validation de l'email
-      const prenomError = document.getElementById('prenom-error'); // Élément du message d'erreur pour prénom
-      const emailError = document.getElementById('email-error'); // Élément du message d'erreur pour email
+      const prenomError = document.getElementById('prenom-error'); 
+      const emailError = document.getElementById('email-error'); 
 
       let valid = true;
 
@@ -1383,7 +1383,7 @@
       emailError.style.display = 'none';
 
       // Validation du prénom
-      const prenomRegex = /^[A-Za-zÀ-ÿ '-]+$/; // Autorise les lettres, accents, espaces, apostrophes et tirets
+      const prenomRegex = /^[A-Za-zÀ-ÿ '-]+$/; // Lettres, accents, espaces, apostrophes, tirets
       if (!prenomValue || !prenomRegex.test(prenomValue)) {
         prenomError.style.display = 'block';
         valid = false;
