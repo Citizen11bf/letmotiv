@@ -168,6 +168,8 @@
     }
     .box.active {
       display: block; 
+      opacity: 1; /* Ajouté pour rendre la boîte visible */
+      transform: translateY(0); /* Réinitialise la transformation */
     }
 
     /* Animations “scroll-like” */
@@ -204,7 +206,7 @@
       font-size: 14px;
     }
 
-    /* Bouton fleche “haut” */
+    /* Bouton flèche “haut” */
     .back-btn {
       width: 40px;
       height: 40px;
@@ -230,7 +232,7 @@
       visibility: hidden;
     }
 
-    /* Bouton fleche “bas” (next-btn), 100% centré */
+    /* Bouton flèche “bas” (next-btn), 100% centré */
     .next-btn {
       width: 40px;
       height: 40px;
