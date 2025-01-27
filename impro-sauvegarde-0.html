@@ -899,11 +899,11 @@
 
         <!-- Boutons de téléchargement, affichés après validation -->
         <div class="download-buttons" id="download-buttons">
-          <button id="download-video-btn" aria-label="Télécharger la vidéo">
-            <i class="fas fa-download"></i> Télécharger la vidéo (mp4)
+          <button id="download-video-btn" aria-label="Télécharge ta vidéo">
+            <i class="fas fa-download"></i> Télécharge ta vidéo (mp4)
           </button>
-          <button id="download-pdf-btn" aria-label="Télécharger la grille d'évaluation">
-            <i class="fas fa-download"></i> Télécharger la grille d'évaluation (pdf)
+          <button id="download-pdf-btn" aria-label="Télécharge la grille d'évaluation">
+            <i class="fas fa-download"></i> Télécharge la grille d'évaluation (pdf)
           </button>
         </div>
       </div>
@@ -1338,16 +1338,16 @@
       emailError.style.display = 'none';
 
       if (!prenomValue || !prenomRegex.test(prenomValue)) {
-        prenomError.textContent = "Veuillez entrer un prénom valide (sans chiffres ni caractères spéciaux).";
+        prenomError.textContent = "Entre un prénom valide (sans chiffres ni caractères spéciaux).";
         prenomError.style.display = 'block';
         valid = false;
       }
       if (!emailValue) {
-        emailError.textContent = "Merci de renseigner votre email pour continuer.";
+        emailError.textContent = "Merci de renseigner ton email pour continuer.";
         emailError.style.display = 'block';
         valid = false;
       } else if (!emailRegex.test(emailValue)) {
-        emailError.textContent = "Veuillez entrer une adresse email valide.";
+        emailError.textContent = "Entre une adresse email valide.";
         emailError.style.display = 'block';
         valid = false;
       }
