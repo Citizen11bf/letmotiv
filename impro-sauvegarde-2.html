@@ -54,8 +54,6 @@
       overflow-x: hidden; /* Empêche le défilement horizontal */
       padding-top: 60px; /* Compense la hauteur du header fixe */
       padding-bottom: 20px; /* Réduit l'espace en bas */
-      position: relative;
-      transition: transform 0.5s ease-in-out;
     }
 
     /* --- HEADER --- */
@@ -171,13 +169,11 @@
     .main-container {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: flex-start; /* Aligne en haut */
+      align-items: stretch;
+      justify-content: center; /* Centre verticalement */
       flex-grow: 1;
       width: 100%;
       padding: 20px;
-      transition: transform 0.5s ease-in-out;
-      position: relative;
     }
 
     /* --- BOXES : couleur de fond #E2E7E3, centrage, marges --- */
@@ -196,7 +192,7 @@
       display: none; /* Masqué par défaut */
       opacity: 0;
       transform: translateY(20px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
+      transition: opacity 1s ease, transform 1s ease; /* Augmentation de la durée des transitions */
     }
     .box.active {
       display: block;
@@ -213,7 +209,6 @@
       position: relative;
     }
 
-    /* Remplacement des flèches gauche/droite par haut/bas */
     .back-btn {
       border: none;
       background-color: #808080; /* Gray background */
@@ -227,14 +222,10 @@
       align-items: center;
       justify-content: center;
       transition: background-color 0.3s, transform 0.3s;
-      transform: rotate(180deg); /* Inversion pour flèche haut */
-    }
-    .back-btn i {
-      transform: rotate(-180deg); /* Correction de l'orientation de l'icône */
     }
     .back-btn:hover {
       background-color: #505050; /* Dark gray on hover */
-      transform: scale(1.1) rotate(180deg);
+      transform: scale(1.1);
     }
     .back-btn:active {
       background-color: #303030; /* Even darker on click */
@@ -243,14 +234,59 @@
       visibility: hidden;
     }
 
-    /* Remplacement de la flèche droite par flèche bas */
+    .box-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #182d84;
+      flex-grow: 1;
+      text-align: center;
+    }
+
+    .step-indicator {
+      width: 40px;
+      height: 40px;
+      background-color: #182d84;
+      color: #FFFFFF;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    /* Sous-titres de sections (mode d'emploi, etc.) */
+    .section-subtitle {
+      font-size: 16px;
+      color: #000000;
+      font-weight: bold;
+      margin: 0 0 10px;
+    }
+
+    /* STEP1 : Choix d’objectif */
+    .objectives-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
+      margin-bottom: 10px; /* Ajouté pour supprimer la marge en bas */
+    }
+    /* Bouton objectif sélectionné = vert */
+    .selected-objective {
+      background-color: #00a48a !important;
+      color: #ffffff;
+    }
+
+    /* Icône de flèche pour navigation */
+    /* Styles communs */
     .next-btn {
       width: 40px;
       height: 40px;
       border-radius: 50%;
       display: flex;
       align-items: center;
-      justify-content: center; /* Centre le contenu horizontalement */
+      justify-content: center;
       border: 2px solid #182d84; /* Bordure bleue */
       background-color: transparent;
       color: #182d84; /* Flèche bleue */
@@ -258,16 +294,13 @@
       transition: background-color 0.3s, color 0.3s, transform 0.3s;
       margin: 10px auto; /* Centrer horizontalement */
     }
-    .next-btn i {
-      transform: rotate(90deg); /* Rotation pour flèche bas */
-    }
     .next-btn:hover {
       background-color: #00a48a; /* Fond bleu foncé au survol */
       color: #ffffff; /* Flèche blanche au survol */
-      transform: scale(1.05) rotate(90deg);
+      transform: scale(1.05); /* Légère augmentation de taille au survol */
     }
 
-    /* --- Encadré pour l'explication des objectifs de prise de parole*/
+    /* Encadré pour l'explication des objectifs de prise de parole*/
     .explanation-box {
       visibility: hidden;    /* pour autoriser la transition */
       opacity: 0;
@@ -293,11 +326,28 @@
       border: 2px solid #ccc; /* la bordure passe de 0px à 2px */
     }
 
-    /* BOX3 : Analyse ta prestation */
-    .box3 .box-title {
+    /* STEP2 : Vidéo, enregistrement, etc. */
+    .step2 .box-title {
       font-size: 18px;
       font-weight: bold;
       color: #182d84;
+    }
+
+    /* Encadré pour afficher les sujets d'improvisation aléatoires*/
+    .subject-wrapper {
+      margin-top: 10px;
+      background-color: #fefefe;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+      font-size: 14px;
+      font-style: italic;
+      color: #333;
+      display: none; /* caché tant qu'il n'y a pas de sujet */
+    }
+    .subject-wrapper span {
+      font-weight: bold;
     }
 
     /* Encadré bleu + vidéo */
@@ -418,7 +468,7 @@
       display: none;
     }
 
-    /* Styles pour les boutons bleus dans Box4 */
+    /* Styles pour les boutons bleus dans Step4 */
     .progression-buttons {
       margin-top: 20px;
       display: flex;
@@ -467,7 +517,7 @@
       transform: translateY(-3px);
     }
 
-    /* Nouveau style pour le cadre blanc des téléchargements dans Box3 */
+    /* Nouveau style pour le cadre blanc des téléchargements dans Step3 */
     .download-buttons {
       margin-top: 20px;
       background-color: #fefefe;
@@ -485,8 +535,8 @@
       transform: translateY(0);
     }
 
-    /* BOX4 : Partage LinkedIn et Options de Progression */
-    .box4-content {
+    /* STEP4 : Partage LinkedIn et Options de Progression */
+    .step4-content {
       margin-top: 20px;
       background-color: #fefefe;
       border: 2px solid #ccc;
@@ -496,7 +546,7 @@
       text-align: center;
     }
 
-    /* BOX4 : Boutons de partage LinkedIn */
+    /* STEP4 : Boutons de partage LinkedIn */
     .linkedin-share-button {
       display: inline-flex;
       align-items: center;
@@ -541,7 +591,7 @@
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      width: 48%; /* Pour occuper la moitié de la largeur dans la Box3 */
+      width: 48%; /* Pour occuper la moitié de la largeur dans la Step3 */
     }
 
     .input-group label {
@@ -587,21 +637,21 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start; /* Aligne en haut */
+      justify-content: center; /* Centre verticalement */
       flex-grow: 1;
       width: 100%;
       padding: 20px;
-      transition: transform 0.5s ease-in-out;
-      position: relative;
     }
 
-    /* --- Ajout d'une classe pour l'animation de défilement --- */
-    .scroll-up {
-      transform: translateY(-100%);
+    /* Styles pour le bouton "Générer un sujet" après génération */
+    #generate-subject-btn.subject-generated {
+      background-color: #00a48a;
+      color: #ffffff;
     }
-
-    .scroll-down {
-      transform: translateY(100%);
+    #generate-subject-btn.subject-generated::after {
+      content: " (Nouvelle génération)";
+      font-size: 12px;
+      margin-left: 5px;
     }
 
   </style>
@@ -634,12 +684,12 @@
 
   <!-- CONTAINER PRINCIPAL -->
   <div class="main-container">
-    <!-- BOX1 : Choix d'objectif -->
-    <div class="box active" id="box1">
+    <!-- STEP1 : Choix d'objectif -->
+    <div class="box" id="step1">
       <!-- Header interne de la boîte -->
       <div class="box-header">
         <button class="back-btn hidden-visibility" id="back-btn1" aria-label="Retour à l'objectif">
-          <i class="fas fa-arrow-up"></i>
+          <i class="fas fa-arrow-left"></i>
         </button>
         <div class="box-title">Choisis ton objectif</div>
         <div class="step-indicator">1/4</div>
@@ -656,7 +706,7 @@
         <button data-category="diction">Diction</button>
       </div>
 
-      <!-- Message d'erreur dans Box1 -->
+      <!-- Message d'erreur dans Step1 -->
       <div id="objective-error" class="error-message">
         Sélectionne un objectif avant de continuer.
       </div>
@@ -666,16 +716,16 @@
 
       <!-- Bouton "Suivant" -->
       <button class="next-btn" id="next-btn1" aria-label="Passer à l'étape suivante">
-        <i class="fas fa-arrow-down"></i>
+        <i class="fas fa-arrow-right"></i>
       </button>
     </div>
 
-    <!-- BOX2 : Vidéo, enregistrement, etc. -->
-    <div class="box" id="box2">
+    <!-- STEP2 : Vidéo, enregistrement, etc. -->
+    <div class="box" id="step2">
       <!-- Header interne de la boîte -->
       <div class="box-header">
         <button class="back-btn" id="back-btn2" aria-label="Retour à la sélection d'objectif">
-          <i class="fas fa-arrow-up"></i>
+          <i class="fas fa-arrow-left"></i>
         </button>
         <div class="box-title">Lance ton improvisation&nbsp;</div>
         <div class="step-indicator">2/4</div>
@@ -717,23 +767,21 @@
         <button id="restart-btn" class="hidden-btn" aria-label="Récommencer l'improvisation">Récommencer ton impro <i class="fas fa-redo"></i></button>
       </div>
 
-      <!-- Message d'erreur dans Box2 -->
-      <div id="impro-error" class="error-message">
-        Tu dois réaliser ton improvisation avant de continuer.
-      </div>
+      <!-- Messages d'erreur dans Step2 -->
+      <div id="impro-error" class="error-message"></div>
 
-      <!-- Bouton "Suivant" (désactivé jusqu'à ce que l'impro soit arrêtée) -->
-      <button class="next-btn" id="next-btn2" aria-label="Passer à l'étape suivante" disabled>
-        <i class="fas fa-arrow-down"></i>
+      <!-- Bouton "Suivant" -->
+      <button class="next-btn" id="next-btn2" aria-label="Passer à l'étape suivante">
+        <i class="fas fa-arrow-right"></i>
       </button>
     </div>
 
-    <!-- BOX3 : Partage LinkedIn et Options de Progression -->
-    <div class="box" id="box3">
+    <!-- STEP4 : Partage LinkedIn et Options de Progression -->
+    <div class="box" id="step4">
       <!-- Header interne de la boîte -->
       <div class="box-header">
-        <button class="back-btn" id="back-btn3" aria-label="Retour à l'improvisation">
-          <i class="fas fa-arrow-up"></i>
+        <button class="back-btn" id="back-btn4" aria-label="Retour à l'improvisation">
+          <i class="fas fa-arrow-left"></i>
         </button>
         <div class="box-title">Partage ton expérience</div>
         <div class="step-indicator">3/4</div>
@@ -764,18 +812,18 @@
         </a>
       </div>
 
-      <!-- Bouton "Suivant" -->
-      <button class="next-btn" id="next-btn3" aria-label="Passer à l'étape suivante">
-        <i class="fas fa-arrow-down"></i>
+      <!-- Bouton "Suivant" pour passer à la Step3 (Téléchargement) -->
+      <button class="next-btn" id="next-btn4" aria-label="Passer à l'étape suivante">
+        <i class="fas fa-arrow-right"></i>
       </button>
     </div>
 
-    <!-- BOX4 : Analyse ta prestation -->
-    <div class="box" id="box4">
+    <!-- STEP3 : Analyse ta prestation -->
+    <div class="box" id="step3">
       <!-- Header interne de la boîte -->
       <div class="box-header">
-        <button class="back-btn" id="back-btn4" aria-label="Retour au partage et progression">
-          <i class="fas fa-arrow-up"></i>
+        <button class="back-btn" id="back-btn3" aria-label="Retour au partage et progression">
+          <i class="fas fa-arrow-left"></i>
         </button>
         <div class="box-title"> Analyse ta prestation</div>
         <div class="step-indicator">4/4</div>
@@ -825,141 +873,139 @@
   <!-- SCRIPT -->
   <script>
     /***********************
-     * 1) Navigation entre les boxes avec flèches haut/bas et animation de défilement
+     * 1) Navigation entre les steps
      ***********************/
-    const boxes = [
-      document.getElementById('box1'),
-      document.getElementById('box2'),
-      document.getElementById('box3'),
-      document.getElementById('box4')
-    ];
+    const boxes = {
+      1: document.getElementById('step1'),
+      2: document.getElementById('step2'),
+      3: document.getElementById('step4'), // Partage LinkedIn
+      4: document.getElementById('step3')  // Téléchargement et Analyse
+    };
 
-    const totalSteps = boxes.length;
-    let currentStep = 0; // Index de la box actuelle
+    const nextBtns = {
+      1: document.getElementById('next-btn1'),
+      2: document.getElementById('next-btn2'),
+      3: document.getElementById('next-btn4'), // Ajout du next-btn4 pour Step4
+      // 4: Aucun bouton "Suivant" dans Step3 (Téléchargement)
+    };
+
+    const backBtns = {
+      2: document.getElementById('back-btn2'),
+      3: document.getElementById('back-btn4'), // Retour depuis Partage LinkedIn
+      4: document.getElementById('back-btn3')  // Retour depuis Téléchargement
+    };
+
+    const introBox = document.getElementById('intro-box');
+    const startIntroBtn = document.getElementById('start-intro-btn');
 
     const topProgressBar = document.getElementById('top-progress-bar');
 
     function updateProgressBar(step) {
-      const progress = (step / (totalSteps)) * 100; // Chaque étape représente une fraction du total
+      const progress = step * 25; // Chaque étape représente 25%
       topProgressBar.style.width = `${progress}%`;
     }
 
-    function showBox(newStep) {
-      if (newStep < 0 || newStep >= totalSteps) return;
+    let improStarted = false; // Variable pour suivre si l'impro a été démarrée
 
-      // Ajouter une classe pour l'animation de défilement
-      if (newStep > currentStep) {
-        document.body.classList.add('scroll-up');
-      } else if (newStep < currentStep) {
-        document.body.classList.add('scroll-down');
-      }
-
-      // Masquer la box actuelle
-      boxes[currentStep].classList.remove('active');
-
-      // Afficher la nouvelle box
-      boxes[newStep].classList.add('active');
+    function showBox(current, next) {
+      if (boxes[current]) boxes[current].classList.remove('active');
+      if (boxes[next]) boxes[next].classList.add('active');
 
       // Mettre à jour la barre de progression
-      updateProgressBar(newStep + 1);
+      updateProgressBar(next);
 
       // Mettre à jour le step-indicator
       const stepIndicators = document.querySelectorAll('.step-indicator');
       stepIndicators.forEach(indicator => {
-        indicator.textContent = `${newStep + 1}/4`;
+        const stepText = indicator.textContent.trim();
+        const stepNumber = parseInt(stepText.split('/')[0]);
+        if (stepNumber === next) {
+          indicator.textContent = `${next}/4`;
+        }
       });
 
-      // Mettre à jour l'index actuel
-      currentStep = newStep;
+      // Scroll vers la boîte active en tenant compte du header
+      const header = document.querySelector('.header');
+      const headerHeight = header ? header.offsetHeight : 0;
+      const boxPosition = boxes[next].getBoundingClientRect().top + window.scrollY - headerHeight - 20; // Ajuste la valeur 20 selon ton besoin
 
-      // Retirer les classes d'animation après un court délai
-      setTimeout(() => {
-        document.body.classList.remove('scroll-up');
-        document.body.classList.remove('scroll-down');
-      }, 500);
+      window.scrollTo({
+        top: boxPosition,
+        behavior: 'smooth'
+      });
     }
 
     // Initialisation de la barre de progression
-    updateProgressBar(currentStep);
+    updateProgressBar(0);
 
-    // Ajouter des écouteurs pour les boutons "Suivant" et "Retour"
-    const nextBtns = [
-      document.getElementById('next-btn1'),
-      document.getElementById('next-btn2'),
-      document.getElementById('next-btn3'),
-      null // Pas de bouton "Suivant" dans Box4
-    ];
-
-    const backBtns = [
-      null, // Pas de bouton "Retour" dans Box1
-      document.getElementById('back-btn2'),
-      document.getElementById('back-btn3'),
-      document.getElementById('back-btn4')
-    ];
-
-    // Gestion des flèches "Suivant" (bas)
-    nextBtns.forEach((btn, index) => {
-      if (btn) {
-        btn.addEventListener('click', () => {
-          // Vérifier les conditions spécifiques à chaque box avant de naviguer
-          if (index === 0) {
-            // Box1 : Vérifier qu'un objectif est sélectionné
-            const selected = document.querySelector('.objectives-container .selected-objective');
-            if (!selected) {
-              // Afficher le message d'erreur
-              const errorDiv = document.getElementById('objective-error');
-              errorDiv.textContent = "Sélectionne un objectif avant de continuer.";
-              errorDiv.style.display = 'block';
-              return;
-            }
-          }
-          if (index === 1) {
-            // Box2 : Vérifier que l'improvisation est réalisée
-            if (btn.disabled) {
-              // Afficher le message d'erreur
-              const improErrorDiv = document.getElementById('impro-error');
-              improErrorDiv.textContent = "Tu dois réaliser ton improvisation avant de continuer.";
-              improErrorDiv.style.display = 'block';
-              return;
-            }
-          }
-          if (index === 2) {
-            // Box3 : Validation du formulaire doit être faite avant de passer
-            const downloadButtons = document.getElementById('download-buttons');
-            if (!downloadButtons.classList.contains('show')) {
-              // Afficher le message d'erreur si nécessaire
-              // (Assurez-vous que le formulaire est validé avant de naviguer)
-              alert("Veuillez valider le formulaire avant de continuer.");
-              return;
-            }
-          }
-
-          showBox(index + 1);
-        });
+    // Ajouter des écouteurs pour les boutons "Suivant"
+    nextBtns[1].addEventListener('click', () => {
+      // Vérifier si un objectif est sélectionné
+      const selected = document.querySelector('.objectives-container .selected-objective');
+      if (!selected) {
+        // Afficher le message d'erreur
+        const errorDiv = document.getElementById('objective-error');
+        errorDiv.textContent = "Sélectionne un objectif avant de continuer.";
+        errorDiv.style.display = 'block';
+        return;
       }
+      showBox(1, 2);
     });
 
-    // Gestion des flèches "Retour" (haut)
-    backBtns.forEach((btn, index) => {
-      if (btn) {
-        btn.addEventListener('click', () => {
-          showBox(index - 1);
-        });
+    nextBtns[2].addEventListener('click', () => {
+      // Vérifier les conditions avant de passer à l'étape suivante
+      const improErrorDiv = document.getElementById('impro-error');
+      improErrorDiv.style.display = 'none'; // Masquer tout message d'erreur précédent
+
+      if (!currentSubject && !improStarted) {
+        improErrorDiv.textContent = "Tu dois d'abord générer un sujet et lancer ton impro avant de continuer.";
+        improErrorDiv.style.display = 'block';
+        return;
+      } else if (currentSubject && !improStarted) {
+        improErrorDiv.textContent = "Tu dois lancer ton improvisation avant de continuer.";
+        improErrorDiv.style.display = 'block';
+        return;
       }
+      showBox(2, 3);
     });
+
+    nextBtns[3].addEventListener('click', () => showBox(3, 4)); // Navigue de Step4 à Step3
+
+    // Aucun bouton "Suivant" dans Step3 (Téléchargement)
+
+    // Ajouter des écouteurs pour les boutons "Retour" uniquement s'ils existent
+    if (backBtns[2]) {
+      backBtns[2].addEventListener('click', () => {
+        showBox(2, 1);
+      });
+    }
+    if (backBtns[3]) {
+      backBtns[3].addEventListener('click', () => showBox(3, 2));
+    }
+    if (backBtns[4]) {
+      backBtns[4].addEventListener('click', () => showBox(4, 3));
+    }
 
     // Gestion de la boîte d'introduction
-    const introBox = document.getElementById('intro-box');
-    const startIntroBtn = document.getElementById('start-intro-btn');
-
     startIntroBtn.addEventListener('click', () => {
       // Appliquer l'animation de fade-out
       introBox.style.animation = 'fadeOut 0.5s ease forwards';
       
-      // Après l'animation, cacher la boîte d'introduction et afficher la Box1
+      // Après l'animation, cacher la boîte d'introduction et afficher la Step1
       setTimeout(() => {
         introBox.style.display = 'none';
-        showBox(0);
+        boxes[1].classList.add('active');
+        updateProgressBar(1);
+
+        // Scroll vers la Step1
+        const header = document.querySelector('.header');
+        const headerHeight = header ? header.offsetHeight : 0;
+        const boxPosition = boxes[1].getBoundingClientRect().top + window.scrollY - headerHeight - 20;
+
+        window.scrollTo({
+          top: boxPosition,
+          behavior: 'smooth'
+        });
       }, 500); // Durée de l'animation fadeOut
     });
 
@@ -974,7 +1020,7 @@
       repartie:     "Réponds du tac-au-tac et montre ton sens de la répartie.",
       vendre:       "Fais un argumentaire de vente percutant.",
       conflit:      "Gère un désaccord ou une tension avec diplomatie.",
-      diction:      "Améliore ta diction et rends ton discours plus clair."
+      diction:      "Améliore ta diction et rend ton discours plus clair."
     };
 
     const txtFilesByCategory = {
@@ -1071,8 +1117,8 @@
       if (!currentCategory) {
         // Afficher le message d'erreur si pas d'objectif sélectionné
         const errorDiv = document.getElementById('objective-error');
-        errorDiv.style.display = 'block';
         errorDiv.textContent = "Merci de sélectionner un objectif avant de générer un sujet.";
+        errorDiv.style.display = 'block';
         return;
       }
       const subjects = subjectsCache[currentCategory];
@@ -1087,6 +1133,9 @@
 
       subjectDisplay.textContent = currentSubject;
       subjectWrapper.style.display = 'block';
+
+      // Mettre à jour le bouton pour indiquer qu'un sujet a été généré
+      generateSubjectBtn.classList.add('subject-generated');
 
       // Cacher le message d'erreur "Tu dois générer un sujet avant de démarrer l'improvisation"
       const improErrorDiv = document.getElementById('impro-error');
@@ -1124,14 +1173,14 @@
     // On factorise la logique de démarrage dans une fonction
     async function startImpro() {
       if (!currentSubject) {
-        // Afficher le message d'erreur dans Box2
+        // Afficher le message d'erreur dans Step2
         const improErrorDiv = document.getElementById('impro-error');
         improErrorDiv.textContent = "Tu dois générer un sujet avant de démarrer l'improvisation.";
         improErrorDiv.style.display = 'block';
         return;
       }
       if (typeof MediaRecorder === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
-        // Afficher le message d'erreur dans Box2
+        // Afficher le message d'erreur dans Step2
         const improErrorDiv = document.getElementById('impro-error');
         improErrorDiv.textContent = "Désolé, l'enregistrement vidéo n'est pas supporté par votre navigateur.";
         improErrorDiv.style.display = 'block';
@@ -1167,7 +1216,7 @@
       if (!stream) return;
 
       if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
-        // Afficher le message d'erreur dans Box2
+        // Afficher le message d'erreur dans Step2
         const improErrorDiv = document.getElementById('impro-error');
         improErrorDiv.textContent = "Votre navigateur ne supporte pas l'enregistrement vidéo. Essayez Chrome ou Firefox.";
         improErrorDiv.style.display = 'block';
@@ -1190,8 +1239,8 @@
         // Arrête la webcam
         stream.getTracks().forEach((track) => track.stop());
 
-        // Activer le bouton "Suivant" dans Box2
-        nextBtns[1].disabled = false;
+        // Activer le bouton "Suivant" dans Step2
+        // nextBtns[2].disabled = false; // Suppression de la logique de désactivation
 
         // Afficher "Improvisation terminée." dans la vidéo-box
         videoText.innerHTML = "Improvisation terminée.";
@@ -1226,7 +1275,7 @@
       restartBtn.classList.add('hidden-btn'); // Masquer "Récommencer"
 
       // Désactiver le bouton "Suivant" pendant l'impro
-      nextBtns[1].disabled = true;
+      // nextBtns[2].disabled = true; // Suppression de la logique de désactivation
 
       // Démarrer le décompte en temps réel
       startTimer();
@@ -1240,17 +1289,17 @@
         return stream;
       } catch (error) {
         if (error.name === 'NotAllowedError' || error.name === 'SecurityError') {
-          // Afficher le message d'erreur dans Box2
+          // Afficher le message d'erreur dans Step2
           const improErrorDiv = document.getElementById('impro-error');
           improErrorDiv.textContent = "Vous avez refusé l'accès à la webcam ou au micro. Veuillez autoriser l'accès.";
           improErrorDiv.style.display = 'block';
         } else if (error.name === 'NotFoundError' || error.name === 'DevicesNotFoundError') {
-          // Afficher le message d'erreur dans Box2
+          // Afficher le message d'erreur dans Step2
           const improErrorDiv = document.getElementById('impro-error');
           improErrorDiv.textContent = "Aucune caméra ou micro détecté(e). Vérifiez vos périphériques.";
           improErrorDiv.style.display = 'block';
         } else {
-          // Afficher le message d'erreur dans Box2
+          // Afficher le message d'erreur dans Step2
           const improErrorDiv = document.getElementById('impro-error');
           improErrorDiv.textContent = "Erreur : Impossible d'accéder à la webcam. Vérifiez vos permissions.";
           improErrorDiv.style.display = 'block';
@@ -1358,14 +1407,14 @@
       // Afficher les boutons de téléchargement dans le cadre blanc
       downloadButtons.classList.add('show');
 
-      // Activer le bouton "Suivant" pour passer à la box4 (Téléchargement)
+      // Activer le bouton "Suivant" pour passer à la step4 (Téléchargement)
       nextBtns[3].disabled = false;
     });
 
     // Téléchargement de la vidéo
     downloadVideoBtn.addEventListener('click', () => {
       if (!videoURL) {
-        // Afficher le message d'erreur dans Box4
+        // Afficher le message d'erreur dans Step3
         const improErrorDiv = document.getElementById('impro-error');
         improErrorDiv.textContent = "La vidéo n'est pas encore prête ou pas enregistrée.";
         improErrorDiv.style.display = 'block';
@@ -1389,14 +1438,6 @@
       document.body.removeChild(link);
     });
 
-    /***********************
-     * Gestion de l'animation de défilement
-     ***********************/
-    // Ajouter des écouteurs pour détecter la fin de l'animation
-    document.body.addEventListener('transitionend', () => {
-      document.body.classList.remove('scroll-up');
-      document.body.classList.remove('scroll-down');
-    });
   </script>
 </body>
 </html>
