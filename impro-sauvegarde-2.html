@@ -662,8 +662,7 @@
       font-size: 16px;
     }
 
-    /* 2) Centrer, réduire la police et enlever le gras pour 
-       "Obtiens la vidéo de ta prestation..." */
+    /* 2) Centrer, réduire la police et enlever le gras pour "Obtiens la vidéo de ta prestation..." */
     .download-section h3 {
       text-align: center;
       font-size: 14px;
@@ -759,9 +758,9 @@
       <div class="video-box">
         <video id="preview" autoplay muted></video>
         <div class="video-text" id="video-text">
-          Ici va s'enregistrer ton improvisation en vidéo. <br> 
+          Ici va s'enregistrer ton improvisation  vidéo. <br> 
           Lorsque tu es prêt, clique sur le bouton "Démarrer ton impro" en-dessous. <br><br>
-          NB : ta vidéo est stockée directement sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv. 
+          NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv. 
         </div>
         <!-- Indicateur "Enregistrement en cours" -->
         <div class="recording-indicator" id="recording-indicator">
@@ -846,20 +845,19 @@
       </div>
 
       <div class="download-section">
-        <!-- 2) Texte désormais centré, font-size réduit et non gras -->
         <h3>Obtiens la vidéo de ta prestation et une grille Letmotiv pour l'analyser :</h3>
         
         <div class="download-fields">
           <div class="input-group">
             <label for="prenom">Prénom :</label>
             <input type="text" id="prenom" placeholder="Votre prénom" aria-label="Prénom"/>
-            <div id="prenom-error" class="error-message">Veuillez entrer un prénom valide sans chiffres ni caractères spéciaux.</div>
+            <div id="prenom-error" class="error-message">Entre un prénom valide sans chiffres ni caractères spéciaux.</div>
           </div>
 
           <div class="input-group">
             <label for="email">Email :</label>
             <input type="email" id="email" placeholder="Votre email" aria-label="Email"/>
-            <div id="email-error" class="error-message">Veuillez entrer une adresse email valide.</div>
+            <div id="email-error" class="error-message">Entre une adresse email valide.</div>
           </div>
         </div>
 
@@ -871,14 +869,13 @@
       <!-- Cadre blanc pour les boutons de téléchargement (invisible par défaut) -->
       <div class="download-buttons" id="download-buttons">
         <button id="download-video-btn" aria-label="Télécharger la vidéo">
-          <i class="fas fa-download"></i> Télécharger la vidéo (mp4)
+          <i class="fas fa-download"></i> Télécharge ta vidéo (mp4)
         </button>
         <button id="download-pdf-btn" aria-label="Télécharger la grille d'évaluation">
-          <i class="fas fa-download"></i> Télécharger la grille d'évaluation (pdf)
+          <i class="fas fa-download"></i> Télécharge la grille d'évaluation (pdf)
         </button>
       </div>
 
-      <!-- Bouton "Suivant" supprimé car c'est la dernière étape -->
     </div>
   </div>
 
