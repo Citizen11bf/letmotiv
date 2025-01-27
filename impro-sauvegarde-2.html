@@ -6,7 +6,7 @@
   <title>Simulateur d'improvisation</title>
   <meta name="description" content="Évaluer et développer rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv.">
 
-  <!-- Balises Open Graph pour LinkedIn -->
+  <!-- Balises Open Graph / Twitter (facultatif) -->
   <meta property="og:title" content="Simulateur d'improvisation Letmotiv" />
   <meta property="og:description" content="Évaluez et développez rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv." />
   <meta property="og:type" content="website" />
@@ -16,13 +16,12 @@
   <meta name="author" content="Letmotiv" />
   <meta property="article:published_time" content="2025-01-26" />
 
-  <!-- Balises Twitter (optionnel) -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Simulateur d'improvisation Letmotiv">
   <meta name="twitter:description" content="Évaluez et développez rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv.">
   <meta name="twitter:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png">
 
-  <!-- Import de la police DM SANS et Montserrat depuis Google Fonts -->
+  <!-- Polices Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -41,15 +40,18 @@
     * {
       box-sizing: border-box;
     }
-
     body {
       margin: 0;
       font-family: 'DM Sans', sans-serif;
-      background-color: #ffffff;
+      background-color: #ffffff; 
       color: #333333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
       overflow-x: hidden; 
-      /* Hauteur supplémentaire pour le défilement */
-      min-height: 200vh;
+      padding-top: 60px; /* Compense la hauteur du header fixe */
+      padding-bottom: 20px; 
     }
 
     /* --- HEADER --- */
@@ -66,14 +68,16 @@
       left: 0;
       z-index: 10;
       box-sizing: border-box;
+    }
+    .header-content {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 5px;
-      height: 60px; /* Hauteur fixe pour compenser en scroll */
+      max-width: 100%;
+      overflow-wrap: break-word;
     }
-
     .header a {
       color: #FFFFFF;
       text-decoration: none;
@@ -81,22 +85,18 @@
     .header a:hover {
       text-decoration: none;
     }
-
-    .header-l1 {
-      font-size: 16px;
-    }
     .header-l2 {
-      font-size: 14px;
+      font-size: 14px; 
     }
 
     /* --- BARRE DE PROGRESSION --- */
     .progress-container {
       position: fixed;
-      top: 60px; /* Juste sous le header */
+      top: 60px; 
       left: 0;
       width: 100%;
       height: 8px;
-      background-color: rgba(24, 45, 132, 0.1);
+      background-color: rgba(24, 45, 132, 0.1); 
       z-index: 9;
     }
     .progress-bar {
@@ -147,27 +147,26 @@
       transform: scale(1.05);
     }
 
-    /* Animations de fadeIn, fadeOut, slideDown */
+    /* Animations */
     @keyframes fadeIn {
       from { opacity: 0; }
-      to   { opacity: 1; }
+      to { opacity: 1; }
     }
     @keyframes fadeOut {
       from { opacity: 1; }
-      to   { opacity: 0; }
+      to { opacity: 0; }
     }
     @keyframes slideDown {
       from { transform: translateY(-50px); opacity: 0; }
-      to   { transform: translateY(0); opacity: 1; }
+      to { transform: translateY(0); opacity: 1; }
     }
 
-    /* --- BOXES EN COLONNE (vertical) --- */
+    /* --- BOXES : apparaitre / disparaitre avec fade/slide --- */
     .box {
-      scroll-margin-top: 80px; /* pour éviter que le header fixe ne cache le titre */
-      width: 90%;
+      width: 100%;
       max-width: 600px;
-      margin: 120px auto 40px; /* espace en haut pour ne pas être sous le header */
-      background-color: #E2E7E3;
+      margin: 20px 0;
+      background-color: #E2E7E3; 
       border-radius: 10px;
       padding: 15px;
       box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
@@ -175,6 +174,15 @@
       font-size: 14px;
       border: 2px solid #eeeeee;
       position: relative;
+      display: none; /* Masqué par défaut */
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+    .box.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
     }
 
     /* --- Header interne des boîtes --- */
@@ -185,6 +193,33 @@
       margin-bottom: 20px;
       position: relative;
     }
+
+    /* Bouton retour (flèche up) */
+    .back-btn {
+      border: none;
+      background-color: #808080; 
+      color: #FFFFFF;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+    .back-btn:hover {
+      background-color: #505050; 
+      transform: scale(1.1);
+    }
+    .back-btn:active {
+      background-color: #303030; 
+    }
+    .back-btn.hidden-visibility {
+      visibility: hidden;
+    }
+
     .box-title {
       font-size: 18px;
       font-weight: bold;
@@ -192,6 +227,7 @@
       flex-grow: 1;
       text-align: center;
     }
+
     .step-indicator {
       width: 40px;
       height: 40px;
@@ -205,49 +241,28 @@
       font-size: 14px;
     }
 
-    /* --- Boutons fleche haut/bas --- */
-    .up-btn,
-    .down-btn {
-      border: 2px solid #182d84;
-      background-color: transparent;
-      color: #182d84;
-      font-size: 16px;
-      cursor: pointer;
-      border-radius: 50%;
+    /* Bouton next (flèche down), centré horizontalement */
+    .next-btn {
       width: 40px;
       height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      border-radius: 50%;
+      display: block; /* pour pouvoir centrer avec margin auto */
+      margin: 10px auto;
+      border: 2px solid #182d84; 
+      background-color: transparent;
+      color: #182d84;
+      cursor: pointer;
       transition: background-color 0.3s, color 0.3s, transform 0.3s;
     }
-    .up-btn:hover,
-    .down-btn:hover {
+    .next-btn:hover {
       background-color: #00a48a;
       color: #ffffff;
       transform: scale(1.05);
     }
-    .up-btn:active,
-    .down-btn:active {
-      background-color: #086f65;
-      transform: scale(1.02);
-    }
-    /* Pour cacher la flèche haut sur la box1 si vous voulez (optionnel) */
-    .hidden-visibility {
-      visibility: hidden;
-    }
 
-    /* Sous-titres de sections (mode d'emploi, etc.) */
-    .section-subtitle {
-      font-size: 16px;
-      color: #000000;
-      font-weight: bold;
-      margin: 0 0 10px;
-    }
-
-    /* Encadré pour l'explication des objectifs */
+    /* Encadré explicatif des objectifs */
     .explanation-box {
-      visibility: hidden;
+      visibility: hidden;    
       opacity: 0;
       transform: translateY(-10px);
       margin-top: 0;
@@ -282,6 +297,16 @@
       color: #ffffff;
     }
 
+    /* Erreur */
+    .error-message {
+      color: red;
+      margin-top: 10px;
+      font-weight: bold;
+      display: none; 
+      text-align: center; 
+      width: 100%;
+    }
+
     /* BOX2 : Vidéo, enregistrement, etc. */
     .subject-wrapper {
       margin-top: 10px;
@@ -298,19 +323,18 @@
     .subject-wrapper span {
       font-weight: bold;
     }
-
     .video-box {
       margin: 10px auto;
       border: 3px solid #182d84;
       border-radius: 6px;
       max-width: 500px;
       background-color: #fefefe;
-      height: 300px;
+      height: 300px; 
       position: relative;
       display: flex;
       justify-content: center; 
       align-items: center;     
-      overflow: hidden;
+      overflow: hidden; 
     }
     .video-box video {
       width: 100%;
@@ -320,7 +344,7 @@
       position: absolute;
       top: 0;
       left: 0;
-      z-index: 1; 
+      z-index: 1;
     }
     .video-box .video-text {
       position: absolute;
@@ -363,7 +387,7 @@
     .countdown {
       position: absolute;
       bottom: 10px; 
-      right: 10px; 
+      right: 10px;
       font-size: 24px;
       color: #ffffff;
       display: none;
@@ -379,7 +403,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(128, 128, 128, 0.6);
+      background-color: rgba(128, 128, 128, 0.6); 
       display: none; 
       align-items: center;
       justify-content: center;
@@ -415,7 +439,7 @@
     .linkedin-share-button {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
+      justify-content: center; 
       background-color: #0e76a8;
       color: #FFFFFF;
       border: none;
@@ -448,7 +472,7 @@
       justify-content: center; 
     }
 
-    /* BOX3 : Analyse + Formulaire téléchargement */
+    /* BOX3 : Analyse ta prestation */
     .download-section {
       text-align: left;
       margin-bottom: 20px;
@@ -468,14 +492,6 @@
       display: block;
       opacity: 1;
       transform: translateY(0);
-    }
-    .error-message {
-      color: red;
-      margin-top: 10px;
-      font-weight: bold;
-      display: none;
-      text-align: center; 
-      width: 100%;
     }
     .input-group {
       display: flex;
@@ -546,11 +562,13 @@
 
   <!-- HEADER -->
   <div class="header">
-    <div class="header-l1">Simulateur d'improvisation en public</div>
-    <div class="header-l2">by Letmotiv</div>
+    <div class="header-content">
+      <div class="header-l1">Simulateur d'improvisation en public</div>
+      <div class="header-l2">by Letmotiv</div>
+    </div>
   </div>
 
-  <!-- BARRE DE PROGRESSION (optionnelle) -->
+  <!-- BARRE DE PROGRESSION -->
   <div class="progress-container">
     <div class="progress-bar" id="top-progress-bar"></div>
   </div>
@@ -558,8 +576,8 @@
   <!-- BOX1 : Choix d'objectif -->
   <div class="box" id="box1">
     <div class="box-header">
-      <!-- Flèche HAUT (masquée sur la 1ère box) -->
-      <button class="up-btn hidden-visibility" aria-label="Aller à la box précédente">
+      <!-- Flèche "UP" masquée ici (pas de retour possible avant la première box) -->
+      <button class="back-btn hidden-visibility" id="back-btn1" aria-label="Retour en haut">
         <i class="fas fa-arrow-up"></i>
       </button>
       <div class="box-title">Choisis ton objectif</div>
@@ -577,13 +595,12 @@
       <button data-category="diction">Diction</button>
     </div>
 
-    <div id="objective-error" class="error-message">
-      Sélectionne un objectif avant de continuer.
-    </div>
+    <div id="objective-error" class="error-message">Sélectionne un objectif avant de continuer.</div>
+
     <div class="explanation-box" id="explanation-box"></div>
 
-    <!-- Flèche BAS => scroller vers box2 -->
-    <button class="down-btn" id="down-btn1" aria-label="Aller à la box suivante">
+    <!-- Flèche BAS (next) -->
+    <button class="next-btn" id="next-btn1" aria-label="Passer à l'étape suivante">
       <i class="fas fa-arrow-down"></i>
     </button>
   </div>
@@ -591,8 +608,8 @@
   <!-- BOX2 : Vidéo, enregistrement, etc. -->
   <div class="box" id="box2">
     <div class="box-header">
-      <!-- Flèche HAUT => box1 -->
-      <button class="up-btn" id="up-btn2" aria-label="Aller à la box précédente">
+      <!-- Flèche UP => retour box1 -->
+      <button class="back-btn" id="back-btn2" aria-label="Retour à l'objectif">
         <i class="fas fa-arrow-up"></i>
       </button>
       <div class="box-title">Lance ton improvisation</div>
@@ -607,8 +624,8 @@
     <div class="video-box">
       <video id="preview" autoplay muted></video>
       <div class="video-text" id="video-text">
-        Ici va s'enregistrer ton improvisation en vidéo. <br>
-        Lorsque tu es prêt, clique sur le bouton "Démarrer ton impro" en-dessous.<br><br>
+        Ici va s'enregistrer ton improvisation en vidéo. <br> 
+        Lorsque tu es prêt, clique sur le bouton "Démarrer ton impro" en-dessous. <br><br>
         NB : ta vidéo est stockée directement sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.
       </div>
       <div class="recording-indicator" id="recording-indicator">
@@ -621,26 +638,30 @@
     </div>
 
     <div class="impro-actions">
-      <button id="start-btn" aria-label="Démarrer l'improvisation">Démarrer ton impro <i class="fas fa-video"></i></button>
-      <button id="stop-btn" class="hidden-btn" aria-label="Arrêter l'improvisation">Arrêter ton impro <i class="fas fa-stop"></i></button>
-      <button id="restart-btn" class="hidden-btn" aria-label="Récommencer l'improvisation">Récommencer ton impro <i class="fas fa-redo"></i></button>
+      <button id="start-btn" aria-label="Démarrer l'improvisation">
+        Démarrer ton impro <i class="fas fa-video"></i>
+      </button>
+      <button id="stop-btn" class="hidden-btn" aria-label="Arrêter l'improvisation">
+        Arrêter ton impro <i class="fas fa-stop"></i>
+      </button>
+      <button id="restart-btn" class="hidden-btn" aria-label="Récommencer l'improvisation">
+        Récommencer ton impro <i class="fas fa-redo"></i>
+      </button>
     </div>
 
-    <div id="impro-error" class="error-message">
-      Tu dois réaliser ton improvisation avant de continuer.
-    </div>
+    <div id="impro-error" class="error-message">Tu dois réaliser ton improvisation avant de continuer.</div>
 
-    <!-- Flèche BAS => box4 (car l'étape 3 correspond à la box4 dans ce code) -->
-    <button class="down-btn" id="down-btn2" aria-label="Aller à la box suivante">
+    <!-- Flèche BAS => aller vers la 3e étape (box4) -->
+    <button class="next-btn" id="next-btn2" disabled aria-label="Passer à l'étape suivante">
       <i class="fas fa-arrow-down"></i>
     </button>
   </div>
 
-  <!-- BOX4 : Partage LinkedIn (3ème étape) -->
+  <!-- BOX4 : Partage LinkedIn (3e étape) -->
   <div class="box" id="box4">
     <div class="box-header">
-      <!-- Flèche HAUT => revenir à box2 -->
-      <button class="up-btn" id="up-btn4" aria-label="Aller à la box précédente">
+      <!-- Flèche UP => box2 -->
+      <button class="back-btn" id="back-btn4" aria-label="Retour à l'improvisation">
         <i class="fas fa-arrow-up"></i>
       </button>
       <div class="box-title">Partage ton expérience</div>
@@ -648,7 +669,7 @@
     </div>
 
     <p>
-      Encourage d'autres personnes à relever le défi ! Montre ton courage et inspire les autres à s'améliorer en improvisation ! 
+      Encourage d'autres personnes à relever le défi ! Montre ton courage et inspire les autres à s'améliorer en improvisation ! 
       <b>#ChallengeImproLetmotiv</b>
     </p>
     <a
@@ -672,20 +693,20 @@
       </a>
     </div>
 
-    <!-- Flèche BAS => aller à la box3 (4e étape) -->
-    <button class="down-btn" id="down-btn4" aria-label="Aller à la box suivante">
+    <!-- Flèche BAS => aller à la dernière étape (box3) -->
+    <button class="next-btn" id="next-btn4" aria-label="Passer à l'étape suivante">
       <i class="fas fa-arrow-down"></i>
     </button>
   </div>
 
-  <!-- BOX3 : Analyse (4ème étape) -->
+  <!-- BOX3 : Analyse ta prestation (4e étape) -->
   <div class="box" id="box3">
     <div class="box-header">
-      <!-- Flèche HAUT => box4 -->
-      <button class="up-btn" id="up-btn3" aria-label="Aller à la box précédente">
+      <!-- Flèche UP => box4 -->
+      <button class="back-btn" id="back-btn3" aria-label="Retour au partage et progression">
         <i class="fas fa-arrow-up"></i>
       </button>
-      <div class="box-title">Analyse ta prestation</div>
+      <div class="box-title"> Analyse ta prestation</div>
       <div class="step-indicator">4/4</div>
     </div>
 
@@ -699,6 +720,7 @@
             Veuillez entrer un prénom valide sans chiffres ni caractères spéciaux.
           </div>
         </div>
+
         <div class="input-group">
           <label for="email">Email :</label>
           <input type="email" id="email" placeholder="Votre email" aria-label="Email"/>
@@ -707,6 +729,7 @@
           </div>
         </div>
       </div>
+
       <div>
         <button id="validate-form-btn" aria-label="Valider les informations">Valider</button>
       </div>
@@ -724,69 +747,119 @@
 
   <!-- SCRIPT -->
   <script>
-    /***************************************************************
-     * 1) Gestion de l'animation d'intro
-     ***************************************************************/
+    /********************************************************
+     * 1) Gérer l'intro
+     ********************************************************/
     const introBox = document.getElementById('intro-box');
     const startIntroBtn = document.getElementById('start-intro-btn');
     const topProgressBar = document.getElementById('top-progress-bar');
 
-    // Animation fadeOut sur la box d'intro
     startIntroBtn.addEventListener('click', () => {
+      // fadeOut
       introBox.style.animation = 'fadeOut 0.5s ease forwards';
-      // Après 0.5s, on masque l'élément
       setTimeout(() => {
         introBox.style.display = 'none';
-        // Avance la barre de progression par exemple
-        topProgressBar.style.width = '25%';
+        // Afficher la box1
+        boxes[1].classList.add('active');
+        updateProgressBar(1);
       }, 500);
     });
 
-    /***************************************************************
-     * 2) Flèches HAUT/BAS pour scroller vers la box précédente/suivante
-     ***************************************************************/
-    const box1 = document.getElementById('box1');
-    const box2 = document.getElementById('box2');
-    const box4 = document.getElementById('box4');
-    const box3 = document.getElementById('box3');
+    /********************************************************
+     * 2) Boîtes & navigation
+     ********************************************************/
+    const boxes = {
+      1: document.getElementById('box1'),
+      2: document.getElementById('box2'),
+      3: document.getElementById('box4'), // Partage LinkedIn
+      4: document.getElementById('box3')  // Téléchargement
+    };
 
-    // box1 : descendre => box2
-    document.getElementById('down-btn1').addEventListener('click', () => {
-      box2.scrollIntoView({ behavior: 'smooth' });
-      topProgressBar.style.width = '50%';
+    function showBox(current, next) {
+      if (boxes[current]) boxes[current].classList.remove('active');
+      if (boxes[next]) boxes[next].classList.add('active');
+      updateProgressBar(next);
+
+      // Scroller vers le début de la nouvelle box
+      const header = document.querySelector('.header');
+      const headerHeight = header ? header.offsetHeight : 0;
+      const boxPosition = boxes[next].getBoundingClientRect().top + window.scrollY - headerHeight - 10;
+      window.scrollTo({
+        top: boxPosition,
+        behavior: 'smooth'
+      });
+    }
+
+    function updateProgressBar(step) {
+      const progress = step * 25; // 4 étapes => 25% chacune
+      topProgressBar.style.width = `${progress}%`;
+    }
+
+    // Boutons "Suivant" (flèche bas)
+    const nextBtns = {
+      1: document.getElementById('next-btn1'),
+      2: document.getElementById('next-btn2'),
+      3: document.getElementById('next-btn4')
+    };
+
+    // Boutons "Retour" (flèche haut)
+    const backBtns = {
+      2: document.getElementById('back-btn2'),
+      3: document.getElementById('back-btn4'),
+      4: document.getElementById('back-btn3')
+    };
+
+    // Gestion du clic sur "Suivant"
+    nextBtns[1].addEventListener('click', () => {
+      // Vérifier si un objectif est sélectionné
+      const selected = document.querySelector('.objectives-container .selected-objective');
+      if (!selected) {
+        const errorDiv = document.getElementById('objective-error');
+        errorDiv.textContent = "Sélectionne un objectif avant de continuer.";
+        errorDiv.style.display = 'block';
+        return;
+      }
+      // Sinon passer à la box2
+      showBox(1, 2);
     });
 
-    // box2 : flèche haut => box1
-    document.getElementById('up-btn2').addEventListener('click', () => {
-      box1.scrollIntoView({ behavior: 'smooth' });
-      topProgressBar.style.width = '25%';
-    });
-    // box2 : flèche bas => box4
-    document.getElementById('down-btn2').addEventListener('click', () => {
-      box4.scrollIntoView({ behavior: 'smooth' });
-      topProgressBar.style.width = '75%';
-    });
-
-    // box4 : flèche haut => box2
-    document.getElementById('up-btn4').addEventListener('click', () => {
-      box2.scrollIntoView({ behavior: 'smooth' });
-      topProgressBar.style.width = '50%';
-    });
-    // box4 : flèche bas => box3
-    document.getElementById('down-btn4').addEventListener('click', () => {
-      box3.scrollIntoView({ behavior: 'smooth' });
-      topProgressBar.style.width = '100%';
+    nextBtns[2].addEventListener('click', () => {
+      // Vérifier si l'impro est finalisée => "next-btn2" est activé SEULEMENT après stop
+      if (nextBtns[2].disabled) {
+        const improErrorDiv = document.getElementById('impro-error');
+        improErrorDiv.textContent = "Tu dois réaliser ton improvisation avant de continuer.";
+        improErrorDiv.style.display = 'block';
+        return;
+      }
+      // Sinon passer à la box4 (étape 3)
+      showBox(2, 3);
     });
 
-    // box3 : flèche haut => box4
-    document.getElementById('up-btn3').addEventListener('click', () => {
-      box4.scrollIntoView({ behavior: 'smooth' });
-      topProgressBar.style.width = '75%';
+    nextBtns[3].addEventListener('click', () => {
+      // Passer de box4 à box3
+      showBox(3, 4);
     });
 
-    /***************************************************************
-     * 3) Explications par catégorie + chargement sujets
-     ***************************************************************/
+    // Boutons "Retour"
+    if (backBtns[2]) {
+      backBtns[2].addEventListener('click', () => {
+        showBox(2, 1);
+      });
+    }
+    if (backBtns[3]) {
+      backBtns[3].addEventListener('click', () => {
+        showBox(3, 2);
+      });
+    }
+    if (backBtns[4]) {
+      backBtns[4].addEventListener('click', () => {
+        showBox(4, 3);
+      });
+    }
+
+    /********************************************************
+     * 3) Explications par catégorie
+     ********************************************************/
     const explanations = {
       convaincre:   "Essaye de convaincre ton auditoire d’une idée générale.",
       inspirer:     "Tu as 2 minutes top chrono pour inspirer ton auditoire.",
@@ -838,33 +911,27 @@
         explanationBox.textContent = explication;
         explanationBox.classList.add('show');
 
-        // Pré-charger le fichier .txt
+        // Pré-charger les sujets
         if (subjectsCache[currentCategory] === null) {
           await loadSubjects(currentCategory);
         }
 
-        // Cacher le message d'erreur si besoin
-        const errorDiv = document.getElementById('objective-error');
-        if (errorDiv.style.display === 'block') {
-          errorDiv.style.display = 'none';
-        }
-        const improErrorDiv = document.getElementById('impro-error');
-        if (improErrorDiv.style.display === 'block') {
-          improErrorDiv.style.display = 'none';
-        }
+        // Cacher erreurs
+        document.getElementById('objective-error').style.display = 'none';
+        document.getElementById('impro-error').style.display = 'none';
       });
     });
 
     async function loadSubjects(category) {
       const filePath = txtFilesByCategory[category];
       if (!filePath) {
-        console.error("Catégorie inconnue ou chemin manquant:", category);
+        console.error("Catégorie inconnue:", category);
         return [];
       }
       try {
         const response = await fetch(filePath);
         if (!response.ok) {
-          console.error("Erreur lors du fetch du fichier : " + filePath);
+          console.error("Erreur fetch : " + filePath);
           return [];
         }
         const text = await response.text();
@@ -880,9 +947,9 @@
       }
     }
 
-    /***************************************************************
+    /********************************************************
      * 4) Gérer le sujet d'impro
-     ***************************************************************/
+     ********************************************************/
     const generateSubjectBtn = document.getElementById('generate-subject-btn');
     const subjectWrapper = document.getElementById('subject-wrapper');
     const subjectDisplay = document.getElementById('subject-display');
@@ -897,7 +964,7 @@
       }
       const subjects = subjectsCache[currentCategory];
       if (!subjects || subjects.length === 0) {
-        subjectDisplay.textContent = "Désolé, aucun sujet disponible pour le moment.";
+        subjectDisplay.textContent = "Désolé, aucun sujet n'est disponible pour le moment.";
         subjectWrapper.style.display = 'block';
         currentSubject = "";
         return;
@@ -908,14 +975,12 @@
       subjectDisplay.textContent = currentSubject;
       subjectWrapper.style.display = 'block';
 
-      // Cacher le message d'erreur
-      const improErrorDiv = document.getElementById('impro-error');
-      improErrorDiv.style.display = 'none';
+      document.getElementById('impro-error').style.display = 'none';
     });
 
-    /***************************************************************
+    /********************************************************
      * 5) Enregistrement vidéo
-     ***************************************************************/
+     ********************************************************/
     let mediaRecorderInstance;
     let recordedChunks = [];
     const preview = document.getElementById('preview');
@@ -927,13 +992,22 @@
     const countdownElement = document.getElementById('countdown');
     const initialCountdownOverlay = document.getElementById('initial-countdown-overlay');
     const initialCountdown = document.getElementById('initial-countdown');
+
     let videoURL = "";
     let timerInterval;
     let timeRemaining = 120;
 
+    let improStarted = false; // Pour savoir si l'impro a été commencée
+
     startBtn.addEventListener('click', startImpro);
     stopBtn.addEventListener('click', stopImpro);
-    restartBtn.addEventListener('click', restartImpro);
+    restartBtn.addEventListener('click', () => {
+      restartBtn.classList.add('hidden-btn');
+      videoText.innerHTML = "Ici va s'enregistrer ton improvisation en vidéo. <br> Lorsque tu es prêt, clique sur le bouton \"Démarrer ton impro\" en-dessous. <br><br> NB : ta vidéo est stockée directement sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.";
+      videoText.style.display = 'block';
+      improStarted = false;
+      startImpro();
+    });
 
     async function startImpro() {
       if (!currentSubject) {
@@ -942,13 +1016,13 @@
         improErrorDiv.style.display = 'block';
         return;
       }
-      if (!navigator.mediaDevices?.getUserMedia) {
+      if (typeof MediaRecorder === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
         const improErrorDiv = document.getElementById('impro-error');
-        improErrorDiv.textContent = "Désolé, l'enregistrement vidéo n'est pas supporté par votre navigateur.";
+        improErrorDiv.textContent = "L'enregistrement vidéo n'est pas supporté par votre navigateur.";
         improErrorDiv.style.display = 'block';
         return;
       }
-      if (!confirm("Votre webcam va se lancer. Voulez-vous continuer ?")) {
+      if (!confirm("Votre webcam va se lancer pour démarrer l'improvisation. Voulez-vous continuer ?")) {
         return;
       }
       startInitialCountdown();
@@ -975,13 +1049,6 @@
       const stream = await setupCamera();
       if (!stream) return;
 
-      if (!window.MediaRecorder) {
-        const improErrorDiv = document.getElementById('impro-error');
-        improErrorDiv.textContent = "Votre navigateur ne supporte pas MediaRecorder.";
-        improErrorDiv.style.display = 'block';
-        return;
-      }
-
       mediaRecorderInstance = new MediaRecorder(stream);
       recordedChunks = [];
 
@@ -993,30 +1060,23 @@
       mediaRecorderInstance.onstop = () => {
         const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
         videoURL = URL.createObjectURL(videoBlob);
-        // Arrêter la webcam
-        stream.getTracks().forEach(t => t.stop());
-
-        // Rétablir l'UI
-        stopBtn.classList.add('hidden-btn');
-        stopBtn.disabled = true;
-        restartBtn.classList.remove('hidden-btn');
+        stream.getTracks().forEach(track => track.stop());
+        nextBtns[2].disabled = false; // On peut passer à l'étape suivante
         videoText.innerHTML = "Improvisation terminée.";
         videoText.style.display = 'block';
         recordingIndicator.style.display = 'none';
         clearInterval(timerInterval);
+        improStarted = true;
       };
 
       mediaRecorderInstance.start();
-
-      // UI : on masque "Démarrer", on montre "Arrêter"
+      recordingIndicator.style.display = 'flex';
+      videoText.style.display = 'none';
       startBtn.classList.add('hidden-btn');
       stopBtn.classList.remove('hidden-btn');
       stopBtn.disabled = false;
       restartBtn.classList.add('hidden-btn');
-
-      videoText.style.display = 'none';
-      recordingIndicator.style.display = 'flex';
-
+      nextBtns[2].disabled = true;
       startTimer();
     }
 
@@ -1028,7 +1088,7 @@
       } catch (error) {
         const improErrorDiv = document.getElementById('impro-error');
         if (error.name === 'NotAllowedError') {
-          improErrorDiv.textContent = "Vous avez refusé l'accès à la webcam/micro.";
+          improErrorDiv.textContent = "Vous avez refusé l'accès à la webcam/micro. Veuillez autoriser l'accès.";
         } else {
           improErrorDiv.textContent = "Impossible d'accéder à la webcam. Vérifiez vos permissions.";
         }
@@ -1045,10 +1105,12 @@
         timeRemaining--;
         if (timeRemaining >= 0) {
           updateCountdownDisplay();
-        } else {
+        } 
+        if (timeRemaining < 0) {
           clearInterval(timerInterval);
           if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
             mediaRecorderInstance.stop();
+            restartBtn.classList.remove('hidden-btn');
           }
         }
       }, 1000);
@@ -1064,20 +1126,17 @@
     function stopImpro() {
       if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
         mediaRecorderInstance.stop();
+        clearInterval(timerInterval);
+        stopBtn.classList.add('hidden-btn');
+        stopBtn.disabled = true;
+        restartBtn.classList.remove('hidden-btn');
+        recordingIndicator.style.display = 'none';
       }
     }
 
-    function restartImpro() {
-      videoText.innerHTML = "Ici va s'enregistrer ton improvisation en vidéo. <br>Lorsque tu es prêt, clique sur le bouton \"Démarrer ton impro\" ci-dessous.<br><br>NB : ta vidéo est stockée localement sur ton appareil.";
-      videoText.style.display = 'block';
-      startBtn.classList.remove('hidden-btn');
-      restartBtn.classList.add('hidden-btn');
-      videoURL = "";
-    }
-
-    /***************************************************************
-     * 6) Validation formulaire + Téléchargement
-     ***************************************************************/
+    /********************************************************
+     * 6) Validation Formulaire Box3
+     ********************************************************/
     const validateFormBtn = document.getElementById('validate-form-btn');
     const prenomInput = document.getElementById('prenom');
     const emailInput = document.getElementById('email');
@@ -1088,7 +1147,7 @@
     validateFormBtn.addEventListener('click', () => {
       const prenomValue = prenomInput.value.trim();
       const emailValue = emailInput.value.trim();
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
       const prenomRegex = /^[A-Za-zÀ-ÿ '-]+$/;
 
       let valid = true;
@@ -1114,9 +1173,10 @@
       downloadButtons.classList.add('show');
     });
 
+    // Téléchargement de la vidéo
     downloadVideoBtn.addEventListener('click', () => {
       if (!videoURL) {
-        alert("Aucune vidéo disponible.");
+        alert("La vidéo n'est pas encore prête ou pas enregistrée.");
         return;
       }
       const link = document.createElement('a');
@@ -1127,6 +1187,7 @@
       document.body.removeChild(link);
     });
 
+    // Téléchargement du PDF
     downloadPdfBtn.addEventListener('click', () => {
       const link = document.createElement('a');
       link.href = "https://drive.google.com/uc?export=download&id=1pKif7hwkdSQRXLv6uoSQawCs3DIIcb70";
