@@ -187,7 +187,7 @@
 
     /* --- ANIMATIONS VERTICALES --- */
     .slide-from-bottom {
-      animation: fromBottom 0.5s ease forwards;
+      animation: fromBottom 1.0s ease forwards;
     }
     @keyframes fromBottom {
       from {
@@ -201,7 +201,7 @@
     }
 
     .slide-from-top {
-      animation: fromTop 0.5s ease forwards;
+      animation: fromTop 1.0s ease forwards;
     }
     @keyframes fromTop {
       from {
@@ -217,18 +217,11 @@
     /* --- HEADER INTERNE DES BOXES --- */
     .box-header {
       display: flex;
-      flex-direction: column; /* Changement de row à column */
+      flex-direction: column; /* Alignement vertical */
       align-items: center;
       justify-content: center;
       margin-bottom: 20px;
       position: relative;
-    }
-    .box-title {
-      font-size: 18px;
-      font-weight: bold;
-      color: #182d84;
-      text-align: center;
-      margin-bottom: 10px; /* Espacement entre le titre et le bouton */
     }
     .back-btn {
       border: none;
@@ -243,7 +236,8 @@
       align-items: center;
       justify-content: center;
       transition: background-color 0.3s, transform 0.3s;
-      margin: 0 auto; /* Centrer le bouton */
+      margin: 0 auto;
+      margin-bottom: 10px;
     }
     .back-btn:hover {
       background-color: #505050;
@@ -254,6 +248,12 @@
     }
     .back-btn.hidden-visibility {
       visibility: hidden;
+    }
+    .box-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #182d84;
+      text-align: center;
     }
 
     /* --- FLECHES HAUT/BAS --- */
@@ -649,6 +649,24 @@
       display: block; /* Affiche les boutons */
     }
 
+    /* Message de confirmation en vert */
+    .success-message {
+      color: #28a745; /* Vert Bootstrap */
+      background-color: #d4edda; /* Fond vert clair */
+      border: 1px solid #c3e6cb; /* Bordure verte douce */
+      border-radius: 5px;
+      padding: 10px 20px;
+      margin-top: 10px;
+      font-weight: bold;
+      text-align: center;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+    .success-message.show {
+      display: block;
+      opacity: 1;
+      visibility: visible;
+    }
+
     @keyframes fadeInDown {
       from {
         transform: translateY(-20px);
@@ -669,7 +687,6 @@
     <button id="start-intro-btn" aria-label="Commencer">Commencer</button>
   </div>
 
-  
   <!-- FORMULAIRE CACHÉ POUR GOOGLE FORMS -->
   <form id="hidden-google-form" action="https://docs.google.com/forms/d/e/1FAIpQLSfGAcKp0cV5AeVJCJBPbtKLKCLhbYySZf_FkiMg85WKVFUn6A/formResponse" method="POST" target="hidden_iframe" style="display:none;">
     <input type="text" name="entry.1119647353" id="hidden-prenom">
@@ -700,10 +717,10 @@
     <!-- STEP1 : Choix d'objectif -->
     <div class="box" id="step1">
       <div class="box-header">
-        <div class="box-title">Choisis ton objectif</div>
         <!-- Flèche haut (retour) masquée à la première étape -->
         <button class="back-btn hidden-visibility" id="back-btn1" aria-label="Retour">
           <i class="fas fa-arrow-up"></i>
+        <div class="box-title">Choisis ton objectif</div>
         </button>
       </div>
 
@@ -733,12 +750,12 @@
     <!-- STEP2 : Vidéo, enregistrement, etc. -->
     <div class="box" id="step2">
       <div class="box-header">
-        <div class="box-title">Lance ton improvisation</div>
         <!-- Flèche haut (retour) -->
         <button class="back-btn" id="back-btn2" aria-label="Retour à l'étape précédente">
           <i class="fas fa-arrow-up"></i>
         </button>
-      </div>
+        <div class="box-title">Lance ton improvisation</div>
+        </div>
 
       <button id="generate-subject-btn">Générer un sujet aléatoire</button>
 
@@ -749,9 +766,9 @@
       <div class="video-box">
         <video id="preview" autoplay muted></video>
         <div class="video-text" id="video-text">
-          Ici va s'enregistrer ton improvisation en vidéo. <br>
+          Ici va s'enregistrer ton improvisation vidéo. <br>
           Lorsque tu es prêt, clique sur "Démarrer ton impro" ci-dessous.<br><br>
-          NB : ta vidéo est stockée directement sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.
+          NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.
         </div>
         <div class="recording-indicator" id="recording-indicator">
           <span class="dot"></span> Enregistrement en cours
@@ -779,11 +796,11 @@
     <!-- STEP4 : Partage sur LinkedIn + Options de progression -->
     <div class="box" id="step4">
       <div class="box-header">
-        <div class="box-title">Partage ton expérience</div>
-        <!-- Flèche haut (retour) -->
+         <!-- Flèche haut (retour) -->
         <button class="back-btn" id="back-btn4" aria-label="Retour à l'étape précédente">
           <i class="fas fa-arrow-up"></i>
         </button>
+        <div class="box-title">Partage ton expérience</div>
       </div>
 
       <p>
@@ -830,23 +847,23 @@
       </button>
     </div>
 
-    <!-- STEP3 : Télécharge ta vidéo et progresse -->
+    <!-- STEP3 : Analyse ta prestation -->
     <div class="box" id="step3">
       <div class="box-header">
-        <div class="box-title">Télécharge ta vidéo et progresse</div>
         <!-- Flèche haut (retour) -->
         <button class="back-btn" id="back-btn3" aria-label="Retour à l'étape précédente">
           <i class="fas fa-arrow-up"></i>
         </button>
+        <div class="box-title">Analyse ta prestation</div>
       </div>
 
       <div class="download-section">
         <!-- Bloc d'accroche coloré (accueil + rassurance) -->
         <div class="download-section-accent">
-          <h2>Obtiens gratuitement ta vidéo et la grille Letmotiv</h2>
-          <p class="subtitle">Analyse ton improvisation et bénéficie de conseils pour progresser vite.</p>
+          <h2>Obtiens gratuitement ta prestation en vidéo et la grille d'analyse Letmotiv</h2>
+          <p class="subtitle">Analyse et évalue ton improvisation grâce au document Letmotiv. </p>
           <p class="reassure">
-            Rassure-toi, nous n’exploitons pas tes données. Ton email nous permet uniquement de t’envoyer des ressources complémentaires.
+            N'hésite pas à t'entrainer et refaire des improvisations pour progresser sur tes axes d'améliorations. 
           </p>
         </div>
 
@@ -873,6 +890,11 @@
           <button id="validate-form-btn" aria-label="Valider les informations">
             Valider et voir mes ressources
           </button>
+        </div>
+
+        <!-- Message de confirmation (initialement caché) -->
+        <div id="success-message" class="success-message" style="display: none;">
+          Merci ! Vos informations ont été enregistrées et vos ressources sont prêtes à être téléchargées.
         </div>
 
         <!-- Boutons de téléchargement, affichés après validation -->
@@ -1294,7 +1316,7 @@
     });
 
     /***********************
-     * 5) Téléchargements (Step3) et Envoi des données utilisateurs à Google Forms
+     * 5) Téléchargements (Step3) et Envoi des Données à Google Forms
      ***********************/
     const validateFormBtn = document.getElementById('validate-form-btn');
     const prenomInput = document.getElementById('prenom');
@@ -1338,8 +1360,23 @@
 
       // Affiche la zone de téléchargement
       downloadButtons.classList.add('show');
+
+      // Affiche le message de succès
+      const successMessage = document.getElementById('success-message');
+      successMessage.style.display = 'block'; // Affiche le message
+      successMessage.classList.add('show'); // Ajoute la classe pour les transitions
+
+      // Optionnel : Masquer le message après quelques secondes
+      setTimeout(() => {
+        successMessage.classList.remove('show');
+        successMessage.style.display = 'none';
+      }, 5000); // Masque après 5 secondes
+
       // Activer le bouton Next vers la step4 (si besoin)
       nextBtns[3].disabled = false;
+
+      // Optionnel : Feedback utilisateur supplémentaire (si nécessaire)
+      // alert("Merci ! Tes informations sont enregistrées et tes ressources sont prêtes à être téléchargées.");
     });
 
     // Téléchargement de la vidéo
