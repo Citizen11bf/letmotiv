@@ -223,14 +223,8 @@
       margin-bottom: 20px;
       position: relative;
     }
-    .box-title {
-      font-size: 18px;
-      font-weight: bold;
-      color: #182d84;
-      text-align: center;
-      margin-bottom: 10px; /* Espacement entre le titre et le bouton */
-    }
-    .back-btn {
+
+     .back-btn {
       border: none;
       background-color: #808080;
       color: #FFFFFF;
@@ -244,6 +238,7 @@
       justify-content: center;
       transition: background-color 0.3s, transform 0.3s;
       margin: 0 auto; /* Centrer le bouton */
+      margin-bottom: 10px; /* Espacement entre le titre et le bouton */
     }
     .back-btn:hover {
       background-color: #505050;
@@ -256,6 +251,13 @@
       visibility: hidden;
     }
 
+    .box-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #182d84;
+      text-align: center;
+    }
+   
     /* --- FLECHES HAUT/BAS --- */
     .next-btn, .back-btn {
       /* Styles communs éventuels */
@@ -679,12 +681,12 @@
     <!-- STEP1 : Choix d'objectif -->
     <div class="box" id="step1">
       <div class="box-header">
-        <div class="box-title">Choisis ton objectif</div>
-        <!-- Flèche haut (retour) masquée à la première étape -->
+      <!-- Flèche haut (retour) masquée à la première étape -->
         <button class="back-btn hidden-visibility" id="back-btn1" aria-label="Retour">
           <i class="fas fa-arrow-up"></i>
         </button>
-      </div>
+        <div class="box-title">Choisis ton objectif</div>
+            </div>
 
       <div class="objectives-container">
         <button data-category="convaincre">Convaincre</button>
@@ -712,11 +714,11 @@
     <!-- STEP2 : Vidéo, enregistrement, etc. -->
     <div class="box" id="step2">
       <div class="box-header">
-        <div class="box-title">Lance ton improvisation</div>
         <!-- Flèche haut (retour) -->
         <button class="back-btn" id="back-btn2" aria-label="Retour à l'étape précédente">
           <i class="fas fa-arrow-up"></i>
         </button>
+        <div class="box-title">Lance ton improvisation</div>
       </div>
 
       <button id="generate-subject-btn">Générer un sujet aléatoire</button>
@@ -758,11 +760,11 @@
     <!-- STEP4 : Partage sur LinkedIn + Options de progression -->
     <div class="box" id="step4">
       <div class="box-header">
-        <div class="box-title">Partage ton expérience</div>
         <!-- Flèche haut (retour) -->
         <button class="back-btn" id="back-btn4" aria-label="Retour à l'étape précédente">
           <i class="fas fa-arrow-up"></i>
         </button>
+        <div class="box-title">Partage ton expérience</div>
       </div>
 
       <p>
@@ -812,11 +814,11 @@
     <!-- STEP3 : Télécharge ta vidéo et progresse -->
     <div class="box" id="step3">
       <div class="box-header">
-        <div class="box-title">Télécharge ta vidéo et progresse</div>
-        <!-- Flèche haut (retour) -->
+          <!-- Flèche haut (retour) -->
         <button class="back-btn" id="back-btn3" aria-label="Retour à l'étape précédente">
           <i class="fas fa-arrow-up"></i>
         </button>
+        <div class="box-title">Télécharge ta vidéo et progresse</div>
       </div>
 
       <div class="download-section">
