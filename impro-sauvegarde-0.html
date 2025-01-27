@@ -16,6 +16,12 @@
   <meta name="author" content="Letmotiv" />
   <meta property="article:published_time" content="2025-01-26" />
 
+  <!-- Balises Twitter (optionnel) -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Simulateur d'improvisation Letmotiv">
+  <meta name="twitter:description" content="Évaluez et développez rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv.">
+  <meta name="twitter:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png">
+
   <!-- Google Fonts : DM Sans & Montserrat -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -107,7 +113,6 @@
       text-align: center;
       color: #ffffff;
       z-index: 20;
-      /* On garde l'animation fadeIn pour l'apparition */
       animation: fadeIn 1s ease forwards;
     }
     .intro-box h1 {
@@ -134,7 +139,7 @@
       transform: scale(1.05);
     }
 
-    /* Animation fadeIn / slideDown */
+    /* Animations (intro) */
     @keyframes fadeIn {
       from { opacity: 0; }
       to   { opacity: 1; }
@@ -142,11 +147,6 @@
     @keyframes slideDown {
       from { transform: translateY(-50px); opacity: 0; }
       to   { transform: translateY(0);     opacity: 1; }
-    }
-    /* La correction : on ajoute la keyframe fadeOut */
-    @keyframes fadeOut {
-      from { opacity: 1; }
-      to   { opacity: 0; }
     }
 
     /* --- MAIN CONTAINER --- */
@@ -179,7 +179,7 @@
       display: block;
     }
 
-    /* Animations VERTICALES (1s) */
+    /* Animations VERTICALES plus lentes (1s) */
     .slide-from-bottom {
       animation: fromBottom 1s ease forwards;
     }
@@ -210,13 +210,15 @@
 
     /* --- BOX HEADER --- */
     .box-header {
+      /* On aligne le contenu en colonne pour mettre la flèche au-dessus du titre */
       display: flex;
       flex-direction: column;
-      align-items: center;
+      align-items: center; /* centre horizontalement */
       margin-bottom: 20px;
       position: relative;
     }
 
+    /* La flèche haut au-dessus du titre */
     .back-btn {
       border: none;
       background-color: #808080;
@@ -230,7 +232,7 @@
       align-items: center;
       justify-content: center;
       transition: background-color 0.3s, transform 0.3s;
-      margin-bottom: 10px;
+      margin-bottom: 10px; /* espace entre la flèche et le titre */
     }
     .back-btn:hover {
       background-color: #505050;
@@ -243,13 +245,16 @@
       visibility: hidden;
     }
 
+    /* Titre parfaitement centré */
     .box-title {
       font-size: 18px;
       font-weight: bold;
       color: #182d84;
       text-align: center;
+      /* plus besoin de flex-grow ici */
     }
 
+    /* BOUTON "Next" = flèche bas */
     .next-btn {
       width: 40px;
       height: 40px;
@@ -283,6 +288,8 @@
       background-color: #00a48a !important;
       color: #ffffff;
     }
+
+    /* Encadré d'explication */
     .explanation-box {
       visibility: hidden;
       opacity: 0;
@@ -829,13 +836,9 @@
 
     // Introduction
     startIntroBtn.addEventListener('click', () => {
-      // Ajout de l'animation fadeOut
       introBox.style.animation = 'fadeOut 0.5s ease forwards';
-
       setTimeout(() => {
-        // Après 0.5s, on masque la boîte d'intro
         introBox.style.display = 'none';
-        // On affiche la step1
         boxes[1].classList.add('active', 'slide-from-bottom');
         updateProgressBar(1);
       }, 500);
@@ -1194,6 +1197,7 @@
     });
 
     // Téléchargement de la vidéo
+    let videoURL = "";
     downloadVideoBtn.addEventListener('click', () => {
       if (!videoURL) {
         const improErrorDiv = document.getElementById('impro-error');
