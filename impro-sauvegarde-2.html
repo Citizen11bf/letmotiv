@@ -167,9 +167,9 @@
       display: none; 
     }
     .box.active {
-      display: block; 
-      opacity: 1; /* Ajouté pour rendre la boîte visible */
-      transform: translateY(0); /* Réinitialise la transformation */
+      display: flex; /* Changer en flex pour le centrage dans box1 */
+      opacity: 1; /* Rendre la boîte visible */
+      transform: translateY(0); /* Réinitialiser la transformation */
     }
 
     /* Animations “scroll-like” */
@@ -294,6 +294,19 @@
       justify-content: center;
       gap: 10px;
       margin-top: 10px;
+    }
+    .objectives-container button {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      background-color: #ffffff;
+      color: #182d84;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .objectives-container button:hover {
+      background-color: #00a48a;
+      color: #ffffff;
     }
     .selected-objective {
       background-color: #00a48a !important;
@@ -437,11 +450,22 @@
       align-items: center;
       gap: 10px;
     }
+    .progression-buttons p {
+      text-align: center;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
 
     /* BOX3 (4e étape) */
     .download-section {
       text-align: left;
       margin-bottom: 20px;
+    }
+    .download-section h3 {
+      text-align: center; /* Centrer le texte */
+      font-size: 14px; /* Ajuster la taille de la police */
+      font-weight: normal; /* Pas en gras */
+      margin-bottom: 20px; /* Ajouter un peu d'espace en dessous */
     }
     .download-buttons {
       margin-top: 20px;
@@ -760,7 +784,7 @@
         // *** CAS SPÉCIAL BOX1 *** => Pas d'animation si on vient de l'intro
         if (oldStep === null || newStep === 1) {
           // Juste afficher la box1 sans anim
-          newBox.style.display = 'block';
+          newBox.style.display = 'flex'; // Utiliser flex pour le centrage vertical
           newBox.classList.add('active');
         } else {
           // Slide-in normal
