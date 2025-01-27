@@ -6,7 +6,7 @@
   <title>Simulateur d'improvisation</title>
   <meta name="description" content="Évaluer et développer rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv.">
 
-  <!-- Balises Open Graph pour LinkedIn -->
+  <!-- Balises Open Graph -->
   <meta property="og:title" content="Simulateur d'improvisation Letmotiv" />
   <meta property="og:description" content="Évaluez et développez rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv." />
   <meta property="og:type" content="website" />
@@ -22,7 +22,7 @@
   <meta name="twitter:description" content="Évaluez et développez rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv.">
   <meta name="twitter:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png">
 
-  <!-- Import de la police DM Sans et Montserrat depuis Google Fonts -->
+  <!-- Google Fonts : DM Sans & Montserrat -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -30,7 +30,7 @@
     rel="stylesheet"
   />
 
-  <!-- Icônes Font Awesome -->
+  <!-- Font Awesome -->
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
@@ -50,8 +50,8 @@
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
-      overflow-x: hidden; /* Empêche le défilement horizontal */
-      padding-top: 60px;  /* Compense la hauteur du header fixe */
+      overflow-x: hidden;
+      padding-top: 60px; 
       padding-bottom: 20px; 
     }
 
@@ -76,17 +76,15 @@
       align-items: center;
       justify-content: center;
       gap: 5px;
-      max-width: 100%;
-      overflow-wrap: break-word; 
     }
     .header-l2 {
-      font-size: 14px; 
+      font-size: 14px;
     }
 
-    /* --- BARRE DE PROGRESSION --- */
+    /* --- PROGRESS BAR --- */
     .progress-container {
       position: fixed;
-      top: 60px; 
+      top: 60px;
       left: 0;
       width: 100%;
       height: 8px;
@@ -100,7 +98,7 @@
       transition: width 0.5s ease;
     }
 
-    /* --- BOÎTE D'INTRODUCTION --- */
+    /* --- INTRO BOX --- */
     .intro-box {
       position: fixed;
       top: 0;
@@ -141,7 +139,7 @@
       transform: scale(1.05);
     }
 
-    /* Animations de base (pour la boîte d'intro) */
+    /* Animations (intro) */
     @keyframes fadeIn {
       from { opacity: 0; }
       to   { opacity: 1; }
@@ -151,12 +149,12 @@
       to   { transform: translateY(0);     opacity: 1; }
     }
 
-    /* --- CONTENEUR PRINCIPAL --- */
+    /* --- MAIN CONTAINER --- */
     .main-container {
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center; 
+      justify-content: center;
       flex-grow: 1;
       width: 100%;
       padding: 20px;
@@ -175,18 +173,15 @@
       text-align: center;
       font-size: 14px;
       border: 2px solid #eeeeee;
-      display: none;  /* Masqué par défaut */
+      display: none;
     }
-    /* Pour qu’on puisse animer l’entrée/sortie verticalement, 
-       on va utiliser des classes d’animation qu’on ajoutera/retirera en JS */
     .box.active {
       display: block;
     }
 
-    /* --- ANIMATIONS VERTICALES --- */
-    /* On prépare deux animations CSS : from-bottom et from-top */
+    /* Animations VERTICALES plus lentes (1s) */
     .slide-from-bottom {
-      animation: fromBottom 1.0s ease forwards;
+      animation: fromBottom 1s ease forwards;
     }
     @keyframes fromBottom {
       from {
@@ -200,7 +195,7 @@
     }
 
     .slide-from-top {
-      animation: fromTop 1.0s ease forwards;
+      animation: fromTop 1s ease forwards;
     }
     @keyframes fromTop {
       from {
@@ -213,14 +208,17 @@
       }
     }
 
-    /* --- HEADER INTERNE DES BOXES --- */
+    /* --- BOX HEADER --- */
     .box-header {
+      /* On aligne le contenu en colonne pour mettre la flèche au-dessus du titre */
       display: flex;
-      align-items: center;
-      justify-content: space-between;
+      flex-direction: column;
+      align-items: center; /* centre horizontalement */
       margin-bottom: 20px;
       position: relative;
     }
+
+    /* La flèche haut au-dessus du titre */
     .back-btn {
       border: none;
       background-color: #808080;
@@ -234,6 +232,7 @@
       align-items: center;
       justify-content: center;
       transition: background-color 0.3s, transform 0.3s;
+      margin-bottom: 10px; /* espace entre la flèche et le titre */
     }
     .back-btn:hover {
       background-color: #505050;
@@ -245,22 +244,17 @@
     .back-btn.hidden-visibility {
       visibility: hidden;
     }
+
+    /* Titre parfaitement centré */
     .box-title {
       font-size: 18px;
       font-weight: bold;
       color: #182d84;
-      flex-grow: 1;
       text-align: center;
+      /* plus besoin de flex-grow ici */
     }
 
-    /* --- NOUVEAU : FLECHES HAUT/BAS --- */
-    /* Flèches "back" -> fa-arrow-up */
-    /* Flèches "next" -> fa-arrow-down */
-    .next-btn, .back-btn {
-      /* On peut avoir un style commun ici si besoin */
-    }
-
-    /* Bouton flèche bas (ex-"Suivant") */
+    /* BOUTON "Next" = flèche bas */
     .next-btn {
       width: 40px;
       height: 40px;
@@ -281,7 +275,7 @@
       transform: scale(1.05);
     }
 
-    /* STEP1 : Choix d’objectif */
+    /* STEP1 : Objectifs */
     .objectives-container {
       display: flex;
       flex-wrap: wrap;
@@ -295,7 +289,7 @@
       color: #ffffff;
     }
 
-    /* Encadré d'explication des objectifs */
+    /* Encadré d'explication */
     .explanation-box {
       visibility: hidden;
       opacity: 0;
@@ -340,8 +334,6 @@
     .subject-wrapper span {
       font-weight: bold;
     }
-
-    /* Encadré vidéo */
     .video-box {
       margin: 10px auto;
       border: 3px solid #182d84;
@@ -401,7 +393,7 @@
     @keyframes blink {
       0% { opacity: 1; }
       50% { opacity: 0; }
-      100% { opacity: 1; }
+      100%{ opacity: 1; }
     }
     .countdown {
       position: absolute;
@@ -446,7 +438,7 @@
       display: none;
     }
 
-    /* Boutons bleus Step4 */
+    /* STEP4 : Partage + progression */
     .progression-buttons {
       margin-top: 20px;
       display: flex;
@@ -462,37 +454,11 @@
       justify-content: center;
     }
 
+    /* STEP3 : Téléchargement */
     .download-section {
       text-align: left;
       margin-bottom: 20px;
     }
-
-    button,
-    a.btn {
-      background-color: #182d84;
-      color: #FFFFFF;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 16px;
-      border: none;
-      border-radius: 25px;
-      padding: 10px 20px;
-      cursor: pointer;
-      margin: 5px;
-      text-decoration: none;
-      transition: background-color 0.3s, transform 0.3s;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-    button:hover,
-    button:active,
-    a.btn:hover,
-    a.btn:active {
-      background-color: #00a48a;
-      transform: translateY(-3px);
-    }
-
     .download-buttons {
       margin-top: 20px;
       background-color: #fefefe;
@@ -509,7 +475,6 @@
       opacity: 1;
       transform: translateY(0);
     }
-
     .linkedin-share-button {
       display: inline-flex;
       align-items: center;
@@ -539,7 +504,7 @@
       }
     }
 
-    /* Messages d'erreur */
+    /* ERREURS */
     .error-message {
       color: red;
       margin-top: 10px;
@@ -549,7 +514,7 @@
       width: 100%;
     }
 
-    /* Champs de formulaires */
+    /* FORMULAIRES */
     .input-group {
       display: flex;
       flex-direction: column;
@@ -606,7 +571,7 @@
       font-size: 16px;
     }
 
-    /* Texte centré et non gras pour h3 Step3 */
+    /* Titre Step3 centré, police réduite */
     .download-section h3 {
       text-align: center;
       font-size: 14px;
@@ -645,7 +610,7 @@
     <!-- STEP1 : Choix d'objectif -->
     <div class="box" id="step1">
       <div class="box-header">
-        <!-- Flèche haut (retour) masquée à la première étape -->
+        <!-- Flèche haut (cachée à la première étape) -->
         <button class="back-btn hidden-visibility" id="back-btn1" aria-label="Retour">
           <i class="fas fa-arrow-up"></i>
         </button>
@@ -669,16 +634,15 @@
 
       <div class="explanation-box" id="explanation-box"></div>
 
-      <!-- Flèche bas (suivant) -->
+      <!-- Flèche bas (étape suivante) -->
       <button class="next-btn" id="next-btn1" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
     </div>
 
-    <!-- STEP2 : Vidéo, enregistrement, etc. -->
+    <!-- STEP2 : Vidéo -->
     <div class="box" id="step2">
       <div class="box-header">
-        <!-- Flèche haut (retour) -->
         <button class="back-btn" id="back-btn2" aria-label="Retour à l'étape précédente">
           <i class="fas fa-arrow-up"></i>
         </button>
@@ -686,7 +650,6 @@
       </div>
 
       <button id="generate-subject-btn">Générer un sujet aléatoire</button>
-
       <div id="subject-wrapper" class="subject-wrapper">
         <span id="subject-display"></span>
       </div>
@@ -715,16 +678,15 @@
 
       <div id="impro-error" class="error-message"></div>
 
-      <!-- Flèche bas (suivant) -->
+      <!-- Flèche bas (étape suivante) -->
       <button class="next-btn" id="next-btn2" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
     </div>
 
-    <!-- STEP4 : Partage sur LinkedIn + Options de progression -->
+    <!-- STEP4 : Partage et progression -->
     <div class="box" id="step4">
       <div class="box-header">
-        <!-- Flèche haut (retour) -->
         <button class="back-btn" id="back-btn4" aria-label="Retour à l'étape précédente">
           <i class="fas fa-arrow-up"></i>
         </button>
@@ -735,7 +697,6 @@
         Encourage d'autres personnes à relever le défi ! Montre ton courage et inspire les autres 
         à s'améliorer en improvisation ! <b>#ChallengeImproLetmotiv</b>
       </p>
-
       <a
         id="linkedin-share-button"
         href="https://www.linkedin.com/shareArticle?mini=true&url=https://letmotiv-simulateur.fr"
@@ -769,16 +730,15 @@
         </a>
       </div>
 
-      <!-- Flèche bas (suivant) vers la Step3 -->
+      <!-- Flèche bas (étape suivante) -->
       <button class="next-btn" id="next-btn4" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
     </div>
 
-    <!-- STEP3 : Analyse ta prestation -->
+    <!-- STEP3 : Analyse / téléchargement -->
     <div class="box" id="step3">
       <div class="box-header">
-        <!-- Flèche haut (retour) -->
         <button class="back-btn" id="back-btn3" aria-label="Retour à l'étape précédente">
           <i class="fas fa-arrow-up"></i>
         </button>
@@ -819,10 +779,9 @@
     </div>
   </div>
 
-  <!-- SCRIPT -->
   <script>
     /***********************
-     * 1) Gestion des étapes (sans step-indicator)
+     * 1) Navigation entre étapes, barre de progression
      ***********************/
     const boxes = {
       1: document.getElementById('step1'),
@@ -830,7 +789,6 @@
       3: document.getElementById('step4'),
       4: document.getElementById('step3')
     };
-
     const nextBtns = {
       1: document.getElementById('next-btn1'),
       2: document.getElementById('next-btn2'),
@@ -846,43 +804,38 @@
     const startIntroBtn = document.getElementById('start-intro-btn');
     const topProgressBar = document.getElementById('top-progress-bar');
 
-    // Mise à jour de la barre de progression : 4 étapes => 25% chacune
     function updateProgressBar(step) {
-      const progress = step * 25;
+      const progress = step * 25; // 4 étapes = 25% chacune
       topProgressBar.style.width = `${progress}%`;
     }
-    updateProgressBar(0); // Au début
+    updateProgressBar(0);
 
-    // Fonction d'affichage avec animations
     function showBox(current, next) {
       if (!boxes[current] || !boxes[next]) return;
-
-      // On masque la box courante
+      // Retirer les classes d'animation de la box courante
       boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
 
-      // On ajoute la classe .active à la box cible
+      // Ajouter la classe .active à la box cible
       boxes[next].classList.add('active');
 
-      // Selon la direction : si next > current => animer « from-bottom », sinon « from-top »
+      // Animer du bas vers le haut (si next > current) ou du haut vers le bas (si next < current)
       if (next > current) {
         boxes[next].classList.add('slide-from-bottom');
       } else {
         boxes[next].classList.add('slide-from-top');
       }
 
-      // Mise à jour de la barre de progression
       updateProgressBar(next);
 
-      // Scroll vers la boîte active (optionnel ou adaptatif)
+      // Scroll pour afficher la nouvelle box
       const header = document.querySelector('.header');
       const headerHeight = header ? header.offsetHeight : 0;
       const boxPosition = boxes[next].getBoundingClientRect().top + window.scrollY - headerHeight - 20;
       window.scrollTo({ top: boxPosition, behavior: 'smooth' });
     }
 
-    // Gestion de la boîte d'introduction
+    // Introduction
     startIntroBtn.addEventListener('click', () => {
-      // Animation de fade-out
       introBox.style.animation = 'fadeOut 0.5s ease forwards';
       setTimeout(() => {
         introBox.style.display = 'none';
@@ -902,8 +855,6 @@
       }
       showBox(1, 2);
     });
-
-    // Pour Step2 => Step4
     nextBtns[2].addEventListener('click', () => {
       const improErrorDiv = document.getElementById('impro-error');
       improErrorDiv.style.display = 'none';
@@ -918,31 +869,23 @@
       }
       showBox(2, 3);
     });
-
-    // Pour Step4 => Step3
     nextBtns[3].addEventListener('click', () => {
       showBox(3, 4);
     });
 
     // Boutons "Retour"
     if (backBtns[2]) {
-      backBtns[2].addEventListener('click', () => {
-        showBox(2, 1);
-      });
+      backBtns[2].addEventListener('click', () => showBox(2, 1));
     }
     if (backBtns[3]) {
-      backBtns[3].addEventListener('click', () => {
-        showBox(3, 2);
-      });
+      backBtns[3].addEventListener('click', () => showBox(3, 2));
     }
     if (backBtns[4]) {
-      backBtns[4].addEventListener('click', () => {
-        showBox(4, 3);
-      });
+      backBtns[4].addEventListener('click', () => showBox(4, 3));
     }
 
     /***********************
-     * 2) Gestion des objectifs et explications
+     * 2) Explications par objectif
      ***********************/
     const explanations = {
       convaincre:   "Essaye de convaincre ton auditoire d’une idée générale.",
@@ -981,7 +924,6 @@
 
     objectivesButtons.forEach(button => {
       button.addEventListener('click', async () => {
-        // Sélection visuelle
         objectivesButtons.forEach(btn => btn.classList.remove('selected-objective'));
         button.classList.add('selected-objective');
 
@@ -990,12 +932,10 @@
         explanationBox.textContent = explication;
         explanationBox.classList.add('show');
 
-        // Pré-charger le .txt
         if (subjectsCache[currentCategory] === null) {
           await loadSubjects(currentCategory);
         }
 
-        // Masquer messages d'erreur
         const errorDiv = document.getElementById('objective-error');
         errorDiv.style.display = 'none';
         const improErrorDiv = document.getElementById('impro-error');
@@ -1008,12 +948,9 @@
       if (!filePath) return [];
       try {
         const response = await fetch(filePath);
-        if (!response.ok) {
-          console.error("Erreur fetch:", filePath);
-          return [];
-        }
+        if (!response.ok) return [];
         const text = await response.text();
-        const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+        const lines = text.split('\n').map(l => l.trim()).filter(l => l.length>0);
         subjectsCache[category] = lines;
         return lines;
       } catch (err) {
@@ -1023,7 +960,7 @@
     }
 
     /***********************
-     * 3) Gérer le sujet d'impro
+     * 3) Génération du sujet
      ***********************/
     const generateSubjectBtn = document.getElementById('generate-subject-btn');
     const subjectWrapper = document.getElementById('subject-wrapper');
@@ -1055,7 +992,7 @@
     });
 
     /***********************
-     * 4) Enregistrement vidéo
+     * 4) Enregistrement Vidéo
      ***********************/
     let improStarted = false;
     let mediaRecorderInstance;
@@ -1073,7 +1010,7 @@
     let countdown;
     let videoURL = "";
     let timerInterval;
-    let timeRemaining = 120; // 2 minutes
+    let timeRemaining = 120;
 
     async function startImpro() {
       if (!currentSubject) {
@@ -1114,9 +1051,9 @@
       const stream = await setupCamera();
       if (!stream) return;
 
-      if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
+      if (!window.MediaRecorder) {
         const improErrorDiv = document.getElementById('impro-error');
-        improErrorDiv.textContent = "Votre navigateur ne supporte pas l'enregistrement vidéo. Essayez Chrome ou Firefox.";
+        improErrorDiv.textContent = "Votre navigateur ne supporte pas MediaRecorder. Essayez Chrome ou Firefox.";
         improErrorDiv.style.display = 'block';
         return;
       }
@@ -1124,25 +1061,20 @@
       mediaRecorderInstance = new MediaRecorder(stream);
       recordedChunks = [];
 
-      mediaRecorderInstance.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          recordedChunks.push(event.data);
+      mediaRecorderInstance.ondataavailable = (e) => {
+        if (e.data.size > 0) {
+          recordedChunks.push(e.data);
         }
       };
-
       mediaRecorderInstance.onstop = () => {
         const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
         videoURL = URL.createObjectURL(videoBlob);
-        // Stop webcam
         stream.getTracks().forEach(t => t.stop());
-
         videoText.innerHTML = "Improvisation terminée.";
         videoText.style.display = 'block';
-
         const improErrorDiv = document.getElementById('impro-error');
         improErrorDiv.style.display = 'none';
         recordingIndicator.style.display = 'none';
-
         clearInterval(timerInterval);
         improStarted = true;
       };
@@ -1167,7 +1099,7 @@
       } catch (error) {
         const improErrorDiv = document.getElementById('impro-error');
         if (error.name === 'NotAllowedError') {
-          improErrorDiv.textContent = "Vous avez refusé l'accès à la webcam. Veuillez autoriser l'accès.";
+          improErrorDiv.textContent = "Vous avez refusé l'accès à la webcam.";
         } else if (error.name === 'NotFoundError') {
           improErrorDiv.textContent = "Aucune caméra/micro détectés.";
         } else {
@@ -1224,7 +1156,7 @@
     });
 
     /***********************
-     * 5) Téléchargements (Step3)
+     * 5) Téléchargements
      ***********************/
     const validateFormBtn = document.getElementById('validate-form-btn');
     const prenomInput = document.getElementById('prenom');
@@ -1260,13 +1192,12 @@
       }
       if (!valid) return;
 
-      // Affiche la zone de téléchargement
       downloadButtons.classList.add('show');
-      // Active le bouton Next vers la step4 (si besoin)
       nextBtns[3].disabled = false;
     });
 
     // Téléchargement de la vidéo
+    let videoURL = "";
     downloadVideoBtn.addEventListener('click', () => {
       if (!videoURL) {
         const improErrorDiv = document.getElementById('impro-error');
