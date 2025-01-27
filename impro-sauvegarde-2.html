@@ -30,8 +30,7 @@
       color: #333333;
       min-height: 100vh;
       overflow-x: hidden;
-      /* Laisser place au header fixe */
-      padding-top: 60px; 
+      padding-top: 60px; /* Laisser place au header fixe */
       padding-bottom: 20px; 
     }
 
@@ -56,7 +55,7 @@
       gap: 5px;
       height: 60px;
     }
-    .header .header-l2 {
+    .header-l2 {
       font-size: 14px;
     }
 
@@ -96,7 +95,6 @@
       font-family: 'Montserrat', sans-serif;
       font-size: 2.5rem;
       margin-bottom: 30px;
-      animation: slideDown 1s forwards;
     }
     .intro-box button {
       background-color: #ffffff;
@@ -116,6 +114,7 @@
       transform: scale(1.05);
     }
 
+    /* Animations */
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
@@ -123,10 +122,6 @@
     @keyframes fadeOut {
       from { opacity: 1; }
       to   { opacity: 0; }
-    }
-    @keyframes slideDownTitle {
-      from { transform: translateY(-50px); opacity: 0; }
-      to   { transform: translateY(0); opacity: 1; }
     }
     @keyframes slideDown {
       0% {
@@ -148,40 +143,14 @@
         opacity: 0;
       }
     }
-    @keyframes slideDownBox {
-      from { transform: translateY(-80px); }
-      to   { transform: translateY(0); }
-    }
-    @keyframes slideDownText {
-      from { transform: translateY(-50px); opacity: 0; }
-      to   { transform: translateY(0); opacity: 1; }
-    }
-    @keyframes slideDownIntro {
-      from { transform: translateY(-50px); opacity: 0; }
-      to   { transform: translateY(0); opacity: 1; }
-    }
-    @keyframes slideDownButtons {
-      from { transform: translateY(20px); opacity: 0; }
-      to   { transform: translateY(0); opacity: 1; }
-    }
-    @keyframes slideDownContent {
-      from { transform: translateY(-100px); opacity: 0; }
-      to   { transform: translateY(0); opacity: 1; }
-    }
-    @keyframes slideDownHeader {
-      from { transform: translateY(-60px); }
-      to   { transform: translateY(0); }
-    }
-    @keyframes slideDown  { /* conflict with above, rename if needed */}
-    @keyframes slideUp    {}
 
-    /* Container de toutes les boxes, position relative pour l'animation */
+    /* Container absolu pour les boxes */
     .box-container {
       position: relative;
       width: 100%;
       max-width: 700px;
       margin: 0 auto;
-      min-height: 500px;
+      min-height: 500px; /* Ajustez selon vos besoins */
     }
 
     /* BOXES en absolu => superposition */
@@ -293,7 +262,7 @@
       width: 100%;
     }
 
-    /* Explanation */
+    /* Explanation box */
     .explanation-box {
       visibility: hidden;    
       opacity: 0;
@@ -341,9 +310,6 @@
       font-style: italic;
       color: #333;
       display: none; 
-    }
-    .subject-wrapper span {
-      font-weight: bold;
     }
     .video-box {
       margin: 10px auto;
@@ -440,7 +406,7 @@
     }
     .hidden-btn { display: none; }
 
-    /* BOX4 */
+    /* BOX4 (3e étape) */
     .linkedin-share-button {
       display: inline-flex;
       align-items: center;
@@ -469,15 +435,8 @@
       align-items: center;
       gap: 10px;
     }
-    .progression-buttons a {
-      width: 100%;
-      max-width: 300px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
 
-    /* BOX3 */
+    /* BOX3 (4e étape) */
     .download-section {
       text-align: left;
       margin-bottom: 20px;
@@ -757,8 +716,8 @@
       introBox.style.animation = 'fadeOut 0.5s forwards';
       setTimeout(() => {
         introBox.style.display = 'none';
-        // Afficher box1
-        showBox(null, 1); 
+        // Passer direct à box1 (SANS animation)
+        showBox(null, 1);
       }, 500);
     });
 
@@ -782,27 +741,35 @@
     let currentBox = null;
 
     function showBox(oldStep, newStep) {
-      // Faire disparaitre l'ancienne box par un slideUp
+      // Si on a une ancienne box, on lance l'anim de sortie
       if (oldStep && boxes[oldStep]) {
         boxes[oldStep].classList.remove('slide-in-down', 'active');
         boxes[oldStep].classList.add('slide-out-up'); 
-        // À la fin de l'anim, on masque
         boxes[oldStep].addEventListener('animationend', function handleOldEnd() {
           boxes[oldStep].removeEventListener('animationend', handleOldEnd);
           boxes[oldStep].style.display = 'none';
           boxes[oldStep].classList.remove('slide-out-up');
         });
       }
-      // Faire apparaitre la nouvelle box par un slideDown
+
+      // Afficher la nouvelle box
       if (newStep && boxes[newStep]) {
         const newBox = boxes[newStep];
-        newBox.style.display = 'block';
-        newBox.classList.add('slide-in-down');
-        newBox.addEventListener('animationend', function handleNewEnd() {
-          newBox.removeEventListener('animationend', handleNewEnd);
-          newBox.classList.remove('slide-in-down');
+        // *** CAS SPÉCIAL BOX1 *** => Pas d'animation si on vient de l'intro
+        if (oldStep === null || newStep === 1) {
+          // Juste afficher la box1 sans anim
+          newBox.style.display = 'block';
           newBox.classList.add('active');
-        });
+        } else {
+          // Slide-in normal
+          newBox.style.display = 'block';
+          newBox.classList.add('slide-in-down');
+          newBox.addEventListener('animationend', function handleNewEnd() {
+            newBox.removeEventListener('animationend', handleNewEnd);
+            newBox.classList.remove('slide-in-down');
+            newBox.classList.add('active');
+          });
+        }
         currentBox = newStep;
         updateProgressBar(newStep);
       } else {
