@@ -6,30 +6,13 @@
   <title>Simulateur d'improvisation</title>
   <meta name="description" content="Évaluer et développer rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv.">
 
-  <!-- Balises Open Graph / Twitter (facultatif) -->
-  <meta property="og:title" content="Simulateur d'improvisation Letmotiv" />
-  <meta property="og:description" content="Évaluez et développez rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://letmotiv-simulateur.fr" />
-  <meta property="og:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png" />
-  <meta property="og:image:alt" content="Illustration d'une improvisation en public avec un orateur sur scène." />
-  <meta name="author" content="Letmotiv" />
-  <meta property="article:published_time" content="2025-01-26" />
-
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Simulateur d'improvisation Letmotiv">
-  <meta name="twitter:description" content="Évaluez et développez rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv.">
-  <meta name="twitter:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png">
-
-  <!-- Polices Google Fonts -->
+  <!-- Polices + FontAwesome -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=DM+Sans&family=Montserrat:wght@700&display=swap"
     rel="stylesheet"
   />
-
-  <!-- Icônes Font Awesome -->
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
@@ -43,18 +26,16 @@
     body {
       margin: 0;
       font-family: 'DM Sans', sans-serif;
-      background-color: #ffffff; 
+      background-color: #ffffff;
       color: #333333;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       min-height: 100vh;
-      overflow-x: hidden; 
-      padding-top: 60px; /* Compense la hauteur du header fixe */
+      overflow-x: hidden;
+      /* Laisser place au header fixe */
+      padding-top: 60px; 
       padding-bottom: 20px; 
     }
 
-    /* --- HEADER --- */
+    /* HEADER */
     .header {
       background-color: #182d84;
       color: #FFFFFF;
@@ -66,38 +47,28 @@
       position: fixed;
       top: 0;
       left: 0;
-      z-index: 10;
+      z-index: 100;
       box-sizing: border-box;
-    }
-    .header-content {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 5px;
-      max-width: 100%;
-      overflow-wrap: break-word;
+      height: 60px;
     }
-    .header a {
-      color: #FFFFFF;
-      text-decoration: none;
-    }
-    .header a:hover {
-      text-decoration: none;
-    }
-    .header-l2 {
-      font-size: 14px; 
+    .header .header-l2 {
+      font-size: 14px;
     }
 
-    /* --- BARRE DE PROGRESSION --- */
+    /* Barre de progression */
     .progress-container {
       position: fixed;
-      top: 60px; 
+      top: 60px;
       left: 0;
       width: 100%;
       height: 8px;
-      background-color: rgba(24, 45, 132, 0.1); 
-      z-index: 9;
+      background-color: rgba(24, 45, 132, 0.1);
+      z-index: 99;
     }
     .progress-bar {
       width: 0%;
@@ -106,13 +77,11 @@
       transition: width 0.5s ease;
     }
 
-    /* --- BOÎTE D'INTRODUCTION --- */
+    /* Intro box */
     .intro-box {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       background: linear-gradient(135deg, #182d84, #00a48a);
       display: flex;
       flex-direction: column;
@@ -120,14 +89,14 @@
       justify-content: center;
       text-align: center;
       color: #ffffff;
-      z-index: 20;
-      animation: fadeIn 1s ease forwards;
+      z-index: 999;
+      animation: fadeIn 0.8s forwards;
     }
     .intro-box h1 {
       font-family: 'Montserrat', sans-serif;
       font-size: 2.5rem;
       margin-bottom: 30px;
-      animation: slideDown 1s ease forwards;
+      animation: slideDown 1s forwards;
     }
     .intro-box button {
       background-color: #ffffff;
@@ -147,90 +116,115 @@
       transform: scale(1.05);
     }
 
-    /* Animations */
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
     }
     @keyframes fadeOut {
       from { opacity: 1; }
-      to { opacity: 0; }
+      to   { opacity: 0; }
+    }
+    @keyframes slideDownTitle {
+      from { transform: translateY(-50px); opacity: 0; }
+      to   { transform: translateY(0); opacity: 1; }
     }
     @keyframes slideDown {
+      0% {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    @keyframes slideUp {
+      0% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100%);
+        opacity: 0;
+      }
+    }
+    @keyframes slideDownBox {
+      from { transform: translateY(-80px); }
+      to   { transform: translateY(0); }
+    }
+    @keyframes slideDownText {
       from { transform: translateY(-50px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+      to   { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes slideDownIntro {
+      from { transform: translateY(-50px); opacity: 0; }
+      to   { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes slideDownButtons {
+      from { transform: translateY(20px); opacity: 0; }
+      to   { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes slideDownContent {
+      from { transform: translateY(-100px); opacity: 0; }
+      to   { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes slideDownHeader {
+      from { transform: translateY(-60px); }
+      to   { transform: translateY(0); }
+    }
+    @keyframes slideDown  { /* conflict with above, rename if needed */}
+    @keyframes slideUp    {}
+
+    /* Container de toutes les boxes, position relative pour l'animation */
+    .box-container {
+      position: relative;
+      width: 100%;
+      max-width: 700px;
+      margin: 0 auto;
+      min-height: 500px;
     }
 
-    /* --- BOXES : apparaitre / disparaitre avec fade/slide --- */
+    /* BOXES en absolu => superposition */
     .box {
+      position: absolute;
+      top: 0; left: 0;
       width: 100%;
-      max-width: 600px;
-      margin: 20px 0;
-      background-color: #E2E7E3; 
-      border-radius: 10px;
       padding: 15px;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      font-size: 14px;
-      border: 2px solid #eeeeee;
-      position: relative;
-      display: none; /* Masqué par défaut */
+      border-radius: 10px;
+      background-color: #E2E7E3;
+      border: 2px solid #eee;
+      box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
       opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 1s ease, transform 1s ease;
+      display: none; 
     }
     .box.active {
-      display: block;
-      opacity: 1;
-      transform: translateY(0);
+      display: block; 
     }
 
-    /* --- Header interne des boîtes --- */
+    /* Animations “scroll-like” */
+    .slide-in-down {
+      animation: slideDown 0.6s forwards ease;
+    }
+    .slide-out-up {
+      animation: slideUp 0.6s forwards ease;
+    }
+
+    /* box-header */
     .box-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       margin-bottom: 20px;
-      position: relative;
     }
-
-    /* Bouton retour (flèche up) */
-    .back-btn {
-      border: none;
-      background-color: #808080; 
-      color: #FFFFFF;
-      font-size: 16px;
-      cursor: pointer;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background-color 0.3s, transform 0.3s;
-    }
-    .back-btn:hover {
-      background-color: #505050; 
-      transform: scale(1.1);
-    }
-    .back-btn:active {
-      background-color: #303030; 
-    }
-    .back-btn.hidden-visibility {
-      visibility: hidden;
-    }
-
     .box-title {
       font-size: 18px;
       font-weight: bold;
       color: #182d84;
-      flex-grow: 1;
       text-align: center;
+      flex-grow: 1;
     }
-
     .step-indicator {
-      width: 40px;
-      height: 40px;
+      width: 40px; height: 40px;
       background-color: #182d84;
       color: #FFFFFF;
       border-radius: 50%;
@@ -241,17 +235,46 @@
       font-size: 14px;
     }
 
-    /* Bouton next (flèche down), centré horizontalement */
+    /* Bouton fleche “haut” */
+    .back-btn {
+      width: 40px;
+      height: 40px;
+      border: none;
+      border-radius: 50%;
+      background-color: #808080;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+    .back-btn:hover {
+      background-color: #505050;
+      transform: scale(1.05);
+    }
+    .back-btn:active {
+      background-color: #303030;
+    }
+    .back-btn.hidden-visibility {
+      visibility: hidden;
+    }
+
+    /* Bouton fleche “bas” (next-btn), 100% centré */
     .next-btn {
       width: 40px;
       height: 40px;
-      border-radius: 50%;
-      display: block; /* pour pouvoir centrer avec margin auto */
-      margin: 10px auto;
-      border: 2px solid #182d84; 
+      border: 2px solid #182d84;
       background-color: transparent;
       color: #182d84;
+      border-radius: 50%;
+      font-size: 16px;
       cursor: pointer;
+      display: flex;           /* pour centrer l'icône */
+      align-items: center;     /* vertical */
+      justify-content: center; /* horizontal */
+      margin: 10px auto;       /* centre le bouton dans la box */
       transition: background-color 0.3s, color 0.3s, transform 0.3s;
     }
     .next-btn:hover {
@@ -260,7 +283,17 @@
       transform: scale(1.05);
     }
 
-    /* Encadré explicatif des objectifs */
+    /* Erreur */
+    .error-message {
+      color: red;
+      margin-top: 10px;
+      font-weight: bold;
+      display: none; 
+      text-align: center; 
+      width: 100%;
+    }
+
+    /* Explanation */
     .explanation-box {
       visibility: hidden;    
       opacity: 0;
@@ -284,7 +317,6 @@
       border: 2px solid #ccc;
     }
 
-    /* BOX1 : Choix d’objectif */
     .objectives-container {
       display: flex;
       flex-wrap: wrap;
@@ -297,17 +329,7 @@
       color: #ffffff;
     }
 
-    /* Erreur */
-    .error-message {
-      color: red;
-      margin-top: 10px;
-      font-weight: bold;
-      display: none; 
-      text-align: center; 
-      width: 100%;
-    }
-
-    /* BOX2 : Vidéo, enregistrement, etc. */
+    /* BOX2 (vidéo) */
     .subject-wrapper {
       margin-top: 10px;
       background-color: #fefefe;
@@ -329,12 +351,12 @@
       border-radius: 6px;
       max-width: 500px;
       background-color: #fefefe;
-      height: 300px; 
+      height: 300px;
       position: relative;
       display: flex;
       justify-content: center; 
       align-items: center;     
-      overflow: hidden; 
+      overflow: hidden;
     }
     .video-box video {
       width: 100%;
@@ -346,7 +368,7 @@
       left: 0;
       z-index: 1;
     }
-    .video-box .video-text {
+    .video-text {
       position: absolute;
       z-index: 2;
       color: #555;
@@ -358,21 +380,18 @@
     }
     .recording-indicator {
       position: absolute;
-      top: 10px;
-      right: 10px;
-      display: flex;
+      top: 10px; right: 10px;
+      display: none;
       align-items: center;
-      background-color: rgba(255, 255, 255, 0.8);
+      background-color: rgba(255,255,255,0.8);
       padding: 5px 10px;
       border-radius: 20px;
       font-size: 14px;
       color: #ff0000;
-      display: none; 
       z-index: 3;
     }
     .recording-indicator .dot {
-      height: 10px;
-      width: 10px;
+      height: 10px; width: 10px;
       background-color: #ff0000;
       border-radius: 50%;
       display: inline-block;
@@ -386,25 +405,22 @@
     }
     .countdown {
       position: absolute;
-      bottom: 10px; 
-      right: 10px;
+      bottom: 10px; right: 10px;
       font-size: 24px;
       color: #ffffff;
       display: none;
       z-index: 4;
-      background-color: rgba(0, 0, 0, 0.5); 
+      background-color: rgba(0,0,0,0.5);
       padding: 5px 10px;
       border-radius: 5px;
       text-align: center;
     }
     .initial-countdown-overlay {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(128, 128, 128, 0.6); 
-      display: none; 
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(128, 128, 128, 0.6);
+      display: none;
       align-items: center;
       justify-content: center;
       z-index: 5;
@@ -422,24 +438,13 @@
       justify-content: center; 
       margin-top: 10px;
     }
-    .hidden-btn {
-      display: none;
-    }
+    .hidden-btn { display: none; }
 
-    /* BOX4 : Partage LinkedIn et Options de Progression */
-    .box4-content {
-      margin-top: 20px;
-      background-color: #fefefe;
-      border: 2px solid #ccc;
-      border-radius: 8px;
-      padding: 15px;
-      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-      text-align: center;
-    }
+    /* BOX4 */
     .linkedin-share-button {
       display: inline-flex;
       align-items: center;
-      justify-content: center; 
+      justify-content: center;
       background-color: #0e76a8;
       color: #FFFFFF;
       border: none;
@@ -469,10 +474,10 @@
       max-width: 300px;
       display: flex;
       align-items: center;
-      justify-content: center; 
+      justify-content: center;
     }
 
-    /* BOX3 : Analyse ta prestation */
+    /* BOX3 */
     .download-section {
       text-align: left;
       margin-bottom: 20px;
@@ -483,7 +488,7 @@
       border: 2px solid #ccc;
       border-radius: 8px;
       padding: 15px;
-      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+      box-shadow: 0px 2px 4px rgba(0,0,0,0.1);
       display: none; 
       text-align: center;
       transition: opacity 0.5s ease, transform 0.5s ease;
@@ -525,7 +530,7 @@
       margin-bottom: 15px;
     }
 
-    /* Boutons généraux */
+    /* Boutons “généraux” (Valider, etc.) */
     button,
     a.btn {
       background-color: #182d84;
@@ -554,312 +559,310 @@
   </style>
 </head>
 <body>
-  <!-- BOÎTE D'INTRODUCTION -->
+
+  <!-- Intro box -->
   <div class="intro-box" id="intro-box">
-    <h1>Entraine-toi à la prise de parole en public</h1>
+    <h1>Entraîne-toi à la prise de parole</h1>
     <button id="start-intro-btn" aria-label="Commencer">Commencer</button>
   </div>
 
   <!-- HEADER -->
   <div class="header">
-    <div class="header-content">
-      <div class="header-l1">Simulateur d'improvisation en public</div>
-      <div class="header-l2">by Letmotiv</div>
-    </div>
+    <div class="header-l1">Simulateur d'improvisation en public</div>
+    <div class="header-l2">by Letmotiv</div>
   </div>
 
-  <!-- BARRE DE PROGRESSION -->
   <div class="progress-container">
     <div class="progress-bar" id="top-progress-bar"></div>
   </div>
 
-  <!-- BOX1 : Choix d'objectif -->
-  <div class="box" id="box1">
-    <div class="box-header">
-      <!-- Flèche "UP" masquée ici (pas de retour possible avant la première box) -->
-      <button class="back-btn hidden-visibility" id="back-btn1" aria-label="Retour en haut">
-        <i class="fas fa-arrow-up"></i>
-      </button>
-      <div class="box-title">Choisis ton objectif</div>
-      <div class="step-indicator">1/4</div>
-    </div>
-
-    <div class="objectives-container">
-      <button data-category="convaincre">Convaincre</button>
-      <button data-category="inspirer">Inspirer</button>
-      <button data-category="lacher-prise">Lâcher prise</button>
-      <button data-category="toast">Porter un toast</button>
-      <button data-category="repartie">Avoir de la répartie</button>
-      <button data-category="vendre">Vendre</button>
-      <button data-category="conflit">Gérer un conflit</button>
-      <button data-category="diction">Diction</button>
-    </div>
-
-    <div id="objective-error" class="error-message">Sélectionne un objectif avant de continuer.</div>
-
-    <div class="explanation-box" id="explanation-box"></div>
-
-    <!-- Flèche BAS (next) -->
-    <button class="next-btn" id="next-btn1" aria-label="Passer à l'étape suivante">
-      <i class="fas fa-arrow-down"></i>
-    </button>
-  </div>
-
-  <!-- BOX2 : Vidéo, enregistrement, etc. -->
-  <div class="box" id="box2">
-    <div class="box-header">
-      <!-- Flèche UP => retour box1 -->
-      <button class="back-btn" id="back-btn2" aria-label="Retour à l'objectif">
-        <i class="fas fa-arrow-up"></i>
-      </button>
-      <div class="box-title">Lance ton improvisation</div>
-      <div class="step-indicator">2/4</div>
-    </div>
-
-    <button id="generate-subject-btn">Générer un sujet aléatoire</button>
-    <div id="subject-wrapper" class="subject-wrapper">
-      <span id="subject-display"></span>
-    </div>
-
-    <div class="video-box">
-      <video id="preview" autoplay muted></video>
-      <div class="video-text" id="video-text">
-        Ici va s'enregistrer ton improvisation en vidéo. <br> 
-        Lorsque tu es prêt, clique sur le bouton "Démarrer ton impro" en-dessous. <br><br>
-        NB : ta vidéo est stockée directement sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.
+  <!-- Container absolu pour toutes les boxes -->
+  <div class="box-container" id="box-container" style="height: 700px;">
+    <!-- BOX1 -->
+    <div class="box" id="box1">
+      <div class="box-header">
+        <button class="back-btn hidden-visibility" aria-label="Retour" id="back-btn1">
+          <i class="fas fa-arrow-up"></i>
+        </button>
+        <div class="box-title">Choisis ton objectif</div>
+        <div class="step-indicator">1/4</div>
       </div>
-      <div class="recording-indicator" id="recording-indicator">
-        <span class="dot"></span> Enregistrement en cours
+
+      <div class="objectives-container">
+        <button data-category="convaincre">Convaincre</button>
+        <button data-category="inspirer">Inspirer</button>
+        <button data-category="lacher-prise">Lâcher prise</button>
+        <button data-category="toast">Porter un toast</button>
+        <button data-category="repartie">Avoir de la répartie</button>
+        <button data-category="vendre">Vendre</button>
+        <button data-category="conflit">Gérer un conflit</button>
+        <button data-category="diction">Diction</button>
       </div>
-      <div class="countdown" id="countdown">1:59</div>
-      <div class="initial-countdown-overlay" id="initial-countdown-overlay">
-        <div class="initial-countdown" id="initial-countdown">3</div>
+
+      <div id="objective-error" class="error-message">
+        Sélectionne un objectif avant de continuer.
       </div>
-    </div>
+      <div class="explanation-box" id="explanation-box"></div>
 
-    <div class="impro-actions">
-      <button id="start-btn" aria-label="Démarrer l'improvisation">
-        Démarrer ton impro <i class="fas fa-video"></i>
-      </button>
-      <button id="stop-btn" class="hidden-btn" aria-label="Arrêter l'improvisation">
-        Arrêter ton impro <i class="fas fa-stop"></i>
-      </button>
-      <button id="restart-btn" class="hidden-btn" aria-label="Récommencer l'improvisation">
-        Récommencer ton impro <i class="fas fa-redo"></i>
+      <!-- Flèche bas -->
+      <button class="next-btn" id="next-btn1" aria-label="Étape suivante">
+        <i class="fas fa-arrow-down"></i>
       </button>
     </div>
 
-    <div id="impro-error" class="error-message">Tu dois réaliser ton improvisation avant de continuer.</div>
+    <!-- BOX2 -->
+    <div class="box" id="box2">
+      <div class="box-header">
+        <button class="back-btn" id="back-btn2" aria-label="Retour box1">
+          <i class="fas fa-arrow-up"></i>
+        </button>
+        <div class="box-title">Lance ton improvisation</div>
+        <div class="step-indicator">2/4</div>
+      </div>
 
-    <!-- Flèche BAS => aller vers la 3e étape (box4) -->
-    <button class="next-btn" id="next-btn2" disabled aria-label="Passer à l'étape suivante">
-      <i class="fas fa-arrow-down"></i>
-    </button>
-  </div>
+      <button id="generate-subject-btn">Générer un sujet aléatoire</button>
+      <div id="subject-wrapper" class="subject-wrapper">
+        <span id="subject-display"></span>
+      </div>
 
-  <!-- BOX4 : Partage LinkedIn (3e étape) -->
-  <div class="box" id="box4">
-    <div class="box-header">
-      <!-- Flèche UP => box2 -->
-      <button class="back-btn" id="back-btn4" aria-label="Retour à l'improvisation">
-        <i class="fas fa-arrow-up"></i>
-      </button>
-      <div class="box-title">Partage ton expérience</div>
-      <div class="step-indicator">3/4</div>
-    </div>
-
-    <p>
-      Encourage d'autres personnes à relever le défi ! Montre ton courage et inspire les autres à s'améliorer en improvisation ! 
-      <b>#ChallengeImproLetmotiv</b>
-    </p>
-    <a
-      id="linkedin-share-button"
-      href="https://www.linkedin.com/shareArticle?mini=true&url=https://letmotiv-simulateur.fr"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="linkedin-share-button"
-      aria-label="Partager sur LinkedIn"
-    >
-      <i class="fab fa-linkedin"></i> Partager sur LinkedIn
-    </a>
-
-    <div class="progression-buttons">
-      <p>Tu souhaites progresser rapidement et efficacement dans la prise de parole en public ?</p>
-      <a href="https://alexetpierre.systeme.io/inscription" target="_blank" rel="noopener noreferrer" class="btn" aria-label="S'inscrire à la formation en ligne">
-        <i class="fas fa-laptop"></i> Suis notre formation en ligne
-      </a>
-      <a href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole" target="_blank" rel="noopener noreferrer" class="btn" aria-label="Réserver un coaching">
-        <i class="fas fa-chalkboard-teacher"></i> Réserve un coaching
-      </a>
-    </div>
-
-    <!-- Flèche BAS => aller à la dernière étape (box3) -->
-    <button class="next-btn" id="next-btn4" aria-label="Passer à l'étape suivante">
-      <i class="fas fa-arrow-down"></i>
-    </button>
-  </div>
-
-  <!-- BOX3 : Analyse ta prestation (4e étape) -->
-  <div class="box" id="box3">
-    <div class="box-header">
-      <!-- Flèche UP => box4 -->
-      <button class="back-btn" id="back-btn3" aria-label="Retour au partage et progression">
-        <i class="fas fa-arrow-up"></i>
-      </button>
-      <div class="box-title"> Analyse ta prestation</div>
-      <div class="step-indicator">4/4</div>
-    </div>
-
-    <div class="download-section">
-      <h3>Obtiens la vidéo de ta prestation et une grille Letmotiv pour l'analyser :</h3>
-      <div class="download-fields">
-        <div class="input-group">
-          <label for="prenom">Prénom :</label>
-          <input type="text" id="prenom" placeholder="Votre prénom" aria-label="Prénom"/>
-          <div id="prenom-error" class="error-message">
-            Veuillez entrer un prénom valide sans chiffres ni caractères spéciaux.
-          </div>
+      <div class="video-box">
+        <video id="preview" autoplay muted></video>
+        <div class="video-text" id="video-text">
+          Ici va s'enregistrer ton improvisation en vidéo. <br>
+          Lorsque tu es prêt, clique sur le bouton "Démarrer ton impro".<br><br>
+          NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.
         </div>
-
-        <div class="input-group">
-          <label for="email">Email :</label>
-          <input type="email" id="email" placeholder="Votre email" aria-label="Email"/>
-          <div id="email-error" class="error-message">
-            Veuillez entrer une adresse email valide.
-          </div>
+        <div class="recording-indicator" id="recording-indicator">
+          <span class="dot"></span> Enregistrement en cours
+        </div>
+        <div class="countdown" id="countdown">1:59</div>
+        <div class="initial-countdown-overlay" id="initial-countdown-overlay">
+          <div class="initial-countdown" id="initial-countdown">3</div>
         </div>
       </div>
 
-      <div>
-        <button id="validate-form-btn" aria-label="Valider les informations">Valider</button>
+      <div class="impro-actions">
+        <button id="start-btn" aria-label="Démarrer l'impro">Démarrer ton impro <i class="fas fa-video"></i></button>
+        <button id="stop-btn" class="hidden-btn" aria-label="Arrêter l'impro">Arrêter <i class="fas fa-stop"></i></button>
+        <button id="restart-btn" class="hidden-btn" aria-label="Récommencer l'impro">Récommencer <i class="fas fa-redo"></i></button>
+      </div>
+
+      <div id="impro-error" class="error-message">
+        Tu dois réaliser ton improvisation avant de continuer.
+      </div>
+
+      <!-- Flèche bas => box4 -->
+      <button class="next-btn" id="next-btn2" disabled aria-label="Étape suivante">
+        <i class="fas fa-arrow-down"></i>
+      </button>
+    </div>
+
+    <!-- BOX4 (3e étape) -->
+    <div class="box" id="box4">
+      <div class="box-header">
+        <button class="back-btn" id="back-btn4" aria-label="Retour box2">
+          <i class="fas fa-arrow-up"></i>
+        </button>
+        <div class="box-title">Partage ton expérience</div>
+        <div class="step-indicator">3/4</div>
+      </div>
+
+      <p>
+        Encourage d'autres personnes à relever le défi ! Montre ton courage et inspire-les à s'améliorer en improvisation.<br>
+        <b>#ChallengeImproLetmotiv</b>
+      </p>
+
+      <a
+        id="linkedin-share-button"
+        href="https://www.linkedin.com/shareArticle?mini=true&url=https://letmotiv-simulateur.fr"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="linkedin-share-button"
+        aria-label="Partager sur LinkedIn"
+      >
+        <i class="fab fa-linkedin"></i> Partager sur LinkedIn
+      </a>
+
+      <div class="progression-buttons">
+        <p>Tu souhaites progresser rapidement en prise de parole ?</p>
+        <a href="https://alexetpierre.systeme.io/inscription" target="_blank" rel="noopener noreferrer" class="btn">
+          <i class="fas fa-laptop"></i> Suis notre formation en ligne
+        </a>
+        <a href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole" target="_blank" rel="noopener noreferrer" class="btn">
+          <i class="fas fa-chalkboard-teacher"></i> Réserve un coaching
+        </a>
+      </div>
+
+      <!-- Flèche bas => box3 -->
+      <button class="next-btn" id="next-btn4" aria-label="Étape suivante">
+        <i class="fas fa-arrow-down"></i>
+      </button>
+    </div>
+
+    <!-- BOX3 (4e étape) -->
+    <div class="box" id="box3">
+      <div class="box-header">
+        <button class="back-btn" id="back-btn3" aria-label="Retour box4">
+          <i class="fas fa-arrow-up"></i>
+        </button>
+        <div class="box-title">Analyse ta prestation</div>
+        <div class="step-indicator">4/4</div>
+      </div>
+
+      <div class="download-section">
+        <h3>Obtiens la vidéo de ta prestation et une grille Letmotiv :</h3>
+
+        <div class="download-fields">
+          <div class="input-group">
+            <label for="prenom">Prénom :</label>
+            <input type="text" id="prenom" placeholder="Votre prénom" aria-label="Prénom"/>
+            <div id="prenom-error" class="error-message">
+              Veuillez entrer un prénom valide sans chiffres ni caractères spéciaux.
+            </div>
+          </div>
+          <div class="input-group">
+            <label for="email">Email :</label>
+            <input type="email" id="email" placeholder="Votre email" aria-label="Email"/>
+            <div id="email-error" class="error-message">
+              Veuillez entrer une adresse email valide.
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <button id="validate-form-btn" aria-label="Valider infos">Valider</button>
+        </div>
+      </div>
+
+      <div class="download-buttons" id="download-buttons">
+        <button id="download-video-btn">
+          <i class="fas fa-download"></i> Télécharger la vidéo (mp4)
+        </button>
+        <button id="download-pdf-btn">
+          <i class="fas fa-download"></i> Télécharger la grille d'évaluation (pdf)
+        </button>
       </div>
     </div>
+  </div><!-- /box-container -->
 
-    <div class="download-buttons" id="download-buttons">
-      <button id="download-video-btn" aria-label="Télécharger la vidéo">
-        <i class="fas fa-download"></i> Télécharger la vidéo (mp4)
-      </button>
-      <button id="download-pdf-btn" aria-label="Télécharger la grille d'évaluation">
-        <i class="fas fa-download"></i> Télécharger la grille d'évaluation (pdf)
-      </button>
-    </div>
-  </div>
-
-  <!-- SCRIPT -->
   <script>
-    /********************************************************
-     * 1) Gérer l'intro
-     ********************************************************/
+    /*************************************
+     * 1) Intro fadeOut
+     *************************************/
     const introBox = document.getElementById('intro-box');
     const startIntroBtn = document.getElementById('start-intro-btn');
     const topProgressBar = document.getElementById('top-progress-bar');
 
     startIntroBtn.addEventListener('click', () => {
-      // fadeOut
-      introBox.style.animation = 'fadeOut 0.5s ease forwards';
+      introBox.style.animation = 'fadeOut 0.5s forwards';
       setTimeout(() => {
         introBox.style.display = 'none';
-        // Afficher la box1
-        boxes[1].classList.add('active');
-        updateProgressBar(1);
+        // Afficher box1
+        showBox(null, 1); 
       }, 500);
     });
 
-    /********************************************************
+    function updateProgressBar(step) {
+      const pct = step * 25; // 4 étapes => 25% par étape
+      topProgressBar.style.width = pct + '%';
+    }
+
+    /*************************************
      * 2) Boîtes & navigation
-     ********************************************************/
+     *************************************/
+    const boxContainer = document.getElementById('box-container');
     const boxes = {
       1: document.getElementById('box1'),
       2: document.getElementById('box2'),
-      3: document.getElementById('box4'), // Partage LinkedIn
-      4: document.getElementById('box3')  // Téléchargement
+      3: document.getElementById('box4'), // 3e étape
+      4: document.getElementById('box3')  // 4e étape
     };
 
-    function showBox(current, next) {
-      if (boxes[current]) boxes[current].classList.remove('active');
-      if (boxes[next]) boxes[next].classList.add('active');
-      updateProgressBar(next);
+    // On garde en mémoire la box actuellement visible
+    let currentBox = null;
 
-      // Scroller vers le début de la nouvelle box
-      const header = document.querySelector('.header');
-      const headerHeight = header ? header.offsetHeight : 0;
-      const boxPosition = boxes[next].getBoundingClientRect().top + window.scrollY - headerHeight - 10;
-      window.scrollTo({
-        top: boxPosition,
-        behavior: 'smooth'
-      });
+    function showBox(oldStep, newStep) {
+      // Faire disparaitre l'ancienne box par un slideUp
+      if (oldStep && boxes[oldStep]) {
+        boxes[oldStep].classList.remove('slide-in-down', 'active');
+        boxes[oldStep].classList.add('slide-out-up'); 
+        // À la fin de l'anim, on masque
+        boxes[oldStep].addEventListener('animationend', function handleOldEnd() {
+          boxes[oldStep].removeEventListener('animationend', handleOldEnd);
+          boxes[oldStep].style.display = 'none';
+          boxes[oldStep].classList.remove('slide-out-up');
+        });
+      }
+      // Faire apparaitre la nouvelle box par un slideDown
+      if (newStep && boxes[newStep]) {
+        const newBox = boxes[newStep];
+        newBox.style.display = 'block';
+        newBox.classList.add('slide-in-down');
+        newBox.addEventListener('animationend', function handleNewEnd() {
+          newBox.removeEventListener('animationend', handleNewEnd);
+          newBox.classList.remove('slide-in-down');
+          newBox.classList.add('active');
+        });
+        currentBox = newStep;
+        updateProgressBar(newStep);
+      } else {
+        currentBox = null;
+      }
     }
 
-    function updateProgressBar(step) {
-      const progress = step * 25; // 4 étapes => 25% chacune
-      topProgressBar.style.width = `${progress}%`;
-    }
-
-    // Boutons "Suivant" (flèche bas)
+    // Boutons "Suivant"
     const nextBtns = {
       1: document.getElementById('next-btn1'),
       2: document.getElementById('next-btn2'),
       3: document.getElementById('next-btn4')
     };
-
-    // Boutons "Retour" (flèche haut)
+    // Boutons "Retour"
     const backBtns = {
       2: document.getElementById('back-btn2'),
       3: document.getElementById('back-btn4'),
       4: document.getElementById('back-btn3')
     };
 
-    // Gestion du clic sur "Suivant"
     nextBtns[1].addEventListener('click', () => {
-      // Vérifier si un objectif est sélectionné
+      // Vérifier objectif choisi
       const selected = document.querySelector('.objectives-container .selected-objective');
       if (!selected) {
-        const errorDiv = document.getElementById('objective-error');
-        errorDiv.textContent = "Sélectionne un objectif avant de continuer.";
-        errorDiv.style.display = 'block';
+        const err = document.getElementById('objective-error');
+        err.style.display = 'block';
+        err.textContent = "Sélectionne un objectif avant de continuer.";
         return;
       }
-      // Sinon passer à la box2
       showBox(1, 2);
     });
 
     nextBtns[2].addEventListener('click', () => {
-      // Vérifier si l'impro est finalisée => "next-btn2" est activé SEULEMENT après stop
+      // Vérifier si l'impro est finalisée => nextBtns[2] est disabled jusqu’au stop
       if (nextBtns[2].disabled) {
-        const improErrorDiv = document.getElementById('impro-error');
-        improErrorDiv.textContent = "Tu dois réaliser ton improvisation avant de continuer.";
-        improErrorDiv.style.display = 'block';
+        const improError = document.getElementById('impro-error');
+        improError.textContent = "Tu dois réaliser ton improvisation avant de continuer.";
+        improError.style.display = 'block';
         return;
       }
-      // Sinon passer à la box4 (étape 3)
       showBox(2, 3);
     });
-
     nextBtns[3].addEventListener('click', () => {
-      // Passer de box4 à box3
       showBox(3, 4);
     });
 
     // Boutons "Retour"
-    if (backBtns[2]) {
-      backBtns[2].addEventListener('click', () => {
-        showBox(2, 1);
-      });
-    }
-    if (backBtns[3]) {
-      backBtns[3].addEventListener('click', () => {
-        showBox(3, 2);
-      });
-    }
-    if (backBtns[4]) {
-      backBtns[4].addEventListener('click', () => {
-        showBox(4, 3);
-      });
-    }
+    backBtns[2].addEventListener('click', () => {
+      showBox(2, 1);
+    });
+    backBtns[3].addEventListener('click', () => {
+      showBox(3, 2);
+    });
+    backBtns[4].addEventListener('click', () => {
+      showBox(4, 3);
+    });
 
-    /********************************************************
+    /*************************************
      * 3) Explications par catégorie
-     ********************************************************/
+     *************************************/
     const explanations = {
       convaincre:   "Essaye de convaincre ton auditoire d’une idée générale.",
       inspirer:     "Tu as 2 minutes top chrono pour inspirer ton auditoire.",
@@ -870,7 +873,6 @@
       conflit:      "Gère un désaccord ou une tension avec diplomatie.",
       diction:      "Améliore ta diction et rends ton discours plus clair."
     };
-
     const txtFilesByCategory = {
       convaincre:   "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/convaincre.txt",
       inspirer:     "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/inspirer.txt",
@@ -895,23 +897,18 @@
 
     const objectivesButtons = document.querySelectorAll('.objectives-container button');
     const explanationBox = document.getElementById('explanation-box');
-
     let currentCategory = null;
 
-    objectivesButtons.forEach(button => {
-      button.addEventListener('click', async () => {
-        // Bouton sélectionné = vert
-        objectivesButtons.forEach(btn => btn.classList.remove('selected-objective'));
-        button.classList.add('selected-objective');
+    objectivesButtons.forEach(btn => {
+      btn.addEventListener('click', async () => {
+        objectivesButtons.forEach(b => b.classList.remove('selected-objective'));
+        btn.classList.add('selected-objective');
 
-        currentCategory = button.dataset.category;
-        const explication = explanations[currentCategory] || "";
-
-        // Afficher l'explication
-        explanationBox.textContent = explication;
+        currentCategory = btn.dataset.category;
+        explanationBox.textContent = explanations[currentCategory] || "";
         explanationBox.classList.add('show');
 
-        // Pré-charger les sujets
+        // Pré-charger le fichier .txt
         if (subjectsCache[currentCategory] === null) {
           await loadSubjects(currentCategory);
         }
@@ -924,32 +921,23 @@
 
     async function loadSubjects(category) {
       const filePath = txtFilesByCategory[category];
-      if (!filePath) {
-        console.error("Catégorie inconnue:", category);
-        return [];
-      }
+      if (!filePath) return [];
       try {
-        const response = await fetch(filePath);
-        if (!response.ok) {
-          console.error("Erreur fetch : " + filePath);
-          return [];
-        }
-        const text = await response.text();
-        const lines = text
-          .split('\n')
-          .map(l => l.trim())
-          .filter(l => l.length > 0);
+        const res = await fetch(filePath);
+        if (!res.ok) return [];
+        const text = await res.text();
+        const lines = text.split('\n').map(l => l.trim()).filter(l => l);
         subjectsCache[category] = lines;
         return lines;
-      } catch (err) {
-        console.error("Erreur fetch: ", err);
+      } catch(e) {
+        console.error("Erreur fetch", e);
         return [];
       }
     }
 
-    /********************************************************
-     * 4) Gérer le sujet d'impro
-     ********************************************************/
+    /*************************************
+     * 4) Sujet d'impro
+     *************************************/
     const generateSubjectBtn = document.getElementById('generate-subject-btn');
     const subjectWrapper = document.getElementById('subject-wrapper');
     const subjectDisplay = document.getElementById('subject-display');
@@ -957,30 +945,28 @@
 
     generateSubjectBtn.addEventListener('click', () => {
       if (!currentCategory) {
-        const errorDiv = document.getElementById('objective-error');
-        errorDiv.style.display = 'block';
-        errorDiv.textContent = "Merci de sélectionner un objectif avant de générer un sujet.";
+        const err = document.getElementById('objective-error');
+        err.textContent = "Merci de sélectionner un objectif avant de générer un sujet.";
+        err.style.display = 'block';
         return;
       }
-      const subjects = subjectsCache[currentCategory];
-      if (!subjects || subjects.length === 0) {
-        subjectDisplay.textContent = "Désolé, aucun sujet n'est disponible pour le moment.";
+      const arr = subjectsCache[currentCategory];
+      if (!arr || arr.length === 0) {
+        subjectDisplay.textContent = "Aucun sujet disponible pour le moment.";
         subjectWrapper.style.display = 'block';
         currentSubject = "";
         return;
       }
-      const randomIndex = Math.floor(Math.random() * subjects.length);
-      currentSubject = subjects[randomIndex];
-
+      const rand = Math.floor(Math.random() * arr.length);
+      currentSubject = arr[rand];
       subjectDisplay.textContent = currentSubject;
       subjectWrapper.style.display = 'block';
-
       document.getElementById('impro-error').style.display = 'none';
     });
 
-    /********************************************************
+    /*************************************
      * 5) Enregistrement vidéo
-     ********************************************************/
+     *************************************/
     let mediaRecorderInstance;
     let recordedChunks = [];
     const preview = document.getElementById('preview');
@@ -992,37 +978,28 @@
     const countdownElement = document.getElementById('countdown');
     const initialCountdownOverlay = document.getElementById('initial-countdown-overlay');
     const initialCountdown = document.getElementById('initial-countdown');
+    const improErrorDiv = document.getElementById('impro-error');
 
     let videoURL = "";
     let timerInterval;
     let timeRemaining = 120;
 
-    let improStarted = false; // Pour savoir si l'impro a été commencée
-
     startBtn.addEventListener('click', startImpro);
     stopBtn.addEventListener('click', stopImpro);
-    restartBtn.addEventListener('click', () => {
-      restartBtn.classList.add('hidden-btn');
-      videoText.innerHTML = "Ici va s'enregistrer ton improvisation en vidéo. <br> Lorsque tu es prêt, clique sur le bouton \"Démarrer ton impro\" en-dessous. <br><br> NB : ta vidéo est stockée directement sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.";
-      videoText.style.display = 'block';
-      improStarted = false;
-      startImpro();
-    });
+    restartBtn.addEventListener('click', restartImpro);
 
-    async function startImpro() {
+    function startImpro() {
       if (!currentSubject) {
-        const improErrorDiv = document.getElementById('impro-error');
-        improErrorDiv.textContent = "Tu dois générer un sujet avant de démarrer l'improvisation.";
+        improErrorDiv.textContent = "Tu dois générer un sujet avant de démarrer l'impro.";
         improErrorDiv.style.display = 'block';
         return;
       }
-      if (typeof MediaRecorder === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
-        const improErrorDiv = document.getElementById('impro-error');
-        improErrorDiv.textContent = "L'enregistrement vidéo n'est pas supporté par votre navigateur.";
+      if (!navigator.mediaDevices?.getUserMedia || typeof MediaRecorder === 'undefined') {
+        improErrorDiv.textContent = "L'enregistrement vidéo n'est pas supporté par ce navigateur.";
         improErrorDiv.style.display = 'block';
         return;
       }
-      if (!confirm("Votre webcam va se lancer pour démarrer l'improvisation. Voulez-vous continuer ?")) {
+      if (!confirm("Votre webcam va se lancer. Continuer ?")) {
         return;
       }
       startInitialCountdown();
@@ -1033,12 +1010,12 @@
       initialCountdown.textContent = count;
       initialCountdownOverlay.style.display = 'flex';
 
-      const countdown = setInterval(() => {
+      const c = setInterval(() => {
         count--;
         if (count > 0) {
           initialCountdown.textContent = count;
         } else {
-          clearInterval(countdown);
+          clearInterval(c);
           initialCountdownOverlay.style.display = 'none';
           initiateRecording();
         }
@@ -1051,22 +1028,18 @@
 
       mediaRecorderInstance = new MediaRecorder(stream);
       recordedChunks = [];
-
-      mediaRecorderInstance.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          recordedChunks.push(event.data);
-        }
+      mediaRecorderInstance.ondataavailable = e => {
+        if (e.data.size > 0) recordedChunks.push(e.data);
       };
       mediaRecorderInstance.onstop = () => {
         const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
         videoURL = URL.createObjectURL(videoBlob);
-        stream.getTracks().forEach(track => track.stop());
-        nextBtns[2].disabled = false; // On peut passer à l'étape suivante
-        videoText.innerHTML = "Improvisation terminée.";
+        stream.getTracks().forEach(t => t.stop());
+        nextBtns[2].disabled = false; 
+        videoText.textContent = "Improvisation terminée.";
         videoText.style.display = 'block';
         recordingIndicator.style.display = 'none';
         clearInterval(timerInterval);
-        improStarted = true;
       };
 
       mediaRecorderInstance.start();
@@ -1082,31 +1055,25 @@
 
     async function setupCamera() {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-        preview.srcObject = stream;
-        return stream;
-      } catch (error) {
-        const improErrorDiv = document.getElementById('impro-error');
-        if (error.name === 'NotAllowedError') {
-          improErrorDiv.textContent = "Vous avez refusé l'accès à la webcam/micro. Veuillez autoriser l'accès.";
-        } else {
-          improErrorDiv.textContent = "Impossible d'accéder à la webcam. Vérifiez vos permissions.";
-        }
+        const st = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        preview.srcObject = st;
+        return st;
+      } catch(e) {
+        improErrorDiv.textContent = "Impossible d'accéder à la webcam/micro. Vérifiez vos permissions.";
         improErrorDiv.style.display = 'block';
-        console.error(error);
+        console.error(e);
         return null;
       }
     }
 
     function startTimer() {
       timeRemaining = 120;
-      updateCountdownDisplay();
+      updateCountdown();
       timerInterval = setInterval(() => {
         timeRemaining--;
         if (timeRemaining >= 0) {
-          updateCountdownDisplay();
-        } 
-        if (timeRemaining < 0) {
+          updateCountdown();
+        } else {
           clearInterval(timerInterval);
           if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
             mediaRecorderInstance.stop();
@@ -1115,11 +1082,10 @@
         }
       }, 1000);
     }
-
-    function updateCountdownDisplay() {
-      const minutes = Math.floor(timeRemaining / 60);
-      const seconds = timeRemaining % 60;
-      countdownElement.textContent = `${minutes}:${seconds < 10 ? '0'+seconds : seconds}`;
+    function updateCountdown() {
+      const m = Math.floor(timeRemaining / 60);
+      const s = timeRemaining % 60;
+      countdownElement.textContent = `${m}:${s<10 ? '0'+s : s}`;
       countdownElement.style.display = 'block';
     }
 
@@ -1134,9 +1100,17 @@
       }
     }
 
-    /********************************************************
-     * 6) Validation Formulaire Box3
-     ********************************************************/
+    function restartImpro() {
+      restartBtn.classList.add('hidden-btn');
+      videoText.innerHTML = "Ici va s'enregistrer ton improvisation en vidéo.<br>Lorsque tu es prêt, clique sur 'Démarrer ton impro'.<br><br>NB : vidéo stockée localement.";
+      videoText.style.display = 'block';
+      videoURL = "";
+      startImpro();
+    }
+
+    /*************************************
+     * 6) Formulaire Box3
+     *************************************/
     const validateFormBtn = document.getElementById('validate-form-btn');
     const prenomInput = document.getElementById('prenom');
     const emailInput = document.getElementById('email');
@@ -1145,38 +1119,31 @@
     const downloadPdfBtn = document.getElementById('download-pdf-btn');
 
     validateFormBtn.addEventListener('click', () => {
-      const prenomValue = prenomInput.value.trim();
-      const emailValue = emailInput.value.trim();
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
+      const prenomVal = prenomInput.value.trim();
+      const emailVal = emailInput.value.trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       const prenomRegex = /^[A-Za-zÀ-ÿ '-]+$/;
 
-      let valid = true;
       document.getElementById('prenom-error').style.display = 'none';
       document.getElementById('email-error').style.display = 'none';
 
-      if (!prenomValue || !prenomRegex.test(prenomValue)) {
+      let ok = true;
+      if (!prenomVal || !prenomRegex.test(prenomVal)) {
         document.getElementById('prenom-error').style.display = 'block';
-        valid = false;
+        ok = false;
       }
-      if (!emailValue) {
-        document.getElementById('email-error').textContent = "Merci de renseigner votre email.";
+      if (!emailVal || !emailRegex.test(emailVal)) {
         document.getElementById('email-error').style.display = 'block';
-        valid = false;
-      } else if (!emailRegex.test(emailValue)) {
-        document.getElementById('email-error').textContent = "Veuillez entrer une adresse email valide.";
-        document.getElementById('email-error').style.display = 'block';
-        valid = false;
+        ok = false;
       }
-      if (!valid) return;
+      if (!ok) return;
 
-      // Afficher les boutons de téléchargement
       downloadButtons.classList.add('show');
     });
 
-    // Téléchargement de la vidéo
     downloadVideoBtn.addEventListener('click', () => {
       if (!videoURL) {
-        alert("La vidéo n'est pas encore prête ou pas enregistrée.");
+        alert("Aucune vidéo enregistrée.");
         return;
       }
       const link = document.createElement('a');
@@ -1184,17 +1151,15 @@
       link.download = 'Letmotiv_Improvisation.mp4';
       document.body.appendChild(link);
       link.click();
-      document.body.removeChild(link);
+      link.remove();
     });
-
-    // Téléchargement du PDF
     downloadPdfBtn.addEventListener('click', () => {
       const link = document.createElement('a');
       link.href = "https://drive.google.com/uc?export=download&id=1pKif7hwkdSQRXLv6uoSQawCs3DIIcb70";
       link.download = "Questions_Evaluation.pdf";
       document.body.appendChild(link);
       link.click();
-      document.body.removeChild(link);
+      link.remove();
     });
   </script>
 </body>
