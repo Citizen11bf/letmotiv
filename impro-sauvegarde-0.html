@@ -52,7 +52,7 @@
       min-height: 100vh;
       overflow-x: hidden; /* Empêche le défilement horizontal */
       padding-top: 60px;  /* Compense la hauteur du header fixe */
-      padding-bottom: 20px; 
+      padding-bottom: 20px;
     }
 
     /* --- HEADER --- */
@@ -77,10 +77,10 @@
       justify-content: center;
       gap: 5px;
       max-width: 100%;
-      overflow-wrap: break-word; 
+      overflow-wrap: break-word;
     }
     .header-l2 {
-      font-size: 14px; 
+      font-size: 14px;
     }
 
     /* --- BARRE DE PROGRESSION --- */
@@ -146,6 +146,10 @@
       from { opacity: 0; }
       to   { opacity: 1; }
     }
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to   { opacity: 0; }
+    }
     @keyframes slideDown {
       from { transform: translateY(-50px); opacity: 0; }
       to   { transform: translateY(0);     opacity: 1; }
@@ -162,7 +166,7 @@
       padding: 20px;
     }
 
-    /* --- BOXES --- */
+    /* --- BOXES (étapes) --- */
     .box {
       position: relative;
       width: 100%;
@@ -177,14 +181,11 @@
       border: 2px solid #eeeeee;
       display: none;  /* Masqué par défaut */
     }
-    /* Pour qu’on puisse animer l’entrée/sortie verticalement, 
-       on va utiliser des classes d’animation qu’on ajoutera/retirera en JS */
     .box.active {
       display: block;
     }
 
     /* --- ANIMATIONS VERTICALES --- */
-    /* On prépare deux animations CSS : from-bottom et from-top */
     .slide-from-bottom {
       animation: fromBottom 0.5s ease forwards;
     }
@@ -253,14 +254,10 @@
       text-align: center;
     }
 
-    /* --- NOUVEAU : FLECHES HAUT/BAS --- */
-    /* Flèches "back" -> fa-arrow-up */
-    /* Flèches "next" -> fa-arrow-down */
+    /* --- FLECHES HAUT/BAS --- */
     .next-btn, .back-btn {
-      /* On peut avoir un style commun ici si besoin */
+      /* Styles communs éventuels */
     }
-
-    /* Bouton flèche bas (ex-"Suivant") */
     .next-btn {
       width: 40px;
       height: 40px;
@@ -295,7 +292,6 @@
       color: #ffffff;
     }
 
-    /* Encadré d'explication des objectifs */
     .explanation-box {
       visibility: hidden;
       opacity: 0;
@@ -446,7 +442,7 @@
       display: none;
     }
 
-    /* Boutons bleus Step4 */
+    /* STEP4 */
     .progression-buttons {
       margin-top: 20px;
       display: flex;
@@ -460,11 +456,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-    }
-
-    .download-section {
-      text-align: left;
-      margin-bottom: 20px;
     }
 
     button,
@@ -493,23 +484,7 @@
       transform: translateY(-3px);
     }
 
-    .download-buttons {
-      margin-top: 20px;
-      background-color: #fefefe;
-      border: 2px solid #ccc;
-      border-radius: 8px;
-      padding: 15px;
-      box-shadow: 0px 2px 4px rgba(0,0,0,0.1);
-      display: none;
-      text-align: center;
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-    .download-buttons.show {
-      display: block;
-      opacity: 1;
-      transform: translateY(0);
-    }
-
+    /* Boutons "Partager sur LinkedIn" */
     .linkedin-share-button {
       display: inline-flex;
       align-items: center;
@@ -581,12 +556,6 @@
       gap: 20px;
       margin-bottom: 15px;
     }
-    .download-section button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto;
-    }
 
     /* Icône sur le bouton "Générer un sujet" après génération */
     #generate-subject-btn.subject-generated {
@@ -606,12 +575,72 @@
       font-size: 16px;
     }
 
-    /* Texte centré et non gras pour h3 Step3 */
-    .download-section h3 {
+    /* --- NOUVEAU style pour la zone de téléchargement (Step3) --- */
+
+    /* Bloc d'accroche coloré */
+    .download-section-accent {
+      background: linear-gradient(135deg, #182d84, #00a48a);
+      border-radius: 10px;
+      padding: 20px;
       text-align: center;
-      font-size: 14px;
-      font-weight: normal;
-      margin-bottom: 15px;
+      color: #fff;
+      margin-bottom: 20px;
+      animation: fadeInDown 0.6s ease forwards;
+    }
+    .download-section-accent h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.5rem;
+      margin: 0 0 10px;
+    }
+    .download-section-accent .subtitle {
+      font-style: italic;
+      margin-bottom: 10px;
+    }
+    .download-section-accent .reassure {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .call-to-action {
+      text-align: center;
+    }
+    .call-to-action button {
+      background-color: #ffcb2d; /* Couleur d'appel à l'action (ex: jaune) */
+      color: #000;
+      border-radius: 30px;
+      padding: 12px 24px;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin: 10px auto;
+    }
+    .call-to-action button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+
+    /* Apparition animée des boutons de téléchargement */
+    .download-buttons {
+      margin-top: 20px;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .download-buttons.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes fadeInDown {
+      from {
+        transform: translateY(-20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
 
   </style>
@@ -642,6 +671,7 @@
 
   <!-- CONTAINER PRINCIPAL -->
   <div class="main-container">
+
     <!-- STEP1 : Choix d'objectif -->
     <div class="box" id="step1">
       <div class="box-header">
@@ -775,48 +805,63 @@
       </button>
     </div>
 
-    <!-- STEP3 : Analyse ta prestation -->
+    <!-- STEP3 : Télécharge ta vidéo et progresse -->
     <div class="box" id="step3">
       <div class="box-header">
         <!-- Flèche haut (retour) -->
         <button class="back-btn" id="back-btn3" aria-label="Retour à l'étape précédente">
           <i class="fas fa-arrow-up"></i>
         </button>
-        <div class="box-title">Analyse ta prestation</div>
+        <div class="box-title">Télécharge ta vidéo et progresse</div>
       </div>
 
       <div class="download-section">
-        <h3>Obtiens la vidéo de ta prestation et une grille Letmotiv pour l'analyser :</h3>
+        <!-- Bloc d'accroche coloré (accueil + rassurance) -->
+        <div class="download-section-accent">
+          <h2>Obtiens gratuitement ta vidéo et la grille Letmotiv</h2>
+          <p class="subtitle">Analyse ton improvisation et bénéficie de conseils pour progresser vite.</p>
+          <p class="reassure">
+            Rassure-toi, nous n’exploitons pas tes données. Ton email nous permet uniquement de t’envoyer des ressources complémentaires.
+          </p>
+        </div>
+
+        <!-- Champs de formulaire -->
         <div class="download-fields">
           <div class="input-group">
             <label for="prenom">Prénom :</label>
             <input type="text" id="prenom" placeholder="Votre prénom" aria-label="Prénom"/>
             <div id="prenom-error" class="error-message">
-              Veuillez entrer un prénom valide sans chiffres ni caractères spéciaux.
+              <!-- Affiché en JS si prénom invalide -->
             </div>
           </div>
           <div class="input-group">
             <label for="email">Email :</label>
             <input type="email" id="email" placeholder="Votre email" aria-label="Email"/>
             <div id="email-error" class="error-message">
-              Veuillez entrer une adresse email valide.
+              <!-- Affiché en JS si email invalide -->
             </div>
           </div>
         </div>
-        <div>
-          <button id="validate-form-btn" aria-label="Valider les informations">Valider</button>
+
+        <!-- Bouton CTA pour valider -->
+        <div class="call-to-action">
+          <button id="validate-form-btn" aria-label="Valider les informations">
+            Valider et voir mes ressources
+          </button>
+        </div>
+
+        <!-- Boutons de téléchargement, affichés après validation -->
+        <div class="download-buttons" id="download-buttons">
+          <button id="download-video-btn" aria-label="Télécharger la vidéo">
+            <i class="fas fa-download"></i> Télécharger la vidéo (mp4)
+          </button>
+          <button id="download-pdf-btn" aria-label="Télécharger la grille d'évaluation">
+            <i class="fas fa-download"></i> Télécharger la grille d'évaluation (pdf)
+          </button>
         </div>
       </div>
-
-      <div class="download-buttons" id="download-buttons">
-        <button id="download-video-btn" aria-label="Télécharger la vidéo">
-          <i class="fas fa-download"></i> Télécharger la vidéo (mp4)
-        </button>
-        <button id="download-pdf-btn" aria-label="Télécharger la grille d'évaluation">
-          <i class="fas fa-download"></i> Télécharger la grille d'évaluation (pdf)
-        </button>
-      </div>
     </div>
+
   </div>
 
   <!-- SCRIPT -->
@@ -860,7 +905,7 @@
       // On masque la box courante
       boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
 
-      // On ajoute la classe .active à la box cible
+      // On active la box cible
       boxes[next].classList.add('active');
 
       // Selon la direction : si next > current => animer « from-bottom », sinon « from-top »
@@ -873,7 +918,7 @@
       // Mise à jour de la barre de progression
       updateProgressBar(next);
 
-      // Scroll vers la boîte active (optionnel ou adaptatif)
+      // Scroll vers la boîte active (optionnel)
       const header = document.querySelector('.header');
       const headerHeight = header ? header.offsetHeight : 0;
       const boxPosition = boxes[next].getBoundingClientRect().top + window.scrollY - headerHeight - 20;
@@ -882,7 +927,7 @@
 
     // Gestion de la boîte d'introduction
     startIntroBtn.addEventListener('click', () => {
-      // Animation de fade-out
+      // Animation fadeOut
       introBox.style.animation = 'fadeOut 0.5s ease forwards';
       setTimeout(() => {
         introBox.style.display = 'none';
@@ -903,7 +948,7 @@
       showBox(1, 2);
     });
 
-    // Pour Step2 => Step4
+    // Step2 => Step4
     nextBtns[2].addEventListener('click', () => {
       const improErrorDiv = document.getElementById('impro-error');
       improErrorDiv.style.display = 'none';
@@ -919,7 +964,7 @@
       showBox(2, 3);
     });
 
-    // Pour Step4 => Step3
+    // Step4 => Step3
     nextBtns[3].addEventListener('click', () => {
       showBox(3, 4);
     });
@@ -952,7 +997,7 @@
       repartie:     "Réponds du tac-au-tac et montre ton sens de la répartie.",
       vendre:       "Fais un argumentaire de vente percutant.",
       conflit:      "Gère un désaccord ou une tension avec diplomatie.",
-      diction:      "Améliore ta diction et rend ton discours plus clair."
+      diction:      "Améliore ta diction et rends ton discours plus clair."
     };
     const txtFilesByCategory = {
       convaincre:   "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/convaincre.txt",
@@ -990,7 +1035,7 @@
         explanationBox.textContent = explication;
         explanationBox.classList.add('show');
 
-        // Pré-charger le .txt
+        // Pré-charger le .txt si pas encore fait
         if (subjectsCache[currentCategory] === null) {
           await loadSubjects(currentCategory);
         }
@@ -1246,6 +1291,7 @@
       emailError.style.display = 'none';
 
       if (!prenomValue || !prenomRegex.test(prenomValue)) {
+        prenomError.textContent = "Veuillez entrer un prénom valide (sans chiffres ni caractères spéciaux).";
         prenomError.style.display = 'block';
         valid = false;
       }
@@ -1285,6 +1331,7 @@
     // Téléchargement du PDF
     downloadPdfBtn.addEventListener('click', () => {
       const link = document.createElement('a');
+      // Exemple : lien vers Google Drive ou autre
       link.href = "https://drive.google.com/uc?export=download&id=1pKif7hwkdSQRXLv6uoSQawCs3DIIcb70";
       link.download = "Questions_Evaluation.pdf";
       document.body.appendChild(link);
