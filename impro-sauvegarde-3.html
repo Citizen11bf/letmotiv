@@ -271,6 +271,28 @@
       }
     }
 
+    /* --- Sélection visuelle des boutons d'objectifs --- */
+    .objectives-container button.selected-objective {
+      background-color: #00a48a !important;
+      color: #ffffff;
+      border-color: #00a48a !important;
+    }
+
+    .objectives-container button {
+      transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    }
+
+    /* --- Animations pour objective-details --- */
+    .objective-details {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .objective-details.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     /* --- HEADER INTERNE DES BOXES --- */
     .box-header {
       display: flex;
@@ -614,7 +636,7 @@
         <button data-category="inspirer" data-image="https://i.postimg.cc/V6sjk75W/Inspirer.png">Inspirer</button>
         <button data-category="lacher-prise" data-image="https://i.postimg.cc/jjX9LFq8/Lache-prise.png">Lâcher prise</button>
         <button data-category="toast" data-image="https://i.postimg.cc/v8Vm6r9r/Toast.png">Porter un toast</button>
-        <button data-category="repartie" data-image="">Avoir de la répartie</button> <!-- Image manquante -->
+        <button data-category="repartie" data-image="https://i.postimg.cc/9f4X4XWx/Repartie.png">Avoir de la répartie</button> <!-- Ajouté une image fictive -->
         <button data-category="vendre" data-image="https://i.postimg.cc/Gt5PNkLJ/Vendre.png">Vendre</button>
         <button data-category="conflit" data-image="https://i.postimg.cc/W3V566zd/Conflit.png">Gérer un conflit</button>
         <button data-category="diction" data-image="https://i.postimg.cc/MHvKsBrS/Diction.png">Diction</button>
