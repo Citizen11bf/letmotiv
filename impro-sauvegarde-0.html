@@ -733,6 +733,7 @@
         <button data-category="vendre">Vendre</button>
         <button data-category="conflit">Gérer un conflit</button>
         <button data-category="diction">Diction</button>
+        <button data-category="entretien">Réussir son entretien</button>
       </div>
 
       <div id="objective-error" class="error-message">
@@ -1045,6 +1046,7 @@
       vendre:       "Tu as 2 minutes top chrono pour vendre un objet insolite",
       conflit:      "Gère un désaccord ou une tension avec diplomatie",
       diction:      "Répète la phrase suivante 5 fois de suite sans te tromper"
+      entretien:    "Convaincs ton futur employeur que tu es la pépite qu'il recherche"
     };
     const txtFilesByCategory = {
       convaincre:   "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/convaincre.txt",
@@ -1055,6 +1057,7 @@
       vendre:       "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/vendre.txt",
       conflit:      "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/gerer_un_conflit.txt",
       diction:      "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/diction.txt"
+      entretien:    "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/entretien.txt"
     };
     let subjectsCache = {
       convaincre: null,
@@ -1064,7 +1067,8 @@
       repartie: null,
       vendre: null,
       conflit: null,
-      diction: null
+      diction: null,
+      entretien: null
     };
     const objectivesButtons = document.querySelectorAll('.objectives-container button');
     const explanationBox = document.getElementById('explanation-box');
