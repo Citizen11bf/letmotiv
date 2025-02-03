@@ -6,16 +6,31 @@
   <title>Simulateur d'improvisation</title>
   <meta name="description" content="Évaluer et développer rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv.">
 
-  <!-- Balises Open Graph et Twitter (inchangées) -->
-  <!-- … -->
+  <!-- Balises Open Graph pour LinkedIn -->
+  <meta property="og:title" content="Simulateur d'improvisation Letmotiv" />
+  <meta property="og:description" content="Évaluez et développez rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://letmotiv-simulateur.fr" />
+  <meta property="og:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png" />
+  <meta property="og:image:alt" content="Illustration d'une improvisation en public avec un orateur sur scène." />
+  <meta name="author" content="Letmotiv" />
+  <meta property="article:published_time" content="2025-01-26" />
 
-  <!-- Import de Google Fonts et Font Awesome -->
+  <!-- Balises Twitter (optionnel) -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Simulateur d'improvisation Letmotiv">
+  <meta name="twitter:description" content="Évaluez et développez rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv.">
+  <meta name="twitter:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png">
+
+  <!-- Import de la police DM Sans et Montserrat depuis Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=DM+Sans&family=Montserrat:wght@700&display=swap"
     rel="stylesheet"
   />
+
+  <!-- Icônes Font Awesome -->
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
@@ -23,7 +38,9 @@
 
   <style>
     /* --- GLOBAL --- */
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
     body {
       margin: 0;
       font-family: 'DM Sans', sans-serif;
@@ -33,8 +50,8 @@
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
-      overflow-x: hidden;
-      padding-top: 60px;  /* Compense le header fixe */
+      overflow-x: hidden; /* Empêche le défilement horizontal */
+      padding-top: 60px;  /* Compense la hauteur du header fixe */
       padding-bottom: 20px;
     }
 
@@ -51,8 +68,20 @@
       top: 0;
       left: 0;
       z-index: 10;
+      box-sizing: border-box;
     }
-    .header-content { /* … styles inchangés … */ }
+    .header-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      max-width: 100%;
+      overflow-wrap: break-word;
+    }
+    .header-l2 {
+      font-size: 14px;
+    }
 
     /* --- BARRE DE PROGRESSION --- */
     .progress-container {
@@ -71,65 +100,7 @@
       transition: width 0.5s ease;
     }
 
-    /* --- STYLE DES BOXES --- */
-    .box {
-      position: relative;
-      width: 100%;
-      max-width: 600px;
-      margin: 20px 0;
-      background-color: #E2E7E3;
-      border-radius: 10px;
-      padding: 15px;
-      box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
-      text-align: center;
-      font-size: 14px;
-      border: 2px solid #eeeeee;
-      display: none;
-    }
-    .box.active { display: block; }
-
-    /* --- ANIMATIONS --- */
-    .slide-from-bottom { animation: fromBottom 1.5s ease forwards; }
-    @keyframes fromBottom {
-      from { opacity: 0; transform: translateY(50px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .slide-from-top { animation: fromTop 1.5s ease forwards; }
-    @keyframes fromTop {
-      from { opacity: 0; transform: translateY(-50px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
-
-    /* --- BOUTONS --- */
-    .back-btn, .next-btn, button {
-      /* Styles communs (border, padding, transition, etc.) */
-    }
-    .back-btn {
-      background-color: #808080;
-      color: #FFFFFF;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      cursor: pointer;
-      transition: background-color 0.3s, transform 0.3s;
-    }
-    .back-btn.hidden-visibility { visibility: hidden; }
-    .next-btn {
-      width: 40px;
-      height: 40px;
-      border: 2px solid #182d84;
-      background-color: transparent;
-      color: #182d84;
-      border-radius: 50%;
-      cursor: pointer;
-      transition: background-color 0.3s, color 0.3s, transform 0.3s;
-      margin: 10px auto;
-    }
-    .next-btn:hover { background-color: #00a48a; color: #ffffff; transform: scale(1.05); }
-
-    /* --- BOX D'INTRODUCTION --- */
+    /* --- BOÎTE D'INTRODUCTION --- */
     .intro-box {
       position: fixed;
       top: 0;
@@ -155,6 +126,8 @@
     .intro-box button {
       background-color: #ffffff;
       color: #182d84;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.2rem;
       border: none;
       border-radius: 25px;
       padding: 15px 30px;
@@ -162,55 +135,204 @@
       transition: background-color 0.3s, transform 0.3s, color 0.3s;
       box-shadow: 0px 4px 6px rgba(0,0,0,0.2);
     }
-    .intro-box button:hover { background-color: #00a48a; color: #ffffff; transform: scale(1.05); }
-    @keyframes slideDown {
-      from { transform: translateY(-50px); opacity: 0; }
-      to   { transform: translateY(0); opacity: 1; }
+    .intro-box button:hover {
+      background-color: #00a48a;
+      color: #ffffff;
+      transform: scale(1.05);
     }
 
-    /* --- BOX STEP1 : Choix d’objectif --- */
-    /* (inchangé) */
+    /* Animations de base (pour la boîte d'intro) */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to   { opacity: 0; }
+    }
+    @keyframes slideDown {
+      from { transform: translateY(-50px); opacity: 0; }
+      to   { transform: translateY(0);     opacity: 1; }
+    }
 
-    /* --- NOUVELLE BOX STEP2 : Génère un sujet d’improvisation --- */
+    /* --- CONTENEUR PRINCIPAL --- */
+    .main-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center; 
+      flex-grow: 1;
+      width: 100%;
+      padding: 20px;
+    }
+
+    /* --- BOXES (étapes) --- */
+    .box {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      margin: 20px 0;
+      background-color: #E2E7E3;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
+      text-align: center;
+      font-size: 14px;
+      border: 2px solid #eeeeee;
+      display: none;  /* Masqué par défaut */
+    }
+    .box.active {
+      display: block;
+    }
+
+    /* --- ANIMATIONS VERTICALES --- */
+    .slide-from-bottom {
+      animation: fromBottom 1.5s ease forwards;
+    }
+    @keyframes fromBottom {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .slide-from-top {
+      animation: fromTop 1.5s ease forwards;
+    }
+    @keyframes fromTop {
+      from {
+        opacity: 0;
+        transform: translateY(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* --- HEADER INTERNE DES BOXES --- */
+    .box-header {
+      display: flex;
+      flex-direction: column; /* Alignement vertical */
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .back-btn {
+      border: none;
+      background-color: #808080;
+      color: #FFFFFF;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s, transform 0.3s;
+      margin: 0 auto;
+      margin-bottom: 10px;
+    }
+    .back-btn:hover {
+      background-color: #505050;
+      transform: scale(1.1);
+    }
+    .back-btn:active {
+      background-color: #303030;
+    }
+    .back-btn.hidden-visibility {
+      visibility: hidden;
+    }
+    .box-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #182d84;
+      text-align: center;
+    }
+
+    /* --- FLECHES HAUT/BAS --- */
+    .next-btn, .back-btn {
+      /* Styles communs éventuels */
+    }
+    .next-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #182d84;
+      background-color: transparent;
+      color: #182d84;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s, transform 0.3s;
+      margin: 10px auto;
+    }
+    .next-btn:hover {
+      background-color: #00a48a;
+      color: #ffffff;
+      transform: scale(1.05);
+    }
+
+    /* STEP1 : Choix d’objectif */    
+    /* (Le code de la box STEP1 reste inchangé) */
+
+    /* ------------------------------------------------------------------
+       AJOUT : Nouvelle BOX INTERMÉDIAIRE POUR LA GÉNÉRATION DU SUJET
+       ------------------------------------------------------------------ */
     #step2-subject p#objective-reminder {
       font-weight: bold;
       margin-bottom: 15px;
     }
-    #subject-result {
-      margin-top: 10px;
-      font-weight: bold;
-      font-size: 16px;
-    }
+    /* La structure de cette box est ajoutée sans modifier les autres éléments existants */
+    
+    /* ------------------------------------------------------------------
+       FIN AJOUT BOX INTERMÉDIAIRE
+       ------------------------------------------------------------------ */
 
-    /* --- BOX STEP3 : Vidéo Impro (anciennement step2) --- */
-    /* On ajoute un conteneur pour afficher le sujet généré */
+    /* --- BOX STEP2 VIDEO (déjà présente) --- */
+    /* Pour la box vidéo, nous ajoutons en haut l'affichage du sujet généré */
     #subject-display-video {
       margin: 10px 0;
       font-weight: bold;
       font-size: 16px;
     }
 
-    /* … Le reste des styles (pour les boxes STEP4 et STEP3 dans l’ordre final) reste inchangé … */
-    
-    /* (Les styles pour les autres sections, formulaires, etc. restent tels quels) */
+    /* (Les autres styles de STEP3, STEP4, STEP5, formulaires, etc. restent inchangés) */
+
+    /* … [styles existants pour STEP4 et STEP3] … */
 
   </style>
 </head>
 <body>
-  <!-- BOÎTE D'INTRODUCTION (inchangée) -->
+  <!-- BOÎTE D'INTRODUCTION -->
   <div class="intro-box" id="intro-box">
     <h1>Entraine-toi à la prise de parole en public</h1>
     <button id="start-intro-btn" aria-label="Commencer">Commencer</button>
   </div>
 
-  <!-- FORMULAIRE CACHÉ POUR GOOGLE FORMS (inchangé) -->
-  <!-- … -->
+  <!-- FORMULAIRE CACHÉ POUR GOOGLE FORMS -->
+  <form id="hidden-google-form" action="https://docs.google.com/forms/d/e/1FAIpQLSfGAcKp0cV5AeVJCJBPbtKLKCLhbYySZf_FkiMg85WKVFUn6A/formResponse" method="POST" target="hidden_iframe" style="display:none;">
+    <input type="text" name="entry.1119647353" id="hidden-prenom">
+    <input type="email" name="entry.638831312" id="hidden-email">
+  </form>
+  <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
 
   <!-- HEADER -->
   <div class="header">
     <div class="header-content">
-      <div class="header-l1">Simulateur d'improvisation en public</div>
-      <div class="header-l2">by Letmotiv</div>
+      <div class="header-l1">
+        Simulateur d'improvisation en public
+      </div>
+      <div class="header-l2">
+        by Letmotiv
+      </div>
     </div>
   </div>
 
@@ -225,10 +347,13 @@
     <!-- STEP1 : Choix d’objectif -->
     <div class="box" id="step1">
       <div class="box-header">
-        <!-- Bouton retour masqué en première étape -->
-        <button class="back-btn hidden-visibility" id="back-btn1" aria-label="Retour"><i class="fas fa-arrow-up"></i></button>
+        <!-- Flèche haut (retour) masquée à la première étape -->
+        <button class="back-btn hidden-visibility" id="back-btn1" aria-label="Retour">
+          <i class="fas fa-arrow-up"></i>
+        </button>
         <div class="box-title">Choisis ton objectif</div>
       </div>
+
       <div class="objectives-container">
         <button data-category="convaincre">Convaincre</button>
         <button data-category="inspirer">Inspirer</button>
@@ -240,16 +365,20 @@
         <button data-category="diction">Diction</button>
         <button data-category="entretien">Réussir son entretien</button>
       </div>
+
       <div id="objective-error" class="error-message">
         Sélectionne un objectif avant de continuer.
       </div>
+
       <!-- Bouton suivant de la box STEP1 -->
       <button class="next-btn" id="next-btn1" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
     </div>
 
-    <!-- STEP2 : Génère un sujet d’improvisation (nouvelle box) -->
+    <!-- ------------------------------------------------------------------
+         AJOUT : BOX INTERMÉDIAIRE POUR LA GÉNÉRATION DU SUJET
+         ------------------------------------------------------------------ -->
     <div class="box" id="step2-subject">
       <div class="box-header">
         <button class="back-btn" id="back-btn-subject" aria-label="Retour à l'étape précédente">
@@ -269,8 +398,12 @@
         <i class="fas fa-arrow-down"></i>
       </button>
     </div>
+    <!-- ------------------------------------------------------------------
+         FIN AJOUT BOX INTERMÉDIAIRE
+         ------------------------------------------------------------------ -->
 
-    <!-- STEP3 : Vidéo, enregistrement, etc. (anciennement STEP2) -->
+    <!-- STEP2 : Vidéo, enregistrement, etc. -->
+    <!-- (Cette box existante n'est pas modifiée, seule l'ajout de l'affichage du sujet généré est réalisé) -->
     <div class="box" id="step2-video">
       <div class="box-header">
         <button class="back-btn" id="back-btn-video" aria-label="Retour à l'étape précédente">
@@ -278,7 +411,7 @@
         </button>
         <div class="box-title">Lance ton improvisation</div>
       </div>
-      <!-- Affichage du sujet généré transmis depuis la box STEP2 -->
+      <!-- Affichage du sujet généré transmis depuis la box intermédiaire -->
       <div id="subject-display-video"></div>
       <div class="video-box">
         <video id="preview" autoplay muted></video>
@@ -307,24 +440,27 @@
         </button>
       </div>
       <div id="impro-error" class="error-message"></div>
-      <!-- Bouton suivant pour passer à l'étape suivante -->
+      <!-- Bouton suivant -->
       <button class="next-btn" id="next-btn-video" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
     </div>
 
-    <!-- STEP4 : Partage sur LinkedIn + Options de progression (inchangée) -->
+    <!-- STEP4 : Partage sur LinkedIn + Options de progression -->
     <div class="box" id="step4">
       <div class="box-header">
+         <!-- Flèche haut (retour) -->
         <button class="back-btn" id="back-btn4" aria-label="Retour à l'étape précédente">
           <i class="fas fa-arrow-up"></i>
         </button>
         <div class="box-title">Partage ton expérience</div>
       </div>
+
       <p>
         Encourage d'autres personnes à relever le défi ! Montre ton courage et inspire les autres 
         à s'améliorer en improvisation ! <b>#ChallengeImproLetmotiv</b>
       </p>
+
       <a
         id="linkedin-share-button"
         href="https://www.linkedin.com/shareArticle?mini=true&url=https://letmotiv-simulateur.fr"
@@ -335,6 +471,7 @@
       >
         <i class="fab fa-linkedin"></i> Partager sur LinkedIn
       </a>
+
       <div class="progression-buttons">
         <p>Tu souhaites progresser rapidement et efficacement dans la prise de parole en public ?</p>
         <a 
@@ -356,13 +493,14 @@
           <i class="fas fa-chalkboard-teacher"></i> Réserve un coaching
         </a>
       </div>
+
       <!-- Bouton suivant -->
       <button class="next-btn" id="next-btn4" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
     </div>
 
-    <!-- STEP5 : Analyse ta prestation (inchangée) -->
+    <!-- STEP5 : Analyse ta prestation -->
     <div class="box" id="step3">
       <div class="box-header">
         <button class="back-btn" id="back-btn3" aria-label="Retour à l'étape précédente">
@@ -370,7 +508,7 @@
         </button>
         <div class="box-title">Analyse ta prestation</div>
       </div>
-      <!-- Contenu de l'analyse (formulaire, champs, etc.) inchangé -->
+
       <div class="download-section">
         <div class="download-section-accent">
           <h2>Obtiens gratuitement ta prestation en vidéo et la grille d'analyse Letmotiv</h2>
@@ -379,6 +517,7 @@
             N'hésite pas à t'entraîner et refaire des improvisations pour progresser sur tes axes d'améliorations. 
           </p>
         </div>
+
         <div class="download-fields">
           <div class="input-group">
             <label for="prenom">Prénom :</label>
@@ -391,14 +530,17 @@
             <div id="email-error" class="error-message"></div>
           </div>
         </div>
+
         <div class="call-to-action">
           <button id="validate-form-btn" aria-label="Valider les informations">
             Valider et voir mes ressources
           </button>
         </div>
+
         <div id="success-message" class="success-message" style="display: none;">
           Merci ! Vos informations ont été enregistrées et vos ressources sont prêtes à être téléchargées.
         </div>
+
         <div class="download-buttons" id="download-buttons">
           <button id="download-video-btn" aria-label="Télécharge ta vidéo">
             <i class="fas fa-download"></i> Télécharge ta vidéo (mp4)
@@ -415,23 +557,12 @@
   <!-- SCRIPT -->
   <script>
     /***********************
-     * 1) Gestion des étapes
-     * Le parcours est désormais composé de 5 étapes :
-     *   1 : Box Objectifs
-     *   2 : Box Sujet (génération)
-     *   3 : Box Vidéo Impro
-     *   4 : Box Partage
-     *   5 : Box Analyse
+     * Gestion des étapes
+     * Le parcours est ici adapté pour inclure la nouvelle box intermédiaire.
+     * (Les autres éléments existants ne sont pas modifiés)
      ***********************/
-    const boxes = {
-      1: document.getElementById('step1'),
-      2: document.getElementById('step2-subject'),
-      3: document.getElementById('step2-video'),
-      4: document.getElementById('step4'),
-      5: document.getElementById('step3')
-    };
-
-    // Mise à jour de la barre de progression : 5 étapes => 20% chacune
+    // Mise à jour de la barre de progression
+    // Ici, nous passons de 4 à 5 étapes, donc chaque étape représente 20%
     const topProgressBar = document.getElementById('top-progress-bar');
     function updateProgressBar(step) {
       const progress = step * 20;
@@ -439,7 +570,23 @@
     }
     updateProgressBar(0);
 
-    // Fonction d'affichage avec animations
+    /* 
+      Mapping des boxes (les IDs existants ne sont pas modifiés) :
+        1: #step1
+        2: #step2-subject (nouvelle box intermédiaire)   // AJOUT
+        3: #step2-video
+        4: #step4
+        5: #step3
+    */
+    const boxes = {
+      1: document.getElementById('step1'),
+      2: document.getElementById('step2-subject'), // AJOUT
+      3: document.getElementById('step2-video'),
+      4: document.getElementById('step4'),
+      5: document.getElementById('step3')
+    };
+
+    // Fonction d'affichage avec animations (inchangée)
     function showBox(current, next) {
       if (!boxes[current] || !boxes[next]) return;
       boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
@@ -456,7 +603,7 @@
       window.scrollTo({ top: boxPosition, behavior: 'smooth' });
     }
 
-    // Gestion de la boîte d'introduction
+    // Gestion de la boîte d'introduction (inchangée)
     document.getElementById('start-intro-btn').addEventListener('click', () => {
       const introBox = document.getElementById('intro-box');
       introBox.style.animation = 'fadeOut 0.5s ease forwards';
@@ -468,9 +615,21 @@
     });
 
     /***********************
-     * 2) STEP1 : Objectifs
+     * STEP1 : Objectifs (inchangé)
      ***********************/
-    // Lorsqu'on clique sur "Suivant" dans la box STEP1, on vérifie que l'utilisateur a bien sélectionné un objectif.
+    // Sélection d'objectif
+    const objectivesButtons = document.querySelectorAll('.objectives-container button');
+    let currentCategory = null;
+    objectivesButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        objectivesButtons.forEach(btn => btn.classList.remove('selected-objective'));
+        button.classList.add('selected-objective');
+        // Masquer les messages d'erreur éventuels
+        document.getElementById('objective-error').style.display = 'none';
+      });
+    });
+
+    // Bouton "Suivant" de STEP1 : vérifie que l'objectif est sélectionné et passe à la box intermédiaire
     document.getElementById('next-btn1').addEventListener('click', () => {
       const selected = document.querySelector('.objectives-container .selected-objective');
       if (!selected) {
@@ -479,27 +638,15 @@
         errorDiv.style.display = 'block';
         return;
       }
-      // Met à jour le rappel dans la box Sujet
+      // Met à jour le rappel dans la nouvelle box intermédiaire
       document.getElementById('objective-reminder').textContent = "Objectif choisi : " + selected.textContent;
       // Conserve la catégorie dans une variable globale pour le chargement des sujets
       currentCategory = selected.dataset.category;
       showBox(1, 2);
     });
 
-    // Gestion de la sélection d'objectif (pour l'effet visuel)
-    const objectivesButtons = document.querySelectorAll('.objectives-container button');
-    let currentCategory = null;
-    objectivesButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        objectivesButtons.forEach(btn => btn.classList.remove('selected-objective'));
-        button.classList.add('selected-objective');
-        // Masquer les éventuels messages d'erreur
-        document.getElementById('objective-error').style.display = 'none';
-      });
-    });
-
     /***********************
-     * 3) STEP2 : Génération du sujet
+     * STEP2 : Génération du sujet (Nouvelle box intermédiaire) // AJOUT
      ***********************/
     let currentSubject = "";
     const subjectsCache = {
@@ -544,14 +691,13 @@
       }
     }
 
-    // Génération du sujet dans la box STEP2
+    // Bouton "Générer" dans la box intermédiaire
     document.getElementById('generate-subject-btn').addEventListener('click', async () => {
       if (!currentCategory) {
         document.getElementById('objective-error').textContent = "Merci de sélectionner un objectif avant de générer un sujet.";
         document.getElementById('objective-error').style.display = 'block';
         return;
       }
-      // Charge les sujets s'ils ne le sont pas déjà
       if (subjectsCache[currentCategory] === null) {
         await loadSubjects(currentCategory);
       }
@@ -567,7 +713,7 @@
       document.getElementById('subject-error').style.display = 'none';
     });
 
-    // Bouton "Suivant" de la box STEP2 : passe à la box STEP3 (Vidéo)
+    // Bouton "Suivant" de la box intermédiaire : vérifie que le sujet a été généré et passe à la box vidéo
     document.getElementById('next-btn-subject').addEventListener('click', () => {
       if (!currentSubject) {
         const subjectError = document.getElementById('subject-error');
@@ -581,7 +727,7 @@
     });
 
     /***********************
-     * 4) STEP3 : Enregistrement vidéo (anciennement STEP2)
+     * STEP3 : Enregistrement vidéo (inchangé)
      ***********************/
     let improStarted = false;
     let mediaRecorderInstance;
@@ -645,7 +791,9 @@
       mediaRecorderInstance = new MediaRecorder(stream);
       recordedChunks = [];
       mediaRecorderInstance.ondataavailable = (event) => {
-        if (event.data.size > 0) { recordedChunks.push(event.data); }
+        if (event.data.size > 0) {
+          recordedChunks.push(event.data);
+        }
       };
       mediaRecorderInstance.onstop = () => {
         const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
@@ -693,7 +841,9 @@
       updateCountdownDisplay();
       timerInterval = setInterval(() => {
         timeRemaining--;
-        if (timeRemaining >= 0) { updateCountdownDisplay(); }
+        if (timeRemaining >= 0) {
+          updateCountdownDisplay();
+        }
         if (timeRemaining < 0) {
           clearInterval(timerInterval);
           if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
@@ -731,7 +881,7 @@
     });
 
     /***********************
-     * 5) STEP4 et STEP5 : Téléchargements et envoi des données (inchangés)
+     * STEP4 & STEP5 : Téléchargements et envoi des données (inchangés)
      ***********************/
     const validateFormBtn = document.getElementById('validate-form-btn');
     const prenomInput = document.getElementById('prenom');
@@ -807,7 +957,7 @@
     });
 
     /***********************
-     * BACK BUTTONS pour STEP2 et STEP3
+     * BACK BUTTONS pour la nouvelle box intermédiaire et la box vidéo
      ***********************/
     document.getElementById('back-btn-subject').addEventListener('click', () => {
       showBox(2, 1);
@@ -815,7 +965,7 @@
     document.getElementById('back-btn-video').addEventListener('click', () => {
       showBox(3, 2);
     });
-    // Les autres back buttons (step4 et step5) restent inchangés.
+    // Les autres back buttons (STEP4 et STEP5) restent inchangés.
   </script>
 </body>
 </html>
