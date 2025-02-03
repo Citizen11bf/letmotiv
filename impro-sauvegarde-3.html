@@ -330,8 +330,7 @@
       border: 2px solid #ccc;
     }
 
-    /* --- Nouveau STEP2 : Génération du sujet --- */
-    /* (On déplace ici le bouton "Générer un sujet" et la zone d'affichage associée) */
+    /* --- STEP2 : Génération du sujet --- */
     .subject-wrapper {
       margin-top: 10px;
       background-color: #fefefe;
@@ -345,7 +344,7 @@
       display: none;
     }
     
-    /* STEP3 : Enregistrement vidéo (anciennement STEP2) */
+    /* --- STEP3 : Enregistrement vidéo (anciennement STEP2) --- */
     .video-box {
       margin: 10px auto;
       border: 3px solid #182d84;
@@ -450,7 +449,7 @@
       display: none;
     }
 
-    /* STEP4 : Partage sur LinkedIn + Options de progression */
+    /* --- STEP4 : Partage sur LinkedIn + Options de progression --- */
     .progression-buttons {
       margin-top: 20px;
       display: flex;
@@ -583,7 +582,7 @@
       font-size: 16px;
     }
 
-    /* --- NOUVEAU style pour la zone de téléchargement (Step5) --- */
+    /* --- NOUVEAU style pour la zone de téléchargement (STEP5) --- */
 
     /* Bloc d'accroche coloré */
     .download-section-accent {
@@ -749,6 +748,8 @@
         </button>
         <div class="box-title">Génère un sujet pour ton impro</div>
       </div>
+      <!-- Rappel de l'objectif sélectionné -->
+      <p id="selected-objective-display" style="font-weight:bold; margin-bottom:10px;"></p>
 
       <button id="generate-subject-btn">Générer un sujet aléatoire</button>
       <div id="subject-wrapper" class="subject-wrapper">
@@ -762,7 +763,7 @@
       </button>
     </div>
 
-    <!-- STEP3 : Enregistrement vidéo (anciennement STEP2) -->
+    <!-- STEP3 : Enregistrement vidéo -->
     <div class="box" id="step3">
       <div class="box-header">
         <button class="back-btn" id="back-btn3" aria-label="Retour à l'étape précédente">
@@ -770,9 +771,9 @@
         </button>
         <div class="box-title">Lance ton improvisation</div>
       </div>
+      <!-- Rappel du sujet généré -->
+      <p id="current-subject-display" style="font-weight:bold; margin-bottom:10px;"></p>
 
-      <!-- Le bouton "Générer un sujet" a été déplacé dans step2 -->
-      <!-- Zone vidéo et commandes -->
       <div class="video-box">
         <video id="preview" autoplay muted></video>
         <div class="video-text" id="video-text">
@@ -918,7 +919,7 @@
   <!-- SCRIPT -->
   <script>
     /***********************
-     * Gestion des étapes (maintenant 5 étapes)
+     * Gestion des étapes (5 étapes)
      ***********************/
     const boxes = {
       1: document.getElementById('step1'),
@@ -946,6 +947,11 @@
     const startIntroBtn = document.getElementById('start-intro-btn');
     const topProgressBar = document.getElementById('top-progress-bar');
 
+    // Variables pour mémoriser l'objectif et le sujet
+    let currentCategory = null;
+    let currentObjective = ""; // Texte de l'objectif sélectionné
+    let currentSubject = "";
+
     // Mise à jour de la barre de progression : 5 étapes => 20% chacune
     function updateProgressBar(step) {
       const progress = step * 20;
@@ -968,6 +974,16 @@
       const headerHeight = header ? header.offsetHeight : 0;
       const boxPosition = boxes[next].getBoundingClientRect().top + window.scrollY - headerHeight - 20;
       window.scrollTo({ top: boxPosition, behavior: 'smooth' });
+      
+      // Mise à jour des rappels dans les étapes concernées
+      if (next === 2) {
+        // Dans STEP2, rappeler l'objectif sélectionné
+        document.getElementById('selected-objective-display').textContent = "Ton objectif : " + currentObjective;
+      }
+      if (next === 3) {
+        // Dans STEP3, rappeler le sujet généré
+        document.getElementById('current-subject-display').textContent = "Sujet : " + currentSubject;
+      }
     }
 
     // Boîte d'introduction
@@ -1003,7 +1019,7 @@
       showBox(2, 3);
     });
 
-    // STEP3 -> STEP4 : Enregistrement (aucune condition supplémentaire ici)
+    // STEP3 -> STEP4 : Enregistrement
     nextBtns[3].addEventListener('click', () => {
       const improErrorDiv = document.getElementById('impro-error');
       improErrorDiv.style.display = 'none';
@@ -1076,14 +1092,14 @@
     };
     const objectivesButtons = document.querySelectorAll('.objectives-container button');
     const explanationBox = document.getElementById('explanation-box');
-    let currentCategory = null;
-    let currentSubject = "";
 
     objectivesButtons.forEach(button => {
       button.addEventListener('click', async () => {
         objectivesButtons.forEach(btn => btn.classList.remove('selected-objective'));
         button.classList.add('selected-objective');
         currentCategory = button.dataset.category;
+        // Enregistrer le texte de l'objectif sélectionné
+        currentObjective = button.innerText;
         const explication = explanations[currentCategory] || "";
         explanationBox.textContent = explication;
         explanationBox.classList.add('show');
