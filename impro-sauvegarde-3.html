@@ -280,7 +280,7 @@
       transform: scale(1.05);
     }
 
-    /* Nouvelle animation pour attirer l'attention sur le bouton */
+    /* Animation "pulse" (effet courant électrique) appliquée sur les boutons "Suivant" */
     .next-btn.pulse {
       animation: electricPulse 1.5s infinite;
     }
@@ -599,8 +599,6 @@
     }
 
     /* --- NOUVEAU style pour la zone de téléchargement (STEP5) --- */
-
-    /* Bloc d'accroche coloré */
     .download-section-accent {
       background: linear-gradient(135deg, #182d84, #00a48a);
       border-radius: 10px;
@@ -628,7 +626,7 @@
       text-align: center;
     }
     .call-to-action button {
-      background-color: #ffcb2d; /* Couleur d'appel à l'action (ex: jaune) */
+      background-color: #ffcb2d;
       color: #000;
       border-radius: 30px;
       padding: 12px 24px;
@@ -649,19 +647,19 @@
       opacity: 0;
       transform: translateY(10px);
       transition: opacity 0.4s ease, transform 0.4s ease;
-      display: none; /* Assure qu'il n'y a pas d'espace réservé */
+      display: none;
     }
     .download-buttons.show {
       opacity: 1;
       transform: translateY(0);
-      display: block; /* Affiche les boutons */
+      display: block;
     }
 
     /* Message de confirmation en vert */
     .success-message {
-      color: #28a745; /* Vert Bootstrap */
-      background-color: #d4edda; /* Fond vert clair */
-      border: 1px solid #c3e6cb; /* Bordure verte douce */
+      color: #28a745;
+      background-color: #d4edda;
+      border: 1px solid #c3e6cb;
       border-radius: 5px;
       padding: 10px 20px;
       margin-top: 10px;
@@ -724,7 +722,6 @@
     <!-- STEP1 : Choix d'objectif -->
     <div class="box" id="step1">
       <div class="box-header">
-        <!-- Flèche haut (retour) masquée à la première étape -->
         <button class="back-btn hidden-visibility" id="back-btn1" aria-label="Retour">
           <i class="fas fa-arrow-up"></i>
         </button>
@@ -749,7 +746,7 @@
 
       <div class="explanation-box" id="explanation-box"></div>
 
-      <!-- Flèche bas (suivant) -->
+      <!-- Bouton Suivant STEP1 -->
       <button class="next-btn" id="next-btn1" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
@@ -772,7 +769,7 @@
       </div>
       <div id="subject-error" class="error-message"></div>
 
-      <!-- Flèche bas (suivant) -->
+      <!-- Bouton Suivant STEP2 -->
       <button class="next-btn" id="next-btn2" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
@@ -813,7 +810,7 @@
 
       <div id="impro-error" class="error-message"></div>
 
-      <!-- Flèche bas (suivant) -->
+      <!-- Bouton Suivant STEP3 -->
       <button class="next-btn" id="next-btn3" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
@@ -825,48 +822,57 @@
         <button class="back-btn" id="back-btn4" aria-label="Retour à l'étape précédente">
           <i class="fas fa-arrow-up"></i>
         </button>
-        <div class="box-title">Partage ton expérience</div>
+        <div class="box-title">Bravo pour ton improvisation !</div>
       </div>
 
-      <p>
-        Encourage d'autres personnes à relever le défi ! Montre ton courage et inspire les autres 
-        à s'améliorer en improvisation ! <b>#ChallengeImproLetmotiv</b>
-      </p>
-
-      <a
-        id="linkedin-share-button"
-        href="https://www.linkedin.com/shareArticle?mini=true&url=https://letmotiv-simulateur.fr"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="linkedin-share-button"
-        aria-label="Partager sur LinkedIn"
-      >
-        <i class="fab fa-linkedin"></i> Partager sur LinkedIn
-      </a>
-
-      <div class="progression-buttons">
-        <p>Tu souhaites progresser rapidement et efficacement dans la prise de parole en public ?</p>
-        <a 
-          href="https://alexetpierre.systeme.io/inscription"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="btn"
-          aria-label="S'inscrire à la formation en ligne"
-        >
-          <i class="fas fa-laptop"></i> Suis notre formation en ligne
-        </a>
+      <!-- Section Partage -->
+      <div class="share-section">
+        <h3>Partage ton expérience</h3>
+        <p>Inspire la communauté en partageant ton improvisation sur LinkedIn.</p>
         <a
-          href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole"
+          id="linkedin-share-button"
+          href="https://www.linkedin.com/shareArticle?mini=true&url=https://letmotiv-simulateur.fr"
           target="_blank"
           rel="noopener noreferrer"
-          class="btn"
-          aria-label="Réserver un coaching"
+          class="linkedin-share-button"
+          aria-label="Partager sur LinkedIn"
         >
-          <i class="fas fa-chalkboard-teacher"></i> Réserve un coaching
+          <i class="fab fa-linkedin"></i> Partager sur LinkedIn
         </a>
       </div>
+      
+      <hr style="margin:20px 0; border: 1px dashed #ccc;">
+      
+      <!-- Section Call-to-Action -->
+      <div class="cta-section">
+        <h3>Continue à progresser</h3>
+        <p>Télécharge ta vidéo et la grille d'analyse pour analyser ta prestation et découvrir comment t'améliorer.</p>
+        <div class="progression-buttons">
+          <a 
+            href="https://alexetpierre.systeme.io/inscription"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn"
+            aria-label="S'inscrire à la formation en ligne"
+          >
+            <i class="fas fa-laptop"></i> Découvrir la formation
+          </a>
+          <a
+            href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn"
+            aria-label="Réserver un coaching"
+          >
+            <i class="fas fa-chalkboard-teacher"></i> Réserver un coaching
+          </a>
+          <button class="btn" id="download-resources-btn" aria-label="Télécharger mes ressources">
+            <i class="fas fa-download"></i> Télécharger mes ressources
+          </button>
+        </div>
+      </div>
 
-      <!-- Flèche bas (suivant) vers la Step5 -->
+      <!-- Bouton Suivant STEP4 -->
       <button class="next-btn" id="next-btn4" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
@@ -882,7 +888,6 @@
       </div>
 
       <div class="download-section">
-        <!-- Bloc d'accroche coloré -->
         <div class="download-section-accent">
           <h2>Obtiens gratuitement ta prestation en vidéo et la grille d'analyse Letmotiv</h2>
           <p class="subtitle">Analyse et évalue ton improvisation grâce au document Letmotiv.</p>
@@ -891,7 +896,6 @@
           </p>
         </div>
 
-        <!-- Champs de formulaire -->
         <div class="download-fields">
           <div class="input-group">
             <label for="prenom">Prénom :</label>
@@ -905,19 +909,16 @@
           </div>
         </div>
 
-        <!-- Bouton CTA pour valider -->
         <div class="call-to-action">
           <button id="validate-form-btn" aria-label="Valider les informations">
             Valider et voir mes ressources
           </button>
         </div>
 
-        <!-- Message de confirmation -->
         <div id="success-message" class="success-message" style="display: none;">
           Merci ! Vos informations ont été enregistrées et vos ressources sont prêtes à être téléchargées.
         </div>
 
-        <!-- Boutons de téléchargement -->
         <div class="download-buttons" id="download-buttons">
           <button id="download-video-btn" aria-label="Télécharge ta vidéo">
             <i class="fas fa-download"></i> Télécharge ta vidéo (mp4)
@@ -974,6 +975,11 @@
     }
     updateProgressBar(0); // Au début
 
+    // Fonction pour retirer l'animation "pulse" de tous les boutons "Suivant"
+    function removePulseFromAll() {
+      Object.values(nextBtns).forEach(btn => btn.classList.remove('pulse'));
+    }
+
     // Fonction d'affichage avec animations
     function showBox(current, next) {
       if (!boxes[current] || !boxes[next]) return;
@@ -992,12 +998,23 @@
       
       // Mise à jour des rappels dans les étapes concernées
       if (next === 2) {
-        // Dans STEP2, rappeler l'objectif sélectionné
         document.getElementById('selected-objective-display').textContent = "Ton objectif : " + currentObjective;
       }
       if (next === 3) {
-        // Dans STEP3, rappeler le sujet généré
         document.getElementById('current-subject-display').textContent = "Sujet : " + currentSubject;
+      }
+      
+      // Retirer l'animation "pulse" de tous et appliquer selon l'étape
+      removePulseFromAll();
+      if (next === 1) {
+        // Après sélection de l'objectif, on applique sur le bouton de STEP1
+        nextBtns[1].classList.add('pulse');
+      } else if (next === 2) {
+        // Après génération du sujet, on applique sur le bouton de STEP2
+        nextBtns[2].classList.add('pulse');
+      } else if (next === 4) {
+        // Directement dans STEP4 (Partage LinkedIn), on applique sur le bouton de STEP4
+        nextBtns[4].classList.add('pulse');
       }
     }
 
@@ -1008,6 +1025,9 @@
         introBox.style.display = 'none';
         boxes[1].classList.add('active', 'slide-from-bottom');
         updateProgressBar(1);
+        removePulseFromAll();
+        // Appliquer l'animation sur le bouton de STEP1 dès l'affichage
+        nextBtns[1].classList.add('pulse');
       }, 500);
     });
 
@@ -1113,7 +1133,6 @@
         objectivesButtons.forEach(btn => btn.classList.remove('selected-objective'));
         button.classList.add('selected-objective');
         currentCategory = button.dataset.category;
-        // Enregistrer le texte de l'objectif sélectionné
         currentObjective = button.innerText;
         const explication = explanations[currentCategory] || "";
         explanationBox.textContent = explication;
@@ -1123,6 +1142,8 @@
         }
         document.getElementById('objective-error').style.display = 'none';
         document.getElementById('impro-error').style.display = 'none';
+        // Appliquer l'animation sur le bouton "Suivant" de STEP1 dès qu'un objectif est sélectionné
+        nextBtns[1].classList.add('pulse');
       });
     });
 
@@ -1172,6 +1193,8 @@
       subjectWrapper.style.display = 'block';
       generateSubjectBtn.classList.add('subject-generated');
       document.getElementById('subject-error').style.display = 'none';
+      // Appliquer l'animation sur le bouton "Suivant" de STEP2 dès qu'un sujet est généré
+      nextBtns[2].classList.add('pulse');
     });
 
     /***********************
@@ -1256,8 +1279,8 @@
         recordingIndicator.style.display = 'none';
         clearInterval(timerInterval);
         improStarted = true;
-        // Ajout de l'animation sur le bouton "Suivant" pour attirer l'attention
-        document.getElementById('next-btn3').classList.add('pulse');
+        // Appliquer l'animation sur le bouton "Suivant" de STEP3
+        nextBtns[3].classList.add('pulse');
       };
       mediaRecorderInstance.start();
       recordingIndicator.style.display = 'flex';
