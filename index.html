@@ -280,6 +280,22 @@
       transform: scale(1.05);
     }
 
+    /* Nouvelle animation pour attirer l'attention sur le bouton */
+    .next-btn.pulse {
+      animation: electricPulse 1.5s infinite;
+    }
+    @keyframes electricPulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(0,164,138,0.7);
+      }
+      70% {
+        box-shadow: 0 0 0 10px rgba(0,164,138,0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(0,164,138,0);
+      }
+    }
+
     /* STEP1 : Choix d’objectif */
     .objectives-container {
       display: flex;
@@ -330,12 +346,7 @@
       border: 2px solid #ccc;
     }
 
-    /* STEP2 */
-    .step2 .box-title {
-      font-size: 18px;
-      font-weight: bold;
-      color: #182d84;
-    }
+    /* --- STEP2 : Génération du sujet --- */
     .subject-wrapper {
       margin-top: 10px;
       background-color: #fefefe;
@@ -348,11 +359,8 @@
       color: #333;
       display: none;
     }
-    .subject-wrapper span {
-      font-weight: bold;
-    }
-
-    /* Encadré vidéo */
+    
+    /* --- STEP3 : Enregistrement vidéo --- */
     .video-box {
       margin: 10px auto;
       border: 3px solid #182d84;
@@ -457,7 +465,7 @@
       display: none;
     }
 
-    /* STEP4 */
+    /* --- STEP4 : Partage sur LinkedIn + Options de progression --- */
     .progression-buttons {
       margin-top: 20px;
       display: flex;
@@ -590,7 +598,7 @@
       font-size: 16px;
     }
 
-    /* --- NOUVEAU style pour la zone de téléchargement (Step3) --- */
+    /* --- NOUVEAU style pour la zone de téléchargement (STEP5) --- */
 
     /* Bloc d'accroche coloré */
     .download-section-accent {
@@ -677,13 +685,12 @@
         opacity: 1;
       }
     }
-
   </style>
 </head>
 <body>
   <!-- BOÎTE D'INTRODUCTION -->
   <div class="intro-box" id="intro-box">
-    <h1>Entraine-toi à la prise de parole en public</h1>
+    <h1>Entraîne-toi à la prise de parole en public</h1>
     <button id="start-intro-btn" aria-label="Commencer">Commencer</button>
   </div>
 
@@ -720,9 +727,9 @@
         <!-- Flèche haut (retour) masquée à la première étape -->
         <button class="back-btn hidden-visibility" id="back-btn1" aria-label="Retour">
           <i class="fas fa-arrow-up"></i>
-          </button>
+        </button>
         <div class="box-title">Choisis ton objectif</div>
-        </div>
+      </div>
 
       <div class="objectives-container">
         <button data-category="convaincre">Convaincre</button>
@@ -748,21 +755,39 @@
       </button>
     </div>
 
-    <!-- STEP2 : Vidéo, enregistrement, etc. -->
+    <!-- STEP2 : Génération du sujet -->
     <div class="box" id="step2">
       <div class="box-header">
-        <!-- Flèche haut (retour) -->
         <button class="back-btn" id="back-btn2" aria-label="Retour à l'étape précédente">
           <i class="fas fa-arrow-up"></i>
         </button>
-        <div class="box-title">Lance ton improvisation</div>
-        </div>
+        <div class="box-title">Génère un sujet pour ton impro</div>
+      </div>
+      <!-- Rappel de l'objectif sélectionné -->
+      <p id="selected-objective-display" style="font-weight:bold; margin-bottom:10px;"></p>
 
       <button id="generate-subject-btn">Générer un sujet aléatoire</button>
-
       <div id="subject-wrapper" class="subject-wrapper">
         <span id="subject-display"></span>
       </div>
+      <div id="subject-error" class="error-message"></div>
+
+      <!-- Flèche bas (suivant) -->
+      <button class="next-btn" id="next-btn2" aria-label="Étape suivante">
+        <i class="fas fa-arrow-down"></i>
+      </button>
+    </div>
+
+    <!-- STEP3 : Enregistrement vidéo -->
+    <div class="box" id="step3">
+      <div class="box-header">
+        <button class="back-btn" id="back-btn3" aria-label="Retour à l'étape précédente">
+          <i class="fas fa-arrow-up"></i>
+        </button>
+        <div class="box-title">Lance ton improvisation</div>
+      </div>
+      <!-- Rappel du sujet généré -->
+      <p id="current-subject-display" style="font-weight:bold; margin-bottom:10px;"></p>
 
       <div class="video-box">
         <video id="preview" autoplay muted></video>
@@ -789,7 +814,7 @@
       <div id="impro-error" class="error-message"></div>
 
       <!-- Flèche bas (suivant) -->
-      <button class="next-btn" id="next-btn2" aria-label="Étape suivante">
+      <button class="next-btn" id="next-btn3" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
     </div>
@@ -797,7 +822,6 @@
     <!-- STEP4 : Partage sur LinkedIn + Options de progression -->
     <div class="box" id="step4">
       <div class="box-header">
-         <!-- Flèche haut (retour) -->
         <button class="back-btn" id="back-btn4" aria-label="Retour à l'étape précédente">
           <i class="fas fa-arrow-up"></i>
         </button>
@@ -842,29 +866,28 @@
         </a>
       </div>
 
-      <!-- Flèche bas (suivant) vers la Step3 -->
+      <!-- Flèche bas (suivant) vers la Step5 -->
       <button class="next-btn" id="next-btn4" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
     </div>
 
-    <!-- STEP3 : Analyse ta prestation -->
-    <div class="box" id="step3">
+    <!-- STEP5 : Analyse ta prestation & Téléchargements -->
+    <div class="box" id="step5">
       <div class="box-header">
-        <!-- Flèche haut (retour) -->
-        <button class="back-btn" id="back-btn3" aria-label="Retour à l'étape précédente">
+        <button class="back-btn" id="back-btn5" aria-label="Retour à l'étape précédente">
           <i class="fas fa-arrow-up"></i>
         </button>
         <div class="box-title">Analyse ta prestation</div>
       </div>
 
       <div class="download-section">
-        <!-- Bloc d'accroche coloré (accueil + rassurance) -->
+        <!-- Bloc d'accroche coloré -->
         <div class="download-section-accent">
           <h2>Obtiens gratuitement ta prestation en vidéo et la grille d'analyse Letmotiv</h2>
-          <p class="subtitle">Analyse et évalue ton improvisation grâce au document Letmotiv. </p>
+          <p class="subtitle">Analyse et évalue ton improvisation grâce au document Letmotiv.</p>
           <p class="reassure">
-            N'hésite pas à t'entrainer et refaire des improvisations pour progresser sur tes axes d'améliorations. 
+            N'hésite pas à t'entraîner et refaire des improvisations pour progresser sur tes axes d'amélioration. 
           </p>
         </div>
 
@@ -873,16 +896,12 @@
           <div class="input-group">
             <label for="prenom">Prénom :</label>
             <input type="text" id="prenom" placeholder="Votre prénom" aria-label="Prénom"/>
-            <div id="prenom-error" class="error-message">
-              <!-- Affiché en JS si prénom invalide -->
-            </div>
+            <div id="prenom-error" class="error-message"></div>
           </div>
           <div class="input-group">
             <label for="email">Email :</label>
             <input type="email" id="email" placeholder="Votre email" aria-label="Email"/>
-            <div id="email-error" class="error-message">
-              <!-- Affiché en JS si email invalide -->
-            </div>
+            <div id="email-error" class="error-message"></div>
           </div>
         </div>
 
@@ -893,12 +912,12 @@
           </button>
         </div>
 
-        <!-- Message de confirmation (initialement caché) -->
+        <!-- Message de confirmation -->
         <div id="success-message" class="success-message" style="display: none;">
           Merci ! Vos informations ont été enregistrées et vos ressources sont prêtes à être téléchargées.
         </div>
 
-        <!-- Boutons de téléchargement, affichés après validation -->
+        <!-- Boutons de téléchargement -->
         <div class="download-buttons" id="download-buttons">
           <button id="download-video-btn" aria-label="Télécharge ta vidéo">
             <i class="fas fa-download"></i> Télécharge ta vidéo (mp4)
@@ -915,33 +934,42 @@
   <!-- SCRIPT -->
   <script>
     /***********************
-     * 1) Gestion des étapes (sans step-indicator)
+     * Gestion des étapes (5 étapes)
      ***********************/
     const boxes = {
       1: document.getElementById('step1'),
       2: document.getElementById('step2'),
-      3: document.getElementById('step4'),
-      4: document.getElementById('step3')
+      3: document.getElementById('step3'),
+      4: document.getElementById('step4'),
+      5: document.getElementById('step5')
     };
 
     const nextBtns = {
       1: document.getElementById('next-btn1'),
       2: document.getElementById('next-btn2'),
-      3: document.getElementById('next-btn4')
+      3: document.getElementById('next-btn3'),
+      4: document.getElementById('next-btn4')
     };
+
     const backBtns = {
       2: document.getElementById('back-btn2'),
-      3: document.getElementById('back-btn4'),
-      4: document.getElementById('back-btn3')
+      3: document.getElementById('back-btn3'),
+      4: document.getElementById('back-btn4'),
+      5: document.getElementById('back-btn5')
     };
 
     const introBox = document.getElementById('intro-box');
     const startIntroBtn = document.getElementById('start-intro-btn');
     const topProgressBar = document.getElementById('top-progress-bar');
 
-    // Mise à jour de la barre de progression : 4 étapes => 25% chacune
+    // Variables pour mémoriser l'objectif et le sujet
+    let currentCategory = null;
+    let currentObjective = ""; // Texte de l'objectif sélectionné
+    let currentSubject = "";
+
+    // Mise à jour de la barre de progression : 5 étapes => 20% chacune
     function updateProgressBar(step) {
-      const progress = step * 25;
+      const progress = step * 20;
       topProgressBar.style.width = `${progress}%`;
     }
     updateProgressBar(0); // Au début
@@ -949,33 +977,32 @@
     // Fonction d'affichage avec animations
     function showBox(current, next) {
       if (!boxes[current] || !boxes[next]) return;
-
-      // On masque la box courante
       boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
-
-      // On active la box cible
       boxes[next].classList.add('active');
-
-      // Selon la direction : si next > current => animer « from-bottom », sinon « from-top »
       if (next > current) {
         boxes[next].classList.add('slide-from-bottom');
       } else {
         boxes[next].classList.add('slide-from-top');
       }
-
-      // Mise à jour de la barre de progression
       updateProgressBar(next);
-
-      // Scroll vers la boîte active (optionnel)
       const header = document.querySelector('.header');
       const headerHeight = header ? header.offsetHeight : 0;
       const boxPosition = boxes[next].getBoundingClientRect().top + window.scrollY - headerHeight - 20;
       window.scrollTo({ top: boxPosition, behavior: 'smooth' });
+      
+      // Mise à jour des rappels dans les étapes concernées
+      if (next === 2) {
+        // Dans STEP2, rappeler l'objectif sélectionné
+        document.getElementById('selected-objective-display').textContent = "Ton objectif : " + currentObjective;
+      }
+      if (next === 3) {
+        // Dans STEP3, rappeler le sujet généré
+        document.getElementById('current-subject-display').textContent = "Sujet : " + currentSubject;
+      }
     }
 
-    // Gestion de la boîte d'introduction
+    // Boîte d'introduction
     startIntroBtn.addEventListener('click', () => {
-      // Animation fadeOut
       introBox.style.animation = 'fadeOut 0.5s ease forwards';
       setTimeout(() => {
         introBox.style.display = 'none';
@@ -984,7 +1011,7 @@
       }, 500);
     });
 
-    // Boutons "Suivant"
+    // STEP1 -> STEP2 : Validation de l'objectif
     nextBtns[1].addEventListener('click', () => {
       const selected = document.querySelector('.objectives-container .selected-objective');
       if (!selected) {
@@ -996,8 +1023,19 @@
       showBox(1, 2);
     });
 
-    // Step2 => Step4
+    // STEP2 -> STEP3 : Vérification du sujet généré
     nextBtns[2].addEventListener('click', () => {
+      if (!currentSubject) {
+        const subjErrorDiv = document.getElementById('subject-error');
+        subjErrorDiv.textContent = "Génère un sujet avant de continuer.";
+        subjErrorDiv.style.display = 'block';
+        return;
+      }
+      showBox(2, 3);
+    });
+
+    // STEP3 -> STEP4 : Enregistrement
+    nextBtns[3].addEventListener('click', () => {
       const improErrorDiv = document.getElementById('impro-error');
       improErrorDiv.style.display = 'none';
       if (!currentSubject && !improStarted) {
@@ -1009,33 +1047,30 @@
         improErrorDiv.style.display = 'block';
         return;
       }
-      showBox(2, 3);
-    });
-
-    // Step4 => Step3
-    nextBtns[3].addEventListener('click', () => {
       showBox(3, 4);
     });
 
+    // STEP4 -> STEP5
+    nextBtns[4].addEventListener('click', () => {
+      showBox(4, 5);
+    });
+
     // Boutons "Retour"
-    if (backBtns[2]) {
-      backBtns[2].addEventListener('click', () => {
-        showBox(2, 1);
-      });
-    }
-    if (backBtns[3]) {
-      backBtns[3].addEventListener('click', () => {
-        showBox(3, 2);
-      });
-    }
-    if (backBtns[4]) {
-      backBtns[4].addEventListener('click', () => {
-        showBox(4, 3);
-      });
-    }
+    backBtns[2].addEventListener('click', () => {
+      showBox(2, 1);
+    });
+    backBtns[3].addEventListener('click', () => {
+      showBox(3, 2);
+    });
+    backBtns[4].addEventListener('click', () => {
+      showBox(4, 3);
+    });
+    backBtns[5].addEventListener('click', () => {
+      showBox(5, 4);
+    });
 
     /***********************
-     * 2) Gestion des objectifs et explications
+     * Gestion des objectifs et explications (STEP1)
      ***********************/
     const explanations = {
       convaincre:   "Essaye de convaincre ton auditoire d’une idée générale en moins de 2 minutes",
@@ -1072,30 +1107,22 @@
     };
     const objectivesButtons = document.querySelectorAll('.objectives-container button');
     const explanationBox = document.getElementById('explanation-box');
-    let currentCategory = null;
-    let currentSubject = "";
 
     objectivesButtons.forEach(button => {
       button.addEventListener('click', async () => {
-        // Sélection visuelle
         objectivesButtons.forEach(btn => btn.classList.remove('selected-objective'));
         button.classList.add('selected-objective');
-
         currentCategory = button.dataset.category;
+        // Enregistrer le texte de l'objectif sélectionné
+        currentObjective = button.innerText;
         const explication = explanations[currentCategory] || "";
         explanationBox.textContent = explication;
         explanationBox.classList.add('show');
-
-        // Pré-charger le .txt si pas encore fait
         if (subjectsCache[currentCategory] === null) {
           await loadSubjects(currentCategory);
         }
-
-        // Masquer messages d'erreur
-        const errorDiv = document.getElementById('objective-error');
-        errorDiv.style.display = 'none';
-        const improErrorDiv = document.getElementById('impro-error');
-        improErrorDiv.style.display = 'none';
+        document.getElementById('objective-error').style.display = 'none';
+        document.getElementById('impro-error').style.display = 'none';
       });
     });
 
@@ -1119,7 +1146,7 @@
     }
 
     /***********************
-     * 3) Gérer le sujet d'impro
+     * Gestion du sujet d'impro (STEP2)
      ***********************/
     const generateSubjectBtn = document.getElementById('generate-subject-btn');
     const subjectWrapper = document.getElementById('subject-wrapper');
@@ -1141,17 +1168,14 @@
       }
       const randomIndex = Math.floor(Math.random() * subjects.length);
       currentSubject = subjects[randomIndex];
-
       subjectDisplay.textContent = currentSubject;
       subjectWrapper.style.display = 'block';
       generateSubjectBtn.classList.add('subject-generated');
-
-      const improErrorDiv = document.getElementById('impro-error');
-      improErrorDiv.style.display = 'none';
+      document.getElementById('subject-error').style.display = 'none';
     });
 
     /***********************
-     * 4) Enregistrement vidéo
+     * Enregistrement vidéo (STEP3)
      ***********************/
     let improStarted = false;
     let mediaRecorderInstance;
@@ -1209,49 +1233,39 @@
     async function initiateRecording() {
       const stream = await setupCamera();
       if (!stream) return;
-
       if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
         const improErrorDiv = document.getElementById('impro-error');
         improErrorDiv.textContent = "Votre navigateur ne supporte pas l'enregistrement vidéo. Essayez Chrome ou Firefox.";
         improErrorDiv.style.display = 'block';
         return;
       }
-
       mediaRecorderInstance = new MediaRecorder(stream);
       recordedChunks = [];
-
       mediaRecorderInstance.ondataavailable = (event) => {
         if (event.data.size > 0) {
           recordedChunks.push(event.data);
         }
       };
-
       mediaRecorderInstance.onstop = () => {
         const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
         videoURL = URL.createObjectURL(videoBlob);
-        // Stop webcam
         stream.getTracks().forEach(t => t.stop());
-
         videoText.innerHTML = "Improvisation terminée.";
         videoText.style.display = 'block';
-
-        const improErrorDiv = document.getElementById('impro-error');
-        improErrorDiv.style.display = 'none';
+        document.getElementById('impro-error').style.display = 'none';
         recordingIndicator.style.display = 'none';
-
         clearInterval(timerInterval);
         improStarted = true;
+        // Ajout de l'animation sur le bouton "Suivant" pour attirer l'attention
+        document.getElementById('next-btn3').classList.add('pulse');
       };
-
       mediaRecorderInstance.start();
       recordingIndicator.style.display = 'flex';
       videoText.style.display = 'none';
-
       startBtn.classList.add('hidden-btn');
       stopBtn.classList.remove('hidden-btn');
       stopBtn.disabled = false;
       restartBtn.classList.add('hidden-btn');
-
       startTimer();
     }
 
@@ -1320,7 +1334,7 @@
     });
 
     /***********************
-     * 5) Téléchargements (Step3) et Envoi des Données à Google Forms
+     * Téléchargements et envoi à Google Forms (STEP5)
      ***********************/
     const validateFormBtn = document.getElementById('validate-form-btn');
     const prenomInput = document.getElementById('prenom');
@@ -1357,33 +1371,22 @@
       }
       if (!valid) return;
 
-      // Soumettre les données au Google Form
       document.getElementById('hidden-prenom').value = prenomValue;
       document.getElementById('hidden-email').value = emailValue;
       document.getElementById('hidden-google-form').submit();
 
-      // Affiche la zone de téléchargement
       downloadButtons.classList.add('show');
 
-      // Affiche le message de succès
       const successMessage = document.getElementById('success-message');
-      successMessage.style.display = 'block'; // Affiche le message
-      successMessage.classList.add('show'); // Ajoute la classe pour les transitions
+      successMessage.style.display = 'block';
+      successMessage.classList.add('show');
 
-      // Optionnel : Masquer le message après quelques secondes
       setTimeout(() => {
         successMessage.classList.remove('show');
         successMessage.style.display = 'none';
-      }, 5000); // Masque après 5 secondes
-
-      // Activer le bouton Next vers la step4 (si besoin)
-      nextBtns[3].disabled = false;
-
-      // Optionnel : Feedback utilisateur supplémentaire (si nécessaire)
-      // alert("Merci ! Tes informations sont enregistrées et tes ressources sont prêtes à être téléchargées.");
+      }, 5000);
     });
 
-    // Téléchargement de la vidéo
     downloadVideoBtn.addEventListener('click', () => {
       if (!videoURL) {
         const improErrorDiv = document.getElementById('impro-error');
@@ -1399,10 +1402,8 @@
       document.body.removeChild(link);
     });
 
-    // Téléchargement du PDF
     downloadPdfBtn.addEventListener('click', () => {
       const link = document.createElement('a');
-      // Exemple : lien vers Google Drive ou autre
       link.href = "https://drive.google.com/uc?export=download&id=1pKif7hwkdSQRXLv6uoSQawCs3DIIcb70";
       link.download = "Questions_Evaluation.pdf";
       document.body.appendChild(link);
