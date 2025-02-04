@@ -1199,44 +1199,44 @@
       }, 1000);
     }
 
-    async function initiateRecording() {
-      const stream = await setupCamera();
-      if (!stream) return;
-      if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
-        const improErrorDiv = document.getElementById('impro-error');
-        improErrorDiv.textContent = "Ton navigateur ne supporte pas l'enregistrement vidéo. Essaye avec Google Chrome, Microsoft Edge ou Firefox.";
-        improErrorDiv.style.display = 'block';
-        return;
-      }
-      mediaRecorderInstance = new MediaRecorder(stream);
-      recordedChunks = [];
-      mediaRecorderInstance.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          recordedChunks.push(event.data);
-        }
-      };
-      mediaRecorderInstance.onstop = () => {
-        const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
-        videoURL = URL.createObjectURL(videoBlob);
-        stream.getTracks().forEach(t => t.stop());
-        // Affichage du message en overlay une fois l'enregistrement terminé
-        const overlay = document.querySelector('.video-overlay');
-        overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Improvisation terminée. Passe à l'étape suivante !</p>";
-        overlay.style.display = 'flex';
-        document.getElementById('impro-error').style.display = 'none';
-        recordingIndicator.style.display = 'none';
-        clearInterval(timerInterval);
-        improStarted = true;
-        removePulseFromAll();
-        nextBtns[3].classList.add('pulse');
-      };
-      mediaRecorderInstance.start();
-      recordingIndicator.style.display = 'flex';
-      stopBtn.classList.remove('hidden-btn');
-      stopBtn.disabled = false;
-      restartBtn.classList.add('hidden-btn');
-      startTimer();
+  async function initiateRecording() {
+  const stream = await setupCamera();
+  if (!stream) return;
+  if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
+    const improErrorDiv = document.getElementById('impro-error');
+    improErrorDiv.textContent = "Ton navigateur ne supporte pas l'enregistrement vidéo. Essaye avec Chrome, Edge ou Firefox.";
+    improErrorDiv.style.display = 'block';
+    return;
+  }
+  mediaRecorderInstance = new MediaRecorder(stream);
+  recordedChunks = [];
+  mediaRecorderInstance.ondataavailable = (event) => {
+    if (event.data.size > 0) {
+      recordedChunks.push(event.data);
     }
+  };
+  mediaRecorderInstance.onstop = () => {
+    const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
+    videoURL = URL.createObjectURL(videoBlob);
+    stream.getTracks().forEach(t => t.stop());
+    // Affichage du message en overlay une fois l'enregistrement terminé
+    const overlay = document.querySelector('.video-overlay');
+    overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Improvisation terminée. Passe à l'étape suivante !</p>";
+    overlay.style.display = 'flex';
+    document.getElementById('impro-error').style.display = 'none';
+    recordingIndicator.style.display = 'none';
+    clearInterval(timerInterval);
+    improStarted = true;
+    removePulseFromAll();
+    nextBtns[3].classList.add('pulse');
+  };
+  mediaRecorderInstance.start();
+  recordingIndicator.style.display = 'flex';
+  stopBtn.classList.remove('hidden-btn');
+  stopBtn.disabled = false;
+  restartBtn.classList.add('hidden-btn');
+  startTimer();
+}
 
     async function setupCamera() {
       try {
