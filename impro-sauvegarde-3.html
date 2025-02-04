@@ -45,8 +45,8 @@
       align-items: center;
       min-height: 100vh;
       overflow-x: hidden;
-      /* Suppression des paddings pour éviter les marges blanches sur mobile */
-      padding: 0;
+      padding-top: 60px;
+      padding-bottom: 20px;
     }
 
     /* --- HEADER --- */
@@ -150,37 +150,37 @@
 
     /* --- CONTENEUR PRINCIPAL --- */
     .main-container {
-      /* On ajoute une marge supérieure pour compenser le header fixe */
-      margin-top: 60px;
-      margin-bottom: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center; /* Centre verticalement le contenu */
+      justify-content: center;
       flex-grow: 1;
       width: 100%;
       padding: 20px;
-      /* Hauteur minimale égale à la hauteur de la fenêtre moins l'espace occupé par le header et le bas */
-      min-height: calc(100vh - 80px);
     }
 
-    /* --- BOXES (étapes) --- */
+    /* --- BOXES (étapes) - Design modernisé en "card" --- */
     .box {
       position: relative;
       width: 100%;
       max-width: 600px;
       margin: 20px 0;
-      background-color: #E2E7E3;
-      border-radius: 10px;
-      padding: 15px;
-      box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
+      padding: 20px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, #ffffff, #f9f9f9); /* Dégradé léger */
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Ombre portée */
+      border: none;
       text-align: center;
       font-size: 14px;
-      border: 2px solid #eeeeee;
       display: none;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     .box.active {
       display: block;
+    }
+    .box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
     }
 
     /* --- ANIMATIONS VERTICALES --- */
@@ -798,7 +798,7 @@
       <!-- Section Partage -->
       <div class="share-section">
         <h3>Partage ton expérience</h3>
-        <p>Inspire la communauté et encourage d'autres personnes à relevé le défi ! </p>
+        <p>Inspire la communauté et encourage d'autres personnes à relevé le défi ! #ChallengeImproLetmotiv </p>
         <a id="linkedin-share-button" href="https://www.linkedin.com/shareArticle?mini=true&url=https://letmotiv-simulateur.fr" target="_blank" rel="noopener noreferrer" class="linkedin-share-button" aria-label="Partager sur LinkedIn">
           <i class="fab fa-linkedin"></i> Partager sur LinkedIn
         </a>
@@ -809,10 +809,10 @@
         <h3>Continue à progresser</h3>
         <p>Tu souhaites progresser rapidement et efficacement dans la prise de parole en public ? Découvre nos ressources exclusives :</p>
         <div class="progression-buttons">
-          <a href="https://alexetpierre.systeme.io/inscription" target="_blank" rel="noopener noreferrer" class="btn" aria-label="S'inscrire à la formation en ligne">
+          <a href="https://alexetpierre.systeme.io/inscription" target="_blank" rel="noopener noreferrer" class="btn" aria-label="Découvre la formation en ligne">
             <i class="fas fa-laptop"></i> Découvre la formation en ligne
           </a>
-          <a href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole" target="_blank" rel="noopener noreferrer" class="btn" aria-label="Réserver un coaching">
+          <a href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole" target="_blank" rel="noopener noreferrer" class="btn" aria-label="Réserve un coaching">
             <i class="fas fa-chalkboard-teacher"></i> Réserve un coaching
           </a>
         </div>
@@ -861,10 +861,10 @@
         </div>
         <div class="download-buttons" id="download-buttons">
           <button id="download-video-btn" aria-label="Télécharge ta vidéo">
-            <i class="fas fa-download"></i> Télécharge ta vidéo (mp4)
+            <i class="fas fa-download"></i> Télécharge ta vidéo
           </button>
           <button id="download-pdf-btn" aria-label="Télécharge la grille d'évaluation">
-            <i class="fas fa-download"></i> Télécharge la grille d'évaluation (pdf)
+            <i class="fas fa-download"></i> Télécharge la grille d'évaluation
           </button>
         </div>
       </div>
@@ -941,7 +941,7 @@
         document.getElementById('selected-objective-display').textContent = "Ton objectif : " + currentObjective;
       }
       if (next === 3) {
-        document.getElementById('current-subject-display').textContent = "Sujet : " + currentSubject;
+        document.getElementById('current-subject-display').textContent = currentSubject;
       }
       
       // Retirer l'animation "pulse" de tous
@@ -979,7 +979,7 @@
     nextBtns[2].addEventListener('click', () => {
       if (!currentSubject) {
         const subjErrorDiv = document.getElementById('subject-error');
-        subjErrorDiv.textContent = "Génère un sujet avant de continuer.";
+        subjErrorDiv.textContent = "Tu dois générer un sujet avant de continuer.";
         subjErrorDiv.style.display = 'block';
         return;
       }
@@ -1354,7 +1354,7 @@
 
     downloadPdfBtn.addEventListener('click', () => {
       const link = document.createElement('a');
-      link.href = "https://drive.google.com/uc?export=download&id=1pKif7hwkdSQRXLv6uoSQawCs3DIIcb70";
+      link.href = "https://drive.google.com/file/d/14gMVPpM2kLXmfsA3_6CYe6qBfQ8ETUSA";
       link.download = "Questions_Evaluation.pdf";
       document.body.appendChild(link);
       link.click();
