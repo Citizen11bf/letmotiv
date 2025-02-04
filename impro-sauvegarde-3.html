@@ -639,6 +639,32 @@
       from { transform: translateY(-20px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
+
+    /* --- Bulle style BD pour le sujet (STEP3) --- */
+    .subject-bubble {
+      display: inline-block;
+      position: relative;
+      background: #fefefe;
+      border: 2px solid #ccc;
+      border-radius: 16px;
+      padding: 10px 15px;
+      font-size: 16px;
+      color: #333;
+      max-width: 80%;
+      text-align: center;
+      margin: 0 auto 15px;
+    }
+    .subject-bubble::after {
+      content: "";
+      position: absolute;
+      bottom: -15px;
+      left: 30px;
+      border-width: 15px 15px 0;
+      border-style: solid;
+      border-color: #fefefe transparent;
+      display: block;
+      width: 0;
+    }
   </style>
 </head>
 <body>
@@ -727,8 +753,8 @@
         </button>
         <div class="box-title">Lance ton improvisation</div>
       </div>
-      <!-- Rappel du sujet généré -->
-      <p id="current-subject-display" style="font-weight:bold; margin-bottom:10px;"></p>
+      <!-- Rappel du sujet généré dans une bulle style BD -->
+      <div id="current-subject-display" class="subject-bubble"></div>
       <div class="video-box">
         <video id="preview" autoplay muted></video>
         <div class="video-text" id="video-text">
