@@ -45,8 +45,8 @@
       align-items: center;
       min-height: 100vh;
       overflow-x: hidden;
-      padding-top: 60px;
-      padding-bottom: 20px;
+      /* Suppression des paddings pour éviter les marges blanches sur mobile */
+      padding: 0;
     }
 
     /* --- HEADER --- */
@@ -150,13 +150,18 @@
 
     /* --- CONTENEUR PRINCIPAL --- */
     .main-container {
+      /* On ajoute une marge supérieure pour compenser le header fixe */
+      margin-top: 60px;
+      margin-bottom: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: center; /* Centre verticalement le contenu */
       flex-grow: 1;
       width: 100%;
       padding: 20px;
+      /* Hauteur minimale égale à la hauteur de la fenêtre moins l'espace occupé par le header et le bas */
+      min-height: calc(100vh - 80px);
     }
 
     /* --- BOXES (étapes) --- */
@@ -793,7 +798,7 @@
       <!-- Section Partage -->
       <div class="share-section">
         <h3>Partage ton expérience</h3>
-        <p>Inspire la communauté et encourage d'autres personnes à relevé le défi ! #ChallengeImproLetmotiv </p>
+        <p>Inspire la communauté et encourage d'autres personnes à relevé le défi ! </p>
         <a id="linkedin-share-button" href="https://www.linkedin.com/shareArticle?mini=true&url=https://letmotiv-simulateur.fr" target="_blank" rel="noopener noreferrer" class="linkedin-share-button" aria-label="Partager sur LinkedIn">
           <i class="fab fa-linkedin"></i> Partager sur LinkedIn
         </a>
@@ -804,10 +809,10 @@
         <h3>Continue à progresser</h3>
         <p>Tu souhaites progresser rapidement et efficacement dans la prise de parole en public ? Découvre nos ressources exclusives :</p>
         <div class="progression-buttons">
-          <a href="https://alexetpierre.systeme.io/inscription" target="_blank" rel="noopener noreferrer" class="btn" aria-label="Découvre la formation en ligne">
+          <a href="https://alexetpierre.systeme.io/inscription" target="_blank" rel="noopener noreferrer" class="btn" aria-label="S'inscrire à la formation en ligne">
             <i class="fas fa-laptop"></i> Découvre la formation en ligne
           </a>
-          <a href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole" target="_blank" rel="noopener noreferrer" class="btn" aria-label="Réserve un coaching">
+          <a href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole" target="_blank" rel="noopener noreferrer" class="btn" aria-label="Réserver un coaching">
             <i class="fas fa-chalkboard-teacher"></i> Réserve un coaching
           </a>
         </div>
@@ -856,10 +861,10 @@
         </div>
         <div class="download-buttons" id="download-buttons">
           <button id="download-video-btn" aria-label="Télécharge ta vidéo">
-            <i class="fas fa-download"></i> Télécharge ta vidéo
+            <i class="fas fa-download"></i> Télécharge ta vidéo (mp4)
           </button>
           <button id="download-pdf-btn" aria-label="Télécharge la grille d'évaluation">
-            <i class="fas fa-download"></i> Télécharge la grille d'évaluation
+            <i class="fas fa-download"></i> Télécharge la grille d'évaluation (pdf)
           </button>
         </div>
       </div>
@@ -936,7 +941,7 @@
         document.getElementById('selected-objective-display').textContent = "Ton objectif : " + currentObjective;
       }
       if (next === 3) {
-        document.getElementById('current-subject-display').textContent = currentSubject;
+        document.getElementById('current-subject-display').textContent = "Sujet : " + currentSubject;
       }
       
       // Retirer l'animation "pulse" de tous
