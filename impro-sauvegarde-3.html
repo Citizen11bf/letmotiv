@@ -1324,70 +1324,61 @@
     const downloadPdfBtn = document.getElementById('download-pdf-btn');
 
     validateFormBtn.addEventListener('click', () => {
-      const prenomValue = prenomInput.value.trim();
-      const emailValue = emailInput.value.trim();
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      const prenomRegex = /^[A-Za-zÀ-ÿ '-]+$/;
+  const prenomValue = prenomInput.value.trim();
+  const emailValue = emailInput.value.trim();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const prenomRegex = /^[A-Za-zÀ-ÿ '-]+$/;
 
-      let valid = true;
-      prenomError.style.display = 'none';
-      emailError.style.display = 'none';
+  let valid = true;
+  prenomError.style.display = 'none';
+  emailError.style.display = 'none';
 
-      if (!prenomValue || !prenomRegex.test(prenomValue)) {
-        prenomError.textContent = "Entre un prénom valide (sans chiffres ni caractères spéciaux).";
-        prenomError.style.display = 'block';
-        valid = false;
-      }
-      if (!emailValue) {
-        emailError.textContent = "Merci de renseigner ton email pour continuer.";
-        emailError.style.display = 'block';
-        valid = false;
-      } else if (!emailRegex.test(emailValue)) {
-        emailError.textContent = "Entre une adresse email valide.";
-        emailError.style.display = 'block';
-        valid = false;
-      }
-      if (!valid) return;
+  if (!prenomValue || !prenomRegex.test(prenomValue)) {
+    prenomError.textContent = "Entre un prénom valide (sans chiffres ni caractères spéciaux).";
+    prenomError.style.display = 'block';
+    valid = false;
+  }
+  if (!emailValue) {
+    emailError.textContent = "Merci de renseigner ton email pour continuer.";
+    emailError.style.display = 'block';
+    valid = false;
+  } else if (!emailRegex.test(emailValue)) {
+    emailError.textContent = "Entre une adresse email valide.";
+    emailError.style.display = 'block';
+    valid = false;
+  }
+  if (!valid) return;
 
-      document.getElementById('hidden-prenom').value = prenomValue;
-      document.getElementById('hidden-email').value = emailValue;
-      document.getElementById('hidden-google-form').submit();
+  // Remplir le formulaire caché et le soumettre à Google Forms
+  document.getElementById('hidden-prenom').value = prenomValue;
+  document.getElementById('hidden-email').value = emailValue;
+  document.getElementById('hidden-google-form').submit();
 
-      downloadButtons.classList.add('show');
+  // Optionnel : afficher un message de succès (ici nous l'affichons brièvement)
+  const successMessage = document.getElementById('success-message');
+  successMessage.style.display = 'block';
+  successMessage.classList.add('show');
+  setTimeout(() => {
+    successMessage.classList.remove('show');
+    successMessage.style.display = 'none';
+  }, 5000);
 
-      const successMessage = document.getElementById('success-message');
-      successMessage.style.display = 'block';
-      successMessage.classList.add('show');
+  // Télécharger automatiquement la vidéo (si elle est prête)
+  if (videoURL) {
+    const link = document.createElement('a');
+    link.href = videoURL;
+    link.download = 'Letmotiv_Improvisation.mp4';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
 
-      setTimeout(() => {
-        successMessage.classList.remove('show');
-        successMessage.style.display = 'none';
-      }, 5000);
-    });
+  // Rediriger vers le formulaire feedback après un court délai (par exemple 2 secondes)
+  setTimeout(() => {
+    window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-de-ton-impro";
+  }, 2000);
+});
 
-    downloadVideoBtn.addEventListener('click', () => {
-      if (!videoURL) {
-        const improErrorDiv = document.getElementById('impro-error');
-        improErrorDiv.textContent = "La vidéo n'est pas encore prête ou pas enregistrée.";
-        improErrorDiv.style.display = 'block';
-        return;
-      }
-      const link = document.createElement('a');
-      link.href = videoURL;
-      link.download = 'Letmotiv_Improvisation.mp4';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    });
-
-    downloadPdfBtn.addEventListener('click', () => {
-      const link = document.createElement('a');
-      link.href = "https://drive.google.com/file/d/14gMVPpM2kLXmfsA3_6CYe6qBfQ8ETUSA";
-      link.download = "Questions_Evaluation.pdf";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    });
   </script>
 </body>
 </html>
