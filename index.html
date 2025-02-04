@@ -25,16 +25,10 @@
   <!-- Import de la police DM Sans et Montserrat depuis Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=DM+Sans&family=Montserrat:wght@700&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans&family=Montserrat:wght@700&display=swap" rel="stylesheet" />
 
   <!-- Icônes Font Awesome -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-  />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
   <style>
     /* --- GLOBAL --- */
@@ -50,8 +44,8 @@
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
-      overflow-x: hidden; /* Empêche le défilement horizontal */
-      padding-top: 60px;  /* Compense la hauteur du header fixe */
+      overflow-x: hidden;
+      padding-top: 60px;
       padding-bottom: 20px;
     }
 
@@ -86,7 +80,7 @@
     /* --- BARRE DE PROGRESSION --- */
     .progress-container {
       position: fixed;
-      top: 60px; 
+      top: 60px;
       left: 0;
       width: 100%;
       height: 8px;
@@ -141,7 +135,6 @@
       transform: scale(1.05);
     }
 
-    /* Animations de base (pour la boîte d'intro) */
     @keyframes fadeIn {
       from { opacity: 0; }
       to   { opacity: 1; }
@@ -152,7 +145,7 @@
     }
     @keyframes slideDown {
       from { transform: translateY(-50px); opacity: 0; }
-      to   { transform: translateY(0);     opacity: 1; }
+      to   { transform: translateY(0); opacity: 1; }
     }
 
     /* --- CONTENEUR PRINCIPAL --- */
@@ -160,7 +153,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center; 
+      justify-content: center;
       flex-grow: 1;
       width: 100%;
       padding: 20px;
@@ -179,7 +172,7 @@
       text-align: center;
       font-size: 14px;
       border: 2px solid #eeeeee;
-      display: none;  /* Masqué par défaut */
+      display: none;
     }
     .box.active {
       display: block;
@@ -190,34 +183,21 @@
       animation: fromBottom 1.5s ease forwards;
     }
     @keyframes fromBottom {
-      from {
-        opacity: 0;
-        transform: translateY(50px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
     }
-
     .slide-from-top {
       animation: fromTop 1.5s ease forwards;
     }
     @keyframes fromTop {
-      from {
-        opacity: 0;
-        transform: translateY(-50px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(-50px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     /* --- HEADER INTERNE DES BOXES --- */
     .box-header {
       display: flex;
-      flex-direction: column; /* Alignement vertical */
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       margin-bottom: 20px;
@@ -257,9 +237,7 @@
     }
 
     /* --- FLECHES HAUT/BAS --- */
-    .next-btn, .back-btn {
-      /* Styles communs éventuels */
-    }
+    .next-btn, .back-btn { }
     .next-btn {
       width: 40px;
       height: 40px;
@@ -279,21 +257,14 @@
       color: #ffffff;
       transform: scale(1.05);
     }
-
-    /* Nouvelle animation pour attirer l'attention sur le bouton */
+    /* Animation "pulse" (effet courant électrique) */
     .next-btn.pulse {
       animation: electricPulse 1.5s infinite;
     }
     @keyframes electricPulse {
-      0% {
-        box-shadow: 0 0 0 0 rgba(0,164,138,0.7);
-      }
-      70% {
-        box-shadow: 0 0 0 10px rgba(0,164,138,0);
-      }
-      100% {
-        box-shadow: 0 0 0 0 rgba(0,164,138,0);
-      }
+      0% { box-shadow: 0 0 0 0 rgba(0,164,138,0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(0,164,138,0); }
+      100% { box-shadow: 0 0 0 0 rgba(0,164,138,0); }
     }
 
     /* STEP1 : Choix d’objectif */
@@ -507,7 +478,6 @@
       transform: translateY(-3px);
     }
 
-    /* Boutons "Partager sur LinkedIn" */
     .linkedin-share-button {
       display: inline-flex;
       align-items: center;
@@ -532,12 +502,9 @@
 
     /* Media Queries */
     @media (max-height: 600px) {
-      .box {
-        margin-bottom: 20px;
-      }
+      .box { margin-bottom: 20px; }
     }
 
-    /* Messages d'erreur */
     .error-message {
       color: red;
       margin-top: 10px;
@@ -547,7 +514,6 @@
       width: 100%;
     }
 
-    /* Champs de formulaires */
     .input-group {
       display: flex;
       flex-direction: column;
@@ -580,15 +546,14 @@
       margin-bottom: 15px;
     }
 
-    /* Icône sur le bouton "Générer un sujet" après génération */
     #generate-subject-btn.subject-generated {
       background-color: #00a48a;
       color: #ffffff;
       position: relative;
-      padding-right: 40px; 
+      padding-right: 40px;
     }
     #generate-subject-btn.subject-generated::after {
-      content: "\f2f9"; /* fa-sync-alt */
+      content: "\f2f9";
       font-family: "Font Awesome 5 Free";
       font-weight: 900;
       position: absolute;
@@ -598,9 +563,6 @@
       font-size: 16px;
     }
 
-    /* --- NOUVEAU style pour la zone de téléchargement (STEP5) --- */
-
-    /* Bloc d'accroche coloré */
     .download-section-accent {
       background: linear-gradient(135deg, #182d84, #00a48a);
       border-radius: 10px;
@@ -628,7 +590,7 @@
       text-align: center;
     }
     .call-to-action button {
-      background-color: #ffcb2d; /* Couleur d'appel à l'action (ex: jaune) */
+      background-color: #ffcb2d;
       color: #000;
       border-radius: 30px;
       padding: 12px 24px;
@@ -642,26 +604,24 @@
       box-shadow: 0 4px 6px rgba(0,0,0,0.2);
     }
 
-    /* Apparition animée des boutons de téléchargement */
     .download-buttons {
       margin-top: 20px;
       text-align: center;
       opacity: 0;
       transform: translateY(10px);
       transition: opacity 0.4s ease, transform 0.4s ease;
-      display: none; /* Assure qu'il n'y a pas d'espace réservé */
+      display: none;
     }
     .download-buttons.show {
       opacity: 1;
       transform: translateY(0);
-      display: block; /* Affiche les boutons */
+      display: block;
     }
 
-    /* Message de confirmation en vert */
     .success-message {
-      color: #28a745; /* Vert Bootstrap */
-      background-color: #d4edda; /* Fond vert clair */
-      border: 1px solid #c3e6cb; /* Bordure verte douce */
+      color: #28a745;
+      background-color: #d4edda;
+      border: 1px solid #c3e6cb;
       border-radius: 5px;
       padding: 10px 20px;
       margin-top: 10px;
@@ -676,14 +636,34 @@
     }
 
     @keyframes fadeInDown {
-      from {
-        transform: translateY(-20px);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
+      from { transform: translateY(-20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* --- Bulle style BD pour le sujet (STEP3) --- */
+    .subject-bubble {
+      display: inline-block;
+      position: relative;
+      background: #fefefe;
+      border: 2px solid #ccc;
+      border-radius: 16px;
+      padding: 10px 15px;
+      font-size: 16px;
+      color: #333;
+      max-width: 80%;
+      text-align: center;
+      margin: 0 auto 15px;
+    }
+    .subject-bubble::after {
+      content: "";
+      position: absolute;
+      bottom: -15px;
+      left: 30px;
+      border-width: 15px 15px 0;
+      border-style: solid;
+      border-color: #fefefe transparent;
+      display: block;
+      width: 0;
     }
   </style>
 </head>
@@ -704,12 +684,8 @@
   <!-- HEADER -->
   <div class="header">
     <div class="header-content">
-      <div class="header-l1">
-        Simulateur d'improvisation en public
-      </div>
-      <div class="header-l2">
-        by Letmotiv
-      </div>
+      <div class="header-l1">Simulateur d'improvisation en public</div>
+      <div class="header-l2">by Letmotiv</div>
     </div>
   </div>
 
@@ -724,13 +700,11 @@
     <!-- STEP1 : Choix d'objectif -->
     <div class="box" id="step1">
       <div class="box-header">
-        <!-- Flèche haut (retour) masquée à la première étape -->
         <button class="back-btn hidden-visibility" id="back-btn1" aria-label="Retour">
           <i class="fas fa-arrow-up"></i>
         </button>
         <div class="box-title">Choisis ton objectif</div>
       </div>
-
       <div class="objectives-container">
         <button data-category="convaincre">Convaincre</button>
         <button data-category="inspirer">Inspirer</button>
@@ -742,14 +716,9 @@
         <button data-category="diction">Diction</button>
         <button data-category="entretien">Réussir son entretien</button>
       </div>
-
-      <div id="objective-error" class="error-message">
-        Sélectionne un objectif avant de continuer.
-      </div>
-
+      <div id="objective-error" class="error-message">Sélectionne un objectif avant de continuer.</div>
       <div class="explanation-box" id="explanation-box"></div>
-
-      <!-- Flèche bas (suivant) -->
+      <!-- Bouton Suivant STEP1 (l'animation "pulse" sera appliquée après le clic sur un objectif) -->
       <button class="next-btn" id="next-btn1" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
@@ -761,18 +730,16 @@
         <button class="back-btn" id="back-btn2" aria-label="Retour à l'étape précédente">
           <i class="fas fa-arrow-up"></i>
         </button>
-        <div class="box-title">Génère un sujet pour ton impro</div>
+        <div class="box-title">Choisis un sujet</div>
       </div>
       <!-- Rappel de l'objectif sélectionné -->
       <p id="selected-objective-display" style="font-weight:bold; margin-bottom:10px;"></p>
-
       <button id="generate-subject-btn">Générer un sujet aléatoire</button>
       <div id="subject-wrapper" class="subject-wrapper">
         <span id="subject-display"></span>
       </div>
       <div id="subject-error" class="error-message"></div>
-
-      <!-- Flèche bas (suivant) -->
+      <!-- Bouton Suivant STEP2 (l'animation "pulse" sera appliquée après génération du sujet) -->
       <button class="next-btn" id="next-btn2" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
@@ -786,13 +753,12 @@
         </button>
         <div class="box-title">Lance ton improvisation</div>
       </div>
-      <!-- Rappel du sujet généré -->
-      <p id="current-subject-display" style="font-weight:bold; margin-bottom:10px;"></p>
-
+      <!-- Rappel du sujet généré dans une bulle style BD -->
+      <div id="current-subject-display" class="subject-bubble"></div>
       <div class="video-box">
         <video id="preview" autoplay muted></video>
         <div class="video-text" id="video-text">
-          Ici va s'enregistrer ton improvisation vidéo. <br>
+          Ici va s'enregistrer ton improvisation vidéo.<br>
           Lorsque tu es prêt, clique sur "Démarrer ton impro" ci-dessous.<br><br>
           NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.
         </div>
@@ -804,16 +770,13 @@
           <div class="initial-countdown" id="initial-countdown">3</div>
         </div>
       </div>
-
       <div class="impro-actions">
         <button id="start-btn" aria-label="Démarrer l'improvisation">Démarrer ton impro <i class="fas fa-video"></i></button>
         <button id="stop-btn" class="hidden-btn" aria-label="Arrêter l'improvisation">Arrêter ton impro <i class="fas fa-stop"></i></button>
         <button id="restart-btn" class="hidden-btn" aria-label="Recommencer l'improvisation">Recommencer ton impro <i class="fas fa-redo"></i></button>
       </div>
-
       <div id="impro-error" class="error-message"></div>
-
-      <!-- Flèche bas (suivant) -->
+      <!-- Bouton Suivant STEP3 (l'animation "pulse" sera appliquée à la fin de l'enregistrement) -->
       <button class="next-btn" id="next-btn3" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
@@ -825,47 +788,31 @@
         <button class="back-btn" id="back-btn4" aria-label="Retour à l'étape précédente">
           <i class="fas fa-arrow-up"></i>
         </button>
-        <div class="box-title">Bravo pour ton impro ! Partage ton expérience et continue à progresser</div>
+        <div class="box-title">Bravo pour ton impro 👏👏</div>
       </div>
-
-      <p>
-        Inspire la communauté et encourage d'autres personnes à relever le défi ! <b>#ChallengeImproLetmotiv</b>
-      </p>
-
-      <a
-        id="linkedin-share-button"
-        href="https://www.linkedin.com/shareArticle?mini=true&url=https://letmotiv-simulateur.fr"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="linkedin-share-button"
-        aria-label="Partager sur LinkedIn"
-      >
-        <i class="fab fa-linkedin"></i> Partager sur LinkedIn
-      </a>
-
-      <div class="progression-buttons">
+      <!-- Section Partage -->
+      <div class="share-section">
+        <h3>Partage ton expérience</h3>
+        <p>Inspire la communauté et encourage d'autres personnes à relevé le défi ! #ChallengeImproLetmotiv </p>
+        <a id="linkedin-share-button" href="https://www.linkedin.com/shareArticle?mini=true&url=https://letmotiv-simulateur.fr" target="_blank" rel="noopener noreferrer" class="linkedin-share-button" aria-label="Partager sur LinkedIn">
+          <i class="fab fa-linkedin"></i> Partager sur LinkedIn
+        </a>
+      </div>
+      <hr style="margin:20px 0; border: 1px dashed #ccc;">
+      <!-- Section Call-to-Action -->
+      <div class="cta-section">
+        <h3>Continue à progresser</h3>
         <p>Tu souhaites progresser rapidement et efficacement dans la prise de parole en public ? Découvre nos ressources exclusives :</p>
-        <a 
-          href="https://alexetpierre.systeme.io/inscription"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="btn"
-          aria-label="S'inscrire à la formation en ligne"
-        >
-          <i class="fas fa-laptop"></i> Suis notre formation en ligne
-        </a>
-        <a
-          href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="btn"
-          aria-label="Réserver un coaching"
-        >
-          <i class="fas fa-chalkboard-teacher"></i> Réserve un coaching
-        </a>
+        <div class="progression-buttons">
+          <a href="https://alexetpierre.systeme.io/inscription" target="_blank" rel="noopener noreferrer" class="btn" aria-label="Découvre la formation en ligne">
+            <i class="fas fa-laptop"></i> Découvre la formation en ligne
+          </a>
+          <a href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole" target="_blank" rel="noopener noreferrer" class="btn" aria-label="Réserve un coaching">
+            <i class="fas fa-chalkboard-teacher"></i> Réserve un coaching
+          </a>
+        </div>
       </div>
-
-      <!-- Flèche bas (suivant) vers la Step5 -->
+      <!-- Bouton Suivant STEP4 (l'animation "pulse" est appliquée directement quand la box s'affiche) -->
       <button class="next-btn" id="next-btn4" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
@@ -879,18 +826,14 @@
         </button>
         <div class="box-title">Analyse ta prestation</div>
       </div>
-
       <div class="download-section">
-        <!-- Bloc d'accroche coloré -->
         <div class="download-section-accent">
           <h2>Obtiens gratuitement ta prestation en vidéo et la grille d'analyse Letmotiv</h2>
           <p class="subtitle">Analyse et évalue ton improvisation grâce au document Letmotiv.</p>
           <p class="reassure">
-            N'hésite pas à t'entraîner et refaire des improvisations pour progresser sur tes axes d'amélioration. 
+            N'hésite pas à t'entraîner et refaire des improvisations pour progresser sur tes axes d'amélioration.
           </p>
         </div>
-
-        <!-- Champs de formulaire -->
         <div class="download-fields">
           <div class="input-group">
             <label for="prenom">Prénom :</label>
@@ -903,26 +846,20 @@
             <div id="email-error" class="error-message"></div>
           </div>
         </div>
-
-        <!-- Bouton CTA pour valider -->
         <div class="call-to-action">
           <button id="validate-form-btn" aria-label="Valider les informations">
-            Valider et voir mes ressources
+            Valider
           </button>
         </div>
-
-        <!-- Message de confirmation -->
         <div id="success-message" class="success-message" style="display: none;">
           Merci ! Vos informations ont été enregistrées et vos ressources sont prêtes à être téléchargées.
         </div>
-
-        <!-- Boutons de téléchargement -->
         <div class="download-buttons" id="download-buttons">
           <button id="download-video-btn" aria-label="Télécharge ta vidéo">
-            <i class="fas fa-download"></i> Télécharge ta vidéo (mp4)
+            <i class="fas fa-download"></i> Télécharge ta vidéo
           </button>
           <button id="download-pdf-btn" aria-label="Télécharge la grille d'évaluation">
-            <i class="fas fa-download"></i> Télécharge la grille d'évaluation (pdf)
+            <i class="fas fa-download"></i> Télécharge la grille d'évaluation
           </button>
         </div>
       </div>
@@ -971,7 +908,12 @@
       const progress = step * 20;
       topProgressBar.style.width = `${progress}%`;
     }
-    updateProgressBar(0); // Au début
+    updateProgressBar(0);
+
+    // Fonction pour retirer l'animation "pulse" de tous les boutons "Suivant"
+    function removePulseFromAll() {
+      Object.values(nextBtns).forEach(btn => btn.classList.remove('pulse'));
+    }
 
     // Fonction d'affichage avec animations
     function showBox(current, next) {
@@ -991,12 +933,17 @@
       
       // Mise à jour des rappels dans les étapes concernées
       if (next === 2) {
-        // Dans STEP2, rappeler l'objectif sélectionné
         document.getElementById('selected-objective-display').textContent = "Ton objectif : " + currentObjective;
       }
       if (next === 3) {
-        // Dans STEP3, rappeler le sujet généré
-        document.getElementById('current-subject-display').textContent = "Sujet : " + currentSubject;
+        document.getElementById('current-subject-display').textContent = currentSubject;
+      }
+      
+      // Retirer l'animation "pulse" de tous
+      removePulseFromAll();
+      if (next === 4) {
+        // Dans STEP4, on applique l'animation sur le bouton "Suivant" dès l'affichage
+        nextBtns[4].classList.add('pulse');
       }
     }
 
@@ -1007,6 +954,7 @@
         introBox.style.display = 'none';
         boxes[1].classList.add('active', 'slide-from-bottom');
         updateProgressBar(1);
+        removePulseFromAll();
       }, 500);
     });
 
@@ -1026,7 +974,7 @@
     nextBtns[2].addEventListener('click', () => {
       if (!currentSubject) {
         const subjErrorDiv = document.getElementById('subject-error');
-        subjErrorDiv.textContent = "Génère un sujet avant de continuer.";
+        subjErrorDiv.textContent = "Tu dois générer un sujet avant de continuer.";
         subjErrorDiv.style.display = 'block';
         return;
       }
@@ -1055,18 +1003,10 @@
     });
 
     // Boutons "Retour"
-    backBtns[2].addEventListener('click', () => {
-      showBox(2, 1);
-    });
-    backBtns[3].addEventListener('click', () => {
-      showBox(3, 2);
-    });
-    backBtns[4].addEventListener('click', () => {
-      showBox(4, 3);
-    });
-    backBtns[5].addEventListener('click', () => {
-      showBox(5, 4);
-    });
+    backBtns[2].addEventListener('click', () => { showBox(2, 1); });
+    backBtns[3].addEventListener('click', () => { showBox(3, 2); });
+    backBtns[4].addEventListener('click', () => { showBox(4, 3); });
+    backBtns[5].addEventListener('click', () => { showBox(5, 4); });
 
     /***********************
      * Gestion des objectifs et explications (STEP1)
@@ -1112,7 +1052,6 @@
         objectivesButtons.forEach(btn => btn.classList.remove('selected-objective'));
         button.classList.add('selected-objective');
         currentCategory = button.dataset.category;
-        // Enregistrer le texte de l'objectif sélectionné
         currentObjective = button.innerText;
         const explication = explanations[currentCategory] || "";
         explanationBox.textContent = explication;
@@ -1122,6 +1061,9 @@
         }
         document.getElementById('objective-error').style.display = 'none';
         document.getElementById('impro-error').style.display = 'none';
+        // Appliquer l'animation sur le bouton "Suivant" de STEP1 après le clic sur un objectif
+        removePulseFromAll();
+        nextBtns[1].classList.add('pulse');
       });
     });
 
@@ -1171,6 +1113,9 @@
       subjectWrapper.style.display = 'block';
       generateSubjectBtn.classList.add('subject-generated');
       document.getElementById('subject-error').style.display = 'none';
+      // Appliquer l'animation sur le bouton "Suivant" de STEP2 après le clic sur "Générer un sujet"
+      removePulseFromAll();
+      nextBtns[2].classList.add('pulse');
     });
 
     /***********************
@@ -1255,8 +1200,9 @@
         recordingIndicator.style.display = 'none';
         clearInterval(timerInterval);
         improStarted = true;
-        // Ajout de l'animation sur le bouton "Suivant" pour attirer l'attention
-        document.getElementById('next-btn3').classList.add('pulse');
+        // Appliquer l'animation sur le bouton "Suivant" de STEP3 à la fin de l'enregistrement
+        removePulseFromAll();
+        nextBtns[3].classList.add('pulse');
       };
       mediaRecorderInstance.start();
       recordingIndicator.style.display = 'flex';
@@ -1326,7 +1272,7 @@
     });
     restartBtn.addEventListener('click', () => {
       restartBtn.classList.add('hidden-btn');
-      videoText.innerHTML = "Ici va s'enregistrer ton improvisation en vidéo. <br> Lorsque tu es prêt, clique sur le bouton \"Démarrer ton impro\". <br><br> NB : ta vidéo est stockée directement sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.";
+      videoText.innerHTML = "Ici va s'enregistrer ton improvisation en vidéo.<br>Lorsque tu es prêt, clique sur le bouton \"Démarrer ton impro\".<br><br>NB : ta vidéo est stockée directement sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.";
       videoText.style.display = 'block';
       improStarted = false;
       startImpro();
