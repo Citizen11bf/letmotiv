@@ -167,8 +167,8 @@
       margin: 20px 0;
       padding: 20px;
       border-radius: 15px;
-      background: linear-gradient(135deg, #ffffff, #f9f9f9); /* Dégradé léger */
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Ombre portée */
+      background: linear-gradient(135deg, #ffffff, #f9f9f9);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       border: none;
       text-align: center;
       font-size: 14px;
@@ -262,7 +262,6 @@
       color: #ffffff;
       transform: scale(1.05);
     }
-    /* Animation "pulse" (effet courant électrique) */
     .next-btn.pulse {
       animation: electricPulse 1.5s infinite;
     }
@@ -360,15 +359,40 @@
       left: 0;
       z-index: 1;
     }
-    .video-text {
+    /* Zone overlay pour les instructions et le bouton */
+    .video-overlay {
       position: absolute;
       z-index: 2;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
       color: #555;
       font-style: italic;
       font-size: 14px;
-      text-align: center;
       padding: 20px;
-      pointer-events: none;
+      background: rgba(255,255,255,0.6); /* léger fond semi-transparent pour la lisibilité */
+    }
+    .video-overlay p {
+      margin: 10px 0;
+    }
+    .video-overlay button {
+      pointer-events: auto;
+      margin: 15px 0;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #182d84;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .video-overlay button:hover {
+      background-color: #00a48a;
     }
     .recording-indicator {
       position: absolute;
@@ -657,7 +681,7 @@
       color: #333;
       max-width: 80%;
       text-align: center;
-      margin: 0 auto 15px;
+      margin: 0 auto;
     }
   </style>
 </head>
@@ -712,7 +736,7 @@
       </div>
       <div id="objective-error" class="error-message">Sélectionne un objectif avant de continuer.</div>
       <div class="explanation-box" id="explanation-box"></div>
-      <!-- Bouton Suivant STEP1 (l'animation "pulse" sera appliquée après le clic sur un objectif) -->
+      <!-- Bouton Suivant STEP1 -->
       <button class="next-btn" id="next-btn1" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
@@ -733,7 +757,7 @@
         <span id="subject-display"></span>
       </div>
       <div id="subject-error" class="error-message"></div>
-      <!-- Bouton Suivant STEP2 (l'animation "pulse" sera appliquée après génération du sujet) -->
+      <!-- Bouton Suivant STEP2 -->
       <button class="next-btn" id="next-btn2" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
@@ -751,10 +775,11 @@
       <div id="current-subject-display" class="subject-bubble"></div>
       <div class="video-box">
         <video id="preview" autoplay muted></video>
-        <div class="video-text" id="video-text">
-          Ici va s'enregistrer ton improvisation vidéo.<br>
-          Lorsque tu es prêt, clique sur "Démarrer ton impro" ci-dessous.<br><br>
-          NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.
+        <!-- Zone overlay avec instructions et bouton -->
+        <div class="video-overlay">
+          <p>Ici va s'enregistrer ton improvisation vidéo. Lorsque tu es prêt, clique sur le bouton ci-dessous.</p>
+          <button id="start-btn" aria-label="Démarrer l'improvisation">Démarrer ton impro <i class="fas fa-video"></i></button>
+          <p>NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
         </div>
         <div class="recording-indicator" id="recording-indicator">
           <span class="dot"></span> Enregistrement en cours
@@ -764,13 +789,13 @@
           <div class="initial-countdown" id="initial-countdown">3</div>
         </div>
       </div>
+      <!-- Boutons d'action (Stop, Restart) -->
       <div class="impro-actions">
-        <button id="start-btn" aria-label="Démarrer l'improvisation">Démarrer ton impro <i class="fas fa-video"></i></button>
         <button id="stop-btn" class="hidden-btn" aria-label="Arrêter l'improvisation">Arrêter ton impro <i class="fas fa-stop"></i></button>
         <button id="restart-btn" class="hidden-btn" aria-label="Recommencer l'improvisation">Recommencer ton impro <i class="fas fa-redo"></i></button>
       </div>
       <div id="impro-error" class="error-message"></div>
-      <!-- Bouton Suivant STEP3 (l'animation "pulse" sera appliquée à la fin de l'enregistrement) -->
+      <!-- Bouton Suivant STEP3 -->
       <button class="next-btn" id="next-btn3" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
@@ -787,7 +812,7 @@
       <!-- Section Partage -->
       <div class="share-section">
         <h3>Partage ton expérience</h3>
-        <p>Inspire la communauté et encourage d'autres personnes à relevé le défi ! #ChallengeImproLetmotiv </p>
+        <p>Inspire la communauté et encourage d'autres personnes à relevé le défi ! <br>#ChallengeImproLetmotiv</br> </p>
         <a id="linkedin-share-button" href="https://www.linkedin.com/shareArticle?mini=true&url=https://letmotiv-simulateur.fr" target="_blank" rel="noopener noreferrer" class="linkedin-share-button" aria-label="Partager sur LinkedIn">
           <i class="fab fa-linkedin"></i> Partager sur LinkedIn
         </a>
@@ -798,15 +823,15 @@
         <h3>Continue à progresser</h3>
         <p>Tu souhaites progresser rapidement et efficacement dans la prise de parole en public ? Découvre nos ressources exclusives :</p>
         <div class="progression-buttons">
-          <a href="https://alexetpierre.systeme.io/inscription" target="_blank" rel="noopener noreferrer" class="btn" aria-label="Découvre la formation en ligne">
-            <i class="fas fa-laptop"></i> Découvre la formation en ligne
+          <a href="https://alexetpierre.systeme.io/inscription" target="_blank" rel="noopener noreferrer" class="btn" aria-label="Découvrir la formation en ligne">
+            <i class="fas fa-laptop"></i> Découvrir la formation en ligne
           </a>
-          <a href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole" target="_blank" rel="noopener noreferrer" class="btn" aria-label="Réserve un coaching">
-            <i class="fas fa-chalkboard-teacher"></i> Réserve un coaching
+          <a href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole" target="_blank" rel="noopener noreferrer" class="btn" aria-label="Réserver un coaching">
+            <i class="fas fa-chalkboard-teacher"></i> Réserver un coaching
           </a>
         </div>
       </div>
-      <!-- Bouton Suivant STEP4 (l'animation "pulse" est appliquée directement quand la box s'affiche) -->
+      <!-- Bouton Suivant STEP4 -->
       <button class="next-btn" id="next-btn4" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
@@ -846,14 +871,14 @@
           </button>
         </div>
         <div id="success-message" class="success-message" style="display: none;">
-          Merci ! Vos informations ont été enregistrées et vos ressources sont prêtes à être téléchargées.
+          Merci ! Tes informations ont été enregistrées et tes ressources sont prêtes à être téléchargées.
         </div>
         <div class="download-buttons" id="download-buttons">
-          <button id="download-video-btn" aria-label="Télécharge ta vidéo">
-            <i class="fas fa-download"></i> Télécharge ta vidéo
+          <button id="download-video-btn" aria-label="Télécharger ta vidéo">
+            <i class="fas fa-download"></i> Télécharger ta vidéo
           </button>
-          <button id="download-pdf-btn" aria-label="Télécharge la grille d'évaluation">
-            <i class="fas fa-download"></i> Télécharge la grille d'évaluation
+          <button id="download-pdf-btn" aria-label="Télécharger la grille d'évaluation">
+            <i class="fas fa-download"></i> Télécharger la grille d'évaluation
           </button>
         </div>
       </div>
@@ -936,7 +961,6 @@
       // Retirer l'animation "pulse" de tous
       removePulseFromAll();
       if (next === 4) {
-        // Dans STEP4, on applique l'animation sur le bouton "Suivant" dès l'affichage
         nextBtns[4].classList.add('pulse');
       }
     }
@@ -1055,7 +1079,6 @@
         }
         document.getElementById('objective-error').style.display = 'none';
         document.getElementById('impro-error').style.display = 'none';
-        // Appliquer l'animation sur le bouton "Suivant" de STEP1 après le clic sur un objectif
         removePulseFromAll();
         nextBtns[1].classList.add('pulse');
       });
@@ -1107,7 +1130,6 @@
       subjectWrapper.style.display = 'block';
       generateSubjectBtn.classList.add('subject-generated');
       document.getElementById('subject-error').style.display = 'none';
-      // Appliquer l'animation sur le bouton "Suivant" de STEP2 après le clic sur "Générer un sujet"
       removePulseFromAll();
       nextBtns[2].classList.add('pulse');
     });
@@ -1119,12 +1141,11 @@
     let mediaRecorderInstance;
     let recordedChunks = [];
     const preview = document.getElementById('preview');
-    const startBtn = document.getElementById('start-btn');
+    // Nous n'utilisons plus directement startBtn (car il sera recréé lors du restart)
     const stopBtn = document.getElementById('stop-btn');
     const restartBtn = document.getElementById('restart-btn');
     const recordingIndicator = document.getElementById('recording-indicator');
     const countdownElement = document.getElementById('countdown');
-    const videoText = document.getElementById('video-text');
     const initialCountdownOverlay = document.getElementById('initial-countdown-overlay');
     const initialCountdown = document.getElementById('initial-countdown');
 
@@ -1132,6 +1153,14 @@
     let videoURL = "";
     let timerInterval;
     let timeRemaining = 120; // 2 minutes
+
+    // Fonction qui attache l'événement au bouton "Démarrer ton impro"
+    function bindStartButton() {
+      const startBtn = document.getElementById('start-btn');
+      if(startBtn){
+        startBtn.addEventListener('click', startImpro);
+      }
+    }
 
     async function startImpro() {
       if (!currentSubject) {
@@ -1149,6 +1178,8 @@
       if (!confirm("Votre webcam va se lancer pour démarrer l'improvisation. Voulez-vous continuer ?")) {
         return;
       }
+      // Masquer l'overlay (qui contient le bouton) pour déclencher la suite
+      document.querySelector('.video-overlay').style.display = 'none';
       startInitialCountdown();
     }
 
@@ -1173,7 +1204,7 @@
       if (!stream) return;
       if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
         const improErrorDiv = document.getElementById('impro-error');
-        improErrorDiv.textContent = "Votre navigateur ne supporte pas l'enregistrement vidéo. Essayez Chrome ou Firefox.";
+        improErrorDiv.textContent = "Ton navigateur ne supporte pas l'enregistrement vidéo. Essaye avec Google Chrome, Microsoft Edge ou Firefox.";
         improErrorDiv.style.display = 'block';
         return;
       }
@@ -1188,20 +1219,19 @@
         const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
         videoURL = URL.createObjectURL(videoBlob);
         stream.getTracks().forEach(t => t.stop());
-        videoText.innerHTML = "Improvisation terminée.";
-        videoText.style.display = 'block';
+        // Affichage du message en overlay une fois l'enregistrement terminé
+        const overlay = document.querySelector('.video-overlay');
+        overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Improvisation terminée. Passe à l'étape suivante !</p>";
+        overlay.style.display = 'flex';
         document.getElementById('impro-error').style.display = 'none';
         recordingIndicator.style.display = 'none';
         clearInterval(timerInterval);
         improStarted = true;
-        // Appliquer l'animation sur le bouton "Suivant" de STEP3 à la fin de l'enregistrement
         removePulseFromAll();
         nextBtns[3].classList.add('pulse');
       };
       mediaRecorderInstance.start();
       recordingIndicator.style.display = 'flex';
-      videoText.style.display = 'none';
-      startBtn.classList.add('hidden-btn');
       stopBtn.classList.remove('hidden-btn');
       stopBtn.disabled = false;
       restartBtn.classList.add('hidden-btn');
@@ -1252,7 +1282,6 @@
       countdownElement.style.display = 'block';
     }
 
-    startBtn.addEventListener('click', startImpro);
     stopBtn.addEventListener('click', () => {
       if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
         mediaRecorderInstance.stop();
@@ -1266,11 +1295,21 @@
     });
     restartBtn.addEventListener('click', () => {
       restartBtn.classList.add('hidden-btn');
-      videoText.innerHTML = "Ici va s'enregistrer ton improvisation en vidéo.<br>Lorsque tu es prêt, clique sur le bouton \"Démarrer ton impro\".<br><br>NB : ta vidéo est stockée directement sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.";
-      videoText.style.display = 'block';
+      // Réinitialiser l'overlay avec le bouton et les instructions
+      document.querySelector('.video-overlay').innerHTML = `
+        <p>Ici va s'enregistrer ton improvisation vidéo. Lorsque tu es prêt, clique sur le bouton ci-dessous.</p>
+        <button id="start-btn" aria-label="Démarrer l'improvisation">Démarrer ton impro <i class="fas fa-video"></i></button>
+        <p>NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
+      `;
+      // Réafficher l'overlay
+      document.querySelector('.video-overlay').style.display = 'flex';
       improStarted = false;
-      startImpro();
+      // Re-bind le nouvel événement sur le bouton "Démarrer"
+      bindStartButton();
     });
+
+    // Lier le bouton "Démarrer" lors du chargement initial
+    bindStartButton();
 
     /***********************
      * Téléchargements et envoi à Google Forms (STEP5)
