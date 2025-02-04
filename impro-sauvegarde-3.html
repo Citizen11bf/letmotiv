@@ -360,76 +360,41 @@
       left: 0;
       z-index: 1;
     }
-    .video-text {
+    /* Nouvelle zone overlay pour les instructions et le bouton Démarrer */
+    .video-overlay {
       position: absolute;
       z-index: 2;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
       color: #555;
       font-style: italic;
       font-size: 14px;
-      text-align: center;
       padding: 20px;
-      pointer-events: none;
     }
-    .recording-indicator {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      display: flex;
-      align-items: center;
-      background-color: rgba(255,255,255,0.8);
-      padding: 5px 10px;
-      border-radius: 20px;
-      font-size: 14px;
-      color: #ff0000;
-      display: none;
-      z-index: 3;
+    .video-instructions p {
+      margin: 10px 0;
     }
-    .recording-indicator .dot {
-      height: 10px;
-      width: 10px;
-      background-color: #ff0000;
-      border-radius: 50%;
-      display: inline-block;
-      margin-right: 5px;
-      animation: blink 1s infinite;
+    .video-instructions button {
+      pointer-events: auto;
+      margin: 15px 0;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #182d84;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color 0.3s;
     }
-    @keyframes blink {
-      0% { opacity: 1; }
-      50% { opacity: 0; }
-      100% { opacity: 1; }
+    .video-instructions button:hover {
+      background-color: #00a48a;
     }
-    .countdown {
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
-      font-size: 24px;
-      color: #ffffff;
-      display: none;
-      z-index: 4;
-      background-color: rgba(0,0,0,0.5);
-      padding: 5px 10px;
-      border-radius: 5px;
-      text-align: center;
-    }
-    .initial-countdown-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(128,128,128,0.6);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 5;
-      border-radius: 6px;
-    }
-    .initial-countdown {
-      font-size: 48px;
-      color: #ffffff;
-      font-weight: bold;
-    }
-
+    /* On masque le bouton "Démarrer" dans la zone d'actions en dehors de l'overlay */
     .impro-actions {
       display: flex;
       flex-wrap: wrap;
@@ -723,7 +688,7 @@
       </div>
       <div id="objective-error" class="error-message">Sélectionne un objectif avant de continuer.</div>
       <div class="explanation-box" id="explanation-box"></div>
-      <!-- Bouton Suivant STEP1 (l'animation "pulse" sera appliquée après le clic sur un objectif) -->
+      <!-- Bouton Suivant STEP1 -->
       <button class="next-btn" id="next-btn1" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
@@ -744,7 +709,7 @@
         <span id="subject-display"></span>
       </div>
       <div id="subject-error" class="error-message"></div>
-      <!-- Bouton Suivant STEP2 (l'animation "pulse" sera appliquée après génération du sujet) -->
+      <!-- Bouton Suivant STEP2 -->
       <button class="next-btn" id="next-btn2" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
@@ -762,10 +727,14 @@
       <div id="current-subject-display" class="subject-bubble"></div>
       <div class="video-box">
         <video id="preview" autoplay muted></video>
-        <div class="video-text" id="video-text">
-          Ici va s'enregistrer ton improvisation vidéo.<br>
-          Lorsque tu es prêt, clique sur "Démarrer ton impro" ci-dessous.<br><br>
-          NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.
+        <!-- Nouvelle zone overlay contenant les instructions et le bouton Démarrer -->
+        <div class="video-overlay">
+          <div class="video-instructions">
+            <p>Ici va s'enregistrer ton improvisation vidéo.</p>
+            <p>Lorsque tu es prêt, clique sur le bouton ci-dessous.</p>
+            <button id="start-btn" aria-label="Démarrer l'improvisation">Démarrer ton impro <i class="fas fa-video"></i></button>
+            <p>NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
+          </div>
         </div>
         <div class="recording-indicator" id="recording-indicator">
           <span class="dot"></span> Enregistrement en cours
@@ -775,13 +744,13 @@
           <div class="initial-countdown" id="initial-countdown">3</div>
         </div>
       </div>
+      <!-- Les boutons Stop et Restart resteront dans le conteneur des actions (ils seront affichés après le démarrage) -->
       <div class="impro-actions">
-        <button id="start-btn" aria-label="Démarrer l'improvisation">Démarrer ton impro <i class="fas fa-video"></i></button>
         <button id="stop-btn" class="hidden-btn" aria-label="Arrêter l'improvisation">Arrêter ton impro <i class="fas fa-stop"></i></button>
         <button id="restart-btn" class="hidden-btn" aria-label="Recommencer l'improvisation">Recommencer ton impro <i class="fas fa-redo"></i></button>
       </div>
       <div id="impro-error" class="error-message"></div>
-      <!-- Bouton Suivant STEP3 (l'animation "pulse" sera appliquée à la fin de l'enregistrement) -->
+      <!-- Bouton Suivant STEP3 -->
       <button class="next-btn" id="next-btn3" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
@@ -817,7 +786,7 @@
           </a>
         </div>
       </div>
-      <!-- Bouton Suivant STEP4 (l'animation "pulse" est appliquée directement quand la box s'affiche) -->
+      <!-- Bouton Suivant STEP4 -->
       <button class="next-btn" id="next-btn4" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
@@ -1135,7 +1104,6 @@
     const restartBtn = document.getElementById('restart-btn');
     const recordingIndicator = document.getElementById('recording-indicator');
     const countdownElement = document.getElementById('countdown');
-    const videoText = document.getElementById('video-text');
     const initialCountdownOverlay = document.getElementById('initial-countdown-overlay');
     const initialCountdown = document.getElementById('initial-countdown');
 
@@ -1160,6 +1128,8 @@
       if (!confirm("Votre webcam va se lancer pour démarrer l'improvisation. Voulez-vous continuer ?")) {
         return;
       }
+      // Masquer le bouton "Démarrer" dans l'overlay
+      startBtn.style.display = 'none';
       startInitialCountdown();
     }
 
@@ -1199,8 +1169,8 @@
         const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
         videoURL = URL.createObjectURL(videoBlob);
         stream.getTracks().forEach(t => t.stop());
-        videoText.innerHTML = "Improvisation terminée.";
-        videoText.style.display = 'block';
+        // Afficher un message dans l'overlay ou ailleurs
+        document.querySelector('.video-overlay .video-instructions').innerHTML = "<p>Improvisation terminée.</p>";
         document.getElementById('impro-error').style.display = 'none';
         recordingIndicator.style.display = 'none';
         clearInterval(timerInterval);
@@ -1211,8 +1181,8 @@
       };
       mediaRecorderInstance.start();
       recordingIndicator.style.display = 'flex';
-      videoText.style.display = 'none';
-      startBtn.classList.add('hidden-btn');
+      // Masquer l'overlay pendant l'enregistrement
+      document.querySelector('.video-overlay').style.display = 'none';
       stopBtn.classList.remove('hidden-btn');
       stopBtn.disabled = false;
       restartBtn.classList.add('hidden-btn');
@@ -1277,8 +1247,14 @@
     });
     restartBtn.addEventListener('click', () => {
       restartBtn.classList.add('hidden-btn');
-      videoText.innerHTML = "Ici va s'enregistrer ton improvisation en vidéo.<br>Lorsque tu es prêt, clique sur le bouton \"Démarrer ton impro\".<br><br>NB : ta vidéo est stockée directement sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.";
-      videoText.style.display = 'block';
+      document.querySelector('.video-overlay .video-instructions').innerHTML = `
+        <p>Ici va s'enregistrer ton improvisation vidéo.</p>
+        <p>Lorsque tu es prêt, clique sur le bouton ci-dessous.</p>
+        <button id="start-btn" aria-label="Démarrer l'improvisation">Démarrer ton impro <i class="fas fa-video"></i></button>
+        <p>NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
+      `;
+      // Ré-afficher l'overlay
+      document.querySelector('.video-overlay').style.display = 'flex';
       improStarted = false;
       startImpro();
     });
