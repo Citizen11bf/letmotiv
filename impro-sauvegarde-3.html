@@ -669,7 +669,7 @@
       to { transform: translateY(0); opacity: 1; }
     }
 
-    /* --- Bulle style BD pour le sujet (STEP3) --- */
+    /* --- Bulle style BD pour le sujet aléatoire en STEP3 --- */
     .subject-bubble {
       display: inline-block;
       position: relative;
@@ -683,6 +683,12 @@
       text-align: center;
       margin: 0 auto;
     }
+
+    /* --- Inversion de la caméra (demande de Pierre) --- */
+    video {
+    transform: scaleX(-1);
+    }
+    
   </style>
 </head>
 <body>
