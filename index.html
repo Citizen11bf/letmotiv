@@ -274,6 +274,9 @@
 
     /* STEP2 : Rappel de l'objectif */
     #selected-objective-display {
+      display: inline-flex;       /* Pour disposer la flèche et le texte côte à côte */
+      align-items: center;          /* Pour aligner verticalement la flèche et le texte */
+      justify-content: center;      /* Pour centrer le contenu dans le conteneur */
       font-weight: bold;
       margin-bottom: 10px;
       position: relative;
@@ -288,6 +291,7 @@
       left: 0;
       top: 0;
       color: #000;
+      margin-right: 8px;  /* Espace entre la flèche et le texte */
     }
 
     /* STEP1 : Choix d’objectif */
