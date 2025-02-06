@@ -364,7 +364,7 @@
     }
     /* Classe pour agrandir légèrement l'encart vidéo */
     .enlarged-video {
-      height: 450px;
+      height: 350px;
       transition: height 0.3s ease;
     }
     .video-box video {
@@ -707,7 +707,19 @@
       transform: scaleX(-1);
       -webkit-transform: scaleX(-1);
     }
-    
+
+    /* Nouvelle classe pour fixer la position de la box active */
+    .fixed-box {
+      position: fixed;
+      top: 20px;  /* 20 px sous le header */
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 600px;
+      z-index: 5;
+      overflow-y: auto; /* Permet de scroller le contenu interne si nécessaire */
+      max-height: calc(100vh - 20px - 60px); /* 20px de marge + 60px de header */
+    }
   </style>
 </head>
 <body>
@@ -962,29 +974,28 @@
     // Fonction d'affichage avec animations
     function showBox(current, next) {
       if (!boxes[current] || !boxes[next]) return;
-      boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
-      boxes[next].classList.add('active');
+      
+      // Retirer la classe fixed de la box précédente
+      boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top', 'fixed-box');
+      
+      // Ajouter la classe active et fixer la nouvelle box
+      boxes[next].classList.add('active', 'fixed-box');
+      
       if (next > current) {
         boxes[next].classList.add('slide-from-bottom');
       } else {
         boxes[next].classList.add('slide-from-top');
       }
       updateProgressBar(next);
-      const header = document.querySelector('.header');
-      const headerHeight = header ? header.offsetHeight : 0;
-      const boxPosition = boxes[next].getBoundingClientRect().top + window.scrollY - headerHeight - 20;
-      window.scrollTo({ top: boxPosition, behavior: 'smooth' });
       
       // Mise à jour des rappels dans les étapes concernées
       if (next === 2) {
-        // Affiche l'explication associée à la catégorie sélectionnée.
         document.getElementById('selected-objective-display').textContent = explanations[currentCategory] || currentObjective;
       }
       if (next === 3) {
         document.getElementById('current-subject-display').textContent = currentSubject;
       }
       
-      // Retirer l'animation "pulse" de tous
       removePulseFromAll();
       if (next === 4) {
         nextBtns[4].classList.add('pulse');
@@ -996,7 +1007,7 @@
       introBox.style.animation = 'fadeOut 0.5s ease forwards';
       setTimeout(() => {
         introBox.style.display = 'none';
-        boxes[1].classList.add('active', 'slide-from-bottom');
+        boxes[1].classList.add('active', 'slide-from-bottom', 'fixed-box');
         updateProgressBar(1);
         removePulseFromAll();
       }, 500);
