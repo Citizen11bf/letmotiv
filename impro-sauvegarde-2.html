@@ -362,15 +362,10 @@
       overflow: hidden;
       transition: all 0.3s ease;
     }
-    /* Classe pour agrandir l'encart vidéo en mode "selfie" sur mobile */
-    .full-screen-video {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 50;
-      background-color: #000;
+    /* Classe pour agrandir légèrement l'encart vidéo */
+    .enlarged-video {
+      height: 350px;
+      transition: height 0.3s ease;
     }
     .video-box video {
       width: 100%;
@@ -1212,11 +1207,9 @@
       // Masquer l'overlay (qui contient le bouton) pour déclencher la suite
       document.querySelector('.video-overlay').style.display = 'none';
       
-      // Si sur mobile (ou écran étroit), ajouter la classe full-screen pour agrandir l'encart vidéo
+      // Ajouter la classe pour agrandir légèrement l'encart vidéo
       const videoBox = document.getElementById('video-box');
-      if(window.innerWidth < 768) {
-        videoBox.classList.add('full-screen-video');
-      }
+      videoBox.classList.add('enlarged-video');
       
       startInitialCountdown();
     }
@@ -1329,9 +1322,9 @@
         stopBtn.disabled = true;
         restartBtn.classList.remove('hidden-btn');
         recordingIndicator.style.display = 'none';
-        // Supprimer le mode plein écran sur mobile (si ajouté)
+        // Retirer la classe pour revenir à la hauteur normale
         const videoBox = document.getElementById('video-box');
-        videoBox.classList.remove('full-screen-video');
+        videoBox.classList.remove('enlarged-video');
       }
     });
     restartBtn.addEventListener('click', () => {
