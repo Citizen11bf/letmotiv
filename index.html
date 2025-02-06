@@ -274,7 +274,7 @@
 
     /* STEP2 : Rappel de l'objectif */
     #selected-objective-display {
-      display: flex;       /* Pour disposer la flèche et le texte côte à côte */
+      display: flex;                /* Pour disposer la flèche et le texte côte à côte */
       align-items: center;          /* Pour aligner verticalement la flèche et le texte */
       justify-content: center;      /* Pour centrer le contenu dans le conteneur */
       font-weight: bold;
@@ -780,10 +780,9 @@
         </button>
         <div class="box-title">Ton objectif</div>
       </div>
-
       <!-- Rappel de l'objectif sélectionné avec flèche ajoutée via CSS -->
       <p id="selected-objective-display"></p>
-      <button id="generate-subject-btn">Générer un sujet aléatoire</button>
+      <button id="generate-subject-btn">Générer un sujet</button>
       <div id="subject-wrapper" class="subject-wrapper">
         <span id="subject-display"></span>
       </div>
@@ -983,7 +982,8 @@
       
       // Mise à jour des rappels dans les étapes concernées
       if (next === 2) {
-        document.getElementById('selected-objective-display').textContent = currentObjective;
+      // Affiche l'explication associée à la catégorie sélectionnée.
+        document.getElementById('selected-objective-display').textContent = explanations[currentCategory] || currentObjective;
       }
       if (next === 3) {
         document.getElementById('current-subject-display').textContent = currentSubject;
