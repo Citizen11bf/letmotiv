@@ -970,12 +970,9 @@
       window.scrollTo({ top: boxPosition, behavior: 'smooth' });
       
       // Mise à jour des rappels dans les étapes concernées
-      
       if (next === 2) {
       // Affiche l'explication associée à la catégorie sélectionnée.
-      document.getElementById('selected-objective-display').textContent = explanations[currentCategory] || currentObjective;
-      }
-        
+      document.getElementById('selected-objective-display').textContent = explanations[currentCategory] || currentObjective;      
       }
       if (next === 3) {
         document.getElementById('current-subject-display').textContent = currentSubject;
