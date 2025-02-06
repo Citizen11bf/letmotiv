@@ -708,17 +708,17 @@
       -webkit-transform: scaleX(-1);
     }
 
-    /* Nouvelle classe pour fixer la position de la box active */
+    /* Nouvelle classe pour fixer la position de la box active et la centrer horizontalement */
     .fixed-box {
       position: fixed;
       top: 20px;  /* 20 px sous le header */
       left: 50%;
       transform: translateX(-50%);
-      width: 100%;
+      width: calc(100% - 40px); /* 20px de marge de chaque côté */
       max-width: 600px;
       z-index: 5;
-      overflow-y: auto; /* Permet de scroller le contenu interne si nécessaire */
-      max-height: calc(100vh - 20px - 60px); /* 20px de marge + 60px de header */
+      overflow-y: auto;
+      max-height: calc(100vh - 20px - 60px); /* 20px + 60px de header */
     }
   </style>
 </head>
