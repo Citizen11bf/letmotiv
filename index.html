@@ -347,33 +347,6 @@
       padding-left: 25px;
     }
 
-    /* STEP2 : Fleche */
-    #selected-objective-display::before {
-      content: "\f061";
-      font-family: "Font Awesome 5 Free";
-      font-weight: 900;
-      position: absolute;
-      left: 0;
-      top: 0;
-      color: #000;
-      margin-right: 8px;  /* Espace entre la flèche et le texte */
-    }
-
-    .explanation-container {
-      display: inline-flex;      /* Affiche les enfants sur la même ligne */
-      align-items: center;        /* Aligne verticalement la flèche et le texte */
-      justify-content: center;    /* Centre horizontalement le contenu si nécessaire */
-    }
-
-    .explanation-container .arrow {
-      margin-right: 8px;          /* Espace entre la flèche et le texte */
-      font-size: 20px;            /* Taille de la flèche, à ajuster selon vos préférences */
-    }
-
-    .explanation-container .explanation-text {
-      font-weight: bold;          /* Garder le texte en gras, si souhaité */
-    }
-
     /* --- STEP3 : Enregistrement vidéo --- */
     .video-box {
       margin: 10px auto;
@@ -796,7 +769,7 @@
         </button>
         <div class="box-title">Ton objectif</div>
       </div>
-      <!-- Rappel de l'objectif sélectionné avec flèche ajoutée via CSS -->
+      <!-- Rappel de l'objectif sélectionné -->
       <p id="selected-objective-display"></p>
       <button id="generate-subject-btn">Générer un sujet</button>
       <div id="subject-wrapper" class="subject-wrapper">
@@ -997,12 +970,10 @@
       window.scrollTo({ top: boxPosition, behavior: 'smooth' });
       
       // Mise à jour des rappels dans les étapes concernées
+      
       if (next === 2) {
-      document.getElementById('selected-objective-display').innerHTML =
-        '<span class="explanation-container">' +
-        '<span class="arrow">&#x25BC;</span>' +
-        '<span class="explanation-text">' + (explanations[currentCategory] || currentObjective) + '</span>' +
-      '</span>';
+      // Affiche l'explication associée à la catégorie sélectionnée.
+      document.getElementById('selected-objective-display').textContent = explanations[currentCategory] || currentObjective;
       }
         
       }
