@@ -367,6 +367,8 @@
       justify-content: center;
       align-items: center;
       overflow: hidden;
+      /* Ajout d'une transition sur la propriété height pour l'animation */
+      transition: height 0.5s ease-in-out;
     }
     .video-box video {
       width: 100%;
@@ -628,6 +630,14 @@
       border-color: #00a48a;
       outline: none;
     }
+
+    /* --- Media Query pour augmenter l'encart vidéo sur téléphone --- */
+    @media (max-width: 600px) {
+      .video-box {
+        height: 450px;
+      }
+    }
+    
   </style>
 </head>
 <body>
