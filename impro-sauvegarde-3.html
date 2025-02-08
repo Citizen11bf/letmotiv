@@ -232,8 +232,9 @@
     .back-btn:active {
       background-color: #303030;
     }
-    .back-btn.hidden-visibility {
-      visibility: hidden;
+    /* Pour la box1, le bouton caché ne doit plus occuper d'espace */
+    #step1 .back-btn.hidden-visibility {
+      display: none;
     }
     .box-title {
       font-size: 18px;
@@ -398,7 +399,6 @@
       margin: 10px 0;
     }
     .video-overlay button {
-      /* Bien que ce bouton ait le même style que .btn-impro, il peut rester tel quel */
       pointer-events: auto;
       margin: 15px 0;
       padding: 10px 20px;
@@ -595,7 +595,39 @@
       text-align: center;
       width: 100%;
     }
-    
+
+    /* --- Styles pour les champs Prénom et Email --- */
+    .download-fields {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 15px;
+    }
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 48%;
+    }
+    .input-group label {
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #000;
+    }
+    .input-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      box-sizing: border-box;
+      transition: border-color 0.3s;
+    }
+    .input-group input:focus {
+      border-color: #00a48a;
+      outline: none;
+    }
   </style>
 </head>
 <body>
@@ -647,7 +679,7 @@
         <button data-category="diction">Diction</button>
         <button data-category="entretien">Réussir son entretien</button>
       </div>
-      <!-- Le div d'erreur ne contient plus de texte par défaut -->
+      <!-- Le div d'erreur n'a plus de texte par défaut -->
       <div id="objective-error" class="error-message"></div>
       <div class="explanation-box" id="explanation-box"></div>
       <!-- Bouton Suivant STEP1 -->
@@ -666,7 +698,7 @@
       </div>
       <!-- Rappel de l'objectif sélectionné -->
       <p id="selected-objective-display" style="font-weight:bold; margin-bottom:10px;"></p>
-      <!-- Ajout de la classe btn-impro pour styliser ce bouton comme "Démarrer ton impro" -->
+      <!-- Bouton "Générer un sujet aléatoire" stylisé avec .btn-impro -->
       <button id="generate-subject-btn" class="btn-impro">Générer un sujet aléatoire</button>
       <div id="subject-wrapper" class="subject-wrapper">
         <span id="subject-display"></span>
@@ -704,7 +736,7 @@
           <div class="initial-countdown" id="initial-countdown">3</div>
         </div>
       </div>
-      <!-- Boutons d'action (Stop, Restart) avec la classe btn-impro ajoutée et cachés au départ -->
+      <!-- Boutons d'action (Stop, Restart) avec la classe btn-impro et cachés au départ -->
       <div class="impro-actions">
         <button id="stop-btn" class="hidden-btn btn-impro" aria-label="Arrêter l'improvisation">Arrêter ton impro <i class="fas fa-stop"></i></button>
         <button id="restart-btn" class="hidden-btn btn-impro" aria-label="Recommencer l'improvisation">Recommencer ton impro <i class="fas fa-redo"></i></button>
@@ -838,7 +870,6 @@
       
       // Retirer l'animation "pulse" de tous
       removePulseFromAll();
-      // (Optionnel) Vous pouvez ajouter des animations spécifiques pour certains boutons ici
     }
 
     // Boîte d'introduction
