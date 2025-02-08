@@ -4,8 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Simulateur d'improvisation</title>
-  <meta name="description" content="Évaluer et développer rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv. Coaching en prise de parole en public. ">
+  <meta name="description" content="Évaluer et développer rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv. Entreprise spécialisée dans le coaching en prise de parole.">
 
+  <!-- Icône de la page (favicon) -->
+  <link rel="icon" href="https://img.icons8.com/fluency/48/000000/microphone.png" type="image/png">
+  <link rel="apple-touch-icon" href="https://img.icons8.com/fluency/48/182d84/microphone.png">
+  
   <!-- Balises Open Graph pour LinkedIn -->
   <meta property="og:title" content="Simulateur d'improvisation Letmotiv" />
   <meta property="og:description" content="Évaluez et développez rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv." />
@@ -232,8 +236,9 @@
     .back-btn:active {
       background-color: #303030;
     }
-    .back-btn.hidden-visibility {
-      visibility: hidden;
+    /* Pour la box1, le bouton caché ne doit plus occuper d'espace */
+    #step1 .back-btn.hidden-visibility {
+      display: none;
     }
     .box-title {
       font-size: 18px;
@@ -271,7 +276,24 @@
       70% { box-shadow: 0 0 0 10px rgba(0,164,138,0); }
       100% { box-shadow: 0 0 0 0 rgba(0,164,138,0); }
     }
-  
+
+    /* --- Bouton de style pour "Démarrer ton impro" et boutons similaires --- */
+    .btn-impro {
+      pointer-events: auto;
+      margin: 15px 0;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #182d84;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .btn-impro:hover {
+      background-color: #00a48a;
+    }
+
     /* STEP1 : Choix d’objectif */
     .objectives-container {
       display: flex;
@@ -335,18 +357,7 @@
       color: #333;
       display: none;
     }
-
-    /* STEP2 : Rappel de l'objectif */
-    #selected-objective-display {
-      display: flex;                /* Pour disposer la flèche et le texte côte à côte */
-      align-items: center;          /* Pour aligner verticalement la flèche et le texte */
-      justify-content: center;      /* Pour centrer le contenu dans le conteneur */
-      font-weight: bold;
-      margin-bottom: 10px;
-      position: relative;
-      padding-left: 25px;
-    }
-
+    
     /* --- STEP3 : Enregistrement vidéo --- */
     .video-box {
       margin: 10px auto;
@@ -360,6 +371,7 @@
       justify-content: center;
       align-items: center;
       overflow: hidden;
+      transition: height 0.5s ease-in-out;
     }
     .video-box video {
       width: 100%;
@@ -477,133 +489,10 @@
       display: none;
     }
 
-    /* --- STEP4 : Partage sur LinkedIn + Options de progression --- */
-    .progression-buttons {
+    /* --- STEP4 (anciennement STEP5) : Analyse ta prestation & Téléchargements --- */
+    .download-section {
       margin-top: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
     }
-    .progression-buttons a {
-      width: 100%;
-      max-width: 300px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    button,
-    a.btn {
-      background-color: #182d84;
-      color: #FFFFFF;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 16px;
-      border: none;
-      border-radius: 25px;
-      padding: 10px 20px;
-      cursor: pointer;
-      margin: 5px;
-      text-decoration: none;
-      transition: background-color 0.3s, transform 0.3s;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-    button:hover,
-    button:active,
-    a.btn:hover,
-    a.btn:active {
-      background-color: #00a48a;
-      transform: translateY(-3px);
-    }
-
-    .linkedin-share-button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background-color: #0e76a8;
-      color: #FFFFFF;
-      border: none;
-      border-radius: 25px;
-      padding: 10px 20px;
-      font-weight: bold;
-      text-decoration: none;
-      transition: background-color 0.3s, transform 0.3s;
-      cursor: pointer;
-      margin: 5px;
-      gap: 10px;
-    }
-    .linkedin-share-button:hover,
-    .linkedin-share-button:active {
-      background-color: #085a8c;
-      transform: translateY(-3px);
-    }
-
-    /* Media Queries */
-    @media (max-height: 600px) {
-      .box { margin-bottom: 20px; }
-    }
-
-    .error-message {
-      color: red;
-      margin-top: 10px;
-      font-weight: bold;
-      display: none;
-      text-align: center;
-      width: 100%;
-    }
-
-    .input-group {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      width: 48%;
-    }
-    .input-group label {
-      margin-bottom: 5px;
-      font-weight: bold;
-      color: #000;
-    }
-    .input-group input {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 14px;
-      box-sizing: border-box;
-      transition: border-color 0.3s;
-    }
-    .input-group input:focus {
-      border-color: #00a48a;
-      outline: none;
-    }
-    .download-fields {
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      margin-bottom: 15px;
-    }
-
-    #generate-subject-btn.subject-generated {
-      background-color: #00a48a;
-      color: #ffffff;
-      position: relative;
-      padding-right: 40px;
-    }
-    #generate-subject-btn.subject-generated::after {
-      content: "\f2f9";
-      font-family: "Font Awesome 5 Free";
-      font-weight: 900;
-      position: absolute;
-      right: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 16px;
-    }
-
     .download-section-accent {
       background: linear-gradient(135deg, #182d84, #00a48a);
       border-radius: 10px;
@@ -681,7 +570,7 @@
       to { transform: translateY(0); opacity: 1; }
     }
 
-    /* --- Bulle style BD pour le sujet (STEP3) --- */
+    /* --- Bulle style BD pour le sujet aléatoire en STEP3 --- */
     .subject-bubble {
       display: inline-block;
       position: relative;
@@ -695,13 +584,55 @@
       text-align: center;
       margin: 0 auto;
     }
-    
+
     /* --- Inversion de la caméra (demande de Pierre) --- */
     video {
       transform: scaleX(-1);
       -webkit-transform: scaleX(-1);
     }
-    
+
+    /* --- Messages d'erreur en rouge --- */
+    .error-message {
+      color: red;
+      margin-top: 10px;
+      font-weight: bold;
+      display: none;
+      text-align: center;
+      width: 100%;
+    }
+
+    /* --- Styles pour les champs Prénom et Email --- */
+    .download-fields {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 15px;
+    }
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 48%;
+    }
+    .input-group label {
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #000;
+    }
+    .input-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      box-sizing: border-box;
+      transition: border-color 0.3s;
+    }
+    .input-group input:focus {
+      border-color: #00a48a;
+      outline: none;
+    }
   </style>
 </head>
 <body>
@@ -721,8 +652,8 @@
   <!-- HEADER -->
   <div class="header">
     <div class="header-content">
-      <div class="header-l1">Coaching en prise de parole </div>
-      <div class="header-l2">Simulateur d'improvisation by Letmotiv</div>
+      <div class="header-l1">Coaching en prise de parole</div>
+      <div class="header-l2">Simulateur d'improvisation Letmotiv</div>
     </div>
   </div>
 
@@ -753,7 +684,8 @@
         <button data-category="diction">Diction</button>
         <button data-category="entretien">Réussir son entretien</button>
       </div>
-      <div id="objective-error" class="error-message">Sélectionne un objectif avant de continuer.</div>
+      <!-- Le div d'erreur n'a plus de texte par défaut -->
+      <div id="objective-error" class="error-message"></div>
       <div class="explanation-box" id="explanation-box"></div>
       <!-- Bouton Suivant STEP1 -->
       <button class="next-btn" id="next-btn1" aria-label="Étape suivante">
@@ -769,13 +701,17 @@
         </button>
         <div class="box-title">Ton objectif</div>
       </div>
+
       <!-- Rappel de l'objectif sélectionné -->
-      <p id="selected-objective-display"></p>
-      <button id="generate-subject-btn">Générer un sujet</button>
+      <p id="selected-objective-display" style="font-weight:bold; margin-bottom:10px;"></p>
+      
+      <!-- Bouton "Générer un sujet" stylisé avec .btn-impro -->
+      <button id="generate-subject-btn" class="btn-impro">Générer un sujet</button>
       <div id="subject-wrapper" class="subject-wrapper">
         <span id="subject-display"></span>
       </div>
       <div id="subject-error" class="error-message"></div>
+  
       <!-- Bouton Suivant STEP2 -->
       <button class="next-btn" id="next-btn2" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
@@ -808,10 +744,10 @@
           <div class="initial-countdown" id="initial-countdown">3</div>
         </div>
       </div>
-      <!-- Boutons d'action (Stop, Restart) -->
+      <!-- Boutons d'action (Stop, Restart) avec la classe btn-impro et cachés au départ -->
       <div class="impro-actions">
-        <button id="stop-btn" class="hidden-btn" aria-label="Arrêter l'improvisation">Arrêter ton impro <i class="fas fa-stop"></i></button>
-        <button id="restart-btn" class="hidden-btn" aria-label="Recommencer l'improvisation">Recommencer ton impro <i class="fas fa-redo"></i></button>
+        <button id="stop-btn" class="hidden-btn btn-impro" aria-label="Arrêter l'improvisation">Arrêter ton impro <i class="fas fa-stop"></i></button>
+        <button id="restart-btn" class="hidden-btn btn-impro" aria-label="Recommencer l'improvisation">Recommencer ton impro <i class="fas fa-redo"></i></button>
       </div>
       <div id="impro-error" class="error-message"></div>
       <!-- Bouton Suivant STEP3 -->
@@ -820,43 +756,7 @@
       </button>
     </div>
 
-    <!-- STEP4 : Partage sur LinkedIn + Options de progression -->
-    <div class="box" id="step4">
-      <div class="box-header">
-        <button class="back-btn" id="back-btn4" aria-label="Retour à l'étape précédente">
-          <i class="fas fa-arrow-up"></i>
-        </button>
-        <div class="box-title">Bravo pour ton impro 👏👏</div>
-      </div>
-      <!-- Section Partage -->
-      <div class="share-section">
-        <h3>Partage ton expérience</h3>
-        <p>Inspire la communauté et encourage d'autres personnes à relevé le défi ! <br>#ChallengeImproLetmotiv</br> </p>
-        <a id="linkedin-share-button" href="https://www.linkedin.com/shareArticle?mini=true&url=https://letmotiv-simulateur.fr" target="_blank" rel="noopener noreferrer" class="linkedin-share-button" aria-label="Partager sur LinkedIn">
-          <i class="fab fa-linkedin"></i> Partager sur LinkedIn
-        </a>
-      </div>
-      <hr style="margin:20px 0; border: 1px dashed #ccc;">
-      <!-- Section Call-to-Action -->
-      <div class="cta-section">
-        <h3>Continue à progresser</h3>
-        <p>Tu souhaites progresser rapidement et efficacement dans la prise de parole en public ? Découvre nos ressources exclusives :</p>
-        <div class="progression-buttons">
-          <a href="https://alexetpierre.systeme.io/inscription" target="_blank" rel="noopener noreferrer" class="btn" aria-label="Découvrir la formation en ligne">
-            <i class="fas fa-laptop"></i> Découvrir la formation en ligne
-          </a>
-          <a href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole" target="_blank" rel="noopener noreferrer" class="btn" aria-label="Réserver un coaching">
-            <i class="fas fa-chalkboard-teacher"></i> Réserver un coaching
-          </a>
-        </div>
-      </div>
-      <!-- Bouton Suivant STEP4 -->
-      <button class="next-btn" id="next-btn4" aria-label="Étape suivante">
-        <i class="fas fa-arrow-down"></i>
-      </button>
-    </div>
-
-    <!-- STEP5 : Analyse ta prestation & Téléchargements -->
+    <!-- STEP4 : Analyse ta prestation & Téléchargements (anciennement STEP5) -->
     <div class="box" id="step5">
       <div class="box-header">
         <button class="back-btn" id="back-btn5" aria-label="Retour à l'étape précédente">
@@ -867,7 +767,7 @@
       <div class="download-section">
         <div class="download-section-accent">
           <h2>Obtiens gratuitement ta prestation en vidéo et la grille d'analyse Letmotiv</h2>
-          <p class="subtitle">Analyse et évalue ton improvisation grâce au document Letmotiv.</p>
+          <p class="subtitle">Analyse et évalue ton improvisation grâce aux conseils Letmotiv.</p>
           <p class="reassure">
             N'hésite pas à t'entraîner et refaire des improvisations pour progresser sur tes axes d'amélioration.
           </p>
@@ -908,28 +808,26 @@
   <!-- SCRIPT -->
   <script>
     /***********************
-     * Gestion des étapes (5 étapes)
+     * Gestion des étapes (maintenant 4 étapes)
      ***********************/
     const boxes = {
       1: document.getElementById('step1'),
       2: document.getElementById('step2'),
       3: document.getElementById('step3'),
-      4: document.getElementById('step4'),
-      5: document.getElementById('step5')
+      4: document.getElementById('step5') // Anciennement step5, maintenant le 4ème step
     };
 
     const nextBtns = {
       1: document.getElementById('next-btn1'),
       2: document.getElementById('next-btn2'),
-      3: document.getElementById('next-btn3'),
-      4: document.getElementById('next-btn4')
+      3: document.getElementById('next-btn3')
+      // Pas de next-btn pour le dernier step
     };
 
     const backBtns = {
       2: document.getElementById('back-btn2'),
       3: document.getElementById('back-btn3'),
-      4: document.getElementById('back-btn4'),
-      5: document.getElementById('back-btn5')
+      4: document.getElementById('back-btn5') // Utilisation de back-btn5 de l'ancien step5
     };
 
     const introBox = document.getElementById('intro-box');
@@ -941,9 +839,9 @@
     let currentObjective = ""; // Texte de l'objectif sélectionné
     let currentSubject = "";
 
-    // Mise à jour de la barre de progression : 5 étapes => 20% chacune
+    // Mise à jour de la barre de progression : 4 étapes => 25 % chacune
     function updateProgressBar(step) {
-      const progress = step * 20;
+      const progress = (step / 4) * 100;
       topProgressBar.style.width = `${progress}%`;
     }
     updateProgressBar(0);
@@ -971,8 +869,8 @@
       
       // Mise à jour des rappels dans les étapes concernées
       if (next === 2) {
-      // Affiche l'explication associée à la catégorie sélectionnée.
-      document.getElementById('selected-objective-display').textContent = explanations[currentCategory] || currentObjective;      
+        // Affiche l'explication associée à la catégorie sélectionnée.
+        document.getElementById('selected-objective-display').textContent = explanations[currentCategory] || currentObjective;
       }
       if (next === 3) {
         document.getElementById('current-subject-display').textContent = currentSubject;
@@ -980,9 +878,6 @@
       
       // Retirer l'animation "pulse" de tous
       removePulseFromAll();
-      if (next === 4) {
-        nextBtns[4].classList.add('pulse');
-      }
     }
 
     // Boîte d'introduction
@@ -1035,16 +930,10 @@
       showBox(3, 4);
     });
 
-    // STEP4 -> STEP5
-    nextBtns[4].addEventListener('click', () => {
-      showBox(4, 5);
-    });
-
     // Boutons "Retour"
     backBtns[2].addEventListener('click', () => { showBox(2, 1); });
     backBtns[3].addEventListener('click', () => { showBox(3, 2); });
     backBtns[4].addEventListener('click', () => { showBox(4, 3); });
-    backBtns[5].addEventListener('click', () => { showBox(5, 4); });
 
     /***********************
      * Gestion des objectifs et explications (STEP1)
@@ -1198,6 +1087,19 @@
       if (!confirm("Votre webcam va se lancer pour démarrer l'improvisation. Voulez-vous continuer ?")) {
         return;
       }
+      // Si on est sur téléphone, augmenter la hauteur de l'encart vidéo à 450px
+      // et faire défiler l'écran pour placer le sujet en haut
+      if (window.innerWidth <= 600) {
+          const videoBox = document.querySelector('.video-box');
+          videoBox.style.height = "450px";
+          const subjectElem = document.getElementById('current-subject-display');
+          if (subjectElem) {
+              // Calculer la position verticale de l'élément sujet
+              const subjectTop = subjectElem.getBoundingClientRect().top + window.pageYOffset;
+              // On peut ajuster avec un offset si besoin (ici 60px pour tenir compte du header)
+              window.scrollTo({ top: subjectTop - 60, behavior: 'smooth' });
+          }
+      }
       // Masquer l'overlay (qui contient le bouton) pour déclencher la suite
       document.querySelector('.video-overlay').style.display = 'none';
       startInitialCountdown();
@@ -1224,7 +1126,7 @@
       if (!stream) return;
       if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
         const improErrorDiv = document.getElementById('impro-error');
-        improErrorDiv.textContent = "Ton navigateur ne supporte pas l'enregistrement vidéo. Essaye avec Google Chrome, Microsoft Edge ou Firefox.";
+        improErrorDiv.textContent = "Ton navigateur ne supporte pas l'enregistrement vidéo. Essaye avec Chrome, Edge ou Firefox.";
         improErrorDiv.style.display = 'block';
         return;
       }
@@ -1249,6 +1151,10 @@
         improStarted = true;
         removePulseFromAll();
         nextBtns[3].classList.add('pulse');
+        // Remettre la taille de l'encart vidéo à 300px une fois l'impro finie sur mobile
+        if (window.innerWidth <= 600) {
+            document.querySelector('.video-box').style.height = "300px";
+        }
       };
       mediaRecorderInstance.start();
       recordingIndicator.style.display = 'flex';
@@ -1332,7 +1238,7 @@
     bindStartButton();
 
     /***********************
-     * Téléchargements et envoi à Google Forms (STEP5)
+     * Téléchargements et envoi à Google Forms (STEP4)
      ***********************/
     const validateFormBtn = document.getElementById('validate-form-btn');
     const prenomInput = document.getElementById('prenom');
@@ -1369,45 +1275,36 @@
       }
       if (!valid) return;
 
+      // Remplir le formulaire caché et le soumettre à Google Forms
       document.getElementById('hidden-prenom').value = prenomValue;
       document.getElementById('hidden-email').value = emailValue;
       document.getElementById('hidden-google-form').submit();
 
-      downloadButtons.classList.add('show');
-
+      // Optionnel : afficher un message de succès (ici nous l'affichons brièvement)
       const successMessage = document.getElementById('success-message');
       successMessage.style.display = 'block';
       successMessage.classList.add('show');
-
       setTimeout(() => {
         successMessage.classList.remove('show');
         successMessage.style.display = 'none';
       }, 5000);
-    });
 
-    downloadVideoBtn.addEventListener('click', () => {
-      if (!videoURL) {
-        const improErrorDiv = document.getElementById('impro-error');
-        improErrorDiv.textContent = "La vidéo n'est pas encore prête ou pas enregistrée.";
-        improErrorDiv.style.display = 'block';
-        return;
+      // Télécharger automatiquement la vidéo (si elle est prête)
+      if (videoURL) {
+        const link = document.createElement('a');
+        link.href = videoURL;
+        link.download = 'Letmotiv_Improvisation.mp4';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
       }
-      const link = document.createElement('a');
-      link.href = videoURL;
-      link.download = 'Letmotiv_Improvisation.mp4';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+
+      // Rediriger l'utilisateur vers la page Letmotiv qui fournit des conseils pour s'améliorer (au bout de 1 seconde)
+      setTimeout(() => {
+        window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro";
+      }, 1000);
     });
 
-    downloadPdfBtn.addEventListener('click', () => {
-      const link = document.createElement('a');
-      link.href = "https://drive.google.com/file/d/14gMVPpM2kLXmfsA3_6CYe6qBfQ8ETUSA";
-      link.download = "Questions_Evaluation.pdf";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    });
   </script>
 </body>
 </html>
