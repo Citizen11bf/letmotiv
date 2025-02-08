@@ -32,9 +32,7 @@
 
   <style>
     /* --- GLOBAL --- */
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: 'DM Sans', sans-serif;
@@ -62,7 +60,6 @@
       top: 0;
       left: 0;
       z-index: 10;
-      box-sizing: border-box;
     }
     .header-content {
       display: flex;
@@ -73,10 +70,7 @@
       max-width: 100%;
       overflow-wrap: break-word;
     }
-    .header-l2 {
-      font-size: 14px;
-      font-weight: normal;
-    }
+    .header-l2 { font-size: 14px; font-weight: normal; }
 
     /* --- BARRE DE PROGRESSION --- */
     .progress-container {
@@ -136,18 +130,9 @@
       transform: scale(1.05);
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
-    @keyframes fadeOut {
-      from { opacity: 1; }
-      to   { opacity: 0; }
-    }
-    @keyframes slideDown {
-      from { transform: translateY(-50px); opacity: 0; }
-      to   { transform: translateY(0); opacity: 1; }
-    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+    @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
     /* --- CONTENEUR PRINCIPAL --- */
     .main-container {
@@ -170,35 +155,19 @@
       border-radius: 15px;
       background: linear-gradient(135deg, #ffffff, #f9f9f9);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      border: none;
       text-align: center;
       font-size: 14px;
       display: none;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    .box.active {
-      display: block;
-    }
-    .box:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-    }
+    .box.active { display: block; }
+    .box:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); }
 
     /* --- ANIMATIONS VERTICALES --- */
-    .slide-from-bottom {
-      animation: fromBottom 1.5s ease forwards;
-    }
-    @keyframes fromBottom {
-      from { opacity: 0; transform: translateY(50px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .slide-from-top {
-      animation: fromTop 1.5s ease forwards;
-    }
-    @keyframes fromTop {
-      from { opacity: 0; transform: translateY(-50px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    .slide-from-bottom { animation: fromBottom 1.5s ease forwards; }
+    @keyframes fromBottom { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+    .slide-from-top { animation: fromTop 1.5s ease forwards; }
+    @keyframes fromTop { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
 
     /* --- HEADER INTERNE DES BOXES --- */
     .box-header {
@@ -222,25 +191,12 @@
       align-items: center;
       justify-content: center;
       transition: background-color 0.3s, transform 0.3s;
-      margin: 0 auto;
-      margin-bottom: 10px;
+      margin: 0 auto 10px;
     }
-    .back-btn:hover {
-      background-color: #505050;
-      transform: scale(1.1);
-    }
-    .back-btn:active {
-      background-color: #303030;
-    }
-    .back-btn.hidden-visibility {
-      visibility: hidden;
-    }
-    .box-title {
-      font-size: 18px;
-      font-weight: bold;
-      color: #182d84;
-      text-align: center;
-    }
+    .back-btn:hover { background-color: #505050; transform: scale(1.1); }
+    .back-btn:active { background-color: #303030; }
+    .back-btn.hidden-visibility { visibility: hidden; }
+    .box-title { font-size: 18px; font-weight: bold; color: #182d84; text-align: center; }
 
     /* --- FLECHES HAUT/BAS --- */
     .next-btn, .back-btn { }
@@ -258,14 +214,8 @@
       transition: background-color 0.3s, color 0.3s, transform 0.3s;
       margin: 10px auto;
     }
-    .next-btn:hover {
-      background-color: #00a48a;
-      color: #ffffff;
-      transform: translateY(-3px);
-    }
-    .next-btn.pulse {
-      animation: electricPulse 1.5s infinite;
-    }
+    .next-btn:hover { background-color: #00a48a; color: #ffffff; transform: translateY(-3px); }
+    .next-btn.pulse { animation: electricPulse 1.5s infinite; }
     @keyframes electricPulse {
       0% { box-shadow: 0 0 0 0 rgba(0,164,138,0.7); }
       70% { box-shadow: 0 0 0 10px rgba(0,164,138,0); }
@@ -278,8 +228,7 @@
       flex-wrap: wrap;
       justify-content: center;
       gap: 10px;
-      margin-top: 10px;
-      margin-bottom: 10px;
+      margin: 10px 0;
     }
     .objectives-container button {
       padding: 10px 20px;
@@ -290,20 +239,13 @@
       cursor: pointer;
       transition: background-color 0.3s, color 0.3s;
     }
-    .objectives-container button:hover {
-      background-color: #00a48a;
-      color: #ffffff;
-    }
-    .selected-objective {
-      background-color: #00a48a !important;
-      color: #ffffff;
-    }
+    .objectives-container button:hover { background-color: #00a48a; color: #ffffff; }
+    .selected-objective { background-color: #00a48a !important; color: #ffffff; }
 
     .explanation-box {
       visibility: hidden;
       opacity: 0;
       transform: translateY(-10px);
-      margin-top: 0;
       background-color: #fefefe;
       border: 0 solid #ccc;
       border-radius: 8px;
@@ -360,7 +302,7 @@
       left: 0;
       z-index: 1;
     }
-    /* Zone overlay pour les instructions et le bouton */
+    /* Zone overlay pour les instructions et le bouton Démarrer */
     .video-overlay {
       position: absolute;
       z-index: 2;
@@ -377,9 +319,7 @@
       padding: 20px;
       background: rgba(255,255,255,0.6);
     }
-    .video-overlay p {
-      margin: 10px 0;
-    }
+    .video-overlay p { margin: 10px 0; }
     .video-overlay button {
       pointer-events: auto;
       margin: 15px 0;
@@ -392,9 +332,8 @@
       cursor: pointer;
       transition: background-color 0.3s;
     }
-    .video-overlay button:hover {
-      background-color: #00a48a;
-    }
+    .video-overlay button:hover { background-color: #00a48a; }
+
     .recording-indicator {
       position: absolute;
       top: 10px;
@@ -462,15 +401,19 @@
       justify-content: center;
       margin-top: 10px;
     }
-    .hidden-btn {
-      display: none;
-    }
+    .hidden-btn { display: none; }
 
     /* --- STEP5 (Final) : Analyse ta prestation & Téléchargements ---
-         Ce STEP est désormais la 4ème étape dans la navigation
+         Ici, le fond dégradé a été rétabli pour rappeler celui de l'intro.
     */
-    .download-section {
-      /* Styles conservés */
+    .download-section-accent {
+      background: linear-gradient(135deg, #182d84, #00a48a);
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      color: #fff;
+      margin-bottom: 20px;
+      animation: fadeInDown 0.6s ease forwards;
     }
     .download-fields {
       display: flex;
@@ -496,16 +439,13 @@
       border-radius: 8px;
       font-family: 'DM Sans', sans-serif;
       font-size: 14px;
-      box-sizing: border-box;
       transition: border-color 0.3s;
     }
     .input-group input:focus {
       border-color: #00a48a;
       outline: none;
     }
-    .call-to-action {
-      text-align: center;
-    }
+    .call-to-action { text-align: center; }
     .call-to-action button {
       background-color: #ffcb2d;
       color: #000;
@@ -562,7 +502,7 @@
       to { transform: translateY(0); opacity: 1; }
     }
 
-    /* --- Bulle style BD pour le sujet aléatoire en STEP3 --- */
+    /* --- Bulle style BD pour le sujet en STEP3 --- */
     .subject-bubble {
       display: inline-block;
       position: relative;
@@ -577,7 +517,7 @@
       margin: 0 auto;
     }
 
-    /* --- Inversion de la caméra (demande de Pierre) --- */
+    /* --- Inversion de la caméra --- */
     video {
       transform: scaleX(-1);
       -webkit-transform: scaleX(-1);
@@ -636,7 +576,6 @@
 
   <!-- CONTAINER PRINCIPAL -->
   <div class="main-container">
-
     <!-- STEP1 : Choix d'objectif -->
     <div class="box" id="step1">
       <div class="box-header">
@@ -697,7 +636,7 @@
       <div id="current-subject-display" class="subject-bubble"></div>
       <div class="video-box">
         <video id="preview" autoplay muted playsinline webkit-playsinline></video>
-        <!-- Zone overlay avec instructions et bouton -->
+        <!-- Zone overlay avec instructions et bouton Démarrer -->
         <div class="video-overlay">
           <p>Ici va s'enregistrer ton improvisation vidéo. Lorsque tu es prêt, clique sur le bouton ci-dessous.</p>
           <button id="start-btn" aria-label="Démarrer l'improvisation">Démarrer ton impro <i class="fas fa-video"></i></button>
@@ -711,7 +650,7 @@
           <div class="initial-countdown" id="initial-countdown">3</div>
         </div>
       </div>
-      <!-- Boutons d'action (Stop, Restart) -->
+      <!-- Boutons d'action (Stop, Recommencer) -->
       <div class="impro-actions">
         <button id="stop-btn" class="hidden-btn common-btn" aria-label="Arrêter l'improvisation">Arrêter ton impro <i class="fas fa-stop"></i></button>
         <button id="restart-btn" class="hidden-btn common-btn" aria-label="Recommencer l'improvisation">Recommencer ton impro <i class="fas fa-redo"></i></button>
@@ -1054,6 +993,7 @@
       if (!confirm("Votre webcam va se lancer pour démarrer l'improvisation. Voulez-vous continuer ?")) {
         return;
       }
+      // Masquer l'overlay contenant le bouton Démarrer
       document.querySelector('.video-overlay').style.display = 'none';
       startInitialCountdown();
     }
@@ -1094,6 +1034,7 @@
         const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
         videoURL = URL.createObjectURL(videoBlob);
         stream.getTracks().forEach(t => t.stop());
+        // Afficher un message dans l'overlay indiquant la fin de l'enregistrement
         const overlay = document.querySelector('.video-overlay');
         overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Improvisation terminée. Passe à l'étape suivante !</p>";
         overlay.style.display = 'flex';
@@ -1105,7 +1046,7 @@
         nextBtns[3].classList.add('pulse');
       };
       mediaRecorderInstance.start();
-      recordingIndicator.style.display = 'flex';
+      // Une fois l'enregistrement lancé, afficher uniquement le bouton Arrêter
       stopBtn.classList.remove('hidden-btn');
       stopBtn.disabled = false;
       restartBtn.classList.add('hidden-btn');
@@ -1163,12 +1104,15 @@
         clearInterval(timerInterval);
         stopBtn.classList.add('hidden-btn');
         stopBtn.disabled = true;
+        // Afficher uniquement le bouton Recommencer
         restartBtn.classList.remove('hidden-btn');
         recordingIndicator.style.display = 'none';
       }
     });
+
     restartBtn.addEventListener('click', () => {
       restartBtn.classList.add('hidden-btn');
+      // Réinitialiser l'overlay pour réafficher le bouton Démarrer
       document.querySelector('.video-overlay').innerHTML = `
         <p>Ici va s'enregistrer ton improvisation vidéo. Lorsque tu es prêt, clique sur le bouton ci-dessous.</p>
         <button id="start-btn" aria-label="Démarrer l'improvisation">Démarrer ton impro <i class="fas fa-video"></i></button>
@@ -1179,6 +1123,7 @@
       bindStartButton();
     });
 
+    // Lier le bouton "Démarrer" lors du chargement initial
     bindStartButton();
 
     /***********************
@@ -1219,6 +1164,7 @@
       }
       if (!valid) return;
 
+      // Remplir et soumettre le formulaire caché
       document.getElementById('hidden-prenom').value = prenomValue;
       document.getElementById('hidden-email').value = emailValue;
       document.getElementById('hidden-google-form').submit();
