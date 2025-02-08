@@ -956,7 +956,7 @@
     // Mise à jour de la barre de progression : 5 étapes => 20% chacune
     function updateProgressBar(step) {
       const progress = step * 20;
-      topProgressBar.style.width = ${progress}%;
+      topProgressBar.style.width = `${progress}%`;
     }
     updateProgressBar(0);
 
@@ -1314,7 +1314,7 @@
     function updateCountdownDisplay() {
       const minutes = Math.floor(timeRemaining / 60);
       const seconds = timeRemaining % 60;
-      countdownElement.textContent = ${minutes}:${seconds < 10 ? '0' + seconds : seconds};
+      countdownElement.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
       countdownElement.style.display = 'block';
     }
 
@@ -1335,11 +1335,11 @@
     restartBtn.addEventListener('click', () => {
       restartBtn.classList.add('hidden-btn');
       // Réinitialiser l'overlay avec le bouton et les instructions
-      document.querySelector('.video-overlay').innerHTML = 
+      document.querySelector('.video-overlay').innerHTML = `
         <p>Ici va s'enregistrer ton improvisation vidéo. Lorsque tu es prêt, clique sur le bouton ci-dessous.</p>
         <button id="start-btn" aria-label="Démarrer l'improvisation">Démarrer ton impro <i class="fas fa-video"></i></button>
         <p>NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
-      ;
+      `;
       // Réafficher l'overlay
       document.querySelector('.video-overlay').style.display = 'flex';
       improStarted = false;
