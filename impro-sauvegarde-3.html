@@ -367,7 +367,6 @@
       justify-content: center;
       align-items: center;
       overflow: hidden;
-      /* Ajout d'une transition sur la propriété height pour l'animation */
       transition: height 0.5s ease-in-out;
     }
     .video-box video {
@@ -630,14 +629,6 @@
       border-color: #00a48a;
       outline: none;
     }
-
-    /* --- Media Query pour augmenter l'encart vidéo sur téléphone --- */
-    @media (max-width: 600px) {
-      .video-box {
-        height: 450px;
-      }
-    }
-    
   </style>
 </head>
 <body>
@@ -1089,6 +1080,10 @@
       if (!confirm("Votre webcam va se lancer pour démarrer l'improvisation. Voulez-vous continuer ?")) {
         return;
       }
+      // Si on est sur téléphone, augmenter l'encart vidéo à 450px au clic sur "Démarrer"
+      if (window.innerWidth <= 600) {
+          document.querySelector('.video-box').style.height = "450px";
+      }
       // Masquer l'overlay (qui contient le bouton) pour déclencher la suite
       document.querySelector('.video-overlay').style.display = 'none';
       startInitialCountdown();
@@ -1140,6 +1135,10 @@
         improStarted = true;
         removePulseFromAll();
         nextBtns[3].classList.add('pulse');
+        // Remettre la taille de l'encart vidéo à 300px une fois l'impro finie
+        if (window.innerWidth <= 600) {
+            document.querySelector('.video-box').style.height = "300px";
+        }
       };
       mediaRecorderInstance.start();
       recordingIndicator.style.display = 'flex';
