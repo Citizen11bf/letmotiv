@@ -82,80 +82,6 @@
       font-weight: normal;
     }
 
-    /* === Animation Saint-Valentin === */
-.valentine-animation {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 5; /* Placé derrière le header (qui est en z-index:10) */
-  pointer-events: none; /* Pour ne pas gêner l'interaction avec la page */
-}
-
-.swing {
-  position: relative;
-  width: 80px;
-  /* Animation de balancement */
-  animation: swing 3s ease-in-out infinite;
-}
-
-/* Création des fils de la balançoire */
-.swing::before,
-.swing::after {
-  content: '';
-  position: absolute;
-  top: -100px; /* Longueur des fils */
-  width: 2px;
-  height: 100px;
-  background: #182d84;
-}
-.swing::before {
-  left: 0;
-}
-.swing::after {
-  right: 0;
-}
-
-/* Conteneur du cupidon */
-.cupid {
-  position: relative;
-  text-align: center;
-}
-
-/* Image du cupidon */
-.cupid-img {
-  width: 80px;
-  display: block;
-  margin: 0 auto;
-}
-
-/* Positionnement et animation du coeur */
-.heart {
-  position: absolute;
-  bottom: -10px; /* Ajuste la position du coeur par rapport au cupidon */
-  left: 50%;
-  transform: translateX(-50%);
-  width: 24px;
-}
-.heart img {
-  width: 100%;
-  animation: beat 1s ease-in-out infinite;
-}
-
-/* Keyframes pour l’animation de balancement */
-@keyframes swing {
-  0% { transform: rotate(5deg); }
-  50% { transform: rotate(-5deg); }
-  100% { transform: rotate(5deg); }
-}
-
-/* Keyframes pour l’animation pulsante du coeur */
-@keyframes beat {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.2); }
-  100% { transform: scale(1); }
-}
-
     /* --- BARRE DE PROGRESSION --- */
     .progress-container {
       position: fixed;
@@ -706,6 +632,63 @@
     .input-group input:focus {
       border-color: #00a48a;
       outline: none;
+    }
+
+    /* === Animation Saint-Valentin (affichée uniquement sur la page d'accueil) === */
+    .valentine-animation {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      pointer-events: none;
+    }
+    .swing {
+      position: relative;
+      width: 80px;
+      animation: swing 3s ease-in-out infinite;
+      transform-origin: top center;
+    }
+    .swing::before,
+    .swing::after {
+      content: '';
+      position: absolute;
+      top: -100px; /* Longueur des fils */
+      width: 2px;
+      height: 100px;
+      background: #182d84;
+    }
+    .swing::before { left: 0; }
+    .swing::after { right: 0; }
+    .cupid {
+      position: relative;
+      text-align: center;
+    }
+    .cupid-img {
+      width: 80px;
+      display: block;
+      margin: 0 auto;
+    }
+    .heart {
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 24px;
+    }
+    .heart img {
+      width: 100%;
+      animation: beat 1s ease-in-out infinite;
+    }
+    @keyframes swing {
+      0% { transform: rotate(5deg); }
+      50% { transform: rotate(-5deg); }
+      100% { transform: rotate(5deg); }
+    }
+    @keyframes beat {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
     }
   </style>
 </head>
@@ -1379,19 +1362,20 @@
       }, 1000);
     });
 
-    <div class="valentine-animation">
-  <div class="swing">
-    <div class="cupid">
-      <!-- Image du cupidon en bleu (#182d84) -->
-      <img src="https://img.icons8.com/fluency/80/182d84/cupid.png" alt="Cupid" class="cupid-img">
-      <!-- Le coeur que tient le cupidon -->
-      <div class="heart">
-        <img src="https://img.icons8.com/fluency/24/182d84/heart.png" alt="Heart">
+  </script>
+
+  <!-- === Animation Saint-Valentin (affichée uniquement sur la page d'accueil) === -->
+  <div class="valentine-animation">
+    <div class="swing">
+      <div class="cupid">
+        <!-- Image du cupidon en bleu (#182d84) -->
+        <img src="https://img.icons8.com/fluency/80/182d84/cupid.png" alt="Cupid" class="cupid-img">
+        <!-- Le cœur dans les mains du cupidon -->
+        <div class="heart">
+          <img src="https://img.icons8.com/fluency/24/182d84/heart.png" alt="Heart">
+        </div>
       </div>
     </div>
   </div>
-</div>
-
-  </script>
 </body>
 </html>
