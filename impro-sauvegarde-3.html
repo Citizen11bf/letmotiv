@@ -6,7 +6,8 @@
   <title>Simulateur d'improvisation</title>
   <meta name="description" content="Évaluer et développer rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv. Entreprise spécialisée dans le coaching en prise de parole.">
 
-  <!-- Balises Open Graph pour LinkedIn -->
+  <!-- Balises Open Graph -->
+  <!-- (Informations destinées aux réseaux sociaux) -->
   <meta property="og:title" content="Simulateur d'improvisation Letmotiv" />
   <meta property="og:description" content="Évaluez et développez rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv." />
   <meta property="og:type" content="website" />
@@ -16,22 +17,24 @@
   <meta name="author" content="Letmotiv" />
   <meta property="article:published_time" content="2025-01-26" />
 
-  <!-- Balises Twitter (optionnel) -->
+  <!-- Balises Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Simulateur d'improvisation Letmotiv">
   <meta name="twitter:description" content="Évaluez et développez rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv.">
   <meta name="twitter:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png">
 
-  <!-- Import de la police DM Sans et Montserrat depuis Google Fonts -->
+  <!-- Import des polices Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans&family=Montserrat:wght@700&display=swap" rel="stylesheet" />
 
-  <!-- Icônes Font Awesome -->
+  <!-- Import de Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
   <style>
-    /* --- GLOBAL --- */
+    /* ================================
+       GLOBAL : Styles généraux
+       ================================ */
     * { box-sizing: border-box; }
     body {
       margin: 0;
@@ -47,7 +50,9 @@
       padding-bottom: 20px;
     }
 
-    /* --- HEADER --- */
+    /* ================================
+       HEADER : En-tête fixe
+       ================================ */
     .header {
       background-color: #182d84;
       color: #FFFFFF;
@@ -72,7 +77,9 @@
     }
     .header-l2 { font-size: 14px; font-weight: normal; }
 
-    /* --- BARRE DE PROGRESSION --- */
+    /* ================================
+       BARRE DE PROGRESSION
+       ================================ */
     .progress-container {
       position: fixed;
       top: 60px;
@@ -89,7 +96,10 @@
       transition: width 0.5s ease;
     }
 
-    /* --- BOÎTE D'INTRODUCTION --- */
+    /* ================================
+       BOÎTE D'INTRODUCTION
+       (Fond dégradé rappelant l'intro)
+       ================================ */
     .intro-box {
       position: fixed;
       top: 0;
@@ -134,7 +144,9 @@
     @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
     @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-    /* --- CONTENEUR PRINCIPAL --- */
+    /* ================================
+       CONTENEUR PRINCIPAL
+       ================================ */
     .main-container {
       display: flex;
       flex-direction: column;
@@ -145,7 +157,9 @@
       padding: 20px;
     }
 
-    /* --- BOXES (étapes) --- */
+    /* ================================
+       BOXES : Style des étapes (cards)
+       ================================ */
     .box {
       position: relative;
       width: 100%;
@@ -163,13 +177,17 @@
     .box.active { display: block; }
     .box:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); }
 
-    /* --- ANIMATIONS VERTICALES --- */
+    /* ================================
+       ANIMATIONS VERTICALES
+       ================================ */
     .slide-from-bottom { animation: fromBottom 1.5s ease forwards; }
     @keyframes fromBottom { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
     .slide-from-top { animation: fromTop 1.5s ease forwards; }
     @keyframes fromTop { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* --- HEADER INTERNE DES BOXES --- */
+    /* ================================
+       HEADER INTERNE DES BOXES
+       ================================ */
     .box-header {
       display: flex;
       flex-direction: column;
@@ -198,7 +216,9 @@
     .back-btn.hidden-visibility { visibility: hidden; }
     .box-title { font-size: 18px; font-weight: bold; color: #182d84; text-align: center; }
 
-    /* --- FLECHES HAUT/BAS --- */
+    /* ================================
+       BOUTONS SUIVANTS/RETOUR
+       ================================ */
     .next-btn, .back-btn { }
     .next-btn {
       width: 40px;
@@ -222,7 +242,10 @@
       100% { box-shadow: 0 0 0 0 rgba(0,164,138,0); }
     }
 
-    /* STEP1 : Choix d’objectif */
+    /* ================================
+       STEP1 : Choix d’objectif
+       ================================ */
+    <!-– Début du bloc STEP1 –->
     .objectives-container {
       display: flex;
       flex-wrap: wrap;
@@ -241,6 +264,7 @@
     }
     .objectives-container button:hover { background-color: #00a48a; color: #ffffff; }
     .selected-objective { background-color: #00a48a !important; color: #ffffff; }
+    <!-– Fin du bloc STEP1 –->
 
     .explanation-box {
       visibility: hidden;
@@ -264,7 +288,9 @@
       border: 2px solid #ccc;
     }
 
-    /* --- STEP2 : Génération du sujet --- */
+    /* ================================
+       STEP2 : Génération du sujet
+       ================================ */
     .subject-wrapper {
       margin-top: 10px;
       background-color: #fefefe;
@@ -278,7 +304,9 @@
       display: none;
     }
     
-    /* --- STEP3 : Enregistrement vidéo --- */
+    /* ================================
+       STEP3 : Enregistrement vidéo
+       ================================ */
     .video-box {
       margin: 10px auto;
       border: 3px solid #182d84;
@@ -302,7 +330,7 @@
       left: 0;
       z-index: 1;
     }
-    /* Zone overlay pour les instructions et le bouton Démarrer */
+    /* Overlay de démarrage de l'enregistrement */
     .video-overlay {
       position: absolute;
       z-index: 2;
@@ -394,6 +422,10 @@
       font-weight: bold;
     }
 
+    /* ================================
+       SECTION DES ACTIONS D'IMPRO
+       (Boutons Stop et Recommencer)
+       ================================ */
     .impro-actions {
       display: flex;
       flex-wrap: wrap;
@@ -403,9 +435,10 @@
     }
     .hidden-btn { display: none; }
 
-    /* --- STEP5 (Final) : Analyse ta prestation & Téléchargements ---
-         Ici, le fond dégradé a été rétabli pour rappeler celui de l'intro.
-    */
+    /* ================================
+       STEP5 : Analyse & Téléchargements
+       (Fond dégradé rappelant l'intro)
+       ================================ */
     .download-section-accent {
       background: linear-gradient(135deg, #182d84, #00a48a);
       border-radius: 10px;
@@ -497,33 +530,11 @@
       opacity: 1;
       visibility: visible;
     }
-    @keyframes fadeInDown {
-      from { transform: translateY(-20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
+    @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-    /* --- Bulle style BD pour le sujet en STEP3 --- */
-    .subject-bubble {
-      display: inline-block;
-      position: relative;
-      background: #fefefe;
-      border: 2px solid #ccc;
-      border-radius: 16px;
-      padding: 10px 15px;
-      font-size: 16px;
-      color: #333;
-      max-width: 80%;
-      text-align: center;
-      margin: 0 auto;
-    }
-
-    /* --- Inversion de la caméra --- */
-    video {
-      transform: scaleX(-1);
-      -webkit-transform: scaleX(-1);
-    }
-    
-    /* --- Bouton commun (même design que "Démarrer ton impro") --- */
+    /* ================================
+       STYLE COMMUN POUR LES BOUTONS (ex. Démarrer, Générer, Arrêter, Recommencer)
+       ================================ */
     .common-btn {
       background-color: #182d84;
       color: #fff;
@@ -545,23 +556,54 @@
       background-color: #00a48a;
       transform: translateY(-3px);
     }
+
+    /* ================================
+       STYLE POUR LA BULLE (sujet en STEP3)
+       ================================ */
+    .subject-bubble {
+      display: inline-block;
+      position: relative;
+      background: #fefefe;
+      border: 2px solid #ccc;
+      border-radius: 16px;
+      padding: 10px 15px;
+      font-size: 16px;
+      color: #333;
+      max-width: 80%;
+      text-align: center;
+      margin: 0 auto;
+    }
+
+    /* ================================
+       INVERSION DE LA CAMÉRA (pour effet miroir)
+       ================================ */
+    video {
+      transform: scaleX(-1);
+      -webkit-transform: scaleX(-1);
+    }
   </style>
 </head>
 <body>
-  <!-- BOÎTE D'INTRODUCTION -->
+  <!-- ================================
+       BOÎTE D'INTRODUCTION
+       ================================ -->
   <div class="intro-box" id="intro-box">
     <h1>Entraîne-toi à la prise de parole en public</h1>
     <button id="start-intro-btn" aria-label="Commencer">Commencer</button>
   </div>
 
-  <!-- FORMULAIRE CACHÉ POUR GOOGLE FORMS -->
+  <!-- ================================
+       FORMULAIRE CACHÉ POUR GOOGLE FORMS
+       ================================ -->
   <form id="hidden-google-form" action="https://docs.google.com/forms/d/e/1FAIpQLSfGAcKp0cV5AeVJCJBPbtKLKCLhbYySZf_FkiMg85WKVFUn6A/formResponse" method="POST" target="hidden_iframe" style="display:none;">
     <input type="text" name="entry.1119647353" id="hidden-prenom">
     <input type="email" name="entry.638831312" id="hidden-email">
   </form>
   <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
 
-  <!-- HEADER -->
+  <!-- ================================
+       HEADER
+       ================================ -->
   <div class="header">
     <div class="header-content">
       <div class="header-l1">Coaching en prise de parole</div>
@@ -569,14 +611,20 @@
     </div>
   </div>
 
-  <!-- BARRE DE PROGRESSION -->
+  <!-- ================================
+       BARRE DE PROGRESSION
+       ================================ -->
   <div class="progress-container">
     <div class="progress-bar" id="top-progress-bar"></div>
   </div>
 
-  <!-- CONTAINER PRINCIPAL -->
+  <!-- ================================
+       CONTAINER PRINCIPAL
+       ================================ -->
   <div class="main-container">
-    <!-- STEP1 : Choix d'objectif -->
+    <!-- ================================
+         STEP1 : Choix d'objectif
+         ================================ -->
     <div class="box" id="step1">
       <div class="box-header">
         <button class="back-btn hidden-visibility" id="back-btn1" aria-label="Retour">
@@ -603,7 +651,9 @@
       </button>
     </div>
 
-    <!-- STEP2 : Génération du sujet -->
+    <!-- ================================
+         STEP2 : Génération du sujet
+         ================================ -->
     <div class="box" id="step2">
       <div class="box-header">
         <button class="back-btn" id="back-btn2" aria-label="Retour à l'étape précédente">
@@ -624,7 +674,9 @@
       </button>
     </div>
 
-    <!-- STEP3 : Enregistrement vidéo -->
+    <!-- ================================
+         STEP3 : Enregistrement vidéo
+         ================================ -->
     <div class="box" id="step3">
       <div class="box-header">
         <button class="back-btn" id="back-btn3" aria-label="Retour à l'étape précédente">
@@ -636,7 +688,7 @@
       <div id="current-subject-display" class="subject-bubble"></div>
       <div class="video-box">
         <video id="preview" autoplay muted playsinline webkit-playsinline></video>
-        <!-- Zone overlay avec instructions et bouton Démarrer -->
+        <!-- Overlay de démarrage de l'enregistrement -->
         <div class="video-overlay">
           <p>Ici va s'enregistrer ton improvisation vidéo. Lorsque tu es prêt, clique sur le bouton ci-dessous.</p>
           <button id="start-btn" aria-label="Démarrer l'improvisation">Démarrer ton impro <i class="fas fa-video"></i></button>
@@ -650,7 +702,7 @@
           <div class="initial-countdown" id="initial-countdown">3</div>
         </div>
       </div>
-      <!-- Boutons d'action (Stop, Recommencer) -->
+      <!-- Boutons d'action : Stop et Recommencer -->
       <div class="impro-actions">
         <button id="stop-btn" class="hidden-btn common-btn" aria-label="Arrêter l'improvisation">Arrêter ton impro <i class="fas fa-stop"></i></button>
         <button id="restart-btn" class="hidden-btn common-btn" aria-label="Recommencer l'improvisation">Recommencer ton impro <i class="fas fa-redo"></i></button>
@@ -662,8 +714,10 @@
       </button>
     </div>
 
-    <!-- STEP5 (Final) : Analyse ta prestation & Téléchargements -->
-    <!-- Ce STEP devient la 4ème étape dans la navigation -->
+    <!-- ================================
+         STEP5 (Final) : Analyse et Téléchargements
+         (Fond dégradé rappelant l'intro)
+         ================================ -->
     <div class="box" id="step5">
       <div class="box-header">
         <button class="back-btn" id="back-btn5" aria-label="Retour à l'étape précédente">
@@ -707,19 +761,19 @@
         </div>
       </div>
     </div>
-
   </div>
 
-  <!-- SCRIPT -->
+  <!-- ================================
+       SCRIPT : Logique du simulateur
+       ================================ -->
   <script>
-    /***********************
-     * Gestion des étapes (4 étapes)
-     * Les étapes sont :
-     *   1 : STEP1 (objectif)
-     *   2 : STEP2 (sujet)
-     *   3 : STEP3 (vidéo)
-     *   4 : STEP5 (téléchargement)
-     ***********************/
+    // -----------------------------
+    // Gestion des étapes (4 étapes)
+    //  1 : STEP1 (objectif)
+    //  2 : STEP2 (sujet)
+    //  3 : STEP3 (vidéo)
+    //  4 : STEP5 (téléchargement)
+    // -----------------------------
     const totalSteps = 4;
     const boxes = {
       1: document.getElementById('step1'),
@@ -749,19 +803,19 @@
     let currentObjective = "";
     let currentSubject = "";
 
-    // Mise à jour de la barre de progression
+    // Mise à jour de la barre de progression (en fonction de l'étape)
     function updateProgressBar(step) {
       const progress = (step / totalSteps) * 100;
       topProgressBar.style.width = `${progress}%`;
     }
     updateProgressBar(0);
 
-    // Fonction pour retirer l'animation "pulse" de tous les boutons "Suivant"
+    // Retirer l'animation "pulse" de tous les boutons "Suivant"
     function removePulseFromAll() {
       Object.values(nextBtns).forEach(btn => btn.classList.remove('pulse'));
     }
 
-    // Fonction d'affichage avec animations
+    // Affichage des boxes avec animation et mise à jour du scroll
     function showBox(current, next) {
       if (!boxes[current] || !boxes[next]) return;
       boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
@@ -787,7 +841,9 @@
       removePulseFromAll();
     }
 
-    // Boîte d'introduction
+    // -----------------------------
+    // Boîte d'introduction : démarrage
+    // -----------------------------
     startIntroBtn.addEventListener('click', () => {
       introBox.style.animation = 'fadeOut 0.5s ease forwards';
       setTimeout(() => {
@@ -798,7 +854,7 @@
       }, 500);
     });
 
-    // STEP1 -> STEP2 : Validation de l'objectif
+    // STEP1 -> STEP2 : Validation de l'objectif sélectionné
     nextBtns[1].addEventListener('click', () => {
       const selected = document.querySelector('.objectives-container .selected-objective');
       if (!selected) {
@@ -810,7 +866,7 @@
       showBox(1, 2);
     });
 
-    // STEP2 -> STEP3 : Vérification du sujet généré
+    // STEP2 -> STEP3 : Vérification que le sujet a été généré
     nextBtns[2].addEventListener('click', () => {
       if (!currentSubject) {
         const subjErrorDiv = document.getElementById('subject-error');
@@ -821,7 +877,7 @@
       showBox(2, 3);
     });
 
-    // STEP3 -> STEP5 : Passage du STEP3 (vidéo) au STEP5 (téléchargement)
+    // STEP3 -> STEP5 : Passage du bloc vidéo au bloc téléchargement
     nextBtns[3].addEventListener('click', () => {
       const improErrorDiv = document.getElementById('impro-error');
       improErrorDiv.style.display = 'none';
@@ -837,14 +893,14 @@
       showBox(3, 4);
     });
 
-    // Boutons "Retour"
+    // Boutons "Retour" entre les étapes
     backBtns[2].addEventListener('click', () => { showBox(2, 1); });
     backBtns[3].addEventListener('click', () => { showBox(3, 2); });
     backBtns[4].addEventListener('click', () => { showBox(4, 3); });
 
-    /***********************
-     * Gestion des objectifs et explications (STEP1)
-     ***********************/
+    // -----------------------------
+    // Gestion du choix d'objectif (STEP1)
+    // -----------------------------
     const explanations = {
       convaincre:   "Tu as 2 minutes pour convaincre ton auditoire sur un sujet délicat",
       inspirer:     "Tu as 2 minutes pour inspirer ton auditoire",
@@ -919,9 +975,9 @@
       }
     }
 
-    /***********************
-     * Gestion du sujet d'impro (STEP2)
-     ***********************/
+    // -----------------------------
+    // Gestion du sujet d'impro (STEP2)
+    // -----------------------------
     const generateSubjectBtn = document.getElementById('generate-subject-btn');
     const subjectWrapper = document.getElementById('subject-wrapper');
     const subjectDisplay = document.getElementById('subject-display');
@@ -950,9 +1006,9 @@
       nextBtns[2].classList.add('pulse');
     });
 
-    /***********************
-     * Enregistrement vidéo (STEP3)
-     ***********************/
+    // -----------------------------
+    // Gestion de l'enregistrement vidéo (STEP3)
+    // -----------------------------
     let improStarted = false;
     let mediaRecorderInstance;
     let recordedChunks = [];
@@ -964,12 +1020,16 @@
     const initialCountdownOverlay = document.getElementById('initial-countdown-overlay');
     const initialCountdown = document.getElementById('initial-countdown');
 
+    // Variable pour le compte à rebours et l'URL vidéo
     let countdown;
     let videoURL = "";
     let timerInterval;
     let timeRemaining = 120; // 2 minutes
 
-    // Fonction qui attache l'événement au bouton "Démarrer ton impro"
+    // Variable pour distinguer un arrêt manuel du timer
+    let manualStop = false;
+
+    // Fonction pour lier l'événement du bouton "Démarrer ton impro"
     function bindStartButton() {
       const startBtn = document.getElementById('start-btn');
       if(startBtn){
@@ -977,7 +1037,9 @@
       }
     }
 
+    // Lancement de l'enregistrement via le bouton Démarrer
     async function startImpro() {
+      manualStop = false; // Réinitialiser le flag d'arrêt manuel
       if (!currentSubject) {
         const improErrorDiv = document.getElementById('impro-error');
         improErrorDiv.textContent = "Tu dois générer un sujet avant de démarrer l'improvisation.";
@@ -993,11 +1055,12 @@
       if (!confirm("Votre webcam va se lancer pour démarrer l'improvisation. Voulez-vous continuer ?")) {
         return;
       }
-      // Masquer l'overlay contenant le bouton Démarrer
+      // Masquer l'overlay (bouton Démarrer)
       document.querySelector('.video-overlay').style.display = 'none';
       startInitialCountdown();
     }
 
+    // Démarrage du compte à rebours initial
     function startInitialCountdown() {
       let count = 5;
       initialCountdown.textContent = count;
@@ -1014,6 +1077,7 @@
       }, 1000);
     }
 
+    // Initialisation et démarrage de l'enregistrement
     async function initiateRecording() {
       const stream = await setupCamera();
       if (!stream) return;
@@ -1034,10 +1098,15 @@
         const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
         videoURL = URL.createObjectURL(videoBlob);
         stream.getTracks().forEach(t => t.stop());
-        // Afficher un message dans l'overlay indiquant la fin de l'enregistrement
-        const overlay = document.querySelector('.video-overlay');
-        overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Improvisation terminée. Passe à l'étape suivante !</p>";
-        overlay.style.display = 'flex';
+        // Si l'arrêt n'est pas manuel (ex: timer écoulé), afficher un message dans l'overlay
+        if (!manualStop) {
+          const overlay = document.querySelector('.video-overlay');
+          overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Improvisation terminée. Passe à l'étape suivante !</p>";
+          overlay.style.display = 'flex';
+        } else {
+          // Sinon, masquer l'overlay
+          document.querySelector('.video-overlay').style.display = 'none';
+        }
         document.getElementById('impro-error').style.display = 'none';
         recordingIndicator.style.display = 'none';
         clearInterval(timerInterval);
@@ -1046,13 +1115,14 @@
         nextBtns[3].classList.add('pulse');
       };
       mediaRecorderInstance.start();
-      // Une fois l'enregistrement lancé, afficher uniquement le bouton Arrêter
+      // Afficher uniquement le bouton Arrêter une fois l'enregistrement lancé
       stopBtn.classList.remove('hidden-btn');
       stopBtn.disabled = false;
       restartBtn.classList.add('hidden-btn');
       startTimer();
     }
 
+    // Configuration de la caméra
     async function setupCamera() {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
@@ -1073,6 +1143,7 @@
       }
     }
 
+    // Démarrer le compte à rebours de 2 minutes et l'enregistrement
     function startTimer() {
       timeRemaining = 120;
       updateCountdownDisplay();
@@ -1097,19 +1168,26 @@
       countdownElement.style.display = 'block';
     }
 
+    // -----------------------------
+    // Gestion du bouton "Arrêter ton impro"
+    // -----------------------------
     stopBtn.addEventListener('click', () => {
       if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
+        manualStop = true;  // Indiquer que l'arrêt est manuel
         mediaRecorderInstance.stop();
         clearInterval(countdown);
         clearInterval(timerInterval);
         stopBtn.classList.add('hidden-btn');
         stopBtn.disabled = true;
-        // Afficher uniquement le bouton Recommencer
+        // Afficher le bouton Recommencer
         restartBtn.classList.remove('hidden-btn');
         recordingIndicator.style.display = 'none';
       }
     });
 
+    // -----------------------------
+    // Gestion du bouton "Recommencer ton impro"
+    // -----------------------------
     restartBtn.addEventListener('click', () => {
       restartBtn.classList.add('hidden-btn');
       // Réinitialiser l'overlay pour réafficher le bouton Démarrer
@@ -1123,12 +1201,12 @@
       bindStartButton();
     });
 
-    // Lier le bouton "Démarrer" lors du chargement initial
+    // Lier le bouton "Démarrer" au chargement initial
     bindStartButton();
 
-    /***********************
-     * Téléchargements et envoi à Google Forms (STEP5)
-     ***********************/
+    // -----------------------------
+    // Gestion des téléchargements et envoi à Google Forms (STEP5)
+    // -----------------------------
     const validateFormBtn = document.getElementById('validate-form-btn');
     const prenomInput = document.getElementById('prenom');
     const emailInput = document.getElementById('email');
@@ -1164,7 +1242,7 @@
       }
       if (!valid) return;
 
-      // Remplir et soumettre le formulaire caché
+      // Remplir et soumettre le formulaire Google Forms caché
       document.getElementById('hidden-prenom').value = prenomValue;
       document.getElementById('hidden-email').value = emailValue;
       document.getElementById('hidden-google-form').submit();
