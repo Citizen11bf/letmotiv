@@ -466,7 +466,7 @@
       display: none;
     }
 
-    /* --- STEP4 : Partage sur LinkedIn + Options de progression --- */
+    /* --- STEP4 : Options de progression --- */
     .progression-buttons {
       margin-top: 20px;
       display: flex;
@@ -687,8 +687,8 @@
 
     /* --- Inversion de la caméra (demande de Pierre) --- */
     video {
-    transform: scaleX(-1);
-    -webkit-transform: scaleX(-1); /* --- Pour Safari --- */
+      transform: scaleX(-1);
+      -webkit-transform: scaleX(-1); /* --- Pour Safari --- */
     }
     
   </style>
@@ -809,7 +809,7 @@
       </button>
     </div>
 
-    <!-- STEP4 : Partage sur LinkedIn + Options de progression -->
+    <!-- STEP4 : Options de progression -->
     <div class="box" id="step4">
       <div class="box-header">
         <button class="back-btn" id="back-btn4" aria-label="Retour à l'étape précédente">
@@ -817,15 +817,6 @@
         </button>
         <div class="box-title">Bravo pour ton impro 👏👏</div>
       </div>
-      <!-- Section Partage -->
-      <div class="share-section">
-        <h3>Partage ton expérience</h3>
-        <p>Inspire la communauté et encourage d'autres personnes à relevé le défi ! <br>#ChallengeImproLetmotiv</br> </p>
-        <a id="linkedin-share-button" href="https://www.linkedin.com/shareArticle?mini=true&url=https://letmotiv-simulateur.fr" target="_blank" rel="noopener noreferrer" class="linkedin-share-button" aria-label="Partager sur LinkedIn">
-          <i class="fab fa-linkedin"></i> Partager sur LinkedIn
-        </a>
-      </div>
-      <hr style="margin:20px 0; border: 1px dashed #ccc;">
       <!-- Section Call-to-Action -->
       <div class="cta-section">
         <h3>Continue à progresser</h3>
@@ -1208,44 +1199,44 @@
       }, 1000);
     }
 
-  async function initiateRecording() {
-  const stream = await setupCamera();
-  if (!stream) return;
-  if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
-    const improErrorDiv = document.getElementById('impro-error');
-    improErrorDiv.textContent = "Ton navigateur ne supporte pas l'enregistrement vidéo. Essaye avec Chrome, Edge ou Firefox.";
-    improErrorDiv.style.display = 'block';
-    return;
-  }
-  mediaRecorderInstance = new MediaRecorder(stream);
-  recordedChunks = [];
-  mediaRecorderInstance.ondataavailable = (event) => {
-    if (event.data.size > 0) {
-      recordedChunks.push(event.data);
+    async function initiateRecording() {
+      const stream = await setupCamera();
+      if (!stream) return;
+      if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
+        const improErrorDiv = document.getElementById('impro-error');
+        improErrorDiv.textContent = "Ton navigateur ne supporte pas l'enregistrement vidéo. Essaye avec Chrome, Edge ou Firefox.";
+        improErrorDiv.style.display = 'block';
+        return;
+      }
+      mediaRecorderInstance = new MediaRecorder(stream);
+      recordedChunks = [];
+      mediaRecorderInstance.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          recordedChunks.push(event.data);
+        }
+      };
+      mediaRecorderInstance.onstop = () => {
+        const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
+        videoURL = URL.createObjectURL(videoBlob);
+        stream.getTracks().forEach(t => t.stop());
+        // Affichage du message en overlay une fois l'enregistrement terminé
+        const overlay = document.querySelector('.video-overlay');
+        overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Improvisation terminée. Passe à l'étape suivante !</p>";
+        overlay.style.display = 'flex';
+        document.getElementById('impro-error').style.display = 'none';
+        recordingIndicator.style.display = 'none';
+        clearInterval(timerInterval);
+        improStarted = true;
+        removePulseFromAll();
+        nextBtns[3].classList.add('pulse');
+      };
+      mediaRecorderInstance.start();
+      recordingIndicator.style.display = 'flex';
+      stopBtn.classList.remove('hidden-btn');
+      stopBtn.disabled = false;
+      restartBtn.classList.add('hidden-btn');
+      startTimer();
     }
-  };
-  mediaRecorderInstance.onstop = () => {
-    const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
-    videoURL = URL.createObjectURL(videoBlob);
-    stream.getTracks().forEach(t => t.stop());
-    // Affichage du message en overlay une fois l'enregistrement terminé
-    const overlay = document.querySelector('.video-overlay');
-    overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Improvisation terminée. Passe à l'étape suivante !</p>";
-    overlay.style.display = 'flex';
-    document.getElementById('impro-error').style.display = 'none';
-    recordingIndicator.style.display = 'none';
-    clearInterval(timerInterval);
-    improStarted = true;
-    removePulseFromAll();
-    nextBtns[3].classList.add('pulse');
-  };
-  mediaRecorderInstance.start();
-  recordingIndicator.style.display = 'flex';
-  stopBtn.classList.remove('hidden-btn');
-  stopBtn.disabled = false;
-  restartBtn.classList.add('hidden-btn');
-  startTimer();
-}
 
     async function setupCamera() {
       try {
@@ -1333,60 +1324,60 @@
     const downloadPdfBtn = document.getElementById('download-pdf-btn');
 
     validateFormBtn.addEventListener('click', () => {
-  const prenomValue = prenomInput.value.trim();
-  const emailValue = emailInput.value.trim();
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const prenomRegex = /^[A-Za-zÀ-ÿ '-]+$/;
+      const prenomValue = prenomInput.value.trim();
+      const emailValue = emailInput.value.trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const prenomRegex = /^[A-Za-zÀ-ÿ '-]+$/;
 
-  let valid = true;
-  prenomError.style.display = 'none';
-  emailError.style.display = 'none';
+      let valid = true;
+      prenomError.style.display = 'none';
+      emailError.style.display = 'none';
 
-  if (!prenomValue || !prenomRegex.test(prenomValue)) {
-    prenomError.textContent = "Entre un prénom valide (sans chiffres ni caractères spéciaux).";
-    prenomError.style.display = 'block';
-    valid = false;
-  }
-  if (!emailValue) {
-    emailError.textContent = "Merci de renseigner ton email pour continuer.";
-    emailError.style.display = 'block';
-    valid = false;
-  } else if (!emailRegex.test(emailValue)) {
-    emailError.textContent = "Entre une adresse email valide.";
-    emailError.style.display = 'block';
-    valid = false;
-  }
-  if (!valid) return;
+      if (!prenomValue || !prenomRegex.test(prenomValue)) {
+        prenomError.textContent = "Entre un prénom valide (sans chiffres ni caractères spéciaux).";
+        prenomError.style.display = 'block';
+        valid = false;
+      }
+      if (!emailValue) {
+        emailError.textContent = "Merci de renseigner ton email pour continuer.";
+        emailError.style.display = 'block';
+        valid = false;
+      } else if (!emailRegex.test(emailValue)) {
+        emailError.textContent = "Entre une adresse email valide.";
+        emailError.style.display = 'block';
+        valid = false;
+      }
+      if (!valid) return;
 
-  // Remplir le formulaire caché et le soumettre à Google Forms
-  document.getElementById('hidden-prenom').value = prenomValue;
-  document.getElementById('hidden-email').value = emailValue;
-  document.getElementById('hidden-google-form').submit();
+      // Remplir le formulaire caché et le soumettre à Google Forms
+      document.getElementById('hidden-prenom').value = prenomValue;
+      document.getElementById('hidden-email').value = emailValue;
+      document.getElementById('hidden-google-form').submit();
 
-  // Optionnel : afficher un message de succès (ici nous l'affichons brièvement)
-  const successMessage = document.getElementById('success-message');
-  successMessage.style.display = 'block';
-  successMessage.classList.add('show');
-  setTimeout(() => {
-    successMessage.classList.remove('show');
-    successMessage.style.display = 'none';
-  }, 5000);
+      // Optionnel : afficher un message de succès (ici nous l'affichons brièvement)
+      const successMessage = document.getElementById('success-message');
+      successMessage.style.display = 'block';
+      successMessage.classList.add('show');
+      setTimeout(() => {
+        successMessage.classList.remove('show');
+        successMessage.style.display = 'none';
+      }, 5000);
 
-  // Télécharger automatiquement la vidéo (si elle est prête)
-  if (videoURL) {
-    const link = document.createElement('a');
-    link.href = videoURL;
-    link.download = 'Letmotiv_Improvisation.mp4';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }
+      // Télécharger automatiquement la vidéo (si elle est prête)
+      if (videoURL) {
+        const link = document.createElement('a');
+        link.href = videoURL;
+        link.download = 'Letmotiv_Improvisation.mp4';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
 
-  // Rediriger vers le formulaire feedback après un court délai (par exemple 2 secondes)
-  setTimeout(() => {
-    window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-de-ton-impro";
-  }, 2000);
-});
+      // Rediriger vers le formulaire feedback après un court délai (par exemple 2 secondes)
+      setTimeout(() => {
+        window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro";
+      }, 2000);
+    });
 
   </script>
 </body>
