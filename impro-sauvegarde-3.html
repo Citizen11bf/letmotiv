@@ -1080,9 +1080,18 @@
       if (!confirm("Votre webcam va se lancer pour démarrer l'improvisation. Voulez-vous continuer ?")) {
         return;
       }
-      // Si on est sur téléphone, augmenter l'encart vidéo à 450px au clic sur "Démarrer"
+      // Si on est sur téléphone, augmenter la hauteur de l'encart vidéo à 450px
+      // et faire défiler l'écran pour placer le sujet en haut
       if (window.innerWidth <= 600) {
-          document.querySelector('.video-box').style.height = "450px";
+          const videoBox = document.querySelector('.video-box');
+          videoBox.style.height = "450px";
+          const subjectElem = document.getElementById('current-subject-display');
+          if (subjectElem) {
+              // Calculer la position verticale de l'élément sujet
+              const subjectTop = subjectElem.getBoundingClientRect().top + window.pageYOffset;
+              // On peut ajuster avec un offset si besoin (ici 60px pour tenir compte du header)
+              window.scrollTo({ top: subjectTop - 60, behavior: 'smooth' });
+          }
       }
       // Masquer l'overlay (qui contient le bouton) pour déclencher la suite
       document.querySelector('.video-overlay').style.display = 'none';
@@ -1135,7 +1144,7 @@
         improStarted = true;
         removePulseFromAll();
         nextBtns[3].classList.add('pulse');
-        // Remettre la taille de l'encart vidéo à 300px une fois l'impro finie
+        // Remettre la taille de l'encart vidéo à 300px une fois l'impro finie sur mobile
         if (window.innerWidth <= 600) {
             document.querySelector('.video-box').style.height = "300px";
         }
