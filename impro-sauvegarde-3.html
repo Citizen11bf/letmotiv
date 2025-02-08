@@ -22,6 +22,10 @@
   <meta name="twitter:description" content="Évaluez et développez rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv.">
   <meta name="twitter:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png">
 
+  <!-- Favicon (icône de micro via data URI) -->
+  <!-- Remplacez la chaîne Base64 par celle de votre icône si nécessaire -->
+  <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABQ0lEQVR42mNgoBbg////f38RkAmz///8fKf/Y+DP7//z8DJgImA/6eBOJEwMTCkMoD/A9aIGJEFVjAPcCYQdgNyAHmhl/7//8Z9BVgPSIGhAYQ2xD8C0SFAwMd7/nZ8ADxEwT+A/w8iL0G9I3zAMQABBgA1hwyF45JMPYAAAAASUVORK5CYII=">
+
   <!-- Import de la police DM Sans et Montserrat depuis Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,7 +35,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
   <style>
-    /* --- GLOBAL --- */
+    /* --- Styles généraux --- */
     * {
       box-sizing: border-box;
     }
@@ -47,6 +51,18 @@
       overflow-x: hidden;
       padding-top: 60px;
       padding-bottom: 20px;
+    }
+
+    /* --- Section d'explication (lignes grises) --- */
+    .section-explanation {
+      background-color: #f0f0f0;
+      color: #555;
+      padding: 5px 10px;
+      font-size: 12px;
+      margin: 10px 0;
+      border-left: 3px solid #ccc;
+      width: 100%;
+      max-width: 600px;
     }
 
     /* --- HEADER --- */
@@ -160,7 +176,7 @@
       padding: 20px;
     }
 
-    /* --- BOXES (étapes) - Design modernisé en "card" --- */
+    /* --- BOXES (étapes) --- */
     .box {
       position: relative;
       width: 100%;
@@ -290,7 +306,7 @@
       background-color: #00a48a;
     }
 
-    /* STEP1 : Choix d’objectif */
+    /* --- STEP1 : Choix d’objectif --- */
     .objectives-container {
       display: flex;
       flex-wrap: wrap;
@@ -354,7 +370,7 @@
       display: none;
     }
     
-    /* --- STEP3 : Enregistrement vidéo --- */
+    /* --- STEP3 : L’utilisateur enregistre son improvisation en vidéo --- */
     .video-box {
       margin: 10px auto;
       border: 3px solid #182d84;
@@ -474,19 +490,8 @@
       font-weight: bold;
     }
 
-    .impro-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: center;
-      margin-top: 10px;
-    }
-    .hidden-btn {
-      display: none;
-    }
-
-    /* --- STEP4 (anciennement STEP5) : Analyse ta prestation & Téléchargements --- */
-    .download-section {
+    /* --- STEP4 : Analyse ta prestation --- */
+        .download-section {
       margin-top: 20px;
     }
     .download-section-accent {
@@ -632,20 +637,21 @@
   </style>
 </head>
 <body>
-  <!-- BOÎTE D'INTRODUCTION -->
+  <!-- Section d'introduction -->
   <div class="intro-box" id="intro-box">
     <h1>Entraîne-toi à la prise de parole en public</h1>
     <button id="start-intro-btn" aria-label="Commencer">Commencer</button>
   </div>
 
-  <!-- FORMULAIRE CACHÉ POUR GOOGLE FORMS -->
+  <!-- Formulaire caché pour Google Forms -->
+  <!-- Ce formulaire envoie les données à Google Forms et reste invisible pour l'utilisateur -->
   <form id="hidden-google-form" action="https://docs.google.com/forms/d/e/1FAIpQLSfGAcKp0cV5AeVJCJBPbtKLKCLhbYySZf_FkiMg85WKVFUn6A/formResponse" method="POST" target="hidden_iframe" style="display:none;">
     <input type="text" name="entry.1119647353" id="hidden-prenom">
     <input type="email" name="entry.638831312" id="hidden-email">
   </form>
   <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
 
-  <!-- HEADER -->
+  <!-- Header -->
   <div class="header">
     <div class="header-content">
       <div class="header-l1">Coaching en prise de parole</div>
@@ -653,15 +659,15 @@
     </div>
   </div>
 
-  <!-- BARRE DE PROGRESSION -->
+  <!-- Barre de progression : indique l'avancement dans les étapes -->
   <div class="progress-container">
     <div class="progress-bar" id="top-progress-bar"></div>
   </div>
 
-  <!-- CONTAINER PRINCIPAL -->
+  <!-- Conteneur principal des étapes : contient les différentes étapes du simulateur -->
   <div class="main-container">
 
-    <!-- STEP1 : Choix d'objectif -->
+    <!-- STEP1 : L’utilisateur sélectionne son objectif d’improvisation. -->
     <div class="box" id="step1">
       <div class="box-header">
         <button class="back-btn hidden-visibility" id="back-btn1" aria-label="Retour">
@@ -680,16 +686,14 @@
         <button data-category="diction">Diction</button>
         <button data-category="entretien">Réussir son entretien</button>
       </div>
-      <!-- Le div d'erreur n'a plus de texte par défaut -->
       <div id="objective-error" class="error-message"></div>
       <div class="explanation-box" id="explanation-box"></div>
-      <!-- Bouton Suivant STEP1 -->
       <button class="next-btn" id="next-btn1" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
     </div>
 
-    <!-- STEP2 : Génération du sujet -->
+    <!-- STEP2 : L'utilisateur génère un sujet aléatoire en fonction de l’objectif sélectionné -->
     <div class="box" id="step2">
       <div class="box-header">
         <button class="back-btn" id="back-btn2" aria-label="Retour à l'étape précédente">
@@ -697,33 +701,28 @@
         </button>
         <div class="box-title">Ton objectif</div>
       </div>
-      <!-- Rappel de l'objectif sélectionné -->
       <p id="selected-objective-display" style="font-weight:bold; margin-bottom:10px;"></p>
-      <!-- Bouton "Générer un sujet aléatoire" stylisé avec .btn-impro -->
       <button id="generate-subject-btn" class="btn-impro">Générer un sujet aléatoire</button>
       <div id="subject-wrapper" class="subject-wrapper">
         <span id="subject-display"></span>
       </div>
       <div id="subject-error" class="error-message"></div>
-      <!-- Bouton Suivant STEP2 -->
       <button class="next-btn" id="next-btn2" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
     </div>
 
     <!-- STEP3 : Enregistrement vidéo -->
-    <div class="box" id="step3">
+      <div class="box" id="step3">
       <div class="box-header">
         <button class="back-btn" id="back-btn3" aria-label="Retour à l'étape précédente">
           <i class="fas fa-arrow-up"></i>
         </button>
         <div class="box-title">Lance ton improvisation</div>
       </div>
-      <!-- Rappel du sujet généré dans une bulle style BD -->
       <div id="current-subject-display" class="subject-bubble"></div>
       <div class="video-box">
         <video id="preview" autoplay muted playsinline webkit-playsinline></video>
-        <!-- Zone overlay avec instructions et bouton -->
         <div class="video-overlay">
           <p>Ici va s'enregistrer ton improvisation vidéo. Lorsque tu es prêt, clique sur le bouton ci-dessous.</p>
           <button id="start-btn" aria-label="Démarrer l'improvisation">Démarrer ton impro <i class="fas fa-video"></i></button>
@@ -737,19 +736,17 @@
           <div class="initial-countdown" id="initial-countdown">3</div>
         </div>
       </div>
-      <!-- Boutons d'action (Stop, Restart) avec la classe btn-impro et cachés au départ -->
       <div class="impro-actions">
         <button id="stop-btn" class="hidden-btn btn-impro" aria-label="Arrêter l'improvisation">Arrêter ton impro <i class="fas fa-stop"></i></button>
         <button id="restart-btn" class="hidden-btn btn-impro" aria-label="Recommencer l'improvisation">Recommencer ton impro <i class="fas fa-redo"></i></button>
       </div>
       <div id="impro-error" class="error-message"></div>
-      <!-- Bouton Suivant STEP3 -->
       <button class="next-btn" id="next-btn3" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
     </div>
 
-    <!-- STEP4 : Analyse ta prestation & Téléchargements (anciennement STEP5) -->
+    <!-- STEP4 : L’utilisateur peut télécharger la vidéo enregistrée et il est renvoyé vers une page Letmotiv pour analyser sa prestation -->
     <div class="box" id="step5">
       <div class="box-header">
         <button class="back-btn" id="back-btn5" aria-label="Retour à l'étape précédente">
@@ -798,7 +795,7 @@
 
   </div>
 
-  <!-- SCRIPT -->
+  <!-- Script principal du simulateur : contient la logique de navigation, d'enregistrement et d'interaction du simulateur -->
   <script>
     /***********************
      * Gestion des étapes (maintenant 4 étapes)
@@ -814,13 +811,12 @@
       1: document.getElementById('next-btn1'),
       2: document.getElementById('next-btn2'),
       3: document.getElementById('next-btn3')
-      // Pas de next-btn pour le dernier step
     };
 
     const backBtns = {
       2: document.getElementById('back-btn2'),
       3: document.getElementById('back-btn3'),
-      4: document.getElementById('back-btn5') // Utilisation de back-btn5 de l'ancien step5
+      4: document.getElementById('back-btn5')
     };
 
     const introBox = document.getElementById('intro-box');
@@ -829,7 +825,7 @@
 
     // Variables pour mémoriser l'objectif et le sujet
     let currentCategory = null;
-    let currentObjective = ""; // Texte de l'objectif sélectionné
+    let currentObjective = "";
     let currentSubject = "";
 
     // Mise à jour de la barre de progression : 4 étapes => 25 % chacune
@@ -839,12 +835,12 @@
     }
     updateProgressBar(0);
 
-    // Fonction pour retirer l'animation "pulse" de tous les boutons "Suivant"
+    // Retirer l'animation "pulse" des boutons "Suivant"
     function removePulseFromAll() {
       Object.values(nextBtns).forEach(btn => btn.classList.remove('pulse'));
     }
 
-    // Fonction d'affichage avec animations
+    // Affichage avec animations
     function showBox(current, next) {
       if (!boxes[current] || !boxes[next]) return;
       boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
@@ -860,20 +856,17 @@
       const boxPosition = boxes[next].getBoundingClientRect().top + window.scrollY - headerHeight - 20;
       window.scrollTo({ top: boxPosition, behavior: 'smooth' });
       
-      // Mise à jour des rappels dans les étapes concernées
       if (next === 2) {
-        // Affiche l'explication associée à la catégorie sélectionnée.
         document.getElementById('selected-objective-display').textContent = explanations[currentCategory] || currentObjective;
       }
       if (next === 3) {
         document.getElementById('current-subject-display').textContent = currentSubject;
       }
       
-      // Retirer l'animation "pulse" de tous
       removePulseFromAll();
     }
 
-    // Boîte d'introduction
+    // Démarrage de l'introduction
     startIntroBtn.addEventListener('click', () => {
       introBox.style.animation = 'fadeOut 0.5s ease forwards';
       setTimeout(() => {
@@ -884,7 +877,7 @@
       }, 500);
     });
 
-    // STEP1 -> STEP2 : Validation de l'objectif
+    // STEP1 -> STEP2
     nextBtns[1].addEventListener('click', () => {
       const selected = document.querySelector('.objectives-container .selected-objective');
       if (!selected) {
@@ -896,7 +889,7 @@
       showBox(1, 2);
     });
 
-    // STEP2 -> STEP3 : Vérification du sujet généré
+    // STEP2 -> STEP3
     nextBtns[2].addEventListener('click', () => {
       if (!currentSubject) {
         const subjErrorDiv = document.getElementById('subject-error');
@@ -907,7 +900,7 @@
       showBox(2, 3);
     });
 
-    // STEP3 -> STEP4 : Enregistrement
+    // STEP3 -> STEP4
     nextBtns[3].addEventListener('click', () => {
       const improErrorDiv = document.getElementById('impro-error');
       improErrorDiv.style.display = 'none';
@@ -923,14 +916,10 @@
       showBox(3, 4);
     });
 
-    // Boutons "Retour"
     backBtns[2].addEventListener('click', () => { showBox(2, 1); });
     backBtns[3].addEventListener('click', () => { showBox(3, 2); });
     backBtns[4].addEventListener('click', () => { showBox(4, 3); });
 
-    /***********************
-     * Gestion des objectifs et explications (STEP1)
-     ***********************/
     const explanations = {
       convaincre:   "Tu as 2 minutes pour convaincre ton auditoire sur un sujet délicat",
       inspirer:     "Tu as 2 minutes pour inspirer ton auditoire",
@@ -942,6 +931,7 @@
       diction:      "Répète la phrase suivante 5 fois de suite sans te tromper",
       entretien:    "Convaincs ton futur employeur que tu es la pépite qu'il recherche"
     };
+
     const txtFilesByCategory = {
       convaincre:   "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/convaincre.txt",
       inspirer:     "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/inspirer.txt",
@@ -953,6 +943,7 @@
       diction:      "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/diction.txt",
       entretien:    "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/entretien.txt"
     };
+
     let subjectsCache = {
       convaincre: null,
       inspirer: null,
@@ -964,6 +955,7 @@
       diction: null,
       entretien: null
     };
+
     const objectivesButtons = document.querySelectorAll('.objectives-container button');
     const explanationBox = document.getElementById('explanation-box');
 
@@ -1005,9 +997,6 @@
       }
     }
 
-    /***********************
-     * Gestion du sujet d'impro (STEP2)
-     ***********************/
     const generateSubjectBtn = document.getElementById('generate-subject-btn');
     const subjectWrapper = document.getElementById('subject-wrapper');
     const subjectDisplay = document.getElementById('subject-display');
@@ -1036,14 +1025,10 @@
       nextBtns[2].classList.add('pulse');
     });
 
-    /***********************
-     * Enregistrement vidéo (STEP3)
-     ***********************/
     let improStarted = false;
     let mediaRecorderInstance;
     let recordedChunks = [];
     const preview = document.getElementById('preview');
-    // Nous n'utilisons plus directement startBtn (car il sera recréé lors du restart)
     const stopBtn = document.getElementById('stop-btn');
     const restartBtn = document.getElementById('restart-btn');
     const recordingIndicator = document.getElementById('recording-indicator');
@@ -1056,7 +1041,6 @@
     let timerInterval;
     let timeRemaining = 120; // 2 minutes
 
-    // Fonction qui attache l'événement au bouton "Démarrer ton impro"
     function bindStartButton() {
       const startBtn = document.getElementById('start-btn');
       if(startBtn){
@@ -1080,20 +1064,15 @@
       if (!confirm("Votre webcam va se lancer pour démarrer l'improvisation. Voulez-vous continuer ?")) {
         return;
       }
-      // Si on est sur téléphone, augmenter la hauteur de l'encart vidéo à 450px
-      // et faire défiler l'écran pour placer le sujet en haut
       if (window.innerWidth <= 600) {
           const videoBox = document.querySelector('.video-box');
           videoBox.style.height = "450px";
           const subjectElem = document.getElementById('current-subject-display');
           if (subjectElem) {
-              // Calculer la position verticale de l'élément sujet
               const subjectTop = subjectElem.getBoundingClientRect().top + window.pageYOffset;
-              // On peut ajuster avec un offset si besoin (ici 60px pour tenir compte du header)
               window.scrollTo({ top: subjectTop - 60, behavior: 'smooth' });
           }
       }
-      // Masquer l'overlay (qui contient le bouton) pour déclencher la suite
       document.querySelector('.video-overlay').style.display = 'none';
       startInitialCountdown();
     }
@@ -1134,7 +1113,6 @@
         const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
         videoURL = URL.createObjectURL(videoBlob);
         stream.getTracks().forEach(t => t.stop());
-        // Affichage du message en overlay une fois l'enregistrement terminé
         const overlay = document.querySelector('.video-overlay');
         overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Improvisation terminée. Passe à l'étape suivante !</p>";
         overlay.style.display = 'flex';
@@ -1144,7 +1122,6 @@
         improStarted = true;
         removePulseFromAll();
         nextBtns[3].classList.add('pulse');
-        // Remettre la taille de l'encart vidéo à 300px une fois l'impro finie sur mobile
         if (window.innerWidth <= 600) {
             document.querySelector('.video-box').style.height = "300px";
         }
@@ -1214,20 +1191,16 @@
     });
     restartBtn.addEventListener('click', () => {
       restartBtn.classList.add('hidden-btn');
-      // Réinitialiser l'overlay avec le bouton et les instructions
       document.querySelector('.video-overlay').innerHTML = `
         <p>Ici va s'enregistrer ton improvisation vidéo. Lorsque tu es prêt, clique sur le bouton ci-dessous.</p>
         <button id="start-btn" aria-label="Démarrer l'improvisation">Démarrer ton impro <i class="fas fa-video"></i></button>
         <p>NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
       `;
-      // Réafficher l'overlay
       document.querySelector('.video-overlay').style.display = 'flex';
       improStarted = false;
-      // Re-bind le nouvel événement sur le bouton "Démarrer"
       bindStartButton();
     });
 
-    // Lier le bouton "Démarrer" lors du chargement initial
     bindStartButton();
 
     /***********************
@@ -1268,12 +1241,10 @@
       }
       if (!valid) return;
 
-      // Remplir le formulaire caché et le soumettre à Google Forms
       document.getElementById('hidden-prenom').value = prenomValue;
       document.getElementById('hidden-email').value = emailValue;
       document.getElementById('hidden-google-form').submit();
 
-      // Optionnel : afficher un message de succès (ici nous l'affichons brièvement)
       const successMessage = document.getElementById('success-message');
       successMessage.style.display = 'block';
       successMessage.classList.add('show');
@@ -1282,7 +1253,6 @@
         successMessage.style.display = 'none';
       }, 5000);
 
-      // Télécharger automatiquement la vidéo (si elle est prête)
       if (videoURL) {
         const link = document.createElement('a');
         link.href = videoURL;
@@ -1292,12 +1262,10 @@
         document.body.removeChild(link);
       }
 
-      // Rediriger vers le formulaire feedback après un court délai (par exemple 2 secondes)
       setTimeout(() => {
         window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro";
-      }, 2000);
+      }, 1000);
     });
-
   </script>
 </body>
 </html>
