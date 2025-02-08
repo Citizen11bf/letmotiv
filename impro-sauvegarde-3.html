@@ -375,7 +375,7 @@
       font-style: italic;
       font-size: 14px;
       padding: 20px;
-      background: rgba(255,255,255,0.6); /* léger fond semi-transparent pour la lisibilité */
+      background: rgba(255,255,255,0.6);
     }
     .video-overlay p {
       margin: 10px 0;
@@ -466,133 +466,10 @@
       display: none;
     }
 
-    /* --- STEP4 : Partage sur LinkedIn + Options de progression --- */
-    .progression-buttons {
+    /* --- STEP4 (anciennement STEP5) : Analyse ta prestation & Téléchargements --- */
+    .download-section {
       margin-top: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
     }
-    .progression-buttons a {
-      width: 100%;
-      max-width: 300px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    button,
-    a.btn {
-      background-color: #182d84;
-      color: #FFFFFF;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 16px;
-      border: none;
-      border-radius: 25px;
-      padding: 10px 20px;
-      cursor: pointer;
-      margin: 5px;
-      text-decoration: none;
-      transition: background-color 0.3s, transform 0.3s;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-    button:hover,
-    button:active,
-    a.btn:hover,
-    a.btn:active {
-      background-color: #00a48a;
-      transform: translateY(-3px);
-    }
-
-    .linkedin-share-button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background-color: #0e76a8;
-      color: #FFFFFF;
-      border: none;
-      border-radius: 25px;
-      padding: 10px 20px;
-      font-weight: bold;
-      text-decoration: none;
-      transition: background-color 0.3s, transform 0.3s;
-      cursor: pointer;
-      margin: 5px;
-      gap: 10px;
-    }
-    .linkedin-share-button:hover,
-    .linkedin-share-button:active {
-      background-color: #085a8c;
-      transform: translateY(-3px);
-    }
-
-    /* Media Queries */
-    @media (max-height: 600px) {
-      .box { margin-bottom: 20px; }
-    }
-
-    .error-message {
-      color: red;
-      margin-top: 10px;
-      font-weight: bold;
-      display: none;
-      text-align: center;
-      width: 100%;
-    }
-
-    .input-group {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      width: 48%;
-    }
-    .input-group label {
-      margin-bottom: 5px;
-      font-weight: bold;
-      color: #000;
-    }
-    .input-group input {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 14px;
-      box-sizing: border-box;
-      transition: border-color 0.3s;
-    }
-    .input-group input:focus {
-      border-color: #00a48a;
-      outline: none;
-    }
-    .download-fields {
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      margin-bottom: 15px;
-    }
-
-    #generate-subject-btn.subject-generated {
-      background-color: #00a48a;
-      color: #ffffff;
-      position: relative;
-      padding-right: 40px;
-    }
-    #generate-subject-btn.subject-generated::after {
-      content: "\f2f9";
-      font-family: "Font Awesome 5 Free";
-      font-weight: 900;
-      position: absolute;
-      right: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 16px;
-    }
-
     .download-section-accent {
       background: linear-gradient(135deg, #182d84, #00a48a);
       border-radius: 10px;
@@ -687,8 +564,8 @@
 
     /* --- Inversion de la caméra (demande de Pierre) --- */
     video {
-    transform: scaleX(-1);
-    -webkit-transform: scaleX(-1); /* --- Pour Safari --- */
+      transform: scaleX(-1);
+      -webkit-transform: scaleX(-1);
     }
     
   </style>
@@ -809,43 +686,7 @@
       </button>
     </div>
 
-    <!-- STEP4 : Partage sur LinkedIn + Options de progression -->
-    <div class="box" id="step4">
-      <div class="box-header">
-        <button class="back-btn" id="back-btn4" aria-label="Retour à l'étape précédente">
-          <i class="fas fa-arrow-up"></i>
-        </button>
-        <div class="box-title">Bravo pour ton impro 👏👏</div>
-      </div>
-      <!-- Section Partage -->
-      <div class="share-section">
-        <h3>Partage ton expérience</h3>
-        <p>Inspire la communauté et encourage d'autres personnes à relevé le défi ! <br>#ChallengeImproLetmotiv</br> </p>
-        <a id="linkedin-share-button" href="https://www.linkedin.com/shareArticle?mini=true&url=https://letmotiv-simulateur.fr" target="_blank" rel="noopener noreferrer" class="linkedin-share-button" aria-label="Partager sur LinkedIn">
-          <i class="fab fa-linkedin"></i> Partager sur LinkedIn
-        </a>
-      </div>
-      <hr style="margin:20px 0; border: 1px dashed #ccc;">
-      <!-- Section Call-to-Action -->
-      <div class="cta-section">
-        <h3>Continue à progresser</h3>
-        <p>Tu souhaites progresser rapidement et efficacement dans la prise de parole en public ? Découvre nos ressources exclusives :</p>
-        <div class="progression-buttons">
-          <a href="https://alexetpierre.systeme.io/inscription" target="_blank" rel="noopener noreferrer" class="btn" aria-label="Découvrir la formation en ligne">
-            <i class="fas fa-laptop"></i> Découvrir la formation en ligne
-          </a>
-          <a href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole" target="_blank" rel="noopener noreferrer" class="btn" aria-label="Réserver un coaching">
-            <i class="fas fa-chalkboard-teacher"></i> Réserver un coaching
-          </a>
-        </div>
-      </div>
-      <!-- Bouton Suivant STEP4 -->
-      <button class="next-btn" id="next-btn4" aria-label="Étape suivante">
-        <i class="fas fa-arrow-down"></i>
-      </button>
-    </div>
-
-    <!-- STEP5 : Analyse ta prestation & Téléchargements -->
+    <!-- STEP4 : Analyse ta prestation & Téléchargements (anciennement STEP5) -->
     <div class="box" id="step5">
       <div class="box-header">
         <button class="back-btn" id="back-btn5" aria-label="Retour à l'étape précédente">
@@ -897,28 +738,26 @@
   <!-- SCRIPT -->
   <script>
     /***********************
-     * Gestion des étapes (5 étapes)
+     * Gestion des étapes (maintenant 4 étapes)
      ***********************/
     const boxes = {
       1: document.getElementById('step1'),
       2: document.getElementById('step2'),
       3: document.getElementById('step3'),
-      4: document.getElementById('step4'),
-      5: document.getElementById('step5')
+      4: document.getElementById('step5') // Anciennement step5, maintenant le 4ème step
     };
 
     const nextBtns = {
       1: document.getElementById('next-btn1'),
       2: document.getElementById('next-btn2'),
-      3: document.getElementById('next-btn3'),
-      4: document.getElementById('next-btn4')
+      3: document.getElementById('next-btn3')
+      // Pas de next-btn pour le dernier step
     };
 
     const backBtns = {
       2: document.getElementById('back-btn2'),
       3: document.getElementById('back-btn3'),
-      4: document.getElementById('back-btn4'),
-      5: document.getElementById('back-btn5')
+      4: document.getElementById('back-btn5') // Utilisation de back-btn5 de l'ancien step5
     };
 
     const introBox = document.getElementById('intro-box');
@@ -930,9 +769,9 @@
     let currentObjective = ""; // Texte de l'objectif sélectionné
     let currentSubject = "";
 
-    // Mise à jour de la barre de progression : 5 étapes => 20% chacune
+    // Mise à jour de la barre de progression : 4 étapes => 25 % chacune
     function updateProgressBar(step) {
-      const progress = step * 20;
+      const progress = (step / 4) * 100;
       topProgressBar.style.width = `${progress}%`;
     }
     updateProgressBar(0);
@@ -960,7 +799,7 @@
       
       // Mise à jour des rappels dans les étapes concernées
       if (next === 2) {
-      // Affiche l'explication associée à la catégorie sélectionnée.
+        // Affiche l'explication associée à la catégorie sélectionnée.
         document.getElementById('selected-objective-display').textContent = explanations[currentCategory] || currentObjective;
       }
       if (next === 3) {
@@ -969,9 +808,7 @@
       
       // Retirer l'animation "pulse" de tous
       removePulseFromAll();
-      if (next === 4) {
-        nextBtns[4].classList.add('pulse');
-      }
+      // (Optionnel) Vous pouvez ajouter des animations spécifiques pour certains boutons ici
     }
 
     // Boîte d'introduction
@@ -1024,16 +861,10 @@
       showBox(3, 4);
     });
 
-    // STEP4 -> STEP5
-    nextBtns[4].addEventListener('click', () => {
-      showBox(4, 5);
-    });
-
     // Boutons "Retour"
     backBtns[2].addEventListener('click', () => { showBox(2, 1); });
     backBtns[3].addEventListener('click', () => { showBox(3, 2); });
     backBtns[4].addEventListener('click', () => { showBox(4, 3); });
-    backBtns[5].addEventListener('click', () => { showBox(5, 4); });
 
     /***********************
      * Gestion des objectifs et explications (STEP1)
@@ -1208,44 +1039,44 @@
       }, 1000);
     }
 
-  async function initiateRecording() {
-  const stream = await setupCamera();
-  if (!stream) return;
-  if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
-    const improErrorDiv = document.getElementById('impro-error');
-    improErrorDiv.textContent = "Ton navigateur ne supporte pas l'enregistrement vidéo. Essaye avec Chrome, Edge ou Firefox.";
-    improErrorDiv.style.display = 'block';
-    return;
-  }
-  mediaRecorderInstance = new MediaRecorder(stream);
-  recordedChunks = [];
-  mediaRecorderInstance.ondataavailable = (event) => {
-    if (event.data.size > 0) {
-      recordedChunks.push(event.data);
+    async function initiateRecording() {
+      const stream = await setupCamera();
+      if (!stream) return;
+      if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
+        const improErrorDiv = document.getElementById('impro-error');
+        improErrorDiv.textContent = "Ton navigateur ne supporte pas l'enregistrement vidéo. Essaye avec Chrome, Edge ou Firefox.";
+        improErrorDiv.style.display = 'block';
+        return;
+      }
+      mediaRecorderInstance = new MediaRecorder(stream);
+      recordedChunks = [];
+      mediaRecorderInstance.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          recordedChunks.push(event.data);
+        }
+      };
+      mediaRecorderInstance.onstop = () => {
+        const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
+        videoURL = URL.createObjectURL(videoBlob);
+        stream.getTracks().forEach(t => t.stop());
+        // Affichage du message en overlay une fois l'enregistrement terminé
+        const overlay = document.querySelector('.video-overlay');
+        overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Improvisation terminée. Passe à l'étape suivante !</p>";
+        overlay.style.display = 'flex';
+        document.getElementById('impro-error').style.display = 'none';
+        recordingIndicator.style.display = 'none';
+        clearInterval(timerInterval);
+        improStarted = true;
+        removePulseFromAll();
+        nextBtns[3].classList.add('pulse');
+      };
+      mediaRecorderInstance.start();
+      recordingIndicator.style.display = 'flex';
+      stopBtn.classList.remove('hidden-btn');
+      stopBtn.disabled = false;
+      restartBtn.classList.add('hidden-btn');
+      startTimer();
     }
-  };
-  mediaRecorderInstance.onstop = () => {
-    const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
-    videoURL = URL.createObjectURL(videoBlob);
-    stream.getTracks().forEach(t => t.stop());
-    // Affichage du message en overlay une fois l'enregistrement terminé
-    const overlay = document.querySelector('.video-overlay');
-    overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Improvisation terminée. Passe à l'étape suivante !</p>";
-    overlay.style.display = 'flex';
-    document.getElementById('impro-error').style.display = 'none';
-    recordingIndicator.style.display = 'none';
-    clearInterval(timerInterval);
-    improStarted = true;
-    removePulseFromAll();
-    nextBtns[3].classList.add('pulse');
-  };
-  mediaRecorderInstance.start();
-  recordingIndicator.style.display = 'flex';
-  stopBtn.classList.remove('hidden-btn');
-  stopBtn.disabled = false;
-  restartBtn.classList.add('hidden-btn');
-  startTimer();
-}
 
     async function setupCamera() {
       try {
@@ -1321,7 +1152,7 @@
     bindStartButton();
 
     /***********************
-     * Téléchargements et envoi à Google Forms (STEP5)
+     * Téléchargements et envoi à Google Forms (STEP4)
      ***********************/
     const validateFormBtn = document.getElementById('validate-form-btn');
     const prenomInput = document.getElementById('prenom');
@@ -1333,60 +1164,60 @@
     const downloadPdfBtn = document.getElementById('download-pdf-btn');
 
     validateFormBtn.addEventListener('click', () => {
-  const prenomValue = prenomInput.value.trim();
-  const emailValue = emailInput.value.trim();
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const prenomRegex = /^[A-Za-zÀ-ÿ '-]+$/;
+      const prenomValue = prenomInput.value.trim();
+      const emailValue = emailInput.value.trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const prenomRegex = /^[A-Za-zÀ-ÿ '-]+$/;
 
-  let valid = true;
-  prenomError.style.display = 'none';
-  emailError.style.display = 'none';
+      let valid = true;
+      prenomError.style.display = 'none';
+      emailError.style.display = 'none';
 
-  if (!prenomValue || !prenomRegex.test(prenomValue)) {
-    prenomError.textContent = "Entre un prénom valide (sans chiffres ni caractères spéciaux).";
-    prenomError.style.display = 'block';
-    valid = false;
-  }
-  if (!emailValue) {
-    emailError.textContent = "Merci de renseigner ton email pour continuer.";
-    emailError.style.display = 'block';
-    valid = false;
-  } else if (!emailRegex.test(emailValue)) {
-    emailError.textContent = "Entre une adresse email valide.";
-    emailError.style.display = 'block';
-    valid = false;
-  }
-  if (!valid) return;
+      if (!prenomValue || !prenomRegex.test(prenomValue)) {
+        prenomError.textContent = "Entre un prénom valide (sans chiffres ni caractères spéciaux).";
+        prenomError.style.display = 'block';
+        valid = false;
+      }
+      if (!emailValue) {
+        emailError.textContent = "Merci de renseigner ton email pour continuer.";
+        emailError.style.display = 'block';
+        valid = false;
+      } else if (!emailRegex.test(emailValue)) {
+        emailError.textContent = "Entre une adresse email valide.";
+        emailError.style.display = 'block';
+        valid = false;
+      }
+      if (!valid) return;
 
-  // Remplir le formulaire caché et le soumettre à Google Forms
-  document.getElementById('hidden-prenom').value = prenomValue;
-  document.getElementById('hidden-email').value = emailValue;
-  document.getElementById('hidden-google-form').submit();
+      // Remplir le formulaire caché et le soumettre à Google Forms
+      document.getElementById('hidden-prenom').value = prenomValue;
+      document.getElementById('hidden-email').value = emailValue;
+      document.getElementById('hidden-google-form').submit();
 
-  // Optionnel : afficher un message de succès (ici nous l'affichons brièvement)
-  const successMessage = document.getElementById('success-message');
-  successMessage.style.display = 'block';
-  successMessage.classList.add('show');
-  setTimeout(() => {
-    successMessage.classList.remove('show');
-    successMessage.style.display = 'none';
-  }, 5000);
+      // Optionnel : afficher un message de succès (ici nous l'affichons brièvement)
+      const successMessage = document.getElementById('success-message');
+      successMessage.style.display = 'block';
+      successMessage.classList.add('show');
+      setTimeout(() => {
+        successMessage.classList.remove('show');
+        successMessage.style.display = 'none';
+      }, 5000);
 
-  // Télécharger automatiquement la vidéo (si elle est prête)
-  if (videoURL) {
-    const link = document.createElement('a');
-    link.href = videoURL;
-    link.download = 'Letmotiv_Improvisation.mp4';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }
+      // Télécharger automatiquement la vidéo (si elle est prête)
+      if (videoURL) {
+        const link = document.createElement('a');
+        link.href = videoURL;
+        link.download = 'Letmotiv_Improvisation.mp4';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
 
-  // Rediriger vers le formulaire feedback après un court délai (par exemple 2 secondes)
-  setTimeout(() => {
-    window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro";
-  }, 2000);
-});
+      // Rediriger vers le formulaire feedback après un court délai (par exemple 2 secondes)
+      setTimeout(() => {
+        window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro";
+      }, 2000);
+    });
 
   </script>
 </body>
