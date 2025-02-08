@@ -6,15 +6,35 @@
   <title>Simulateur d'improvisation</title>
   <meta name="description" content="Évaluer et développer rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv. Coaching en prise de parole en public. ">
 
-  <!-- Balises Open Graph, Twitter, fonts, etc. (inchangées) -->
+  <!-- Balises Open Graph pour LinkedIn -->
+  <meta property="og:title" content="Simulateur d'improvisation Letmotiv" />
+  <meta property="og:description" content="Évaluez et développez rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://letmotiv-simulateur.fr" />
+  <meta property="og:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png" />
+  <meta property="og:image:alt" content="Illustration d'une improvisation en public avec un orateur sur scène." />
+  <meta name="author" content="Letmotiv" />
+  <meta property="article:published_time" content="2025-01-26" />
+
+  <!-- Balises Twitter (optionnel) -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Simulateur d'improvisation Letmotiv">
+  <meta name="twitter:description" content="Évaluez et développez rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv.">
+  <meta name="twitter:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png">
+
+  <!-- Import de la police DM Sans et Montserrat depuis Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans&family=Montserrat:wght@700&display=swap" rel="stylesheet" />
+
+  <!-- Icônes Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
   <style>
     /* --- GLOBAL --- */
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
     body {
       margin: 0;
       font-family: 'DM Sans', sans-serif;
@@ -28,6 +48,7 @@
       padding-top: 60px;
       padding-bottom: 20px;
     }
+
     /* --- HEADER --- */
     .header {
       background-color: #182d84;
@@ -52,7 +73,10 @@
       max-width: 100%;
       overflow-wrap: break-word;
     }
-    .header-l2 { font-size: 14px; font-weight: normal; }
+    .header-l2 {
+      font-size: 14px;
+      font-weight: normal;
+    }
 
     /* --- BARRE DE PROGRESSION --- */
     .progress-container {
@@ -111,9 +135,19 @@
       color: #ffffff;
       transform: scale(1.05);
     }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
-    @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to   { opacity: 0; }
+    }
+    @keyframes slideDown {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
 
     /* --- CONTENEUR PRINCIPAL --- */
     .main-container {
@@ -142,13 +176,29 @@
       display: none;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    .box.active { display: block; }
-    .box:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); }
-    .slide-from-bottom { animation: fromBottom 1.5s ease forwards; }
-    @keyframes fromBottom { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
-    .slide-from-top { animation: fromTop 1.5s ease forwards; }
-    @keyframes fromTop { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
-    .fixed-box { position: fixed; top: 50px; } /* 50px sous le header */
+    .box.active {
+      display: block;
+    }
+    .box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    /* --- ANIMATIONS VERTICALES --- */
+    .slide-from-bottom {
+      animation: fromBottom 1.5s ease forwards;
+    }
+    @keyframes fromBottom {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .slide-from-top {
+      animation: fromTop 1.5s ease forwards;
+    }
+    @keyframes fromTop {
+      from { opacity: 0; transform: translateY(-50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
     /* --- HEADER INTERNE DES BOXES --- */
     .box-header {
@@ -175,17 +225,24 @@
       margin: 0 auto;
       margin-bottom: 10px;
     }
-    .back-btn:hover { background-color: #505050; transform: scale(1.1); }
-    .back-btn:active { background-color: #303030; }
-    .back-btn.hidden-visibility { visibility: hidden; }
+    .back-btn:hover {
+      background-color: #505050;
+      transform: scale(1.1);
+    }
+    .back-btn:active {
+      background-color: #303030;
+    }
+    .back-btn.hidden-visibility {
+      visibility: hidden;
+    }
     .box-title {
       font-size: 18px;
       font-weight: bold;
       color: #182d84;
       text-align: center;
     }
-    
-    /* --- FLECHES --- */
+
+    /* --- FLECHES HAUT/BAS --- */
     .next-btn, .back-btn { }
     .next-btn {
       width: 40px;
@@ -201,20 +258,386 @@
       transition: background-color 0.3s, color 0.3s, transform 0.3s;
       margin: 10px auto;
     }
-    .next-btn:hover { background-color: #00a48a; color: #ffffff; transform: scale(1.05); }
-    .next-btn.pulse { animation: electricPulse 1.5s infinite; }
+    .next-btn:hover {
+      background-color: #00a48a;
+      color: #ffffff;
+      transform: scale(1.05);
+    }
+    .next-btn.pulse {
+      animation: electricPulse 1.5s infinite;
+    }
     @keyframes electricPulse {
       0% { box-shadow: 0 0 0 0 rgba(0,164,138,0.7); }
       70% { box-shadow: 0 0 0 10px rgba(0,164,138,0); }
       100% { box-shadow: 0 0 0 0 rgba(0,164,138,0); }
     }
+  
+    /* STEP1 : Choix d’objectif */
+    .objectives-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+    .objectives-container button {
+      padding: 10px 20px;
+      border: 2px solid #182d84;
+      border-radius: 25px;
+      background-color: transparent;
+      color: #182d84;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .objectives-container button:hover {
+      background-color: #00a48a;
+      color: #ffffff;
+    }
+    .selected-objective {
+      background-color: #00a48a !important;
+      color: #ffffff;
+    }
+
+    .explanation-box {
+      visibility: hidden;
+      opacity: 0;
+      transform: translateY(-10px);
+      margin-top: 0;
+      background-color: #fefefe;
+      border: 0 solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 14px;
+      font-style: italic;
+      color: #333;
+      transition: border 0.5s ease, opacity 0.5s ease, transform 0.5s ease;
+    }
+    .explanation-box.show {
+      visibility: visible;
+      opacity: 1;
+      transform: translateY(0);
+      border: 2px solid #ccc;
+    }
+
+    /* --- STEP2 : Génération du sujet --- */
+    .subject-wrapper {
+      margin-top: 10px;
+      background-color: #fefefe;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+      font-size: 14px;
+      font-style: italic;
+      color: #333;
+      display: none;
+    }
+
+    /* STEP2 : Rappel de l'objectif */
+    #selected-objective-display {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      margin-bottom: 10px;
+      position: relative;
+      padding-left: 25px;
+    }
+
+    /* --- STEP3 : Enregistrement vidéo --- */
+    .video-box {
+      margin: 10px auto;
+      border: 3px solid #182d84;
+      border-radius: 6px;
+      max-width: 500px;
+      background-color: #fefefe;
+      height: 300px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    .enlarged-video {
+      height: 450px;
+      transition: height 0.3s ease;
+    }
+    .video-box video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 4px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+    .video-overlay {
+      position: absolute;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #555;
+      font-style: italic;
+      font-size: 14px;
+      padding: 20px;
+      background: rgba(255,255,255,0.6);
+    }
+    .video-overlay p {
+      margin: 10px 0;
+    }
+    .video-overlay button {
+      pointer-events: auto;
+      margin: 15px 0;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #182d84;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .video-overlay button:hover {
+      background-color: #00a48a;
+    }
+    .recording-indicator {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      align-items: center;
+      background-color: rgba(255,255,255,0.8);
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 14px;
+      color: #ff0000;
+      display: none;
+      z-index: 3;
+    }
+    .recording-indicator .dot {
+      height: 10px;
+      width: 10px;
+      background-color: #ff0000;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 5px;
+      animation: blink 1s infinite;
+    }
+    @keyframes blink {
+      0% { opacity: 1; }
+      50% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    .countdown {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      font-size: 24px;
+      color: #ffffff;
+      display: none;
+      z-index: 4;
+      background-color: rgba(0,0,0,0.5);
+      padding: 5px 10px;
+      border-radius: 5px;
+      text-align: center;
+    }
+    .initial-countdown-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(128,128,128,0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 5;
+      border-radius: 6px;
+    }
+    .initial-countdown {
+      font-size: 48px;
+      color: #ffffff;
+      font-weight: bold;
+    }
+
+    .impro-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 10px;
+    }
+    .hidden-btn {
+      display: none;
+    }
+
+    /* --- STEP4 : Téléchargements (anciennement STEP5) --- */
+    .download-section {
+      /* Vos styles de section de téléchargement */
+    }
+    .download-section-accent {
+      background: linear-gradient(135deg, #182d84, #00a48a);
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      color: #fff;
+      margin-bottom: 20px;
+      animation: fadeInDown 0.6s ease forwards;
+    }
+    .download-section-accent h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.5rem;
+      margin: 0 0 10px;
+    }
+    .download-section-accent .subtitle {
+      font-style: italic;
+      margin-bottom: 10px;
+    }
+    .download-section-accent .reassure {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .call-to-action {
+      text-align: center;
+    }
+    .call-to-action button {
+      background-color: #ffcb2d;
+      color: #000;
+      border-radius: 30px;
+      padding: 12px 24px;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin: 10px auto;
+    }
+    .call-to-action button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+
+    .download-buttons {
+      margin-top: 20px;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      display: none;
+    }
+    .download-buttons.show {
+      opacity: 1;
+      transform: translateY(0);
+      display: block;
+    }
+
+    .success-message {
+      color: #28a745;
+      background-color: #d4edda;
+      border: 1px solid #c3e6cb;
+      border-radius: 5px;
+      padding: 10px 20px;
+      margin-top: 10px;
+      font-weight: bold;
+      text-align: center;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+    .success-message.show {
+      display: block;
+      opacity: 1;
+      visibility: visible;
+    }
+
+    @keyframes fadeInDown {
+      from { transform: translateY(-20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* --- Bulle style BD pour le sujet (STEP3) --- */
+    .subject-bubble {
+      display: inline-block;
+      position: relative;
+      background: #fefefe;
+      border: 2px solid #ccc;
+      border-radius: 16px;
+      padding: 10px 15px;
+      font-size: 16px;
+      color: #333;
+      max-width: 80%;
+      text-align: center;
+      margin: 0 auto;
+    }
     
-    /* --- Autres styles inchangés (objectifs, vidéo, formulaires, etc.) --- */
-    /* … */
-    
-    /* Pour inverser la caméra */
-    video { transform: scaleX(-1); -webkit-transform: scaleX(-1); }
-    
+    /* --- Inversion de la caméra --- */
+    video {
+      transform: scaleX(-1);
+      -webkit-transform: scaleX(-1);
+    }
+
+    /* Fixer la position de la box active sous le header */
+    .fixed-box {
+      position: fixed;
+      top: 50px;
+    }
+
+    /* --- GROUPES D'INPUTS --- */
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 48%;
+    }
+    .input-group label {
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #000;
+    }
+    .input-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      box-sizing: border-box;
+      transition: border-color 0.3s;
+    }
+    .input-group input:focus {
+      border-color: #00a48a;
+      outline: none;
+    }
+    .download-fields {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 15px;
+    }
+
+    #generate-subject-btn.subject-generated {
+      background-color: #00a48a;
+      color: #ffffff;
+      position: relative;
+      padding-right: 40px;
+    }
+    #generate-subject-btn.subject-generated::after {
+      content: "\f2f9";
+      font-family: "Font Awesome 5 Free";
+      font-weight: 900;
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+    }
   </style>
 </head>
 <body>
@@ -246,7 +669,6 @@
 
   <!-- CONTAINER PRINCIPAL -->
   <div class="main-container">
-
     <!-- STEP1 : Choix d'objectif -->
     <div class="box" id="step1">
       <div class="box-header">
@@ -329,7 +751,7 @@
       </button>
     </div>
 
-    <!-- STEP4 : Analyse ta prestation & Téléchargements (anciennement STEP5) -->
+    <!-- STEP4 : Analyse ta prestation & Téléchargements -->
     <div class="box" id="step4">
       <div class="box-header">
         <button class="back-btn" id="back-btn4" aria-label="Retour à l'étape précédente">
@@ -365,10 +787,9 @@
         <div id="success-message" class="success-message" style="display: none;">
           Merci ! Tes informations ont été enregistrées et tes ressources sont prêtes à être téléchargées.
         </div>
-        <!-- Les boutons de téléchargement ont été supprimés -->
+        <!-- Les boutons de téléchargement ont été retirés -->
       </div>
     </div>
-
   </div>
 
   <!-- SCRIPT -->
@@ -404,36 +825,42 @@
     let currentObjective = "";
     let currentSubject = "";
 
-    // Barre de progression : 4 étapes => 25% chacune
+    // Mise à jour de la barre de progression : 4 étapes => 25% chacune
     function updateProgressBar(step) {
       const progress = step * 25;
       topProgressBar.style.width = `${progress}%`;
     }
     updateProgressBar(0);
 
+    // Fonction pour retirer l'animation "pulse" de tous les boutons "Suivant"
     function removePulseFromAll() {
       Object.values(nextBtns).forEach(btn => btn.classList.remove('pulse'));
     }
 
+    // Fonction d'affichage avec animations
     function showBox(current, next) {
       if (!boxes[current] || !boxes[next]) return;
+      
       boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top', 'fixed-box');
       boxes[next].classList.add('active', 'fixed-box');
+      
       if (next > current) {
         boxes[next].classList.add('slide-from-bottom');
       } else {
         boxes[next].classList.add('slide-from-top');
       }
       updateProgressBar(next);
+      
       if (next === 2) {
         document.getElementById('selected-objective-display').textContent = explanations[currentCategory] || currentObjective;
       }
       if (next === 3) {
         document.getElementById('current-subject-display').textContent = currentSubject;
       }
+      
       removePulseFromAll();
       if (next === 4) {
-        // Optionnel : effet pour signaler l'étape finale
+        // Optionnel : ajouter une animation pour la dernière étape
       }
     }
 
@@ -448,7 +875,7 @@
       }, 500);
     });
 
-    // STEP1 -> STEP2
+    // STEP1 -> STEP2 : Validation de l'objectif
     nextBtns[1].addEventListener('click', () => {
       const selected = document.querySelector('.objectives-container .selected-objective');
       if (!selected) {
@@ -460,7 +887,7 @@
       showBox(1, 2);
     });
 
-    // STEP2 -> STEP3
+    // STEP2 -> STEP3 : Vérification du sujet généré
     nextBtns[2].addEventListener('click', () => {
       if (!currentSubject) {
         const subjErrorDiv = document.getElementById('subject-error');
@@ -471,7 +898,7 @@
       showBox(2, 3);
     });
 
-    // STEP3 -> STEP4 (Téléchargements)
+    // STEP3 -> STEP4 : Passage aux téléchargements
     nextBtns[3].addEventListener('click', () => {
       const improErrorDiv = document.getElementById('impro-error');
       improErrorDiv.style.display = 'none';
@@ -493,7 +920,7 @@
     backBtns[4].addEventListener('click', () => { showBox(4, 3); });
 
     /***********************
-     * Objectifs et explications (STEP1)
+     * Gestion des objectifs et explications (STEP1)
      ***********************/
     const explanations = {
       convaincre:   "Tu as 2 minutes pour convaincre ton auditoire sur un sujet délicat",
@@ -570,7 +997,7 @@
     }
 
     /***********************
-     * Sujet d'impro (STEP2)
+     * Gestion du sujet d'impro (STEP2)
      ***********************/
     const generateSubjectBtn = document.getElementById('generate-subject-btn');
     const subjectWrapper = document.getElementById('subject-wrapper');
