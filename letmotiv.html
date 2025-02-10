@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Letmotiv - Coaching et formation</title>
   
-  <!-- Favicon (icône de micro via Icons8) -->
+  <!-- Favicon -->
   <link rel="icon" type="image/png" href="https://img.icons8.com/fluency/48/000000/microphone.png">
   
   <!-- Meta SEO et réseaux sociaux -->
@@ -16,19 +16,21 @@
   <meta property="og:url" content="https://www.letmotiv.com">
   <meta name="twitter:card" content="summary_large_image">
   
-  <!-- Import des polices modernes -->
-  <!-- Montserrat pour le corps -->
+  <!-- Import des polices -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600&display=swap" rel="stylesheet">
-  <!-- Oswald pour les titres en majuscules -->
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&display=swap" rel="stylesheet">
   
+  <!-- Bibliothèques GSAP et ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+  
   <style>
-    /* Défilement fluide natif */
+    /* Défilement fluide */
     html {
       scroll-behavior: smooth;
     }
     
-    /* === Styles Globaux & Variables === */
+    /* --- Styles Globaux --- */
     * {
       margin: 0;
       padding: 0;
@@ -49,17 +51,16 @@
       --primary: #182d84;
       --secondary: #00a48a;
       --white: #fff;
-      /* Pour l'alternance, nous utilisons le bleu (--primary), le blanc et le vert (--green) */
       --green: #00a48a;
     }
     
-    /* Titres en majuscules avec la police Oswald */
+    /* Titres en majuscules avec Oswald */
     h2, h3 {
       font-family: 'Oswald', sans-serif;
       text-transform: uppercase;
     }
     
-    /* === HEADER (inchangé) === */
+    /* --- HEADER --- */
     header {
       background: var(--primary);
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -102,7 +103,7 @@
     nav.desktop-nav ul li a:hover {
       color: var(--secondary);
     }
-    /* Bouton menu mobile */
+    /* Bouton mobile */
     .menu-toggle {
       display: none;
       flex-direction: column;
@@ -119,7 +120,7 @@
       transition: background 0.3s;
     }
     
-    /* === Mobile Nav Overlay (transition douce 0.5s ease-in-out) === */
+    /* --- Mobile Nav Overlay --- */
     .mobile-nav-overlay {
       position: fixed;
       top: -100%;
@@ -158,7 +159,6 @@
       text-decoration: none;
       font-weight: 600;
     }
-    /* Boutons supplémentaires en colonne */
     .mobile-nav-extra {
       margin-top: 40px;
       display: flex;
@@ -179,7 +179,7 @@
       background: var(--primary);
     }
     
-    /* === HERO SECTION (inchangée, seuls les textes du HERO ont été modifiés dans l'HTML) === */
+    /* --- HERO --- */
     .hero {
       height: 100vh;
       background: url('https://raw.githubusercontent.com/Citizen11bf/letmotiv/0c649ee1f00846cb361781b0f851ff25df78672c/formation%20prise%20de%20parole%20en%20public%20professionnelle.webp') center center/cover no-repeat;
@@ -188,7 +188,7 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding-top: 60px; /* pour compenser le header fixe */
+      padding-top: 60px;
       overflow: hidden;
     }
     .hero::before {
@@ -231,8 +231,7 @@
       background: var(--primary);
     }
     
-    /* === Alternance des couleurs des sections (hors HERO) === */
-    /* On alterne entre le bleu (--primary), le blanc et le vert (--green) */
+    /* --- Alternance des couleurs des sections (hors HERO) --- */
     main section:not(.hero):nth-of-type(3n+1) {
       background-color: var(--primary);
       color: var(--white);
@@ -246,7 +245,7 @@
       color: var(--white);
     }
     
-    /* === SECTIONS GÉNÉRALES === */
+    /* --- Sections Générales --- */
     .section {
       padding: 100px 0;
       opacity: 0;
@@ -263,13 +262,7 @@
       font-size: 36px;
     }
     
-    <!--
-         ***** Nouvelle structure pour la section À PROPOS *****
-         On utilise un conteneur "about-container" en flex avec 2 colonnes.
-         La colonne de gauche contient l'image,
-         La colonne de droite contient 2 boîtes empilées verticalement : 
-         .about-text-top et .about-text-bottom.
-    -->
+    /* --- Section À Propos : Nouvelle structure --- */
     .about-container {
       display: flex;
       gap: 20px;
@@ -296,15 +289,14 @@
       border-radius: 5px;
       flex: 1;
     }
-    
-    /* Sur mobile, on empile verticalement l'image et le texte */
+    /* Sur mobile, empilement vertical */
     @media (max-width: 768px) {
       .about-container {
         flex-direction: column;
       }
     }
     
-    /* === NOS OFFRES (anciennement Services) === */
+    /* --- Section Nos Offres --- */
     .services .services-categories {
       display: flex;
       flex-wrap: wrap;
@@ -348,7 +340,7 @@
       background: var(--primary);
     }
     
-    /* === SIMULATEUR SECTION === */
+    /* --- Section Simulateur --- */
     .simulateur-section .simulateur-content {
       max-width: 800px;
       margin: 0 auto;
@@ -361,7 +353,7 @@
     .simulateur-section p {
       font-size: 18px;
       line-height: 1.6;
-      margin: 10px 0; /* Réduction de l'espace */
+      margin: 10px 0;
     }
     .simulateur-section .btn {
       background: var(--white);
@@ -378,7 +370,7 @@
       background: var(--primary);
       color: var(--white);
     }
-    /* Illustration dans la section Simulateur : l'image est cliquable et sans marge inférieure */
+    /* L'image du simulateur est cliquable et sans marge supplémentaire */
     .simulateur-section .illustration {
       max-width: 100%;
       border-radius: 5px;
@@ -386,7 +378,7 @@
       margin: 0 auto;
     }
     
-    /* === TÉMOIGNAGES SECTION (inchangée) === */
+    /* --- Section Témoignages --- */
     .testimonials .testimonials-grid {
       display: flex;
       flex-direction: column;
@@ -427,7 +419,7 @@
       margin-top: 10px;
     }
     
-    /* === LETMOTIV EN CHIFFRES SECTION === */
+    /* --- Section Letmotiv en chiffres --- */
     .chiffres .chiffres-grid {
       display: flex;
       flex-wrap: wrap;
@@ -464,9 +456,8 @@
       margin: 0;
     }
     
-    /* === CLIENTS SECTION === */
+    /* --- Section Nos Clients --- */
     .clients {
-      /* Fond blanc imposé */
       background-color: var(--white) !important;
       color: var(--primary) !important;
     }
@@ -492,7 +483,7 @@
       filter: grayscale(0%);
     }
     
-    /* === CONTACT SECTION === */
+    /* --- Section Contact --- */
     #contact-form {
       max-width: 600px;
       margin: 0 auto;
@@ -528,7 +519,7 @@
       background: var(--primary);
     }
     
-    /* === FOOTER === */
+    /* --- Footer --- */
     footer {
       background: var(--primary);
       color: var(--white);
@@ -549,7 +540,7 @@
       text-decoration: underline;
     }
     
-    /* === RESPONSIVE STYLES === */
+    /* --- Responsive --- */
     @media (max-width: 768px) {
       .header-container {
         padding: 15px 10px;
@@ -557,15 +548,12 @@
       .logo a {
         font-size: 16px;
       }
-      /* Masquer la navigation desktop */
       nav.desktop-nav {
         display: none;
       }
-      /* Afficher le bouton menu mobile */
       .menu-toggle {
         display: flex;
       }
-      /* Sur mobile, l'image de la section hero change */
       .hero {
         background: url('https://raw.githubusercontent.com/Citizen11bf/letmotiv/0c649ee1f00846cb361781b0f851ff25df78672c/formation%20prise%20de%20parole%20en%20public%20Paris.webp') center center/cover no-repeat;
       }
@@ -579,7 +567,7 @@
       }
     }
     
-    /* --- Ajout pour mobile en paysage --- */
+    /* --- Mobile en paysage --- */
     @media (max-width: 768px) and (orientation: landscape) {
       .header-container {
         padding: 10px;
@@ -591,6 +579,26 @@
         width: 20px;
         height: 2px;
       }
+    }
+    
+    /* --- Formes géométriques animées (GSAP) --- */
+    .geometric-shape {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background: #ff4081;
+      opacity: 0;
+      transform: scale(0.5);
+      z-index: 50;
+    }
+    .shape1 {
+      top: 30%;
+      left: 10%;
+      border-radius: 50%;
+    }
+    .shape2 {
+      top: 70%;
+      right: 15%;
     }
   </style>
 </head>
@@ -604,7 +612,6 @@
           <span class="logo-line">Letmotiv - Coaching et formation</span>
         </a>
       </div>
-      <!-- Navigation desktop -->
       <nav class="desktop-nav">
         <ul>
           <li><a href="#accueil">Accueil</a></li>
@@ -616,7 +623,6 @@
           <li><a href="#contact">Contact</a></li>
         </ul>
       </nav>
-      <!-- Bouton menu mobile -->
       <button class="menu-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
         <span></span>
         <span></span>
@@ -650,27 +656,22 @@
       <div class="hero-content">
         <h1>Coaching et formation en prise de parole en public</h1>
         <p>Prenez du plaisir à vous exprimer en public !</p>
-        <!-- Bouton modifié pour pointer vers la section "Nos offres" -->
         <a href="#services" class="btn">Nos offres</a>
       </div>
     </section>
     
-    <!-- À PROPOS : Nouvelle structure -->
+    <!-- À PROPOS -->
     <section id="about" class="section about">
       <div class="container">
         <h2>À propos</h2>
         <div class="about-container">
-          <!-- Colonne de gauche : l'image -->
           <div class="about-image">
             <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/0c649ee1f00846cb361781b0f851ff25df78672c/formation%20prise%20de%20parole%20Pierre%20Li%20Cavoli.webp" alt="Pierre Li Cavoli">
           </div>
-          <!-- Colonne de droite : deux boîtes verticales -->
           <div class="about-text-container">
-            <!-- Boîte supérieure : présentation de Pierre -->
             <div class="about-text-top">
               <p>Docteur en astrophysique (PhD), formateur professionnel et coach certifié, Pierre s’est formé au théâtre au Cours Florent et à l’éloquence avec Toastmasters International pour créer le centre de formation Letmotiv.</p>
             </div>
-            <!-- Boîte inférieure : les propos de Pierre -->
             <div class="about-text-bottom">
               <p>"Notre approche personnalisée et nos méthodes innovantes permettent à nos clients de libérer leur potentiel en matière de prise de parole en public. Nous croyons que les leaders capables de prendre la parole en public pour partager leurs idées peuvent avoir un impact positif sur la société comme sur leur entourage. Parce que prendre la parole en public est une compétence qui peut littéralement transformer des vies, nous nous engageons à fournir des formations de la plus haute qualité."</p>
             </div>
@@ -679,7 +680,7 @@
       </div>
     </section>
     
-    <!-- NOS OFFRES (anciennement Services) -->
+    <!-- NOS OFFRES -->
     <section id="services" class="section services">
       <div class="container">
         <h2>Nos offres</h2>
@@ -703,13 +704,13 @@
       </div>
     </section>
     
-    <!-- SIMULATEUR SECTION -->
+    <!-- SIMULATEUR -->
     <section id="simulateur" class="section simulateur-section">
       <div class="simulateur-content">
         <h2>Simulateur d'improvisation en public</h2>
-        <!-- L'image est cliquable et sans espace entre elle et le texte -->
         <a href="http://www.letmotiv-simulateur.fr" target="_blank">
-          <img class="illustration" src="https://github.com/Citizen11bf/letmotiv/blob/f36e294da9c9499ee0d4d08f2fbdaba73d818aa7/Simulateur.webp" alt="Illustration du simulateur">
+          <!-- Image de remplacement via Placeholder (à modifier avec l'URL correcte si nécessaire) -->
+          <img class="illustration" src="https://via.placeholder.com/800x400.png?text=Simulateur" alt="Illustration du simulateur">
         </a>
         <p>
           Vous voulez vous entraîner gratuitement à la prise de parole en public ?<br>
@@ -719,7 +720,7 @@
       </div>
     </section>
     
-    <!-- TÉMOIGNAGES (inchangée) -->
+    <!-- TÉMOIGNAGES -->
     <section id="testimonials" class="section testimonials">
       <div class="container">
         <h2>Témoignages</h2>
@@ -870,9 +871,13 @@
     </div>
   </footer>
   
+  <!-- Formes géométriques animées -->
+  <div class="geometric-shape shape1"></div>
+  <div class="geometric-shape shape2"></div>
+  
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      // Fonction commune pour gérer le clic sur un lien de navigation
+      // Gestion du menu mobile
       function handleNavLinkClick(e) {
         e.preventDefault();
         const targetId = this.getAttribute('href').substring(1);
@@ -883,13 +888,11 @@
             behavior: 'smooth'
           });
         }
-        // Fermer le menu mobile si ouvert
         if (mobileNav.classList.contains('active')) {
           toggleMobileNav(false);
         }
       }
       
-      // Gestion du menu mobile
       const menuToggle = document.querySelector('.menu-toggle');
       const mobileNav = document.getElementById('mobileNav');
       const closeNav = document.getElementById('closeNav');
@@ -914,20 +917,17 @@
         toggleMobileNav(false);
       });
       
-      // Fermer le menu mobile avec la touche Escape
       document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape' && mobileNav.classList.contains('active')) {
           toggleMobileNav(false);
         }
       });
       
-      // Ajout de l'écouteur sur tous les liens de navigation (desktop et mobile)
       const navLinks = document.querySelectorAll('nav ul li a');
       navLinks.forEach(link => {
         link.addEventListener('click', handleNavLinkClick);
       });
       
-      // Animation des éléments au scroll via Intersection Observer
       const animatedElements = document.querySelectorAll('.section, .hero-content');
       const observerOptions = { threshold: 0.1 };
       const observer = new IntersectionObserver((entries, observer) => {
@@ -940,12 +940,10 @@
       }, observerOptions);
       animatedElements.forEach(el => observer.observe(el));
       
-      // Écoute de l'événement "orientationchange" pour fermer le menu mobile en cas de rotation
       window.addEventListener('orientationchange', function() {
         toggleMobileNav(false);
       });
       
-      // Chargement dynamique des logos depuis GitHub
       const logosContainer = document.getElementById('clients-logos');
       const logosLoading = document.getElementById('logos-loading');
       fetch('https://api.github.com/repos/Citizen11bf/letmotiv/contents?ref=images')
@@ -971,6 +969,35 @@
           console.error('Erreur lors du chargement des logos :', error);
           logosLoading.textContent = "Erreur lors du chargement des logos.";
         });
+    });
+    
+    // Animation des formes géométriques avec GSAP & ScrollTrigger
+    gsap.registerPlugin(ScrollTrigger);
+    
+    gsap.to(".shape1", {
+      scrollTrigger: {
+        trigger: ".shape1",
+        start: "top 80%",
+        end: "bottom 60%",
+        toggleActions: "play none none reverse"
+      },
+      opacity: 1,
+      scale: 1,
+      duration: 1,
+      ease: "power2.out"
+    });
+    
+    gsap.to(".shape2", {
+      scrollTrigger: {
+        trigger: ".shape2",
+        start: "top 80%",
+        end: "bottom 60%",
+        toggleActions: "play none none reverse"
+      },
+      opacity: 1,
+      scale: 1,
+      duration: 1,
+      ease: "power2.out"
     });
   </script>
 </body>
