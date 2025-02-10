@@ -19,7 +19,7 @@
   <!-- Import des polices modernes -->
   <!-- Montserrat pour le corps -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600&display=swap" rel="stylesheet">
-  <!-- Oswald pour les titres, en majuscules -->
+  <!-- Oswald pour les titres en majuscules -->
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&display=swap" rel="stylesheet">
   
   <style>
@@ -49,8 +49,8 @@
       --primary: #182d84;
       --secondary: #00a48a;
       --white: #fff;
-      /* Pour l'alternance, on utilise le bleu (--primary), le blanc et un vert choisi ici */
-      --green: #32CD32;
+      /* Pour l'alternance, nous utilisons le bleu (--primary), le blanc et le vert (--green) */
+      --green: #00a48a;
     }
     
     /* Titres en majuscules avec la police Oswald */
@@ -119,7 +119,7 @@
       transition: background 0.3s;
     }
     
-    /* === Mobile Nav Overlay (animation douce de haut en bas) === */
+    /* === Mobile Nav Overlay (transition douce 0.5s ease-in-out) === */
     .mobile-nav-overlay {
       position: fixed;
       top: -100%;
@@ -209,10 +209,17 @@
       opacity: 1;
       transform: translateY(0);
     }
+    /* Remplacement du texte du HERO */
     .hero-content h1 {
       font-size: 48px;
       margin-bottom: 20px;
+      /* Texte modifié */
+      content: "Coaching et formation en prise de parole en public";
     }
+    .hero-content h1::after {
+      content: "Coaching et formation en prise de parole en public";
+    }
+    /* On remplace le contenu directement dans l'HTML ci-dessous */
     .hero-content p {
       font-size: 24px;
       margin-bottom: 30px;
@@ -231,8 +238,8 @@
       background: var(--primary);
     }
     
-    /* === ALTERNANCE DES COULEURS DES SECTIONS (hors HERO) === */
-    /* On alterne entre le bleu (#182d84), le blanc et le vert (#32CD32) */
+    /* === Alternance des couleurs des sections (hors HERO) === */
+    /* On alterne entre le bleu (--primary), le blanc et le vert (--green) */
     main section:not(.hero):nth-of-type(3n+1) {
       background-color: var(--primary);
       color: var(--white);
@@ -286,10 +293,11 @@
       flex: 1;
       margin-left: 20px;
     }
+    /* La citation apparaît directement sous le texte "formation Letmotiv." */
     .about-quote {
       font-family: Georgia, serif;
       font-style: italic;
-      font-size: 16px; /* police réduite */
+      font-size: 16px;
       line-height: 1.4;
       background: #f7f7f7;
       padding: 15px;
@@ -297,7 +305,7 @@
       margin-top: 10px;
     }
     
-    /* === SERVICES SECTION === */
+    /* === NOS OFFRES (anciennement SERVICES) === */
     .services .services-categories {
       display: flex;
       flex-wrap: wrap;
@@ -354,7 +362,7 @@
     .simulateur-section p {
       font-size: 18px;
       line-height: 1.6;
-      margin-bottom: 30px;
+      margin-bottom: 0; /* Supprime la marge entre l'image et le texte */
     }
     .simulateur-section .btn {
       background: var(--white);
@@ -364,17 +372,19 @@
       text-decoration: none;
       font-weight: 600;
       transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
+      margin-top: 20px;
     }
     .simulateur-section .btn:hover {
       transform: scale(1.05);
       background: var(--primary);
       color: var(--white);
     }
-    /* Illustration ajoutée dans la section Simulateur */
+    /* Illustration dans la section Simulateur : l'image est cliquable */
     .simulateur-section .illustration {
       max-width: 100%;
-      margin-bottom: 20px;
       border-radius: 5px;
+      display: block;
+      margin: 0 auto 0; /* Supprime la marge inférieure */
     }
     
     /* === TÉMOIGNAGES SECTION (version initiale avec les 5 témoignages) === */
@@ -456,6 +466,11 @@
     }
     
     /* === CLIENTS SECTION === */
+    .clients {
+      /* Fond blanc imposé */
+      background-color: var(--white) !important;
+      color: var(--primary) !important;
+    }
     .clients .clients-grid {
       display: flex;
       flex-wrap: wrap;
@@ -581,7 +596,7 @@
         <ul>
           <li><a href="#accueil">Accueil</a></li>
           <li><a href="#about">À propos</a></li>
-          <li><a href="#services">Services</a></li>
+          <li><a href="#services">Nos offres</a></li>
           <li><a href="#simulateur">Simulateur</a></li>
           <li><a href="#testimonials">Témoignages</a></li>
           <li><a href="#clients">Nos clients</a></li>
@@ -603,7 +618,7 @@
     <ul>
       <li><a href="#accueil">Accueil</a></li>
       <li><a href="#about">À propos</a></li>
-      <li><a href="#services">Services</a></li>
+      <li><a href="#services">Nos offres</a></li>
       <li><a href="#simulateur">Simulateur</a></li>
       <li><a href="#testimonials">Témoignages</a></li>
       <li><a href="#clients">Nos clients</a></li>
@@ -620,8 +635,8 @@
     <!-- HERO -->
     <section id="accueil" class="hero">
       <div class="hero-content">
-        <h1>Bienvenue sur Letmotiv</h1>
-        <p>Votre source d'inspiration et de transformation</p>
+        <h1>Coaching et formation en prise de parole en public</h1>
+        <p>Coaching et formation en prise de parole en public</p>
         <a href="#about" class="btn">En savoir plus</a>
       </div>
     </section>
@@ -641,6 +656,7 @@
               </p>
             </div>
           </div>
+          <!-- La citation apparaît immédiatement sous le texte précédent -->
           <div class="about-quote">
             "Notre approche personnalisée et nos méthodes innovantes permettent à nos clients de libérer leur potentiel en matière de prise de parole en public. Nous croyons que les leaders capables de prendre la parole en public pour partager leurs idées peuvent avoir un impact positif sur la société comme sur leur entourage. Parce que prendre la parole en public est une compétence qui peut littéralement transformer des vies, nous nous engageons à fournir des formations de la plus haute qualité."
           </div>
@@ -648,10 +664,10 @@
       </div>
     </section>
     
-    <!-- SERVICES -->
+    <!-- NOS OFFRES (anciennement Services) -->
     <section id="services" class="section services">
       <div class="container">
-        <h2>Services</h2>
+        <h2>Nos offres</h2>
         <div class="services-categories">
           <div class="service-category">
             <h3>Entreprise</h3>
@@ -676,8 +692,10 @@
     <section id="simulateur" class="section simulateur-section">
       <div class="simulateur-content">
         <h2>Simulateur d'improvisation en public</h2>
-        <!-- Illustration ajoutée -->
-        <img class="illustration" src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/7203305c1c95e211ff6bd903cbd58113e1f58a65/Simulateur_Letmotiv.webp" alt="Illustration du simulateur">
+        <!-- L'image est cliquable et sans marge inférieure -->
+        <a href="http://www.letmotiv-simulateur.fr" target="_blank">
+          <img class="illustration" src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/7203305c1c95e211ff6bd903cbd58113e1f58a65/Simulateur_Letmotiv.webp" alt="Illustration du simulateur">
+        </a>
         <p>
           Vous voulez vous entraîner gratuitement à la prise de parole en public ?<br>
           Découvrez le simulateur Letmotiv : de nombreux exercices selon votre objectif pour réussir un entretien, améliorer votre diction, développer votre charisme et votre leadership, accroître votre force de persuasion et inspirer votre auditoire...
@@ -793,7 +811,7 @@
       </div>
     </section>
     
-    <!-- CLIENTS -->
+    <!-- NOS CLIENTS -->
     <section id="clients" class="section clients">
       <div class="container">
         <h2>Nos clients</h2>
