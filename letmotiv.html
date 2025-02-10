@@ -17,9 +17,9 @@
   <meta name="twitter:card" content="summary_large_image">
   
   <!-- Import des polices modernes -->
-  <!-- Montserrat pour le corps de texte -->
+  <!-- Montserrat pour le corps -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600&display=swap" rel="stylesheet">
-  <!-- Oswald pour les titres (jeune et dynamique) -->
+  <!-- Oswald pour les titres, en majuscules -->
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&display=swap" rel="stylesheet">
   
   <style>
@@ -49,7 +49,8 @@
       --primary: #182d84;
       --secondary: #00a48a;
       --white: #fff;
-      --black: #000;
+      /* Pour l'alternance, on utilise le bleu (--primary), le blanc et un vert choisi ici */
+      --green: #32CD32;
     }
     
     /* Titres en majuscules avec la police Oswald */
@@ -118,7 +119,7 @@
       transition: background 0.3s;
     }
     
-    /* === Mobile Nav Overlay (affichage du haut vers le bas) === */
+    /* === Mobile Nav Overlay (animation douce de haut en bas) === */
     .mobile-nav-overlay {
       position: fixed;
       top: -100%;
@@ -127,7 +128,7 @@
       height: 100%;
       background: var(--primary);
       padding: 40px 20px;
-      transition: top 0.3s ease;
+      transition: top 0.5s ease-in-out;
       z-index: 2000;
       text-align: center;
     }
@@ -157,11 +158,11 @@
       text-decoration: none;
       font-weight: 600;
     }
-    /* Boutons supplémentaires (affichés côte à côte) */
+    /* Boutons supplémentaires en colonne */
     .mobile-nav-extra {
       margin-top: 40px;
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       gap: 15px;
       justify-content: center;
     }
@@ -230,15 +231,22 @@
       background: var(--primary);
     }
     
-    /* === SECTIONS GÉNÉRALES – COULEURS PUNCHY === */
-    .about    { background-color: #ff5252; }
-    .services { background-color: #69f0ae; }
-    .simulateur-section { background-color: #40c4ff; color: var(--white); }
-    .testimonials { background-color: #ea80fc; color: var(--white); }
-    .chiffres { background-color: #ff4081; color: var(--white); }
-    .clients  { background-color: #18ffff; }
-    .contact  { background-color: #ffd740; }
+    /* === ALTERNANCE DES COULEURS DES SECTIONS (hors HERO) === */
+    /* On alterne entre le bleu (#182d84), le blanc et le vert (#32CD32) */
+    main section:not(.hero):nth-of-type(3n+1) {
+      background-color: var(--primary);
+      color: var(--white);
+    }
+    main section:not(.hero):nth-of-type(3n+2) {
+      background-color: var(--white);
+      color: var(--primary);
+    }
+    main section:not(.hero):nth-of-type(3n) {
+      background-color: var(--green);
+      color: var(--white);
+    }
     
+    /* === SECTIONS GÉNÉRALES === */
     .section {
       padding: 100px 0;
       opacity: 0;
@@ -253,7 +261,6 @@
       text-align: center;
       margin-bottom: 40px;
       font-size: 36px;
-      /* Les titres seront en majuscules grâce à text-transform défini sur h2 via Oswald */
     }
     
     /* === À PROPOS SECTION (version initiale) === */
@@ -282,12 +289,12 @@
     .about-quote {
       font-family: Georgia, serif;
       font-style: italic;
-      font-size: 18px;
-      line-height: 1.6;
+      font-size: 16px; /* police réduite */
+      line-height: 1.4;
       background: #f7f7f7;
-      padding: 20px;
+      padding: 15px;
       border-left: 4px solid var(--secondary);
-      margin-top: 20px;
+      margin-top: 10px;
     }
     
     /* === SERVICES SECTION === */
@@ -363,8 +370,14 @@
       background: var(--primary);
       color: var(--white);
     }
+    /* Illustration ajoutée dans la section Simulateur */
+    .simulateur-section .illustration {
+      max-width: 100%;
+      margin-bottom: 20px;
+      border-radius: 5px;
+    }
     
-    /* === TÉMOIGNAGES SECTION (version initiale) === */
+    /* === TÉMOIGNAGES SECTION (version initiale avec les 5 témoignages) === */
     .testimonials .testimonials-grid {
       display: flex;
       flex-direction: column;
@@ -629,9 +642,7 @@
             </div>
           </div>
           <div class="about-quote">
-            "Notre approche personnalisée et nos méthodes innovantes permettent à nos clients de libérer leur potentiel en matière de prise de parole en public.<br><br>
-            Nous croyons que les leaders capables de prendre la parole en public pour partager leurs idées peuvent avoir un impact positif sur la société comme sur leur entourage.<br><br>
-            Parce que prendre la parole en public est une compétence qui peut littéralement transformer des vies, nous nous engageons à fournir des formations de la plus haute qualité."
+            "Notre approche personnalisée et nos méthodes innovantes permettent à nos clients de libérer leur potentiel en matière de prise de parole en public. Nous croyons que les leaders capables de prendre la parole en public pour partager leurs idées peuvent avoir un impact positif sur la société comme sur leur entourage. Parce que prendre la parole en public est une compétence qui peut littéralement transformer des vies, nous nous engageons à fournir des formations de la plus haute qualité."
           </div>
         </div>
       </div>
@@ -664,7 +675,9 @@
     <!-- SIMULATEUR SECTION -->
     <section id="simulateur" class="section simulateur-section">
       <div class="simulateur-content">
-        <h2>Simulateur</h2>
+        <h2>Simulateur d'improvisation en public</h2>
+        <!-- Illustration ajoutée -->
+        <img class="illustration" src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/7203305c1c95e211ff6bd903cbd58113e1f58a65/Simulateur_Letmotiv.webp" alt="Illustration du simulateur">
         <p>
           Vous voulez vous entraîner gratuitement à la prise de parole en public ?<br>
           Découvrez le simulateur Letmotiv : de nombreux exercices selon votre objectif pour réussir un entretien, améliorer votre diction, développer votre charisme et votre leadership, accroître votre force de persuasion et inspirer votre auditoire...
@@ -673,13 +686,13 @@
       </div>
     </section>
     
-    <!-- TÉMOIGNAGES (intégration du code fourni) -->
+    <!-- TÉMOIGNAGES (code fourni avec les 5 témoignages, images corrigées) -->
     <section id="testimonials" class="section testimonials">
       <div class="container">
         <h2>Témoignages</h2>
         <div class="testimonials-grid">
           <div class="testimonial-item">
-            <img src="https://github.com/Citizen11bf/letmotiv/blob/7203305c1c95e211ff6bd903cbd58113e1f58a65/Vincent.png" alt="Vincent Recrosio">
+            <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/7203305c1c95e211ff6bd903cbd58113e1f58a65/Vincent.png" alt="Vincent Recrosio">
             <h4>
               Vincent Recrosio<br>
               <span class="testimonial-fonction">Senior Tech Recruiter chez Meetic</span>
@@ -692,7 +705,7 @@
             </p>
           </div>
           <div class="testimonial-item">
-            <img src="https://github.com/Citizen11bf/letmotiv/blob/7203305c1c95e211ff6bd903cbd58113e1f58a65/Julia.png" alt="Julia Galvez">
+            <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/7203305c1c95e211ff6bd903cbd58113e1f58a65/Julia.png" alt="Julia Galvez">
             <h4>
               Julia Galvez<br>
               <span class="testimonial-fonction">Team Lead Contract Manager chez Hubspot</span>
@@ -705,7 +718,7 @@
             </p>
           </div>
           <div class="testimonial-item">
-            <img src="https://github.com/Citizen11bf/letmotiv/blob/7203305c1c95e211ff6bd903cbd58113e1f58a65/Cedric.png" alt="Cédric Rémy">
+            <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/7203305c1c95e211ff6bd903cbd58113e1f58a65/Cedric.png" alt="Cédric Rémy">
             <h4>
               Cédric Rémy<br>
               <span class="testimonial-fonction">Account Manager chez Orange</span>
@@ -717,7 +730,7 @@
             </p>
           </div>
           <div class="testimonial-item">
-            <img src="https://github.com/Citizen11bf/letmotiv/blob/7203305c1c95e211ff6bd903cbd58113e1f58a65/Crazy%20Nouss.png" alt="Crazy Nouss">
+            <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/7203305c1c95e211ff6bd903cbd58113e1f58a65/Crazy%20Nouss.png" alt="Crazy Nouss">
             <h4>
               Crazy Nouss<br>
               <span class="testimonial-fonction">Facilitatrice graphique & illustratrice</span>
@@ -730,7 +743,7 @@
             </p>
           </div>
           <div class="testimonial-item">
-            <img src="https://github.com/Citizen11bf/letmotiv/blob/7203305c1c95e211ff6bd903cbd58113e1f58a65/Gabrielle.png" alt="Gabrielle Rosner-Bloch">
+            <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/7203305c1c95e211ff6bd903cbd58113e1f58a65/Gabrielle.png" alt="Gabrielle Rosner-Bloch">
             <h4>
               Gabrielle Rosner-Bloch<br>
               <span class="testimonial-fonction">Conseillère Régionale du Grand Est</span>
