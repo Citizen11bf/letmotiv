@@ -31,7 +31,7 @@
       --black: #000;
     }
     
-    /* === Header (fond bleu) === */
+    /* === HEADER (fond bleu) === */
     header {
       background: var(--primary);
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -75,7 +75,7 @@
     nav ul li a:hover {
       color: var(--secondary);
     }
-    /* Bouton menu mobile (cache sur desktop) */
+    /* Bouton menu mobile (affiché sur mobile) */
     .menu-toggle {
       display: none;
       flex-direction: column;
@@ -101,6 +101,7 @@
       padding: 40px 20px;
       transition: right 0.3s ease;
       z-index: 2000;
+      text-align: right;
     }
     .mobile-nav-overlay.active {
       right: 0;
@@ -117,12 +118,12 @@
       font-size: 24px;
       text-decoration: none;
       font-weight: 600;
+      margin-right: 10px;
     }
     
-    /* === Hero Section === */
+    /* === HERO SECTION === */
     .hero {
       height: 100vh;
-      /* Par défaut, on utilise l'image de la branche par défaut (raw URL de GitHub) */
       background: url('https://raw.githubusercontent.com/Citizen11bf/letmotiv/0c649ee1f00846cb361781b0f851ff25df78672c/formation%20prise%20de%20parole%20en%20public%20professionnelle.webp') center center/cover no-repeat;
       position: relative;
       display: flex;
@@ -172,7 +173,7 @@
       background: var(--primary);
     }
     
-    /* === Sections Générales === */
+    /* === SECTIONS GÉNÉRALES === */
     .section {
       padding: 100px 0;
       opacity: 0;
@@ -189,15 +190,40 @@
       font-size: 36px;
       color: var(--primary);
     }
-    /* === About Section === */
-    .about p {
-      text-align: center;
-      max-width: 800px;
-      margin: 0 auto;
+    
+    /* === À PROPOS (deux colonnes) === */
+    .about-content {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      margin-top: 40px;
+    }
+    .about-image {
+      flex: 1;
+    }
+    .about-image img {
+      width: 100%;
+      border-radius: 5px;
+    }
+    .about-text {
+      flex: 1;
+    }
+    .about-intro {
       font-size: 18px;
+      margin-bottom: 20px;
+      text-align: right;
+    }
+    .about-quote {
+      font-family: Georgia, serif;
+      font-style: italic;
+      font-size: 18px;
+      line-height: 1.6;
+      background: #f7f7f7;
+      padding: 20px;
+      border-left: 4px solid var(--secondary);
     }
     
-    /* === Services Section === */
+    /* === SERVICES SECTION === */
     .services .services-categories {
       display: flex;
       flex-wrap: wrap;
@@ -241,7 +267,7 @@
       background: var(--primary);
     }
     
-    /* === Témoignages Section (2 témoignages) === */
+    /* === TÉMOIGNAGES SECTION === */
     .testimonials .testimonials-grid {
       display: flex;
       flex-direction: column;
@@ -270,19 +296,19 @@
       margin-bottom: 5px;
       color: var(--primary);
     }
-    .testimonial-item .testimonial-fonction {
+    .testimonial-fonction {
       font-size: 16px;
       font-weight: 400;
       color: var(--secondary);
     }
     .testimonial-item p {
       font-style: italic;
-      font-size: 16px;
-      line-height: 1.5;
+      font-size: 14px;  /* Réduction de la police */
+      line-height: 1.4;
       margin-top: 10px;
     }
     
-    /* === Clients Section (Logos) === */
+    /* === CLIENTS SECTION === */
     .clients .clients-grid {
       display: flex;
       flex-wrap: wrap;
@@ -305,7 +331,7 @@
       filter: grayscale(0%);
     }
     
-    /* === Contact Section === */
+    /* === CONTACT SECTION === */
     #contact-form {
       max-width: 600px;
       margin: 0 auto;
@@ -341,7 +367,7 @@
       background: var(--primary);
     }
     
-    /* === Footer === */
+    /* === FOOTER === */
     footer {
       background: var(--primary);
       color: var(--white);
@@ -362,15 +388,14 @@
       text-decoration: underline;
     }
     
-    /* === Responsive Styles === */
+    /* === RESPONSIVE STYLES === */
     @media (max-width: 768px) {
-      /* Sur mobile, le header affiche un titre plus petit et plus à gauche */
+      /* Réduire la marge du header */
+      .header-container {
+        padding: 15px 10px;
+      }
       .logo a {
         font-size: 16px;
-      }
-      /* Utilisation de l'image mobile pour le hero */
-      .hero {
-        background: url('images/formation%en%prise%de%parole%en%public%Paris.webp') center center/cover no-repeat;
       }
       /* Masquer la navigation classique */
       nav {
@@ -379,6 +404,14 @@
       /* Afficher le bouton menu mobile */
       .menu-toggle {
         display: flex;
+      }
+      /* Utiliser l'image mobile pour le hero */
+      .hero {
+        background: url('images/formation%en%prise%de%parole%en%public%Paris.webp') center center/cover no-repeat;
+      }
+      /* Ajuster la mise en page de la section À propos en mode empilé */
+      .about-content {
+        flex-direction: column;
       }
     }
     @media (max-width: 480px) {
@@ -401,7 +434,7 @@
           <span class="logo-line">Letmotiv - Coaching et formation</span>
         </a>
       </div>
-      <!-- Navigation classique pour desktop -->
+      <!-- Navigation desktop -->
       <nav>
         <ul>
           <li><a href="#accueil">Accueil</a></li>
@@ -442,11 +475,27 @@
     </div>
   </section>
   
-  <!-- ABOUT -->
+  <!-- À PROPOS -->
   <section id="about" class="section about">
     <div class="container">
       <h2>À propos</h2>
-      <p>Letmotiv vous aide à prendre la parole en public avec confiance grâce à un coaching et des formations sur mesure. Nous vous accompagnons pour révéler votre potentiel.</p>
+      <div class="about-content">
+        <!-- Image à gauche -->
+        <div class="about-image">
+          <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/0c649ee1f00846cb361781b0f851ff25df78672c/formation%20prise%20de%20parole%20Pierre%20Li%20Cavoli.webp" alt="Pierre Li Cavoli">
+        </div>
+        <!-- Texte à droite -->
+        <div class="about-text">
+          <p class="about-intro">
+            Docteur en astrophysique (PhD), formateur professionnel et coach certifié, Pierre s’est formé au théâtre au Cours Florent et à l’éloquence avec Toastmasters International pour créer le centre de formation Letmotiv.
+          </p>
+          <p class="about-quote">
+            "Notre approche personnalisée et nos méthodes innovantes permettent à nos clients de libérer leur potentiel en matière de prise de parole en public.
+            Nous croyons que les leaders capables de prendre la parole en public pour partager leurs idées peuvent avoir un impact positif sur la société comme sur leur entourage.
+            Parce que prendre la parole en public est une compétence qui peut littéralement transformer des vies, nous nous engageons à fournir des formations de la plus haute qualité."
+          </p>
+        </div>
+      </div>
     </div>
   </section>
   
@@ -483,7 +532,7 @@
     </div>
   </section>
   
-  <!-- TÉMOIGNAGES (2 témoignages) -->
+  <!-- TÉMOIGNAGES -->
   <section id="testimonials" class="section testimonials">
     <div class="container">
       <h2>Témoignages</h2>
@@ -497,7 +546,7 @@
           </h4>
           <p>
             "Je vous invite à contacter Pierre pour tout besoin de formation en communication !<br><br>
-            J'ai suivi sa formation « Prise de parole en public ». Pierre est passionné et partage sa bonne énergie, dans le but de transmettre – dans la bienveillance – ses méthodes rapidement applicables. Ses ateliers, issus du théâtre, sont méticuleusement adaptés à chaque public.<br><br>
+            J'ai suivi sa formation « Prise de parole en public ». Pierre est passionné et partage sa bonne énergie, dans la bienveillance, ses méthodes rapidement applicables. Ses ateliers, issus du théâtre, sont méticuleusement adaptés à chaque public.<br><br>
             Une attitude très professionnelle."
           </p>
         </div>
@@ -511,6 +560,39 @@
           <p>
             "Pierre est un vrai “Master” de la prise de parole en public. J’ai eu le plaisir de participer à ses cours le semestre dernier. Sa bienveillance, son courage et son audace ont été très contagieux ! Merci encore pour tes enseignements et tes méthodes qui me sont aujourd’hui très utiles au quotidien. Jamais le mot “Galaxie” n’aura eu autant de sens. Pouvoir captiver son public, c’est une compétence qui se travaille et Pierre nous partage son savoir de façon ludique et maîtrisée.<br><br>
             Encore un GRAND MERCI."
+          </p>
+        </div>
+        <!-- Témoignage 3 (à compléter) -->
+        <div class="testimonial-item">
+          <img src="https://source.unsplash.com/80x80/?face,placeholder1" alt="Témoignage à compléter">
+          <h4>
+            Prénom Nom<br>
+            <span class="testimonial-fonction">Fonction</span>
+          </h4>
+          <p>
+            "Témoignage à compléter."
+          </p>
+        </div>
+        <!-- Témoignage 4 (à compléter) -->
+        <div class="testimonial-item">
+          <img src="https://source.unsplash.com/80x80/?face,placeholder2" alt="Témoignage à compléter">
+          <h4>
+            Prénom Nom<br>
+            <span class="testimonial-fonction">Fonction</span>
+          </h4>
+          <p>
+            "Témoignage à compléter."
+          </p>
+        </div>
+        <!-- Témoignage 5 (à compléter) -->
+        <div class="testimonial-item">
+          <img src="https://source.unsplash.com/80x80/?face,placeholder3" alt="Témoignage à compléter">
+          <h4>
+            Prénom Nom<br>
+            <span class="testimonial-fonction">Fonction</span>
+          </h4>
+          <p>
+            "Témoignage à compléter."
           </p>
         </div>
       </div>
@@ -572,7 +654,7 @@
         mobileNav.classList.toggle('active');
       });
       
-      // Ajout du comportement sur les liens du menu mobile pour fermer l'overlay après clic
+      // Comportement sur les liens du menu mobile : fermeture de l'overlay et défilement
       const mobileNavLinks = mobileNav.querySelectorAll('a');
       mobileNavLinks.forEach(link => {
         link.addEventListener('click', function (e) {
@@ -621,7 +703,6 @@
       // Chargement dynamique des logos depuis la branche "images"
       const logosContainer = document.getElementById('clients-logos');
       const logosLoading = document.getElementById('logos-loading');
-      // On demande le contenu de la branche "images" du repo
       fetch('https://api.github.com/repos/Citizen11bf/letmotiv/contents?ref=images')
         .then(response => response.json())
         .then(data => {
