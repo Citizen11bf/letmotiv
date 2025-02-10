@@ -209,17 +209,11 @@
       opacity: 1;
       transform: translateY(0);
     }
-    /* Remplacement du texte du HERO */
+    /* Remplacement du texte du HERO dans l'HTML ci-dessous */
     .hero-content h1 {
       font-size: 48px;
       margin-bottom: 20px;
-      /* Texte modifié */
-      content: "Coaching et formation en prise de parole en public";
     }
-    .hero-content h1::after {
-      content: "Coaching et formation en prise de parole en public";
-    }
-    /* On remplace le contenu directement dans l'HTML ci-dessous */
     .hero-content p {
       font-size: 24px;
       margin-bottom: 30px;
@@ -293,7 +287,7 @@
       flex: 1;
       margin-left: 20px;
     }
-    /* La citation apparaît directement sous le texte "formation Letmotiv." */
+    /* La citation apparaît directement sous le texte se terminant par "formation Letmotiv." */
     .about-quote {
       font-family: Georgia, serif;
       font-style: italic;
@@ -305,7 +299,7 @@
       margin-top: 10px;
     }
     
-    /* === NOS OFFRES (anciennement SERVICES) === */
+    /* === NOS OFFRES (anciennement Services) === */
     .services .services-categories {
       display: flex;
       flex-wrap: wrap;
@@ -379,12 +373,12 @@
       background: var(--primary);
       color: var(--white);
     }
-    /* Illustration dans la section Simulateur : l'image est cliquable */
+    /* Illustration dans la section Simulateur : l'image est cliquable et sans marge inférieure */
     .simulateur-section .illustration {
       max-width: 100%;
       border-radius: 5px;
       display: block;
-      margin: 0 auto 0; /* Supprime la marge inférieure */
+      margin: 0 auto; /* Pas de marge inférieure */
     }
     
     /* === TÉMOIGNAGES SECTION (version initiale avec les 5 témoignages) === */
@@ -579,6 +573,20 @@
         font-size: 18px;
       }
     }
+    
+    /* --- Ajout pour mobile en paysage --- */
+    @media (max-width: 768px) and (orientation: landscape) {
+      .header-container {
+        padding: 10px;
+      }
+      .logo a {
+        font-size: 16px;
+      }
+      .menu-toggle span {
+        width: 20px;
+        height: 2px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -656,7 +664,7 @@
               </p>
             </div>
           </div>
-          <!-- La citation apparaît immédiatement sous le texte précédent -->
+          <!-- La citation apparaît directement sous le texte "formation Letmotiv." -->
           <div class="about-quote">
             "Notre approche personnalisée et nos méthodes innovantes permettent à nos clients de libérer leur potentiel en matière de prise de parole en public. Nous croyons que les leaders capables de prendre la parole en public pour partager leurs idées peuvent avoir un impact positif sur la société comme sur leur entourage. Parce que prendre la parole en public est une compétence qui peut littéralement transformer des vies, nous nous engageons à fournir des formations de la plus haute qualité."
           </div>
@@ -924,6 +932,11 @@
         });
       }, observerOptions);
       animatedElements.forEach(el => observer.observe(el));
+      
+      // Écoute de l'événement "orientationchange" pour fermer le menu mobile en cas de rotation
+      window.addEventListener('orientationchange', function() {
+        toggleMobileNav(false);
+      });
       
       // Chargement dynamique des logos depuis GitHub
       const logosContainer = document.getElementById('clients-logos');
