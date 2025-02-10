@@ -16,14 +16,18 @@
   <meta property="og:url" content="https://www.letmotiv.com">
   <meta name="twitter:card" content="summary_large_image">
   
-  <!-- Import d'une police moderne -->
+  <!-- Import des polices modernes -->
+  <!-- Montserrat pour le corps de texte -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600&display=swap" rel="stylesheet">
+  <!-- Oswald pour les titres (jeune et dynamique) -->
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&display=swap" rel="stylesheet">
   
   <style>
     /* Défilement fluide natif */
     html {
       scroll-behavior: smooth;
     }
+    
     /* === Styles Globaux & Variables === */
     * {
       margin: 0;
@@ -46,6 +50,12 @@
       --secondary: #00a48a;
       --white: #fff;
       --black: #000;
+    }
+    
+    /* Titres en majuscules avec la police Oswald */
+    h2, h3 {
+      font-family: 'Oswald', sans-serif;
+      text-transform: uppercase;
     }
     
     /* === HEADER === */
@@ -221,14 +231,13 @@
     }
     
     /* === SECTIONS GÉNÉRALES – COULEURS PUNCHY === */
-    /* Chaque section reçoit sa propre couleur de fond */
-    .about { background-color: #ffebee; }
-    .services { background-color: #e8f5e9; }
-    .simulateur-section { background-color: #e3f2fd; color: var(--primary); }
-    .testimonials { background-color: #fff3e0; }
-    .chiffres { background-color: #f3e5f5; }
-    .clients { background-color: #e0f7fa; }
-    .contact { background-color: #fbe9e7; }
+    .about    { background-color: #ff5252; }
+    .services { background-color: #69f0ae; }
+    .simulateur-section { background-color: #40c4ff; color: var(--white); }
+    .testimonials { background-color: #ea80fc; color: var(--white); }
+    .chiffres { background-color: #ff4081; color: var(--white); }
+    .clients  { background-color: #18ffff; }
+    .contact  { background-color: #ffd740; }
     
     .section {
       padding: 100px 0;
@@ -244,10 +253,10 @@
       text-align: center;
       margin-bottom: 40px;
       font-size: 36px;
-      color: var(--primary);
+      /* Les titres seront en majuscules grâce à text-transform défini sur h2 via Oswald */
     }
     
-    /* === À PROPOS SECTION === */
+    /* === À PROPOS SECTION (version initiale) === */
     .about-content {
       display: flex;
       flex-direction: column;
@@ -261,32 +270,24 @@
     }
     .about-image {
       flex: 0 0 40%;
-      margin-right: 20px;
     }
     .about-image img {
       width: 100%;
       border-radius: 5px;
-      object-fit: cover;
     }
     .about-text {
       flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      margin-left: 20px;
     }
-    /* Sur mobile, on ajuste l'image et le texte */
-    @media (max-width: 768px) {
-      .about-row {
-        align-items: stretch;
-      }
-      .about-image {
-        flex: 0 0 40%;
-        margin-right: 20px;
-      }
-      .about-text {
-        flex: 1;
-        margin: 0;
-      }
+    .about-quote {
+      font-family: Georgia, serif;
+      font-style: italic;
+      font-size: 18px;
+      line-height: 1.6;
+      background: #f7f7f7;
+      padding: 20px;
+      border-left: 4px solid var(--secondary);
+      margin-top: 20px;
     }
     
     /* === SERVICES SECTION === */
@@ -363,24 +364,21 @@
       color: var(--white);
     }
     
-    /* === TÉMOIGNAGES SECTION – SCROLL HORIZONTAL === */
+    /* === TÉMOIGNAGES SECTION (version initiale) === */
     .testimonials .testimonials-grid {
       display: flex;
-      flex-direction: row;
-      gap: 20px;
-      overflow-x: auto;
-      padding: 20px;
-      scroll-snap-type: x mandatory;
+      flex-direction: column;
+      gap: 40px;
+      align-items: center;
     }
     .testimonial-item {
-      flex: 0 0 auto;
-      scroll-snap-align: start;
       background: var(--white);
       padding: 20px;
       border-radius: 5px;
-      width: 300px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 800px;
       text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
     .testimonial-item img {
       width: 80px;
@@ -408,7 +406,7 @@
     }
     
     /* === LETMOTIV EN CHIFFRES SECTION === */
-    .chiffres-grid {
+    .chiffres .chiffres-grid {
       display: flex;
       flex-wrap: wrap;
       gap: 20px;
@@ -615,7 +613,7 @@
       </div>
     </section>
     
-    <!-- À PROPOS -->
+    <!-- À PROPOS (version initiale) -->
     <section id="about" class="section about">
       <div class="container">
         <h2>À propos</h2>
@@ -626,7 +624,7 @@
             </div>
             <div class="about-text">
               <p class="about-intro">
-                Docteur en astrophysique (PhD), <strong style="color: var(--secondary);">Formateur professionnel et coach certifié</strong>, Pierre s’est formé au théâtre au Cours Florent et à l’éloquence avec Toastmasters International pour créer le centre de formation <strong style="color: var(--secondary);">Letmotiv</strong>.
+                Docteur en astrophysique (PhD), formateur professionnel et coach certifié, Pierre s’est formé au théâtre au Cours Florent et à l’éloquence avec Toastmasters International pour créer le centre de formation Letmotiv.
               </p>
             </div>
           </div>
@@ -666,21 +664,22 @@
     <!-- SIMULATEUR SECTION -->
     <section id="simulateur" class="section simulateur-section">
       <div class="simulateur-content">
-        <h2>Prise de parole en public <br>Simulateur d'improvisation gratuit</h2>
+        <h2>Simulateur</h2>
         <p>
-          Vous voulez vous entraîner gratuitement à la prise de parole en public ? <br>Découvrez le simulateur Letmotiv : de nombreux exercices selon votre objectif : réussir un entretien, améliorer sa diction, développer son charisme et son leadership, accroître sa force de persuasion, inspirer son auditoire...
+          Vous voulez vous entraîner gratuitement à la prise de parole en public ?<br>
+          Découvrez le simulateur Letmotiv : de nombreux exercices selon votre objectif pour réussir un entretien, améliorer votre diction, développer votre charisme et votre leadership, accroître votre force de persuasion et inspirer votre auditoire...
         </p>
         <a href="http://www.letmotiv-simulateur.fr" class="btn" target="_blank">Accéder au simulateur</a>
       </div>
     </section>
     
-    <!-- TÉMOIGNAGES (défilement horizontal) -->
+    <!-- TÉMOIGNAGES (intégration du code fourni) -->
     <section id="testimonials" class="section testimonials">
       <div class="container">
         <h2>Témoignages</h2>
         <div class="testimonials-grid">
           <div class="testimonial-item">
-            <img src="https://github.com/Citizen11bf/letmotiv/blob/7203305c1c95e211ff6bd903cbd58113e1f58a65/Vincent.png">
+            <img src="https://github.com/Citizen11bf/letmotiv/blob/7203305c1c95e211ff6bd903cbd58113e1f58a65/Vincent.png" alt="Vincent Recrosio">
             <h4>
               Vincent Recrosio<br>
               <span class="testimonial-fonction">Senior Tech Recruiter chez Meetic</span>
@@ -693,7 +692,7 @@
             </p>
           </div>
           <div class="testimonial-item">
-            <img src="https://github.com/Citizen11bf/letmotiv/blob/7203305c1c95e211ff6bd903cbd58113e1f58a65/Julia.png">
+            <img src="https://github.com/Citizen11bf/letmotiv/blob/7203305c1c95e211ff6bd903cbd58113e1f58a65/Julia.png" alt="Julia Galvez">
             <h4>
               Julia Galvez<br>
               <span class="testimonial-fonction">Team Lead Contract Manager chez Hubspot</span>
@@ -706,7 +705,7 @@
             </p>
           </div>
           <div class="testimonial-item">
-            <img src="https://github.com/Citizen11bf/letmotiv/blob/7203305c1c95e211ff6bd903cbd58113e1f58a65/Cedric.png">
+            <img src="https://github.com/Citizen11bf/letmotiv/blob/7203305c1c95e211ff6bd903cbd58113e1f58a65/Cedric.png" alt="Cédric Rémy">
             <h4>
               Cédric Rémy<br>
               <span class="testimonial-fonction">Account Manager chez Orange</span>
@@ -718,7 +717,7 @@
             </p>
           </div>
           <div class="testimonial-item">
-            <img src="https://github.com/Citizen11bf/letmotiv/blob/7203305c1c95e211ff6bd903cbd58113e1f58a65/Crazy%20Nouss.png">
+            <img src="https://github.com/Citizen11bf/letmotiv/blob/7203305c1c95e211ff6bd903cbd58113e1f58a65/Crazy%20Nouss.png" alt="Crazy Nouss">
             <h4>
               Crazy Nouss<br>
               <span class="testimonial-fonction">Facilitatrice graphique & illustratrice</span>
@@ -727,11 +726,11 @@
               "On apprend à se dépasser, le tout dans un cadre dynamique, bienveillant et ludique. 
               On en ressort avec l'envie de toute de suite réaliser un discours. Pierre un grand patient, à l'écoute et plein d'énergie. 
               Il saura vous faire travailler rapidement sur vos points faibles et parallèlement mettre en avant vos points forts.
-              N'oubliez pas : Pierre ne recule devant aucun défi. Mieux que ça, il pousse à donner le meilleure de vous-même !"
+              N'oubliez pas : Pierre ne recule devant aucun défi. Mieux que ça, il pousse à donner le meilleur de vous-même !"
             </p>
           </div>
           <div class="testimonial-item">
-            <img src="https://github.com/Citizen11bf/letmotiv/blob/7203305c1c95e211ff6bd903cbd58113e1f58a65/Gabrielle.png">
+            <img src="https://github.com/Citizen11bf/letmotiv/blob/7203305c1c95e211ff6bd903cbd58113e1f58a65/Gabrielle.png" alt="Gabrielle Rosner-Bloch">
             <h4>
               Gabrielle Rosner-Bloch<br>
               <span class="testimonial-fonction">Conseillère Régionale du Grand Est</span>
