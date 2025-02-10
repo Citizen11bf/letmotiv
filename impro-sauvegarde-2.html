@@ -3,18 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LetMotiv</title>
+  <title>Letmotiv - Prise de parole en public</title>
+  <!-- Import d'une police moderne -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600&display=swap" rel="stylesheet">
   <style>
-    /* === Styles Globaux === */
+    /* === Global Styles === */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Montserrat', sans-serif;
       line-height: 1.6;
       color: #333;
+      background: #fff;
     }
     .container {
       width: 90%;
@@ -22,14 +25,23 @@
       margin: 0 auto;
     }
     
-    /* === En-tête et Navigation === */
+    /* === Variables de couleur === */
+    :root {
+      --primary: #182d84;
+      --secondary: #00a48a;
+      --white: #fff;
+      --black: #000;
+    }
+    
+    /* === Header === */
     header {
-      background: #fff;
+      background: var(--primary);
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       position: fixed;
       width: 100%;
       top: 0;
       z-index: 1000;
+      transition: background 0.3s ease;
     }
     .header-container {
       display: flex;
@@ -38,9 +50,19 @@
       padding: 15px 0;
     }
     .logo a {
-      font-size: 24px;
       text-decoration: none;
-      color: #333;
+      color: var(--white);
+      font-size: 20px;
+      line-height: 1.2;
+    }
+    .logo a .logo-line1 {
+      font-weight: 600;
+      font-size: 18px;
+    }
+    .logo a .logo-line2 {
+      font-weight: 400;
+      font-size: 16px;
+      color: var(--secondary);
     }
     nav ul {
       list-style: none;
@@ -51,8 +73,12 @@
     }
     nav ul li a {
       text-decoration: none;
-      color: #333;
-      font-weight: bold;
+      color: var(--white);
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+    nav ul li a:hover {
+      color: var(--secondary);
     }
     
     /* Bouton menu mobile */
@@ -64,12 +90,13 @@
     .menu-toggle span {
       width: 25px;
       height: 3px;
-      background: #333;
+      background: var(--white);
       margin-bottom: 4px;
       border-radius: 3px;
+      transition: background 0.3s;
     }
     
-    /* === Section Hero === */
+    /* === Hero Section === */
     .hero {
       height: 100vh;
       background: url('https://source.unsplash.com/1600x900/?motivation') center center/cover no-repeat;
@@ -79,6 +106,7 @@
       text-align: center;
       position: relative;
       padding-top: 60px; /* compense l'en-tête fixe */
+      overflow: hidden;
     }
     .hero::before {
       content: "";
@@ -88,8 +116,15 @@
     }
     .hero-content {
       position: relative;
-      color: #fff;
+      color: var(--white);
       z-index: 1;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .hero-content.animate {
+      opacity: 1;
+      transform: translateY(0);
     }
     .hero-content h1 {
       font-size: 48px;
@@ -101,31 +136,45 @@
     }
     .hero-content .btn {
       display: inline-block;
-      background: #ff5722;
-      color: #fff;
+      background: var(--secondary);
+      color: var(--white);
       padding: 12px 30px;
       text-decoration: none;
       border-radius: 5px;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .hero-content .btn:hover {
+      transform: scale(1.05);
+      background: var(--primary);
     }
     
     /* === Sections Générales === */
     .section {
       padding: 100px 0;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .section.animate {
+      opacity: 1;
+      transform: translateY(0);
     }
     .section h2 {
       text-align: center;
       margin-bottom: 40px;
       font-size: 36px;
+      color: var(--primary);
     }
     
-    /* === Section À propos === */
+    /* === About Section === */
     .about p {
       text-align: center;
       max-width: 800px;
       margin: 0 auto;
+      font-size: 18px;
     }
     
-    /* === Section Services (Nouvelle organisation) === */
+    /* === Services Section === */
     .services .services-categories {
       display: flex;
       flex-wrap: wrap;
@@ -133,16 +182,22 @@
       gap: 20px;
     }
     .service-category {
-      background: #f9f9f9;
+      background: var(--white);
       padding: 20px;
       border-radius: 5px;
       flex: 1;
       min-width: 280px;
       text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+    .service-category:hover {
+      transform: translateY(-5px);
     }
     .service-category h3 {
       margin-bottom: 20px;
       font-size: 24px;
+      color: var(--primary);
     }
     .service-buttons {
       display: flex;
@@ -151,18 +206,19 @@
     }
     .service-btn {
       display: inline-block;
-      background: #ff5722;
-      color: #fff;
+      background: var(--secondary);
+      color: var(--white);
       padding: 10px 20px;
       text-decoration: none;
       border-radius: 5px;
-      transition: background 0.3s ease;
+      transition: transform 0.3s ease, background 0.3s ease;
     }
     .service-btn:hover {
-      background: #e64a19;
+      transform: scale(1.05);
+      background: var(--primary);
     }
     
-    /* === Section Témoignages === */
+    /* === Testimonials Section === */
     .testimonials .testimonials-grid {
       display: flex;
       flex-wrap: wrap;
@@ -170,12 +226,13 @@
       justify-content: space-around;
     }
     .testimonial-item {
-      background: #f9f9f9;
+      background: var(--white);
       padding: 20px;
       border-radius: 5px;
       flex: 1;
       min-width: 250px;
       text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
     .testimonial-item img {
       width: 80px;
@@ -183,17 +240,20 @@
       border-radius: 50%;
       object-fit: cover;
       margin-bottom: 15px;
+      border: 3px solid var(--secondary);
     }
     .testimonial-item p {
       font-style: italic;
       margin-bottom: 10px;
+      font-size: 16px;
     }
     .testimonial-item h4 {
       font-size: 18px;
       margin-bottom: 5px;
+      color: var(--primary);
     }
     
-    /* === Section Nos Clients === */
+    /* === Clients Section === */
     .clients .clients-grid {
       display: flex;
       flex-wrap: wrap;
@@ -209,9 +269,14 @@
       width: 100%;
       max-width: 150px;
       object-fit: contain;
+      filter: grayscale(100%);
+      transition: filter 0.3s ease;
+    }
+    .client-item img:hover {
+      filter: grayscale(0%);
     }
     
-    /* === Section Contact === */
+    /* === Contact Section === */
     #contact-form {
       max-width: 600px;
       margin: 0 auto;
@@ -222,7 +287,8 @@
     #contact-form label {
       display: block;
       margin-bottom: 5px;
-      font-weight: bold;
+      font-weight: 600;
+      color: var(--primary);
     }
     #contact-form input,
     #contact-form textarea {
@@ -230,30 +296,49 @@
       padding: 10px;
       border: 1px solid #ddd;
       border-radius: 3px;
+      font-size: 16px;
     }
     #contact-form .btn {
-      background: #ff5722;
-      color: #fff;
+      background: var(--secondary);
+      color: var(--white);
       padding: 12px 30px;
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    #contact-form .btn:hover {
+      transform: scale(1.05);
+      background: var(--primary);
     }
     
-    /* === Pied de page === */
+    /* === Footer === */
     footer {
-      background: #333;
-      color: #fff;
+      background: var(--primary);
+      color: var(--white);
       padding: 20px 0;
       text-align: center;
     }
+    footer p {
+      margin-bottom: 10px;
+    }
+    .footer-links a {
+      color: var(--secondary);
+      text-decoration: none;
+      margin: 0 10px;
+      transition: color 0.3s ease;
+    }
+    .footer-links a:hover {
+      color: var(--white);
+      text-decoration: underline;
+    }
     
-    /* === Media Queries === */
+    /* === Responsive Styles === */
     @media (max-width: 768px) {
       nav ul {
         display: none;
         flex-direction: column;
-        background: #fff;
+        background: var(--primary);
         position: absolute;
         top: 60px;
         right: 0;
@@ -286,11 +371,14 @@
   </style>
 </head>
 <body>
-  <!-- En-tête -->
+  <!-- Header -->
   <header>
     <div class="container header-container">
       <div class="logo">
-        <a href="#">LetMotiv</a>
+        <a href="#">
+          <span class="logo-line1">Prise de parole en public</span><br>
+          <span class="logo-line2">Letmotiv - Coaching et formation</span>
+        </a>
       </div>
       <nav>
         <ul>
@@ -310,29 +398,29 @@
     </div>
   </header>
   
-  <!-- Section Hero -->
+  <!-- Hero Section -->
   <section id="accueil" class="hero">
     <div class="hero-content">
-      <h1>Bienvenue sur LetMotiv</h1>
-      <p>Votre source d'inspiration et de motivation</p>
+      <h1>Bienvenue sur Letmotiv</h1>
+      <p>Votre source d'inspiration et de transformation</p>
       <a href="#about" class="btn">En savoir plus</a>
     </div>
   </section>
   
-  <!-- Section À propos -->
+  <!-- About Section -->
   <section id="about" class="section about">
     <div class="container">
       <h2>À propos</h2>
-      <p>LetMotiv est dédié à vous inspirer et vous motiver à atteindre vos objectifs. Notre mission est de fournir des outils et conseils pour booster votre productivité et votre créativité.</p>
+      <p>Letmotiv vous aide à prendre la parole en public avec confiance grâce à un coaching et des formations sur mesure. Nous vous accompagnons pour révéler votre potentiel.</p>
     </div>
   </section>
   
-  <!-- Section Services -->
+  <!-- Services Section -->
   <section id="services" class="section services">
     <div class="container">
       <h2>Services</h2>
       <div class="services-categories">
-        <!-- Catégorie Entreprise -->
+        <!-- Entreprise -->
         <div class="service-category">
           <h3>Entreprise</h3>
           <div class="service-buttons">
@@ -340,7 +428,7 @@
             <a href="#" class="btn service-btn">Formations</a>
           </div>
         </div>
-        <!-- Catégorie Particuliers -->
+        <!-- Particuliers -->
         <div class="service-category">
           <h3>Particuliers</h3>
           <div class="service-buttons">
@@ -349,7 +437,7 @@
             <a href="#" class="btn service-btn">Formations CPF</a>
           </div>
         </div>
-        <!-- Catégorie Nos outils -->
+        <!-- Nos outils -->
         <div class="service-category">
           <h3>Nos outils</h3>
           <div class="service-buttons">
@@ -360,51 +448,45 @@
     </div>
   </section>
   
-  <!-- Section Témoignages -->
+  <!-- Testimonials Section -->
   <section id="testimonials" class="section testimonials">
     <div class="container">
       <h2>Témoignages</h2>
       <div class="testimonials-grid">
-        <!-- Témoignage 1 -->
         <div class="testimonial-item">
           <img src="https://source.unsplash.com/80x80/?face,1" alt="Témoignage 1">
           <h4>Jean Dupont</h4>
-          <p>"LetMotiv m'a aidé à transformer ma carrière et à trouver ma passion."</p>
+          <p>"Letmotiv m'a aidé à transformer ma carrière et à trouver ma voie."</p>
         </div>
-        <!-- Témoignage 2 -->
         <div class="testimonial-item">
           <img src="https://source.unsplash.com/80x80/?face,2" alt="Témoignage 2">
           <h4>Marie Martin</h4>
-          <p>"Grâce à leur coaching, j'ai pu atteindre mes objectifs personnels."</p>
+          <p>"Grâce à leur coaching, j'ai gagné en confiance et en efficacité."</p>
         </div>
-        <!-- Témoignage 3 -->
         <div class="testimonial-item">
           <img src="https://source.unsplash.com/80x80/?face,3" alt="Témoignage 3">
           <h4>Paul Leblanc</h4>
-          <p>"Les formations proposées sont d'une grande qualité et très inspirantes."</p>
+          <p>"Les formations proposées sont innovantes et inspirantes."</p>
         </div>
-        <!-- Témoignage 4 -->
         <div class="testimonial-item">
           <img src="https://source.unsplash.com/80x80/?face,4" alt="Témoignage 4">
           <h4>Sophie Bernard</h4>
-          <p>"L'approche personnalisée m'a permis de voir de réels résultats dans ma vie."</p>
+          <p>"L'accompagnement personnalisé m'a permis d'atteindre mes objectifs."</p>
         </div>
-        <!-- Témoignage 5 -->
         <div class="testimonial-item">
           <img src="https://source.unsplash.com/80x80/?face,5" alt="Témoignage 5">
           <h4>Lucien Robert</h4>
-          <p>"Je recommande vivement LetMotiv pour toute personne souhaitant progresser."</p>
+          <p>"Je recommande vivement Letmotiv pour améliorer son aisance à l'oral."</p>
         </div>
       </div>
     </div>
   </section>
   
-  <!-- Section Nos Clients -->
+  <!-- Clients Section -->
   <section id="clients" class="section clients">
     <div class="container">
       <h2>Nos clients</h2>
       <div class="clients-grid">
-        <!-- Exemple de logo client -->
         <div class="client-item">
           <img src="https://via.placeholder.com/150?text=Logo+1" alt="Logo Client 1">
         </div>
@@ -424,7 +506,7 @@
     </div>
   </section>
   
-  <!-- Section Contact -->
+  <!-- Contact Section -->
   <section id="contact" class="section contact">
     <div class="container">
       <h2>Contact</h2>
@@ -446,10 +528,14 @@
     </div>
   </section>
   
-  <!-- Pied de page -->
+  <!-- Footer -->
   <footer>
     <div class="container">
-      <p>&copy; 2025 LetMotiv. Tous droits réservés.</p>
+      <p>&copy; 2025 Letmotiv. Tous droits réservés.</p>
+      <div class="footer-links">
+        <a href="mentions-legales.html">Mentions Légales</a>
+        <a href="cvg.html">CVG</a>
+      </div>
     </div>
   </footer>
   
@@ -461,7 +547,7 @@
       menuToggle.addEventListener('click', function () {
         navUl.classList.toggle('active');
       });
-  
+      
       const navLinks = document.querySelectorAll('nav ul li a');
       navLinks.forEach(link => {
         link.addEventListener('click', function (e) {
@@ -478,6 +564,24 @@
             navUl.classList.remove('active');
           }
         });
+      });
+      
+      // Intersection Observer pour l'animation au scroll
+      const sections = document.querySelectorAll('.section, .hero-content');
+      const observerOptions = {
+        threshold: 0.1
+      };
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+      
+      sections.forEach(section => {
+        observer.observe(section);
       });
     });
   </script>
