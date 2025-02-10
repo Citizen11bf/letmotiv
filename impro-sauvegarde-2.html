@@ -31,10 +31,11 @@
       --black: #000;
     }
     
-    /* === Header (style start-up : fond blanc, texte en couleur principale) === */
+    /* === Header (en bleu) === */
     header {
-      background: var(--white);
-      border-bottom: 2px solid var(--primary);
+      background: var(--primary);
+      /* On peut ajouter une ombre si souhaité */
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       position: fixed;
       width: 100%;
       top: 0;
@@ -49,11 +50,11 @@
     }
     .logo a {
       text-decoration: none;
-      color: var(--primary);
+      color: var(--white);
       font-size: 20px;
       line-height: 1.2;
     }
-    /* Les deux lignes du logo auront le même style */
+    /* Les deux lignes du logo avec le même style */
     .logo a .logo-line {
       display: block;
       font-weight: 600;
@@ -68,7 +69,7 @@
     }
     nav ul li a {
       text-decoration: none;
-      color: var(--primary);
+      color: var(--white);
       font-weight: 600;
       transition: color 0.3s ease;
     }
@@ -84,7 +85,7 @@
     .menu-toggle span {
       width: 25px;
       height: 3px;
-      background: var(--primary);
+      background: var(--white);
       margin-bottom: 4px;
       border-radius: 3px;
       transition: background 0.3s;
@@ -93,7 +94,7 @@
     /* === Hero Section === */
     .hero {
       height: 100vh;
-      /* Utilisation de votre image en mode raw (assurez-vous que l'URL est accessible publiquement) */
+      /* Utilisation de votre image en mode raw */
       background: url('https://raw.githubusercontent.com/Citizen11bf/letmotiv/0c649ee1f00846cb361781b0f851ff25df78672c/formation%20prise%20de%20parole%20en%20public%20professionnelle.webp') center center/cover no-repeat;
       position: relative;
       display: flex;
@@ -247,7 +248,7 @@
       color: var(--primary);
     }
     
-    /* === Clients Section (logos chargés dynamiquement) === */
+    /* === Clients Section (Logos) === */
     .clients .clients-grid {
       display: flex;
       flex-wrap: wrap;
@@ -332,7 +333,7 @@
       nav ul {
         display: none;
         flex-direction: column;
-        background: var(--white);
+        background: var(--primary);
         position: absolute;
         top: 60px;
         right: 0;
@@ -475,7 +476,7 @@
     </div>
   </section>
   
-  <!-- CLIENTS (Logos chargés dynamiquement via l'API GitHub) -->
+  <!-- CLIENTS (Logos chargés dynamiquement depuis la branche "images") -->
   <section id="clients" class="section clients">
     <div class="container">
       <h2>Nos clients</h2>
@@ -559,10 +560,11 @@
       }, observerOptions);
       sections.forEach(section => observer.observe(section));
       
-      // Chargement dynamique des logos depuis GitHub
+      // Chargement dynamique des logos depuis la branche "images"
       const logosContainer = document.getElementById('clients-logos');
       const logosLoading = document.getElementById('logos-loading');
-      fetch('https://api.github.com/repos/Citizen11bf/letmotiv/contents')
+      // Remplacez l'URL ci-dessous par celle qui pointe vers la branche "images" de votre repo.
+      fetch('https://api.github.com/repos/Citizen11bf/letmotiv/contents?ref=images')
         .then(response => response.json())
         .then(data => {
           // Filtrer les fichiers dont le nom commence par "Logo_"
@@ -575,7 +577,7 @@
               const clientDiv = document.createElement('div');
               clientDiv.classList.add('client-item');
               const img = document.createElement('img');
-              img.src = file.download_url;
+              img.src = file.download_url; // Le lien de téléchargement du fichier
               img.alt = file.name;
               clientDiv.appendChild(img);
               logosContainer.appendChild(clientDiv);
