@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Letmotiv - Coaching et formation</title>
   
-  <!-- Favicon (icône de micro gratuite via Icons8) -->
+  <!-- Favicon (icône de micro via Icons8) -->
   <link rel="icon" type="image/png" href="https://img.icons8.com/fluency/48/000000/microphone.png">
   
   <!-- Meta SEO et réseaux sociaux -->
@@ -48,7 +48,7 @@
       --black: #000;
     }
     
-    /* === HEADER (fond bleu) === */
+    /* === HEADER === */
     header {
       background: var(--primary);
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -91,7 +91,7 @@
     nav.desktop-nav ul li a:hover {
       color: var(--secondary);
     }
-    /* Bouton menu mobile (affiché sur mobile) */
+    /* Bouton menu mobile */
     .menu-toggle {
       display: none;
       flex-direction: column;
@@ -108,7 +108,7 @@
       transition: background 0.3s;
     }
     
-    /* === Mobile Nav Overlay (s'affiche du haut vers le bas sur toute la largeur) === */
+    /* === Mobile Nav Overlay (affichage du haut vers le bas) === */
     .mobile-nav-overlay {
       position: fixed;
       top: -100%;
@@ -124,7 +124,6 @@
     .mobile-nav-overlay.active {
       top: 0;
     }
-    /* Bouton de fermeture */
     .close-nav {
       position: absolute;
       top: 20px;
@@ -148,7 +147,7 @@
       text-decoration: none;
       font-weight: 600;
     }
-    /* Boutons supplémentaires pour le mobile */
+    /* Boutons supplémentaires (affichés côte à côte) */
     .mobile-nav-extra {
       margin-top: 40px;
       display: flex;
@@ -172,14 +171,13 @@
     /* === HERO SECTION === */
     .hero {
       height: 100vh;
-      /* Image desktop par défaut */
       background: url('https://raw.githubusercontent.com/Citizen11bf/letmotiv/0c649ee1f00846cb361781b0f851ff25df78672c/formation%20prise%20de%20parole%20en%20public%20professionnelle.webp') center center/cover no-repeat;
       position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding-top: 60px; /* Pour compenser le header fixe */
+      padding-top: 60px; /* pour compenser le header fixe */
       overflow: hidden;
     }
     .hero::before {
@@ -222,7 +220,16 @@
       background: var(--primary);
     }
     
-    /* === SECTIONS GÉNÉRALES === */
+    /* === SECTIONS GÉNÉRALES – COULEURS PUNCHY === */
+    /* Chaque section reçoit sa propre couleur de fond */
+    .about { background-color: #ffebee; }
+    .services { background-color: #e8f5e9; }
+    .simulateur-section { background-color: #e3f2fd; color: var(--primary); }
+    .testimonials { background-color: #fff3e0; }
+    .chiffres { background-color: #f3e5f5; }
+    .clients { background-color: #e0f7fa; }
+    .contact { background-color: #fbe9e7; }
+    
     .section {
       padding: 100px 0;
       opacity: 0;
@@ -254,49 +261,31 @@
     }
     .about-image {
       flex: 0 0 40%;
+      margin-right: 20px;
     }
     .about-image img {
       width: 100%;
       border-radius: 5px;
+      object-fit: cover;
     }
     .about-text {
       flex: 1;
-      margin-left: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
-    .about-quote {
-      font-family: Georgia, serif;
-      font-style: italic;
-      font-size: 18px;
-      line-height: 1.6;
-      background: #f7f7f7;
-      padding: 20px;
-      border-left: 4px solid var(--secondary);
-      margin-top: 20px;
-    }
-    @media (min-width: 769px) {
-      .about-content {
-        flex-direction: row;
-      }
-      .about-right {
-        flex: 1;
-      }
-      .about-right .about-quote {
-        margin-left: 0;
-      }
-    }
+    /* Sur mobile, on ajuste l'image et le texte */
     @media (max-width: 768px) {
       .about-row {
-        flex-direction: row;
+        align-items: stretch;
       }
       .about-image {
-        flex: 0 0 30%;
+        flex: 0 0 40%;
+        margin-right: 20px;
       }
       .about-text {
         flex: 1;
-        margin-left: 10px;
-      }
-      .about-quote {
-        margin-left: 0;
+        margin: 0;
       }
     }
     
@@ -345,15 +334,10 @@
     }
     
     /* === SIMULATEUR SECTION === */
-    .simulateur-section {
-      background: var(--secondary);
-      color: var(--white);
-      padding: 80px 0;
-      text-align: center;
-    }
     .simulateur-section .simulateur-content {
       max-width: 800px;
       margin: 0 auto;
+      text-align: center;
     }
     .simulateur-section h2 {
       font-size: 36px;
@@ -366,7 +350,7 @@
     }
     .simulateur-section .btn {
       background: var(--white);
-      color: var(--secondary);
+      color: var(--primary);
       padding: 12px 30px;
       border-radius: 5px;
       text-decoration: none;
@@ -379,21 +363,24 @@
       color: var(--white);
     }
     
-    /* === TÉMOIGNAGES SECTION === */
+    /* === TÉMOIGNAGES SECTION – SCROLL HORIZONTAL === */
     .testimonials .testimonials-grid {
       display: flex;
-      flex-direction: column;
-      gap: 40px;
-      align-items: center;
+      flex-direction: row;
+      gap: 20px;
+      overflow-x: auto;
+      padding: 20px;
+      scroll-snap-type: x mandatory;
     }
     .testimonial-item {
+      flex: 0 0 auto;
+      scroll-snap-align: start;
       background: var(--white);
       padding: 20px;
       border-radius: 5px;
-      width: 100%;
-      max-width: 800px;
-      text-align: center;
+      width: 300px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      text-align: center;
     }
     .testimonial-item img {
       width: 80px;
@@ -437,10 +424,10 @@
       flex: 1;
       min-width: 150px;
       max-width: 200px;
-      cursor: pointer;
-      transition: transform 0.3s ease, background 0.3s ease;
+      transition: transform 0.3s ease;
+      cursor: default;
     }
-    .chiffre-box:active {
+    .chiffre-box:hover {
       transform: scale(1.05);
     }
     .chiffre-box img {
@@ -553,6 +540,10 @@
       .menu-toggle {
         display: flex;
       }
+      /* Sur mobile, l'image de la section hero change */
+      .hero {
+        background: url('https://raw.githubusercontent.com/Citizen11bf/letmotiv/0c649ee1f00846cb361781b0f851ff25df78672c/formation%20prise%20de%20parole%20en%20public%20Paris.webp') center center/cover no-repeat;
+      }
     }
     @media (max-width: 480px) {
       .hero-content h1 {
@@ -561,18 +552,6 @@
       .hero-content p {
         font-size: 18px;
       }
-    }
-    
-    /* === Image différente pour le hero sur mobile === */
-    @media (max-width: 768px) {
-      .hero {
-        background: url('https://raw.githubusercontent.com/Citizen11bf/letmotiv/0c649ee1f00846cb361781b0f851ff25df78672c/formation%20prise%20de%20parole%20en%20public%20Paris.webp') center center/cover no-repeat;
-      }
-    }
-    
-    /* === Alternance de couleurs pour les sections dans <main> === */
-    main section:nth-of-type(even) {
-      background: #f7f7f7;
     }
   </style>
 </head>
@@ -609,7 +588,6 @@
   
   <!-- Mobile Nav Overlay -->
   <nav class="mobile-nav-overlay" id="mobileNav" aria-hidden="true">
-    <!-- Bouton de fermeture -->
     <button class="close-nav" id="closeNav" aria-label="Fermer le menu">&times;</button>
     <ul>
       <li><a href="#accueil">Accueil</a></li>
@@ -648,7 +626,7 @@
             </div>
             <div class="about-text">
               <p class="about-intro">
-                Docteur en astrophysique (PhD), formateur professionnel et coach certifié, Pierre s’est formé au théâtre au Cours Florent et à l’éloquence avec Toastmasters International pour créer le centre de formation Letmotiv.
+                Docteur en astrophysique (PhD), <strong style="color: var(--secondary);">Formateur professionnel et coach certifié</strong>, Pierre s’est formé au théâtre au Cours Florent et à l’éloquence avec Toastmasters International pour créer le centre de formation <strong style="color: var(--secondary);">Letmotiv</strong>.
               </p>
             </div>
           </div>
@@ -696,62 +674,73 @@
       </div>
     </section>
     
-    <!-- TÉMOIGNAGES -->
+    <!-- TÉMOIGNAGES (défilement horizontal) -->
     <section id="testimonials" class="section testimonials">
       <div class="container">
         <h2>Témoignages</h2>
         <div class="testimonials-grid">
           <div class="testimonial-item">
-            <img src="https://source.unsplash.com/80x80/?face,vincent" alt="Vincent Recrosio">
+            <img src="https://github.com/Citizen11bf/letmotiv/blob/7203305c1c95e211ff6bd903cbd58113e1f58a65/Vincent.png">
             <h4>
               Vincent Recrosio<br>
               <span class="testimonial-fonction">Senior Tech Recruiter chez Meetic</span>
             </h4>
             <p>
-              "Je vous invite à contacter Pierre pour tout besoin de formation en communication !<br><br>
-              J'ai suivi sa formation « Prise de parole en public ». Pierre est passionné et partage sa bonne énergie, dans la bienveillance, ses méthodes rapidement applicables. Ses ateliers, issus du théâtre, sont méticuleusement adaptés à chaque public.<br><br>
+              "Je vous invite à contacter Pierre pour tout besoin de formation en communication ! 
+              J'ai suivi sa formation « Prise de parole en public ». 
+              Pierre est passionné et partage sa bonne énergie, dans la bienveillance, ses méthodes rapidement applicables. Ses ateliers, issus du théâtre, sont méticuleusement adaptés à chaque public. 
               Une attitude très professionnelle."
             </p>
           </div>
           <div class="testimonial-item">
-            <img src="https://source.unsplash.com/80x80/?face,julia" alt="Julia Galvez">
+            <img src="https://github.com/Citizen11bf/letmotiv/blob/7203305c1c95e211ff6bd903cbd58113e1f58a65/Julia.png">
             <h4>
               Julia Galvez<br>
               <span class="testimonial-fonction">Team Lead Contract Manager chez Hubspot</span>
             </h4>
             <p>
-              "Pierre est un vrai “Master” de la prise de parole en public. J’ai eu le plaisir de participer à ses cours le semestre dernier. Sa bienveillance, son courage et son audace ont été très contagieux ! Merci encore pour tes enseignements et tes méthodes qui me sont aujourd’hui très utiles au quotidien. Jamais le mot “Galaxie” n’aura eu autant de sens. Pouvoir captiver son public, c’est une compétence qui se travaille et Pierre nous partage son savoir de façon ludique et maîtrisée.<br><br>
+              "Pierre est un vrai “Master” de la prise de parole en public. J’ai eu le plaisir de participer à ses cours le semestre dernier. 
+              Sa bienveillance, son courage et son audace ont été très contagieux ! Merci encore pour tes enseignements et tes méthodes qui me sont aujourd’hui très utiles au quotidien. 
+              Jamais le mot “Galaxie” n’aura eu autant de sens. Pouvoir captiver son public, c’est une compétence qui se travaille et Pierre nous partage son savoir de façon ludique et maîtrisée. 
               Encore un GRAND MERCI."
             </p>
           </div>
           <div class="testimonial-item">
-            <img src="https://source.unsplash.com/80x80/?face,placeholder1" alt="Témoignage à compléter">
+            <img src="https://github.com/Citizen11bf/letmotiv/blob/7203305c1c95e211ff6bd903cbd58113e1f58a65/Cedric.png">
             <h4>
-              Prénom Nom<br>
-              <span class="testimonial-fonction">Fonction</span>
+              Cédric Rémy<br>
+              <span class="testimonial-fonction">Account Manager chez Orange</span>
             </h4>
             <p>
-              "Témoignage à compléter."
+              "Apres 3 jours de formation sur la prise de parole en public, je peux affirmer que Pierre est soucieux de son travail, bienveillant et très compétant. 
+              J’ai réellement adoré sa formation qui se veut dynamique, ciblée et au contenu passionnant. Ses talents et son énergie sont transmis de la première à la dernière minute.
+              Je recommande très fortement Pierre et ses compétences."
             </p>
           </div>
           <div class="testimonial-item">
-            <img src="https://source.unsplash.com/80x80/?face,placeholder2" alt="Témoignage à compléter">
+            <img src="https://github.com/Citizen11bf/letmotiv/blob/7203305c1c95e211ff6bd903cbd58113e1f58a65/Crazy%20Nouss.png">
             <h4>
-              Prénom Nom<br>
-              <span class="testimonial-fonction">Fonction</span>
+              Crazy Nouss<br>
+              <span class="testimonial-fonction">Facilitatrice graphique & illustratrice</span>
             </h4>
             <p>
-              "Témoignage à compléter."
+              "On apprend à se dépasser, le tout dans un cadre dynamique, bienveillant et ludique. 
+              On en ressort avec l'envie de toute de suite réaliser un discours. Pierre un grand patient, à l'écoute et plein d'énergie. 
+              Il saura vous faire travailler rapidement sur vos points faibles et parallèlement mettre en avant vos points forts.
+              N'oubliez pas : Pierre ne recule devant aucun défi. Mieux que ça, il pousse à donner le meilleure de vous-même !"
             </p>
           </div>
           <div class="testimonial-item">
-            <img src="https://source.unsplash.com/80x80/?face,placeholder3" alt="Témoignage à compléter">
+            <img src="https://github.com/Citizen11bf/letmotiv/blob/7203305c1c95e211ff6bd903cbd58113e1f58a65/Gabrielle.png">
             <h4>
-              Prénom Nom<br>
-              <span class="testimonial-fonction">Fonction</span>
+              Gabrielle Rosner-Bloch<br>
+              <span class="testimonial-fonction">Conseillère Régionale du Grand Est</span>
             </h4>
             <p>
-              "Témoignage à compléter."
+              "Pierre Li Cavoli est un excellent professeur de prise de parole en public et un excellent coach.
+              Pas étonnant quand on sait qu'il a été Docteur dans une autre vie.
+              Professionnel, rigoureux, très à l'écoute, j'ai appris en deux jours autant sur la théorie de la prise de parole, de l'art de convaincre et d'argumenter, que sur la mise en pratique...et sur moi-même.
+              Une formation et un formateur que je recommande sans hésiter !"
             </p>
           </div>
         </div>
