@@ -200,15 +200,22 @@
       color: var(--primary);
     }
     
-    /* === À PROPOS SECTION (deux colonnes) === */
+    /* === À PROPOS SECTION === */
+    /* Structure en deux parties : la première ligne (image et présentation de Pierre),
+       et en dessous la citation du fondateur. */
     .about-content {
       display: flex;
-      align-items: center;
-      gap: 40px;
+      flex-direction: column;
+      gap: 20px;
       margin-top: 40px;
     }
+    .about-row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
     .about-image {
-      flex: 0 0 40%; /* Sur desktop, image prend 40% */
+      flex: 0 0 40%;
     }
     .about-image img {
       width: 100%;
@@ -216,12 +223,9 @@
     }
     .about-text {
       flex: 1;
+      margin-left: 20px;
     }
-    .about-intro {
-      font-size: 18px;
-      margin-bottom: 20px;
-      text-align: left;
-    }
+    /* Par défaut (Desktop) : toute la colonne de droite contient l’introduction et la citation */
     .about-quote {
       font-family: Georgia, serif;
       font-style: italic;
@@ -231,6 +235,35 @@
       padding: 20px;
       border-left: 4px solid var(--secondary);
       margin-top: 20px;
+    }
+    /* Sur Desktop, on aligne la citation à droite en la plaçant dans la même colonne */
+    @media (min-width: 769px) {
+      .about-content {
+        flex-direction: row;
+      }
+      .about-right {
+        flex: 1;
+      }
+      .about-right .about-quote {
+        margin-left: 0;
+      }
+    }
+    /* Sur Mobile : on conserve la première ligne (image et présentation) en ligne,
+       puis on affiche la citation en dessous sur toute la largeur */
+    @media (max-width: 768px) {
+      .about-row {
+        flex-direction: row;
+      }
+      .about-image {
+        flex: 0 0 30%;
+      }
+      .about-text {
+        flex: 1;
+        margin-left: 10px;
+      }
+      .about-quote {
+        margin-left: 0;
+      }
     }
     
     /* === SERVICES SECTION === */
@@ -450,9 +483,8 @@
       .menu-toggle {
         display: flex;
       }
-      /* Pour la section À propos, conserver la disposition en ligne sur mobile :
-         image plus petite à gauche, texte à droite */
-      .about-content {
+      /* Pour la section À propos, on conserve une première ligne avec l'image et la présentation de Pierre */
+      .about-row {
         flex-direction: row;
       }
       .about-image {
@@ -462,9 +494,9 @@
         flex: 1;
         margin-left: 10px;
       }
-      /* Utiliser l'image mobile pour le hero */
-      .hero {
-        background: url('images/formation%en%prise%de%parole%en%public%Paris.webp') center center/cover no-repeat;
+      /* Sur mobile, la citation s'affiche en dessous en pleine largeur */
+      .about-quote {
+        margin-left: 0;
       }
     }
     @media (max-width: 480px) {
@@ -537,22 +569,25 @@
     <div class="container">
       <h2>À propos</h2>
       <div class="about-content">
-        <!-- Image à gauche (réduite sur mobile grâce aux media queries) -->
-        <div class="about-image">
-          <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/0c649ee1f00846cb361781b0f851ff25df78672c/formation%20prise%20de%20parole%20Pierre%20Li%20Cavoli.webp" alt="Pierre Li Cavoli">
+        <div class="about-row">
+          <!-- Image à gauche -->
+          <div class="about-image">
+            <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/0c649ee1f00846cb361781b0f851ff25df78672c/formation%20prise%20de%20parole%20Pierre%20Li%20Cavoli.webp" alt="Pierre Li Cavoli">
+          </div>
+          <!-- Texte présentant Pierre à droite -->
+          <div class="about-text">
+            <p class="about-intro">
+              Docteur en astrophysique (PhD), formateur professionnel et coach certifié, Pierre s’est formé au théâtre au Cours Florent et à l’éloquence avec Toastmasters International pour créer le centre de formation Letmotiv.
+            </p>
+          </div>
         </div>
-        <!-- Texte à droite : présentation de Pierre -->
-        <div class="about-text">
-          <p class="about-intro">
-            Docteur en astrophysique (PhD), formateur professionnel et coach certifié, Pierre s’est formé au théâtre au Cours Florent et à l’éloquence avec Toastmasters International pour créer le centre de formation Letmotiv.
-          </p>
+        <!-- Sur Desktop, cette citation apparaîtra à droite (via un margin-left sur grand écran),
+             et sur Mobile, elle s'affichera en dessous -->
+        <div class="about-quote">
+          "Notre approche personnalisée et nos méthodes innovantes permettent à nos clients de libérer leur potentiel en matière de prise de parole en public.
+          Nous croyons que les leaders capables de prendre la parole en public pour partager leurs idées peuvent avoir un impact positif sur la société comme sur leur entourage.
+          Parce que prendre la parole en public est une compétence qui peut littéralement transformer des vies, nous nous engageons à fournir des formations de la plus haute qualité."
         </div>
-      </div>
-      <!-- Propos du fondateur, affichés en dessous -->
-      <div class="about-quote">
-        "Notre approche personnalisée et nos méthodes innovantes permettent à nos clients de libérer leur potentiel en matière de prise de parole en public.
-        Nous croyons que les leaders capables de prendre la parole en public pour partager leurs idées peuvent avoir un impact positif sur la société comme sur leur entourage.
-        Parce que prendre la parole en public est une compétence qui peut littéralement transformer des vies, nous nous engageons à fournir des formations de la plus haute qualité."
       </div>
     </div>
   </section>
