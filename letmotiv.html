@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Letmotiv - Coaching et formation</title>
   
-  <!-- Favicon -->
+  <!-- Favicon (icône de micro gratuite via Icons8) -->
   <link rel="icon" type="image/png" href="https://img.icons8.com/fluency/48/000000/microphone.png">
   
   <!-- Meta SEO et réseaux sociaux -->
@@ -74,21 +74,21 @@
       display: block;
       font-weight: 600;
     }
-    nav ul {
+    nav.desktop-nav ul {
       list-style: none;
       display: flex;
       align-items: center;
     }
-    nav ul li {
+    nav.desktop-nav ul li {
       margin-left: 20px;
     }
-    nav ul li a {
+    nav.desktop-nav ul li a {
       text-decoration: none;
       color: var(--white);
       font-weight: 600;
       transition: color 0.3s ease;
     }
-    nav ul li a:hover {
+    nav.desktop-nav ul li a:hover {
       color: var(--secondary);
     }
     /* Bouton menu mobile (affiché sur mobile) */
@@ -108,7 +108,7 @@
       transition: background 0.3s;
     }
     
-    /* === Mobile Nav Overlay (affiché du haut vers le bas sur toute la largeur) === */
+    /* === Mobile Nav Overlay (s'affiche du haut vers le bas sur toute la largeur) === */
     .mobile-nav-overlay {
       position: fixed;
       top: -100%;
@@ -137,10 +137,10 @@
     }
     .mobile-nav-overlay ul {
       list-style: none;
+      margin-top: 80px;
       display: flex;
       flex-direction: column;
       gap: 20px;
-      margin-top: 80px;
     }
     .mobile-nav-overlay ul li a {
       color: var(--white);
@@ -152,8 +152,9 @@
     .mobile-nav-extra {
       margin-top: 40px;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       gap: 15px;
+      justify-content: center;
     }
     .mobile-nav-extra a {
       display: inline-block;
@@ -171,6 +172,7 @@
     /* === HERO SECTION === */
     .hero {
       height: 100vh;
+      /* Image desktop par défaut */
       background: url('https://raw.githubusercontent.com/Citizen11bf/letmotiv/0c649ee1f00846cb361781b0f851ff25df78672c/formation%20prise%20de%20parole%20en%20public%20professionnelle.webp') center center/cover no-repeat;
       position: relative;
       display: flex;
@@ -418,6 +420,43 @@
       margin-top: 10px;
     }
     
+    /* === LETMOTIV EN CHIFFRES SECTION === */
+    .chiffres-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 40px;
+    }
+    .chiffre-box {
+      background: var(--secondary);
+      color: var(--white);
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      flex: 1;
+      min-width: 150px;
+      max-width: 200px;
+      cursor: pointer;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .chiffre-box:active {
+      transform: scale(1.05);
+    }
+    .chiffre-box img {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 10px;
+    }
+    .chiffre-box h3 {
+      font-size: 24px;
+      margin-bottom: 5px;
+    }
+    .chiffre-box p {
+      font-size: 16px;
+      margin: 0;
+    }
+    
     /* === CLIENTS SECTION === */
     .clients .clients-grid {
       display: flex;
@@ -507,25 +546,12 @@
         font-size: 16px;
       }
       /* Masquer la navigation desktop */
-      nav {
+      nav.desktop-nav {
         display: none;
       }
       /* Afficher le bouton menu mobile */
       .menu-toggle {
         display: flex;
-      }
-      .about-row {
-        flex-direction: row;
-      }
-      .about-image {
-        flex: 0 0 30%;
-      }
-      .about-text {
-        flex: 1;
-        margin-left: 10px;
-      }
-      .about-quote {
-        margin-left: 0;
       }
     }
     @media (max-width: 480px) {
@@ -535,6 +561,18 @@
       .hero-content p {
         font-size: 18px;
       }
+    }
+    
+    /* === Image différente pour le hero sur mobile === */
+    @media (max-width: 768px) {
+      .hero {
+        background: url('https://raw.githubusercontent.com/Citizen11bf/letmotiv/0c649ee1f00846cb361781b0f851ff25df78672c/formation%20prise%20de%20parole%20en%20public%20Paris.webp') center center/cover no-repeat;
+      }
+    }
+    
+    /* === Alternance de couleurs pour les sections dans <main> === */
+    main section:nth-of-type(even) {
+      background: #f7f7f7;
     }
   </style>
 </head>
@@ -549,7 +587,7 @@
         </a>
       </div>
       <!-- Navigation desktop -->
-      <nav>
+      <nav class="desktop-nav">
         <ul>
           <li><a href="#accueil">Accueil</a></li>
           <li><a href="#about">À propos</a></li>
@@ -715,6 +753,40 @@
             <p>
               "Témoignage à compléter."
             </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- LETMOTIV EN CHIFFRES -->
+    <section id="chiffres" class="section chiffres">
+      <div class="container">
+        <h2>Letmotiv en chiffres</h2>
+        <div class="chiffres-grid">
+          <div class="chiffre-box">
+            <img src="https://img.icons8.com/fluency/48/000000/calendar.png" alt="Calendrier">
+            <h3>2020</h3>
+            <p>Créé en 2020</p>
+          </div>
+          <div class="chiffre-box">
+            <img src="https://img.icons8.com/fluency/48/000000/graduation-cap.png" alt="Apprenants">
+            <h3>+1200</h3>
+            <p>Apprenants</p>
+          </div>
+          <div class="chiffre-box">
+            <img src="https://img.icons8.com/fluency/48/000000/star.png" alt="Avis">
+            <h3>5/5</h3>
+            <p>sur 30 avis</p>
+          </div>
+          <div class="chiffre-box">
+            <img src="https://img.icons8.com/fluency/48/000000/teacher.png" alt="Formateurs">
+            <h3>7</h3>
+            <p>Formateurs</p>
+          </div>
+          <div class="chiffre-box">
+            <img src="https://img.icons8.com/fluency/48/000000/open-book.png" alt="Modules">
+            <h3>28</h3>
+            <p>Modules</p>
           </div>
         </div>
       </div>
