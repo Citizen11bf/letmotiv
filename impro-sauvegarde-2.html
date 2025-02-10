@@ -1,1431 +1,431 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Simulateur d'improvisation</title>
-  <meta name="description" content="Évaluer et développer rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv. Coaching en prise de parole en public. ">
-
-  <!-- Balises Open Graph pour LinkedIn -->
-  <meta property="og:title" content="Simulateur d'improvisation Letmotiv" />
-  <meta property="og:description" content="Évaluez et développez rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://letmotiv-simulateur.fr" />
-  <meta property="og:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png" />
-  <meta property="og:image:alt" content="Illustration d'une improvisation en public avec un orateur sur scène." />
-  <meta name="author" content="Letmotiv" />
-  <meta property="article:published_time" content="2025-01-26" />
-
-  <!-- Balises Twitter (optionnel) -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Simulateur d'improvisation Letmotiv">
-  <meta name="twitter:description" content="Évaluez et développez rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv.">
-  <meta name="twitter:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png">
-
-  <!-- Import de la police DM Sans et Montserrat depuis Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans&family=Montserrat:wght@700&display=swap" rel="stylesheet" />
-
-  <!-- Icônes Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LetMotiv</title>
   <style>
-    /* --- GLOBAL --- */
+    /* --- CSS Global --- */
     * {
-      box-sizing: border-box;
-    }
-    body {
       margin: 0;
-      font-family: 'DM Sans', sans-serif;
-      background-color: #ffffff;
-      color: #333333;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      overflow-x: hidden;
-      padding-top: 60px;
-      padding-bottom: 20px;
-    }
-
-    /* --- HEADER --- */
-    .header {
-      background-color: #182d84;
-      color: #FFFFFF;
-      font-size: 16px;
-      font-weight: bold;
-      text-align: center;
-      padding: 10px;
-      width: 100%;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 10;
+      padding: 0;
       box-sizing: border-box;
     }
-    .header-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      max-width: 100%;
-      overflow-wrap: break-word;
-    }
-    .header-l2 {
-      font-size: 14px;
-      font-weight: normal;
+
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
     }
 
-    /* --- BARRE DE PROGRESSION --- */
-    .progress-container {
-      position: fixed;
-      top: 60px;
-      left: 0;
-      width: 100%;
-      height: 8px;
-      background-color: rgba(24, 45, 132, 0.1);
-      z-index: 9;
-    }
-    .progress-bar {
-      width: 0%;
-      height: 100%;
-      background-color: #00a48a;
-      transition: width 0.5s ease;
-    }
-
-    /* --- BOÎTE D'INTRODUCTION --- */
-    .intro-box {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #182d84, #00a48a);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: #ffffff;
-      z-index: 20;
-      animation: fadeIn 1s ease forwards;
-    }
-    .intro-box h1 {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 2.5rem;
-      margin-bottom: 30px;
-      animation: slideDown 1s ease forwards;
-    }
-    .intro-box button {
-      background-color: #ffffff;
-      color: #182d84;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 1.2rem;
-      border: none;
-      border-radius: 25px;
-      padding: 15px 30px;
-      cursor: pointer;
-      transition: background-color 0.3s, transform 0.3s, color 0.3s;
-      box-shadow: 0px 4px 6px rgba(0,0,0,0.2);
-    }
-    .intro-box button:hover {
-      background-color: #00a48a;
-      color: #ffffff;
-      transform: scale(1.05);
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
-    @keyframes fadeOut {
-      from { opacity: 1; }
-      to   { opacity: 0; }
-    }
-    @keyframes slideDown {
-      from { transform: translateY(-50px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
-    /* --- CONTENEUR PRINCIPAL --- */
-    .main-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex-grow: 1;
-      width: 100%;
-      padding: 20px;
-    }
-
-    /* --- BOXES (étapes) - Design modernisé en "card" --- */
-    .box {
-      position: relative;
-      width: 100%;
-      max-width: 600px;
-      margin: 20px 0;
-      padding: 20px;
-      border-radius: 15px;
-      background: linear-gradient(135deg, #ffffff, #f9f9f9);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      border: none;
-      text-align: center;
-      font-size: 14px;
-      display: none;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .box.active {
-      display: block;
-    }
-    .box:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-    }
-
-    /* --- ANIMATIONS VERTICALES --- */
-    .slide-from-bottom {
-      animation: fromBottom 1.5s ease forwards;
-    }
-    @keyframes fromBottom {
-      from { opacity: 0; transform: translateY(50px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .slide-from-top {
-      animation: fromTop 1.5s ease forwards;
-    }
-    @keyframes fromTop {
-      from { opacity: 0; transform: translateY(-50px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* --- HEADER INTERNE DES BOXES --- */
-    .box-header {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 20px;
-      position: relative;
-    }
-    .back-btn {
-      border: none;
-      background-color: #808080;
-      color: #FFFFFF;
-      font-size: 16px;
-      cursor: pointer;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background-color 0.3s, transform 0.3s;
+    .container {
+      width: 90%;
+      max-width: 1200px;
       margin: 0 auto;
-      margin-bottom: 10px;
-    }
-    .back-btn:hover {
-      background-color: #505050;
-      transform: scale(1.1);
-    }
-    .back-btn:active {
-      background-color: #303030;
-    }
-    .back-btn.hidden-visibility {
-      visibility: hidden;
-    }
-    .box-title {
-      font-size: 18px;
-      font-weight: bold;
-      color: #182d84;
-      text-align: center;
     }
 
-    /* --- FLECHES HAUT/BAS --- */
-    .next-btn, .back-btn { }
-    .next-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 2px solid #182d84;
-      background-color: transparent;
-      color: #182d84;
-      cursor: pointer;
-      transition: background-color 0.3s, color 0.3s, transform 0.3s;
-      margin: 10px auto;
-    }
-    .next-btn:hover {
-      background-color: #00a48a;
-      color: #ffffff;
-      transform: scale(1.05);
-    }
-    .next-btn.pulse {
-      animation: electricPulse 1.5s infinite;
-    }
-    @keyframes electricPulse {
-      0% { box-shadow: 0 0 0 0 rgba(0,164,138,0.7); }
-      70% { box-shadow: 0 0 0 10px rgba(0,164,138,0); }
-      100% { box-shadow: 0 0 0 0 rgba(0,164,138,0); }
-    }
-  
-    /* STEP1 : Choix d’objectif */
-    .objectives-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 10px;
-      margin-bottom: 10px;
-    }
-    .objectives-container button {
-      padding: 10px 20px;
-      border: 2px solid #182d84;
-      border-radius: 25px;
-      background-color: transparent;
-      color: #182d84;
-      cursor: pointer;
-      transition: background-color 0.3s, color 0.3s;
-    }
-    .objectives-container button:hover {
-      background-color: #00a48a;
-      color: #ffffff;
-    }
-    .selected-objective {
-      background-color: #00a48a !important;
-      color: #ffffff;
-    }
-
-    .explanation-box {
-      visibility: hidden;
-      opacity: 0;
-      transform: translateY(-10px);
-      margin-top: 0;
-      background-color: #fefefe;
-      border: 0 solid #ccc;
-      border-radius: 8px;
-      padding: 10px;
-      text-align: center;
-      font-weight: bold;
-      font-size: 14px;
-      font-style: italic;
-      color: #333;
-      transition: border 0.5s ease, opacity 0.5s ease, transform 0.5s ease;
-    }
-    .explanation-box.show {
-      visibility: visible;
-      opacity: 1;
-      transform: translateY(0);
-      border: 2px solid #ccc;
-    }
-
-    /* --- STEP2 : Génération du sujet --- */
-    .subject-wrapper {
-      margin-top: 10px;
-      background-color: #fefefe;
-      border: 2px solid #ccc;
-      border-radius: 8px;
-      padding: 10px;
-      text-align: center;
-      font-size: 14px;
-      font-style: italic;
-      color: #333;
-      display: none;
-    }
-
-    /* STEP2 : Rappel de l'objectif */
-    #selected-objective-display {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      margin-bottom: 10px;
-      position: relative;
-      padding-left: 25px;
-    }
-
-    /* --- STEP3 : Enregistrement vidéo --- */
-    .video-box {
-      margin: 10px auto;
-      border: 3px solid #182d84;
-      border-radius: 6px;
-      max-width: 500px;
-      background-color: #fefefe;
-      height: 300px;
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      transition: all 0.3s ease;
-    }
-    /* Classe pour agrandir légèrement l'encart vidéo */
-    .enlarged-video {
-      height: 450px;
-      transition: height 0.3s ease;
-    }
-    .video-box video {
+    /* --- En-tête et Navigation --- */
+    header {
+      background: #fff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: fixed;
       width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 4px;
-      position: absolute;
       top: 0;
-      left: 0;
-      z-index: 1;
-    }
-    /* Zone overlay pour les instructions et le bouton */
-    .video-overlay {
-      position: absolute;
-      z-index: 2;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      color: #555;
-      font-style: italic;
-      font-size: 14px;
-      padding: 20px;
-      background: rgba(255,255,255,0.6);
-    }
-    .video-overlay p {
-      margin: 10px 0;
-    }
-    .video-overlay button {
-      pointer-events: auto;
-      margin: 15px 0;
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #182d84;
-      color: #fff;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    .video-overlay button:hover {
-      background-color: #00a48a;
-    }
-    .recording-indicator {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      display: flex;
-      align-items: center;
-      background-color: rgba(255,255,255,0.8);
-      padding: 5px 10px;
-      border-radius: 20px;
-      font-size: 14px;
-      color: #ff0000;
-      display: none;
-      z-index: 3;
-    }
-    .recording-indicator .dot {
-      height: 10px;
-      width: 10px;
-      background-color: #ff0000;
-      border-radius: 50%;
-      display: inline-block;
-      margin-right: 5px;
-      animation: blink 1s infinite;
-    }
-    @keyframes blink {
-      0% { opacity: 1; }
-      50% { opacity: 0; }
-      100% { opacity: 1; }
-    }
-    .countdown {
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
-      font-size: 24px;
-      color: #ffffff;
-      display: none;
-      z-index: 4;
-      background-color: rgba(0,0,0,0.5);
-      padding: 5px 10px;
-      border-radius: 5px;
-      text-align: center;
-    }
-    .initial-countdown-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(128,128,128,0.6);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 5;
-      border-radius: 6px;
-    }
-    .initial-countdown {
-      font-size: 48px;
-      color: #ffffff;
-      font-weight: bold;
+      z-index: 1000;
     }
 
-    .impro-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: center;
-      margin-top: 10px;
-    }
-    .hidden-btn {
-      display: none;
-    }
-
-    /* --- STEP4 : Partage sur LinkedIn + Options de progression --- */
-    .progression-buttons {
-      margin-top: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-    }
-    .progression-buttons a {
-      width: 100%;
-      max-width: 300px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    button,
-    a.btn {
-      background-color: #182d84;
-      color: #FFFFFF;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 16px;
-      border: none;
-      border-radius: 25px;
-      padding: 10px 20px;
-      cursor: pointer;
-      margin: 5px;
-      text-decoration: none;
-      transition: background-color 0.3s, transform 0.3s;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-    button:hover,
-    button:active,
-    a.btn:hover,
-    a.btn:active {
-      background-color: #00a48a;
-      transform: translateY(-3px);
-    }
-
-    .linkedin-share-button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background-color: #0e76a8;
-      color: #FFFFFF;
-      border: none;
-      border-radius: 25px;
-      padding: 10px 20px;
-      font-weight: bold;
-      text-decoration: none;
-      transition: background-color 0.3s, transform 0.3s;
-      cursor: pointer;
-      margin: 5px;
-      gap: 10px;
-    }
-    .linkedin-share-button:hover,
-    .linkedin-share-button:active {
-      background-color: #085a8c;
-      transform: translateY(-3px);
-    }
-
-    /* Media Queries */
-    @media (max-height: 600px) {
-      .box { margin-bottom: 20px; }
-    }
-
-    .error-message {
-      color: red;
-      margin-top: 10px;
-      font-weight: bold;
-      display: none;
-      text-align: center;
-      width: 100%;
-    }
-
-    .input-group {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      width: 48%;
-    }
-    .input-group label {
-      margin-bottom: 5px;
-      font-weight: bold;
-      color: #000;
-    }
-    .input-group input {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 14px;
-      box-sizing: border-box;
-      transition: border-color 0.3s;
-    }
-    .input-group input:focus {
-      border-color: #00a48a;
-      outline: none;
-    }
-    .download-fields {
+    .header-container {
       display: flex;
       justify-content: space-between;
-      gap: 20px;
-      margin-bottom: 15px;
+      align-items: center;
+      padding: 15px 0;
     }
 
-    #generate-subject-btn.subject-generated {
-      background-color: #00a48a;
-      color: #ffffff;
-      position: relative;
-      padding-right: 40px;
-    }
-    #generate-subject-btn.subject-generated::after {
-      content: "\f2f9";
-      font-family: "Font Awesome 5 Free";
-      font-weight: 900;
-      position: absolute;
-      right: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 16px;
-    }
-
-    .download-section-accent {
-      background: linear-gradient(135deg, #182d84, #00a48a);
-      border-radius: 10px;
-      padding: 20px;
-      text-align: center;
-      color: #fff;
-      margin-bottom: 20px;
-      animation: fadeInDown 0.6s ease forwards;
-    }
-    .download-section-accent h2 {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.5rem;
-      margin: 0 0 10px;
-    }
-    .download-section-accent .subtitle {
-      font-style: italic;
-      margin-bottom: 10px;
-    }
-    .download-section-accent .reassure {
-      font-size: 0.9rem;
-      opacity: 0.9;
-    }
-
-    .call-to-action {
-      text-align: center;
-    }
-    .call-to-action button {
-      background-color: #ffcb2d;
-      color: #000;
-      border-radius: 30px;
-      padding: 12px 24px;
-      font-weight: bold;
-      font-size: 1rem;
-      transition: transform 0.2s, box-shadow 0.2s;
-      margin: 10px auto;
-    }
-    .call-to-action button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-    }
-
-    .download-buttons {
-      margin-top: 20px;
-      text-align: center;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.4s ease, transform 0.4s ease;
-      display: none;
-    }
-    .download-buttons.show {
-      opacity: 1;
-      transform: translateY(0);
-      display: block;
-    }
-
-    .success-message {
-      color: #28a745;
-      background-color: #d4edda;
-      border: 1px solid #c3e6cb;
-      border-radius: 5px;
-      padding: 10px 20px;
-      margin-top: 10px;
-      font-weight: bold;
-      text-align: center;
-      transition: opacity 0.5s ease, visibility 0.5s ease;
-    }
-    .success-message.show {
-      display: block;
-      opacity: 1;
-      visibility: visible;
-    }
-
-    @keyframes fadeInDown {
-      from { transform: translateY(-20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
-    /* --- Bulle style BD pour le sujet (STEP3) --- */
-    .subject-bubble {
-      display: inline-block;
-      position: relative;
-      background: #fefefe;
-      border: 2px solid #ccc;
-      border-radius: 16px;
-      padding: 10px 15px;
-      font-size: 16px;
+    .logo a {
+      font-size: 24px;
+      text-decoration: none;
       color: #333;
-      max-width: 80%;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+    }
+
+    nav ul li {
+      margin-left: 20px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
+
+    /* Bouton menu pour mobile */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .menu-toggle span {
+      width: 25px;
+      height: 3px;
+      background: #333;
+      margin-bottom: 4px;
+      border-radius: 3px;
+    }
+
+    /* --- Section Hero / Accueil --- */
+    .hero {
+      height: 100vh;
+      /* L'image de fond est récupérée depuis Unsplash par mot-clé "motivation" */
+      background: url('https://source.unsplash.com/1600x900/?motivation') center center/cover no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       text-align: center;
+      position: relative;
+      padding-top: 60px; /* pour compenser la hauteur de l'en-tête */
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.4);
+    }
+
+    .hero-content {
+      position: relative;
+      color: #fff;
+      z-index: 1;
+    }
+
+    .hero-content h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    .hero-content p {
+      font-size: 24px;
+      margin-bottom: 30px;
+    }
+
+    .hero-content .btn {
+      display: inline-block;
+      background: #ff5722;
+      color: #fff;
+      padding: 12px 30px;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+
+    /* --- Sections Générales --- */
+    .section {
+      padding: 100px 0;
+    }
+
+    .section h2 {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 36px;
+    }
+
+    /* --- Section À propos --- */
+    .about p {
+      text-align: center;
+      max-width: 800px;
       margin: 0 auto;
     }
-    
-    /* --- Inversion de la caméra (demande de Pierre 02/02/2025) --- */
-    video {
-      transform: scaleX(-1);
-      -webkit-transform: scaleX(-1);
+
+    /* --- Section Services --- */
+    .services .service-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
     }
 
-    /* Fixer la position de la box active sous le header (demande de Pierre 05/02/2025) */
-    .fixed-box {
-      position: fixed;
-      top: 50px;  /* 50 px sous le header */
+    .services .service-item {
+      flex: 0 0 32%;
+      background: #f9f9f9;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      text-align: center;
     }
-    
+
+    /* --- Section Portfolio --- */
+    .portfolio .portfolio-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .portfolio .portfolio-item {
+      flex: 0 0 30%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .portfolio .portfolio-item img {
+      width: 100%;
+      display: block;
+    }
+
+    .portfolio .portfolio-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .portfolio .portfolio-item:hover .portfolio-info {
+      opacity: 1;
+    }
+
+    /* --- Section Contact --- */
+    #contact-form {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    #contact-form .form-group {
+      margin-bottom: 20px;
+    }
+
+    #contact-form label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    #contact-form input,
+    #contact-form textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+    }
+
+    #contact-form .btn {
+      background: #ff5722;
+      color: #fff;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    /* --- Pied de page --- */
+    footer {
+      background: #333;
+      color: #fff;
+      padding: 20px 0;
+      text-align: center;
+    }
+
+    /* --- Media Queries --- */
+    @media (max-width: 768px) {
+      nav ul {
+        display: none;
+        flex-direction: column;
+        background: #fff;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        width: 200px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      nav ul.active {
+        display: flex;
+      }
+      .menu-toggle {
+        display: flex;
+      }
+      .services .service-item {
+        flex: 0 0 100%;
+        margin-bottom: 20px;
+      }
+      .portfolio .portfolio-item {
+        flex: 0 0 45%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-content h1 {
+        font-size: 32px;
+      }
+      .hero-content p {
+        font-size: 18px;
+      }
+      .portfolio .portfolio-item {
+        flex: 0 0 100%;
+      }
+    }
   </style>
 </head>
 <body>
-  <!-- BOÎTE D'INTRODUCTION -->
-  <div class="intro-box" id="intro-box">
-    <h1>Entraîne-toi à la prise de parole en public</h1>
-    <button id="start-intro-btn" aria-label="Commencer">Commencer</button>
-  </div>
-
-  <!-- FORMULAIRE CACHÉ POUR GOOGLE FORMS -->
-  <form id="hidden-google-form" action="https://docs.google.com/forms/d/e/1FAIpQLSfGAcKp0cV5AeVJCJBPbtKLKCLhbYySZf_FkiMg85WKVFUn6A/formResponse" method="POST" target="hidden_iframe" style="display:none;">
-    <input type="text" name="entry.1119647353" id="hidden-prenom">
-    <input type="email" name="entry.638831312" id="hidden-email">
-  </form>
-  <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
-
-  <!-- HEADER -->
-  <div class="header">
-    <div class="header-content">
-      <div class="header-l1">Coaching en prise de parole </div>
-      <div class="header-l2">Simulateur d'improvisation by Letmotiv</div>
+  <!-- En-tête -->
+  <header>
+    <div class="container header-container">
+      <div class="logo">
+        <a href="#">LetMotiv</a>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#accueil">Accueil</a></li>
+          <li><a href="#about">À propos</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#portfolio">Portfolio</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="menu-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
     </div>
-  </div>
+  </header>
 
-  <!-- BARRE DE PROGRESSION -->
-  <div class="progress-container">
-    <div class="progress-bar" id="top-progress-bar"></div>
-  </div>
-
-  <!-- CONTAINER PRINCIPAL -->
-  <div class="main-container">
-
-    <!-- STEP1 : Choix d'objectif -->
-    <div class="box" id="step1">
-      <div class="box-header">
-        <button class="back-btn hidden-visibility" id="back-btn1" aria-label="Retour">
-          <i class="fas fa-arrow-up"></i>
-        </button>
-        <div class="box-title">Quel est ton objectif ?</div>
-      </div>
-      <div class="objectives-container">
-        <button data-category="convaincre">Convaincre</button>
-        <button data-category="inspirer">Inspirer</button>
-        <button data-category="lacher-prise">Lâcher prise</button>
-        <button data-category="toast">Porter un toast</button>
-        <button data-category="repartie">Avoir de la répartie</button>
-        <button data-category="vendre">Vendre</button>
-        <button data-category="conflit">Gérer un conflit</button>
-        <button data-category="diction">Diction</button>
-        <button data-category="entretien">Réussir son entretien</button>
-      </div>
-      <div id="objective-error" class="error-message">Sélectionne un objectif avant de continuer.</div>
-      <div class="explanation-box" id="explanation-box"></div>
-      <!-- Bouton Suivant STEP1 -->
-      <button class="next-btn" id="next-btn1" aria-label="Étape suivante">
-        <i class="fas fa-arrow-down"></i>
-      </button>
+  <!-- Section Hero / Accueil -->
+  <section id="accueil" class="hero">
+    <div class="hero-content">
+      <h1>Bienvenue sur LetMotiv</h1>
+      <p>Votre source d'inspiration et de motivation</p>
+      <a href="#about" class="btn">En savoir plus</a>
     </div>
+  </section>
 
-    <!-- STEP2 : Génération du sujet -->
-    <div class="box" id="step2">
-      <div class="box-header">
-        <button class="back-btn" id="back-btn2" aria-label="Retour à l'étape précédente">
-          <i class="fas fa-arrow-up"></i>
-        </button>
-        <div class="box-title">Ton objectif</div>
-      </div>
-      <!-- Rappel de l'objectif sélectionné -->
-      <p id="selected-objective-display"></p>
-      <button id="generate-subject-btn">Générer un sujet</button>
-      <div id="subject-wrapper" class="subject-wrapper">
-        <span id="subject-display"></span>
-      </div>
-      <div id="subject-error" class="error-message"></div>
-      <!-- Bouton Suivant STEP2 -->
-      <button class="next-btn" id="next-btn2" aria-label="Étape suivante">
-        <i class="fas fa-arrow-down"></i>
-      </button>
+  <!-- Section À propos -->
+  <section id="about" class="section about">
+    <div class="container">
+      <h2>À propos</h2>
+      <p>LetMotiv est dédié à vous inspirer et vous motiver à atteindre vos objectifs. Notre mission est de fournir des outils et conseils pour booster votre productivité et votre créativité.</p>
     </div>
+  </section>
 
-    <!-- STEP3 : Enregistrement vidéo -->
-    <div class="box" id="step3">
-      <div class="box-header">
-        <button class="back-btn" id="back-btn3" aria-label="Retour à l'étape précédente">
-          <i class="fas fa-arrow-up"></i>
-        </button>
-        <div class="box-title">Lance ton improvisation</div>
-      </div>
-      <!-- Rappel du sujet généré dans une bulle style BD -->
-      <div id="current-subject-display" class="subject-bubble"></div>
-      <div class="video-box" id="video-box">
-        <video id="preview" autoplay muted playsinline webkit-playsinline></video>
-        <!-- Zone overlay avec instructions et bouton -->
-        <div class="video-overlay">
-          <p>Ici va s'enregistrer ton improvisation vidéo. Lorsque tu es prêt, clique sur le bouton ci-dessous.</p>
-          <button id="start-btn" aria-label="Démarrer l'improvisation">Démarrer ton impro <i class="fas fa-video"></i></button>
-          <p>NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
+  <!-- Section Services -->
+  <section id="services" class="section services">
+    <div class="container">
+      <h2>Services</h2>
+      <div class="service-list">
+        <div class="service-item">
+          <h3>Coaching</h3>
+          <p>Accompagnement personnalisé pour atteindre vos objectifs.</p>
         </div>
-        <div class="recording-indicator" id="recording-indicator">
-          <span class="dot"></span> Enregistrement en cours
+        <div class="service-item">
+          <h3>Ateliers</h3>
+          <p>Sessions interactives pour stimuler votre créativité.</p>
         </div>
-        <div class="countdown" id="countdown">1:59</div>
-        <div class="initial-countdown-overlay" id="initial-countdown-overlay">
-          <div class="initial-countdown" id="initial-countdown">3</div>
+        <div class="service-item">
+          <h3>Conférences</h3>
+          <p>Interventions inspirantes pour vous motiver au quotidien.</p>
         </div>
       </div>
-      <!-- Boutons d'action (Stop, Restart) -->
-      <div class="impro-actions">
-        <button id="stop-btn" class="hidden-btn" aria-label="Arrêter l'improvisation">Arrêter ton impro <i class="fas fa-stop"></i></button>
-        <button id="restart-btn" class="hidden-btn" aria-label="Recommencer l'improvisation">Recommencer ton impro <i class="fas fa-redo"></i></button>
-      </div>
-      <div id="impro-error" class="error-message"></div>
-      <!-- Bouton Suivant STEP3 -->
-      <button class="next-btn" id="next-btn3" aria-label="Étape suivante">
-        <i class="fas fa-arrow-down"></i>
-      </button>
     </div>
+  </section>
 
-    <!-- STEP4 : Partage sur LinkedIn + Options de progression -->
-    <div class="box" id="step4">
-      <div class="box-header">
-        <button class="back-btn" id="back-btn4" aria-label="Retour à l'étape précédente">
-          <i class="fas fa-arrow-up"></i>
-        </button>
-        <div class="box-title">Bravo pour ton impro 👏👏</div>
-      </div>
-      <!-- Section Partage -->
-      <div class="share-section">
-        <h3>Partage ton expérience</h3>
-        <p>Inspire la communauté et encourage d'autres personnes à relevé le défi ! <br>#ChallengeImproLetmotiv</br> </p>
-        <a id="linkedin-share-button" href="https://www.linkedin.com/shareArticle?mini=true&url=https://letmotiv-simulateur.fr" target="_blank" rel="noopener noreferrer" class="linkedin-share-button" aria-label="Partager sur LinkedIn">
-          <i class="fab fa-linkedin"></i> Partager sur LinkedIn
-        </a>
-      </div>
-      <hr style="margin:20px 0; border: 1px dashed #ccc;">
-      <!-- Section Call-to-Action -->
-      <div class="cta-section">
-        <h3>Continue à progresser</h3>
-        <p>Tu souhaites progresser rapidement et efficacement dans la prise de parole en public ? Découvre nos ressources exclusives :</p>
-        <div class="progression-buttons">
-          <a href="https://alexetpierre.systeme.io/inscription" target="_blank" rel="noopener noreferrer" class="btn" aria-label="Découvrir la formation en ligne">
-            <i class="fas fa-laptop"></i> Découvrir la formation en ligne
-          </a>
-          <a href="https://www.letmotiv.fr/offres-particulier/coaching-prise-de-parole" target="_blank" rel="noopener noreferrer" class="btn" aria-label="Réserver un coaching">
-            <i class="fas fa-chalkboard-teacher"></i> Réserver un coaching
-          </a>
-        </div>
-      </div>
-      <!-- Bouton Suivant STEP4 -->
-      <button class="next-btn" id="next-btn4" aria-label="Étape suivante">
-        <i class="fas fa-arrow-down"></i>
-      </button>
-    </div>
-
-    <!-- STEP5 : Analyse ta prestation & Téléchargements -->
-    <div class="box" id="step5">
-      <div class="box-header">
-        <button class="back-btn" id="back-btn5" aria-label="Retour à l'étape précédente">
-          <i class="fas fa-arrow-up"></i>
-        </button>
-        <div class="box-title">Analyse ta prestation</div>
-      </div>
-      <div class="download-section">
-        <div class="download-section-accent">
-          <h2>Obtiens gratuitement ta prestation en vidéo et la grille d'analyse Letmotiv</h2>
-          <p class="subtitle">Analyse et évalue ton improvisation grâce au document Letmotiv.</p>
-          <p class="reassure">
-            N'hésite pas à t'entraîner et refaire des improvisations pour progresser sur tes axes d'amélioration.
-          </p>
-        </div>
-        <div class="download-fields">
-          <div class="input-group">
-            <label for="prenom">Prénom :</label>
-            <input type="text" id="prenom" placeholder="Votre prénom" aria-label="Prénom"/>
-            <div id="prenom-error" class="error-message"></div>
-          </div>
-          <div class="input-group">
-            <label for="email">Email :</label>
-            <input type="email" id="email" placeholder="Votre email" aria-label="Email"/>
-            <div id="email-error" class="error-message"></div>
+  <!-- Section Portfolio -->
+  <section id="portfolio" class="section portfolio">
+    <div class="container">
+      <h2>Portfolio</h2>
+      <div class="portfolio-grid">
+        <div class="portfolio-item">
+          <!-- Image tirée d'Unsplash avec les mots-clés "motivation" et "work" -->
+          <img src="https://source.unsplash.com/600x400/?motivation,work" alt="Projet 1">
+          <div class="portfolio-info">
+            <h3>Projet 1</h3>
+            <p>Inspiration</p>
           </div>
         </div>
-        <div class="call-to-action">
-          <button id="validate-form-btn" aria-label="Valider les informations">
-            Valider
-          </button>
+        <div class="portfolio-item">
+          <!-- Image avec le mot-clé "teamwork" -->
+          <img src="https://source.unsplash.com/600x400/?teamwork" alt="Projet 2">
+          <div class="portfolio-info">
+            <h3>Projet 2</h3>
+            <p>Collaboration</p>
+          </div>
         </div>
-        <div id="success-message" class="success-message" style="display: none;">
-          Merci ! Tes informations ont été enregistrées et tes ressources sont prêtes à être téléchargées.
-        </div>
-        <div class="download-buttons" id="download-buttons">
-          <button id="download-video-btn" aria-label="Télécharger ta vidéo">
-            <i class="fas fa-download"></i> Télécharger ta vidéo
-          </button>
-          <button id="download-pdf-btn" aria-label="Télécharger la grille d'évaluation">
-            <i class="fas fa-download"></i> Télécharger la grille d'évaluation
-          </button>
+        <div class="portfolio-item">
+          <!-- Image avec le mot-clé "success" -->
+          <img src="https://source.unsplash.com/600x400/?success" alt="Projet 3">
+          <div class="portfolio-info">
+            <h3>Projet 3</h3>
+            <p>Réussite</p>
+          </div>
         </div>
       </div>
     </div>
+  </section>
 
-  </div>
+  <!-- Section Contact -->
+  <section id="contact" class="section contact">
+    <div class="container">
+      <h2>Contact</h2>
+      <form id="contact-form">
+        <div class="form-group">
+          <label for="name">Nom</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="btn">Envoyer</button>
+      </form>
+    </div>
+  </section>
 
-  <!-- SCRIPT -->
+  <!-- Pied de page -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 LetMotiv. Tous droits réservés.</p>
+    </div>
+  </footer>
+
   <script>
-    /***********************
-     * Gestion des étapes (5 étapes)
-     ***********************/
-    const boxes = {
-      1: document.getElementById('step1'),
-      2: document.getElementById('step2'),
-      3: document.getElementById('step3'),
-      4: document.getElementById('step4'),
-      5: document.getElementById('step5')
-    };
+    // --- JavaScript pour le menu mobile et le défilement fluide ---
+    document.addEventListener('DOMContentLoaded', function () {
+      const menuToggle = document.querySelector('.menu-toggle');
+      const navUl = document.querySelector('nav ul');
 
-    const nextBtns = {
-      1: document.getElementById('next-btn1'),
-      2: document.getElementById('next-btn2'),
-      3: document.getElementById('next-btn3'),
-      4: document.getElementById('next-btn4')
-    };
-
-    const backBtns = {
-      2: document.getElementById('back-btn2'),
-      3: document.getElementById('back-btn3'),
-      4: document.getElementById('back-btn4'),
-      5: document.getElementById('back-btn5')
-    };
-
-    const introBox = document.getElementById('intro-box');
-    const startIntroBtn = document.getElementById('start-intro-btn');
-    const topProgressBar = document.getElementById('top-progress-bar');
-
-    // Variables pour mémoriser l'objectif et le sujet
-    let currentCategory = null;
-    let currentObjective = ""; // Texte de l'objectif sélectionné
-    let currentSubject = "";
-
-    // Mise à jour de la barre de progression : 5 étapes => 20% chacune
-    function updateProgressBar(step) {
-      const progress = step * 20;
-      topProgressBar.style.width = `${progress}%`;
-    }
-    updateProgressBar(0);
-
-    // Fonction pour retirer l'animation "pulse" de tous les boutons "Suivant"
-    function removePulseFromAll() {
-      Object.values(nextBtns).forEach(btn => btn.classList.remove('pulse'));
-    }
-
-    // Fonction d'affichage avec animations
-    function showBox(current, next) {
-      if (!boxes[current] || !boxes[next]) return;
-      
-      // Retirer la classe fixed de la box précédente
-      boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top', 'fixed-box');
-      
-      // Ajouter la classe active et fixer la nouvelle box
-      boxes[next].classList.add('active', 'fixed-box');
-      
-      if (next > current) {
-        boxes[next].classList.add('slide-from-bottom');
-      } else {
-        boxes[next].classList.add('slide-from-top');
-      }
-      updateProgressBar(next);
-      
-      // Mise à jour des rappels dans les étapes concernées
-      if (next === 2) {
-        document.getElementById('selected-objective-display').textContent = explanations[currentCategory] || currentObjective;
-      }
-      if (next === 3) {
-        document.getElementById('current-subject-display').textContent = currentSubject;
-      }
-      
-      removePulseFromAll();
-      if (next === 4) {
-        nextBtns[4].classList.add('pulse');
-      }
-    }
-
-    // Boîte d'introduction
-    startIntroBtn.addEventListener('click', () => {
-      introBox.style.animation = 'fadeOut 0.5s ease forwards';
-      setTimeout(() => {
-        introBox.style.display = 'none';
-        boxes[1].classList.add('active', 'slide-from-bottom', 'fixed-box');
-        updateProgressBar(1);
-        removePulseFromAll();
-      }, 500);
-    });
-
-    // STEP1 -> STEP2 : Validation de l'objectif
-    nextBtns[1].addEventListener('click', () => {
-      const selected = document.querySelector('.objectives-container .selected-objective');
-      if (!selected) {
-        const errorDiv = document.getElementById('objective-error');
-        errorDiv.textContent = "Sélectionne un objectif avant de continuer.";
-        errorDiv.style.display = 'block';
-        return;
-      }
-      showBox(1, 2);
-    });
-
-    // STEP2 -> STEP3 : Vérification du sujet généré
-    nextBtns[2].addEventListener('click', () => {
-      if (!currentSubject) {
-        const subjErrorDiv = document.getElementById('subject-error');
-        subjErrorDiv.textContent = "Tu dois générer un sujet avant de continuer.";
-        subjErrorDiv.style.display = 'block';
-        return;
-      }
-      showBox(2, 3);
-    });
-
-    // STEP3 -> STEP4 : Enregistrement
-    nextBtns[3].addEventListener('click', () => {
-      const improErrorDiv = document.getElementById('impro-error');
-      improErrorDiv.style.display = 'none';
-      if (!currentSubject && !improStarted) {
-        improErrorDiv.textContent = "Tu dois d'abord générer un sujet et lancer ton impro avant de continuer.";
-        improErrorDiv.style.display = 'block';
-        return;
-      } else if (currentSubject && !improStarted) {
-        improErrorDiv.textContent = "Tu dois lancer ton improvisation avant de continuer.";
-        improErrorDiv.style.display = 'block';
-        return;
-      }
-      showBox(3, 4);
-    });
-
-    // STEP4 -> STEP5
-    nextBtns[4].addEventListener('click', () => {
-      showBox(4, 5);
-    });
-
-    // Boutons "Retour"
-    backBtns[2].addEventListener('click', () => { showBox(2, 1); });
-    backBtns[3].addEventListener('click', () => { showBox(3, 2); });
-    backBtns[4].addEventListener('click', () => { showBox(4, 3); });
-    backBtns[5].addEventListener('click', () => { showBox(5, 4); });
-
-    /***********************
-     * Gestion des objectifs et explications (STEP1)
-     ***********************/
-    const explanations = {
-      convaincre:   "Tu as 2 minutes pour convaincre ton auditoire sur un sujet délicat",
-      inspirer:     "Tu as 2 minutes pour inspirer ton auditoire",
-      'lacher-prise': "Oublie la censure et exprime ton grain de folie",
-      toast:        "Tu as 2 minutes pour porter un toast marquant lors d'un événement",
-      repartie:     "Au travail, répond au tac au tac à la phrase qu’on te dit",
-      vendre:       "Tu as 2 minutes pour vendre un objet insolite",
-      conflit:      "Gère un désaccord ou une tension avec diplomatie",
-      diction:      "Répète la phrase suivante 5 fois de suite sans te tromper",
-      entretien:    "Convaincs ton futur employeur que tu es la pépite qu'il recherche"
-    };
-    const txtFilesByCategory = {
-      convaincre:   "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/convaincre.txt",
-      inspirer:     "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/inspirer.txt",
-      'lacher-prise': "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/lacher_prise.txt",
-      toast:        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/toast.txt",
-      repartie:     "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/repartie.txt",
-      vendre:       "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/vendre.txt",
-      conflit:      "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/gerer_un_conflit.txt",
-      diction:      "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/diction.txt",
-      entretien:    "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/entretien.txt"
-    };
-    let subjectsCache = {
-      convaincre: null,
-      inspirer: null,
-      'lacher-prise': null,
-      toast: null,
-      repartie: null,
-      vendre: null,
-      conflit: null,
-      diction: null,
-      entretien: null
-    };
-    const objectivesButtons = document.querySelectorAll('.objectives-container button');
-    const explanationBox = document.getElementById('explanation-box');
-
-    objectivesButtons.forEach(button => {
-      button.addEventListener('click', async () => {
-        objectivesButtons.forEach(btn => btn.classList.remove('selected-objective'));
-        button.classList.add('selected-objective');
-        currentCategory = button.dataset.category;
-        currentObjective = button.innerText;
-        const explication = explanations[currentCategory] || "";
-        explanationBox.textContent = explication;
-        explanationBox.classList.add('show');
-        if (subjectsCache[currentCategory] === null) {
-          await loadSubjects(currentCategory);
-        }
-        document.getElementById('objective-error').style.display = 'none';
-        document.getElementById('impro-error').style.display = 'none';
-        removePulseFromAll();
-        nextBtns[1].classList.add('pulse');
+      menuToggle.addEventListener('click', function () {
+        navUl.classList.toggle('active');
       });
-    });
 
-    async function loadSubjects(category) {
-      const filePath = txtFilesByCategory[category];
-      if (!filePath) return [];
-      try {
-        const response = await fetch(filePath);
-        if (!response.ok) {
-          console.error("Erreur fetch:", filePath);
-          return [];
-        }
-        const text = await response.text();
-        const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-        subjectsCache[category] = lines;
-        return lines;
-      } catch (err) {
-        console.error("Erreur fetch: ", err);
-        return [];
-      }
-    }
-
-    /***********************
-     * Gestion du sujet d'impro (STEP2)
-     ***********************/
-    const generateSubjectBtn = document.getElementById('generate-subject-btn');
-    const subjectWrapper = document.getElementById('subject-wrapper');
-    const subjectDisplay = document.getElementById('subject-display');
-
-    generateSubjectBtn.addEventListener('click', () => {
-      if (!currentCategory) {
-        const errorDiv = document.getElementById('objective-error');
-        errorDiv.textContent = "Merci de sélectionner un objectif avant de générer un sujet.";
-        errorDiv.style.display = 'block';
-        return;
-      }
-      const subjects = subjectsCache[currentCategory];
-      if (!subjects || subjects.length === 0) {
-        subjectDisplay.textContent = "Désolé, aucun sujet n'est disponible pour le moment. Veuillez réessayer plus tard.";
-        subjectWrapper.style.display = 'block';
-        currentSubject = "";
-        return;
-      }
-      const randomIndex = Math.floor(Math.random() * subjects.length);
-      currentSubject = subjects[randomIndex];
-      subjectDisplay.textContent = currentSubject;
-      subjectWrapper.style.display = 'block';
-      generateSubjectBtn.classList.add('subject-generated');
-      document.getElementById('subject-error').style.display = 'none';
-      removePulseFromAll();
-      nextBtns[2].classList.add('pulse');
-    });
-
-    /***********************
-     * Enregistrement vidéo (STEP3)
-     ***********************/
-    let improStarted = false;
-    let mediaRecorderInstance;
-    let recordedChunks = [];
-    const preview = document.getElementById('preview');
-    // Nous n'utilisons plus directement startBtn (car il sera recréé lors du restart)
-    const stopBtn = document.getElementById('stop-btn');
-    const restartBtn = document.getElementById('restart-btn');
-    const recordingIndicator = document.getElementById('recording-indicator');
-    const countdownElement = document.getElementById('countdown');
-    const initialCountdownOverlay = document.getElementById('initial-countdown-overlay');
-    const initialCountdown = document.getElementById('initial-countdown');
-
-    let countdown;
-    let videoURL = "";
-    let timerInterval;
-    let timeRemaining = 120; // 2 minutes
-
-    // Fonction qui attache l'événement au bouton "Démarrer ton impro"
-    function bindStartButton() {
-      const startBtn = document.getElementById('start-btn');
-      if(startBtn){
-        startBtn.addEventListener('click', startImpro);
-      }
-    }
-
-    async function startImpro() {
-      if (!currentSubject) {
-        const improErrorDiv = document.getElementById('impro-error');
-        improErrorDiv.textContent = "Tu dois générer un sujet avant de démarrer l'improvisation.";
-        improErrorDiv.style.display = 'block';
-        return;
-      }
-      if (typeof MediaRecorder === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
-        const improErrorDiv = document.getElementById('impro-error');
-        improErrorDiv.textContent = "Désolé, l'enregistrement vidéo n'est pas supporté par votre navigateur.";
-        improErrorDiv.style.display = 'block';
-        return;
-      }
-      if (!confirm("Votre webcam va se lancer pour démarrer l'improvisation. Voulez-vous continuer ?")) {
-        return;
-      }
-      // Masquer l'overlay (qui contient le bouton) pour déclencher la suite
-      document.querySelector('.video-overlay').style.display = 'none';
-      
-      // Ajouter la classe pour agrandir légèrement l'encart vidéo
-      const videoBox = document.getElementById('video-box');
-      videoBox.classList.add('enlarged-video');
-      
-      startInitialCountdown();
-    }
-
-    function startInitialCountdown() {
-      let count = 5;
-      initialCountdown.textContent = count;
-      initialCountdownOverlay.style.display = 'flex';
-      countdown = setInterval(() => {
-        count--;
-        if (count > 0) {
-          initialCountdown.textContent = count;
-        } else {
-          clearInterval(countdown);
-          initialCountdownOverlay.style.display = 'none';
-          initiateRecording();
-        }
-      }, 1000);
-    }
-
-    async function initiateRecording() {
-      const stream = await setupCamera();
-      if (!stream) return;
-      if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
-        const improErrorDiv = document.getElementById('impro-error');
-        improErrorDiv.textContent = "Ton navigateur ne supporte pas l'enregistrement vidéo. Essaye avec Google Chrome, Microsoft Edge ou Firefox.";
-        improErrorDiv.style.display = 'block';
-        return;
-      }
-      mediaRecorderInstance = new MediaRecorder(stream);
-      recordedChunks = [];
-      mediaRecorderInstance.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          recordedChunks.push(event.data);
-        }
-      };
-      mediaRecorderInstance.onstop = () => {
-        const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
-        videoURL = URL.createObjectURL(videoBlob);
-        stream.getTracks().forEach(t => t.stop());
-        // Affichage du message en overlay une fois l'enregistrement terminé
-        const overlay = document.querySelector('.video-overlay');
-        overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Improvisation terminée. Passe à l'étape suivante !</p>";
-        overlay.style.display = 'flex';
-        document.getElementById('impro-error').style.display = 'none';
-        recordingIndicator.style.display = 'none';
-        clearInterval(timerInterval);
-        improStarted = true;
-        removePulseFromAll();
-        nextBtns[3].classList.add('pulse');
-      };
-      mediaRecorderInstance.start();
-      recordingIndicator.style.display = 'flex';
-      stopBtn.classList.remove('hidden-btn');
-      stopBtn.disabled = false;
-      restartBtn.classList.add('hidden-btn');
-      startTimer();
-    }
-
-    async function setupCamera() {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-        preview.srcObject = stream;
-        return stream;
-      } catch (error) {
-        const improErrorDiv = document.getElementById('impro-error');
-        if (error.name === 'NotAllowedError') {
-          improErrorDiv.textContent = "Vous avez refusé l'accès à la webcam. Veuillez autoriser l'accès.";
-        } else if (error.name === 'NotFoundError') {
-          improErrorDiv.textContent = "Aucune caméra/micro détectés.";
-        } else {
-          improErrorDiv.textContent = "Erreur : Impossible d'accéder à la webcam.";
-        }
-        improErrorDiv.style.display = 'block';
-        console.error(error);
-        return null;
-      }
-    }
-
-    function startTimer() {
-      timeRemaining = 120;
-      updateCountdownDisplay();
-      timerInterval = setInterval(() => {
-        timeRemaining--;
-        if (timeRemaining >= 0) {
-          updateCountdownDisplay();
-        }
-        if (timeRemaining < 0) {
-          clearInterval(timerInterval);
-          if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
-            mediaRecorderInstance.stop();
-            restartBtn.classList.remove('hidden-btn');
+      // Défilement fluide lors du clic sur les liens de navigation
+      const navLinks = document.querySelectorAll('nav ul li a');
+      navLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href').substring(1);
+          const targetSection = document.getElementById(targetId);
+          if (targetSection) {
+            window.scrollTo({
+              top: targetSection.offsetTop - 60,
+              behavior: 'smooth'
+            });
           }
-        }
-      }, 1000);
-    }
-    function updateCountdownDisplay() {
-      const minutes = Math.floor(timeRemaining / 60);
-      const seconds = timeRemaining % 60;
-      countdownElement.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
-      countdownElement.style.display = 'block';
-    }
-
-    stopBtn.addEventListener('click', () => {
-      if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
-        mediaRecorderInstance.stop();
-        clearInterval(countdown);
-        clearInterval(timerInterval);
-        stopBtn.classList.add('hidden-btn');
-        stopBtn.disabled = true;
-        restartBtn.classList.remove('hidden-btn');
-        recordingIndicator.style.display = 'none';
-        // Retirer la classe pour revenir à la hauteur normale
-        const videoBox = document.getElementById('video-box');
-        videoBox.classList.remove('enlarged-video');
-      }
-    });
-    restartBtn.addEventListener('click', () => {
-      restartBtn.classList.add('hidden-btn');
-      // Réinitialiser l'overlay avec le bouton et les instructions
-      document.querySelector('.video-overlay').innerHTML = `
-        <p>Ici va s'enregistrer ton improvisation vidéo. Lorsque tu es prêt, clique sur le bouton ci-dessous.</p>
-        <button id="start-btn" aria-label="Démarrer l'improvisation">Démarrer ton impro <i class="fas fa-video"></i></button>
-        <p>NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
-      `;
-      // Réafficher l'overlay
-      document.querySelector('.video-overlay').style.display = 'flex';
-      improStarted = false;
-      // Re-bind le nouvel événement sur le bouton "Démarrer"
-      bindStartButton();
-    });
-
-    // Lier le bouton "Démarrer" lors du chargement initial
-    bindStartButton();
-
-    /***********************
-     * Téléchargements et envoi à Google Forms (STEP5)
-     ***********************/
-    const validateFormBtn = document.getElementById('validate-form-btn');
-    const prenomInput = document.getElementById('prenom');
-    const emailInput = document.getElementById('email');
-    const prenomError = document.getElementById('prenom-error');
-    const emailError = document.getElementById('email-error');
-    const downloadButtons = document.getElementById('download-buttons');
-    const downloadVideoBtn = document.getElementById('download-video-btn');
-    const downloadPdfBtn = document.getElementById('download-pdf-btn');
-
-    validateFormBtn.addEventListener('click', () => {
-      const prenomValue = prenomInput.value.trim();
-      const emailValue = emailInput.value.trim();
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      const prenomRegex = /^[A-Za-zÀ-ÿ '-]+$/;
-
-      let valid = true;
-      prenomError.style.display = 'none';
-      emailError.style.display = 'none';
-
-      if (!prenomValue || !prenomRegex.test(prenomValue)) {
-        prenomError.textContent = "Entre un prénom valide (sans chiffres ni caractères spéciaux).";
-        prenomError.style.display = 'block';
-        valid = false;
-      }
-      if (!emailValue) {
-        emailError.textContent = "Merci de renseigner ton email pour continuer.";
-        emailError.style.display = 'block';
-        valid = false;
-      } else if (!emailRegex.test(emailValue)) {
-        emailError.textContent = "Entre une adresse email valide.";
-        emailError.style.display = 'block';
-        valid = false;
-      }
-      if (!valid) return;
-
-      document.getElementById('hidden-prenom').value = prenomValue;
-      document.getElementById('hidden-email').value = emailValue;
-      document.getElementById('hidden-google-form').submit();
-
-      downloadButtons.classList.add('show');
-
-      const successMessage = document.getElementById('success-message');
-      successMessage.style.display = 'block';
-      successMessage.classList.add('show');
-
-      setTimeout(() => {
-        successMessage.classList.remove('show');
-        successMessage.style.display = 'none';
-      }, 5000);
-    });
-
-    downloadVideoBtn.addEventListener('click', () => {
-      if (!videoURL) {
-        const improErrorDiv = document.getElementById('impro-error');
-        improErrorDiv.textContent = "La vidéo n'est pas encore prête ou pas enregistrée.";
-        improErrorDiv.style.display = 'block';
-        return;
-      }
-      const link = document.createElement('a');
-      link.href = videoURL;
-      link.download = 'Letmotiv_Improvisation.mp4';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    });
-
-    downloadPdfBtn.addEventListener('click', () => {
-      const link = document.createElement('a');
-      link.href = "https://drive.google.com/file/d/14gMVPpM2kLXmfsA3_6CYe6qBfQ8ETUSA";
-      link.download = "Questions_Evaluation.pdf";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+          // Fermer le menu mobile après le clic
+          if (navUl.classList.contains('active')) {
+            navUl.classList.remove('active');
+          }
+        });
+      });
     });
   </script>
 </body>
