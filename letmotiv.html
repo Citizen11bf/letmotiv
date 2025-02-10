@@ -4,9 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Letmotiv - Coaching et formation</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="https://img.icons8.com/fluency/48/000000/microphone.png">
+  
+  <!-- Meta SEO et réseaux sociaux -->
+  <meta name="description" content="Letmotiv - Coaching et formation pour la prise de parole en public. Libérez votre potentiel grâce à nos formations et coachings professionnels.">
+  <meta property="og:title" content="Letmotiv - Coaching et formation">
+  <meta property="og:description" content="Letmotiv vous accompagne pour développer vos compétences en prise de parole en public.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/Citizen11bf/letmotiv/0c649ee1f00846cb361781b0f851ff25df78672c/formation%20prise%20de%20parole%20en%20public%20professionnelle.webp">
+  <meta property="og:url" content="https://www.letmotiv.com">
+  <meta name="twitter:card" content="summary_large_image">
+  
   <!-- Import d'une police moderne -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600&display=swap" rel="stylesheet">
+  
   <style>
+    /* Défilement fluide natif */
+    html {
+      scroll-behavior: smooth;
+    }
     /* === Styles Globaux & Variables === */
     * {
       margin: 0;
@@ -53,7 +70,6 @@
       font-size: 20px;
       line-height: 1.2;
     }
-    /* Les deux lignes du logo ont le même style */
     .logo a .logo-line {
       display: block;
       font-weight: 600;
@@ -80,6 +96,8 @@
       display: none;
       flex-direction: column;
       cursor: pointer;
+      background: none;
+      border: none;
     }
     .menu-toggle span {
       width: 25px;
@@ -90,29 +108,31 @@
       transition: background 0.3s;
     }
     
-    /* === Mobile Nav Overlay (menu complet à droite) === */
+    /* === Mobile Nav Overlay (affiché du haut vers le bas sur toute la largeur) === */
     .mobile-nav-overlay {
       position: fixed;
-      top: 0;
-      right: -100%;
-      width: 80%;
+      top: -100%;
+      left: 0;
+      width: 100%;
       height: 100%;
       background: var(--primary);
       padding: 40px 20px;
-      transition: right 0.3s ease;
+      transition: top 0.3s ease;
       z-index: 2000;
-      text-align: right;
+      text-align: center;
     }
     .mobile-nav-overlay.active {
-      right: 0;
+      top: 0;
     }
-    /* Bouton de fermeture (croix X) */
+    /* Bouton de fermeture */
     .close-nav {
       position: absolute;
       top: 20px;
       right: 20px;
       font-size: 36px;
       color: var(--white);
+      background: none;
+      border: none;
       cursor: pointer;
     }
     .mobile-nav-overlay ul {
@@ -120,14 +140,32 @@
       display: flex;
       flex-direction: column;
       gap: 20px;
-      margin-top: 60px;
+      margin-top: 80px;
     }
     .mobile-nav-overlay ul li a {
       color: var(--white);
       font-size: 24px;
       text-decoration: none;
       font-weight: 600;
-      margin-right: 10px;
+    }
+    /* Boutons supplémentaires pour le mobile */
+    .mobile-nav-extra {
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .mobile-nav-extra a {
+      display: inline-block;
+      background: var(--secondary);
+      color: var(--white);
+      padding: 12px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background 0.3s ease;
+    }
+    .mobile-nav-extra a:hover {
+      background: var(--primary);
     }
     
     /* === HERO SECTION === */
@@ -201,8 +239,6 @@
     }
     
     /* === À PROPOS SECTION === */
-    /* Structure en deux parties : la première ligne (image et présentation de Pierre),
-       et en dessous la citation du fondateur. */
     .about-content {
       display: flex;
       flex-direction: column;
@@ -225,7 +261,6 @@
       flex: 1;
       margin-left: 20px;
     }
-    /* Par défaut (Desktop) : toute la colonne de droite contient l’introduction et la citation */
     .about-quote {
       font-family: Georgia, serif;
       font-style: italic;
@@ -236,7 +271,6 @@
       border-left: 4px solid var(--secondary);
       margin-top: 20px;
     }
-    /* Sur Desktop, on aligne la citation à droite en la plaçant dans la même colonne */
     @media (min-width: 769px) {
       .about-content {
         flex-direction: row;
@@ -248,8 +282,6 @@
         margin-left: 0;
       }
     }
-    /* Sur Mobile : on conserve la première ligne (image et présentation) en ligne,
-       puis on affiche la citation en dessous sur toute la largeur */
     @media (max-width: 768px) {
       .about-row {
         flex-direction: row;
@@ -468,14 +500,13 @@
     
     /* === RESPONSIVE STYLES === */
     @media (max-width: 768px) {
-      /* Réduire la marge du header pour aligner le titre davantage à gauche */
       .header-container {
         padding: 15px 10px;
       }
       .logo a {
         font-size: 16px;
       }
-      /* Masquer la navigation classique */
+      /* Masquer la navigation desktop */
       nav {
         display: none;
       }
@@ -483,7 +514,6 @@
       .menu-toggle {
         display: flex;
       }
-      /* Pour la section À propos, on conserve une première ligne avec l'image et la présentation de Pierre */
       .about-row {
         flex-direction: row;
       }
@@ -494,7 +524,6 @@
         flex: 1;
         margin-left: 10px;
       }
-      /* Sur mobile, la citation s'affiche en dessous en pleine largeur */
       .about-quote {
         margin-left: 0;
       }
@@ -532,18 +561,18 @@
         </ul>
       </nav>
       <!-- Bouton menu mobile -->
-      <div class="menu-toggle">
+      <button class="menu-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
         <span></span>
         <span></span>
         <span></span>
-      </div>
+      </button>
     </div>
   </header>
   
   <!-- Mobile Nav Overlay -->
-  <div class="mobile-nav-overlay" id="mobileNav">
+  <nav class="mobile-nav-overlay" id="mobileNav" aria-hidden="true">
     <!-- Bouton de fermeture -->
-    <div class="close-nav" id="closeNav">&times;</div>
+    <button class="close-nav" id="closeNav" aria-label="Fermer le menu">&times;</button>
     <ul>
       <li><a href="#accueil">Accueil</a></li>
       <li><a href="#about">À propos</a></li>
@@ -553,181 +582,176 @@
       <li><a href="#clients">Nos clients</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
-  </div>
-  
-  <!-- HERO -->
-  <section id="accueil" class="hero">
-    <div class="hero-content">
-      <h1>Bienvenue sur Letmotiv</h1>
-      <p>Votre source d'inspiration et de transformation</p>
-      <a href="#about" class="btn">En savoir plus</a>
+    <div class="mobile-nav-extra">
+      <a href="mailto:contact@letmotiv.fr">Ecrivons-nous</a>
+      <a href="calendy.html">Appelons-nous</a>
     </div>
-  </section>
+  </nav>
   
-  <!-- À PROPOS -->
-  <section id="about" class="section about">
-    <div class="container">
-      <h2>À propos</h2>
-      <div class="about-content">
-        <div class="about-row">
-          <!-- Image à gauche -->
-          <div class="about-image">
-            <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/0c649ee1f00846cb361781b0f851ff25df78672c/formation%20prise%20de%20parole%20Pierre%20Li%20Cavoli.webp" alt="Pierre Li Cavoli">
+  <!-- MAIN CONTENT -->
+  <main>
+    <!-- HERO -->
+    <section id="accueil" class="hero">
+      <div class="hero-content">
+        <h1>Bienvenue sur Letmotiv</h1>
+        <p>Votre source d'inspiration et de transformation</p>
+        <a href="#about" class="btn">En savoir plus</a>
+      </div>
+    </section>
+    
+    <!-- À PROPOS -->
+    <section id="about" class="section about">
+      <div class="container">
+        <h2>À propos</h2>
+        <div class="about-content">
+          <div class="about-row">
+            <div class="about-image">
+              <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/0c649ee1f00846cb361781b0f851ff25df78672c/formation%20prise%20de%20parole%20Pierre%20Li%20Cavoli.webp" alt="Pierre Li Cavoli">
+            </div>
+            <div class="about-text">
+              <p class="about-intro">
+                Docteur en astrophysique (PhD), formateur professionnel et coach certifié, Pierre s’est formé au théâtre au Cours Florent et à l’éloquence avec Toastmasters International pour créer le centre de formation Letmotiv.
+              </p>
+            </div>
           </div>
-          <!-- Texte présentant Pierre à droite -->
-          <div class="about-text">
-            <p class="about-intro">
-              Docteur en astrophysique (PhD), formateur professionnel et coach certifié, Pierre s’est formé au théâtre au Cours Florent et à l’éloquence avec Toastmasters International pour créer le centre de formation Letmotiv.
+          <div class="about-quote">
+            "Notre approche personnalisée et nos méthodes innovantes permettent à nos clients de libérer leur potentiel en matière de prise de parole en public.<br><br>
+            Nous croyons que les leaders capables de prendre la parole en public pour partager leurs idées peuvent avoir un impact positif sur la société comme sur leur entourage.<br><br>
+            Parce que prendre la parole en public est une compétence qui peut littéralement transformer des vies, nous nous engageons à fournir des formations de la plus haute qualité."
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- SERVICES -->
+    <section id="services" class="section services">
+      <div class="container">
+        <h2>Services</h2>
+        <div class="services-categories">
+          <div class="service-category">
+            <h3>Entreprise</h3>
+            <div class="service-buttons">
+              <a href="#" class="btn service-btn">Coaching</a>
+              <a href="#" class="btn service-btn">Formations</a>
+            </div>
+          </div>
+          <div class="service-category">
+            <h3>Particuliers</h3>
+            <div class="service-buttons">
+              <a href="#" class="btn service-btn">Coaching personnalisé</a>
+              <a href="#" class="btn service-btn">Formations en ligne</a>
+              <a href="#" class="btn service-btn">Formations CPF</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- SIMULATEUR SECTION -->
+    <section id="simulateur" class="section simulateur-section">
+      <div class="simulateur-content">
+        <h2>Prise de parole en public <br>Simulateur d'improvisation gratuit</h2>
+        <p>
+          Vous voulez vous entraîner gratuitement à la prise de parole en public ? <br>Découvrez le simulateur Letmotiv : de nombreux exercices selon votre objectif : réussir un entretien, améliorer sa diction, développer son charisme et son leadership, accroître sa force de persuasion, inspirer son auditoire...
+        </p>
+        <a href="http://www.letmotiv-simulateur.fr" class="btn" target="_blank">Accéder au simulateur</a>
+      </div>
+    </section>
+    
+    <!-- TÉMOIGNAGES -->
+    <section id="testimonials" class="section testimonials">
+      <div class="container">
+        <h2>Témoignages</h2>
+        <div class="testimonials-grid">
+          <div class="testimonial-item">
+            <img src="https://source.unsplash.com/80x80/?face,vincent" alt="Vincent Recrosio">
+            <h4>
+              Vincent Recrosio<br>
+              <span class="testimonial-fonction">Senior Tech Recruiter chez Meetic</span>
+            </h4>
+            <p>
+              "Je vous invite à contacter Pierre pour tout besoin de formation en communication !<br><br>
+              J'ai suivi sa formation « Prise de parole en public ». Pierre est passionné et partage sa bonne énergie, dans la bienveillance, ses méthodes rapidement applicables. Ses ateliers, issus du théâtre, sont méticuleusement adaptés à chaque public.<br><br>
+              Une attitude très professionnelle."
+            </p>
+          </div>
+          <div class="testimonial-item">
+            <img src="https://source.unsplash.com/80x80/?face,julia" alt="Julia Galvez">
+            <h4>
+              Julia Galvez<br>
+              <span class="testimonial-fonction">Team Lead Contract Manager chez Hubspot</span>
+            </h4>
+            <p>
+              "Pierre est un vrai “Master” de la prise de parole en public. J’ai eu le plaisir de participer à ses cours le semestre dernier. Sa bienveillance, son courage et son audace ont été très contagieux ! Merci encore pour tes enseignements et tes méthodes qui me sont aujourd’hui très utiles au quotidien. Jamais le mot “Galaxie” n’aura eu autant de sens. Pouvoir captiver son public, c’est une compétence qui se travaille et Pierre nous partage son savoir de façon ludique et maîtrisée.<br><br>
+              Encore un GRAND MERCI."
+            </p>
+          </div>
+          <div class="testimonial-item">
+            <img src="https://source.unsplash.com/80x80/?face,placeholder1" alt="Témoignage à compléter">
+            <h4>
+              Prénom Nom<br>
+              <span class="testimonial-fonction">Fonction</span>
+            </h4>
+            <p>
+              "Témoignage à compléter."
+            </p>
+          </div>
+          <div class="testimonial-item">
+            <img src="https://source.unsplash.com/80x80/?face,placeholder2" alt="Témoignage à compléter">
+            <h4>
+              Prénom Nom<br>
+              <span class="testimonial-fonction">Fonction</span>
+            </h4>
+            <p>
+              "Témoignage à compléter."
+            </p>
+          </div>
+          <div class="testimonial-item">
+            <img src="https://source.unsplash.com/80x80/?face,placeholder3" alt="Témoignage à compléter">
+            <h4>
+              Prénom Nom<br>
+              <span class="testimonial-fonction">Fonction</span>
+            </h4>
+            <p>
+              "Témoignage à compléter."
             </p>
           </div>
         </div>
-        <!-- Sur Desktop, cette citation apparaîtra à droite (via un margin-left sur grand écran),
-             et sur Mobile, elle s'affichera en dessous -->
-        <div class="about-quote">
-          "Notre approche personnalisée et nos méthodes innovantes permettent à nos clients de libérer leur potentiel en matière de prise de parole en public.<br><br>
-          Nous croyons que les leaders capables de prendre la parole en public pour partager leurs idées peuvent avoir un impact positif sur la société comme sur leur entourage.<br><br>
-          Parce que prendre la parole en public est une compétence qui peut littéralement transformer des vies, nous nous engageons à fournir des formations de la plus haute qualité."
+      </div>
+    </section>
+    
+    <!-- CLIENTS -->
+    <section id="clients" class="section clients">
+      <div class="container">
+        <h2>Nos clients</h2>
+        <div class="clients-grid" id="clients-logos">
+          <p id="logos-loading">Chargement des logos...</p>
         </div>
       </div>
-    </div>
-  </section>
-  
-  <!-- SERVICES -->
-  <section id="services" class="section services">
-    <div class="container">
-      <h2>Services</h2>
-      <div class="services-categories">
-        <!-- Entreprise -->
-        <div class="service-category">
-          <h3>Entreprise</h3>
-          <div class="service-buttons">
-            <a href="#" class="btn service-btn">Coaching</a>
-            <a href="#" class="btn service-btn">Formations</a>
+    </section>
+    
+    <!-- CONTACT -->
+    <section id="contact" class="section contact">
+      <div class="container">
+        <h2>Contact</h2>
+        <form id="contact-form">
+          <div class="form-group">
+            <label for="name">Nom</label>
+            <input type="text" id="name" name="name" required aria-label="Nom">
           </div>
-        </div>
-        <!-- Particuliers -->
-        <div class="service-category">
-          <h3>Particuliers</h3>
-          <div class="service-buttons">
-            <a href="#" class="btn service-btn">Coaching personnalisé</a>
-            <a href="#" class="btn service-btn">Formations en ligne</a>
-            <a href="#" class="btn service-btn">Formations CPF</a>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required aria-label="Email">
           </div>
-        </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" required aria-label="Message"></textarea>
+          </div>
+          <button type="submit" class="btn">Envoyer</button>
+        </form>
       </div>
-    </div>
-  </section>
-  
-  <!-- SIMULATEUR SECTION -->
-  <section id="simulateur" class="section simulateur-section">
-    <div class="simulateur-content">
-      <h2>Prise de parole en public <br>Simulateur d'improvisation gratuit</h2>
-      <p>
-        Vous voulez vous entraîner gratuitement à la prise de parole en public ? <br>Découvrez le simulateur Letmotiv : de nombreux exercices selon votre objectif : réussir un entretien, améliorer sa diction, développer son charisme et son leadership, accroître sa force de persuasion, inspirer son auditoire...
-      </p>
-      <a href="http://www.letmotiv-simulateur.fr" class="btn" target="_blank">Accéder au simulateur</a>
-    </div>
-  </section>
-  
-  <!-- TÉMOIGNAGES -->
-  <section id="testimonials" class="section testimonials">
-    <div class="container">
-      <h2>Témoignages</h2>
-      <div class="testimonials-grid">
-        <!-- Témoignage 1 -->
-        <div class="testimonial-item">
-          <img src="https://source.unsplash.com/80x80/?face,vincent" alt="Vincent Recrosio">
-          <h4>
-            Vincent Recrosio<br>
-            <span class="testimonial-fonction">Senior Tech Recruiter chez Meetic</span>
-          </h4>
-          <p>
-            "Je vous invite à contacter Pierre pour tout besoin de formation en communication !<br><br>
-            J'ai suivi sa formation « Prise de parole en public ». Pierre est passionné et partage sa bonne énergie, dans la bienveillance, ses méthodes rapidement applicables. Ses ateliers, issus du théâtre, sont méticuleusement adaptés à chaque public.<br><br>
-            Une attitude très professionnelle."
-          </p>
-        </div>
-        <!-- Témoignage 2 -->
-        <div class="testimonial-item">
-          <img src="https://source.unsplash.com/80x80/?face,julia" alt="Julia Galvez">
-          <h4>
-            Julia Galvez<br>
-            <span class="testimonial-fonction">Team Lead Contract Manager chez Hubspot</span>
-          </h4>
-          <p>
-            "Pierre est un vrai “Master” de la prise de parole en public. J’ai eu le plaisir de participer à ses cours le semestre dernier. Sa bienveillance, son courage et son audace ont été très contagieux ! Merci encore pour tes enseignements et tes méthodes qui me sont aujourd’hui très utiles au quotidien. Jamais le mot “Galaxie” n’aura eu autant de sens. Pouvoir captiver son public, c’est une compétence qui se travaille et Pierre nous partage son savoir de façon ludique et maîtrisée.<br><br>
-            Encore un GRAND MERCI."
-          </p>
-        </div>
-        <!-- Témoignage 3 (à compléter) -->
-        <div class="testimonial-item">
-          <img src="https://source.unsplash.com/80x80/?face,placeholder1" alt="Témoignage à compléter">
-          <h4>
-            Prénom Nom<br>
-            <span class="testimonial-fonction">Fonction</span>
-          </h4>
-          <p>
-            "Témoignage à compléter."
-          </p>
-        </div>
-        <!-- Témoignage 4 (à compléter) -->
-        <div class="testimonial-item">
-          <img src="https://source.unsplash.com/80x80/?face,placeholder2" alt="Témoignage à compléter">
-          <h4>
-            Prénom Nom<br>
-            <span class="testimonial-fonction">Fonction</span>
-          </h4>
-          <p>
-            "Témoignage à compléter."
-          </p>
-        </div>
-        <!-- Témoignage 5 (à compléter) -->
-        <div class="testimonial-item">
-          <img src="https://source.unsplash.com/80x80/?face,placeholder3" alt="Témoignage à compléter">
-          <h4>
-            Prénom Nom<br>
-            <span class="testimonial-fonction">Fonction</span>
-          </h4>
-          <p>
-            "Témoignage à compléter."
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-  
-  <!-- CLIENTS (Logos chargés dynamiquement depuis la branche "images") -->
-  <section id="clients" class="section clients">
-    <div class="container">
-      <h2>Nos clients</h2>
-      <div class="clients-grid" id="clients-logos">
-        <!-- Les logos dont le nom commence par "Logo_" seront insérés ici -->
-        <p id="logos-loading">Chargement des logos...</p>
-      </div>
-    </div>
-  </section>
-  
-  <!-- CONTACT -->
-  <section id="contact" class="section contact">
-    <div class="container">
-      <h2>Contact</h2>
-      <form id="contact-form">
-        <div class="form-group">
-          <label for="name">Nom</label>
-          <input type="text" id="name" name="name" required>
-        </div>
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" required>
-        </div>
-        <div class="form-group">
-          <label for="message">Message</label>
-          <textarea id="message" name="message" rows="5" required></textarea>
-        </div>
-        <button type="submit" class="btn">Envoyer</button>
-      </form>
-    </div>
-  </section>
+    </section>
+  </main>
   
   <!-- FOOTER -->
   <footer>
@@ -741,57 +765,64 @@
   </footer>
   
   <script>
-    // Gestion du menu mobile et défilement fluide
     document.addEventListener('DOMContentLoaded', function () {
-      // Pour le menu mobile, on utilise l'overlay
+      // Fonction commune pour gérer le clic sur un lien de navigation
+      function handleNavLinkClick(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        const targetSection = document.getElementById(targetId);
+        if (targetSection) {
+          window.scrollTo({
+            top: targetSection.offsetTop - 60,
+            behavior: 'smooth'
+          });
+        }
+        // Fermer le menu mobile si ouvert
+        if (mobileNav.classList.contains('active')) {
+          toggleMobileNav(false);
+        }
+      }
+      
+      // Gestion du menu mobile
       const menuToggle = document.querySelector('.menu-toggle');
       const mobileNav = document.getElementById('mobileNav');
       const closeNav = document.getElementById('closeNav');
       
-      menuToggle.addEventListener('click', function () {
-        mobileNav.classList.toggle('active');
-      });
-      
-      // Bouton de fermeture dans le menu mobile
-      closeNav.addEventListener('click', function () {
-        mobileNav.classList.remove('active');
-      });
-      
-      // Comportement sur les liens du menu mobile : fermeture de l'overlay et défilement
-      const mobileNavLinks = mobileNav.querySelectorAll('a');
-      mobileNavLinks.forEach(link => {
-        link.addEventListener('click', function (e) {
-          e.preventDefault();
-          const targetId = this.getAttribute('href').substring(1);
-          const targetSection = document.getElementById(targetId);
-          if (targetSection) {
-            window.scrollTo({
-              top: targetSection.offsetTop - 60,
-              behavior: 'smooth'
-            });
-          }
+      function toggleMobileNav(open) {
+        if (open) {
+          mobileNav.classList.add('active');
+          menuToggle.setAttribute('aria-expanded', 'true');
+          mobileNav.setAttribute('aria-hidden', 'false');
+        } else {
           mobileNav.classList.remove('active');
-        });
+          menuToggle.setAttribute('aria-expanded', 'false');
+          mobileNav.setAttribute('aria-hidden', 'true');
+        }
+      }
+      
+      menuToggle.addEventListener('click', function () {
+        toggleMobileNav(!mobileNav.classList.contains('active'));
       });
       
-      // Pour la navigation desktop
+      closeNav.addEventListener('click', function () {
+        toggleMobileNav(false);
+      });
+      
+      // Fermer le menu mobile avec la touche Escape
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && mobileNav.classList.contains('active')) {
+          toggleMobileNav(false);
+        }
+      });
+      
+      // Ajout de l'écouteur sur tous les liens de navigation (desktop et mobile)
       const navLinks = document.querySelectorAll('nav ul li a');
       navLinks.forEach(link => {
-        link.addEventListener('click', function (e) {
-          e.preventDefault();
-          const targetId = this.getAttribute('href').substring(1);
-          const targetSection = document.getElementById(targetId);
-          if (targetSection) {
-            window.scrollTo({
-              top: targetSection.offsetTop - 60,
-              behavior: 'smooth'
-            });
-          }
-        });
+        link.addEventListener('click', handleNavLinkClick);
       });
       
-      // Animation des sections au scroll (Intersection Observer)
-      const sections = document.querySelectorAll('.section, .hero-content');
+      // Animation des éléments au scroll via Intersection Observer
+      const animatedElements = document.querySelectorAll('.section, .hero-content');
       const observerOptions = { threshold: 0.1 };
       const observer = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
@@ -801,15 +832,14 @@
           }
         });
       }, observerOptions);
-      sections.forEach(section => observer.observe(section));
+      animatedElements.forEach(el => observer.observe(el));
       
-      // Chargement dynamique des logos depuis la branche "images"
+      // Chargement dynamique des logos depuis GitHub
       const logosContainer = document.getElementById('clients-logos');
       const logosLoading = document.getElementById('logos-loading');
       fetch('https://api.github.com/repos/Citizen11bf/letmotiv/contents?ref=images')
         .then(response => response.json())
         .then(data => {
-          // Filtrer les fichiers dont le nom commence par "Logo_"
           const logoFiles = data.filter(item => item.name.startsWith('Logo_'));
           logosLoading.style.display = 'none';
           if (logoFiles.length === 0) {
