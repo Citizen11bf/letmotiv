@@ -106,6 +106,13 @@
     .mobile-nav-overlay.active {
       right: 0;
     }
+    /* Bouton de fermeture dans le menu mobile */
+    .close-nav {
+      font-size: 30px;
+      color: var(--white);
+      cursor: pointer;
+      text-align: right;
+    }
     .mobile-nav-overlay ul {
       list-style: none;
       display: flex;
@@ -191,7 +198,7 @@
       color: var(--primary);
     }
     
-    /* === À PROPOS (deux colonnes) === */
+    /* === À PROPOS SECTION (deux colonnes) === */
     .about-content {
       display: flex;
       align-items: center;
@@ -211,7 +218,7 @@
     .about-intro {
       font-size: 18px;
       margin-bottom: 20px;
-      text-align: right;
+      text-align: left; /* Alignement à gauche */
     }
     .about-quote {
       font-family: Georgia, serif;
@@ -267,6 +274,41 @@
       background: var(--primary);
     }
     
+    /* === SIMULATEUR SECTION === */
+    .simulateur-section {
+      background: var(--secondary);
+      color: var(--white);
+      padding: 80px 0;
+      text-align: center;
+    }
+    .simulateur-section .simulateur-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .simulateur-section h2 {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+    .simulateur-section p {
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+    .simulateur-section .btn {
+      background: var(--white);
+      color: var(--secondary);
+      padding: 12px 30px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
+    }
+    .simulateur-section .btn:hover {
+      transform: scale(1.05);
+      background: var(--primary);
+      color: var(--white);
+    }
+    
     /* === TÉMOIGNAGES SECTION === */
     .testimonials .testimonials-grid {
       display: flex;
@@ -303,7 +345,7 @@
     }
     .testimonial-item p {
       font-style: italic;
-      font-size: 14px;  /* Réduction de la police */
+      font-size: 14px;
       line-height: 1.4;
       margin-top: 10px;
     }
@@ -390,7 +432,7 @@
     
     /* === RESPONSIVE STYLES === */
     @media (max-width: 768px) {
-      /* Réduire la marge du header */
+      /* Réduire la marge du header pour aligner le titre davantage à gauche */
       .header-container {
         padding: 15px 10px;
       }
@@ -440,6 +482,7 @@
           <li><a href="#accueil">Accueil</a></li>
           <li><a href="#about">À propos</a></li>
           <li><a href="#services">Services</a></li>
+          <li><a href="#simulateur">Simulateur</a></li>
           <li><a href="#testimonials">Témoignages</a></li>
           <li><a href="#clients">Nos clients</a></li>
           <li><a href="#contact">Contact</a></li>
@@ -456,10 +499,13 @@
   
   <!-- Mobile Nav Overlay -->
   <div class="mobile-nav-overlay" id="mobileNav">
+    <!-- Bouton de fermeture -->
+    <div class="close-nav" id="closeNav">&times;</div>
     <ul>
       <li><a href="#accueil">Accueil</a></li>
       <li><a href="#about">À propos</a></li>
       <li><a href="#services">Services</a></li>
+      <li><a href="#simulateur">Simulateur</a></li>
       <li><a href="#testimonials">Témoignages</a></li>
       <li><a href="#clients">Nos clients</a></li>
       <li><a href="#contact">Contact</a></li>
@@ -521,14 +567,18 @@
             <a href="#" class="btn service-btn">Formations CPF</a>
           </div>
         </div>
-        <!-- Nos outils -->
-        <div class="service-category">
-          <h3>Nos outils</h3>
-          <div class="service-buttons">
-            <a href="#" class="btn service-btn">Simulateur d'improvisation</a>
-          </div>
-        </div>
       </div>
+    </div>
+  </section>
+  
+  <!-- SIMULATEUR SECTION -->
+  <section id="simulateur" class="section simulateur-section">
+    <div class="simulateur-content">
+      <h2>Prise de parole en public – Simulateur d'improvisation gratuit</h2>
+      <p>
+        Vous voulez vous entraîner gratuitement à la prise de parole en public ? Découvrez le simulateur Letmotiv : de nombreux exercices selon votre objectif : réussir un entretien, améliorer sa diction, développer son charisme et son leadership, accroître sa force de persuasion, inspirer son auditoire...
+      </p>
+      <a href="http://www.letmotiv-simulateur.fr" class="btn" target="_blank">Accéder au simulateur</a>
     </div>
   </section>
   
@@ -649,9 +699,15 @@
       // Pour le menu mobile, on utilise l'overlay
       const menuToggle = document.querySelector('.menu-toggle');
       const mobileNav = document.getElementById('mobileNav');
+      const closeNav = document.getElementById('closeNav');
       
       menuToggle.addEventListener('click', function () {
         mobileNav.classList.toggle('active');
+      });
+      
+      // Bouton de fermeture dans le menu mobile
+      closeNav.addEventListener('click', function () {
+        mobileNav.classList.remove('active');
       });
       
       // Comportement sur les liens du menu mobile : fermeture de l'overlay et défilement
