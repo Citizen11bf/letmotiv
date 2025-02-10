@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Letmotiv - Coaching et formation</title>
-  <!-- Import de la police Montserrat -->
+  <!-- Import d'une police moderne -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600&display=swap" rel="stylesheet">
   <style>
-    /* ========= Styles Globaux & Variables ========= */
+    /* === Styles Globaux & Variables === */
     * {
       margin: 0;
       padding: 0;
@@ -31,7 +31,7 @@
       --black: #000;
     }
     
-    /* ========= HEADER ========= */
+    /* === HEADER (fond bleu) === */
     header {
       background: var(--primary);
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -53,10 +53,10 @@
       font-size: 20px;
       line-height: 1.2;
     }
+    /* Les deux lignes du logo ont le même style */
     .logo a .logo-line {
       display: block;
       font-weight: 600;
-      text-transform: uppercase;
     }
     nav ul {
       list-style: none;
@@ -71,11 +71,11 @@
       color: var(--white);
       font-weight: 600;
       transition: color 0.3s ease;
-      text-transform: uppercase;
     }
     nav ul li a:hover {
       color: var(--secondary);
     }
+    /* Bouton menu mobile (affiché sur mobile) */
     .menu-toggle {
       display: none;
       flex-direction: column;
@@ -90,7 +90,7 @@
       transition: background 0.3s;
     }
     
-    /* ========= Mobile Nav Overlay ========= */
+    /* === Mobile Nav Overlay (menu complet à droite) === */
     .mobile-nav-overlay {
       position: fixed;
       top: 0;
@@ -106,6 +106,7 @@
     .mobile-nav-overlay.active {
       right: 0;
     }
+    /* Bouton de fermeture (croix X) */
     .close-nav {
       position: absolute;
       top: 20px;
@@ -127,10 +128,9 @@
       text-decoration: none;
       font-weight: 600;
       margin-right: 10px;
-      text-transform: uppercase;
     }
     
-    /* ========= HERO SECTION ========= */
+    /* === HERO SECTION === */
     .hero {
       height: 100vh;
       background: url('https://raw.githubusercontent.com/Citizen11bf/letmotiv/0c649ee1f00846cb361781b0f851ff25df78672c/formation%20prise%20de%20parole%20en%20public%20professionnelle.webp') center center/cover no-repeat;
@@ -139,20 +139,14 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding-top: 60px; /* pour compenser le header fixe */
+      padding-top: 60px; /* Pour compenser le header fixe */
       overflow: hidden;
-    }
-    /* Parallax sur desktop */
-    @media (min-width: 769px) {
-      .hero {
-        background-attachment: fixed;
-      }
     }
     .hero::before {
       content: "";
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.4);
+      background: rgba(0, 0, 0, 0.4);
     }
     .hero-content {
       position: relative;
@@ -169,7 +163,6 @@
     .hero-content h1 {
       font-size: 48px;
       margin-bottom: 20px;
-      text-transform: uppercase;
     }
     .hero-content p {
       font-size: 24px;
@@ -189,7 +182,7 @@
       background: var(--primary);
     }
     
-    /* ========= SECTIONS GÉNÉRALES ========= */
+    /* === SECTIONS GÉNÉRALES === */
     .section {
       padding: 100px 0;
       opacity: 0;
@@ -205,12 +198,11 @@
       margin-bottom: 40px;
       font-size: 36px;
       color: var(--primary);
-      text-transform: uppercase;
     }
     
-    /* ========= À PROPOS ========= */
-    /* Sur desktop, on affiche une colonne avec l’image à gauche et tout le texte à droite ;
-       sur mobile, la première ligne (image + présentation) reste en ligne et la citation s'affiche en dessous */
+    /* === À PROPOS SECTION === */
+    /* Structure en deux parties : la première ligne (image et présentation de Pierre),
+       et en dessous la citation du fondateur. */
     .about-content {
       display: flex;
       flex-direction: column;
@@ -233,11 +225,7 @@
       flex: 1;
       margin-left: 20px;
     }
-    .about-intro {
-      font-size: 18px;
-      margin-bottom: 20px;
-      text-align: left;
-    }
+    /* Par défaut (Desktop) : toute la colonne de droite contient l’introduction et la citation */
     .about-quote {
       font-family: Georgia, serif;
       font-style: italic;
@@ -248,7 +236,20 @@
       border-left: 4px solid var(--secondary);
       margin-top: 20px;
     }
-    /* Sur mobile, on affiche la première ligne (image + intro) puis la citation en dessous pleine largeur */
+    /* Sur Desktop, on aligne la citation à droite en la plaçant dans la même colonne */
+    @media (min-width: 769px) {
+      .about-content {
+        flex-direction: row;
+      }
+      .about-right {
+        flex: 1;
+      }
+      .about-right .about-quote {
+        margin-left: 0;
+      }
+    }
+    /* Sur Mobile : on conserve la première ligne (image et présentation) en ligne,
+       puis on affiche la citation en dessous sur toute la largeur */
     @media (max-width: 768px) {
       .about-row {
         flex-direction: row;
@@ -260,9 +261,12 @@
         flex: 1;
         margin-left: 10px;
       }
+      .about-quote {
+        margin-left: 0;
+      }
     }
     
-    /* ========= SERVICES ========= */
+    /* === SERVICES SECTION === */
     .services .services-categories {
       display: flex;
       flex-wrap: wrap;
@@ -286,7 +290,6 @@
       margin-bottom: 20px;
       font-size: 24px;
       color: var(--primary);
-      text-transform: uppercase;
     }
     .service-buttons {
       display: flex;
@@ -301,16 +304,15 @@
       text-decoration: none;
       border-radius: 5px;
       transition: transform 0.3s ease, background 0.3s ease;
-      text-transform: uppercase;
     }
     .service-btn:hover {
       transform: scale(1.05);
       background: var(--primary);
     }
     
-    /* ========= SIMULATEUR ========= */
+    /* === SIMULATEUR SECTION === */
     .simulateur-section {
-      background: linear-gradient(135deg, var(--secondary), #007f6e);
+      background: var(--secondary);
       color: var(--white);
       padding: 80px 0;
       text-align: center;
@@ -322,7 +324,6 @@
     .simulateur-section h2 {
       font-size: 36px;
       margin-bottom: 20px;
-      text-transform: uppercase;
     }
     .simulateur-section p {
       font-size: 18px;
@@ -337,22 +338,14 @@
       text-decoration: none;
       font-weight: 600;
       transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
-      text-transform: uppercase;
     }
     .simulateur-section .btn:hover {
       transform: scale(1.05);
       background: var(--primary);
       color: var(--white);
-      /* Petite animation pulse */
-      animation: pulse 1s infinite;
-    }
-    @keyframes pulse {
-      0% { transform: scale(1.05); }
-      50% { transform: scale(1.1); }
-      100% { transform: scale(1.05); }
     }
     
-    /* ========= TÉMOIGNAGES ========= */
+    /* === TÉMOIGNAGES SECTION === */
     .testimonials .testimonials-grid {
       display: flex;
       flex-direction: column;
@@ -367,10 +360,6 @@
       max-width: 800px;
       text-align: center;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease;
-    }
-    .testimonial-item:hover {
-      transform: translateY(-3px);
     }
     .testimonial-item img {
       width: 80px;
@@ -384,7 +373,6 @@
       font-size: 20px;
       margin-bottom: 5px;
       color: var(--primary);
-      text-transform: uppercase;
     }
     .testimonial-fonction {
       font-size: 16px;
@@ -398,7 +386,7 @@
       margin-top: 10px;
     }
     
-    /* ========= CLIENTS ========= */
+    /* === CLIENTS SECTION === */
     .clients .clients-grid {
       display: flex;
       flex-wrap: wrap;
@@ -421,7 +409,7 @@
       filter: grayscale(0%);
     }
     
-    /* ========= CONTACT ========= */
+    /* === CONTACT SECTION === */
     #contact-form {
       max-width: 600px;
       margin: 0 auto;
@@ -451,14 +439,13 @@
       border-radius: 5px;
       cursor: pointer;
       transition: transform 0.3s ease, background 0.3s ease;
-      text-transform: uppercase;
     }
     #contact-form .btn:hover {
       transform: scale(1.05);
       background: var(--primary);
     }
     
-    /* ========= FOOTER ========= */
+    /* === FOOTER === */
     footer {
       background: var(--primary);
       color: var(--white);
@@ -473,32 +460,30 @@
       text-decoration: none;
       margin: 0 10px;
       transition: color 0.3s ease;
-      text-transform: uppercase;
     }
     .footer-links a:hover {
       color: var(--white);
       text-decoration: underline;
     }
     
-    /* ========= RESPONSIVE ========= */
+    /* === RESPONSIVE STYLES === */
     @media (max-width: 768px) {
+      /* Réduire la marge du header pour aligner le titre davantage à gauche */
       .header-container {
         padding: 15px 10px;
       }
       .logo a {
         font-size: 16px;
       }
+      /* Masquer la navigation classique */
       nav {
         display: none;
       }
+      /* Afficher le bouton menu mobile */
       .menu-toggle {
         display: flex;
       }
-      /* Pour la section À propos sur mobile, la première ligne reste en ligne,
-         et la citation s'affiche ensuite sur toute la largeur */
-      .about-content {
-        flex-direction: column;
-      }
+      /* Pour la section À propos, on conserve une première ligne avec l'image et la présentation de Pierre */
       .about-row {
         flex-direction: row;
       }
@@ -508,6 +493,10 @@
       .about-text {
         flex: 1;
         margin-left: 10px;
+      }
+      /* Sur mobile, la citation s'affiche en dessous en pleine largeur */
+      .about-quote {
+        margin-left: 0;
       }
     }
     @media (max-width: 480px) {
@@ -585,14 +574,15 @@
           <div class="about-image">
             <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/0c649ee1f00846cb361781b0f851ff25df78672c/formation%20prise%20de%20parole%20Pierre%20Li%20Cavoli.webp" alt="Pierre Li Cavoli">
           </div>
-          <!-- Texte présentant Pierre à droite (sur mobile, cette ligne reste côte à côte) -->
+          <!-- Texte présentant Pierre à droite -->
           <div class="about-text">
             <p class="about-intro">
               Docteur en astrophysique (PhD), formateur professionnel et coach certifié, Pierre s’est formé au théâtre au Cours Florent et à l’éloquence avec Toastmasters International pour créer le centre de formation Letmotiv.
             </p>
           </div>
         </div>
-        <!-- Citation du fondateur (sur mobile, s'affiche en dessous en pleine largeur) -->
+        <!-- Sur Desktop, cette citation apparaîtra à droite (via un margin-left sur grand écran),
+             et sur Mobile, elle s'affichera en dessous -->
         <div class="about-quote">
           "Notre approche personnalisée et nos méthodes innovantes permettent à nos clients de libérer leur potentiel en matière de prise de parole en public.
           Nous croyons que les leaders capables de prendre la parole en public pour partager leurs idées peuvent avoir un impact positif sur la société comme sur leur entourage.
@@ -628,12 +618,12 @@
     </div>
   </section>
   
-  <!-- SIMULATEUR -->
+  <!-- SIMULATEUR SECTION -->
   <section id="simulateur" class="section simulateur-section">
     <div class="simulateur-content">
       <h2>Prise de parole en public – Simulateur d'improvisation gratuit</h2>
       <p>
-        Vous voulez vous entraîner gratuitement à la prise de parole en public ? Découvrez le simulateur Letmotiv : de nombreux exercices selon votre objectif – réussir un entretien, améliorer votre diction, développer votre charisme et leadership, accroître votre force de persuasion, inspirer votre auditoire...
+        Vous voulez vous entraîner gratuitement à la prise de parole en public ? Découvrez le simulateur Letmotiv : de nombreux exercices selon votre objectif : réussir un entretien, améliorer sa diction, développer son charisme et son leadership, accroître sa force de persuasion, inspirer son auditoire...
       </p>
       <a href="http://www.letmotiv-simulateur.fr" class="btn" target="_blank">Accéder au simulateur</a>
     </div>
@@ -706,11 +696,12 @@
     </div>
   </section>
   
-  <!-- CLIENTS -->
+  <!-- CLIENTS (Logos chargés dynamiquement depuis la branche "images") -->
   <section id="clients" class="section clients">
     <div class="container">
       <h2>Nos clients</h2>
       <div class="clients-grid" id="clients-logos">
+        <!-- Les logos dont le nom commence par "Logo_" seront insérés ici -->
         <p id="logos-loading">Chargement des logos...</p>
       </div>
     </div>
@@ -749,10 +740,10 @@
     </div>
   </footer>
   
-  <!-- ========= SCRIPT ========= -->
   <script>
+    // Gestion du menu mobile et défilement fluide
     document.addEventListener('DOMContentLoaded', function () {
-      // Menu mobile
+      // Pour le menu mobile, on utilise l'overlay
       const menuToggle = document.querySelector('.menu-toggle');
       const mobileNav = document.getElementById('mobileNav');
       const closeNav = document.getElementById('closeNav');
@@ -761,10 +752,12 @@
         mobileNav.classList.toggle('active');
       });
       
+      // Bouton de fermeture dans le menu mobile
       closeNav.addEventListener('click', function () {
         mobileNav.classList.remove('active');
       });
       
+      // Comportement sur les liens du menu mobile : fermeture de l'overlay et défilement
       const mobileNavLinks = mobileNav.querySelectorAll('a');
       mobileNavLinks.forEach(link => {
         link.addEventListener('click', function (e) {
@@ -781,7 +774,7 @@
         });
       });
       
-      // Navigation desktop
+      // Pour la navigation desktop
       const navLinks = document.querySelectorAll('nav ul li a');
       navLinks.forEach(link => {
         link.addEventListener('click', function (e) {
@@ -797,7 +790,7 @@
         });
       });
       
-      // Animation au scroll
+      // Animation des sections au scroll (Intersection Observer)
       const sections = document.querySelectorAll('.section, .hero-content');
       const observerOptions = { threshold: 0.1 };
       const observer = new IntersectionObserver((entries, observer) => {
@@ -816,6 +809,7 @@
       fetch('https://api.github.com/repos/Citizen11bf/letmotiv/contents?ref=images')
         .then(response => response.json())
         .then(data => {
+          // Filtrer les fichiers dont le nom commence par "Logo_"
           const logoFiles = data.filter(item => item.name.startsWith('Logo_'));
           logosLoading.style.display = 'none';
           if (logoFiles.length === 0) {
