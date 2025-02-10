@@ -209,10 +209,10 @@
       opacity: 1;
       transform: translateY(0);
     }
-    /* Remplacement du texte du HERO dans l'HTML ci-dessous */
     .hero-content h1 {
       font-size: 48px;
       margin-bottom: 20px;
+      /* Texte principal mis à jour dans l'HTML */
     }
     .hero-content p {
       font-size: 24px;
@@ -232,8 +232,7 @@
       background: var(--primary);
     }
     
-    /* === Alternance des couleurs des sections (hors HERO) === */
-    /* On alterne entre le bleu (--primary), le blanc et le vert (--green) */
+    /* === Alternance des couleurs des sections (hors HERO) entre le bleu, le blanc et le vert === */
     main section:not(.hero):nth-of-type(3n+1) {
       background-color: var(--primary);
       color: var(--white);
@@ -299,6 +298,16 @@
       margin-top: 10px;
     }
     
+    /* Sur mobile, agrandir légèrement l'image et supprimer la marge à gauche */
+    @media (max-width: 768px) {
+      .about-image {
+        flex: 0 0 50%;
+      }
+      .about-text {
+        margin-left: 0;
+      }
+    }
+    
     /* === NOS OFFRES (anciennement Services) === */
     .services .services-categories {
       display: flex;
@@ -356,7 +365,7 @@
     .simulateur-section p {
       font-size: 18px;
       line-height: 1.6;
-      margin-bottom: 0; /* Supprime la marge entre l'image et le texte */
+      margin: 10px 0; /* Réduction de la marge pour éviter un espace trop important */
     }
     .simulateur-section .btn {
       background: var(--white);
@@ -378,7 +387,7 @@
       max-width: 100%;
       border-radius: 5px;
       display: block;
-      margin: 0 auto; /* Pas de marge inférieure */
+      margin: 0 auto;
     }
     
     /* === TÉMOIGNAGES SECTION (version initiale avec les 5 témoignages) === */
@@ -431,7 +440,7 @@
       margin-top: 40px;
     }
     .chiffre-box {
-      background: var(--secondary);
+      background: var(--primary);
       color: var(--white);
       padding: 20px;
       border-radius: 10px;
@@ -644,8 +653,9 @@
     <section id="accueil" class="hero">
       <div class="hero-content">
         <h1>Coaching et formation en prise de parole en public</h1>
-        <p>Coaching et formation en prise de parole en public</p>
-        <a href="#about" class="btn">En savoir plus</a>
+        <p>Prenez du plaisir à vous exprimer en public !</p>
+        <!-- Bouton modifié pour pointer vers la section "Nos offres" -->
+        <a href="#services" class="btn">Nos offres</a>
       </div>
     </section>
     
@@ -712,7 +722,7 @@
       </div>
     </section>
     
-    <!-- TÉMOIGNAGES (code fourni avec les 5 témoignages, images corrigées) -->
+    <!-- TÉMOIGNAGES (version initiale avec les 5 témoignages) -->
     <section id="testimonials" class="section testimonials">
       <div class="container">
         <h2>Témoignages</h2>
