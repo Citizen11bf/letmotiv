@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Letmotiv - Prise de parole en public</title>
+  <title>Letmotiv - Coaching et formation</title>
   <!-- Import d'une police moderne -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600&display=swap" rel="stylesheet">
   <style>
-    /* === Global Styles === */
+    /* === Styles Globaux & Variables === */
     * {
       margin: 0;
       padding: 0;
@@ -24,8 +24,6 @@
       max-width: 1200px;
       margin: 0 auto;
     }
-    
-    /* === Variables de couleur === */
     :root {
       --primary: #182d84;
       --secondary: #00a48a;
@@ -33,15 +31,15 @@
       --black: #000;
     }
     
-    /* === Header === */
+    /* === Header (style start-up : fond blanc, texte en couleur principale) === */
     header {
-      background: var(--primary);
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      background: var(--white);
+      border-bottom: 2px solid var(--primary);
       position: fixed;
       width: 100%;
       top: 0;
       z-index: 1000;
-      transition: background 0.3s ease;
+      transition: box-shadow 0.3s ease;
     }
     .header-container {
       display: flex;
@@ -51,36 +49,32 @@
     }
     .logo a {
       text-decoration: none;
-      color: var(--white);
+      color: var(--primary);
       font-size: 20px;
       line-height: 1.2;
     }
-    .logo a .logo-line1 {
+    /* Les deux lignes du logo auront le même style */
+    .logo a .logo-line {
+      display: block;
       font-weight: 600;
-      font-size: 18px;
-    }
-    .logo a .logo-line2 {
-      font-weight: 400;
-      font-size: 16px;
-      color: var(--secondary);
     }
     nav ul {
       list-style: none;
       display: flex;
+      align-items: center;
     }
     nav ul li {
       margin-left: 20px;
     }
     nav ul li a {
       text-decoration: none;
-      color: var(--white);
+      color: var(--primary);
       font-weight: 600;
       transition: color 0.3s ease;
     }
     nav ul li a:hover {
       color: var(--secondary);
     }
-    
     /* Bouton menu mobile */
     .menu-toggle {
       display: none;
@@ -90,7 +84,7 @@
     .menu-toggle span {
       width: 25px;
       height: 3px;
-      background: var(--white);
+      background: var(--primary);
       margin-bottom: 4px;
       border-radius: 3px;
       transition: background 0.3s;
@@ -99,13 +93,14 @@
     /* === Hero Section === */
     .hero {
       height: 100vh;
-      background: url('https://github.com/Citizen11bf/letmotiv/blob/0c649ee1f00846cb361781b0f851ff25df78672c/formation%20prise%20de%20parole%20en%20public%20professionnelle.webp') center center/cover no-repeat;
+      /* Utilisation de votre image en mode raw (assurez-vous que l'URL est accessible publiquement) */
+      background: url('https://raw.githubusercontent.com/Citizen11bf/letmotiv/0c649ee1f00846cb361781b0f851ff25df78672c/formation%20prise%20de%20parole%20en%20public%20professionnelle.webp') center center/cover no-repeat;
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
-      position: relative;
-      padding-top: 60px; /* compense l'en-tête fixe */
+      padding-top: 60px; /* Pour compenser le header fixe */
       overflow: hidden;
     }
     .hero::before {
@@ -165,7 +160,6 @@
       font-size: 36px;
       color: var(--primary);
     }
-    
     /* === About Section === */
     .about p {
       text-align: center;
@@ -253,7 +247,7 @@
       color: var(--primary);
     }
     
-    /* === Clients Section === */
+    /* === Clients Section (logos chargés dynamiquement) === */
     .clients .clients-grid {
       display: flex;
       flex-wrap: wrap;
@@ -333,12 +327,12 @@
       text-decoration: underline;
     }
     
-    /* === Responsive Styles === */
+    /* === Responsive === */
     @media (max-width: 768px) {
       nav ul {
         display: none;
         flex-direction: column;
-        background: var(--primary);
+        background: var(--white);
         position: absolute;
         top: 60px;
         right: 0;
@@ -359,7 +353,6 @@
         align-items: center;
       }
     }
-    
     @media (max-width: 480px) {
       .hero-content h1 {
         font-size: 32px;
@@ -371,13 +364,13 @@
   </style>
 </head>
 <body>
-  <!-- Header -->
+  <!-- HEADER -->
   <header>
     <div class="container header-container">
       <div class="logo">
         <a href="#">
-          <span class="logo-line1">Prise de parole en public</span><br>
-          <span class="logo-line2">Letmotiv - Coaching et formation</span>
+          <span class="logo-line">Prise de parole en public</span>
+          <span class="logo-line">Letmotiv - Coaching et formation</span>
         </a>
       </div>
       <nav>
@@ -398,7 +391,7 @@
     </div>
   </header>
   
-  <!-- Hero Section -->
+  <!-- HERO -->
   <section id="accueil" class="hero">
     <div class="hero-content">
       <h1>Bienvenue sur Letmotiv</h1>
@@ -407,7 +400,7 @@
     </div>
   </section>
   
-  <!-- About Section -->
+  <!-- ABOUT -->
   <section id="about" class="section about">
     <div class="container">
       <h2>À propos</h2>
@@ -415,7 +408,7 @@
     </div>
   </section>
   
-  <!-- Services Section -->
+  <!-- SERVICES -->
   <section id="services" class="section services">
     <div class="container">
       <h2>Services</h2>
@@ -448,7 +441,7 @@
     </div>
   </section>
   
-  <!-- Testimonials Section -->
+  <!-- TÉMOIGNAGES -->
   <section id="testimonials" class="section testimonials">
     <div class="container">
       <h2>Témoignages</h2>
@@ -482,31 +475,18 @@
     </div>
   </section>
   
-  <!-- Clients Section -->
+  <!-- CLIENTS (Logos chargés dynamiquement via l'API GitHub) -->
   <section id="clients" class="section clients">
     <div class="container">
       <h2>Nos clients</h2>
-      <div class="clients-grid">
-        <div class="client-item">
-          <img src="https://via.placeholder.com/150?text=Logo+1" alt="Logo Client 1">
-        </div>
-        <div class="client-item">
-          <img src="https://via.placeholder.com/150?text=Logo+2" alt="Logo Client 2">
-        </div>
-        <div class="client-item">
-          <img src="https://via.placeholder.com/150?text=Logo+3" alt="Logo Client 3">
-        </div>
-        <div class="client-item">
-          <img src="https://via.placeholder.com/150?text=Logo+4" alt="Logo Client 4">
-        </div>
-        <div class="client-item">
-          <img src="https://via.placeholder.com/150?text=Logo+5" alt="Logo Client 5">
-        </div>
+      <div class="clients-grid" id="clients-logos">
+        <!-- Les logos dont le nom commence par "Logo_" seront insérés ici -->
+        <p id="logos-loading">Chargement des logos...</p>
       </div>
     </div>
   </section>
   
-  <!-- Contact Section -->
+  <!-- CONTACT -->
   <section id="contact" class="section contact">
     <div class="container">
       <h2>Contact</h2>
@@ -528,7 +508,7 @@
     </div>
   </section>
   
-  <!-- Footer -->
+  <!-- FOOTER -->
   <footer>
     <div class="container">
       <p>&copy; 2025 Letmotiv. Tous droits réservés.</p>
@@ -540,7 +520,7 @@
   </footer>
   
   <script>
-    // Gestion du menu mobile et du défilement fluide
+    // Gestion du menu mobile et défilement fluide
     document.addEventListener('DOMContentLoaded', function () {
       const menuToggle = document.querySelector('.menu-toggle');
       const navUl = document.querySelector('nav ul');
@@ -566,11 +546,9 @@
         });
       });
       
-      // Intersection Observer pour l'animation au scroll
+      // Animation des sections au scroll (Intersection Observer)
       const sections = document.querySelectorAll('.section, .hero-content');
-      const observerOptions = {
-        threshold: 0.1
-      };
+      const observerOptions = { threshold: 0.1 };
       const observer = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
@@ -579,10 +557,35 @@
           }
         });
       }, observerOptions);
+      sections.forEach(section => observer.observe(section));
       
-      sections.forEach(section => {
-        observer.observe(section);
-      });
+      // Chargement dynamique des logos depuis GitHub
+      const logosContainer = document.getElementById('clients-logos');
+      const logosLoading = document.getElementById('logos-loading');
+      fetch('https://api.github.com/repos/Citizen11bf/letmotiv/contents')
+        .then(response => response.json())
+        .then(data => {
+          // Filtrer les fichiers dont le nom commence par "Logo_"
+          const logoFiles = data.filter(item => item.name.startsWith('Logo_'));
+          logosLoading.style.display = 'none';
+          if (logoFiles.length === 0) {
+            logosContainer.innerHTML = '<p>Aucun logo trouvé.</p>';
+          } else {
+            logoFiles.forEach(file => {
+              const clientDiv = document.createElement('div');
+              clientDiv.classList.add('client-item');
+              const img = document.createElement('img');
+              img.src = file.download_url;
+              img.alt = file.name;
+              clientDiv.appendChild(img);
+              logosContainer.appendChild(clientDiv);
+            });
+          }
+        })
+        .catch(error => {
+          console.error('Erreur lors du chargement des logos :', error);
+          logosLoading.textContent = "Erreur lors du chargement des logos.";
+        });
     });
   </script>
 </body>
