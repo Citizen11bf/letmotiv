@@ -20,12 +20,13 @@
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&display=swap" rel="stylesheet">
   
-  <!-- Bibliothèques GSAP et ScrollTrigger -->
+  <!-- Bibliothèques GSAP, ScrollTrigger et ScrollToPlugin -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollToPlugin.min.js"></script>
   
   <style>
-    /* Défilement fluide */
+    /* Défilement fluide natif */
     html {
       scroll-behavior: smooth;
     }
@@ -76,10 +77,11 @@
       align-items: center;
       padding: 15px 20px;
     }
+    /* Réduction de la taille du titre */
     .logo a {
       text-decoration: none;
       color: var(--white);
-      font-size: 20px;
+      font-size: 16px; /* Taille réduite */
       line-height: 1.2;
     }
     .logo a .logo-line {
@@ -261,7 +263,7 @@
       font-size: 36px;
     }
     
-    /* --- Section À Propos : Nouvelle version (3 boxes, sans image) --- */
+    /* --- Section À Propos : Nouvelle version (3 boxes) --- */
     .about-boxes {
       display: flex;
       gap: 20px;
@@ -285,7 +287,7 @@
       font-size: 16px;
       line-height: 1.5;
     }
-    /* Box 1 : sur hover, overlay bleu pétant */
+    /* Box 1 : Au survol, overlay bleu pétant */
     .about-box.about-box-1 {
       position: relative;
       overflow: hidden;
@@ -309,7 +311,8 @@
     .about-box.about-box-1:hover .hover-overlay {
       opacity: 1;
     }
-    /* Box 2 : les sous-box de valeurs en colonne */
+    
+    /* Box 2 : Valeurs - les petites boîtes en colonne */
     .about-box.about-box-2 .values-boxes {
       display: flex;
       flex-direction: column;
@@ -331,8 +334,8 @@
       font-size: 14px;
     }
     .value-box.bienveillance { background: #FFC107; }
-    .value-box.mise { background: #3df52e; }
-    .value-box.technicite { background: #f5792e; }
+    .value-box.mise { background: #8BC34A; }
+    .value-box.technicite { background: #03A9F4; }
     @media (max-width: 768px) {
       .about-boxes {
         flex-direction: column;
@@ -407,7 +410,7 @@
       text-align: center;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       transition: transform 0.3s ease;
-      color: var(--primary); /* Texte en bleu */
+      color: var(--primary);
     }
     .resource-box:hover {
       transform: translateY(-5px);
@@ -641,25 +644,8 @@
       }
     }
     
-    /* --- Formes géométriques animées --- */
-    .geometric-shape {
-      position: absolute;
-      width: 50px;
-      height: 50px;
-      background: #ff4081;
-      opacity: 0;
-      transform: scale(0.5);
-      z-index: 50;
-    }
-    .shape1 {
-      top: 30%;
-      left: 10%;
-      border-radius: 50%;
-    }
-    .shape2 {
-      top: 70%;
-      right: 15%;
-    }
+    /* --- Suppression des formes géométriques --- */
+    /* (Les règles pour .geometric-shape ont été supprimées) */
   </style>
 </head>
 <body>
@@ -720,7 +706,7 @@
       </div>
     </section>
     
-    <!-- SECTION À PROPOS (3 boxes, sans image) -->
+    <!-- SECTION À PROPOS : 3 boxes -->
     <section id="about" class="section about">
       <div class="container">
         <h2>À propos</h2>
@@ -799,14 +785,16 @@
           <div class="resource-box">
             <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Simulateur_Letmotiv.webp" alt="Simulateur">
             <h3>Simulateur</h3>
-            <p style="text-align: left;">Vous voulez vous entrainer gratuitement à la prise de parole en public ? Découvrez le simulateur Letmotiv : de nombreux exercices selon votre objectif : réussir un entretien, améliorer sa diction, développer son charisme et son leadership, accroitre sa force de persuasion, inspirer votre auditoire...</p>
+            <p style="text-align: left; color: var(--primary);">
+              Vous voulez vous entrainer gratuitement à la prise de parole en public ? Découvrez le simulateur Letmotiv : de nombreux exercices selon votre objectif : réussir un entretien, améliorer sa diction, développer son charisme et son leadership, accroitre sa force de persuasion, inspirer votre auditoire...
+            </p>
             <a href="http://www.letmotiv-simulateur.fr" class="btn" target="_blank">Accéder au simulateur</a>
           </div>
           <!-- Box 2 : Formation en ligne -->
           <div class="resource-box">
             <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/f36e294da9c9499ee0d4d08f2fbdaba73d818aa7/formation%20prise%20de%20parole%20en%20ligne.webp" alt="Formation en ligne">
             <h3>Formation en ligne</h3>
-            <p style="text-align: left;">
+            <p style="text-align: left; color: var(--primary);">
               Cette formation en ligne créée par deux experts de la prise de parole en public, Pierre et Alex, est composée de 4 grands modules pour apprendre à : <br><br>
               1) Gérer son stress avant/pendant votre prise de parole<br>
               2) Utiliser une gestuelle adaptée<br>
@@ -818,9 +806,9 @@
           </div>
           <!-- Box 3 : Articles & Vidéos -->
           <div class="resource-box">
-            <img src="https://via.placeholder.com/400x300.png?text=Articles+et+Vidéos" alt="Articles et vidéos">
+            <img src="https://github.com/Citizen11bf/letmotiv/blob/84fe555b614fe6c2f5248d84f2895dbb60088df8/Contenu_video.jpg" alt="Articles et vidéos">
             <h3>Articles & Vidéos</h3>
-            <p style="text-align: left;">Découvrez nos articles et vidéos pour booster votre expression publique.</p>
+            <p style="text-align: left; color: var(--primary);">Découvrez nos articles et vidéos pour booster votre expression publique.</p>
             <a href="#" class="btn">Explorer</a>
           </div>
         </div>
@@ -978,10 +966,6 @@
     </div>
   </footer>
   
-  <!-- Formes géométriques animées -->
-  <div class="geometric-shape shape1"></div>
-  <div class="geometric-shape shape2"></div>
-  
   <!-- Scripts -->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -990,9 +974,11 @@
         const targetId = this.getAttribute('href').substring(1);
         const targetSection = document.getElementById(targetId);
         if (targetSection) {
-          window.scrollTo({
-            top: targetSection.offsetTop - 60,
-            behavior: 'smooth'
+          // Utilisation de GSAP ScrollToPlugin pour un défilement plus lent (2 secondes)
+          gsap.to(window, {
+            duration: 2,
+            scrollTo: { y: targetSection.offsetTop - 60 },
+            ease: "power2.out"
           });
         }
         if (mobileNav.classList.contains('active')) {
@@ -1077,35 +1063,6 @@
           logosLoading.textContent = "Erreur lors du chargement des logos.";
         });
     });
-    
-    // Animation des formes géométriques avec GSAP et ScrollTrigger
-    gsap.registerPlugin(ScrollTrigger);
-    
-    gsap.to(".shape1", {
-      scrollTrigger: {
-        trigger: ".shape1",
-        start: "top 80%",
-        end: "bottom 60%",
-        toggleActions: "play none none reverse"
-      },
-      opacity: 1,
-      scale: 1,
-      duration: 1,
-      ease: "power2.out"
-    });
-    
-    gsap.to(".shape2", {
-      scrollTrigger: {
-        trigger: ".shape2",
-        start: "top 80%",
-        end: "bottom 60%",
-        toggleActions: "play none none reverse"
-      },
-      opacity: 1,
-      scale: 1,
-      duration: 1,
-      ease: "power2.out"
-    });
   </script>
   
   <!-- Styles spécifiques pour la section À Propos (3 boxes) -->
@@ -1133,7 +1090,7 @@
       font-size: 16px;
       line-height: 1.5;
     }
-    /* Box 1 : overlay au survol */
+    /* Box 1 : overlay bleu pétant au survol */
     .about-box.about-box-1 {
       position: relative;
       overflow: hidden;
@@ -1157,6 +1114,7 @@
     .about-box.about-box-1:hover .hover-overlay {
       opacity: 1;
     }
+    
     /* Box 2 : valeurs en colonne */
     .about-box.about-box-2 .values-boxes {
       display: flex;
