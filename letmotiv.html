@@ -261,7 +261,7 @@
       font-size: 36px;
     }
     
-    /* --- Section À Propos : Nouvelle version (3 boxes) --- */
+    /* --- Section À Propos : Nouvelle version (3 boxes, sans image) --- */
     .about-boxes {
       display: flex;
       gap: 20px;
@@ -285,7 +285,7 @@
       font-size: 16px;
       line-height: 1.5;
     }
-    /* Pour la box1, ajout d'un overlay qui s'affiche au survol */
+    /* Box 1 : sur hover, overlay bleu pétant */
     .about-box.about-box-1 {
       position: relative;
       overflow: hidden;
@@ -296,7 +296,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: #007BFF; /* Bleu pétant */
+      background: #007BFF;
       color: #fff;
       display: flex;
       flex-direction: column;
@@ -309,16 +309,14 @@
     .about-box.about-box-1:hover .hover-overlay {
       opacity: 1;
     }
-    
-    /* --- Box 2 : Valeurs avec 3 petites box --- */
+    /* Box 2 : les sous-box de valeurs en colonne */
     .about-box.about-box-2 .values-boxes {
       display: flex;
+      flex-direction: column;
       gap: 10px;
-      justify-content: space-between;
       margin-top: 15px;
     }
     .about-box.about-box-2 .value-box {
-      flex: 1;
       padding: 10px;
       border-radius: 10px;
       color: #fff;
@@ -332,10 +330,14 @@
     .about-box.about-box-2 .value-box .value-desc {
       font-size: 14px;
     }
-    /* Couleurs pétantes pour chaque petite box (vous pouvez ajuster) */
     .value-box.bienveillance { background: #FFC107; }
     .value-box.mise { background: #8BC34A; }
     .value-box.technicite { background: #03A9F4; }
+    @media (max-width: 768px) {
+      .about-boxes {
+        flex-direction: column;
+      }
+    }
     
     /* --- Section Nos Offres --- */
     .services .services-categories {
@@ -405,6 +407,7 @@
       text-align: center;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       transition: transform 0.3s ease;
+      color: var(--primary); /* Texte en bleu */
     }
     .resource-box:hover {
       transform: translateY(-5px);
@@ -422,6 +425,7 @@
     .resource-box p {
       font-size: 16px;
       margin-bottom: 15px;
+      text-align: left;
     }
     .resource-box .btn {
       background: var(--secondary);
@@ -716,12 +720,12 @@
       </div>
     </section>
     
-    <!-- SECTION À PROPOS (3 boxes) -->
+    <!-- SECTION À PROPOS (3 boxes, sans image) -->
     <section id="about" class="section about">
       <div class="container">
         <h2>À propos</h2>
         <div class="about-boxes">
-          <!-- Box 1 : Qui se cache derrière Letmotiv ? avec overlay au survol -->
+          <!-- Box 1 -->
           <div class="about-box about-box-1">
             <div class="default-content">
               <h3><strong>Qui se cache derrière Letmotiv ?</strong></h3>
@@ -735,7 +739,7 @@
               </a>
             </div>
           </div>
-          <!-- Box 2 : Quelles sont nos valeurs, avec 3 petites box -->
+          <!-- Box 2 -->
           <div class="about-box about-box-2">
             <h3><strong>Quelles sont nos valeurs</strong></h3>
             <div class="values-boxes">
@@ -753,7 +757,7 @@
               </div>
             </div>
           </div>
-          <!-- Box 3 : Les mots du fondateur -->
+          <!-- Box 3 -->
           <div class="about-box about-box-3">
             <h3><strong>Les mots du fondateur</strong></h3>
             <p>"Notre approche personnalisée et nos méthodes innovantes permettent à nos clients de libérer leur potentiel en matière de prise de parole en public. Nous croyons que les leaders capables de prendre la parole en public pour partager leurs idées peuvent avoir un impact positif sur la société comme sur leur entourage. Parce que prendre la parole en public est une compétence qui peut littéralement transformer des vies, nous nous engageons à fournir des formations de la plus haute qualité."</p>
@@ -762,7 +766,7 @@
       </div>
     </section>
     
-    <!-- NOS OFFRES -->
+    <!-- SECTION NOS OFFRES -->
     <section id="services" class="section services">
       <div class="container">
         <h2>Nos offres</h2>
@@ -786,37 +790,44 @@
       </div>
     </section>
     
-    <!-- NOS RESSOURCES -->
+    <!-- SECTION NOS RESSOURCES -->
     <section id="resources" class="section resources">
       <div class="container">
         <h2>Nos ressources</h2>
         <div class="resources-grid">
           <!-- Box 1 : Simulateur -->
           <div class="resource-box">
-            <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/7203305c1c95e211ff6bd903cbd58113e1f58a65/Simulateur_Letmotiv.webp" alt="Simulateur">
+            <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/7203305c1c95e211ff6bd903cbd58113e1f58a65/Simulateur.webp" alt="Simulateur">
             <h3>Simulateur</h3>
-            <p>Entraînez-vous gratuitement à la prise de parole en public.</p>
+            <p style="text-align: left;">Vous voulez vous entrainer gratuitement à la prise de parole en public ? Découvrez le simulateur Letmotiv : de nombreux exercices selon votre objectif : réussir un entretien, améliorer sa diction, développer son charisme et son leadership, accroitre sa force de persuasion, inspirer votre auditoire...</p>
             <a href="http://www.letmotiv-simulateur.fr" class="btn" target="_blank">Accéder au simulateur</a>
           </div>
           <!-- Box 2 : Formation en ligne -->
           <div class="resource-box">
             <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/f36e294da9c9499ee0d4d08f2fbdaba73d818aa7/formation%20prise%20de%20parole%20en%20ligne.webp" alt="Formation en ligne">
             <h3>Formation en ligne</h3>
-            <p>Formez-vous en ligne à la prise de parole en public.</p>
+            <p style="text-align: left;">
+              Cette formation en ligne créée par deux experts de la prise de parole en public, Pierre et Alex, est composée de 4 grands modules pour apprendre à : <br><br>
+              1) Gérer son stress avant/pendant votre prise de parole<br>
+              2) Utiliser une gestuelle adaptée<br>
+              3) Développer sa puissance vocale<br>
+              4) Créer une connexion authentique avec son audience<br><br>
+              Bref, c'est court et efficace, ça se binge comme une série Netflix avec de nouvelles méthodes et compétences acquises à l'arrivée.
+            </p>
             <a href="#" class="btn">Découvrir la formation</a>
           </div>
           <!-- Box 3 : Articles & Vidéos -->
           <div class="resource-box">
             <img src="https://via.placeholder.com/400x300.png?text=Articles+et+Vidéos" alt="Articles et vidéos">
             <h3>Articles & Vidéos</h3>
-            <p>Découvrez nos articles et vidéos pour booster votre expression publique.</p>
+            <p style="text-align: left;">Découvrez nos articles et vidéos pour booster votre expression publique.</p>
             <a href="#" class="btn">Explorer</a>
           </div>
         </div>
       </div>
     </section>
     
-    <!-- TÉMOIGNAGES -->
+    <!-- SECTION TÉMOIGNAGES -->
     <section id="testimonials" class="section testimonials">
       <div class="container">
         <h2>Témoignages</h2>
@@ -889,7 +900,7 @@
       </div>
     </section>
     
-    <!-- LETMOTIV EN CHIFFRES -->
+    <!-- SECTION LETMOTIV EN CHIFFRES -->
     <section id="chiffres" class="section chiffres">
       <div class="container">
         <h2>Letmotiv en chiffres</h2>
@@ -923,7 +934,7 @@
       </div>
     </section>
     
-    <!-- NOS CLIENTS -->
+    <!-- SECTION NOS CLIENTS -->
     <section id="clients" class="section clients">
       <div class="container">
         <h2>Nos clients</h2>
@@ -933,7 +944,7 @@
       </div>
     </section>
     
-    <!-- CONTACT -->
+    <!-- SECTION CONTACT -->
     <section id="contact" class="section contact">
       <div class="container">
         <h2>Contact</h2>
@@ -971,6 +982,7 @@
   <div class="geometric-shape shape1"></div>
   <div class="geometric-shape shape2"></div>
   
+  <!-- Scripts -->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       function handleNavLinkClick(e) {
@@ -1096,7 +1108,7 @@
     });
   </script>
   
-  <!-- Styles spécifiques pour la section À propos (3 boxes) -->
+  <!-- Styles spécifiques pour la section À Propos (3 boxes) -->
   <style>
     .about-boxes {
       display: flex;
@@ -1121,7 +1133,7 @@
       font-size: 16px;
       line-height: 1.5;
     }
-    /* Pour la box1, on ajoute un overlay qui s'affiche au survol */
+    /* Box 1 : overlay au survol */
     .about-box.about-box-1 {
       position: relative;
       overflow: hidden;
@@ -1132,7 +1144,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: #007BFF; /* Bleu pétant */
+      background: #007BFF;
       color: #fff;
       display: flex;
       flex-direction: column;
@@ -1145,16 +1157,14 @@
     .about-box.about-box-1:hover .hover-overlay {
       opacity: 1;
     }
-    
-    /* Styles pour les 3 petites box dans la box2 */
+    /* Box 2 : valeurs en colonne */
     .about-box.about-box-2 .values-boxes {
       display: flex;
+      flex-direction: column;
       gap: 10px;
-      justify-content: space-between;
       margin-top: 15px;
     }
     .about-box.about-box-2 .value-box {
-      flex: 1;
       padding: 10px;
       border-radius: 10px;
       color: #fff;
@@ -1171,8 +1181,6 @@
     .value-box.bienveillance { background: #FFC107; }
     .value-box.mise { background: #8BC34A; }
     .value-box.technicite { background: #03A9F4; }
-    
-    /* Responsive pour la section À propos */
     @media (max-width: 768px) {
       .about-boxes {
         flex-direction: column;
