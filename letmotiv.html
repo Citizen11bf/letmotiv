@@ -77,11 +77,11 @@
       align-items: center;
       padding: 15px 20px;
     }
-    /* Réduction de la taille du titre */
+    /* Taille du titre réduite */
     .logo a {
       text-decoration: none;
       color: var(--white);
-      font-size: 16px; /* Taille réduite */
+      font-size: 16px;
       line-height: 1.2;
     }
     .logo a .logo-line {
@@ -282,13 +282,13 @@
       margin-bottom: 10px;
       font-size: 24px;
       color: var(--primary);
-      text-align: center; 
+      text-align: center;
     }
     .about-box p {
       font-size: 16px;
       line-height: 1.5;
     }
-    /* Box 1 : Au survol, overlay bleu pétant */
+    /* Box 1 : overlay bleu pétant au survol */
     .about-box.about-box-1 {
       position: relative;
       overflow: hidden;
@@ -784,7 +784,7 @@
         <div class="resources-grid">
           <!-- Box 1 : Simulateur -->
           <div class="resource-box">
-            <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Simulateur_Letmotiv.webp" alt="Simulateur">
+            <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/7203305c1c95e211ff6bd903cbd58113e1f58a65/Simulateur_Letmotiv.webp" alt="Simulateur">
             <h3>Simulateur</h3>
             <p style="text-align: left; color: var(--primary);">
               Vous voulez vous entrainer gratuitement à la prise de parole en public ? Découvrez le simulateur Letmotiv : de nombreux exercices selon votre objectif : réussir un entretien, améliorer sa diction, développer son charisme et son leadership, accroitre sa force de persuasion, inspirer votre auditoire...
@@ -809,9 +809,9 @@
           <div class="resource-box">
             <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Contenu_video.jpg" alt="Articles et vidéos">
             <h3>Articles & Vidéos</h3>
-            <p style="text-align: left; color: var(--primary);">Plongez dans notre bibliothèque de contenus, une source d'inspiration riche et variée conçue pour tous les apprenants. 
-              Que vous préfériez écouter, regarder ou lire, nos articles, vidéos et podcasts vous offrent des conseils pratiques et des perspectives nouvelles pour améliorer votre prise de parole en public. 
-              Découvrez dès maintenant un univers d'expertise et de créativité pour booster vos prestations !</p>
+            <p style="text-align: left; color: var(--primary);">
+              Plongez dans notre bibliothèque de contenus, une source d'inspiration riche et variée conçue pour tous les apprenants. Que vous préfériez écouter, regarder ou lire, nos articles, vidéos et podcasts vous offrent des conseils pratiques et des perspectives nouvelles pour améliorer votre prise de parole en public.
+            </p>
             <a href="#" class="btn">Explorer nos contenus</a>
           </div>
         </div>
@@ -1036,8 +1036,11 @@
       }, observerOptions);
       animatedElements.forEach(el => observer.observe(el));
       
+      // Mise à jour de l'écouteur d'orientationchange pour ne fermer le menu mobile que si la largeur est inférieure ou égale à 768px
       window.addEventListener('orientationchange', function() {
-        toggleMobileNav(false);
+        if (window.innerWidth <= 768) {
+          toggleMobileNav(false);
+        }
       });
       
       const logosContainer = document.getElementById('clients-logos');
@@ -1067,86 +1070,5 @@
         });
     });
   </script>
-  
-  <!-- Styles spécifiques pour la section À Propos (3 boxes) -->
-  <style>
-    .about-boxes {
-      display: flex;
-      gap: 20px;
-      justify-content: space-between;
-      margin-top: 20px;
-    }
-    .about-box {
-      flex: 1;
-      background: #f7f7f7;
-      padding: 20px;
-      border-radius: 5px;
-      position: relative;
-      transition: filter 0.3s ease;
-    }
-    .about-box h3 {
-      margin-bottom: 10px;
-      font-size: 24px;
-      color: var(--primary);
-    }
-    .about-box p {
-      font-size: 16px;
-      line-height: 1.5;
-    }
-    /* Box 1 : overlay bleu pétant au survol */
-    .about-box.about-box-1 {
-      position: relative;
-      overflow: hidden;
-    }
-    .about-box.about-box-1 .hover-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: #007BFF;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    .about-box.about-box-1:hover .hover-overlay {
-      opacity: 1;
-    }
-    
-    /* Box 2 : valeurs en colonne */
-    .about-box.about-box-2 .values-boxes {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 15px;
-    }
-    .about-box.about-box-2 .value-box {
-      padding: 10px;
-      border-radius: 10px;
-      color: #fff;
-      text-align: center;
-    }
-    .about-box.about-box-2 .value-box .value-title {
-      font-weight: bold;
-      font-size: 16px;
-      margin-bottom: 5px;
-    }
-    .about-box.about-box-2 .value-box .value-desc {
-      font-size: 14px;
-    }
-    .value-box.bienveillance { background: #FFC107; }
-    .value-box.mise { background: #1bc20d; }
-    .value-box.technicite { background: #2ba0df; }
-    @media (max-width: 768px) {
-      .about-boxes {
-        flex-direction: column;
-      }
-    }
-  </style>
 </body>
 </html>
