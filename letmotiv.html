@@ -77,7 +77,6 @@
       align-items: center;
       padding: 15px 20px;
     }
-    /* Taille du titre réduite */
     .logo a {
       text-decoration: none;
       color: var(--white);
@@ -288,7 +287,6 @@
       font-size: 16px;
       line-height: 1.5;
     }
-    /* Box 1 : overlay bleu pétant au survol */
     .about-box.about-box-1 {
       position: relative;
       overflow: hidden;
@@ -312,8 +310,6 @@
     .about-box.about-box-1:hover .hover-overlay {
       opacity: 1;
     }
-    
-    /* Box 2 : Valeurs - les petites boîtes en colonne */
     .about-box.about-box-2 .values-boxes {
       display: flex;
       flex-direction: column;
@@ -623,6 +619,12 @@
       .hero {
         background: url('https://raw.githubusercontent.com/Citizen11bf/letmotiv/0c649ee1f00846cb361781b0f851ff25df78672c/formation%20prise%20de%20parole%20en%20public%20Paris.webp') center center/cover no-repeat;
       }
+      .clients .clients-grid {
+        justify-content: space-between;
+      }
+      .client-item {
+        flex: 0 0 calc(33.33% - 20px);
+      }
     }
     @media (max-width: 480px) {
       .hero-content h1 {
@@ -643,22 +645,16 @@
         width: 20px;
         height: 2px;
       }
+      /* Forcer le menu mobile à rester fermé en paysage */
+      .mobile-nav-overlay {
+        top: -100% !important;
+      }
     }
-
     @media (max-width: 1024px) and (orientation: landscape) {
-  .logo a {
-    font-size: 14px; /* Ajustez cette valeur selon vos besoins */
-  }
-}  
-
-    @media (max-width: 768px) {
-  .clients .clients-grid {
-    justify-content: space-between;
-  }
-  .client-item {
-    flex: 0 0 calc(33.33% - 20px);
-  }
-      
+      .logo a {
+        font-size: 14px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -989,7 +985,7 @@
         const targetId = this.getAttribute('href').substring(1);
         const targetSection = document.getElementById(targetId);
         if (targetSection) {
-          // Utilisation de GSAP ScrollToPlugin pour un défilement plus lent (2 secondes)
+          // Utilisation de GSAP ScrollToPlugin pour un défilement en douceur (2 secondes)
           gsap.to(window, {
             duration: 2,
             scrollTo: { y: targetSection.offsetTop - 60 },
@@ -1048,7 +1044,7 @@
       }, observerOptions);
       animatedElements.forEach(el => observer.observe(el));
       
-      // Mise à jour de l'écouteur d'orientationchange pour ne fermer le menu mobile que si la largeur est inférieure ou égale à 768px
+      // Ferme le menu mobile lors d'un changement d'orientation (pour les écrans <=768px)
       window.addEventListener('orientationchange', function() {
         if (window.innerWidth <= 768) {
           toggleMobileNav(false);
