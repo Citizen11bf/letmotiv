@@ -634,6 +634,7 @@
         font-size: 18px;
       }
     }
+    /* En mode paysage sur mobile, on cache entièrement l'overlay du menu */
     @media (max-width: 768px) and (orientation: landscape) {
       .header-container {
         padding: 10px;
@@ -645,9 +646,8 @@
         width: 20px;
         height: 2px;
       }
-      /* Forcer le menu mobile à rester fermé en paysage */
       .mobile-nav-overlay {
-        top: -100% !important;
+        display: none !important;
       }
     }
     @media (max-width: 1024px) and (orientation: landscape) {
@@ -985,7 +985,6 @@
         const targetId = this.getAttribute('href').substring(1);
         const targetSection = document.getElementById(targetId);
         if (targetSection) {
-          // Utilisation de GSAP ScrollToPlugin pour un défilement en douceur (2 secondes)
           gsap.to(window, {
             duration: 2,
             scrollTo: { y: targetSection.offsetTop - 60 },
@@ -1044,7 +1043,7 @@
       }, observerOptions);
       animatedElements.forEach(el => observer.observe(el));
       
-      // Ferme le menu mobile lors d'un changement d'orientation (pour les écrans <=768px)
+      // Fermer le menu mobile lors d'un changement d'orientation (pour écrans ≤768px)
       window.addEventListener('orientationchange', function() {
         if (window.innerWidth <= 768) {
           toggleMobileNav(false);
