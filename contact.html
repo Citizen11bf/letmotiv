@@ -46,7 +46,6 @@
       color: #333;
       background-color: #fff !important;
     }
-
     .container {
       width: 90%;
       max-width: 1200px;
@@ -235,20 +234,6 @@
       background: var(--primary);
     }
     
-    /* --- Alternance des couleurs (hors HERO) --- */
-    main section:not(.hero):nth-of-type(3n+1) {
-      background-color: var(--white);
-      color: var(--white);
-    }
-    main section:not(.hero):nth-of-type(3n+2) {
-      background-color: var(--white);
-      color: var(--primary);
-    }
-    main section:not(.hero):nth-of-type(3n) {
-      background-color: var(--green);
-      color: var(--white);
-    }
-    
     /* --- Sections Générales --- */
     .section {
       padding: 100px 0;
@@ -276,7 +261,20 @@
     .calendy h2 {
       margin-bottom: 40px;
       font-size: 36px;
-      color: var(--primary); /* Titre en bleu */
+      color: var(--primary);
+    }
+    
+    /* --- Footer --- */
+    footer {
+      background: var(--primary);
+      color: var(--white);
+      padding: 20px 0;
+      text-align: center;
+    }
+    footer a {
+      color: var(--white);
+      text-decoration: none;
+      margin: 0 10px;
     }
     
     /* --- Responsive --- */
@@ -372,13 +370,13 @@
     <section id="calendy" class="section calendy">
       <div class="container">
         <h2>Planifiez un appel avec nous</h2>
-        <!-- Calendly inline widget -->
-        <div class="calendly-inline-widget" data-url="https://calendly.com/letmotiv/premier-contact" style="min-width:320px;height:1000px;"></div>
+        <!-- Calendly inline widget avec suppression des détails -->
+        <div class="calendly-inline-widget" data-url="https://calendly.com/letmotiv/premier-contact?hide_landing_page_details=1" style="min-width:320px;height:1000px;"></div>
       </div>
     </section>
   </main>
   
-  <!-- FOOTER (en fond bleu) -->
+  <!-- FOOTER (toujours en bleu) -->
   <footer>
     <div class="container">
       <p>&copy; 2025 Letmotiv. Tous droits réservés.</p>
@@ -496,7 +494,7 @@
   <!-- Styles spécifiques pour la section Calendly (Contact) -->
   <style>
     .calendy h2 {
-      color: var(--primary); /* Titre en bleu */
+      color: var(--primary);
     }
   </style>
 </body>
