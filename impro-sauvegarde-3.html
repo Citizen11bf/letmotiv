@@ -1379,16 +1379,17 @@
     // On initialise Hammer sur le conteneur principal
     const mainContainer = document.querySelector('.main-container');
     const hammer = new Hammer(mainContainer);
+    hammer.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
 
-    // Swipe vers la gauche : simuler un clic sur le bouton "Suivant"
-    hammer.on('swipeleft', function(ev) {
+    // Swipe vers le haut : simuler un clic sur le bouton "Suivant"
+    hammer.on('swipeup', function(ev) {
       if (nextBtns[currentStepGlobal]) {
         nextBtns[currentStepGlobal].click();
       }
     });
 
-    // Swipe vers la droite : simuler un clic sur le bouton "Retour"
-    hammer.on('swiperight', function(ev) {
+    // Swipe vers le bas : simuler un clic sur le bouton "Retour"
+    hammer.on('swipedown', function(ev) {
       if (currentStepGlobal > 1 && backBtns[currentStepGlobal]) {
         backBtns[currentStepGlobal].click();
       }
