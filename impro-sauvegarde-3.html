@@ -84,7 +84,6 @@
       top: 0;
       left: 0;
       z-index: 10;
-      box-sizing: border-box;
     }
     .header-content {
       display: flex;
@@ -192,7 +191,6 @@
       border-radius: 15px;
       background: linear-gradient(135deg, #ffffff, #f9f9f9);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      border: none;
       text-align: center;
       font-size: 14px;
       display: none;
@@ -319,6 +317,12 @@
       gap: 15px;
       justify-items: center;
       margin: 10px 0;
+    }
+    /* Media query pour forcer 3 cartes minimum par ligne sur mobile */
+    @media (max-width: 600px) {
+      .objectives-container {
+        grid-template-columns: repeat(3, 1fr);
+      }
     }
     /* Structure de la carte flip */
     .flip-card {
