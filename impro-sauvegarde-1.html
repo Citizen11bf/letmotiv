@@ -315,7 +315,7 @@
     }
 
     /* --- STEP1 : Choix d’objectif --- */
-    /* Style des objectifs avec agrandissement de la police, icônes, et couleurs plus dynamiques */
+    /* Style des objectifs avec agrandissement de la police, icônes et couleurs plus dynamiques */
     .objectives-container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
@@ -326,7 +326,7 @@
     .objective-item {
       text-align: center;
       color: #444; /* Couleur plus vive que le gris initial */
-      font-size: 1rem; /* Taille du texte augmentée */
+      font-size: 1rem; /* Texte agrandi */
       cursor: pointer;
       padding: 12px;
       border: 1px solid transparent;
@@ -900,7 +900,7 @@
     </div>
   </div>
 
-  <!-- Bouton de partage LinkedIn (affiché en bas à droite) -->
+  <!-- Bouton de partage LinkedIn (affiché en bas à droite, caché sur la page d'intro) -->
   <button class="linkedin-share-btn" id="linkedin-share-btn" aria-label="Partager sur LinkedIn">
     <i class="fab fa-linkedin-in"></i>
   </button>
@@ -933,6 +933,7 @@
     const introBox = document.getElementById('intro-box');
     const startIntroBtn = document.getElementById('start-intro-btn');
     const topProgressBar = document.getElementById('top-progress-bar');
+    const linkedinShareBtn = document.getElementById('linkedin-share-btn');
 
     // Variable globale pour suivre l'étape courante
     let currentStepGlobal = 0;
@@ -952,6 +953,16 @@
     // Fonction pour retirer l'animation "pulse" de tous les boutons "Suivant"
     function removePulseFromAll() {
       Object.values(nextBtns).forEach(btn => btn.classList.remove('pulse'));
+    }
+
+    // Met à jour la visibilité du bouton LinkedIn selon l'étape
+    function updateShareButtonVisibility() {
+      // Cache le bouton sur la page d'introduction (step 0) et l'affiche sur les autres étapes
+      if (currentStepGlobal === 0) {
+        linkedinShareBtn.style.display = 'none';
+      } else {
+        linkedinShareBtn.style.display = 'flex';
+      }
     }
 
     // Fonction d'affichage avec animations entre étapes
@@ -983,6 +994,8 @@
       
       // Retirer l'animation "pulse" de tous
       removePulseFromAll();
+      // Mettre à jour le bouton de partage LinkedIn en fonction de l'étape
+      updateShareButtonVisibility();
     }
 
     // Boîte d'introduction : lancement de l'application
@@ -994,6 +1007,7 @@
         currentStepGlobal = 1;
         updateProgressBar(1);
         removePulseFromAll();
+        updateShareButtonVisibility();
       }, 500);
     });
 
@@ -1086,35 +1100,43 @@
     // Gestion de la sélection avec effet visuel (expansion et surbrillance temporaire)
     objectivesButtons.forEach(item => {
       item.addEventListener('click', async () => {
-        // Réinitialisation des styles de tous les objectifs
-        objectivesButtons.forEach(el => el.classList.remove('selected-objective'));
+        // Réinitialiser la classe et les styles inline de tous les objectifs
+        objectivesButtons.forEach(el => {
+          el.classList.remove('selected-objective');
+          el.style.transform = "";
+          el.style.backgroundColor = "";
+        });
 
-        // Ajout de l'effet de sélection
+        // Ajout de l'effet de sélection sur l'élément cliqué
         item.classList.add('selected-objective');
 
-        // Mise à jour de la catégorie et de l'objectif actuel
+        // Mise à jour de la catégorie et du texte de l'objectif sélectionné
         currentCategory = item.dataset.category;
         currentObjective = item.innerText;
 
-        // Effet temporaire de surbrillance
+        // Appliquer un effet temporaire de surbrillance
         item.style.transition = "transform 0.3s, background-color 0.3s";
         item.style.transform = "scale(1.1)";
         item.style.backgroundColor = "rgba(0, 164, 138, 0.2)";
         setTimeout(() => {
-          item.style.transform = "scale(1)";
+          // Réinitialiser la transformation pour éviter des cumul d'effets
+          item.style.transform = "";
         }, 300);
 
-        // Affichage de l'explication correspondante
+        // Afficher l'explication correspondante dans la bulle d'information
         const explication = explanations[currentCategory] || "";
         explanationBox.textContent = explication;
         explanationBox.classList.add('show');
 
-        // Chargement des sujets pour la catégorie si nécessaire
+        // Charger les sujets pour la catégorie si nécessaire
         if (subjectsCache[currentCategory] === null) {
           await loadSubjects(currentCategory);
         }
+        // Masquer d'éventuels messages d'erreur
         document.getElementById('objective-error').style.display = 'none';
         document.getElementById('impro-error').style.display = 'none';
+        
+        // Animer le bouton "Suivant"
         removePulseFromAll();
         nextBtns[1].classList.add('pulse');
       });
