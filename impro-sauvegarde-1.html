@@ -347,6 +347,31 @@
       border-color: #00a48a;
     }
 
+    /* Bulle d'explication pour l'objectif (comme avant) */
+    .explanation-box {
+      visibility: hidden;
+      opacity: 0;
+      transform: translateY(-10px);
+      margin: 10px auto;
+      background-color: #fefefe;
+      border: 0 solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 14px;
+      font-style: italic;
+      color: #333;
+      transition: border 0.5s ease, opacity 0.5s ease, transform 0.5s ease;
+      max-width: 90%;
+    }
+    .explanation-box.show {
+      visibility: visible;
+      opacity: 1;
+      transform: translateY(0);
+      border: 2px solid #ccc;
+    }
+
     /* --- STEP2 : Génération du sujet --- */
     .subject-wrapper {
       margin-top: 10px;
@@ -703,16 +728,17 @@
         </div>
         <div class="objective-item" data-category="diction">
           <i class="fas fa-grin-tongue"></i>
-          <span>Diction</span>
+          <span>Améliorer sa diction</span>
         </div>
         <div class="objective-item" data-category="entretien">
           <i class="fas fa-briefcase"></i>
           <span>Réussir son entretien</span>
         </div>
       </div>
+      <!-- Bulle d'explication qui s'affiche lors du clic -->
+      <div id="explanation-box" class="explanation-box"></div>
       <!-- Le div d'erreur n'a plus de texte par défaut -->
       <div id="objective-error" class="error-message"></div>
-      <div class="explanation-box" id="explanation-box"></div>
       <!-- Bouton Suivant STEP1 -->
       <button class="next-btn" id="next-btn1" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
