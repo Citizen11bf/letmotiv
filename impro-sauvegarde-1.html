@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Simulateur d'improvisation</title>
-  <meta name="description" content="Évaluer et développer rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv. Entreprise spécialisée dans le coaching en prise de parole.">
+  <meta name="description" content="Évaluer et développer sa prise de parole en public avec le simulateur d'improvisation Letmotiv. Entreprise spécialisée dans le coaching en prise de parole.">
 
   <!-- Icône de la page (favicon) -->
   <link rel="icon" href="https://img.icons8.com/fluency/48/000000/microphone.png" type="image/png">
@@ -12,7 +12,7 @@
   
   <!-- Balises Open Graph pour LinkedIn -->
   <meta property="og:title" content="Simulateur d'improvisation Letmotiv" />
-  <meta property="og:description" content="Évaluez et développez rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv." />
+  <meta property="og:description" content="Évaluer et développer sa prise de parole en public avec le simulateur d'improvisation Letmotiv." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://letmotiv-simulateur.fr" />
   <meta property="og:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png" />
@@ -23,7 +23,7 @@
   <!-- Balises Twitter (optionnel) -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Simulateur d'improvisation Letmotiv">
-  <meta name="twitter:description" content="Évaluez et développez rapidement votre niveau en prise de parole en public avec le simulateur d'improvisation Letmotiv.">
+  <meta name="twitter:description" content="Évaluer et développer sa prise de parole en public avec le simulateur d'improvisation Letmotiv.">
   <meta name="twitter:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png">
 
   <!-- Import de la police DM Sans et Montserrat depuis Google Fonts -->
@@ -34,6 +34,21 @@
   <!-- Icônes Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Simulateur d'improvisation Letmotiv",
+      "url": "https://letmotiv-simulateur.fr",
+      "description": "Évaluer et développer sa prise de parole en public avec le simulateur d'improvisation Letmotiv.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Letmotiv",
+        "logo": "https://letmotiv-simulateur.fr/logo.png"
+      }
+    }
+  </script>
+  
   <style>
     /* --- GLOBAL --- */
     * {
@@ -294,54 +309,42 @@
       background-color: #00a48a;
     }
 
-    /* STEP1 : Choix d’objectif */
+    /* --- STEP1 : Choix d’objectif ---
+         Nouvelle présentation en grid avec icône et texte en gris */
     .objectives-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
       gap: 10px;
-      margin-top: 10px;
-      margin-bottom: 10px;
+      justify-items: center;
+      margin: 10px 0;
     }
-    .objectives-container button {
-      padding: 10px 20px;
-      border: 2px solid #182d84;
-      border-radius: 25px;
-      background-color: transparent;
-      color: #182d84;
-      cursor: pointer;
-      transition: background-color 0.3s, color 0.3s;
-    }
-    .objectives-container button:hover {
-      background-color: #00a48a;
-      color: #ffffff;
-    }
-    .selected-objective {
-      background-color: #00a48a !important;
-      color: #ffffff;
-    }
-
-    .explanation-box {
-      visibility: hidden;
-      opacity: 0;
-      transform: translateY(-10px);
-      margin-top: 0;
-      background-color: #fefefe;
-      border: 0 solid #ccc;
-      border-radius: 8px;
-      padding: 10px;
+    .objective-item {
       text-align: center;
-      font-weight: bold;
-      font-size: 14px;
-      font-style: italic;
-      color: #333;
-      transition: border 0.5s ease, opacity 0.5s ease, transform 0.5s ease;
+      color: #808080;
+      font-size: 0.8rem;
+      cursor: pointer;
+      padding: 10px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      transition: background-color 0.3s, border-color 0.3s;
     }
-    .explanation-box.show {
-      visibility: visible;
-      opacity: 1;
-      transform: translateY(0);
-      border: 2px solid #ccc;
+    .objective-item i {
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+      display: block;
+      color: #808080;
+    }
+    .objective-item span {
+      display: block;
+    }
+    /* Indicateur de sélection */
+    .objective-item.selected-objective,
+    .objective-item.selected-objective i {
+      color: #00a48a;
+    }
+    /* Au survol */
+    .objective-item:hover {
+      border-color: #00a48a;
     }
 
     /* --- STEP2 : Génération du sujet --- */
@@ -382,6 +385,8 @@
       top: 0;
       left: 0;
       z-index: 1;
+      transform: scaleX(-1);
+      -webkit-transform: scaleX(-1);
     }
     /* Zone overlay pour les instructions et le bouton */
     .video-overlay {
@@ -585,12 +590,6 @@
       margin: 0 auto;
     }
 
-    /* --- Inversion de la caméra (demande de Pierre) --- */
-    video {
-      transform: scaleX(-1);
-      -webkit-transform: scaleX(-1);
-    }
-
     /* --- Messages d'erreur en rouge --- */
     .error-message {
       color: red;
@@ -633,63 +632,6 @@
       border-color: #00a48a;
       outline: none;
     }
-
-    /* === Animation Saint-Valentin (affichée uniquement sur la page d'accueil) === */
-    .valentine-animation {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 1000;
-      pointer-events: none;
-    }
-    .swing {
-      position: relative;
-      width: 80px;
-      animation: swing 3s ease-in-out infinite;
-      transform-origin: top center;
-    }
-    .swing::before,
-    .swing::after {
-      content: '';
-      position: absolute;
-      top: -100px; /* Longueur des fils */
-      width: 2px;
-      height: 100px;
-      background: #182d84;
-    }
-    .swing::before { left: 0; }
-    .swing::after { right: 0; }
-    .cupid {
-      position: relative;
-      text-align: center;
-    }
-    .cupid-img {
-      width: 80px;
-      display: block;
-      margin: 0 auto;
-    }
-    .heart {
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 24px;
-    }
-    .heart img {
-      width: 100%;
-      animation: beat 1s ease-in-out infinite;
-    }
-    @keyframes swing {
-      0% { transform: rotate(5deg); }
-      50% { transform: rotate(-5deg); }
-      100% { transform: rotate(5deg); }
-    }
-    @keyframes beat {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.2); }
-      100% { transform: scale(1); }
-    }
   </style>
 </head>
 <body>
@@ -731,15 +673,42 @@
         <div class="box-title">Quel est ton objectif ?</div>
       </div>
       <div class="objectives-container">
-        <button data-category="convaincre">Convaincre</button>
-        <button data-category="inspirer">Inspirer</button>
-        <button data-category="lacher-prise">Lâcher prise</button>
-        <button data-category="toast">Porter un toast</button>
-        <button data-category="repartie">Avoir de la répartie</button>
-        <button data-category="vendre">Vendre</button>
-        <button data-category="conflit">Gérer un conflit</button>
-        <button data-category="diction">Diction</button>
-        <button data-category="entretien">Réussir son entretien</button>
+        <div class="objective-item" data-category="convaincre">
+          <i class="fas fa-handshake"></i>
+          <span>Convaincre</span>
+        </div>
+        <div class="objective-item" data-category="inspirer">
+          <i class="fas fa-lightbulb"></i>
+          <span>Inspirer</span>
+        </div>
+        <div class="objective-item" data-category="lacher-prise">
+          <i class="fas fa-smile"></i>
+          <span>Lâcher prise</span>
+        </div>
+        <div class="objective-item" data-category="toast">
+          <i class="fas fa-glass-cheers"></i>
+          <span>Porter un toast</span>
+        </div>
+        <div class="objective-item" data-category="repartie">
+          <i class="fas fa-comments"></i>
+          <span>Avoir de la répartie</span>
+        </div>
+        <div class="objective-item" data-category="vendre">
+          <i class="fas fa-money-bill-wave"></i>
+          <span>Vendre</span>
+        </div>
+        <div class="objective-item" data-category="conflit">
+          <i class="fas fa-exclamation-triangle"></i>
+          <span>Gérer un conflit</span>
+        </div>
+        <div class="objective-item" data-category="diction">
+          <i class="fas fa-grin-tongue"></i>
+          <span>Diction</span>
+        </div>
+        <div class="objective-item" data-category="entretien">
+          <i class="fas fa-briefcase"></i>
+          <span>Réussir son entretien</span>
+        </div>
       </div>
       <!-- Le div d'erreur n'a plus de texte par défaut -->
       <div id="objective-error" class="error-message"></div>
@@ -1028,15 +997,16 @@
       diction: null,
       entretien: null
     };
-    const objectivesButtons = document.querySelectorAll('.objectives-container button');
+    // Sélection des éléments désormais sous la classe .objective-item
+    const objectivesButtons = document.querySelectorAll('.objectives-container .objective-item');
     const explanationBox = document.getElementById('explanation-box');
 
-    objectivesButtons.forEach(button => {
-      button.addEventListener('click', async () => {
-        objectivesButtons.forEach(btn => btn.classList.remove('selected-objective'));
-        button.classList.add('selected-objective');
-        currentCategory = button.dataset.category;
-        currentObjective = button.innerText;
+    objectivesButtons.forEach(item => {
+      item.addEventListener('click', async () => {
+        objectivesButtons.forEach(el => el.classList.remove('selected-objective'));
+        item.classList.add('selected-objective');
+        currentCategory = item.dataset.category;
+        currentObjective = item.innerText;
         const explication = explanations[currentCategory] || "";
         explanationBox.textContent = explication;
         explanationBox.classList.add('show');
@@ -1363,19 +1333,5 @@
     });
 
   </script>
-
-  <!-- === Animation Saint-Valentin (affichée uniquement sur la page d'accueil) === -->
-  <div class="valentine-animation">
-    <div class="swing">
-      <div class="cupid">
-        <!-- Image du cupidon en bleu (#182d84) -->
-        <img src="https://img.icons8.com/fluency/80/182d84/cupid.png" alt="Cupid" class="cupid-img">
-        <!-- Le cœur dans les mains du cupidon -->
-        <div class="heart">
-          <img src="https://img.icons8.com/fluency/24/182d84/heart.png" alt="Heart">
-        </div>
-      </div>
-    </div>
-  </div>
 </body>
 </html>
