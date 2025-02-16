@@ -54,7 +54,9 @@
   
   <style>
     /* --- GLOBAL --- */
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
     body {
       margin: 0;
       font-family: 'DM Sans', sans-serif;
@@ -68,6 +70,7 @@
       padding-top: 60px;
       padding-bottom: 20px;
     }
+
     /* --- HEADER --- */
     .header {
       background-color: #182d84;
@@ -81,14 +84,22 @@
       top: 0;
       left: 0;
       z-index: 10;
+      box-sizing: border-box;
     }
     .header-content {
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
       gap: 5px;
+      max-width: 100%;
+      overflow-wrap: break-word;
     }
-    .header-l2 { font-size: 14px; font-weight: normal; }
+    .header-l2 {
+      font-size: 14px;
+      font-weight: normal;
+    }
+
     /* --- BARRE DE PROGRESSION --- */
     .progress-container {
       position: fixed;
@@ -105,6 +116,7 @@
       background-color: #00a48a;
       transition: width 0.5s ease;
     }
+
     /* --- BOÎTE D'INTRODUCTION --- */
     .intro-box {
       position: fixed;
@@ -131,6 +143,7 @@
     .intro-box button {
       background-color: #ffffff;
       color: #182d84;
+      font-family: 'DM Sans', sans-serif;
       font-size: 1.2rem;
       border: none;
       border-radius: 25px;
@@ -144,9 +157,20 @@
       color: #ffffff;
       transform: scale(1.05);
     }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
-    @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to   { opacity: 0; }
+    }
+    @keyframes slideDown {
+      from { transform: translateY(-50px); opacity: 0; }
+      to   { transform: translateY(0); opacity: 1; }
+    }
+
     /* --- CONTENEUR PRINCIPAL --- */
     .main-container {
       display: flex;
@@ -157,7 +181,8 @@
       width: 100%;
       padding: 20px;
     }
-    /* --- BOXES --- */
+
+    /* --- BOXES (étapes) - Design modernisé en "card" --- */
     .box {
       position: relative;
       width: 100%;
@@ -167,23 +192,42 @@
       border-radius: 15px;
       background: linear-gradient(135deg, #ffffff, #f9f9f9);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      border: none;
       text-align: center;
       font-size: 14px;
       display: none;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    .box.active { display: block; }
-    .box:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); }
-    /* --- ANIMATIONS --- */
-    .slide-from-bottom { animation: fromBottom 1.5s ease forwards; }
-    @keyframes fromBottom { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
-    .slide-from-top { animation: fromTop 1.5s ease forwards; }
-    @keyframes fromTop { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
-    /* --- HEADER INTERNE --- */
+    .box.active {
+      display: block;
+    }
+    .box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    /* --- ANIMATIONS VERTICALES --- */
+    .slide-from-bottom {
+      animation: fromBottom 1.5s ease forwards;
+    }
+    @keyframes fromBottom {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .slide-from-top {
+      animation: fromTop 1.5s ease forwards;
+    }
+    @keyframes fromTop {
+      from { opacity: 0; transform: translateY(-50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- HEADER INTERNE DES BOXES --- */
     .box-header {
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
       margin-bottom: 20px;
       position: relative;
     }
@@ -200,13 +244,29 @@
       align-items: center;
       justify-content: center;
       transition: background-color 0.3s, transform 0.3s;
-      margin: 0 auto 10px;
+      margin: 0 auto;
+      margin-bottom: 10px;
     }
-    .back-btn:hover { background-color: #505050; transform: scale(1.1); }
-    .back-btn:active { background-color: #303030; }
-    #step1 .back-btn.hidden-visibility { display: none; }
-    .box-title { font-size: 18px; font-weight: bold; color: #182d84; text-align: center; }
-    /* --- FLECHES --- */
+    .back-btn:hover {
+      background-color: #505050;
+      transform: scale(1.1);
+    }
+    .back-btn:active {
+      background-color: #303030;
+    }
+    /* Pour la box1, le bouton caché ne doit plus occuper d'espace */
+    #step1 .back-btn.hidden-visibility {
+      display: none;
+    }
+    .box-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #182d84;
+      text-align: center;
+    }
+
+    /* --- FLECHES HAUT/BAS --- */
+    .next-btn, .back-btn { }
     .next-btn {
       width: 40px;
       height: 40px;
@@ -221,11 +281,23 @@
       transition: background-color 0.3s, color 0.3s, transform 0.3s;
       margin: 10px auto;
     }
-    .next-btn:hover { background-color: #00a48a; color: #ffffff; transform: scale(1.05); }
-    .next-btn.pulse { animation: electricPulse 1.5s infinite; }
-    @keyframes electricPulse { 0% { box-shadow: 0 0 0 0 rgba(0,164,138,0.7); } 70% { box-shadow: 0 0 0 10px rgba(0,164,138,0); } 100% { box-shadow: 0 0 0 0 rgba(0,164,138,0); } }
-    /* --- Boutons style impro --- */
+    .next-btn:hover {
+      background-color: #00a48a;
+      color: #ffffff;
+      transform: scale(1.05);
+    }
+    .next-btn.pulse {
+      animation: electricPulse 1.5s infinite;
+    }
+    @keyframes electricPulse {
+      0% { box-shadow: 0 0 0 0 rgba(0,164,138,0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(0,164,138,0); }
+      100% { box-shadow: 0 0 0 0 rgba(0,164,138,0); }
+    }
+
+    /* --- Bouton de style pour "Démarrer ton impro" et boutons similaires --- */
     .btn-impro {
+      pointer-events: auto;
       margin: 15px 0;
       padding: 10px 20px;
       font-size: 16px;
@@ -236,8 +308,11 @@
       cursor: pointer;
       transition: background-color 0.3s;
     }
-    .btn-impro:hover { background-color: #00a48a; }
-    /* --- STEP1 : Objectifs --- */
+    .btn-impro:hover {
+      background-color: #00a48a;
+    }
+
+    /* --- STEP1 : Choix d’objectif --- */
     .objectives-container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
@@ -253,14 +328,44 @@
       padding: 10px;
       border: 1px solid transparent;
       border-radius: 8px;
-      transition: background-color 0.3s, border-color 0.3s;
+      transition: transform 0.3s ease, border-color 0.3s ease, color 0.3s ease;
     }
-    .objective-item i { font-size: 1.5rem; margin-bottom: 5px; display: block; color: #808080; }
-    .objective-item span { display: block; }
+    .objective-item i {
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+      display: block;
+      color: #808080;
+      transition: color 0.3s ease;
+    }
+    .objective-item span {
+      display: block;
+    }
+    /* Effet hover : légère rotation, agrandissement et changement de couleur */
+    .objective-item:hover {
+      transform: scale(1.1) rotate(5deg);
+      color: #00a48a;
+    }
+    .objective-item:hover i {
+      color: #00a48a;
+    }
+    /* Indicateur de sélection */
     .objective-item.selected-objective,
-    .objective-item.selected-objective i { color: #00a48a; }
-    .objective-item:hover { border-color: #00a48a; }
-    /* --- Bulle d'explication --- */
+    .objective-item.selected-objective i {
+      color: #00a48a;
+    }
+    /* Animation bounce lors du clic */
+    @keyframes bounce {
+      0% { transform: scale(1); }
+      30% { transform: scale(1.3); }
+      50% { transform: scale(0.9); }
+      70% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    .bounce {
+      animation: bounce 0.5s ease;
+    }
+
+    /* Bulle d'explication pour l'objectif */
     .explanation-box {
       visibility: hidden;
       opacity: 0;
@@ -284,6 +389,7 @@
       transform: translateY(0);
       border: 2px solid #ccc;
     }
+
     /* --- STEP2 : Génération du sujet --- */
     .subject-wrapper {
       margin-top: 10px;
@@ -297,6 +403,7 @@
       color: #333;
       display: none;
     }
+    
     /* --- STEP3 : Enregistrement vidéo --- */
     .video-box {
       margin: 10px auto;
@@ -324,9 +431,7 @@
       transform: scaleX(-1);
       -webkit-transform: scaleX(-1);
     }
-    /* Le canvas pour enregistrer avec overlays (caché) */
-    #recordCanvas { display: none; }
-    /* Zone overlay (affiché tant que l'enregistrement n'est pas lancé) */
+    /* Zone overlay pour les instructions et le bouton */
     .video-overlay {
       position: absolute;
       z-index: 2;
@@ -343,8 +448,11 @@
       padding: 20px;
       background: rgba(255,255,255,0.6);
     }
-    .video-overlay p { margin: 10px 0; }
+    .video-overlay p {
+      margin: 10px 0;
+    }
     .video-overlay button {
+      pointer-events: auto;
       margin: 15px 0;
       padding: 10px 20px;
       font-size: 16px;
@@ -355,8 +463,9 @@
       cursor: pointer;
       transition: background-color 0.3s;
     }
-    .video-overlay button:hover { background-color: #00a48a; }
-    /* --- Indicateur d'enregistrement --- */
+    .video-overlay button:hover {
+      background-color: #00a48a;
+    }
     .recording-indicator {
       position: absolute;
       top: 10px;
@@ -380,7 +489,11 @@
       margin-right: 5px;
       animation: blink 1s infinite;
     }
-    @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
+    @keyframes blink {
+      0% { opacity: 1; }
+      50% { opacity: 0; }
+      100% { opacity: 1; }
+    }
     .countdown {
       position: absolute;
       bottom: 10px;
@@ -407,7 +520,12 @@
       z-index: 5;
       border-radius: 6px;
     }
-    .initial-countdown { font-size: 48px; color: #ffffff; font-weight: bold; }
+    .initial-countdown {
+      font-size: 48px;
+      color: #ffffff;
+      font-weight: bold;
+    }
+
     .impro-actions {
       display: flex;
       flex-wrap: wrap;
@@ -415,9 +533,14 @@
       justify-content: center;
       margin-top: 10px;
     }
-    .hidden-btn { display: none; }
-    /* --- STEP4 : Téléchargements --- */
-    .download-section { margin-top: 20px; }
+    .hidden-btn {
+      display: none;
+    }
+
+    /* --- STEP4 : Analyse ta prestation & Téléchargements --- */
+    .download-section {
+      margin-top: 20px;
+    }
     .download-section-accent {
       background: linear-gradient(135deg, #182d84, #00a48a);
       border-radius: 10px;
@@ -432,9 +555,18 @@
       font-size: 1.5rem;
       margin: 0 0 10px;
     }
-    .download-section-accent .subtitle { font-style: italic; margin-bottom: 10px; }
-    .download-section-accent .reassure { font-size: 0.9rem; opacity: 0.9; }
-    .call-to-action { text-align: center; }
+    .download-section-accent .subtitle {
+      font-style: italic;
+      margin-bottom: 10px;
+    }
+    .download-section-accent .reassure {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .call-to-action {
+      text-align: center;
+    }
     .call-to-action button {
       background-color: #ffcb2d;
       color: #000;
@@ -445,7 +577,11 @@
       transition: transform 0.2s, box-shadow 0.2s;
       margin: 10px auto;
     }
-    .call-to-action button:hover { transform: translateY(-3px); box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
+    .call-to-action button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+
     .download-buttons {
       margin-top: 20px;
       text-align: center;
@@ -454,7 +590,12 @@
       transition: opacity 0.4s ease, transform 0.4s ease;
       display: none;
     }
-    .download-buttons.show { opacity: 1; transform: translateY(0); display: block; }
+    .download-buttons.show {
+      opacity: 1;
+      transform: translateY(0);
+      display: block;
+    }
+
     .success-message {
       color: #28a745;
       background-color: #d4edda;
@@ -466,9 +607,18 @@
       text-align: center;
       transition: opacity 0.5s ease, visibility 0.5s ease;
     }
-    .success-message.show { display: block; opacity: 1; visibility: visible; }
-    @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-    /* --- Bulle style pour le sujet --- */
+    .success-message.show {
+      display: block;
+      opacity: 1;
+      visibility: visible;
+    }
+
+    @keyframes fadeInDown {
+      from { transform: translateY(-20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* --- Bulle style BD pour le sujet aléatoire en STEP3 --- */
     .subject-bubble {
       display: inline-block;
       position: relative;
@@ -482,7 +632,8 @@
       text-align: center;
       margin: 0 auto;
     }
-    /* --- Messages d'erreur --- */
+
+    /* --- Messages d'erreur en rouge --- */
     .error-message {
       color: red;
       margin-top: 10px;
@@ -491,7 +642,8 @@
       text-align: center;
       width: 100%;
     }
-    /* --- Champs Prénom et Email --- */
+
+    /* --- Styles pour les champs Prénom et Email --- */
     .download-fields {
       display: flex;
       justify-content: space-between;
@@ -504,19 +656,31 @@
       align-items: flex-start;
       width: 48%;
     }
-    .input-group label { margin-bottom: 5px; font-weight: bold; color: #000; }
+    .input-group label {
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #000;
+    }
     .input-group input {
       width: 100%;
       padding: 10px;
       border: 1px solid #ccc;
       border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
       font-size: 14px;
+      box-sizing: border-box;
       transition: border-color 0.3s;
     }
-    .input-group input:focus { border-color: #00a48a; outline: none; }
+    .input-group input:focus {
+      border-color: #00a48a;
+      outline: none;
+    }
   </style>
 </head>
 <body>
+  <!-- Élément audio pour l'animation sonore lors du clic -->
+  <audio id="click-sound" src="https://www.soundjay.com/button/beep-07.wav"></audio>
+
   <!-- BOÎTE D'INTRODUCTION -->
   <div class="intro-box" id="intro-box">
     <h1>Entraîne-toi à la prise de parole en public</h1>
@@ -545,6 +709,8 @@
 
   <!-- CONTAINER PRINCIPAL -->
   <div class="main-container">
+    <!-- Les étapes sont ici -->
+
     <!-- STEP1 : Choix d'objectif -->
     <div class="box" id="step1">
       <div class="box-header">
@@ -584,15 +750,18 @@
         </div>
         <div class="objective-item" data-category="diction">
           <i class="fas fa-grin-tongue"></i>
-          <span>Diction</span>
+          <span>Améliorer sa diction</span>
         </div>
         <div class="objective-item" data-category="entretien">
           <i class="fas fa-briefcase"></i>
           <span>Réussir son entretien</span>
         </div>
       </div>
+      <!-- Bulle d'explication qui s'affiche lors du clic -->
       <div id="explanation-box" class="explanation-box"></div>
+      <!-- Div pour le message d'erreur -->
       <div id="objective-error" class="error-message"></div>
+      <!-- Bouton Suivant STEP1 -->
       <button class="next-btn" id="next-btn1" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
@@ -606,12 +775,15 @@
         </button>
         <div class="box-title">Ton objectif</div>
       </div>
+      <!-- Rappel de l'objectif sélectionné -->
       <p id="selected-objective-display" style="font-weight:bold; margin-bottom:10px;"></p>
+      <!-- Bouton "Générer un sujet" stylisé avec .btn-impro -->
       <button id="generate-subject-btn" class="btn-impro">Générer un sujet</button>
       <div id="subject-wrapper" class="subject-wrapper">
         <span id="subject-display"></span>
       </div>
       <div id="subject-error" class="error-message"></div>
+      <!-- Bouton Suivant STEP2 -->
       <button class="next-btn" id="next-btn2" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
@@ -625,11 +797,11 @@
         </button>
         <div class="box-title">Lance ton improvisation</div>
       </div>
+      <!-- Rappel du sujet généré dans une bulle style BD -->
       <div id="current-subject-display" class="subject-bubble"></div>
       <div class="video-box">
         <video id="preview" autoplay muted playsinline webkit-playsinline></video>
-        <!-- Canvas caché pour enregistrer la vidéo avec overlays -->
-        <canvas id="recordCanvas" style="display:none;"></canvas>
+        <!-- Zone overlay avec instructions et bouton -->
         <div class="video-overlay">
           <p>Ici va s'enregistrer ton improvisation vidéo. Lorsque tu es prêt, clique sur le bouton ci-dessous.</p>
           <button id="start-btn" aria-label="Démarrer l'improvisation">
@@ -645,6 +817,7 @@
           <div class="initial-countdown" id="initial-countdown">3</div>
         </div>
       </div>
+      <!-- Boutons d'action (Stop, Restart) avec la classe btn-impro et cachés au départ -->
       <div class="impro-actions">
         <button id="stop-btn" class="hidden-btn btn-impro" aria-label="Arrêter l'improvisation">
           Arrêter ton impro <i class="fas fa-stop"></i>
@@ -654,12 +827,13 @@
         </button>
       </div>
       <div id="impro-error" class="error-message"></div>
+      <!-- Bouton Suivant STEP3 -->
       <button class="next-btn" id="next-btn3" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
     </div>
 
-    <!-- STEP4 : Analyse et téléchargement -->
+    <!-- STEP4 : Analyse ta prestation & Téléchargements -->
     <div class="box" id="step5">
       <div class="box-header">
         <button class="back-btn" id="back-btn5" aria-label="Retour à l'étape précédente">
@@ -705,51 +879,59 @@
         </div>
       </div>
     </div>
+
   </div>
 
   <!-- SCRIPT -->
   <script>
     /***********************
-     * Gestion des étapes et navigation (boutons et swipe)
+     * Gestion des étapes (maintenant 4 étapes)
      ***********************/
     const boxes = {
       1: document.getElementById('step1'),
       2: document.getElementById('step2'),
       3: document.getElementById('step3'),
-      4: document.getElementById('step5')
+      4: document.getElementById('step5') // Anciennement step5, maintenant le 4ème step
     };
 
     const nextBtns = {
       1: document.getElementById('next-btn1'),
       2: document.getElementById('next-btn2'),
       3: document.getElementById('next-btn3')
+      // Pas de next-btn pour le dernier step
     };
 
     const backBtns = {
       2: document.getElementById('back-btn2'),
       3: document.getElementById('back-btn3'),
-      4: document.getElementById('back-btn5')
+      4: document.getElementById('back-btn5') // Utilisation de back-btn5 de l'ancien step5
     };
 
     const introBox = document.getElementById('intro-box');
     const startIntroBtn = document.getElementById('start-intro-btn');
     const topProgressBar = document.getElementById('top-progress-bar');
 
+    // Variable globale pour suivre l'étape courante
     let currentStepGlobal = 0;
+
+    // Variables pour mémoriser l'objectif et le sujet
     let currentCategory = null;
-    let currentObjective = "";
+    let currentObjective = ""; // Texte de l'objectif sélectionné
     let currentSubject = "";
 
+    // Mise à jour de la barre de progression : 4 étapes => 25 % chacune
     function updateProgressBar(step) {
       const progress = (step / 4) * 100;
       topProgressBar.style.width = `${progress}%`;
     }
     updateProgressBar(0);
 
+    // Fonction pour retirer l'animation "pulse" de tous les boutons "Suivant"
     function removePulseFromAll() {
       Object.values(nextBtns).forEach(btn => btn.classList.remove('pulse'));
     }
 
+    // Fonction d'affichage avec animations
     function showBox(current, next) {
       if (!boxes[current] || !boxes[next]) return;
       boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
@@ -760,20 +942,27 @@
         boxes[next].classList.add('slide-from-top');
       }
       updateProgressBar(next);
+      // Mise à jour de la variable globale pour l'étape
       currentStepGlobal = next;
       const header = document.querySelector('.header');
       const headerHeight = header ? header.offsetHeight : 0;
       const boxPosition = boxes[next].getBoundingClientRect().top + window.scrollY - headerHeight - 20;
       window.scrollTo({ top: boxPosition, behavior: 'smooth' });
+      
+      // Mise à jour des rappels dans les étapes concernées
       if (next === 2) {
+        // Affiche l'explication associée à la catégorie sélectionnée.
         document.getElementById('selected-objective-display').textContent = explanations[currentCategory] || currentObjective;
       }
       if (next === 3) {
         document.getElementById('current-subject-display').textContent = currentSubject;
       }
+      
+      // Retirer l'animation "pulse" de tous
       removePulseFromAll();
     }
 
+    // Boîte d'introduction
     startIntroBtn.addEventListener('click', () => {
       introBox.style.animation = 'fadeOut 0.5s ease forwards';
       setTimeout(() => {
@@ -785,6 +974,7 @@
       }, 500);
     });
 
+    // STEP1 -> STEP2 : Validation de l'objectif
     nextBtns[1].addEventListener('click', () => {
       const selected = document.querySelector('.objectives-container .selected-objective');
       if (!selected) {
@@ -796,6 +986,7 @@
       showBox(1, 2);
     });
 
+    // STEP2 -> STEP3 : Vérification du sujet généré
     nextBtns[2].addEventListener('click', () => {
       if (!currentSubject) {
         const subjErrorDiv = document.getElementById('subject-error');
@@ -806,6 +997,7 @@
       showBox(2, 3);
     });
 
+    // STEP3 -> STEP4 : Enregistrement
     nextBtns[3].addEventListener('click', () => {
       const improErrorDiv = document.getElementById('impro-error');
       improErrorDiv.style.display = 'none';
@@ -821,12 +1013,13 @@
       showBox(3, 4);
     });
 
+    // Boutons "Retour"
     backBtns[2].addEventListener('click', () => { showBox(2, 1); });
     backBtns[3].addEventListener('click', () => { showBox(3, 2); });
     backBtns[4].addEventListener('click', () => { showBox(4, 3); });
 
     /***********************
-     * Gestion des objectifs (STEP1)
+     * Gestion des objectifs et explications (STEP1)
      ***********************/
     const explanations = {
       convaincre:   "Tu as 2 minutes pour convaincre ton auditoire sur un sujet délicat",
@@ -861,11 +1054,24 @@
       diction: null,
       entretien: null
     };
+    // Sélection des éléments désormais sous la classe .objective-item
     const objectivesButtons = document.querySelectorAll('.objectives-container .objective-item');
     const explanationBox = document.getElementById('explanation-box');
+    const clickSound = document.getElementById('click-sound');
 
     objectivesButtons.forEach(item => {
       item.addEventListener('click', async () => {
+        // Jouer le son au clic
+        clickSound.currentTime = 0;
+        clickSound.play();
+
+        // Ajouter l'animation bounce
+        item.classList.add('bounce');
+        // Supprimer la classe bounce après la fin de l'animation
+        item.addEventListener('animationend', () => {
+          item.classList.remove('bounce');
+        }, { once: true });
+
         objectivesButtons.forEach(el => el.classList.remove('selected-objective'));
         item.classList.add('selected-objective');
         currentCategory = item.dataset.category;
@@ -934,43 +1140,26 @@
     });
 
     /***********************
-     * Enregistrement vidéo (STEP3) avec canvas et overlays adaptés (portrait & paysage)
+     * Enregistrement vidéo (STEP3)
      ***********************/
     let improStarted = false;
     let mediaRecorderInstance;
     let recordedChunks = [];
     const preview = document.getElementById('preview');
+    // Nous n'utilisons plus directement startBtn (car il sera recréé lors du restart)
     const stopBtn = document.getElementById('stop-btn');
     const restartBtn = document.getElementById('restart-btn');
     const recordingIndicator = document.getElementById('recording-indicator');
     const countdownElement = document.getElementById('countdown');
     const initialCountdownOverlay = document.getElementById('initial-countdown-overlay');
     const initialCountdown = document.getElementById('initial-countdown');
+
     let countdown;
     let videoURL = "";
     let timerInterval;
-    let timeRemaining = 120;
+    let timeRemaining = 120; // 2 minutes
 
-    // Fonction pour découper le texte en lignes
-    function wrapTextLines(ctx, text, maxWidth) {
-      const words = text.split(' ');
-      let lines = [];
-      let line = '';
-      for (let n = 0; n < words.length; n++) {
-        let testLine = line + words[n] + ' ';
-        let metrics = ctx.measureText(testLine);
-        let testWidth = metrics.width;
-        if (testWidth > maxWidth && n > 0) {
-          lines.push(line.trim());
-          line = words[n] + ' ';
-        } else {
-          line = testLine;
-        }
-      }
-      lines.push(line.trim());
-      return lines;
-    }
-
+    // Fonction qui attache l'événement au bouton "Démarrer ton impro"
     function bindStartButton() {
       const startBtn = document.getElementById('start-btn');
       if(startBtn){
@@ -994,15 +1183,20 @@
       if (!confirm("Votre webcam va se lancer pour démarrer l'improvisation. Voulez-vous continuer ?")) {
         return;
       }
+      // Si on est sur téléphone, augmenter la hauteur de l'encart vidéo à 450px
+      // et faire défiler l'écran pour placer le sujet en haut
       if (window.innerWidth <= 600) {
           const videoBox = document.querySelector('.video-box');
           videoBox.style.height = "450px";
           const subjectElem = document.getElementById('current-subject-display');
           if (subjectElem) {
+              // Calculer la position verticale de l'élément sujet
               const subjectTop = subjectElem.getBoundingClientRect().top + window.pageYOffset;
+              // On peut ajuster avec un offset si besoin (ici 60px pour tenir compte du header)
               window.scrollTo({ top: subjectTop - 60, behavior: 'smooth' });
           }
       }
+      // Masquer l'overlay (qui contient le bouton) pour déclencher la suite
       document.querySelector('.video-overlay').style.display = 'none';
       startInitialCountdown();
     }
@@ -1013,97 +1207,37 @@
       initialCountdownOverlay.style.display = 'flex';
       countdown = setInterval(() => {
         count--;
-        if (count > 0) { initialCountdown.textContent = count; }
-        else { clearInterval(countdown); initialCountdownOverlay.style.display = 'none'; initiateRecording(); }
+        if (count > 0) {
+          initialCountdown.textContent = count;
+        } else {
+          clearInterval(countdown);
+          initialCountdownOverlay.style.display = 'none';
+          initiateRecording();
+        }
       }, 1000);
     }
 
     async function initiateRecording() {
       const stream = await setupCamera();
       if (!stream) return;
-      preview.srcObject = stream;
-      const canvas = document.getElementById('recordCanvas');
-      const ctx = canvas.getContext('2d');
-      
-      // On définit le canvas selon le flux de la vidéo
-      canvas.width = preview.videoWidth || 640;
-      canvas.height = preview.videoHeight || 480;
-      
-      function drawFrame() {
-        const isPortrait = window.innerWidth < window.innerHeight;
-        if (isPortrait) {
-          // Pour le portrait, inverser largeur et hauteur
-          canvas.width = preview.videoHeight;
-          canvas.height = preview.videoWidth;
-          ctx.save();
-          ctx.translate(canvas.width / 2, canvas.height / 2);
-          ctx.rotate(Math.PI / 2);
-          ctx.drawImage(preview, -preview.videoWidth / 2, -preview.videoHeight / 2, preview.videoWidth, preview.videoHeight);
-          // Logo en haut à droite (dans le contexte tourné)
-          ctx.font = "16px sans-serif";
-          ctx.fillStyle = "#182d84";
-          ctx.textAlign = "right";
-          ctx.fillText("letmotiv.fr", preview.videoHeight / 2 - 10, -preview.videoWidth / 2 + 30);
-          // Sujet en bas, avec fond
-          ctx.font = "14px sans-serif";
-          const maxTextWidth = preview.videoWidth * 0.9;
-          const lineHeight = 18;
-          const lines = wrapTextLines(ctx, currentSubject, maxTextWidth);
-          const totalTextHeight = lines.length * lineHeight;
-          // Position approximative en bas (après rotation)
-          const rectX = -preview.videoHeight / 2 + 10;
-          const rectY = preview.videoWidth / 2 - totalTextHeight - 20;
-          ctx.fillStyle = "rgba(128,128,128,0.5)";
-          ctx.fillRect(rectX - 10, rectY - 10, maxTextWidth + 20, totalTextHeight + 20);
-          ctx.fillStyle = "white";
-          ctx.textAlign = "center";
-          for (let i = 0; i < lines.length; i++) {
-            ctx.fillText(lines[i], 0, rectY + (i + 1) * lineHeight);
-          }
-          ctx.restore();
-        } else {
-          canvas.width = preview.videoWidth;
-          canvas.height = preview.videoHeight;
-          ctx.drawImage(preview, 0, 0, canvas.width, canvas.height);
-          ctx.font = "18px sans-serif";
-          ctx.fillStyle = "#182d84";
-          ctx.textAlign = "right";
-          ctx.fillText("letmotiv.fr", canvas.width - 10, 30);
-          ctx.font = "16px sans-serif";
-          const maxTextWidth = canvas.width * 0.9;
-          const lineHeight = 20;
-          const lines = wrapTextLines(ctx, currentSubject, maxTextWidth);
-          const totalTextHeight = lines.length * lineHeight;
-          const rectX = (canvas.width - maxTextWidth) / 2;
-          const rectY = canvas.height - totalTextHeight - 20;
-          ctx.fillStyle = "rgba(128,128,128,0.5)";
-          ctx.fillRect(rectX - 10, rectY - 10, maxTextWidth + 20, totalTextHeight + 20);
-          ctx.fillStyle = "white";
-          ctx.textAlign = "center";
-          for (let i = 0; i < lines.length; i++) {
-            ctx.fillText(lines[i], canvas.width / 2, rectY + (i + 1) * lineHeight);
-          }
-        }
-        requestAnimationFrame(drawFrame);
-      }
-      drawFrame();
-      
-      const canvasStream = canvas.captureStream(25);
       if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
         const improErrorDiv = document.getElementById('impro-error');
         improErrorDiv.textContent = "Ton navigateur ne supporte pas l'enregistrement vidéo. Essaye avec Chrome, Edge ou Firefox.";
         improErrorDiv.style.display = 'block';
         return;
       }
-      mediaRecorderInstance = new MediaRecorder(canvasStream);
+      mediaRecorderInstance = new MediaRecorder(stream);
       recordedChunks = [];
       mediaRecorderInstance.ondataavailable = (event) => {
-        if (event.data.size > 0) { recordedChunks.push(event.data); }
+        if (event.data.size > 0) {
+          recordedChunks.push(event.data);
+        }
       };
       mediaRecorderInstance.onstop = () => {
         const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
         videoURL = URL.createObjectURL(videoBlob);
         stream.getTracks().forEach(t => t.stop());
+        // Affichage du message en overlay une fois l'enregistrement terminé
         const overlay = document.querySelector('.video-overlay');
         overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Improvisation terminée. Passe à l'étape suivante !</p>";
         overlay.style.display = 'flex';
@@ -1113,8 +1247,9 @@
         improStarted = true;
         removePulseFromAll();
         nextBtns[3].classList.add('pulse');
+        // Remettre la taille de l'encart vidéo à 300px une fois l'impro finie sur mobile
         if (window.innerWidth <= 600) {
-          document.querySelector('.video-box').style.height = "300px";
+            document.querySelector('.video-box').style.height = "300px";
         }
       };
       mediaRecorderInstance.start();
@@ -1128,12 +1263,17 @@
     async function setupCamera() {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        preview.srcObject = stream;
         return stream;
       } catch (error) {
         const improErrorDiv = document.getElementById('impro-error');
-        if (error.name === 'NotAllowedError') { improErrorDiv.textContent = "Vous avez refusé l'accès à la webcam. Veuillez autoriser l'accès."; }
-        else if (error.name === 'NotFoundError') { improErrorDiv.textContent = "Aucune caméra/micro détectés."; }
-        else { improErrorDiv.textContent = "Erreur : Impossible d'accéder à la webcam."; }
+        if (error.name === 'NotAllowedError') {
+          improErrorDiv.textContent = "Vous avez refusé l'accès à la webcam. Veuillez autoriser l'accès.";
+        } else if (error.name === 'NotFoundError') {
+          improErrorDiv.textContent = "Aucune caméra/micro détectés.";
+        } else {
+          improErrorDiv.textContent = "Erreur : Impossible d'accéder à la webcam.";
+        }
         improErrorDiv.style.display = 'block';
         console.error(error);
         return null;
@@ -1145,7 +1285,9 @@
       updateCountdownDisplay();
       timerInterval = setInterval(() => {
         timeRemaining--;
-        if (timeRemaining >= 0) { updateCountdownDisplay(); }
+        if (timeRemaining >= 0) {
+          updateCountdownDisplay();
+        }
         if (timeRemaining < 0) {
           clearInterval(timerInterval);
           if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
@@ -1173,9 +1315,9 @@
         recordingIndicator.style.display = 'none';
       }
     });
-
     restartBtn.addEventListener('click', () => {
       restartBtn.classList.add('hidden-btn');
+      // Réinitialiser l'overlay avec le bouton et les instructions
       document.querySelector('.video-overlay').innerHTML = `
         <p>Ici va s'enregistrer ton improvisation vidéo. Lorsque tu es prêt, clique sur le bouton ci-dessous.</p>
         <button id="start-btn" aria-label="Démarrer l'improvisation">
@@ -1183,11 +1325,14 @@
         </button>
         <p>NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
       `;
+      // Réafficher l'overlay
       document.querySelector('.video-overlay').style.display = 'flex';
       improStarted = false;
+      // Re-bind le nouvel événement sur le bouton "Démarrer"
       bindStartButton();
     });
 
+    // Lier le bouton "Démarrer" lors du chargement initial
     bindStartButton();
 
     /***********************
@@ -1207,9 +1352,11 @@
       const emailValue = emailInput.value.trim();
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       const prenomRegex = /^[A-Za-zÀ-ÿ '-]+$/;
+
       let valid = true;
       prenomError.style.display = 'none';
       emailError.style.display = 'none';
+
       if (!prenomValue || !prenomRegex.test(prenomValue)) {
         prenomError.textContent = "Entre un prénom valide (sans chiffres ni caractères spéciaux).";
         prenomError.style.display = 'block';
@@ -1225,9 +1372,13 @@
         valid = false;
       }
       if (!valid) return;
+
+      // Remplir le formulaire caché et le soumettre à Google Forms
       document.getElementById('hidden-prenom').value = prenomValue;
       document.getElementById('hidden-email').value = emailValue;
       document.getElementById('hidden-google-form').submit();
+
+      // Afficher brièvement un message de succès
       const successMessage = document.getElementById('success-message');
       successMessage.style.display = 'block';
       successMessage.classList.add('show');
@@ -1235,6 +1386,8 @@
         successMessage.classList.remove('show');
         successMessage.style.display = 'none';
       }, 5000);
+
+      // Télécharger automatiquement la vidéo (si elle est prête)
       if (videoURL) {
         const link = document.createElement('a');
         link.href = videoURL;
@@ -1243,23 +1396,35 @@
         link.click();
         document.body.removeChild(link);
       }
+
+      // Rediriger l'utilisateur vers la page de feedback Letmotiv après 1 seconde
       setTimeout(() => {
         window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro";
       }, 1000);
     });
 
     /***********************
-     * Gestion du swipe sur mobile avec Hammer.js (swipe vertical)
+     * Gestion du swipe sur mobile avec Hammer.js
      ***********************/
+    // On initialise Hammer sur le conteneur principal
     const mainContainer = document.querySelector('.main-container');
     const hammer = new Hammer(mainContainer);
     hammer.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
+
+    // Swipe vers le haut : simuler un clic sur le bouton "Suivant"
     hammer.on('swipeup', function(ev) {
-      if (nextBtns[currentStepGlobal]) { nextBtns[currentStepGlobal].click(); }
+      if (nextBtns[currentStepGlobal]) {
+        nextBtns[currentStepGlobal].click();
+      }
     });
+
+    // Swipe vers le bas : simuler un clic sur le bouton "Retour"
     hammer.on('swipedown', function(ev) {
-      if (currentStepGlobal > 1 && backBtns[currentStepGlobal]) { backBtns[currentStepGlobal].click(); }
+      if (currentStepGlobal > 1 && backBtns[currentStepGlobal]) {
+        backBtns[currentStepGlobal].click();
+      }
     });
+
   </script>
 </body>
 </html>
