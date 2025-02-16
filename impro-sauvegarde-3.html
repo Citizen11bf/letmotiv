@@ -327,10 +327,19 @@
     /* Structure de la carte flip */
     .flip-card {
       background-color: transparent;
+      width: 130px;
+      height: 130px;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+    @media (max-width: 600px) {
+      .flip-card {
+      background-color: transparent;
       width: 100px;
       height: 130px;
       perspective: 1000px;
       cursor: pointer;
+     }
     }
     .flip-card-inner {
       position: relative;
