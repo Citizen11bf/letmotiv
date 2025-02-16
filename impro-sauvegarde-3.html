@@ -224,7 +224,7 @@
     .next-btn:hover { background-color: #00a48a; color: #ffffff; transform: scale(1.05); }
     .next-btn.pulse { animation: electricPulse 1.5s infinite; }
     @keyframes electricPulse { 0% { box-shadow: 0 0 0 0 rgba(0,164,138,0.7); } 70% { box-shadow: 0 0 0 10px rgba(0,164,138,0); } 100% { box-shadow: 0 0 0 0 rgba(0,164,138,0); } }
-    /* --- Bouton style impro --- */
+    /* --- Boutons style impro --- */
     .btn-impro {
       margin: 15px 0;
       padding: 10px 20px;
@@ -324,7 +324,7 @@
       transform: scaleX(-1);
       -webkit-transform: scaleX(-1);
     }
-    /* Le canvas pour enregistrer avec overlays */
+    /* Le canvas pour enregistrer avec overlays (caché) */
     #recordCanvas { display: none; }
     /* Zone overlay (affiché tant que l'enregistrement n'est pas lancé) */
     .video-overlay {
@@ -407,11 +407,7 @@
       z-index: 5;
       border-radius: 6px;
     }
-    .initial-countdown {
-      font-size: 48px;
-      color: #ffffff;
-      font-weight: bold;
-    }
+    .initial-countdown { font-size: 48px; color: #ffffff; font-weight: bold; }
     .impro-actions {
       display: flex;
       flex-wrap: wrap;
@@ -632,7 +628,7 @@
       <div id="current-subject-display" class="subject-bubble"></div>
       <div class="video-box">
         <video id="preview" autoplay muted playsinline webkit-playsinline></video>
-        <!-- Canvas caché pour enregistrer avec overlays -->
+        <!-- Canvas caché pour enregistrer la vidéo avec overlays -->
         <canvas id="recordCanvas" style="display:none;"></canvas>
         <div class="video-overlay">
           <p>Ici va s'enregistrer ton improvisation vidéo. Lorsque tu es prêt, clique sur le bouton ci-dessous.</p>
@@ -714,7 +710,7 @@
   <!-- SCRIPT -->
   <script>
     /***********************
-     * Gestion des étapes (4 étapes)
+     * Gestion des étapes et navigation (boutons et swipe)
      ***********************/
     const boxes = {
       1: document.getElementById('step1'),
@@ -738,6 +734,7 @@
     const introBox = document.getElementById('intro-box');
     const startIntroBtn = document.getElementById('start-intro-btn');
     const topProgressBar = document.getElementById('top-progress-bar');
+
     let currentStepGlobal = 0;
     let currentCategory = null;
     let currentObjective = "";
@@ -757,8 +754,11 @@
       if (!boxes[current] || !boxes[next]) return;
       boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
       boxes[next].classList.add('active');
-      if (next > current) { boxes[next].classList.add('slide-from-bottom'); }
-      else { boxes[next].classList.add('slide-from-top'); }
+      if (next > current) {
+        boxes[next].classList.add('slide-from-bottom');
+      } else {
+        boxes[next].classList.add('slide-from-top');
+      }
       updateProgressBar(next);
       currentStepGlobal = next;
       const header = document.querySelector('.header');
@@ -934,7 +934,7 @@
     });
 
     /***********************
-     * Enregistrement vidéo (STEP3) avec overlays intégrés dans la vidéo finale via canvas
+     * Enregistrement vidéo (STEP3) avec canvas et overlays adaptés (portrait & paysage)
      ***********************/
     let improStarted = false;
     let mediaRecorderInstance;
@@ -949,9 +949,9 @@
     let countdown;
     let videoURL = "";
     let timerInterval;
-    let timeRemaining = 120; // 2 minutes
+    let timeRemaining = 120;
 
-    // Fonction de découpage en lignes pour le texte
+    // Fonction pour découper le texte en lignes
     function wrapTextLines(ctx, text, maxWidth) {
       const words = text.split(' ');
       let lines = [];
@@ -1022,41 +1022,72 @@
       const stream = await setupCamera();
       if (!stream) return;
       preview.srcObject = stream;
-      // Configuration du canvas pour enregistrer la vidéo avec watermarks
       const canvas = document.getElementById('recordCanvas');
       const ctx = canvas.getContext('2d');
-      // Définir les dimensions du canvas (on utilise les dimensions de la vidéo ou des valeurs par défaut)
+      
+      // On définit le canvas selon le flux de la vidéo
       canvas.width = preview.videoWidth || 640;
       canvas.height = preview.videoHeight || 480;
+      
       function drawFrame() {
-        // Dessiner la vidéo
-        ctx.drawImage(preview, 0, 0, canvas.width, canvas.height);
-        // Watermark letmotiv.fr en haut à droite
-        ctx.font = "18px sans-serif";
-        ctx.fillStyle = "#182d84";
-        ctx.textAlign = "right";
-        ctx.fillText("letmotiv.fr", canvas.width - 10, 30);
-        // Préparation pour le sujet : police plus petite
-        ctx.font = "16px sans-serif";
-        const maxTextWidth = canvas.width * 0.9;
-        const lineHeight = 20;
-        const lines = wrapTextLines(ctx, currentSubject, maxTextWidth);
-        const totalTextHeight = lines.length * lineHeight;
-        // Positionner le bloc en bas, centré horizontalement
-        const rectX = (canvas.width - maxTextWidth) / 2;
-        const rectY = canvas.height - totalTextHeight - 20;
-        // Dessiner un fond gris semi-transparent pour le sujet
-        ctx.fillStyle = "rgba(128,128,128,0.5)";
-        ctx.fillRect(rectX - 10, rectY - 10, maxTextWidth + 20, totalTextHeight + 20);
-        // Dessiner le texte du sujet en blanc
-        ctx.fillStyle = "white";
-        ctx.textAlign = "center";
-        for (let i = 0; i < lines.length; i++) {
-          ctx.fillText(lines[i], canvas.width / 2, rectY + (i + 1) * lineHeight);
+        const isPortrait = window.innerWidth < window.innerHeight;
+        if (isPortrait) {
+          // Pour le portrait, inverser largeur et hauteur
+          canvas.width = preview.videoHeight;
+          canvas.height = preview.videoWidth;
+          ctx.save();
+          ctx.translate(canvas.width / 2, canvas.height / 2);
+          ctx.rotate(Math.PI / 2);
+          ctx.drawImage(preview, -preview.videoWidth / 2, -preview.videoHeight / 2, preview.videoWidth, preview.videoHeight);
+          // Logo en haut à droite (dans le contexte tourné)
+          ctx.font = "16px sans-serif";
+          ctx.fillStyle = "#182d84";
+          ctx.textAlign = "right";
+          ctx.fillText("letmotiv.fr", preview.videoHeight / 2 - 10, -preview.videoWidth / 2 + 30);
+          // Sujet en bas, avec fond
+          ctx.font = "14px sans-serif";
+          const maxTextWidth = preview.videoWidth * 0.9;
+          const lineHeight = 18;
+          const lines = wrapTextLines(ctx, currentSubject, maxTextWidth);
+          const totalTextHeight = lines.length * lineHeight;
+          // Position approximative en bas (après rotation)
+          const rectX = -preview.videoHeight / 2 + 10;
+          const rectY = preview.videoWidth / 2 - totalTextHeight - 20;
+          ctx.fillStyle = "rgba(128,128,128,0.5)";
+          ctx.fillRect(rectX - 10, rectY - 10, maxTextWidth + 20, totalTextHeight + 20);
+          ctx.fillStyle = "white";
+          ctx.textAlign = "center";
+          for (let i = 0; i < lines.length; i++) {
+            ctx.fillText(lines[i], 0, rectY + (i + 1) * lineHeight);
+          }
+          ctx.restore();
+        } else {
+          canvas.width = preview.videoWidth;
+          canvas.height = preview.videoHeight;
+          ctx.drawImage(preview, 0, 0, canvas.width, canvas.height);
+          ctx.font = "18px sans-serif";
+          ctx.fillStyle = "#182d84";
+          ctx.textAlign = "right";
+          ctx.fillText("letmotiv.fr", canvas.width - 10, 30);
+          ctx.font = "16px sans-serif";
+          const maxTextWidth = canvas.width * 0.9;
+          const lineHeight = 20;
+          const lines = wrapTextLines(ctx, currentSubject, maxTextWidth);
+          const totalTextHeight = lines.length * lineHeight;
+          const rectX = (canvas.width - maxTextWidth) / 2;
+          const rectY = canvas.height - totalTextHeight - 20;
+          ctx.fillStyle = "rgba(128,128,128,0.5)";
+          ctx.fillRect(rectX - 10, rectY - 10, maxTextWidth + 20, totalTextHeight + 20);
+          ctx.fillStyle = "white";
+          ctx.textAlign = "center";
+          for (let i = 0; i < lines.length; i++) {
+            ctx.fillText(lines[i], canvas.width / 2, rectY + (i + 1) * lineHeight);
+          }
         }
         requestAnimationFrame(drawFrame);
       }
       drawFrame();
+      
       const canvasStream = canvas.captureStream(25);
       if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
         const improErrorDiv = document.getElementById('impro-error');
