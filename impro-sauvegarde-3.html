@@ -416,7 +416,7 @@
       transform: scaleX(-1);
       -webkit-transform: scaleX(-1);
     }
-    /* Zone overlay pour les instructions et le bouton */
+    /* Overlay pour instructions */
     .video-overlay {
       position: absolute;
       z-index: 2;
@@ -450,6 +450,29 @@
     }
     .video-overlay button:hover {
       background-color: #00a48a;
+    }
+    /* Watermarks à afficher sur la vidéo enregistrée */
+    .watermark-logo,
+    .watermark-subject {
+      position: absolute;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.7);
+      pointer-events: none;
+      z-index: 10;
+      display: none;
+    }
+    .watermark-logo.show,
+    .watermark-subject.show {
+      display: block;
+    }
+    .watermark-logo {
+      top: 5px;
+      right: 5px;
+    }
+    .watermark-subject {
+      bottom: 5px;
+      left: 50%;
+      transform: translateX(-50%);
     }
     .recording-indicator {
       position: absolute;
@@ -691,8 +714,6 @@
 
   <!-- CONTAINER PRINCIPAL -->
   <div class="main-container">
-    <!-- Les étapes sont ici -->
-
     <!-- STEP1 : Choix d'objectif -->
     <div class="box" id="step1">
       <div class="box-header">
@@ -783,6 +804,9 @@
       <div id="current-subject-display" class="subject-bubble"></div>
       <div class="video-box">
         <video id="preview" autoplay muted playsinline webkit-playsinline></video>
+        <!-- Ajout des watermarks (masqués par défaut) -->
+        <div class="watermark-logo" id="watermark-logo">letmotiv.fr</div>
+        <div class="watermark-subject" id="watermark-subject"></div>
         <!-- Zone overlay avec instructions et bouton -->
         <div class="video-overlay">
           <p>Ici va s'enregistrer ton improvisation vidéo. Lorsque tu es prêt, clique sur le bouton ci-dessous.</p>
@@ -1217,6 +1241,10 @@
         improStarted = true;
         removePulseFromAll();
         nextBtns[3].classList.add('pulse');
+        // Afficher les watermarks sur la vidéo enregistrée
+        document.getElementById('watermark-logo').classList.add('show');
+        document.getElementById('watermark-subject').textContent = currentSubject;
+        document.getElementById('watermark-subject').classList.add('show');
         // Remettre la taille de l'encart vidéo à 300px une fois l'impro finie sur mobile
         if (window.innerWidth <= 600) {
             document.querySelector('.video-box').style.height = "300px";
@@ -1298,6 +1326,9 @@
       // Réafficher l'overlay
       document.querySelector('.video-overlay').style.display = 'flex';
       improStarted = false;
+      // Réinitialiser les watermarks
+      document.getElementById('watermark-logo').classList.remove('show');
+      document.getElementById('watermark-subject').classList.remove('show');
       // Re-bind le nouvel événement sur le bouton "Démarrer"
       bindStartButton();
     });
@@ -1374,11 +1405,12 @@
     });
 
     /***********************
-     * Gestion du swipe sur mobile avec Hammer.js
+     * Gestion du swipe sur mobile avec Hammer.js (swipe vertical)
      ***********************/
     // On initialise Hammer sur le conteneur principal
     const mainContainer = document.querySelector('.main-container');
     const hammer = new Hammer(mainContainer);
+    // Configurer pour n'écouter que les swipes verticaux
     hammer.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
 
     // Swipe vers le haut : simuler un clic sur le bouton "Suivant"
