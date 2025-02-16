@@ -315,16 +315,16 @@
     /* --- STEP1 : Choix d’objectif avec effet "Carte Flip" --- */
     .objectives-container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 15px;
       justify-items: center;
       margin: 10px 0;
     }
     /* Structure de la carte flip */
     .flip-card {
       background-color: transparent;
-      width: 100%;
-      height: 120px;
+      width: 140px;
+      height: 180px;
       perspective: 1000px;
       cursor: pointer;
     }
@@ -334,6 +334,9 @@
       height: 100%;
       transition: transform 0.6s;
       transform-style: preserve-3d;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      border-radius: 8px;
+      background-color: #fff;
     }
     .flip-card.flipped .flip-card-inner {
       transform: rotateY(180deg);
@@ -344,25 +347,35 @@
       width: 100%;
       height: 100%;
       backface-visibility: hidden;
-      border: 1px solid transparent;
       border-radius: 8px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      transition: border-color 0.3s, color 0.3s;
+      padding: 10px;
+      transition: background-color 0.3s, color 0.3s;
     }
     .flip-card-front {
       background: #fff;
       color: #808080;
+      border: 1px solid #ccc;
+    }
+    .flip-card-front i {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+    .flip-card-front span {
+      font-size: 1rem;
+      font-weight: bold;
     }
     .flip-card-back {
-      background: #fff;
+      background: #f0f0f0;
       color: #00a48a;
       transform: rotateY(180deg);
-      font-size: 0.75rem;
-      padding: 5px;
+      font-size: 0.8rem;
+      padding: 8px;
       text-align: center;
+      border: 1px solid #ccc;
     }
 
     /* --- Messages d'erreur --- */
@@ -631,8 +644,6 @@
 
   <!-- CONTAINER PRINCIPAL -->
   <div class="main-container">
-    <!-- Les étapes sont ici -->
-
     <!-- STEP1 : Choix d'objectif -->
     <div class="box" id="step1">
       <div class="box-header">
@@ -743,9 +754,7 @@
           </div>
         </div>
       </div>
-      <!-- Message d'erreur éventuel -->
       <div id="objective-error" class="error-message"></div>
-      <!-- Bouton Suivant STEP1 -->
       <button class="next-btn" id="next-btn1" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
@@ -759,15 +768,12 @@
         </button>
         <div class="box-title">Ton objectif</div>
       </div>
-      <!-- Rappel de l'objectif sélectionné -->
       <p id="selected-objective-display" style="font-weight:bold; margin-bottom:10px;"></p>
-      <!-- Bouton "Générer un sujet" stylisé avec .btn-impro -->
       <button id="generate-subject-btn" class="btn-impro">Générer un sujet</button>
       <div id="subject-wrapper" class="subject-wrapper">
         <span id="subject-display"></span>
       </div>
       <div id="subject-error" class="error-message"></div>
-      <!-- Bouton Suivant STEP2 -->
       <button class="next-btn" id="next-btn2" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
@@ -781,11 +787,9 @@
         </button>
         <div class="box-title">Lance ton improvisation</div>
       </div>
-      <!-- Rappel du sujet généré dans une bulle style BD -->
       <div id="current-subject-display" class="subject-bubble"></div>
       <div class="video-box">
         <video id="preview" autoplay muted playsinline webkit-playsinline></video>
-        <!-- Zone overlay avec instructions et bouton -->
         <div class="video-overlay">
           <p>Ici va s'enregistrer ton improvisation vidéo. Lorsque tu es prêt, clique sur le bouton ci-dessous.</p>
           <button id="start-btn" aria-label="Démarrer l'improvisation">
@@ -801,7 +805,6 @@
           <div class="initial-countdown" id="initial-countdown">3</div>
         </div>
       </div>
-      <!-- Boutons d'action (Stop, Restart) cachés au départ -->
       <div class="impro-actions">
         <button id="stop-btn" class="hidden-btn btn-impro" aria-label="Arrêter l'improvisation">
           Arrêter ton impro <i class="fas fa-stop"></i>
@@ -811,7 +814,6 @@
         </button>
       </div>
       <div id="impro-error" class="error-message"></div>
-      <!-- Bouton Suivant STEP3 -->
       <button class="next-btn" id="next-btn3" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
@@ -1006,23 +1008,16 @@
 
     objectivesCards.forEach(card => {
       card.addEventListener('click', async () => {
-        // Jouer le son pop
         popSound.currentTime = 0;
         popSound.play();
 
-        // Réinitialiser toutes les cartes (fermer celles déjà retournées)
         objectivesCards.forEach(c => c.classList.remove('flipped'));
-        // Marquer celle-ci comme sélectionnée en la retournant
         card.classList.add('flipped');
         currentCategory = card.dataset.category;
-        // Récupérer le titre affiché sur le front
         currentObjective = card.querySelector('.flip-card-front span').innerText;
-        // Mettre à jour le dos de la carte avec l'explication détaillée (si besoin, vous pouvez enrichir ce texte)
         const backElem = card.querySelector('.flip-card-back');
         backElem.textContent = explanations[currentCategory] || currentObjective;
-        // Masquer l'éventuel message d'erreur
         document.getElementById('objective-error').style.display = 'none';
-        // Indiquer dans le récapitulatif l'objectif sélectionné
         document.getElementById('selected-objective-display').textContent = currentObjective;
       });
     });
