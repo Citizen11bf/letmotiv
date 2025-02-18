@@ -269,7 +269,7 @@
     .objective-item {
       text-align: center;
       color: #444;
-      font-size: 1rem;
+      font-size: 0.9rem;
       cursor: pointer;
       padding: 12px;
       border: 1px solid transparent;
@@ -277,7 +277,7 @@
       transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
     }
     .objective-item i {
-      font-size: 2rem;
+      font-size: 1.8rem;
       margin-bottom: 8px;
       display: block;
       color: #444;
@@ -302,7 +302,7 @@
     .objective-item[data-category="polytechnique"] i { color: #E91E63; } /* Polytechnique */
     .objective-item[data-category="ens"] i { color: #4CAF50; } /* ENS */
     .objective-item[data-category="embauche"] i { color: #607D8B; } /* Embauche */
-    .objective-item[data-category="cpge"] i { color: #3F51B5; } /* CPGE Classes Prépa */
+    .objective-item[data-category="cpge"] i { color: #3F51B5; } /* CPGE */
     .objective-item[data-category="hec"] i { color: #F44336; } /* HEC */
 
     /* Bulle d'explication */
@@ -690,7 +690,7 @@
         </div>
         <div class="objective-item" data-category="cpge">
           <i class="fas fa-chalkboard-teacher"></i>
-          <span>CPGE Classes Prépa</span>
+          <span>CPGE</span>
         </div>
         <div class="objective-item" data-category="hec">
           <i class="fas fa-chart-line"></i>
@@ -961,14 +961,14 @@
      ***********************/
     // Nouvelles descriptions pour chaque objectif
     const explanations = {
-      "les-mines": "Grande école d'ingénieurs",
-      "sciences-po": "Grande école de sciences politiques",
-      "aeronautique": "Formation en aéronautique et aérospatial",
-      "polytechnique": "Grande école d'ingénieurs de renom",
-      "ens": "École Normale Supérieure",
-      "embauche": "Préparation à l'embauche",
-      "cpge": "Classes préparatoires aux grandes écoles",
-      "hec": "Grande école de commerce"
+      "les-mines": "Préparation à un entretien d'admission à une Grande école d'ingénieurs",
+      "sciences-po": "Préparation à un entretien d'admission à une Grande école de sciences politiques",
+      "aeronautique": "Préparation à un entretien d'admission à une Grande école en aéronautique et aérospatial",
+      "polytechnique": "Préparation à un entretien d'admission à une Grande école d'ingénieurs",
+      "ens": "Préparation à un entretien d'admission à l'École Normale Supérieure",
+      "embauche": "Préparation à un entretien d'embauche",
+      "cpge": "Préparation à un entretien d'admission aux classes préparatoires aux grandes écoles",
+      "hec": "Préparation à un entretien d'admission à une Grande école de commerce"
     };
 
     // Liens vers les sujets aléatoires pour chaque objectif
