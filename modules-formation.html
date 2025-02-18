@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <title>Modules en Cartes</title>
-  <!-- Lien vers Font Awesome (version 6 avec préfixe fa-solid) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-papJ4d+c+gl5d2aJ5g2+rK60LcoE2vKIO6wzR5S7+I9/Cr7dFInFAVV6n+NboM7sTnGJw2Ry+He9O3K65r3a5A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Lien vers Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
+        integrity="sha512-papJ4d+c+gl5d2aJ5g2+rK60LcoE2vKIO6wzR5S7+I9/Cr7dFInFAVV6n+NboM7sTnGJw2Ry+He9O3K65r3a5A==" 
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
     * {
       box-sizing: border-box;
@@ -59,6 +61,8 @@
     .card-back {
       background: #2ecc71;
       transform: rotateY(180deg);
+      /* Pour centrer l'image */
+      overflow: hidden;
     }
     .card-face i {
       font-size: 3em;
@@ -66,11 +70,20 @@
     }
     .card-title {
       font-size: 1.2em;
+      line-height: 1.3;
+    }
+    .module-number {
+      font-weight: normal;
+    }
+    .module-name {
       font-weight: bold;
     }
-    .card-summary {
-      font-size: 1em;
-      line-height: 1.4;
+    /* Style de l'image du verso */
+    .card-back img {
+      max-width: 100%;
+      max-height: 100%;
+      border-radius: 10px;
+      object-fit: cover;
     }
   </style>
 </head>
@@ -79,14 +92,17 @@
     <!-- Module 01 -->
     <div class="card" onclick="flipCard(this)">
       <div class="card-inner">
+        <!-- Face avant -->
         <div class="card-face card-front">
           <i class="fa-solid fa-chalkboard-teacher"></i>
-          <div class="card-title">Module 01<br>Construire son intervention</div>
-        </div>
-        <div class="card-face card-back">
-          <div class="card-summary">
-            Apprenez à structurer votre intervention avec clarté et impact.
+          <div class="card-title">
+            <span class="module-number">Module 01</span><br>
+            <span class="module-name">Construire son intervention</span>
           </div>
+        </div>
+        <!-- Face arrière avec image -->
+        <div class="card-face card-back">
+          <img src="https://source.unsplash.com/300x300/?presentation" alt="Construire son intervention">
         </div>
       </div>
     </div>
@@ -96,12 +112,13 @@
       <div class="card-inner">
         <div class="card-face card-front">
           <i class="fa-solid fa-spa"></i>
-          <div class="card-title">Module 02<br>Stress et lâcher prise</div>
+          <div class="card-title">
+            <span class="module-number">Module 02</span><br>
+            <span class="module-name">Stress et lâcher prise</span>
+          </div>
         </div>
         <div class="card-face card-back">
-          <div class="card-summary">
-            Maîtrisez votre stress pour libérer votre potentiel.
-          </div>
+          <img src="https://source.unsplash.com/300x300/?relaxation" alt="Stress et lâcher prise">
         </div>
       </div>
     </div>
@@ -111,12 +128,13 @@
       <div class="card-inner">
         <div class="card-face card-front">
           <i class="fa-solid fa-dumbbell"></i>
-          <div class="card-title">Module 03<br>Maitriser son corps</div>
+          <div class="card-title">
+            <span class="module-number">Module 03</span><br>
+            <span class="module-name">Maitriser son corps</span>
+          </div>
         </div>
         <div class="card-face card-back">
-          <div class="card-summary">
-            Utilisez votre corps comme un instrument de communication puissant.
-          </div>
+          <img src="https://source.unsplash.com/300x300/?fitness,body" alt="Maitriser son corps">
         </div>
       </div>
     </div>
@@ -126,12 +144,13 @@
       <div class="card-inner">
         <div class="card-face card-front">
           <i class="fa-solid fa-microphone-alt"></i>
-          <div class="card-title">Module 04<br>Sublimer sa voix</div>
+          <div class="card-title">
+            <span class="module-number">Module 04</span><br>
+            <span class="module-name">Sublimer sa voix</span>
+          </div>
         </div>
         <div class="card-face card-back">
-          <div class="card-summary">
-            Améliorez la qualité et la portée de votre voix pour mieux convaincre.
-          </div>
+          <img src="https://source.unsplash.com/300x300/?microphone" alt="Sublimer sa voix">
         </div>
       </div>
     </div>
@@ -141,12 +160,13 @@
       <div class="card-inner">
         <div class="card-face card-front">
           <i class="fa-solid fa-users"></i>
-          <div class="card-title">Module 05<br>Captiver l'auditoire</div>
+          <div class="card-title">
+            <span class="module-number">Module 05</span><br>
+            <span class="module-name">Captiver l'auditoire</span>
+          </div>
         </div>
         <div class="card-face card-back">
-          <div class="card-summary">
-            Attirez et maintenez l'attention de votre auditoire dès le premier instant.
-          </div>
+          <img src="https://source.unsplash.com/300x300/?audience" alt="Captiver l'auditoire">
         </div>
       </div>
     </div>
@@ -156,12 +176,13 @@
       <div class="card-inner">
         <div class="card-face card-front">
           <i class="fa-solid fa-comment-dots"></i>
-          <div class="card-title">Module 06<br>Maitriser le feedback</div>
+          <div class="card-title">
+            <span class="module-number">Module 06</span><br>
+            <span class="module-name">Maitriser le feedback</span>
+          </div>
         </div>
         <div class="card-face card-back">
-          <div class="card-summary">
-            Savoir donner et recevoir du feedback pour une amélioration continue.
-          </div>
+          <img src="https://source.unsplash.com/300x300/?feedback" alt="Maitriser le feedback">
         </div>
       </div>
     </div>
@@ -171,12 +192,13 @@
       <div class="card-inner">
         <div class="card-face card-front">
           <i class="fa-solid fa-comments"></i>
-          <div class="card-title">Module 07<br>Développer sa répartie</div>
+          <div class="card-title">
+            <span class="module-number">Module 07</span><br>
+            <span class="module-name">Développer sa répartie</span>
+          </div>
         </div>
         <div class="card-face card-back">
-          <div class="card-summary">
-            Développez votre capacité à réagir avec aisance et pertinence.
-          </div>
+          <img src="https://source.unsplash.com/300x300/?conversation" alt="Développer sa répartie">
         </div>
       </div>
     </div>
@@ -186,12 +208,13 @@
       <div class="card-inner">
         <div class="card-face card-front">
           <i class="fa-solid fa-chart-line"></i>
-          <div class="card-title">Module 08<br>Donner un pitch qui vend</div>
+          <div class="card-title">
+            <span class="module-number">Module 08</span><br>
+            <span class="module-name">Donner un pitch qui vend</span>
+          </div>
         </div>
         <div class="card-face card-back">
-          <div class="card-summary">
-            Maîtrisez l'art du pitch pour vendre vos idées efficacement.
-          </div>
+          <img src="https://source.unsplash.com/300x300/?pitch" alt="Donner un pitch qui vend">
         </div>
       </div>
     </div>
@@ -201,12 +224,13 @@
       <div class="card-inner">
         <div class="card-face card-front">
           <i class="fa-solid fa-tv"></i>
-          <div class="card-title">Module 09<br>S'entrainer aux médias</div>
+          <div class="card-title">
+            <span class="module-number">Module 09</span><br>
+            <span class="module-name">S'entrainer aux médias</span>
+          </div>
         </div>
         <div class="card-face card-back">
-          <div class="card-summary">
-            Préparez-vous à briller face aux médias et à gérer les interviews.
-          </div>
+          <img src="https://source.unsplash.com/300x300/?media" alt="S'entrainer aux médias">
         </div>
       </div>
     </div>
@@ -216,12 +240,13 @@
       <div class="card-inner">
         <div class="card-face card-front">
           <i class="fa-solid fa-book-open"></i>
-          <div class="card-title">Module 10<br>L'art du storytelling</div>
+          <div class="card-title">
+            <span class="module-number">Module 10</span><br>
+            <span class="module-name">L'art du storytelling</span>
+          </div>
         </div>
         <div class="card-face card-back">
-          <div class="card-summary">
-            Racontez des histoires captivantes qui engagent et inspirent.
-          </div>
+          <img src="https://source.unsplash.com/300x300/?storytelling" alt="L'art du storytelling">
         </div>
       </div>
     </div>
@@ -231,12 +256,13 @@
       <div class="card-inner">
         <div class="card-face card-front">
           <i class="fa-solid fa-lightbulb"></i>
-          <div class="card-title">Module 11<br>Vulgariser un sujet</div>
+          <div class="card-title">
+            <span class="module-number">Module 11</span><br>
+            <span class="module-name">Vulgariser un sujet</span>
+          </div>
         </div>
         <div class="card-face card-back">
-          <div class="card-summary">
-            Simplifiez les sujets complexes pour les rendre accessibles à tous.
-          </div>
+          <img src="https://source.unsplash.com/300x300/?education" alt="Vulgariser un sujet">
         </div>
       </div>
     </div>
@@ -246,12 +272,13 @@
       <div class="card-inner">
         <div class="card-face card-front">
           <i class="fa-solid fa-balance-scale"></i>
-          <div class="card-title">Module 12<br>Défendre ses idées éthiques</div>
+          <div class="card-title">
+            <span class="module-number">Module 12</span><br>
+            <span class="module-name">Défendre ses idées éthiques</span>
+          </div>
         </div>
         <div class="card-face card-back">
-          <div class="card-summary">
-            Défendez vos valeurs et idées avec conviction et éthique.
-          </div>
+          <img src="https://source.unsplash.com/300x300/?ethics" alt="Défendre ses idées éthiques">
         </div>
       </div>
     </div>
@@ -261,12 +288,13 @@
       <div class="card-inner">
         <div class="card-face card-front">
           <i class="fa-solid fa-calendar-alt"></i>
-          <div class="card-title">Module 13<br>Animer un évènement</div>
+          <div class="card-title">
+            <span class="module-number">Module 13</span><br>
+            <span class="module-name">Animer un évènement</span>
+          </div>
         </div>
         <div class="card-face card-back">
-          <div class="card-summary">
-            Animez vos événements avec dynamisme et professionnalisme.
-          </div>
+          <img src="https://source.unsplash.com/300x300/?event" alt="Animer un évènement">
         </div>
       </div>
     </div>
@@ -276,12 +304,13 @@
       <div class="card-inner">
         <div class="card-face card-front">
           <i class="fa-solid fa-handshake"></i>
-          <div class="card-title">Module 14<br>Négocier en expert</div>
+          <div class="card-title">
+            <span class="module-number">Module 14</span><br>
+            <span class="module-name">Négocier en expert</span>
+          </div>
         </div>
         <div class="card-face card-back">
-          <div class="card-summary">
-            Apprenez les techniques avancées de négociation pour obtenir ce que vous méritez.
-          </div>
+          <img src="https://source.unsplash.com/300x300/?negotiation" alt="Négocier en expert">
         </div>
       </div>
     </div>
@@ -291,12 +320,13 @@
       <div class="card-inner">
         <div class="card-face card-front">
           <i class="fa-solid fa-shield-alt"></i>
-          <div class="card-title">Module 15<br>Gérer les conflits</div>
+          <div class="card-title">
+            <span class="module-number">Module 15</span><br>
+            <span class="module-name">Gérer les conflits</span>
+          </div>
         </div>
         <div class="card-face card-back">
-          <div class="card-summary">
-            Gérez les conflits avec diplomatie et efficacité pour transformer les défis en opportunités.
-          </div>
+          <img src="https://source.unsplash.com/300x300/?conflict" alt="Gérer les conflits">
         </div>
       </div>
     </div>
@@ -306,12 +336,13 @@
       <div class="card-inner">
         <div class="card-face card-front">
           <i class="fa-solid fa-chess-king"></i>
-          <div class="card-title">Module 16<br>Développer son leadership</div>
+          <div class="card-title">
+            <span class="module-number">Module 16</span><br>
+            <span class="module-name">Développer son leadership</span>
+          </div>
         </div>
         <div class="card-face card-back">
-          <div class="card-summary">
-            Incarnez le leadership et inspirez vos équipes à exceller.
-          </div>
+          <img src="https://source.unsplash.com/300x300/?leadership" alt="Développer son leadership">
         </div>
       </div>
     </div>
@@ -321,12 +352,13 @@
       <div class="card-inner">
         <div class="card-face card-front">
           <i class="fa-solid fa-microphone"></i>
-          <div class="card-title">Module 17<br>Conférence</div>
+          <div class="card-title">
+            <span class="module-number">Module 17</span><br>
+            <span class="module-name">Conférence</span>
+          </div>
         </div>
         <div class="card-face card-back">
-          <div class="card-summary">
-            Préparez et livrez des conférences mémorables et percutantes.
-          </div>
+          <img src="https://source.unsplash.com/300x300/?conference" alt="Conférence">
         </div>
       </div>
     </div>
@@ -336,12 +368,13 @@
       <div class="card-inner">
         <div class="card-face card-front">
           <i class="fa-solid fa-briefcase"></i>
-          <div class="card-title">Module 18<br>Démarcher vos prospects avec efficacité</div>
+          <div class="card-title">
+            <span class="module-number">Module 18</span><br>
+            <span class="module-name">Démarcher vos prospects avec efficacité</span>
+          </div>
         </div>
         <div class="card-face card-back">
-          <div class="card-summary">
-            Optimisez vos démarches pour convertir vos prospects en clients fidèles.
-          </div>
+          <img src="https://source.unsplash.com/300x300/?sales" alt="Démarcher vos prospects">
         </div>
       </div>
     </div>
