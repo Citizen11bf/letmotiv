@@ -3,11 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <title>Modules en Cartes avec Lottie</title>
-  <!-- Lien vers Font Awesome (pour le cas où vous en auriez besoin ailleurs) -->
+  <!-- Lien vers Font Awesome (au cas où) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
         integrity="sha512-papJ4d+c+gl5d2aJ5g2+rK60LcoE2vKIO6wzR5S7+I9/Cr7dFInFAVV6n+NboM7sTnGJw2Ry+He9O3K65r3a5A==" 
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <!-- Lien vers le style -->
   <style>
     * { box-sizing: border-box; }
     body {
@@ -56,7 +55,6 @@
     }
     .card-front {
       background: #3498db;
-      /* On laisse de la place pour l'animation et le texte */
     }
     .card-back {
       background: #2ecc71;
@@ -381,9 +379,8 @@
     </div>
   </div>
 
-  <!-- Inclusion de la librairie Lottie -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.7.4/lottie.min.js" integrity="sha512-+05ZPw+9BKr1x+X+OGM3xT4ymk90n3X2MBHz4XQLU3e8B6HUEf8dpLG1hsKRrlTWNX8ByH8BnY64T1v3ALnfcw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+  <!-- Inclusion de Lottie depuis unpkg -->
+  <script src="https://unpkg.com/lottie-web@5.10.2/build/player/lottie.js"></script>
   <script>
     // Fonction de retournement de carte
     function flipCard(clickedCard) {
@@ -396,35 +393,37 @@
       clickedCard.classList.toggle('is-flipped');
     }
 
-    // Chargement des animations Lottie pour chaque module
-    const animations = [
-      { id: 'lottie-mod01', path: 'https://assets10.lottiefiles.com/packages/lf20_u4yrau.json' },
-      { id: 'lottie-mod02', path: 'https://assets7.lottiefiles.com/packages/lf20_8vvhfjxp.json' },
-      { id: 'lottie-mod03', path: 'https://assets7.lottiefiles.com/packages/lf20_yr6zz3wv.json' },
-      { id: 'lottie-mod04', path: 'https://assets2.lottiefiles.com/packages/lf20_fcfjwiyb.json' },
-      { id: 'lottie-mod05', path: 'https://assets4.lottiefiles.com/packages/lf20_9TQnLS.json' },
-      { id: 'lottie-mod06', path: 'https://assets5.lottiefiles.com/packages/lf20_9deft8nz.json' },
-      { id: 'lottie-mod07', path: 'https://assets1.lottiefiles.com/packages/lf20_iwmd6pyr.json' },
-      { id: 'lottie-mod08', path: 'https://assets3.lottiefiles.com/packages/lf20_lk80fpsd.json' },
-      { id: 'lottie-mod09', path: 'https://assets2.lottiefiles.com/packages/lf20_x62chJ.json' },
-      { id: 'lottie-mod10', path: 'https://assets9.lottiefiles.com/packages/lf20_c9zx9vti.json' },
-      { id: 'lottie-mod11', path: 'https://assets3.lottiefiles.com/packages/lf20_jcikwtux.json' },
-      { id: 'lottie-mod12', path: 'https://assets5.lottiefiles.com/packages/lf20_ydo1amjm.json' },
-      { id: 'lottie-mod13', path: 'https://assets3.lottiefiles.com/packages/lf20_Stt1R2.json' },
-      { id: 'lottie-mod14', path: 'https://assets5.lottiefiles.com/packages/lf20_0yh4if.json' },
-      { id: 'lottie-mod15', path: 'https://assets4.lottiefiles.com/packages/lf20_4kxnjz7k.json' },
-      { id: 'lottie-mod16', path: 'https://assets6.lottiefiles.com/packages/lf20_jbrw3hcz.json' },
-      { id: 'lottie-mod17', path: 'https://assets3.lottiefiles.com/packages/lf20_AkJtZC.json' },
-      { id: 'lottie-mod18', path: 'https://assets6.lottiefiles.com/packages/lf20_JT4icE.json' },
-    ];
+    // S'assurer que le DOM est chargé avant de lancer Lottie
+    document.addEventListener("DOMContentLoaded", function() {
+      const animations = [
+        { id: 'lottie-mod01', path: 'https://assets10.lottiefiles.com/packages/lf20_u4yrau.json' },
+        { id: 'lottie-mod02', path: 'https://assets7.lottiefiles.com/packages/lf20_8vvhfjxp.json' },
+        { id: 'lottie-mod03', path: 'https://assets7.lottiefiles.com/packages/lf20_yr6zz3wv.json' },
+        { id: 'lottie-mod04', path: 'https://assets2.lottiefiles.com/packages/lf20_fcfjwiyb.json' },
+        { id: 'lottie-mod05', path: 'https://assets4.lottiefiles.com/packages/lf20_9TQnLS.json' },
+        { id: 'lottie-mod06', path: 'https://assets5.lottiefiles.com/packages/lf20_9deft8nz.json' },
+        { id: 'lottie-mod07', path: 'https://assets1.lottiefiles.com/packages/lf20_iwmd6pyr.json' },
+        { id: 'lottie-mod08', path: 'https://assets3.lottiefiles.com/packages/lf20_lk80fpsd.json' },
+        { id: 'lottie-mod09', path: 'https://assets2.lottiefiles.com/packages/lf20_x62chJ.json' },
+        { id: 'lottie-mod10', path: 'https://assets9.lottiefiles.com/packages/lf20_c9zx9vti.json' },
+        { id: 'lottie-mod11', path: 'https://assets3.lottiefiles.com/packages/lf20_jcikwtux.json' },
+        { id: 'lottie-mod12', path: 'https://assets5.lottiefiles.com/packages/lf20_ydo1amjm.json' },
+        { id: 'lottie-mod13', path: 'https://assets3.lottiefiles.com/packages/lf20_Stt1R2.json' },
+        { id: 'lottie-mod14', path: 'https://assets5.lottiefiles.com/packages/lf20_0yh4if.json' },
+        { id: 'lottie-mod15', path: 'https://assets4.lottiefiles.com/packages/lf20_4kxnjz7k.json' },
+        { id: 'lottie-mod16', path: 'https://assets6.lottiefiles.com/packages/lf20_jbrw3hcz.json' },
+        { id: 'lottie-mod17', path: 'https://assets3.lottiefiles.com/packages/lf20_AkJtZC.json' },
+        { id: 'lottie-mod18', path: 'https://assets6.lottiefiles.com/packages/lf20_JT4icE.json' },
+      ];
 
-    animations.forEach(anim => {
-      lottie.loadAnimation({
-        container: document.getElementById(anim.id),
-        renderer: 'svg',
-        loop: true,
-        autoplay: true,
-        path: anim.path
+      animations.forEach(anim => {
+        lottie.loadAnimation({
+          container: document.getElementById(anim.id),
+          renderer: 'svg',
+          loop: true,
+          autoplay: true,
+          path: anim.path
+        });
       });
     });
   </script>
