@@ -315,8 +315,7 @@
     }
 
     /* --- STEP1 : Choix d’objectif --- */
-    
-    /* Style des objectifs (police, icones) */
+    /* Style des objectifs avec agrandissement de la police, icônes et couleurs plus dynamiques */
     .objectives-container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
@@ -326,8 +325,8 @@
     }
     .objective-item {
       text-align: center;
-      color: #4a4848;
-      font-size: 0.9rem;
+      color: #444; /* Couleur par défaut pour le texte */
+      font-size: 1rem; /* Texte agrandi */
       cursor: pointer;
       padding: 12px;
       border: 1px solid transparent;
@@ -335,10 +334,11 @@
       transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
     }
     .objective-item i {
-      font-size: 1.5rem;
+      font-size: 2rem; /* Agrandissement des icônes */
       margin-bottom: 8px;
       display: block;
-      color: #7fc3e8;
+      /* Couleur par défaut (sera surchargée pour chaque catégorie) */
+      color: #444;
     }
     .objective-item:hover {
       border-color: #00a48a;
@@ -354,6 +354,35 @@
     }
     .objective-item.selected-objective i {
       color: #00a48a;
+    }
+
+    /* Personnalisation des couleurs d'icônes selon la catégorie */
+    .objective-item[data-category="convaincre"] i {
+      color: #007BFF;  /* Bleu */
+    }
+    .objective-item[data-category="inspirer"] i {
+      color: #FFC107;  /* Jaune/ambre */
+    }
+    .objective-item[data-category="lacher-prise"] i {
+      color: #FF5722;  /* Orange profond */
+    }
+    .objective-item[data-category="toast"] i {
+      color: #E91E63;  /* Rose */
+    }
+    .objective-item[data-category="repartie"] i {
+      color: #9C27B0;  /* Violet */
+    }
+    .objective-item[data-category="vendre"] i {
+      color: #4CAF50;  /* Vert */
+    }
+    .objective-item[data-category="conflit"] i {
+      color: #F44336;  /* Rouge */
+    }
+    .objective-item[data-category="diction"] i {
+      color: #00BCD4;  /* Cyan */
+    }
+    .objective-item[data-category="entretien"] i {
+      color: #795548;  /* Brun/gris foncé */
     }
 
     /* Bulle d'explication de l'objectif sélectionné */
@@ -422,7 +451,6 @@
       transform: scaleX(-1);
       -webkit-transform: scaleX(-1);
     }
-    
     /* Zone overlay pour les instructions et le bouton */
     .video-overlay {
       position: absolute;
@@ -529,7 +557,7 @@
       display: none;
     }
 
-    /* --- STEP4 : Analyse ta prestation & Téléchargements --- */
+    /* --- STEP4 (anciennement STEP5) : Analyse ta prestation & Téléchargements --- */
     .download-section {
       margin-top: 20px;
     }
