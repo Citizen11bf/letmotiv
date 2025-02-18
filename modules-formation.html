@@ -2,8 +2,8 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Modules en Cartes avec Lottie</title>
-  <!-- Lien vers Font Awesome (au cas où) -->
+  <title>Modules en Cartes avec Lottie en fond</title>
+  <!-- Lien vers Font Awesome (pour d'éventuelles icônes additionnelles) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
         integrity="sha512-papJ4d+c+gl5d2aJ5g2+rK60LcoE2vKIO6wzR5S7+I9/Cr7dFInFAVV6n+NboM7sTnGJw2Ry+He9O3K65r3a5A==" 
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -21,6 +21,7 @@
       gap: 20px;
     }
     .card {
+      position: relative; /* Pour positionner le background */
       perspective: 1000px;
       cursor: pointer;
       transition: transform 0.3s;
@@ -29,12 +30,24 @@
     .card:hover {
       transform: scale(1.02);
     }
+    /* Lottie en fond */
+    .lottie-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none; /* Pour ne pas interférer avec le clic */
+    }
+    /* Conteneur de la carte qui se retourne */
     .card-inner {
       position: relative;
       width: 100%;
       height: 300px;
       transition: transform 0.6s;
       transform-style: preserve-3d;
+      z-index: 1; /* Au-dessus de l'animation */
     }
     .card.is-flipped .card-inner {
       transform: rotateY(180deg);
@@ -52,20 +65,14 @@
       padding: 20px;
       color: #fff;
       text-align: center;
+      /* Fond semi-transparent pour une meilleure lisibilité */
+      background: rgba(0, 0, 0, 0.5);
     }
     .card-front {
-      background: #3498db;
+      /* face visible initialement */
     }
     .card-back {
-      background: #2ecc71;
       transform: rotateY(180deg);
-      overflow: hidden;
-    }
-    /* Conteneur pour l'animation Lottie */
-    .lottie-container {
-      width: 120px;
-      height: 120px;
-      margin-bottom: 15px;
     }
     .card-title {
       font-size: 1.2em;
@@ -77,303 +84,333 @@
     .module-name {
       font-weight: bold;
     }
-    /* Style de l'image sur le verso (avec Picsum) */
-    .card-back img {
-      width: 100%;
-      height: 100%;
-      border-radius: 10px;
-      object-fit: cover;
-    }
   </style>
 </head>
 <body>
   <div class="grid">
-    <!-- Module 01 -->
+    <!-- Exemple pour Module 01 -->
     <div class="card" onclick="flipCard(this)">
+      <!-- Animation Lottie en fond -->
+      <div class="lottie-bg" id="lottie-mod01"></div>
       <div class="card-inner">
-        <!-- Face avant avec animation Lottie -->
+        <!-- Face avant -->
         <div class="card-face card-front">
-          <div class="lottie-container" id="lottie-mod01"></div>
           <div class="card-title">
             <span class="module-number">Module 01</span><br>
             <span class="module-name">Construire son intervention</span>
           </div>
         </div>
-        <!-- Face arrière avec image Picsum -->
+        <!-- Face arrière (texte résumé par exemple) -->
         <div class="card-face card-back">
-          <img src="https://picsum.photos/seed/presentation/300/300" alt="Construire son intervention">
+          <div class="card-title">
+            Structurez votre intervention avec clarté et impact.
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Module 02 -->
     <div class="card" onclick="flipCard(this)">
+      <div class="lottie-bg" id="lottie-mod02"></div>
       <div class="card-inner">
         <div class="card-face card-front">
-          <div class="lottie-container" id="lottie-mod02"></div>
           <div class="card-title">
             <span class="module-number">Module 02</span><br>
             <span class="module-name">Stress et lâcher prise</span>
           </div>
         </div>
         <div class="card-face card-back">
-          <img src="https://picsum.photos/seed/relaxation/300/300" alt="Stress et lâcher prise">
+          <div class="card-title">
+            Maîtrisez votre stress pour libérer votre potentiel.
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Module 03 -->
     <div class="card" onclick="flipCard(this)">
+      <div class="lottie-bg" id="lottie-mod03"></div>
       <div class="card-inner">
         <div class="card-face card-front">
-          <div class="lottie-container" id="lottie-mod03"></div>
           <div class="card-title">
             <span class="module-number">Module 03</span><br>
             <span class="module-name">Maitriser son corps</span>
           </div>
         </div>
         <div class="card-face card-back">
-          <img src="https://picsum.photos/seed/fitness/300/300" alt="Maitriser son corps">
+          <div class="card-title">
+            Utilisez votre corps comme un puissant outil de communication.
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Module 04 -->
     <div class="card" onclick="flipCard(this)">
+      <div class="lottie-bg" id="lottie-mod04"></div>
       <div class="card-inner">
         <div class="card-face card-front">
-          <div class="lottie-container" id="lottie-mod04"></div>
           <div class="card-title">
             <span class="module-number">Module 04</span><br>
             <span class="module-name">Sublimer sa voix</span>
           </div>
         </div>
         <div class="card-face card-back">
-          <img src="https://picsum.photos/seed/microphone/300/300" alt="Sublimer sa voix">
+          <div class="card-title">
+            Améliorez la qualité de votre voix pour convaincre.
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Module 05 -->
     <div class="card" onclick="flipCard(this)">
+      <div class="lottie-bg" id="lottie-mod05"></div>
       <div class="card-inner">
         <div class="card-face card-front">
-          <div class="lottie-container" id="lottie-mod05"></div>
           <div class="card-title">
             <span class="module-number">Module 05</span><br>
             <span class="module-name">Captiver l'auditoire</span>
           </div>
         </div>
         <div class="card-face card-back">
-          <img src="https://picsum.photos/seed/audience/300/300" alt="Captiver l'auditoire">
+          <div class="card-title">
+            Attirez et maintenez l'attention dès le premier instant.
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Module 06 -->
     <div class="card" onclick="flipCard(this)">
+      <div class="lottie-bg" id="lottie-mod06"></div>
       <div class="card-inner">
         <div class="card-face card-front">
-          <div class="lottie-container" id="lottie-mod06"></div>
           <div class="card-title">
             <span class="module-number">Module 06</span><br>
             <span class="module-name">Maitriser le feedback</span>
           </div>
         </div>
         <div class="card-face card-back">
-          <img src="https://picsum.photos/seed/feedback/300/300" alt="Maitriser le feedback">
+          <div class="card-title">
+            Donnez et recevez du feedback pour progresser.
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Module 07 -->
     <div class="card" onclick="flipCard(this)">
+      <div class="lottie-bg" id="lottie-mod07"></div>
       <div class="card-inner">
         <div class="card-face card-front">
-          <div class="lottie-container" id="lottie-mod07"></div>
           <div class="card-title">
             <span class="module-number">Module 07</span><br>
             <span class="module-name">Développer sa répartie</span>
           </div>
         </div>
         <div class="card-face card-back">
-          <img src="https://picsum.photos/seed/conversation/300/300" alt="Développer sa répartie">
+          <div class="card-title">
+            Réagissez avec aisance et pertinence en toutes circonstances.
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Module 08 -->
     <div class="card" onclick="flipCard(this)">
+      <div class="lottie-bg" id="lottie-mod08"></div>
       <div class="card-inner">
         <div class="card-face card-front">
-          <div class="lottie-container" id="lottie-mod08"></div>
           <div class="card-title">
             <span class="module-number">Module 08</span><br>
             <span class="module-name">Donner un pitch qui vend</span>
           </div>
         </div>
         <div class="card-face card-back">
-          <img src="https://picsum.photos/seed/pitch/300/300" alt="Donner un pitch qui vend">
+          <div class="card-title">
+            Maîtrisez l'art du pitch pour convaincre.
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Module 09 -->
     <div class="card" onclick="flipCard(this)">
+      <div class="lottie-bg" id="lottie-mod09"></div>
       <div class="card-inner">
         <div class="card-face card-front">
-          <div class="lottie-container" id="lottie-mod09"></div>
           <div class="card-title">
             <span class="module-number">Module 09</span><br>
             <span class="module-name">S'entrainer aux médias</span>
           </div>
         </div>
         <div class="card-face card-back">
-          <img src="https://picsum.photos/seed/media/300/300" alt="S'entrainer aux médias">
+          <div class="card-title">
+            Préparez-vous à gérer interviews et médias.
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Module 10 -->
     <div class="card" onclick="flipCard(this)">
+      <div class="lottie-bg" id="lottie-mod10"></div>
       <div class="card-inner">
         <div class="card-face card-front">
-          <div class="lottie-container" id="lottie-mod10"></div>
           <div class="card-title">
             <span class="module-number">Module 10</span><br>
             <span class="module-name">L'art du storytelling</span>
           </div>
         </div>
         <div class="card-face card-back">
-          <img src="https://picsum.photos/seed/storytelling/300/300" alt="L'art du storytelling">
+          <div class="card-title">
+            Racontez des histoires captivantes qui inspirent.
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Module 11 -->
     <div class="card" onclick="flipCard(this)">
+      <div class="lottie-bg" id="lottie-mod11"></div>
       <div class="card-inner">
         <div class="card-face card-front">
-          <div class="lottie-container" id="lottie-mod11"></div>
           <div class="card-title">
             <span class="module-number">Module 11</span><br>
             <span class="module-name">Vulgariser un sujet</span>
           </div>
         </div>
         <div class="card-face card-back">
-          <img src="https://picsum.photos/seed/education/300/300" alt="Vulgariser un sujet">
+          <div class="card-title">
+            Simplifiez les sujets complexes pour tous.
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Module 12 -->
     <div class="card" onclick="flipCard(this)">
+      <div class="lottie-bg" id="lottie-mod12"></div>
       <div class="card-inner">
         <div class="card-face card-front">
-          <div class="lottie-container" id="lottie-mod12"></div>
           <div class="card-title">
             <span class="module-number">Module 12</span><br>
             <span class="module-name">Défendre ses idées éthiques</span>
           </div>
         </div>
         <div class="card-face card-back">
-          <img src="https://picsum.photos/seed/ethics/300/300" alt="Défendre ses idées éthiques">
+          <div class="card-title">
+            Défendez vos valeurs avec conviction.
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Module 13 -->
     <div class="card" onclick="flipCard(this)">
+      <div class="lottie-bg" id="lottie-mod13"></div>
       <div class="card-inner">
         <div class="card-face card-front">
-          <div class="lottie-container" id="lottie-mod13"></div>
           <div class="card-title">
             <span class="module-number">Module 13</span><br>
             <span class="module-name">Animer un évènement</span>
           </div>
         </div>
         <div class="card-face card-back">
-          <img src="https://picsum.photos/seed/event/300/300" alt="Animer un évènement">
+          <div class="card-title">
+            Animez vos événements avec dynamisme.
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Module 14 -->
     <div class="card" onclick="flipCard(this)">
+      <div class="lottie-bg" id="lottie-mod14"></div>
       <div class="card-inner">
         <div class="card-face card-front">
-          <div class="lottie-container" id="lottie-mod14"></div>
           <div class="card-title">
             <span class="module-number">Module 14</span><br>
             <span class="module-name">Négocier en expert</span>
           </div>
         </div>
         <div class="card-face card-back">
-          <img src="https://picsum.photos/seed/negotiation/300/300" alt="Négocier en expert">
+          <div class="card-title">
+            Maîtrisez les techniques de négociation avancées.
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Module 15 -->
     <div class="card" onclick="flipCard(this)">
+      <div class="lottie-bg" id="lottie-mod15"></div>
       <div class="card-inner">
         <div class="card-face card-front">
-          <div class="lottie-container" id="lottie-mod15"></div>
           <div class="card-title">
             <span class="module-number">Module 15</span><br>
             <span class="module-name">Gérer les conflits</span>
           </div>
         </div>
         <div class="card-face card-back">
-          <img src="https://picsum.photos/seed/conflict/300/300" alt="Gérer les conflits">
+          <div class="card-title">
+            Transformez les conflits en opportunités.
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Module 16 -->
     <div class="card" onclick="flipCard(this)">
+      <div class="lottie-bg" id="lottie-mod16"></div>
       <div class="card-inner">
         <div class="card-face card-front">
-          <div class="lottie-container" id="lottie-mod16"></div>
           <div class="card-title">
             <span class="module-number">Module 16</span><br>
             <span class="module-name">Développer son leadership</span>
           </div>
         </div>
         <div class="card-face card-back">
-          <img src="https://picsum.photos/seed/leadership/300/300" alt="Développer son leadership">
+          <div class="card-title">
+            Inspirez vos équipes et incarnez le leadership.
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Module 17 -->
     <div class="card" onclick="flipCard(this)">
+      <div class="lottie-bg" id="lottie-mod17"></div>
       <div class="card-inner">
         <div class="card-face card-front">
-          <div class="lottie-container" id="lottie-mod17"></div>
           <div class="card-title">
             <span class="module-number">Module 17</span><br>
             <span class="module-name">Conférence</span>
           </div>
         </div>
         <div class="card-face card-back">
-          <img src="https://picsum.photos/seed/conference/300/300" alt="Conférence">
+          <div class="card-title">
+            Préparez et livrez des conférences percutantes.
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Module 18 -->
     <div class="card" onclick="flipCard(this)">
+      <div class="lottie-bg" id="lottie-mod18"></div>
       <div class="card-inner">
         <div class="card-face card-front">
-          <div class="lottie-container" id="lottie-mod18"></div>
           <div class="card-title">
             <span class="module-number">Module 18</span><br>
             <span class="module-name">Démarcher vos prospects avec efficacité</span>
           </div>
         </div>
         <div class="card-face card-back">
-          <img src="https://picsum.photos/seed/sales/300/300" alt="Démarcher vos prospects">
+          <div class="card-title">
+            Optimisez vos démarches pour convertir vos prospects.
+          </div>
         </div>
       </div>
     </div>
@@ -382,7 +419,7 @@
   <!-- Inclusion de Lottie depuis unpkg -->
   <script src="https://unpkg.com/lottie-web@5.10.2/build/player/lottie.js"></script>
   <script>
-    // Fonction de retournement de carte
+    // Fonction pour le flip des cartes
     function flipCard(clickedCard) {
       const cards = document.querySelectorAll('.card');
       cards.forEach(card => {
@@ -393,7 +430,7 @@
       clickedCard.classList.toggle('is-flipped');
     }
 
-    // S'assurer que le DOM est chargé avant de lancer Lottie
+    // Initialisation des animations Lottie pour chaque module
     document.addEventListener("DOMContentLoaded", function() {
       const animations = [
         { id: 'lottie-mod01', path: 'https://assets10.lottiefiles.com/packages/lf20_u4yrau.json' },
