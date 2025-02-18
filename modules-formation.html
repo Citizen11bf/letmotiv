@@ -2,15 +2,14 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Modules en Cartes</title>
-  <!-- Lien vers Font Awesome -->
+  <title>Modules en Cartes avec Lottie</title>
+  <!-- Lien vers Font Awesome (pour le cas où vous en auriez besoin ailleurs) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
         integrity="sha512-papJ4d+c+gl5d2aJ5g2+rK60LcoE2vKIO6wzR5S7+I9/Cr7dFInFAVV6n+NboM7sTnGJw2Ry+He9O3K65r3a5A==" 
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Lien vers le style -->
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
     body {
       font-family: Arial, sans-serif;
       background: #f0f0f0;
@@ -57,14 +56,17 @@
     }
     .card-front {
       background: #3498db;
+      /* On laisse de la place pour l'animation et le texte */
     }
     .card-back {
       background: #2ecc71;
       transform: rotateY(180deg);
       overflow: hidden;
     }
-    .card-face i {
-      font-size: 3em;
+    /* Conteneur pour l'animation Lottie */
+    .lottie-container {
+      width: 120px;
+      height: 120px;
       margin-bottom: 15px;
     }
     .card-title {
@@ -77,7 +79,7 @@
     .module-name {
       font-weight: bold;
     }
-    /* Style de l'image du verso */
+    /* Style de l'image sur le verso (avec Picsum) */
     .card-back img {
       width: 100%;
       height: 100%;
@@ -91,9 +93,9 @@
     <!-- Module 01 -->
     <div class="card" onclick="flipCard(this)">
       <div class="card-inner">
-        <!-- Face avant -->
+        <!-- Face avant avec animation Lottie -->
         <div class="card-face card-front">
-          <i class="fa-solid fa-chalkboard-teacher"></i>
+          <div class="lottie-container" id="lottie-mod01"></div>
           <div class="card-title">
             <span class="module-number">Module 01</span><br>
             <span class="module-name">Construire son intervention</span>
@@ -110,7 +112,7 @@
     <div class="card" onclick="flipCard(this)">
       <div class="card-inner">
         <div class="card-face card-front">
-          <i class="fa-solid fa-spa"></i>
+          <div class="lottie-container" id="lottie-mod02"></div>
           <div class="card-title">
             <span class="module-number">Module 02</span><br>
             <span class="module-name">Stress et lâcher prise</span>
@@ -126,7 +128,7 @@
     <div class="card" onclick="flipCard(this)">
       <div class="card-inner">
         <div class="card-face card-front">
-          <i class="fa-solid fa-dumbbell"></i>
+          <div class="lottie-container" id="lottie-mod03"></div>
           <div class="card-title">
             <span class="module-number">Module 03</span><br>
             <span class="module-name">Maitriser son corps</span>
@@ -142,7 +144,7 @@
     <div class="card" onclick="flipCard(this)">
       <div class="card-inner">
         <div class="card-face card-front">
-          <i class="fa-solid fa-microphone-alt"></i>
+          <div class="lottie-container" id="lottie-mod04"></div>
           <div class="card-title">
             <span class="module-number">Module 04</span><br>
             <span class="module-name">Sublimer sa voix</span>
@@ -158,7 +160,7 @@
     <div class="card" onclick="flipCard(this)">
       <div class="card-inner">
         <div class="card-face card-front">
-          <i class="fa-solid fa-users"></i>
+          <div class="lottie-container" id="lottie-mod05"></div>
           <div class="card-title">
             <span class="module-number">Module 05</span><br>
             <span class="module-name">Captiver l'auditoire</span>
@@ -174,7 +176,7 @@
     <div class="card" onclick="flipCard(this)">
       <div class="card-inner">
         <div class="card-face card-front">
-          <i class="fa-solid fa-comment-dots"></i>
+          <div class="lottie-container" id="lottie-mod06"></div>
           <div class="card-title">
             <span class="module-number">Module 06</span><br>
             <span class="module-name">Maitriser le feedback</span>
@@ -190,7 +192,7 @@
     <div class="card" onclick="flipCard(this)">
       <div class="card-inner">
         <div class="card-face card-front">
-          <i class="fa-solid fa-comments"></i>
+          <div class="lottie-container" id="lottie-mod07"></div>
           <div class="card-title">
             <span class="module-number">Module 07</span><br>
             <span class="module-name">Développer sa répartie</span>
@@ -206,7 +208,7 @@
     <div class="card" onclick="flipCard(this)">
       <div class="card-inner">
         <div class="card-face card-front">
-          <i class="fa-solid fa-chart-line"></i>
+          <div class="lottie-container" id="lottie-mod08"></div>
           <div class="card-title">
             <span class="module-number">Module 08</span><br>
             <span class="module-name">Donner un pitch qui vend</span>
@@ -222,7 +224,7 @@
     <div class="card" onclick="flipCard(this)">
       <div class="card-inner">
         <div class="card-face card-front">
-          <i class="fa-solid fa-tv"></i>
+          <div class="lottie-container" id="lottie-mod09"></div>
           <div class="card-title">
             <span class="module-number">Module 09</span><br>
             <span class="module-name">S'entrainer aux médias</span>
@@ -238,7 +240,7 @@
     <div class="card" onclick="flipCard(this)">
       <div class="card-inner">
         <div class="card-face card-front">
-          <i class="fa-solid fa-book-open"></i>
+          <div class="lottie-container" id="lottie-mod10"></div>
           <div class="card-title">
             <span class="module-number">Module 10</span><br>
             <span class="module-name">L'art du storytelling</span>
@@ -254,7 +256,7 @@
     <div class="card" onclick="flipCard(this)">
       <div class="card-inner">
         <div class="card-face card-front">
-          <i class="fa-solid fa-lightbulb"></i>
+          <div class="lottie-container" id="lottie-mod11"></div>
           <div class="card-title">
             <span class="module-number">Module 11</span><br>
             <span class="module-name">Vulgariser un sujet</span>
@@ -270,7 +272,7 @@
     <div class="card" onclick="flipCard(this)">
       <div class="card-inner">
         <div class="card-face card-front">
-          <i class="fa-solid fa-balance-scale"></i>
+          <div class="lottie-container" id="lottie-mod12"></div>
           <div class="card-title">
             <span class="module-number">Module 12</span><br>
             <span class="module-name">Défendre ses idées éthiques</span>
@@ -286,7 +288,7 @@
     <div class="card" onclick="flipCard(this)">
       <div class="card-inner">
         <div class="card-face card-front">
-          <i class="fa-solid fa-calendar-alt"></i>
+          <div class="lottie-container" id="lottie-mod13"></div>
           <div class="card-title">
             <span class="module-number">Module 13</span><br>
             <span class="module-name">Animer un évènement</span>
@@ -302,7 +304,7 @@
     <div class="card" onclick="flipCard(this)">
       <div class="card-inner">
         <div class="card-face card-front">
-          <i class="fa-solid fa-handshake"></i>
+          <div class="lottie-container" id="lottie-mod14"></div>
           <div class="card-title">
             <span class="module-number">Module 14</span><br>
             <span class="module-name">Négocier en expert</span>
@@ -318,7 +320,7 @@
     <div class="card" onclick="flipCard(this)">
       <div class="card-inner">
         <div class="card-face card-front">
-          <i class="fa-solid fa-shield-alt"></i>
+          <div class="lottie-container" id="lottie-mod15"></div>
           <div class="card-title">
             <span class="module-number">Module 15</span><br>
             <span class="module-name">Gérer les conflits</span>
@@ -334,7 +336,7 @@
     <div class="card" onclick="flipCard(this)">
       <div class="card-inner">
         <div class="card-face card-front">
-          <i class="fa-solid fa-chess-king"></i>
+          <div class="lottie-container" id="lottie-mod16"></div>
           <div class="card-title">
             <span class="module-number">Module 16</span><br>
             <span class="module-name">Développer son leadership</span>
@@ -350,7 +352,7 @@
     <div class="card" onclick="flipCard(this)">
       <div class="card-inner">
         <div class="card-face card-front">
-          <i class="fa-solid fa-microphone"></i>
+          <div class="lottie-container" id="lottie-mod17"></div>
           <div class="card-title">
             <span class="module-number">Module 17</span><br>
             <span class="module-name">Conférence</span>
@@ -366,7 +368,7 @@
     <div class="card" onclick="flipCard(this)">
       <div class="card-inner">
         <div class="card-face card-front">
-          <i class="fa-solid fa-briefcase"></i>
+          <div class="lottie-container" id="lottie-mod18"></div>
           <div class="card-title">
             <span class="module-number">Module 18</span><br>
             <span class="module-name">Démarcher vos prospects avec efficacité</span>
@@ -379,19 +381,52 @@
     </div>
   </div>
 
+  <!-- Inclusion de la librairie Lottie -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.7.4/lottie.min.js" integrity="sha512-+05ZPw+9BKr1x+X+OGM3xT4ymk90n3X2MBHz4XQLU3e8B6HUEf8dpLG1hsKRrlTWNX8ByH8BnY64T1v3ALnfcw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
   <script>
+    // Fonction de retournement de carte
     function flipCard(clickedCard) {
-      // Sélectionner toutes les cartes
       const cards = document.querySelectorAll('.card');
       cards.forEach(card => {
-        // Refermer les cartes différentes de celle cliquée
         if (card !== clickedCard) {
           card.classList.remove('is-flipped');
         }
       });
-      // Bascule sur la carte cliquée
       clickedCard.classList.toggle('is-flipped');
     }
+
+    // Chargement des animations Lottie pour chaque module
+    const animations = [
+      { id: 'lottie-mod01', path: 'https://assets10.lottiefiles.com/packages/lf20_u4yrau.json' },
+      { id: 'lottie-mod02', path: 'https://assets7.lottiefiles.com/packages/lf20_8vvhfjxp.json' },
+      { id: 'lottie-mod03', path: 'https://assets7.lottiefiles.com/packages/lf20_yr6zz3wv.json' },
+      { id: 'lottie-mod04', path: 'https://assets2.lottiefiles.com/packages/lf20_fcfjwiyb.json' },
+      { id: 'lottie-mod05', path: 'https://assets4.lottiefiles.com/packages/lf20_9TQnLS.json' },
+      { id: 'lottie-mod06', path: 'https://assets5.lottiefiles.com/packages/lf20_9deft8nz.json' },
+      { id: 'lottie-mod07', path: 'https://assets1.lottiefiles.com/packages/lf20_iwmd6pyr.json' },
+      { id: 'lottie-mod08', path: 'https://assets3.lottiefiles.com/packages/lf20_lk80fpsd.json' },
+      { id: 'lottie-mod09', path: 'https://assets2.lottiefiles.com/packages/lf20_x62chJ.json' },
+      { id: 'lottie-mod10', path: 'https://assets9.lottiefiles.com/packages/lf20_c9zx9vti.json' },
+      { id: 'lottie-mod11', path: 'https://assets3.lottiefiles.com/packages/lf20_jcikwtux.json' },
+      { id: 'lottie-mod12', path: 'https://assets5.lottiefiles.com/packages/lf20_ydo1amjm.json' },
+      { id: 'lottie-mod13', path: 'https://assets3.lottiefiles.com/packages/lf20_Stt1R2.json' },
+      { id: 'lottie-mod14', path: 'https://assets5.lottiefiles.com/packages/lf20_0yh4if.json' },
+      { id: 'lottie-mod15', path: 'https://assets4.lottiefiles.com/packages/lf20_4kxnjz7k.json' },
+      { id: 'lottie-mod16', path: 'https://assets6.lottiefiles.com/packages/lf20_jbrw3hcz.json' },
+      { id: 'lottie-mod17', path: 'https://assets3.lottiefiles.com/packages/lf20_AkJtZC.json' },
+      { id: 'lottie-mod18', path: 'https://assets6.lottiefiles.com/packages/lf20_JT4icE.json' },
+    ];
+
+    animations.forEach(anim => {
+      lottie.loadAnimation({
+        container: document.getElementById(anim.id),
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        path: anim.path
+      });
+    });
   </script>
 </body>
 </html>
