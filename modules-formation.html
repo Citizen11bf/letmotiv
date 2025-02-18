@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Modules en Cartes</title>
+  <!-- Lien vers Font Awesome (version 6 avec préfixe fa-solid) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-papJ4d+c+gl5d2aJ5g2+rK60LcoE2vKIO6wzR5S7+I9/Cr7dFInFAVV6n+NboM7sTnGJw2Ry+He9O3K65r3a5A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      padding: 20px;
+      margin: 0;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      perspective: 1000px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    /* Effet de surbrillance au survol */
+    .card:hover {
+      transform: scale(1.02);
+    }
+    .card-inner {
+      position: relative;
+      width: 100%;
+      height: 300px;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+    .card.is-flipped .card-inner {
+      transform: rotateY(180deg);
+    }
+    .card-face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: #fff;
+      text-align: center;
+    }
+    .card-front {
+      background: #3498db;
+    }
+    .card-back {
+      background: #2ecc71;
+      transform: rotateY(180deg);
+    }
+    .card-face i {
+      font-size: 3em;
+      margin-bottom: 15px;
+    }
+    .card-title {
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+    .card-summary {
+      font-size: 1em;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+  <div class="grid">
+    <!-- Module 01 -->
+    <div class="card" onclick="flipCard(this)">
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <i class="fa-solid fa-chalkboard-teacher"></i>
+          <div class="card-title">Module 01<br>Construire son intervention</div>
+        </div>
+        <div class="card-face card-back">
+          <div class="card-summary">
+            Apprenez à structurer votre intervention avec clarté et impact.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module 02 -->
+    <div class="card" onclick="flipCard(this)">
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <i class="fa-solid fa-spa"></i>
+          <div class="card-title">Module 02<br>Stress et lâcher prise</div>
+        </div>
+        <div class="card-face card-back">
+          <div class="card-summary">
+            Maîtrisez votre stress pour libérer votre potentiel.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module 03 -->
+    <div class="card" onclick="flipCard(this)">
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <i class="fa-solid fa-dumbbell"></i>
+          <div class="card-title">Module 03<br>Maitriser son corps</div>
+        </div>
+        <div class="card-face card-back">
+          <div class="card-summary">
+            Utilisez votre corps comme un instrument de communication puissant.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module 04 -->
+    <div class="card" onclick="flipCard(this)">
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <i class="fa-solid fa-microphone-alt"></i>
+          <div class="card-title">Module 04<br>Sublimer sa voix</div>
+        </div>
+        <div class="card-face card-back">
+          <div class="card-summary">
+            Améliorez la qualité et la portée de votre voix pour mieux convaincre.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module 05 -->
+    <div class="card" onclick="flipCard(this)">
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <i class="fa-solid fa-users"></i>
+          <div class="card-title">Module 05<br>Captiver l'auditoire</div>
+        </div>
+        <div class="card-face card-back">
+          <div class="card-summary">
+            Attirez et maintenez l'attention de votre auditoire dès le premier instant.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module 06 -->
+    <div class="card" onclick="flipCard(this)">
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <i class="fa-solid fa-comment-dots"></i>
+          <div class="card-title">Module 06<br>Maitriser le feedback</div>
+        </div>
+        <div class="card-face card-back">
+          <div class="card-summary">
+            Savoir donner et recevoir du feedback pour une amélioration continue.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module 07 -->
+    <div class="card" onclick="flipCard(this)">
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <i class="fa-solid fa-comments"></i>
+          <div class="card-title">Module 07<br>Développer sa répartie</div>
+        </div>
+        <div class="card-face card-back">
+          <div class="card-summary">
+            Développez votre capacité à réagir avec aisance et pertinence.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module 08 -->
+    <div class="card" onclick="flipCard(this)">
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <i class="fa-solid fa-chart-line"></i>
+          <div class="card-title">Module 08<br>Donner un pitch qui vend</div>
+        </div>
+        <div class="card-face card-back">
+          <div class="card-summary">
+            Maîtrisez l'art du pitch pour vendre vos idées efficacement.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module 09 -->
+    <div class="card" onclick="flipCard(this)">
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <i class="fa-solid fa-tv"></i>
+          <div class="card-title">Module 09<br>S'entrainer aux médias</div>
+        </div>
+        <div class="card-face card-back">
+          <div class="card-summary">
+            Préparez-vous à briller face aux médias et à gérer les interviews.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module 10 -->
+    <div class="card" onclick="flipCard(this)">
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <i class="fa-solid fa-book-open"></i>
+          <div class="card-title">Module 10<br>L'art du storytelling</div>
+        </div>
+        <div class="card-face card-back">
+          <div class="card-summary">
+            Racontez des histoires captivantes qui engagent et inspirent.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module 11 -->
+    <div class="card" onclick="flipCard(this)">
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <i class="fa-solid fa-lightbulb"></i>
+          <div class="card-title">Module 11<br>Vulgariser un sujet</div>
+        </div>
+        <div class="card-face card-back">
+          <div class="card-summary">
+            Simplifiez les sujets complexes pour les rendre accessibles à tous.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module 12 -->
+    <div class="card" onclick="flipCard(this)">
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <i class="fa-solid fa-balance-scale"></i>
+          <div class="card-title">Module 12<br>Défendre ses idées éthiques</div>
+        </div>
+        <div class="card-face card-back">
+          <div class="card-summary">
+            Défendez vos valeurs et idées avec conviction et éthique.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module 13 -->
+    <div class="card" onclick="flipCard(this)">
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <i class="fa-solid fa-calendar-alt"></i>
+          <div class="card-title">Module 13<br>Animer un évènement</div>
+        </div>
+        <div class="card-face card-back">
+          <div class="card-summary">
+            Animez vos événements avec dynamisme et professionnalisme.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module 14 -->
+    <div class="card" onclick="flipCard(this)">
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <i class="fa-solid fa-handshake"></i>
+          <div class="card-title">Module 14<br>Négocier en expert</div>
+        </div>
+        <div class="card-face card-back">
+          <div class="card-summary">
+            Apprenez les techniques avancées de négociation pour obtenir ce que vous méritez.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module 15 -->
+    <div class="card" onclick="flipCard(this)">
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <i class="fa-solid fa-shield-alt"></i>
+          <div class="card-title">Module 15<br>Gérer les conflits</div>
+        </div>
+        <div class="card-face card-back">
+          <div class="card-summary">
+            Gérez les conflits avec diplomatie et efficacité pour transformer les défis en opportunités.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module 16 -->
+    <div class="card" onclick="flipCard(this)">
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <i class="fa-solid fa-chess-king"></i>
+          <div class="card-title">Module 16<br>Développer son leadership</div>
+        </div>
+        <div class="card-face card-back">
+          <div class="card-summary">
+            Incarnez le leadership et inspirez vos équipes à exceller.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module 17 -->
+    <div class="card" onclick="flipCard(this)">
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <i class="fa-solid fa-microphone"></i>
+          <div class="card-title">Module 17<br>Conférence</div>
+        </div>
+        <div class="card-face card-back">
+          <div class="card-summary">
+            Préparez et livrez des conférences mémorables et percutantes.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module 18 -->
+    <div class="card" onclick="flipCard(this)">
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <i class="fa-solid fa-briefcase"></i>
+          <div class="card-title">Module 18<br>Démarcher vos prospects avec efficacité</div>
+        </div>
+        <div class="card-face card-back">
+          <div class="card-summary">
+            Optimisez vos démarches pour convertir vos prospects en clients fidèles.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function flipCard(clickedCard) {
+      // Sélectionner toutes les cartes
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(card => {
+        // Refermer les cartes différentes de celle cliquée
+        if (card !== clickedCard) {
+          card.classList.remove('is-flipped');
+        }
+      });
+      // Bascule sur la carte cliquée
+      clickedCard.classList.toggle('is-flipped');
+    }
+  </script>
+</body>
+</html>
