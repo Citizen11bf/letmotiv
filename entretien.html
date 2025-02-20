@@ -343,7 +343,7 @@
         font-size: 1.5rem;
       }
       .flip-card-front span {
-        font-size: 0.7rem;
+        font-size: 0.8rem;
       }
     }
     /* Structure de la carte flip */
@@ -427,7 +427,12 @@
       font-weight: bold;
       color: #182d84;
     }
-    /* Bulle blanche pour le sujet généré */
+    /* Modification du header STEP2 : on affiche "Ton objectif :" suivi du texte descriptif */
+    .step2-header .box-title::before {
+      content: "Ton objectif : ";
+      font-weight: normal;
+    }
+    /* Bulle blanche pour le sujet généré, cachée par défaut */
     .subject-wrapper {
       background-color: #ffffff;
       border: 1px solid #ccc;
@@ -435,6 +440,7 @@
       padding: 15px;
       margin: 10px 0;
       font-size: 16px;
+      display: none;
     }
 
     /* --- STEP3 : Enregistrement vidéo --- */
@@ -498,7 +504,7 @@
     .video-overlay button:hover {
       background-color: #00a48a;
     }
-    /* STEP3 --- Bulle blanche pour le rappel du sujet */
+    /* Bulle blanche pour le rappel du sujet dans le STEP3 */
     .subject-bubble {
       background-color: #ffffff;
       border: 1px solid #ccc;
@@ -794,11 +800,12 @@
           <i class="fas fa-arrow-up"></i>
         </button>
         <div class="box-title">
-          Ton objectif d'entretien : <br> 
+          <!-- Le préfixe "Ton objectif :" est ajouté via CSS -->
           <span id="selected-objective-display" style="font-weight:bold;"></span>
         </div>
       </div>
       <button id="generate-subject-btn" class="btn-impro">Générer un sujet</button>
+      <!-- La bulle blanche ne s'affiche qu'après génération -->
       <div id="subject-wrapper" class="subject-wrapper">
         <span id="subject-display"></span>
       </div>
@@ -816,7 +823,7 @@
         </button>
         <div class="box-title">Lance ton entretien</div>
       </div>
-      <!-- Affichage du sujet dans une bulle blanche -->
+      <!-- Affichage du rappel du sujet dans une bulle blanche -->
       <div id="current-subject-display" class="subject-bubble"></div>
       <div class="video-box">
         <video id="preview" autoplay muted playsinline webkit-playsinline></video>
@@ -908,6 +915,18 @@
     let currentObjective = "";
     let currentSubject = "";
 
+    // Objet de correspondance pour l'affichage dans STEP2
+    const objectiveDisplayMapping = {
+      "cpge": "rentrer en classes prépa",
+      "ens": "rentrer à l'ENS",
+      "polytechnique": "rentrer à Polytechnique",
+      "aeronautique": "rentrer dans une école d'aérospatiale ou d'aéronautique",
+      "hec": "rentrer à HEC",
+      "sciences-po": "rentrer à Sciences-Po",
+      "embauche": "réussir ton entretien d'embauche",
+      "les-mines": "rentrer aux Mines"
+    };
+
     function updateProgressBar(step) {
       const progress = (step / 4) * 100;
       topProgressBar.style.width = `${progress}%`;
@@ -931,10 +950,12 @@
       currentStepGlobal = next;
       
       if (next === 2) {
-        document.getElementById('selected-objective-display').textContent = currentObjective;
+        // Affichage de l'objectif selon la correspondance
+        let displayText = objectiveDisplayMapping[currentCategory] || currentObjective;
+        document.getElementById('selected-objective-display').textContent = displayText;
       }
       if (next === 3) {
-        // Mise en minuscule de la première lettre du sujet
+        // Formatage pour que la première lettre du sujet soit en minuscule
         const formattedSubject = currentSubject ? currentSubject.charAt(0).toLowerCase() + currentSubject.slice(1) : "";
         document.getElementById('current-subject-display').textContent = "Rappel du sujet : " + formattedSubject;
       }
@@ -1281,7 +1302,7 @@
       window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/entretien-candidat";
     });
 
-    // Suppression de la gestion du swipe sur mobile avec Hammer.js
+    // La gestion des swipes avec Hammer.js a été supprimée
   </script>
 </body>
 </html>
