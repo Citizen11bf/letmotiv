@@ -116,6 +116,12 @@
       transition: width 0.5s ease;
     }
 
+      @media (max-width: 600px) {
+        h1 .line {
+        display: block;
+        }
+      }
+    
     /* --- BOÎTE D'INTRODUCTION --- */
     .intro-box {
       position: fixed;
@@ -669,10 +675,14 @@
 
   <!-- BOÎTE D'INTRODUCTION -->
   <div class="intro-box" id="intro-box">
-    <h1>Entraîne-toi pour réussir ton entretien</h1>
+    <h1>
+    <span class="line">Entraîne-toi</span>
+    <span class="line">pour réussir</span>
+    <span class="line">ton entretien</span>
+    </h1>
     <button id="start-intro-btn" aria-label="Commencer">Commencer</button>
   </div>
-
+  
   <!-- HEADER -->
   <div class="header">
     <div class="header-content">
