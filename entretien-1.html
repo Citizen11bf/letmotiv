@@ -9,7 +9,7 @@
   <link rel="icon" href="https://img.icons8.com/fluency/48/000000/microphone.png" type="image/png">
   <link rel="apple-touch-icon" href="https://img.icons8.com/fluency/48/182d84/microphone.png">
   
-  <!-- Balises Open Graph pour LinkedIn -->
+  <!-- Balises Open Graph -->
   <meta property="og:title" content="Simulateur d'entretien Letmotiv" />
   <meta property="og:description" content="Prépare-toi aux entretiens d'admission grâce au simulateur d'entretien Letmotiv." />
   <meta property="og:type" content="website" />
@@ -19,21 +19,21 @@
   <meta name="author" content="Simulateur d'entretien Letmotiv" />
   <meta property="article:published_time" content="2025-01-26" />
 
-  <!-- Balises Twitter (optionnel) -->
+  <!-- Balises Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Simulateur d'entretien Letmotiv">
   <meta name="twitter:description" content="Prépare-toi aux entretiens d'admission grâce au simulateur d'entretien Letmotiv.">
   <meta name="twitter:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png">
 
-  <!-- Import de la police DM Sans et Montserrat depuis Google Fonts -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans&family=Montserrat:wght@700&display=swap" rel="stylesheet" />
 
-  <!-- Icônes Font Awesome -->
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   
-  <!-- Inclusion de Hammer.js pour la gestion des gestes sur mobile -->
+  <!-- Hammer.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
 
   <script type="application/ld+json">
@@ -167,7 +167,7 @@
       padding: 20px;
       border-radius: 15px;
       background: linear-gradient(135deg, #ffffff, #f9f9f9);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       text-align: center;
       font-size: 14px;
       display: none;
@@ -234,7 +234,7 @@
       70% { box-shadow: 0 0 0 10px rgba(0,164,138,0); }
       100% { box-shadow: 0 0 0 0 rgba(0,164,138,0); }
     }
-    /* --- Bouton de style pour "Démarrer ton entretien" et boutons similaires --- */
+    /* --- Bouton "Démarrer ton entretien" --- */
     .btn-impro {
       pointer-events: auto;
       margin: 15px 0;
@@ -248,7 +248,7 @@
       transition: background-color 0.3s;
     }
     .btn-impro:hover { background-color: #00a48a; }
-    /* --- STEP1 : Choix d’objectif avec effet "Carte Flip" --- */
+    /* --- STEP1 : Choix d’objectif --- */
     .objectives-container {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -261,7 +261,6 @@
       .flip-card-front i { font-size: 1.8rem; }
       .flip-card-front span { font-size: 0.9rem; }
     }
-    /* Chaque carte occupe 100% de la cellule et conserve ses proportions */
     .flip-card {
       width: 100%;
       max-width: 150px;
@@ -307,15 +306,6 @@
       text-align: center;
       border: 1px solid #ccc;
     }
-    /* --- Messages d'erreur --- */
-    .error-message {
-      color: red;
-      margin-top: 10px;
-      font-weight: bold;
-      display: none;
-      text-align: center;
-      width: 100%;
-    }
     /* --- STEP2 : Génération du sujet --- */
     .subject-wrapper {
       margin-top: 10px;
@@ -345,8 +335,7 @@
       transition: height 0.5s ease-in-out;
     }
     .video-box video {
-      width: 100%;
-      height: 100%;
+      width: 100%; height: 100%;
       object-fit: cover;
       border-radius: 4px;
       position: absolute;
@@ -358,8 +347,7 @@
     .video-overlay {
       position: absolute;
       z-index: 2;
-      width: 100%;
-      height: 100%;
+      width: 100%; height: 100%;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -399,8 +387,7 @@
       z-index: 3;
     }
     .recording-indicator .dot {
-      height: 10px;
-      width: 10px;
+      height: 10px; width: 10px;
       background-color: #ff0000;
       border-radius: 50%;
       display: inline-block;
@@ -448,7 +435,7 @@
       margin-top: 10px;
     }
     .hidden-btn { display: none; }
-    /* --- STEP4 : Analyse ta prestation & Téléchargements --- */
+    /* --- STEP4 : Téléchargement de la vidéo --- */
     .download-section {
       margin-top: 20px;
     }
@@ -474,25 +461,7 @@
       font-size: 0.9rem;
       opacity: 0.9;
     }
-    .call-to-action { text-align: center; }
-    .call-to-action button {
-      background-color: #ffcb2d;
-      color: #000;
-      border-radius: 30px;
-      padding: 12px 24px;
-      font-weight: bold;
-      font-size: 1rem;
-      transition: transform 0.2s, box-shadow 0.2s;
-      margin: 10px auto;
-    }
-    .call-to-action button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-    }
-    /* Nous ne gardons plus qu'un bouton pour télécharger la vidéo */
-    .download-buttons {
-      text-align: center;
-    }
+    .download-buttons { text-align: center; }
     .download-buttons button {
       background-color: #ffcb2d;
       color: #000;
@@ -532,7 +501,7 @@
   </style>
 </head>
 <body>
-  <!-- Élément audio pour le feedback sonore (pop léger) -->
+  <!-- Audio de feedback -->
   <audio id="pop-sound" src="https://www.soundjay.com/button/sounds/button-30.mp3"></audio>
 
   <!-- BOÎTE D'INTRODUCTION -->
@@ -552,7 +521,6 @@
         <div class="box-title">Quel est ton objectif ?</div>
       </div>
       <div class="objectives-container">
-        <!-- Cartes flip pour chaque école / objectif -->
         <div class="flip-card objective-item" data-category="les-mines">
           <div class="flip-card-inner">
             <div class="flip-card-front">
@@ -675,7 +643,7 @@
         </button>
         <div class="box-title">Lance ton entretien</div>
       </div>
-      <div <p><b>Rappel du sujet :</b></p> id="current-subject-display" class="subject-bubble"></div>
+      <div id="current-subject-display" class="subject-bubble"></div>
       <div class="video-box">
         <video id="preview" autoplay muted playsinline webkit-playsinline></video>
         <div class="video-overlay">
@@ -732,420 +700,422 @@
 
   <!-- SCRIPT -->
   <script>
-    /***********************
-     * Gestion des étapes (4 étapes)
-     ***********************/
-    const boxes = {
-      1: document.getElementById('step1'),
-      2: document.getElementById('step2'),
-      3: document.getElementById('step3'),
-      4: document.getElementById('step5')
-    };
-
-    const nextBtns = {
-      1: document.getElementById('next-btn1'),
-      2: document.getElementById('next-btn2'),
-      3: document.getElementById('next-btn3')
-    };
-
-    const backBtns = {
-      2: document.getElementById('back-btn2'),
-      3: document.getElementById('back-btn3'),
-      4: document.getElementById('back-btn5')
-    };
-
-    const introBox = document.getElementById('intro-box');
-    const startIntroBtn = document.getElementById('start-intro-btn');
-    const topProgressBar = document.getElementById('top-progress-bar');
-
-    let currentStepGlobal = 0;
-    let currentCategory = null;
-    let currentObjective = "";
-    let currentSubject = "";
-
-    function updateProgressBar(step) {
-      const progress = (step / 4) * 100;
-      topProgressBar.style.width = `${progress}%`;
-    }
-    updateProgressBar(0);
-
-    function removePulseFromAll() {
-      Object.values(nextBtns).forEach(btn => btn.classList.remove('pulse'));
-    }
-
-    function showBox(current, next) {
-      if (!boxes[current] || !boxes[next]) return;
-      boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
-      boxes[next].classList.add('active');
-      if (next > current) {
-        boxes[next].classList.add('slide-from-bottom');
-      } else {
-        boxes[next].classList.add('slide-from-top');
-      }
-      updateProgressBar(next);
-      currentStepGlobal = next;
-      const header = document.querySelector('.header');
-      const headerHeight = header ? header.offsetHeight : 0;
-      const boxPosition = boxes[next].getBoundingClientRect().top + window.scrollY - headerHeight - 20;
-      window.scrollTo({ top: boxPosition, behavior: 'smooth' });
-      
-      if (next === 2) {
-        document.getElementById('selected-objective-display').textContent = currentObjective;
-      }
-      if (next === 3) {
-        document.getElementById('current-subject-display').textContent = currentSubject;
-      }
-      
-      removePulseFromAll();
-    }
-
-    startIntroBtn.addEventListener('click', () => {
-      introBox.style.animation = 'fadeOut 0.5s ease forwards';
-      setTimeout(() => {
-        introBox.style.display = 'none';
-        boxes[1].classList.add('active', 'slide-from-bottom');
-        currentStepGlobal = 1;
-        updateProgressBar(1);
-        removePulseFromAll();
-      }, 500);
-    });
-
-    nextBtns[1].addEventListener('click', () => {
-      const selected = document.querySelector('.objectives-container .flip-card.flipped');
-      if (!selected) {
-        const errorDiv = document.getElementById('objective-error');
-        errorDiv.textContent = "Sélectionne un objectif avant de continuer.";
-        errorDiv.style.display = 'block';
-        return;
-      }
-      showBox(1, 2);
-    });
-
-    nextBtns[2].addEventListener('click', () => {
-      if (!currentSubject) {
-        const subjErrorDiv = document.getElementById('subject-error');
-        subjErrorDiv.textContent = "Tu dois générer un sujet avant de continuer.";
-        subjErrorDiv.style.display = 'block';
-        return;
-      }
-      showBox(2, 3);
-    });
-
-    nextBtns[3].addEventListener('click', () => {
-      const improErrorDiv = document.getElementById('impro-error');
-      improErrorDiv.style.display = 'none';
-      if (!currentSubject && !improStarted) {
-        improErrorDiv.textContent = "Tu dois d'abord générer un sujet et lancer ton entretien avant de continuer.";
-        improErrorDiv.style.display = 'block';
-        return;
-      } else if (currentSubject && !improStarted) {
-        improErrorDiv.textContent = "Tu dois lancer ton entretien avant de continuer.";
-        improErrorDiv.style.display = 'block';
-        return;
-      }
-      showBox(3, 4);
-    });
-
-    backBtns[2].addEventListener('click', () => { showBox(2, 1); });
-    backBtns[3].addEventListener('click', () => { showBox(3, 2); });
-    backBtns[4].addEventListener('click', () => { showBox(4, 3); });
-
-    /***********************
-     * Gestion des objectifs (STEP1) avec effet "Carte Flip" et feedback sonore
-     ***********************/
-    const explanations = {
-      "les-mines":   "Prépare ton entretien pour intégrer Les Mines.",
-      "sciences-po": "Prépare ton entretien pour Sciences-Po.",
-      "polytechnique": "Prépare ton entretien pour Polytechnique.",
-      "aeronautique": "Prépare ton entretien pour le secteur aérospatial.",
-      "cpge": "Prépare ton entretien pour les classes préparatoires.",
-      "ens": "Prépare ton entretien pour l'ENS.",
-      "hec": "Prépare ton entretien pour HEC.",
-      "embauche": "Prépare ton entretien pour décrocher le job de tes rêves."
-    };
-
-    const objectivesCards = document.querySelectorAll('.objectives-container .objective-item');
-    const popSound = document.getElementById('pop-sound');
-
-    objectivesCards.forEach(card => {
-      card.addEventListener('click', async () => {
-        popSound.currentTime = 0;
-        popSound.play();
-
-        objectivesCards.forEach(c => c.classList.remove('flipped'));
-        card.classList.add('flipped');
-        currentCategory = card.dataset.category;
-        currentObjective = card.querySelector('.flip-card-front span').innerText;
-        const backElem = card.querySelector('.flip-card-back');
-        backElem.textContent = explanations[currentCategory] || currentObjective;
-        document.getElementById('objective-error').style.display = 'none';
-        document.getElementById('selected-objective-display').textContent = currentObjective;
-      });
-    });
-
-    async function loadSubjects(category) {
-      const txtFilesByCategory = {
-        "les-mines": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_ENS.txt",
-        "sciences-po": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_Sciences_Po.txt",
-        "aeronautique": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_SUPAERO.txt",
-        "polytechnique": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_Polytechnique.txt",
-        "ens": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_ENS.txt",
-        "embauche": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/entretien.txt",
-        "cpge": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_CPGE.txt",
-        "hec": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_HEC.txt"
+    document.addEventListener("DOMContentLoaded", function() {
+      /***********************
+       * Gestion des étapes (4 étapes)
+       ***********************/
+      const boxes = {
+        1: document.getElementById('step1'),
+        2: document.getElementById('step2'),
+        3: document.getElementById('step3'),
+        4: document.getElementById('step5')
       };
-      const filePath = txtFilesByCategory[category];
-      if (!filePath) return [];
-      try {
-        const response = await fetch(filePath);
-        if (!response.ok) {
-          console.error("Erreur fetch:", filePath);
+
+      const nextBtns = {
+        1: document.getElementById('next-btn1'),
+        2: document.getElementById('next-btn2'),
+        3: document.getElementById('next-btn3')
+      };
+
+      const backBtns = {
+        2: document.getElementById('back-btn2'),
+        3: document.getElementById('back-btn3'),
+        4: document.getElementById('back-btn5')
+      };
+
+      const introBox = document.getElementById('intro-box');
+      const startIntroBtn = document.getElementById('start-intro-btn');
+      const topProgressBar = document.getElementById('top-progress-bar');
+
+      let currentStepGlobal = 0;
+      let currentCategory = null;
+      let currentObjective = "";
+      let currentSubject = "";
+
+      function updateProgressBar(step) {
+        const progress = (step / 4) * 100;
+        topProgressBar.style.width = `${progress}%`;
+      }
+      updateProgressBar(0);
+
+      function removePulseFromAll() {
+        Object.values(nextBtns).forEach(btn => btn.classList.remove('pulse'));
+      }
+
+      function showBox(current, next) {
+        if (!boxes[current] || !boxes[next]) return;
+        boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
+        boxes[next].classList.add('active');
+        if (next > current) {
+          boxes[next].classList.add('slide-from-bottom');
+        } else {
+          boxes[next].classList.add('slide-from-top');
+        }
+        updateProgressBar(next);
+        currentStepGlobal = next;
+        const header = document.querySelector('.header');
+        const headerHeight = header ? header.offsetHeight : 0;
+        const boxPosition = boxes[next].getBoundingClientRect().top + window.scrollY - headerHeight - 20;
+        window.scrollTo({ top: boxPosition, behavior: 'smooth' });
+        
+        if (next === 2) {
+          document.getElementById('selected-objective-display').textContent = currentObjective;
+        }
+        if (next === 3) {
+          document.getElementById('current-subject-display').textContent = currentSubject;
+        }
+        
+        removePulseFromAll();
+      }
+
+      startIntroBtn.addEventListener('click', () => {
+        console.log("Bouton 'Commencer' cliqué");
+        introBox.style.animation = 'fadeOut 0.5s ease forwards';
+        setTimeout(() => {
+          introBox.style.display = 'none';
+          boxes[1].classList.add('active', 'slide-from-bottom');
+          currentStepGlobal = 1;
+          updateProgressBar(1);
+          removePulseFromAll();
+          console.log("Transition vers STEP1 effectuée");
+        }, 500);
+      });
+
+      nextBtns[1].addEventListener('click', () => {
+        const selected = document.querySelector('.objectives-container .flip-card.flipped');
+        if (!selected) {
+          const errorDiv = document.getElementById('objective-error');
+          errorDiv.textContent = "Sélectionne un objectif avant de continuer.";
+          errorDiv.style.display = 'block';
+          return;
+        }
+        showBox(1, 2);
+      });
+
+      nextBtns[2].addEventListener('click', () => {
+        if (!currentSubject) {
+          const subjErrorDiv = document.getElementById('subject-error');
+          subjErrorDiv.textContent = "Tu dois générer un sujet avant de continuer.";
+          subjErrorDiv.style.display = 'block';
+          return;
+        }
+        showBox(2, 3);
+      });
+
+      nextBtns[3].addEventListener('click', () => {
+        const improErrorDiv = document.getElementById('impro-error');
+        improErrorDiv.style.display = 'none';
+        if (!currentSubject && !improStarted) {
+          improErrorDiv.textContent = "Tu dois d'abord générer un sujet et lancer ton entretien avant de continuer.";
+          improErrorDiv.style.display = 'block';
+          return;
+        } else if (currentSubject && !improStarted) {
+          improErrorDiv.textContent = "Tu dois lancer ton entretien avant de continuer.";
+          improErrorDiv.style.display = 'block';
+          return;
+        }
+        showBox(3, 4);
+      });
+
+      backBtns[2].addEventListener('click', () => { showBox(2, 1); });
+      backBtns[3].addEventListener('click', () => { showBox(3, 2); });
+      backBtns[4].addEventListener('click', () => { showBox(4, 3); });
+
+      /***********************
+       * Gestion des objectifs (STEP1) avec effet "Carte Flip" et feedback sonore
+       ***********************/
+      const explanations = {
+        "les-mines":   "Prépare ton entretien pour intégrer Les Mines.",
+        "sciences-po": "Prépare ton entretien pour Sciences-Po.",
+        "polytechnique": "Prépare ton entretien pour Polytechnique.",
+        "aeronautique": "Prépare ton entretien pour le secteur aérospatial.",
+        "cpge": "Prépare ton entretien pour les classes préparatoires.",
+        "ens": "Prépare ton entretien pour l'ENS.",
+        "hec": "Prépare ton entretien pour HEC.",
+        "embauche": "Prépare ton entretien pour décrocher le job de tes rêves."
+      };
+
+      const objectivesCards = document.querySelectorAll('.objectives-container .objective-item');
+      const popSound = document.getElementById('pop-sound');
+
+      objectivesCards.forEach(card => {
+        card.addEventListener('click', async () => {
+          popSound.currentTime = 0;
+          popSound.play();
+
+          objectivesCards.forEach(c => c.classList.remove('flipped'));
+          card.classList.add('flipped');
+          currentCategory = card.dataset.category;
+          currentObjective = card.querySelector('.flip-card-front span').innerText;
+          const backElem = card.querySelector('.flip-card-back');
+          backElem.textContent = explanations[currentCategory] || currentObjective;
+          document.getElementById('objective-error').style.display = 'none';
+          document.getElementById('selected-objective-display').textContent = currentObjective;
+        });
+      });
+
+      async function loadSubjects(category) {
+        const txtFilesByCategory = {
+          "les-mines": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_ENS.txt",
+          "sciences-po": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_Sciences_Po.txt",
+          "aeronautique": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_SUPAERO.txt",
+          "polytechnique": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_Polytechnique.txt",
+          "ens": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_ENS.txt",
+          "embauche": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/entretien.txt",
+          "cpge": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_CPGE.txt",
+          "hec": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_HEC.txt"
+        };
+        const filePath = txtFilesByCategory[category];
+        if (!filePath) return [];
+        try {
+          const response = await fetch(filePath);
+          if (!response.ok) {
+            console.error("Erreur fetch:", filePath);
+            return [];
+          }
+          const text = await response.text();
+          const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+          subjectsCache[category] = lines;
+          return lines;
+        } catch (err) {
+          console.error("Erreur fetch: ", err);
           return [];
         }
-        const text = await response.text();
-        const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-        subjectsCache[category] = lines;
-        return lines;
-      } catch (err) {
-        console.error("Erreur fetch: ", err);
-        return [];
       }
-    }
-    let subjectsCache = {};
+      let subjectsCache = {};
 
-    /***********************
-     * Gestion du sujet d'entretien (STEP2)
-     ***********************/
-    const generateSubjectBtn = document.getElementById('generate-subject-btn');
-    const subjectWrapper = document.getElementById('subject-wrapper');
-    const subjectDisplay = document.getElementById('subject-display');
+      /***********************
+       * Gestion du sujet d'entretien (STEP2)
+       ***********************/
+      const generateSubjectBtn = document.getElementById('generate-subject-btn');
+      const subjectWrapper = document.getElementById('subject-wrapper');
+      const subjectDisplay = document.getElementById('subject-display');
 
-    generateSubjectBtn.addEventListener('click', async () => {
-      if (!currentCategory) {
-        const errorDiv = document.getElementById('objective-error');
-        errorDiv.textContent = "Merci de sélectionner un objectif avant de générer un sujet.";
-        errorDiv.style.display = 'block';
-        return;
-      }
-      if (!subjectsCache[currentCategory]) {
-        await loadSubjects(currentCategory);
-      }
-      const subjects = subjectsCache[currentCategory];
-      if (!subjects || subjects.length === 0) {
-        subjectDisplay.textContent = "Désolé, aucun sujet n'est disponible pour le moment. Veuillez réessayer plus tard.";
+      generateSubjectBtn.addEventListener('click', async () => {
+        if (!currentCategory) {
+          const errorDiv = document.getElementById('objective-error');
+          errorDiv.textContent = "Merci de sélectionner un objectif avant de générer un sujet.";
+          errorDiv.style.display = 'block';
+          return;
+        }
+        if (!subjectsCache[currentCategory]) {
+          await loadSubjects(currentCategory);
+        }
+        const subjects = subjectsCache[currentCategory];
+        if (!subjects || subjects.length === 0) {
+          subjectDisplay.textContent = "Désolé, aucun sujet n'est disponible pour le moment. Veuillez réessayer plus tard.";
+          subjectWrapper.style.display = 'block';
+          currentSubject = "";
+          return;
+        }
+        const randomIndex = Math.floor(Math.random() * subjects.length);
+        currentSubject = subjects[randomIndex];
+        subjectDisplay.textContent = currentSubject;
         subjectWrapper.style.display = 'block';
-        currentSubject = "";
-        return;
+        document.getElementById('subject-error').style.display = 'none';
+      });
+
+      /***********************
+       * Enregistrement vidéo (STEP3)
+       ***********************/
+      let improStarted = false;
+      let mediaRecorderInstance;
+      let recordedChunks = [];
+      const preview = document.getElementById('preview');
+      const stopBtn = document.getElementById('stop-btn');
+      const restartBtn = document.getElementById('restart-btn');
+      const recordingIndicator = document.getElementById('recording-indicator');
+      const countdownElement = document.getElementById('countdown');
+      const initialCountdownOverlay = document.getElementById('initial-countdown-overlay');
+      const initialCountdown = document.getElementById('initial-countdown');
+
+      let countdown;
+      let videoURL = "";
+      let timerInterval;
+      let timeRemaining = 120;
+
+      function bindStartButton() {
+        const startBtn = document.getElementById('start-btn');
+        if(startBtn){ startBtn.addEventListener('click', startImpro); }
       }
-      const randomIndex = Math.floor(Math.random() * subjects.length);
-      currentSubject = subjects[randomIndex];
-      subjectDisplay.textContent = currentSubject;
-      subjectWrapper.style.display = 'block';
-      document.getElementById('subject-error').style.display = 'none';
-    });
 
-    /***********************
-     * Enregistrement vidéo (STEP3)
-     ***********************/
-    let improStarted = false;
-    let mediaRecorderInstance;
-    let recordedChunks = [];
-    const preview = document.getElementById('preview');
-    const stopBtn = document.getElementById('stop-btn');
-    const restartBtn = document.getElementById('restart-btn');
-    const recordingIndicator = document.getElementById('recording-indicator');
-    const countdownElement = document.getElementById('countdown');
-    const initialCountdownOverlay = document.getElementById('initial-countdown-overlay');
-    const initialCountdown = document.getElementById('initial-countdown');
-
-    let countdown;
-    let videoURL = "";
-    let timerInterval;
-    let timeRemaining = 120;
-
-    function bindStartButton() {
-      const startBtn = document.getElementById('start-btn');
-      if(startBtn){ startBtn.addEventListener('click', startImpro); }
-    }
-
-    async function startImpro() {
-      if (!currentSubject) {
-        const improErrorDiv = document.getElementById('impro-error');
-        improErrorDiv.textContent = "Tu dois générer un sujet avant de démarrer l'entretien.";
-        improErrorDiv.style.display = 'block';
-        return;
-      }
-      if (typeof MediaRecorder === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
-        const improErrorDiv = document.getElementById('impro-error');
-        improErrorDiv.textContent = "Désolé, l'enregistrement vidéo n'est pas supporté par votre navigateur.";
-        improErrorDiv.style.display = 'block';
-        return;
-      }
-      if (!confirm("Votre webcam va se lancer pour démarrer l'entretien. Voulez-vous continuer ?")) { return; }
-      if (window.innerWidth <= 600) {
-          const videoBox = document.querySelector('.video-box');
-          videoBox.style.height = "450px";
-          const subjectElem = document.getElementById('current-subject-display');
-          if (subjectElem) {
-              const subjectTop = subjectElem.getBoundingClientRect().top + window.pageYOffset;
-              window.scrollTo({ top: subjectTop - 60, behavior: 'smooth' });
-          }
-      }
-      document.querySelector('.video-overlay').style.display = 'none';
-      startInitialCountdown();
-    }
-
-    function startInitialCountdown() {
-      let count = 5;
-      initialCountdown.textContent = count;
-      initialCountdownOverlay.style.display = 'flex';
-      countdown = setInterval(() => {
-        count--;
-        if (count > 0) { initialCountdown.textContent = count; }
-        else { clearInterval(countdown); initialCountdownOverlay.style.display = 'none'; initiateRecording(); }
-      }, 1000);
-    }
-
-    async function initiateRecording() {
-      const stream = await setupCamera();
-      if (!stream) return;
-      if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
-        const improErrorDiv = document.getElementById('impro-error');
-        improErrorDiv.textContent = "Ton navigateur ne supporte pas l'enregistrement vidéo. Essaye avec Chrome, Edge ou Firefox.";
-        improErrorDiv.style.display = 'block';
-        return;
-      }
-      mediaRecorderInstance = new MediaRecorder(stream);
-      recordedChunks = [];
-      mediaRecorderInstance.ondataavailable = (event) => { if (event.data.size > 0) { recordedChunks.push(event.data); } };
-      mediaRecorderInstance.onstop = () => {
-        const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
-        videoURL = URL.createObjectURL(videoBlob);
-        stream.getTracks().forEach(t => t.stop());
-        const overlay = document.querySelector('.video-overlay');
-        overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Entretien terminé. Passe à l'étape suivante !</p>";
-        overlay.style.display = 'flex';
-        document.getElementById('impro-error').style.display = 'none';
-        recordingIndicator.style.display = 'none';
-        clearInterval(timerInterval);
-        improStarted = true;
-        removePulseFromAll();
-        nextBtns[3].classList.add('pulse');
-        if (window.innerWidth <= 600) { document.querySelector('.video-box').style.height = "300px"; }
-      };
-      mediaRecorderInstance.start();
-      recordingIndicator.style.display = 'flex';
-      stopBtn.classList.remove('hidden-btn');
-      stopBtn.disabled = false;
-      restartBtn.classList.add('hidden-btn');
-      startTimer();
-    }
-
-    async function setupCamera() {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-        preview.srcObject = stream;
-        return stream;
-      } catch (error) {
-        const improErrorDiv = document.getElementById('impro-error');
-        if (error.name === 'NotAllowedError') {
-          improErrorDiv.textContent = "Vous avez refusé l'accès à la webcam. Veuillez autoriser l'accès.";
-        } else if (error.name === 'NotFoundError') {
-          improErrorDiv.textContent = "Aucune caméra/micro détectés.";
-        } else {
-          improErrorDiv.textContent = "Erreur : Impossible d'accéder à la webcam.";
+      async function startImpro() {
+        if (!currentSubject) {
+          const improErrorDiv = document.getElementById('impro-error');
+          improErrorDiv.textContent = "Tu dois générer un sujet avant de démarrer l'entretien.";
+          improErrorDiv.style.display = 'block';
+          return;
         }
-        improErrorDiv.style.display = 'block';
-        console.error(error);
-        return null;
+        if (typeof MediaRecorder === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
+          const improErrorDiv = document.getElementById('impro-error');
+          improErrorDiv.textContent = "Désolé, l'enregistrement vidéo n'est pas supporté par votre navigateur.";
+          improErrorDiv.style.display = 'block';
+          return;
+        }
+        if (!confirm("Votre webcam va se lancer pour démarrer l'entretien. Voulez-vous continuer ?")) { return; }
+        if (window.innerWidth <= 600) {
+            const videoBox = document.querySelector('.video-box');
+            videoBox.style.height = "450px";
+            const subjectElem = document.getElementById('current-subject-display');
+            if (subjectElem) {
+                const subjectTop = subjectElem.getBoundingClientRect().top + window.pageYOffset;
+                window.scrollTo({ top: subjectTop - 60, behavior: 'smooth' });
+            }
+        }
+        document.querySelector('.video-overlay').style.display = 'none';
+        startInitialCountdown();
       }
-    }
 
-    function startTimer() {
-      timeRemaining = 120;
-      updateCountdownDisplay();
-      timerInterval = setInterval(() => {
-        timeRemaining--;
-        if (timeRemaining >= 0) { updateCountdownDisplay(); }
-        if (timeRemaining < 0) {
+      function startInitialCountdown() {
+        let count = 5;
+        initialCountdown.textContent = count;
+        initialCountdownOverlay.style.display = 'flex';
+        countdown = setInterval(() => {
+          count--;
+          if (count > 0) { initialCountdown.textContent = count; }
+          else { clearInterval(countdown); initialCountdownOverlay.style.display = 'none'; initiateRecording(); }
+        }, 1000);
+      }
+
+      async function initiateRecording() {
+        const stream = await setupCamera();
+        if (!stream) return;
+        if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
+          const improErrorDiv = document.getElementById('impro-error');
+          improErrorDiv.textContent = "Ton navigateur ne supporte pas l'enregistrement vidéo. Essaye avec Chrome, Edge ou Firefox.";
+          improErrorDiv.style.display = 'block';
+          return;
+        }
+        mediaRecorderInstance = new MediaRecorder(stream);
+        recordedChunks = [];
+        mediaRecorderInstance.ondataavailable = (event) => { if (event.data.size > 0) { recordedChunks.push(event.data); } };
+        mediaRecorderInstance.onstop = () => {
+          const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
+          videoURL = URL.createObjectURL(videoBlob);
+          stream.getTracks().forEach(t => t.stop());
+          const overlay = document.querySelector('.video-overlay');
+          overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Entretien terminé. Passe à l'étape suivante !</p>";
+          overlay.style.display = 'flex';
+          document.getElementById('impro-error').style.display = 'none';
+          recordingIndicator.style.display = 'none';
           clearInterval(timerInterval);
-          if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
-            mediaRecorderInstance.stop();
-            restartBtn.classList.remove('hidden-btn');
+          improStarted = true;
+          removePulseFromAll();
+          nextBtns[3].classList.add('pulse');
+          if (window.innerWidth <= 600) { document.querySelector('.video-box').style.height = "300px"; }
+        };
+        mediaRecorderInstance.start();
+        recordingIndicator.style.display = 'flex';
+        stopBtn.classList.remove('hidden-btn');
+        stopBtn.disabled = false;
+        restartBtn.classList.add('hidden-btn');
+        startTimer();
+      }
+
+      async function setupCamera() {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+          preview.srcObject = stream;
+          return stream;
+        } catch (error) {
+          const improErrorDiv = document.getElementById('impro-error');
+          if (error.name === 'NotAllowedError') {
+            improErrorDiv.textContent = "Vous avez refusé l'accès à la webcam. Veuillez autoriser l'accès.";
+          } else if (error.name === 'NotFoundError') {
+            improErrorDiv.textContent = "Aucune caméra/micro détectés.";
+          } else {
+            improErrorDiv.textContent = "Erreur : Impossible d'accéder à la webcam.";
           }
+          improErrorDiv.style.display = 'block';
+          console.error(error);
+          return null;
         }
-      }, 1000);
-    }
-    function updateCountdownDisplay() {
-      const minutes = Math.floor(timeRemaining / 60);
-      const seconds = timeRemaining % 60;
-      countdownElement.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
-      countdownElement.style.display = 'block';
-    }
-
-    stopBtn.addEventListener('click', () => {
-      if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
-        mediaRecorderInstance.stop();
-        clearInterval(countdown);
-        clearInterval(timerInterval);
-        stopBtn.classList.add('hidden-btn');
-        stopBtn.disabled = true;
-        restartBtn.classList.remove('hidden-btn');
-        recordingIndicator.style.display = 'none';
       }
-    });
-    restartBtn.addEventListener('click', () => {
-      restartBtn.classList.add('hidden-btn');
-      document.querySelector('.video-overlay').innerHTML = `
-        <p>Ici va s'enregistrer ton entretien vidéo. Lorsque tu es prêt, clique sur le bouton ci-dessous.</p>
-        <button id="start-btn" aria-label="Démarrer l'entretien">
-          Démarrer ton entretien <i class="fas fa-video"></i>
-        </button>
-        <p>NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
-      `;
-      document.querySelector('.video-overlay').style.display = 'flex';
-      improStarted = false;
+
+      function startTimer() {
+        timeRemaining = 120;
+        updateCountdownDisplay();
+        timerInterval = setInterval(() => {
+          timeRemaining--;
+          if (timeRemaining >= 0) { updateCountdownDisplay(); }
+          if (timeRemaining < 0) {
+            clearInterval(timerInterval);
+            if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
+              mediaRecorderInstance.stop();
+              restartBtn.classList.remove('hidden-btn');
+            }
+          }
+        }, 1000);
+      }
+      function updateCountdownDisplay() {
+        const minutes = Math.floor(timeRemaining / 60);
+        const seconds = timeRemaining % 60;
+        countdownElement.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+        countdownElement.style.display = 'block';
+      }
+
+      stopBtn.addEventListener('click', () => {
+        if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
+          mediaRecorderInstance.stop();
+          clearInterval(countdown);
+          clearInterval(timerInterval);
+          stopBtn.classList.add('hidden-btn');
+          stopBtn.disabled = true;
+          restartBtn.classList.remove('hidden-btn');
+          recordingIndicator.style.display = 'none';
+        }
+      });
+      restartBtn.addEventListener('click', () => {
+        restartBtn.classList.add('hidden-btn');
+        document.querySelector('.video-overlay').innerHTML = `
+          <p>Ici va s'enregistrer ton entretien vidéo. Lorsque tu es prêt, clique sur le bouton ci-dessous.</p>
+          <button id="start-btn" aria-label="Démarrer l'entretien">
+            Démarrer ton entretien <i class="fas fa-video"></i>
+          </button>
+          <p>NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
+        `;
+        document.querySelector('.video-overlay').style.display = 'flex';
+        improStarted = false;
+        bindStartButton();
+      });
+
       bindStartButton();
-    });
 
-    bindStartButton();
+      /***********************
+       * Téléchargement de la vidéo (STEP4)
+       ***********************/
+      const downloadVideoBtn = document.getElementById('download-video-btn');
+      downloadVideoBtn.addEventListener('click', () => {
+        if (videoURL) {
+          const link = document.createElement('a');
+          link.href = videoURL;
+          link.download = 'Letmotiv_Entretien.mp4';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
+        setTimeout(() => {
+          window.location.href = "https://www.letmotiv.fr";
+        }, 1000);
+      });
 
-    /***********************
-     * Téléchargement de la vidéo (STEP4)
-     ***********************/
-    const downloadVideoBtn = document.getElementById('download-video-btn');
-    downloadVideoBtn.addEventListener('click', () => {
-      if (videoURL) {
-        const link = document.createElement('a');
-        link.href = videoURL;
-        link.download = 'Letmotiv_Entretien.mp4';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      }
-      // Redirection vers le site Letmotiv après un délai court
-      setTimeout(() => {
-        window.location.href = "https://www.letmotiv.fr";
-      }, 1000);
-    });
+      /***********************
+       * Gestion du swipe sur mobile avec Hammer.js
+       ***********************/
+      const mainContainer = document.querySelector('.main-container');
+      const hammerInstance = new Hammer(mainContainer);
+      hammerInstance.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
 
-    /***********************
-     * Gestion du swipe sur mobile avec Hammer.js
-     ***********************/
-    const mainContainer = document.querySelector('.main-container');
-    const hammer = new Hammer(mainContainer);
-    hammer.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
-
-    hammer.on('swipeup', function(ev) {
-      if (nextBtns[currentStepGlobal]) {
-        nextBtns[currentStepGlobal].click();
-      }
-    });
-
-    hammer.on('swipedown', function(ev) {
-      if (currentStepGlobal > 1 && backBtns[currentStepGlobal]) {
-        backBtns[currentStepGlobal].click();
-      }
+      hammerInstance.on('swipeup', function(ev) {
+        if (nextBtns[currentStepGlobal]) {
+          nextBtns[currentStepGlobal].click();
+        }
+      });
+      hammerInstance.on('swipedown', function(ev) {
+        if (currentStepGlobal > 1 && backBtns[currentStepGlobal]) {
+          backBtns[currentStepGlobal].click();
+        }
+      });
     });
   </script>
 </body>
