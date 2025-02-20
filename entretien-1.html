@@ -3,27 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Simulateur d'improvisation</title>
-  <meta name="description" content="Évaluer et développer sa prise de parole en public avec le simulateur d'improvisation Letmotiv. Entreprise spécialisée dans le coaching en prise de parole.">
-
+  <title>Simulateur d'entretien</title>
+  <meta name="description" content="Prépare-toi aux entretiens d'admission grâce au simulateur d'entretien Letmotiv.">
   <!-- Icône de la page (favicon) -->
   <link rel="icon" href="https://img.icons8.com/fluency/48/000000/microphone.png" type="image/png">
   <link rel="apple-touch-icon" href="https://img.icons8.com/fluency/48/182d84/microphone.png">
   
   <!-- Balises Open Graph pour LinkedIn -->
-  <meta property="og:title" content="Simulateur d'improvisation Letmotiv" />
-  <meta property="og:description" content="Évaluer et développer sa prise de parole en public avec le simulateur d'improvisation Letmotiv." />
+  <meta property="og:title" content="Simulateur d'entretien Letmotiv" />
+  <meta property="og:description" content="Prépare-toi aux entretiens d'admission grâce au simulateur d'entretien Letmotiv." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://letmotiv-simulateur.fr" />
   <meta property="og:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png" />
-  <meta property="og:image:alt" content="Illustration d'une improvisation en public avec un orateur sur scène." />
-  <meta name="author" content="Simulateur d'improvisation Letmotiv" />
+  <meta property="og:image:alt" content="Illustration d'un entretien de simulation." />
+  <meta name="author" content="Simulateur d'entretien Letmotiv" />
   <meta property="article:published_time" content="2025-01-26" />
 
   <!-- Balises Twitter (optionnel) -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Simulateur d'improvisation Letmotiv">
-  <meta name="twitter:description" content="Évaluer et développer sa prise de parole en public avec le simulateur d'improvisation Letmotiv.">
+  <meta name="twitter:title" content="Simulateur d'entretien Letmotiv">
+  <meta name="twitter:description" content="Prépare-toi aux entretiens d'admission grâce au simulateur d'entretien Letmotiv.">
   <meta name="twitter:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png">
 
   <!-- Import de la police DM Sans et Montserrat depuis Google Fonts -->
@@ -41,9 +40,9 @@
     {
       "@context": "https://schema.org",
       "@type": "WebSite",
-      "name": "Simulateur d'improvisation Letmotiv",
+      "name": "Simulateur d'entretien Letmotiv",
       "url": "https://letmotiv-simulateur.fr",
-      "description": "Évaluer et développer sa prise de parole en public avec le simulateur d'improvisation Letmotiv.",
+      "description": "Prépare-toi aux entretiens d'admission grâce au simulateur d'entretien Letmotiv.",
       "publisher": {
         "@type": "Organization",
         "name": "Letmotiv",
@@ -293,7 +292,7 @@
       100% { box-shadow: 0 0 0 0 rgba(0,164,138,0); }
     }
 
-    /* --- Bouton de style pour "Démarrer ton impro" et boutons similaires --- */
+    /* --- Bouton de style pour "Démarrer ton entretien" et boutons similaires --- */
     .btn-impro {
       pointer-events: auto;
       margin: 15px 0;
@@ -334,12 +333,11 @@
     }
     @media (max-width: 600px) {
       .flip-card {
-      background-color: transparent;
-      width: 100px;
-      height: 130px;
-      perspective: 1000px;
-      cursor: pointer;
-     }
+        width: 100px;
+        height: 130px;
+        perspective: 1000px;
+        cursor: pointer;
+      }
     }
     .flip-card-inner {
       position: relative;
@@ -631,7 +629,7 @@
 
   <!-- BOÎTE D'INTRODUCTION -->
   <div class="intro-box" id="intro-box">
-    <h1>Entraîne-toi à la prise de parole en public</h1>
+    <h1>Entraîne-toi pour réussir ton entretien</h1>
     <button id="start-intro-btn" aria-label="Commencer">Commencer</button>
   </div>
 
@@ -645,8 +643,8 @@
   <!-- HEADER -->
   <div class="header">
     <div class="header-content">
-      <div class="header-l1">Coaching en prise de parole</div>
-      <div class="header-l2">Simulateur d'improvisation Letmotiv</div>
+      <div class="header-l1">Coaching pour entretiens</div>
+      <div class="header-l2">Simulateur d'entretien Letmotiv</div>
     </div>
   </div>
 
@@ -666,92 +664,81 @@
         <div class="box-title">Quel est ton objectif ?</div>
       </div>
       <div class="objectives-container">
-        <!-- Chaque objectif est affiché sous forme de carte flip -->
-        <div class="flip-card objective-item" data-category="les_mines">
+        <!-- Cartes flip pour chaque école -->
+        <div class="flip-card objective-item" data-category="les-mines">
           <div class="flip-card-inner">
             <div class="flip-card-front">
-              <i class="fas fa-handshake"></i>
+              <i class="fas fa-industry"></i>
               <span>Les Mines</span>
             </div>
             <div class="flip-card-back">
-              Préparation à un entretien d'admission à une Grande école d'ingénieurs
+              Prépare ton entretien pour intégrer Les Mines.
             </div>
           </div>
         </div>
         <div class="flip-card objective-item" data-category="sciences-po">
           <div class="flip-card-inner">
             <div class="flip-card-front">
-              <i class="fas fa-lightbulb"></i>
+              <i class="fas fa-university"></i>
               <span>Sciences-Po</span>
             </div>
             <div class="flip-card-back">
-              Préparation à un entretien d'admission à une Grande école de sciences politiques. 
-            </div>
-          </div>
-        </div>
-        <div class="flip-card objective-item" data-category="aeronautique">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <i class="fas fa-smile"></i>
-              <span>Aéronautique</span>
-            </div>
-            <div class="flip-card-back">
-              Préparation à un entretien d'admission à une Grande école en aéronautique et aérospatial. 
+              Prépare ton entretien pour Sciences-Po.
             </div>
           </div>
         </div>
         <div class="flip-card objective-item" data-category="polytechnique">
           <div class="flip-card-inner">
             <div class="flip-card-front">
-              <i class="fas fa-glass-cheers"></i>
+              <i class="fas fa-graduation-cap"></i>
               <span>Polytechnique</span>
             </div>
             <div class="flip-card-back">
-              Préparation à un entretien d'admission à une Grande école d'ingénieurs. 
+              Prépare ton entretien pour Polytechnique.
             </div>
           </div>
         </div>
-        <div class="flip-card objective-item" data-category="ens">
+        <div class="flip-card objective-item" data-category="aeronautique">
           <div class="flip-card-inner">
             <div class="flip-card-front">
-              <i class="fas fa-comments"></i>
-              <span>ENS</span>
+              <i class="fas fa-plane"></i>
+              <span>Aérospatial / Aéronautique</span>
             </div>
             <div class="flip-card-back">
-              Préparation à un entretien d'admission à l'École Normale Supérieure. 
-            </div>
-          </div>
-        </div>
-        <div class="flip-card objective-item" data-category="embauche">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <i class="fas fa-money-bill-wave"></i>
-              <span>Embauche</span>
-            </div>
-            <div class="flip-card-back">
-              Préparation à un entretien d'embauche. 
+              Prépare ton entretien pour le secteur aérospatial.
             </div>
           </div>
         </div>
         <div class="flip-card objective-item" data-category="cpge">
           <div class="flip-card-inner">
             <div class="flip-card-front">
-              <i class="fas fa-exclamation-triangle"></i>
+              <i class="fas fa-book"></i>
               <span>CPGE</span>
             </div>
             <div class="flip-card-back">
-              Préparation à un entretien d'admission aux classes préparatoires aux grandes écoles. 
+              Prépare ton entretien pour les classes préparatoires.
+            </div>
+          </div>
+        </div>
+        <div class="flip-card objective-item" data-category="ens">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <i class="fas fa-school"></i>
+              <span>ENS</span>
+            </div>
+            <div class="flip-card-back">
+              Prépare ton entretien pour l'ENS.
             </div>
           </div>
         </div>
         <div class="flip-card objective-item" data-category="hec">
           <div class="flip-card-inner">
             <div class="flip-card-front">
-              <i class="fas fa-grin-tongue"></i>
+              <i class="fas fa-briefcase"></i>
               <span>HEC</span>
             </div>
             <div class="flip-card-back">
-              Préparation à un entretien d'admission à une Grande école de commerce. 
+              Prépare ton entretien pour HEC.
             </div>
           </div>
         </div>
@@ -787,15 +774,15 @@
         <button class="back-btn" id="back-btn3" aria-label="Retour à l'étape précédente">
           <i class="fas fa-arrow-up"></i>
         </button>
-        <div class="box-title">Lance ton improvisation</div>
+        <div class="box-title">Lance ton entretien</div>
       </div>
       <div id="current-subject-display" class="subject-bubble"></div>
       <div class="video-box">
         <video id="preview" autoplay muted playsinline webkit-playsinline></video>
         <div class="video-overlay">
-          <p>Ici va s'enregistrer ton improvisation vidéo. Lorsque tu es prêt, clique sur le bouton ci-dessous.</p>
-          <button id="start-btn" aria-label="Démarrer l'improvisation">
-            Démarrer ton impro <i class="fas fa-video"></i>
+          <p>Ici va s'enregistrer ton entretien vidéo. Lorsque tu es prêt, clique sur le bouton ci-dessous.</p>
+          <button id="start-btn" aria-label="Démarrer l'entretien">
+            Démarrer ton entretien <i class="fas fa-video"></i>
           </button>
           <p>NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
         </div>
@@ -808,11 +795,11 @@
         </div>
       </div>
       <div class="impro-actions">
-        <button id="stop-btn" class="hidden-btn btn-impro" aria-label="Arrêter l'improvisation">
-          Arrêter ton impro <i class="fas fa-stop"></i>
+        <button id="stop-btn" class="hidden-btn btn-impro" aria-label="Arrêter l'entretien">
+          Arrêter ton entretien <i class="fas fa-stop"></i>
         </button>
-        <button id="restart-btn" class="hidden-btn btn-impro" aria-label="Recommencer l'improvisation">
-          Recommencer ton impro <i class="fas fa-redo"></i>
+        <button id="restart-btn" class="hidden-btn btn-impro" aria-label="Recommencer l'entretien">
+          Recommencer ton entretien <i class="fas fa-redo"></i>
         </button>
       </div>
       <div id="impro-error" class="error-message"></div>
@@ -827,14 +814,14 @@
         <button class="back-btn" id="back-btn5" aria-label="Retour à l'étape précédente">
           <i class="fas fa-arrow-up"></i>
         </button>
-        <div class="box-title">Analyse ta prestation</div>
+        <div class="box-title">Analyse ton entretien</div>
       </div>
       <div class="download-section">
         <div class="download-section-accent">
           <h2>Obtiens gratuitement ta prestation en vidéo et la grille d'analyse Letmotiv</h2>
-          <p class="subtitle">Analyse et évalue ton improvisation grâce aux conseils Letmotiv.</p>
+          <p class="subtitle">Analyse et évalue ton entretien grâce aux conseils Letmotiv.</p>
           <p class="reassure">
-            N'hésite pas à t'entraîner et refaire des improvisations pour progresser sur tes axes d'amélioration.
+            N'hésite pas à t'entraîner et refaire des simulations pour progresser.
           </p>
         </div>
         <div class="download-fields">
@@ -975,11 +962,11 @@
       const improErrorDiv = document.getElementById('impro-error');
       improErrorDiv.style.display = 'none';
       if (!currentSubject && !improStarted) {
-        improErrorDiv.textContent = "Tu dois d'abord générer un sujet et lancer ton impro avant de continuer.";
+        improErrorDiv.textContent = "Tu dois d'abord générer un sujet et lancer ton entretien avant de continuer.";
         improErrorDiv.style.display = 'block';
         return;
       } else if (currentSubject && !improStarted) {
-        improErrorDiv.textContent = "Tu dois lancer ton improvisation avant de continuer.";
+        improErrorDiv.textContent = "Tu dois lancer ton entretien avant de continuer.";
         improErrorDiv.style.display = 'block';
         return;
       }
@@ -994,14 +981,13 @@
      * Gestion des objectifs (STEP1) avec effet "Carte Flip" et feedback sonore
      ***********************/
     const explanations = {
-      "les-mines": "Préparation à un entretien d'admission à une Grande école d'ingénieurs",
-      "sciences-po": "Préparation à un entretien d'admission à une Grande école de sciences politiques",
-      "aeronautique": "Préparation à un entretien d'admission à une Grande école en aéronautique et aérospatial",
-      "polytechnique": "Préparation à un entretien d'admission à une Grande école d'ingénieurs",
-      "ens": "Préparation à un entretien d'admission à l'École Normale Supérieure",
-      "embauche": "Préparation à un entretien d'embauche",
-      "cpge": "Préparation à un entretien d'admission aux classes préparatoires aux grandes écoles",
-      "hec": "Préparation à un entretien d'admission à une Grande école de commerce"
+      "les-mines":   "Prépare ton entretien pour intégrer Les Mines.",
+      "sciences-po": "Prépare ton entretien pour Sciences-Po.",
+      "polytechnique": "Prépare ton entretien pour Polytechnique.",
+      "aeronautique": "Prépare ton entretien pour le secteur aérospatial.",
+      "cpge": "Prépare ton entretien pour les classes préparatoires.",
+      "ens": "Prépare ton entretien pour l'ENS.",
+      "hec": "Prépare ton entretien pour HEC."
     };
 
     const objectivesCards = document.querySelectorAll('.objectives-container .objective-item');
@@ -1023,19 +1009,17 @@
       });
     });
 
-    // Liens vers les sujets aléatoires pour chaque objectif
     async function loadSubjects(category) {
       const txtFilesByCategory = {
         "les-mines": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_ENS.txt",
-      "sciences-po": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_Sciences_Po.txt",
-      "aeronautique": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_SUPAERO.txt",
-      "polytechnique": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_Polytechnique.txt",
-      "ens": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_ENS.txt",
-      "embauche": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/entretien.txt",
-      "cpge": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_CPGE.txt",
-      "hec": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_HEC.txt"
+        "sciences-po": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_Sciences_Po.txt",
+        "aeronautique": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_SUPAERO.txt",
+        "polytechnique": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_Polytechnique.txt",
+        "ens": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_ENS.txt",
+        "embauche": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/entretien.txt",
+        "cpge": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_CPGE.txt",
+        "hec": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_HEC.txt"
       };
-      
       const filePath = txtFilesByCategory[category];
       if (!filePath) return [];
       try {
@@ -1056,7 +1040,7 @@
     let subjectsCache = {};
 
     /***********************
-     * Gestion du sujet d'impro (STEP2)
+     * Gestion du sujet d'entretien (STEP2)
      ***********************/
     const generateSubjectBtn = document.getElementById('generate-subject-btn');
     const subjectWrapper = document.getElementById('subject-wrapper');
@@ -1112,7 +1096,7 @@
     async function startImpro() {
       if (!currentSubject) {
         const improErrorDiv = document.getElementById('impro-error');
-        improErrorDiv.textContent = "Tu dois générer un sujet avant de démarrer l'improvisation.";
+        improErrorDiv.textContent = "Tu dois générer un sujet avant de démarrer l'entretien.";
         improErrorDiv.style.display = 'block';
         return;
       }
@@ -1122,7 +1106,7 @@
         improErrorDiv.style.display = 'block';
         return;
       }
-      if (!confirm("Votre webcam va se lancer pour démarrer l'improvisation. Voulez-vous continuer ?")) {
+      if (!confirm("Votre webcam va se lancer pour démarrer l'entretien. Voulez-vous continuer ?")) {
         return;
       }
       if (window.innerWidth <= 600) {
@@ -1175,7 +1159,7 @@
         videoURL = URL.createObjectURL(videoBlob);
         stream.getTracks().forEach(t => t.stop());
         const overlay = document.querySelector('.video-overlay');
-        overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Improvisation terminée. Passe à l'étape suivante !</p>";
+        overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Entretien terminé. Passe à l'étape suivante !</p>";
         overlay.style.display = 'flex';
         document.getElementById('impro-error').style.display = 'none';
         recordingIndicator.style.display = 'none';
@@ -1253,9 +1237,9 @@
     restartBtn.addEventListener('click', () => {
       restartBtn.classList.add('hidden-btn');
       document.querySelector('.video-overlay').innerHTML = `
-        <p>Ici va s'enregistrer ton improvisation vidéo. Lorsque tu es prêt, clique sur le bouton ci-dessous.</p>
-        <button id="start-btn" aria-label="Démarrer l'improvisation">
-          Démarrer ton impro <i class="fas fa-video"></i>
+        <p>Ici va s'enregistrer ton entretien vidéo. Lorsque tu es prêt, clique sur le bouton ci-dessous.</p>
+        <button id="start-btn" aria-label="Démarrer l'entretien">
+          Démarrer ton entretien <i class="fas fa-video"></i>
         </button>
         <p>NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
       `;
@@ -1319,14 +1303,14 @@
       if (videoURL) {
         const link = document.createElement('a');
         link.href = videoURL;
-        link.download = 'Letmotiv_Improvisation.mp4';
+        link.download = 'Letmotiv_Entretien.mp4';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
       }
 
       setTimeout(() => {
-        window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro";
+        window.location.href = "https://www.letmotiv.fr/simulateur-entretiens/feedback";
       }, 1000);
     });
 
