@@ -122,7 +122,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(135deg, #182d84, #00a48a);
+      background: linear-gradient(135deg, #ff416c, #ff4b2b); /* Fond plus punchy */
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -203,21 +203,8 @@
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
     }
 
-    /* --- Positionnement de l'image dans STEP1 --- */
-    #step1 {
-      position: relative;
-    }
-    .step1-image {
-      position: absolute;
-      top: -50px;
-      right: 0;
-      width: 80px;
-      z-index: 2;
-    }
-    .step1-image img {
-      width: 100%;
-      height: auto;
-    }
+    /* --- Suppression de l'image au-dessus de la box STEP1 --- */
+    /* Le bloc .step1-image a été supprimé */
 
     /* --- ANIMATIONS VERTICALES --- */
     .slide-from-bottom {
@@ -352,7 +339,8 @@
     /* Structure de la carte flip */
     .flip-card {
       background-color: transparent;
-      width: 150px;
+      width: 100%;
+      max-width: 150px; /* Pour éviter que les cartes ne débordent */
       height: 120px;
       perspective: 1000px;
       cursor: pointer;
@@ -675,10 +663,7 @@
   <div class="main-container">
     <!-- STEP1 : Choix d'objectif -->
     <div class="box" id="step1">
-      <!-- Image ajoutée en haut à droite -->
-      <div class="step1-image">
-        <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Letmotiv_Carl.webp" alt="Letmotiv Carl">
-      </div>
+      <!-- L'image a été supprimée -->
       <div class="box-header">
         <button class="back-btn hidden-visibility" id="back-btn1" aria-label="Retour">
           <i class="fas fa-arrow-up"></i>
