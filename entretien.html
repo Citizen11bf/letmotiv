@@ -901,17 +901,16 @@
       }
       updateProgressBar(next);
       currentStepGlobal = next;
-      const header = document.querySelector('.header');
-      const headerHeight = header ? header.offsetHeight : 0;
-      const boxPosition = boxes[next].getBoundingClientRect().top + window.scrollY - headerHeight - 20;
-      window.scrollTo({ top: boxPosition, behavior: 'smooth' });
+      // Suppression du scroll automatique
+      // const header = document.querySelector('.header');
+      // const headerHeight = header ? header.offsetHeight : 0;
+      // const boxPosition = boxes[next].getBoundingClientRect().top + window.scrollY - headerHeight - 20;
+      // window.scrollTo({ top: boxPosition, behavior: 'smooth' });
       
       if (next === 2) {
-        // Affichage dans STEP2 désormais dans le header
         document.getElementById('selected-objective-display').textContent = currentObjective;
       }
       if (next === 3) {
-        // Ajout du préfixe "Rappel du sujet :" dans STEP3
         document.getElementById('current-subject-display').textContent = "Rappel du sujet : " + currentSubject;
       }
       
@@ -1108,11 +1107,12 @@
       if (window.innerWidth <= 600) {
           const videoBox = document.querySelector('.video-box');
           videoBox.style.height = "450px";
-          const subjectElem = document.getElementById('current-subject-display');
-          if (subjectElem) {
-              const subjectTop = subjectElem.getBoundingClientRect().top + window.pageYOffset;
-              window.scrollTo({ top: subjectTop - 60, behavior: 'smooth' });
-          }
+          // Suppression du scroll automatique
+          // const subjectElem = document.getElementById('current-subject-display');
+          // if (subjectElem) {
+          //     const subjectTop = subjectElem.getBoundingClientRect().top + window.pageYOffset;
+          //     window.scrollTo({ top: subjectTop - 60, behavior: 'smooth' });
+          // }
       }
       document.querySelector('.video-overlay').style.display = 'none';
       startInitialCountdown();
@@ -1263,24 +1263,22 @@
       window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/entretien-candidat";
     });
 
-    /***********************
-     * Gestion du swipe sur mobile avec Hammer.js
-     ***********************/
-    const mainContainer = document.querySelector('.main-container');
-    const hammer = new Hammer(mainContainer);
-    hammer.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
-
-    hammer.on('swipeup', function(ev) {
-      if (nextBtns[currentStepGlobal]) {
-        nextBtns[currentStepGlobal].click();
-      }
-    });
-
-    hammer.on('swipedown', function(ev) {
-      if (currentStepGlobal > 1 && backBtns[currentStepGlobal]) {
-        backBtns[currentStepGlobal].click();
-      }
-    });
+    // Suppression de la gestion du swipe sur mobile avec Hammer.js
+    // const mainContainer = document.querySelector('.main-container');
+    // const hammer = new Hammer(mainContainer);
+    // hammer.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
+    //
+    // hammer.on('swipeup', function(ev) {
+    //   if (nextBtns[currentStepGlobal]) {
+    //     nextBtns[currentStepGlobal].click();
+    //   }
+    // });
+    //
+    // hammer.on('swipedown', function(ev) {
+    //   if (currentStepGlobal > 1 && backBtns[currentStepGlobal]) {
+    //     backBtns[currentStepGlobal].click();
+    //   }
+    // });
   </script>
 </body>
 </html>
