@@ -203,6 +203,22 @@
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
     }
 
+    /* --- Positionnement de l'image dans STEP1 --- */
+    #step1 {
+      position: relative;
+    }
+    .step1-image {
+      position: absolute;
+      top: -50px;
+      right: 0;
+      width: 80px;
+      z-index: 2;
+    }
+    .step1-image img {
+      width: 100%;
+      height: auto;
+    }
+
     /* --- ANIMATIONS VERTICALES --- */
     .slide-from-bottom {
       animation: fromBottom 1.5s ease forwards;
@@ -312,15 +328,25 @@
     /* --- STEP1 : Choix d’objectif avec effet "Carte Flip" --- */
     .objectives-container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      grid-template-columns: repeat(4, 1fr); /* 4 cartes par ligne sur desktop */
       gap: 15px;
       justify-items: center;
       margin: 10px 0;
     }
-    /* Media query pour forcer 3 cartes minimum par ligne sur mobile */
+    /* Réduction de la taille des cartes sur mobile */
     @media (max-width: 600px) {
       .objectives-container {
         grid-template-columns: repeat(3, 1fr);
+      }
+      .flip-card {
+        width: 90px;
+        height: 100px;
+      }
+      .flip-card-front i {
+        font-size: 1.8rem;
+      }
+      .flip-card-front span {
+        font-size: 0.9rem;
       }
     }
     /* Structure de la carte flip */
@@ -330,14 +356,6 @@
       height: 120px;
       perspective: 1000px;
       cursor: pointer;
-    }
-    @media (max-width: 600px) {
-      .flip-card {
-        width: 100px;
-        height: 130px;
-        perspective: 1000px;
-        cursor: pointer;
-      }
     }
     .flip-card-inner {
       position: relative;
@@ -657,6 +675,10 @@
   <div class="main-container">
     <!-- STEP1 : Choix d'objectif -->
     <div class="box" id="step1">
+      <!-- Image ajoutée en haut à droite -->
+      <div class="step1-image">
+        <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Letmotiv_Carl.webp" alt="Letmotiv Carl">
+      </div>
       <div class="box-header">
         <button class="back-btn hidden-visibility" id="back-btn1" aria-label="Retour">
           <i class="fas fa-arrow-up"></i>
@@ -993,7 +1015,7 @@
      ***********************/
     const explanations = {
       "les-mines":   "Prépare ton entretien pour intégrer Les Mines.",
-      "sciences-po": "Prépare ton entretien pour intégrer Sciences-Po.",
+      "sciences-po": "Prépare ton entretien pour Sciences-Po.",
       "polytechnique": "Prépare ton entretien pour Polytechnique.",
       "aeronautique": "Prépare ton entretien pour le secteur aérospatial.",
       "cpge": "Prépare ton entretien pour les classes préparatoires.",
