@@ -690,10 +690,8 @@
     </div>
   </div>
 
-  <!-- SCRIPT -->
   <script>
-    // Encapsulation de l'initialisation pour garantir l'exécution
-    (function init() {
+    window.onload = function() {
       /***********************
        * Gestion des étapes (4 étapes)
        ***********************/
@@ -815,7 +813,7 @@
       backBtns[4].addEventListener('click', () => { showBox(4, 3); });
 
       /***********************
-       * Gestion des objectifs (STEP1) avec effet "Carte Flip" et feedback sonore
+       * Gestion des objectifs (STEP1) et feedback sonore
        ***********************/
       const explanations = {
         "les-mines":   "Prépare ton entretien pour intégrer Les Mines.",
@@ -1105,7 +1103,7 @@
       hammerInstance.on('swipedown', function(ev) {
         if (currentStepGlobal > 1 && backBtns[currentStepGlobal]) { backBtns[currentStepGlobal].click(); }
       });
-    })();
+    };
   </script>
 </body>
 </html>
