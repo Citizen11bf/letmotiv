@@ -3,15 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Simulateur d'entretien</title>
-  <meta name="description" content="Prépare-toi aux entretiens d'admission grâce au simulateur d'entretien Letmotiv.">
+  <title>Letmotiv - Simulateur d'entretien</title>
+  <meta name="description" content="Prépare-toi aux entretiens d'embauche et d'admission grâce au simulateur d'entretien Letmotiv.">
+
   <!-- Icône de la page (favicon) -->
   <link rel="icon" href="https://img.icons8.com/fluency/48/000000/microphone.png" type="image/png">
   <link rel="apple-touch-icon" href="https://img.icons8.com/fluency/48/182d84/microphone.png">
   
   <!-- Balises Open Graph pour LinkedIn -->
-  <meta property="og:title" content="Simulateur d'entretien Letmotiv" />
-  <meta property="og:description" content="Prépare-toi aux entretiens d'admission grâce au simulateur d'entretien Letmotiv." />
+  <meta property="og:title" content="Letmotiv - Simulateur d'entretien" />
+  <meta property="og:description" content="Prépare-toi aux entretiens d'embauche d'admission grâce au simulateur d'entretien Letmotiv." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://letmotiv-simulateur.fr" />
   <meta property="og:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png" />
@@ -21,8 +22,8 @@
 
   <!-- Balises Twitter (optionnel) -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Simulateur d'entretien Letmotiv">
-  <meta name="twitter:description" content="Prépare-toi aux entretiens d'admission grâce au simulateur d'entretien Letmotiv.">
+  <meta name="twitter:title" content="Letmotiv - Simulateur d'entretien">
+  <meta name="twitter:description" content="Prépare-toi aux entretiens d'embauche et d'admission grâce au simulateur d'entretien Letmotiv.">
   <meta name="twitter:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png">
 
   <!-- Import de la police DM Sans et Montserrat depuis Google Fonts -->
@@ -40,9 +41,9 @@
     {
       "@context": "https://schema.org",
       "@type": "WebSite",
-      "name": "Simulateur d'entretien Letmotiv",
-      "url": "https://letmotiv-simulateur.fr",
-      "description": "Prépare-toi aux entretiens d'admission grâce au simulateur d'entretien Letmotiv.",
+      "name": "Letmotiv - Simulateur d'entretien",
+      "url": "https://letmotiv-simulateur.fr/entretien",
+      "description": "Prépare-toi aux entretiens d'embauche et d'admission grâce au simulateur d'entretien Letmotiv.",
       "publisher": {
         "@type": "Organization",
         "name": "Letmotiv",
@@ -664,6 +665,7 @@
         <div class="box-title">Quel est ton objectif ?</div>
       </div>
       <div class="objectives-container">
+       
         <!-- Cartes flip pour chaque école / objectif -->
         <div class="flip-card objective-item" data-category="les-mines">
           <div class="flip-card-inner">
@@ -766,7 +768,7 @@
         <button class="back-btn" id="back-btn2" aria-label="Retour à l'étape précédente">
           <i class="fas fa-arrow-up"></i>
         </button>
-        <div class="box-title">Ton objectif d'entretien : <span id="selected-objective-display" style="font-weight:bold;"></span></div>
+        <div class="box-title">Ton objectif d'entretien : <br> <span id="selected-objective-display" style="font-weight:bold;"></span></div>
       </div>
       <button id="generate-subject-btn" class="btn-impro">Générer un sujet</button>
       <div id="subject-wrapper" class="subject-wrapper">
