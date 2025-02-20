@@ -664,7 +664,7 @@
         <div class="box-title">Quel est ton objectif ?</div>
       </div>
       <div class="objectives-container">
-        <!-- Cartes flip pour chaque école -->
+        <!-- Cartes flip pour chaque école / objectif -->
         <div class="flip-card objective-item" data-category="les-mines">
           <div class="flip-card-inner">
             <div class="flip-card-front">
@@ -739,6 +739,17 @@
             </div>
             <div class="flip-card-back">
               Prépare ton entretien pour HEC.
+            </div>
+          </div>
+        </div>
+        <div class="flip-card objective-item" data-category="embauche">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <i class="fas fa-user-tie"></i>
+              <span>Embauche</span>
+            </div>
+            <div class="flip-card-back">
+              Prépare ton entretien pour décrocher le job de tes rêves.
             </div>
           </div>
         </div>
@@ -987,7 +998,8 @@
       "aeronautique": "Prépare ton entretien pour le secteur aérospatial.",
       "cpge": "Prépare ton entretien pour les classes préparatoires.",
       "ens": "Prépare ton entretien pour l'ENS.",
-      "hec": "Prépare ton entretien pour HEC."
+      "hec": "Prépare ton entretien pour HEC.",
+      "embauche": "Prépare ton entretien pour décrocher le job de tes rêves."
     };
 
     const objectivesCards = document.querySelectorAll('.objectives-container .objective-item');
@@ -1046,12 +1058,16 @@
     const subjectWrapper = document.getElementById('subject-wrapper');
     const subjectDisplay = document.getElementById('subject-display');
 
-    generateSubjectBtn.addEventListener('click', () => {
+    generateSubjectBtn.addEventListener('click', async () => {
       if (!currentCategory) {
         const errorDiv = document.getElementById('objective-error');
         errorDiv.textContent = "Merci de sélectionner un objectif avant de générer un sujet.";
         errorDiv.style.display = 'block';
         return;
+      }
+      // Si les sujets ne sont pas encore chargés, on les charge
+      if (!subjectsCache[currentCategory]) {
+        await loadSubjects(currentCategory);
       }
       const subjects = subjectsCache[currentCategory];
       if (!subjects || subjects.length === 0) {
