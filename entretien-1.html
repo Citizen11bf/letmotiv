@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Simulateur d'entretiens</title>
-  <meta name="description" content="Préparez vos entretiens grâce au simulateur spécialisé. Exercez-vous pour réussir votre admission ou embauche.">
+  <meta name="description" content="Préparez vos entretiens grâce au simulateur spécialisé Letmotiv. Exercez-vous pour réussir votre admission ou votre embauche.">
 
   <!-- Icône de la page (favicon) -->
   <link rel="icon" href="https://img.icons8.com/fluency/48/000000/microphone.png" type="image/png">
@@ -12,7 +12,7 @@
   
   <!-- Balises Open Graph -->
   <meta property="og:title" content="Simulateur d'entretiens" />
-  <meta property="og:description" content="Préparez vos entretiens grâce au simulateur spécialisé." />
+  <meta property="og:description" content="Préparez vos entretiens grâce au simulateur spécialisé Letmotiv." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://letmotiv-simulateur.fr" />
   <meta property="og:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png" />
@@ -23,7 +23,7 @@
   <!-- Balises Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Simulateur d'entretiens">
-  <meta name="twitter:description" content="Préparez vos entretiens grâce au simulateur spécialisé.">
+  <meta name="twitter:description" content="Préparez vos entretiens grâce au simulateur spécialisé Letmotiv.">
   <meta name="twitter:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png">
 
   <!-- Import de Google Fonts -->
@@ -44,7 +44,7 @@
       "@type": "WebSite",
       "name": "Simulateur d'entretiens",
       "url": "https://letmotiv-simulateur.fr",
-      "description": "Préparez vos entretiens grâce au simulateur spécialisé.",
+      "description": "Préparez vos entretiens et admissions grâce au simulateur spécialisé letmotiv.",
       "publisher": {
         "@type": "Organization",
         "name": "Letmotiv",
@@ -60,7 +60,7 @@
     body {
       margin: 0;
       font-family: 'DM Sans', sans-serif;
-      background-color: #f7f7f7; /* Fond sobre */
+      background-color: #ffffff;
       color: #333;
       display: flex;
       flex-direction: column;
@@ -73,7 +73,7 @@
 
     /* --- HEADER --- */
     .header {
-      background-color: #0A2540; /* Bleu foncé corporate */
+      background-color: #182d84;
       color: #fff;
       font-size: 16px;
       font-weight: bold;
@@ -103,13 +103,13 @@
       left: 0;
       width: 100%;
       height: 8px;
-      background-color: #c0c0c0; /* Gris clair */
+      background-color: rgba(24,45,132,0.1);
       z-index: 9;
     }
     .progress-bar {
       width: 0%;
       height: 100%;
-      background-color: #0077C8; /* Bleu d'accent */
+      background-color: #00a48a;
       transition: width 0.5s ease;
     }
 
@@ -120,37 +120,43 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: #fff; /* Fond neutre pour l'intro */
+      background: linear-gradient(135deg, #182d84, #00a48a);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
-      color: #0A2540;
+      color: #fff;
       z-index: 20;
-      border-bottom: 4px solid #0077C8;
+      animation: fadeIn 1s ease forwards;
     }
     .intro-box h1 {
       font-family: 'Montserrat', sans-serif;
-      font-size: 2.8rem;
+      font-size: 2.5rem;
       margin-bottom: 30px;
+      animation: slideDown 1s ease forwards;
     }
     .intro-box button {
-      background-color: #0077C8;
-      color: #fff;
+      background-color: #fff;
+      color: #182d84;
       font-family: 'DM Sans', sans-serif;
       font-size: 1.2rem;
       border: none;
       border-radius: 25px;
       padding: 15px 30px;
       cursor: pointer;
-      transition: background-color 0.3s, transform 0.3s;
+      transition: background-color 0.3s, transform 0.3s, color 0.3s;
       box-shadow: 0 4px 6px rgba(0,0,0,0.2);
     }
     .intro-box button:hover {
-      background-color: #005a9c;
-      transform: scale(1.03);
+      background-color: #00a48a;
+      color: #fff;
+      transform: scale(1.05);
     }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+    @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
     /* --- CONTENEUR PRINCIPAL --- */
     .main-container {
@@ -163,173 +169,90 @@
       padding: 20px;
     }
 
-    /* --- BOXES (étapes) --- */
-    .box {
-      position: relative;
-      width: 100%;
-      max-width: 600px;
-      margin: 20px 0;
-      padding: 20px;
-      border-radius: 15px;
-      background: #fff;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      text-align: center;
-      font-size: 14px;
-      display: none;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .box.active { display: block; }
-    .box:hover { transform: translateY(-3px); box-shadow: 0 6px 14px rgba(0,0,0,0.1); }
-
-    /* --- ANIMATIONS VERTICALES --- */
-    .slide-from-bottom { animation: fromBottom 1s ease forwards; }
-    @keyframes fromBottom { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
-    .slide-from-top { animation: fromTop 1s ease forwards; }
-    @keyframes fromTop { from { opacity: 0; transform: translateY(-40px); } to { opacity: 1; transform: translateY(0); } }
-
-    /* --- HEADER INTERNE DES BOXES --- */
-    .box-header {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-bottom: 20px;
-      position: relative;
-    }
-    .back-btn {
-      border: none;
-      background-color: #808080;
-      color: #fff;
-      font-size: 16px;
-      cursor: pointer;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background-color 0.3s, transform 0.3s;
-      margin-bottom: 10px;
-    }
-    .back-btn:hover { background-color: #505050; transform: scale(1.1); }
-    .back-btn:active { background-color: #303030; }
-    #step1 .back-btn.hidden-visibility { display: none; }
-    .box-title { font-size: 18px; font-weight: bold; color: #0A2540; text-align: center; }
-
-    /* --- FLECHES HAUT/BAS --- */
-    .next-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 2px solid #0A2540;
-      background-color: transparent;
-      color: #0A2540;
-      cursor: pointer;
-      transition: background-color 0.3s, color 0.3s, transform 0.3s;
-      margin: 10px auto;
-    }
-    .next-btn:hover { background-color: #0077C8; color: #fff; transform: scale(1.05); }
-    .next-btn.pulse { animation: electricPulse 1.5s infinite; }
-    @keyframes electricPulse {
-      0% { box-shadow: 0 0 0 0 rgba(0,119,200,0.7); }
-      70% { box-shadow: 0 0 0 10px rgba(0,119,200,0); }
-      100% { box-shadow: 0 0 0 0 rgba(0,119,200,0); }
-    }
-
-    /* --- Boutons d'action --- */
-    .btn-impro {
-      margin: 15px 0;
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #0A2540;
-      color: #fff;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    .btn-impro:hover { background-color: #0077C8; }
-
-    /* --- STEP1 : Objectifs d'entretien --- */
+    /* --- STEP1 : Choix d’objectif avec effet "Carte Flip" --- */
     .objectives-container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 15px;
       justify-items: center;
       margin: 10px 0;
     }
-    .objective-item {
-      text-align: center;
-      color: #444;
-      font-size: 1rem;
+    /* Media query pour forcer 3 cartes minimum par ligne sur mobile */
+    @media (max-width: 600px) {
+      .objectives-container {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    /* Structure de la carte flip */
+    .flip-card {
+      background-color: transparent;
+      width: 150px;
+      height: 120px;
+      perspective: 1000px;
       cursor: pointer;
-      padding: 12px;
-      border: 1px solid transparent;
-      border-radius: 10px;
-      transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
     }
-    .objective-item i {
-      font-size: 2rem;
-      margin-bottom: 8px;
-      display: block;
-      color: #444;
+    @media (max-width: 600px) {
+      .flip-card {
+        width: 100px;
+        height: 130px;
+        perspective: 1000px;
+        cursor: pointer;
+      }
     }
-    .objective-item:hover {
-      border-color: #0077C8;
-      background-color: rgba(0,119,200,0.1);
-    }
-    .objective-item.selected-objective {
-      transform: scale(1.1);
-      background-color: rgba(0,119,200,0.2);
-      color: #0077C8;
-      border-color: #0077C8;
-      transition: all 0.3s ease-in-out;
-    }
-    .objective-item.selected-objective i { color: #0077C8; }
-
-    /* Personnalisation des icônes et couleurs pour chaque catégorie */
-    .objective-item[data-category="les-mines"] i { color: #FF9800; }
-    .objective-item[data-category="sciences-po"] i { color: #9C27B0; }
-    .objective-item[data-category="aeronautique"] i { color: #03A9F4; }
-    /* Pour Polytechnique, on utilise l'icône de l'ENS (graduation cap) */
-    .objective-item[data-category="polytechnique"] i { color: #E91E63; }
-    /* Pour ENS, on utilise une icône d'ordinateur */
-    .objective-item[data-category="ens"] i { color: #4CAF50; }
-    .objective-item[data-category="embauche"] i { color: #607D8B; }
-    .objective-item[data-category="cpge"] i { color: #3F51B5; }
-    .objective-item[data-category="hec"] i { color: #F44336; }
-
-    /* Bulle d'explication */
-    .explanation-box {
-      visibility: hidden;
-      opacity: 0;
-      transform: translateY(-10px);
-      margin: 10px auto;
-      background-color: #fff;
-      border: 1px solid #ccc;
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
       border-radius: 8px;
-      padding: 10px;
-      text-align: center;
-      font-weight: bold;
-      font-size: 14px;
-      font-style: italic;
-      color: #0A2540;
-      transition: border 0.5s ease, opacity 0.5s ease, transform 0.5s ease;
-      max-width: 90%;
+      background-color: #fff;
     }
-    .explanation-box.show {
-      visibility: visible;
-      opacity: 1;
-      transform: translateY(0);
-      border: 2px solid #ccc;
+    .flip-card.flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+    .flip-card-front,
+    .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .flip-card-front {
+      background: #fff;
+      color: #808080;
+      border: 1px solid #ccc;
+    }
+    .flip-card-front i {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+    .flip-card-front span {
+      font-size: 1rem;
+      font-weight: bold;
+    }
+    .flip-card-back {
+      background: #f0f0f0;
+      color: #00a48a;
+      transform: rotateY(180deg);
+      font-size: 0.8rem;
+      padding: 8px;
+      text-align: center;
+      border: 1px solid #ccc;
     }
 
     /* --- STEP2 : Génération du sujet --- */
     .subject-wrapper {
       margin-top: 10px;
-      background-color: #fff;
+      background-color: #fefefe;
       border: 2px solid #ccc;
       border-radius: 8px;
       padding: 10px;
@@ -343,10 +266,10 @@
     /* --- STEP3 : Enregistrement vidéo --- */
     .video-box {
       margin: 10px auto;
-      border: 3px solid #0A2540;
+      border: 3px solid #182d84;
       border-radius: 6px;
       max-width: 500px;
-      background-color: #fff;
+      background-color: #fefefe;
       height: 300px;
       position: relative;
       display: flex;
@@ -388,14 +311,14 @@
       margin: 15px 0;
       padding: 10px 20px;
       font-size: 16px;
-      background-color: #0A2540;
+      background-color: #182d84;
       color: #fff;
       border: none;
       border-radius: 25px;
       cursor: pointer;
       transition: background-color 0.3s;
     }
-    .video-overlay button:hover { background-color: #0077C8; }
+    .video-overlay button:hover { background-color: #00a48a; }
     .recording-indicator {
       position: absolute;
       top: 10px;
@@ -468,13 +391,13 @@
     /* --- STEP4 : Analyse et Téléchargements --- */
     .download-section { margin-top: 20px; }
     .download-section-accent {
-      background: linear-gradient(135deg, #0A2540, #0077C8);
+      background: linear-gradient(135deg, #182d84, #00a48a);
       border-radius: 10px;
       padding: 20px;
       text-align: center;
       color: #fff;
       margin-bottom: 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      animation: fadeInDown 0.6s ease forwards;
     }
     .download-section-accent h2 {
       font-family: 'Montserrat', sans-serif;
@@ -538,11 +461,11 @@
       to { transform: translateY(0); opacity: 1; }
     }
 
-    /* --- Bulle pour le sujet --- */
+    /* --- Bulle style pour le sujet --- */
     .subject-bubble {
       display: inline-block;
       position: relative;
-      background: #fff;
+      background: #fefefe;
       border: 2px solid #ccc;
       border-radius: 16px;
       padding: 10px 15px;
@@ -591,7 +514,7 @@
       transition: border-color 0.3s;
     }
     .input-group input:focus {
-      border-color: #0077C8;
+      border-color: #00a48a;
       outline: none;
     }
 
@@ -622,7 +545,7 @@
 <body>
   <!-- BOÎTE D'INTRODUCTION -->
   <div class="intro-box" id="intro-box">
-    <h1>Prépare ton entretien</h1>
+    <h1>Prépare ton entretien d'embauche ou d'admission</h1>
     <button id="start-intro-btn" aria-label="Commencer">Commencer</button>
   </div>
 
@@ -636,8 +559,8 @@
   <!-- HEADER -->
   <div class="header">
     <div class="header-content">
-      <div class="header-l1">Coaching d'entretiens</div>
-      <div class="header-l2">Simulateur spécialisé</div>
+      <div class="header-l1">Coaching en prise de parole</div>
+      <div class="header-l2">Letmotiv - Simulateur d'entretien</div>
     </div>
   </div>
 
@@ -648,7 +571,9 @@
 
   <!-- CONTAINER PRINCIPAL -->
   <div class="main-container">
-    <!-- STEP1 : Choix d'objectif -->
+    <!-- Les étapes du simulateur -->
+
+    <!-- STEP1 : Choix d'objectif avec cartes flip -->
     <div class="box" id="step1">
       <div class="box-header">
         <button class="back-btn hidden-visibility" id="back-btn1" aria-label="Retour">
@@ -657,43 +582,100 @@
         <div class="box-title">Quel entretien souhaites-tu préparer ?</div>
       </div>
       <div class="objectives-container">
-        <div class="objective-item" data-category="les-mines">
-          <i class="fas fa-industry"></i>
-          <span>Les Mines</span>
+        <div class="flip-card objective-item" data-category="les-mines">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <i class="fas fa-industry"></i>
+              <span>Les Mines</span>
+            </div>
+            <div class="flip-card-back">
+              Préparation à un entretien d'admission à une Grande école d'ingénieurs
+            </div>
+          </div>
         </div>
-        <div class="objective-item" data-category="sciences-po">
-          <i class="fas fa-landmark"></i>
-          <span>Sciences Po</span>
+        <div class="flip-card objective-item" data-category="sciences-po">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <i class="fas fa-landmark"></i>
+              <span>Sciences Po</span>
+            </div>
+            <div class="flip-card-back">
+              Préparation à un entretien d'admission à une Grande école de sciences politiques
+            </div>
+          </div>
         </div>
-        <div class="objective-item" data-category="aeronautique">
-          <i class="fas fa-plane"></i>
-          <span>Aéronautique & Aérospatial</span>
+        <div class="flip-card objective-item" data-category="aeronautique">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <i class="fas fa-plane"></i>
+              <span>Aéronautique & Aérospatial</span>
+            </div>
+            <div class="flip-card-back">
+              Préparation à un entretien d'admission à une Grande école en aéronautique et aérospatial
+            </div>
+          </div>
         </div>
-        <div class="objective-item" data-category="polytechnique">
-          <!-- Pour Polytechnique, on utilise l'icône de l'ENS -->
-          <i class="fas fa-graduation-cap"></i>
-          <span>Polytechnique</span>
+        <div class="flip-card objective-item" data-category="polytechnique">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <i class="fas fa-graduation-cap"></i>
+              <span>Polytechnique</span>
+            </div>
+            <div class="flip-card-back">
+              Préparation à un entretien d'admission à une Grande école d'ingénieurs
+            </div>
+          </div>
         </div>
-        <div class="objective-item" data-category="ens">
-          <!-- Pour ENS, on utilise une icône d'ordinateur -->
-          <i class="fas fa-desktop"></i>
-          <span>ENS</span>
+        <div class="flip-card objective-item" data-category="ens">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <i class="fas fa-desktop"></i>
+              <span>ENS</span>
+            </div>
+            <div class="flip-card-back">
+              Préparation à un entretien d'admission à l'École Normale Supérieure
+            </div>
+          </div>
         </div>
-        <div class="objective-item" data-category="embauche">
-          <i class="fas fa-briefcase"></i>
-          <span>Embauche</span>
+        <div class="flip-card objective-item" data-category="embauche">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <i class="fas fa-briefcase"></i>
+              <span>Embauche</span>
+            </div>
+            <div class="flip-card-back">
+              Préparation à un entretien d'embauche
+            </div>
+          </div>
         </div>
-        <div class="objective-item" data-category="cpge">
-          <i class="fas fa-chalkboard-teacher"></i>
-          <span>CPGE Classes Prépa</span>
+        <div class="flip-card objective-item" data-category="cpge">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <i class="fas fa-chalkboard-teacher"></i>
+              <span>CPGE</span>
+            </div>
+            <div class="flip-card-back">
+              Préparation à un entretien d'admission aux classes préparatoires aux grandes écoles
+            </div>
+          </div>
         </div>
-        <div class="objective-item" data-category="hec">
-          <i class="fas fa-chart-line"></i>
-          <span>HEC</span>
+        <div class="flip-card objective-item" data-category="hec">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <i class="fas fa-chart-line"></i>
+              <span>HEC</span>
+            </div>
+            <div class="flip-card-back">
+              Préparation à un entretien d'admission à une Grande école de commerce
+            </div>
+          </div>
         </div>
       </div>
+      <!-- Bulle d'explication affichant la description de l'objectif -->
       <div id="explanation-box" class="explanation-box"></div>
+      <!-- Message d'erreur si aucun objectif n'est sélectionné -->
       <div id="objective-error" class="error-message"></div>
+      <!-- Bouton Suivant pour passer à l'étape suivante -->
       <button class="next-btn" id="next-btn1" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
@@ -707,12 +689,15 @@
         </button>
         <div class="box-title">Ton entretien</div>
       </div>
+      <!-- Affichage de la description de l'objectif sélectionné -->
       <p id="selected-objective-display" style="font-weight:bold; margin-bottom:10px;"></p>
+      <!-- Bouton pour générer un sujet aléatoire -->
       <button id="generate-subject-btn" class="btn-impro">Générer un sujet</button>
       <div id="subject-wrapper" class="subject-wrapper">
         <span id="subject-display"></span>
       </div>
       <div id="subject-error" class="error-message"></div>
+      <!-- Bouton Suivant pour passer à l'enregistrement -->
       <button class="next-btn" id="next-btn2" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
@@ -726,9 +711,11 @@
         </button>
         <div class="box-title">Passe en mode simulation</div>
       </div>
+      <!-- Affichage du sujet généré -->
       <div id="current-subject-display" class="subject-bubble"></div>
       <div class="video-box">
         <video id="preview" autoplay muted playsinline webkit-playsinline></video>
+        <!-- Overlay avec instructions pour démarrer l'enregistrement -->
         <div class="video-overlay">
           <p>Ici, ta simulation d'entretien va s'enregistrer. Quand tu es prêt, clique sur le bouton ci-dessous.</p>
           <button id="start-btn" aria-label="Démarrer la simulation">
@@ -744,6 +731,7 @@
           <div class="initial-countdown" id="initial-countdown">3</div>
         </div>
       </div>
+      <!-- Boutons pour arrêter ou recommencer l'enregistrement -->
       <div class="impro-actions">
         <button id="stop-btn" class="hidden-btn btn-impro" aria-label="Arrêter l'enregistrement">
           Arrêter <i class="fas fa-stop"></i>
@@ -753,6 +741,7 @@
         </button>
       </div>
       <div id="impro-error" class="error-message"></div>
+      <!-- Bouton Suivant pour passer à l'analyse -->
       <button class="next-btn" id="next-btn3" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
@@ -770,7 +759,9 @@
         <div class="download-section-accent">
           <h2>Obtiens ta vidéo et ta grille d'analyse</h2>
           <p class="subtitle">Évalue ta performance et améliore-toi pour réussir ton entretien.</p>
-          <p class="reassure">Répète l'exercice pour progresser !</p>
+          <p class="reassure">
+            Répète l'exercice pour progresser !
+          </p>
         </div>
         <div class="download-fields">
           <div class="input-group">
@@ -785,9 +776,13 @@
           </div>
         </div>
         <div class="call-to-action">
-          <button id="validate-form-btn" aria-label="Valider">Valider</button>
+          <button id="validate-form-btn" aria-label="Valider">
+            Valider
+          </button>
         </div>
-        <div id="success-message" class="success-message" style="display: none;">Merci ! Tes ressources sont prêtes.</div>
+        <div id="success-message" class="success-message" style="display: none;">
+          Merci ! Tes ressources sont prêtes.
+        </div>
         <div class="download-buttons" id="download-buttons">
           <button id="download-video-btn" aria-label="Télécharger ta vidéo">
             <i class="fas fa-download"></i> Télécharger la vidéo
@@ -834,24 +829,29 @@
     const topProgressBar = document.getElementById('top-progress-bar');
     const linkedinShareBtn = document.getElementById('linkedin-share-btn');
 
+    // Variables globales
     let currentStepGlobal = 0;
     let currentCategory = null;
     let currentObjective = "";
     let currentSubject = "";
 
+    // Mise à jour de la barre de progression
     function updateProgressBar(step) {
       topProgressBar.style.width = `${(step / 4) * 100}%`;
     }
     updateProgressBar(0);
 
+    // Supprime l'animation "pulse" de tous les boutons Suivant
     function removePulseFromAll() {
       Object.values(nextBtns).forEach(btn => btn.classList.remove('pulse'));
     }
 
+    // Contrôle la visibilité du bouton LinkedIn (caché sur l'intro)
     function updateShareButtonVisibility() {
       linkedinShareBtn.style.display = (currentStepGlobal === 0) ? 'none' : 'flex';
     }
 
+    // Affiche une étape avec animation
     function showBox(current, next) {
       if (!boxes[current] || !boxes[next]) return;
       boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
@@ -872,6 +872,7 @@
       updateShareButtonVisibility();
     }
 
+    // Lancement de l'application depuis l'intro
     startIntroBtn.addEventListener('click', () => {
       introBox.style.animation = 'fadeOut 0.5s ease forwards';
       setTimeout(() => {
@@ -884,6 +885,7 @@
       }, 500);
     });
 
+    // Passage de STEP1 à STEP2 (validation de la sélection)
     nextBtns[1].addEventListener('click', () => {
       const selected = document.querySelector('.objectives-container .selected-objective');
       if (!selected) {
@@ -894,6 +896,7 @@
       showBox(1, 2);
     });
 
+    // Passage de STEP2 à STEP3 (vérification du sujet généré)
     nextBtns[2].addEventListener('click', () => {
       if (!currentSubject) {
         document.getElementById('subject-error').textContent = "Tu dois générer un sujet avant de continuer.";
@@ -903,6 +906,7 @@
       showBox(2, 3);
     });
 
+    // Passage de STEP3 à STEP4 (vérification de l'enregistrement)
     nextBtns[3].addEventListener('click', () => {
       const improErrorDiv = document.getElementById('impro-error');
       improErrorDiv.style.display = 'none';
@@ -918,6 +922,7 @@
       showBox(3, 4);
     });
 
+    // Boutons "Retour"
     backBtns[2].addEventListener('click', () => { showBox(2, 1); });
     backBtns[3].addEventListener('click', () => { showBox(3, 2); });
     backBtns[4].addEventListener('click', () => { showBox(4, 3); });
@@ -925,26 +930,28 @@
     /***********************
      * Gestion des objectifs et explications (STEP1)
      ***********************/
+    // Nouvelles descriptions pour chaque objectif
     const explanations = {
-      "les-mines": "Grande école d'ingénieurs",
-      "sciences-po": "Grande école de sciences politiques",
-      "aeronautique": "Formation en aéronautique et aérospatial",
-      "polytechnique": "Grande école d'ingénieurs de renom",
-      "ens": "École Normale Supérieure (informatique)",
-      "embauche": "Préparation à l'embauche",
-      "cpge": "Classes préparatoires aux grandes écoles",
-      "hec": "Grande école de commerce"
+      "les-mines": "Préparation à un entretien d'admission à une Grande école d'ingénieurs",
+      "sciences-po": "Préparation à un entretien d'admission à une Grande école de sciences politiques",
+      "aeronautique": "Préparation à un entretien d'admission à une Grande école en aéronautique et aérospatial",
+      "polytechnique": "Préparation à un entretien d'admission à une Grande école d'ingénieurs",
+      "ens": "Préparation à un entretien d'admission à l'École Normale Supérieure",
+      "embauche": "Préparation à un entretien d'embauche",
+      "cpge": "Préparation à un entretien d'admission aux classes préparatoires aux grandes écoles",
+      "hec": "Préparation à un entretien d'admission à une Grande école de commerce"
     };
 
+    // Liens vers les sujets aléatoires pour chaque objectif
     const txtFilesByCategory = {
-      "les-mines": "https://raw.githubusercontent.com/YourRepo/entretiens/Entretien_Mines.txt",
-      "sciences-po": "https://raw.githubusercontent.com/YourRepo/entretiens/Entretien_SciencesPo.txt",
-      "aeronautique": "https://raw.githubusercontent.com/YourRepo/entretiens/Entretien_SUPAERO.txt",
-      "polytechnique": "https://raw.githubusercontent.com/YourRepo/entretiens/Entretien_Polytechnique.txt",
-      "ens": "https://raw.githubusercontent.com/YourRepo/entretiens/Entretien_ENS.txt",
-      "embauche": "https://raw.githubusercontent.com/YourRepo/entretiens/Entretien_Emploi.txt",
-      "cpge": "https://raw.githubusercontent.com/YourRepo/entretiens/Entretien_CPGE.txt",
-      "hec": "https://raw.githubusercontent.com/YourRepo/entretiens/Entretien_HEC.txt"
+      "les-mines": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_ENS.txt",
+      "sciences-po": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_Sciences_Po.txt",
+      "aeronautique": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_SUPAERO.txt",
+      "polytechnique": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_Polytechnique.txt",
+      "ens": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_ENS.txt",
+      "embauche": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/entretien.txt",
+      "cpge": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_CPGE.txt",
+      "hec": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_HEC.txt"
     };
 
     let subjectsCache = {
@@ -958,23 +965,22 @@
       "hec": null
     };
 
+    // Sélection des éléments d'objectif
     const objectivesButtons = document.querySelectorAll('.objectives-container .objective-item');
     const explanationBox = document.getElementById('explanation-box');
 
+    // Gestion de la sélection (réinitialisation des autres, effet flip)
     objectivesButtons.forEach(item => {
       item.addEventListener('click', async () => {
+        // Réinitialiser toutes les cartes
         objectivesButtons.forEach(el => {
-          el.classList.remove('selected-objective');
-          el.style.transform = "";
-          el.style.backgroundColor = "";
+          el.classList.remove('selected-objective', 'flipped');
         });
-        item.classList.add('selected-objective');
+        // Ajouter l'effet flip et la sélection
+        item.classList.add('selected-objective', 'flipped');
         currentCategory = item.dataset.category;
-        currentObjective = item.innerText;
-        item.style.transition = "transform 0.3s, background-color 0.3s";
-        item.style.transform = "scale(1.1)";
-        item.style.backgroundColor = "rgba(0,119,200,0.2)";
-        setTimeout(() => { item.style.transform = ""; }, 300);
+        currentObjective = item.querySelector('.flip-card-front span').innerText;
+        // Affichage de l'explication sur la bulle
         const explication = explanations[currentCategory] || "";
         explanationBox.textContent = explication;
         explanationBox.classList.add('show');
@@ -988,6 +994,7 @@
       });
     });
 
+    // Fonction pour charger les sujets depuis le fichier correspondant
     async function loadSubjects(category) {
       const filePath = txtFilesByCategory[category];
       if (!filePath) return [];
@@ -1242,7 +1249,7 @@
         link.click();
         document.body.removeChild(link);
       }
-      setTimeout(() => { window.location.href = "https://www.letmotiv.fr/simulateur-entretiens/feedback"; }, 1000);
+      setTimeout(() => { window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/entretien-candidat"; }, 1000);
     });
 
     /***********************
