@@ -123,7 +123,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(135deg, #ff416c, #ff4b2b); /* Fond plus punchy */
+      background: linear-gradient(135deg, #ff416c, #ff4b2b);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -204,9 +204,6 @@
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
     }
 
-    /* --- Suppression de l'image au-dessus de la box STEP1 --- */
-    /* Le bloc .step1-image a été supprimé */
-
     /* --- ANIMATIONS VERTICALES --- */
     .slide-from-bottom {
       animation: fromBottom 1.5s ease forwards;
@@ -255,7 +252,6 @@
     .back-btn:active {
       background-color: #303030;
     }
-    /* Pour la box1, le bouton caché ne doit plus occuper d'espace */
     #step1 .back-btn.hidden-visibility {
       display: none;
     }
@@ -316,7 +312,7 @@
     /* --- STEP1 : Choix d’objectif avec effet "Carte Flip" --- */
     .objectives-container {
       display: grid;
-      grid-template-columns: repeat(4, 1fr); /* 4 cartes par ligne sur desktop */
+      grid-template-columns: repeat(4, 1fr);
       gap: 15px;
       justify-items: center;
       margin: 10px 0;
@@ -337,11 +333,24 @@
         font-size: 0.9rem;
       }
     }
+    /* Pour des téléphones encore plus petits */
+    @media (max-width: 400px) {
+      .flip-card {
+        max-width: 120px;
+        height: 90px;
+      }
+      .flip-card-front i {
+        font-size: 1.5rem;
+      }
+      .flip-card-front span {
+        font-size: 0.8rem;
+      }
+    }
     /* Structure de la carte flip */
     .flip-card {
       background-color: transparent;
       width: 100%;
-      max-width: 150px; /* Pour éviter que les cartes ne débordent */
+      max-width: 150px;
       height: 120px;
       perspective: 1000px;
       cursor: pointer;
@@ -379,7 +388,6 @@
       border: 1px solid #ccc;
     }
     .flip-card-front i {
-      /* Réduction de la taille du texte et des icônes dans le STEP1 */
       font-size: 1.8rem;
       margin-bottom: 8px;
     }
@@ -408,7 +416,6 @@
     }
 
     /* --- STEP2 : Génération du sujet --- */
-    /* Mise à jour du header de STEP2 pour inclure le titre et le choix en ligne */
     .step2-header {
       display: flex;
       flex-direction: column;
@@ -420,6 +427,16 @@
       font-weight: bold;
       color: #182d84;
     }
+    /* Bulle blanche pour le sujet généré */
+    .subject-wrapper {
+      background-color: #ffffff;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 15px;
+      margin: 10px 0;
+      font-size: 16px;
+    }
+
     /* --- STEP3 : Enregistrement vidéo --- */
     .video-box {
       margin: 10px auto;
@@ -480,6 +497,16 @@
     }
     .video-overlay button:hover {
       background-color: #00a48a;
+    }
+    /* Bulle blanche pour le rappel du sujet dans le step3 */
+    .subject-bubble {
+      background-color: #ffffff;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 10px;
+      font-size: 16px;
+      color: #333;
     }
     .recording-indicator {
       position: absolute;
@@ -657,7 +684,6 @@
   <div class="main-container">
     <!-- STEP1 : Choix d'objectif -->
     <div class="box" id="step1">
-      <!-- L'image a été supprimée -->
       <div class="box-header">
         <button class="back-btn hidden-visibility" id="back-btn1" aria-label="Retour">
           <i class="fas fa-arrow-up"></i>
@@ -665,7 +691,6 @@
         <div class="box-title">Quel est ton objectif ?</div>
       </div>
       <div class="objectives-container">
-       
         <!-- Cartes flip pour chaque école / objectif -->
         <div class="flip-card objective-item" data-category="les-mines">
           <div class="flip-card-inner">
@@ -768,7 +793,10 @@
         <button class="back-btn" id="back-btn2" aria-label="Retour à l'étape précédente">
           <i class="fas fa-arrow-up"></i>
         </button>
-        <div class="box-title">Ton objectif d'entretien : <br> <span id="selected-objective-display" style="font-weight:bold;"></span></div>
+        <div class="box-title">
+          Ton objectif d'entretien : <br> 
+          <span id="selected-objective-display" style="font-weight:bold;"></span>
+        </div>
       </div>
       <button id="generate-subject-btn" class="btn-impro">Générer un sujet</button>
       <div id="subject-wrapper" class="subject-wrapper">
@@ -788,7 +816,7 @@
         </button>
         <div class="box-title">Lance ton entretien</div>
       </div>
-      <!-- Affichage du sujet avec le préfixe "Rappel du sujet :" -->
+      <!-- Affichage du sujet dans une bulle blanche -->
       <div id="current-subject-display" class="subject-bubble"></div>
       <div class="video-box">
         <video id="preview" autoplay muted playsinline webkit-playsinline></video>
@@ -901,17 +929,14 @@
       }
       updateProgressBar(next);
       currentStepGlobal = next;
-      // Suppression du scroll automatique
-      // const header = document.querySelector('.header');
-      // const headerHeight = header ? header.offsetHeight : 0;
-      // const boxPosition = boxes[next].getBoundingClientRect().top + window.scrollY - headerHeight - 20;
-      // window.scrollTo({ top: boxPosition, behavior: 'smooth' });
       
       if (next === 2) {
         document.getElementById('selected-objective-display').textContent = currentObjective;
       }
       if (next === 3) {
-        document.getElementById('current-subject-display').textContent = "Rappel du sujet : " + currentSubject;
+        // Mise en minuscule de la première lettre du sujet
+        const formattedSubject = currentSubject ? currentSubject.charAt(0).toLowerCase() + currentSubject.slice(1) : "";
+        document.getElementById('current-subject-display').textContent = "Rappel du sujet : " + formattedSubject;
       }
       
       removePulseFromAll();
@@ -1044,7 +1069,6 @@
         errorDiv.style.display = 'block';
         return;
       }
-      // Si les sujets ne sont pas encore chargés, on les charge
       if (!subjectsCache[currentCategory]) {
         await loadSubjects(currentCategory);
       }
@@ -1107,12 +1131,6 @@
       if (window.innerWidth <= 600) {
           const videoBox = document.querySelector('.video-box');
           videoBox.style.height = "450px";
-          // Suppression du scroll automatique
-          // const subjectElem = document.getElementById('current-subject-display');
-          // if (subjectElem) {
-          //     const subjectTop = subjectElem.getBoundingClientRect().top + window.pageYOffset;
-          //     window.scrollTo({ top: subjectTop - 60, behavior: 'smooth' });
-          // }
       }
       document.querySelector('.video-overlay').style.display = 'none';
       startInitialCountdown();
@@ -1264,21 +1282,6 @@
     });
 
     // Suppression de la gestion du swipe sur mobile avec Hammer.js
-    // const mainContainer = document.querySelector('.main-container');
-    // const hammer = new Hammer(mainContainer);
-    // hammer.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
-    //
-    // hammer.on('swipeup', function(ev) {
-    //   if (nextBtns[currentStepGlobal]) {
-    //     nextBtns[currentStepGlobal].click();
-    //   }
-    // });
-    //
-    // hammer.on('swipedown', function(ev) {
-    //   if (currentStepGlobal > 1 && backBtns[currentStepGlobal]) {
-    //     backBtns[currentStepGlobal].click();
-    //   }
-    // });
   </script>
 </body>
 </html>
