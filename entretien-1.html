@@ -378,11 +378,12 @@
       border: 1px solid #ccc;
     }
     .flip-card-front i {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
+      /* Réduction de la taille du texte et des icônes dans le STEP1 */
+      font-size: 1.8rem;
+      margin-bottom: 8px;
     }
     .flip-card-front span {
-      font-size: 1rem;
+      font-size: 0.9rem;
       font-weight: bold;
     }
     .flip-card-back {
@@ -406,19 +407,18 @@
     }
 
     /* --- STEP2 : Génération du sujet --- */
-    .subject-wrapper {
-      margin-top: 10px;
-      background-color: #fefefe;
-      border: 2px solid #ccc;
-      border-radius: 8px;
-      padding: 10px;
-      text-align: center;
-      font-size: 14px;
-      font-style: italic;
-      color: #333;
-      display: none;
+    /* Mise à jour du header de STEP2 pour inclure le titre et le choix en ligne */
+    .step2-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 10px;
     }
-    
+    .step2-header .box-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #182d84;
+    }
     /* --- STEP3 : Enregistrement vidéo --- */
     .video-box {
       margin: 10px auto;
@@ -762,13 +762,12 @@
 
     <!-- STEP2 : Génération du sujet -->
     <div class="box" id="step2">
-      <div class="box-header">
+      <div class="box-header step2-header">
         <button class="back-btn" id="back-btn2" aria-label="Retour à l'étape précédente">
           <i class="fas fa-arrow-up"></i>
         </button>
-        <div class="box-title">Ton objectif</div>
+        <div class="box-title">Ton objectif d'entretien : <span id="selected-objective-display" style="font-weight:bold;"></span></div>
       </div>
-      <p id="selected-objective-display" style="font-weight:bold; margin-bottom:10px;"></p>
       <button id="generate-subject-btn" class="btn-impro">Générer un sujet</button>
       <div id="subject-wrapper" class="subject-wrapper">
         <span id="subject-display"></span>
@@ -787,6 +786,7 @@
         </button>
         <div class="box-title">Lance ton entretien</div>
       </div>
+      <!-- Affichage du sujet avec le préfixe "Rappel du sujet :" -->
       <div id="current-subject-display" class="subject-bubble"></div>
       <div class="video-box">
         <video id="preview" autoplay muted playsinline webkit-playsinline></video>
@@ -905,10 +905,12 @@
       window.scrollTo({ top: boxPosition, behavior: 'smooth' });
       
       if (next === 2) {
+        // Affichage dans STEP2 désormais dans le header
         document.getElementById('selected-objective-display').textContent = currentObjective;
       }
       if (next === 3) {
-        document.getElementById('current-subject-display').textContent = currentSubject;
+        // Ajout du préfixe "Rappel du sujet :" dans STEP3
+        document.getElementById('current-subject-display').textContent = "Rappel du sujet : " + currentSubject;
       }
       
       removePulseFromAll();
@@ -994,7 +996,6 @@
         const backElem = card.querySelector('.flip-card-back');
         backElem.textContent = explanations[currentCategory] || currentObjective;
         document.getElementById('objective-error').style.display = 'none';
-        document.getElementById('selected-objective-display').textContent = currentObjective;
       });
     });
 
@@ -1244,12 +1245,20 @@
     bindStartButton();
 
     /***********************
-     * Redirection finale
+     * Redirection finale et téléchargement de la vidéo
      ***********************/
     const validateFormBtn = document.getElementById('validate-form-btn');
 
     validateFormBtn.addEventListener('click', () => {
-      window.location.href = "https://www.letmotiv.fr/simulateur-entretiens/feedback";
+      if (videoURL) {
+        const link = document.createElement('a');
+        link.href = videoURL;
+        link.download = 'Letmotiv_Simulation_Entretien.mp4';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+      window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/entretien-candidat";
     });
 
     /***********************
