@@ -639,13 +639,6 @@
     <button id="start-intro-btn" aria-label="Commencer">Commencer</button>
   </div>
 
-  <!-- FORMULAIRE CACHÉ POUR GOOGLE FORMS -->
-  <form id="hidden-google-form" action="https://docs.google.com/forms/d/e/1FAIpQLSfGAcKp0cV5AeVJCJBPbtKLKCLhbYySZf_FkiMg85WKVFUn6A/formResponse" method="POST" target="hidden_iframe" style="display:none;">
-    <input type="text" name="entry.1119647353" id="hidden-prenom">
-    <input type="email" name="entry.638831312" id="hidden-email">
-  </form>
-  <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
-
   <!-- HEADER -->
   <div class="header">
     <div class="header-content">
@@ -842,32 +835,9 @@
             N'hésite pas à t'entraîner et refaire des simulations pour progresser.
           </p>
         </div>
-        <div class="download-fields">
-          <div class="input-group">
-            <label for="prenom">Prénom :</label>
-            <input type="text" id="prenom" placeholder="Votre prénom" aria-label="Prénom"/>
-            <div id="prenom-error" class="error-message"></div>
-          </div>
-          <div class="input-group">
-            <label for="email">Email :</label>
-            <input type="email" id="email" placeholder="Votre email" aria-label="Email"/>
-            <div id="email-error" class="error-message"></div>
-          </div>
-        </div>
         <div class="call-to-action">
           <button id="validate-form-btn" aria-label="Valider les informations">
             Valider
-          </button>
-        </div>
-        <div id="success-message" class="success-message" style="display: none;">
-          Merci ! Tes informations ont été enregistrées et tes ressources sont prêtes à être téléchargées.
-        </div>
-        <div class="download-buttons" id="download-buttons">
-          <button id="download-video-btn" aria-label="Télécharger ta vidéo">
-            <i class="fas fa-download"></i> Télécharger ta vidéo
-          </button>
-          <button id="download-pdf-btn" aria-label="Télécharger la grille d'évaluation">
-            <i class="fas fa-download"></i> Télécharger la grille d'évaluation
           </button>
         </div>
       </div>
@@ -1274,67 +1244,12 @@
     bindStartButton();
 
     /***********************
-     * Téléchargements et envoi à Google Forms (STEP4)
+     * Redirection finale
      ***********************/
     const validateFormBtn = document.getElementById('validate-form-btn');
-    const prenomInput = document.getElementById('prenom');
-    const emailInput = document.getElementById('email');
-    const prenomError = document.getElementById('prenom-error');
-    const emailError = document.getElementById('email-error');
-    const downloadButtons = document.getElementById('download-buttons');
-    const downloadVideoBtn = document.getElementById('download-video-btn');
-    const downloadPdfBtn = document.getElementById('download-pdf-btn');
 
     validateFormBtn.addEventListener('click', () => {
-      const prenomValue = prenomInput.value.trim();
-      const emailValue = emailInput.value.trim();
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      const prenomRegex = /^[A-Za-zÀ-ÿ '-]+$/;
-
-      let valid = true;
-      prenomError.style.display = 'none';
-      emailError.style.display = 'none';
-
-      if (!prenomValue || !prenomRegex.test(prenomValue)) {
-        prenomError.textContent = "Entre un prénom valide (sans chiffres ni caractères spéciaux).";
-        prenomError.style.display = 'block';
-        valid = false;
-      }
-      if (!emailValue) {
-        emailError.textContent = "Merci de renseigner ton email pour continuer.";
-        emailError.style.display = 'block';
-        valid = false;
-      } else if (!emailRegex.test(emailValue)) {
-        emailError.textContent = "Entre une adresse email valide.";
-        emailError.style.display = 'block';
-        valid = false;
-      }
-      if (!valid) return;
-
-      document.getElementById('hidden-prenom').value = prenomValue;
-      document.getElementById('hidden-email').value = emailValue;
-      document.getElementById('hidden-google-form').submit();
-
-      const successMessage = document.getElementById('success-message');
-      successMessage.style.display = 'block';
-      successMessage.classList.add('show');
-      setTimeout(() => {
-        successMessage.classList.remove('show');
-        successMessage.style.display = 'none';
-      }, 5000);
-
-      if (videoURL) {
-        const link = document.createElement('a');
-        link.href = videoURL;
-        link.download = 'Letmotiv_Entretien.mp4';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      }
-
-      setTimeout(() => {
-        window.location.href = "https://www.letmotiv.fr/simulateur-entretiens/feedback";
-      }, 1000);
+      window.location.href = "https://www.letmotiv.fr/simulateur-entretiens/feedback";
     });
 
     /***********************
