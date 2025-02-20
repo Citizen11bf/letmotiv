@@ -158,7 +158,7 @@
     @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
     @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-    /* --- CONTENEUR PRINCIPAL --- */
+    /* --- CONTAINER PRINCIPAL --- */
     .main-container {
       display: flex;
       flex-direction: column;
@@ -169,134 +169,72 @@
       padding: 20px;
     }
 
-    /* --- BOXES (étapes) --- */
-    .box {
-      position: relative;
-      width: 100%;
-      max-width: 600px;
-      margin: 20px 0;
-      padding: 20px;
-      border-radius: 15px;
-      background: linear-gradient(135deg, #fff, #f9f9f9);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      text-align: center;
-      font-size: 14px;
-      display: none;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .box.active { display: block; }
-    .box:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0,0,0,0.15); }
-
-    /* --- ANIMATIONS VERTICALES --- */
-    .slide-from-bottom { animation: fromBottom 1.5s ease forwards; }
-    @keyframes fromBottom { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
-    .slide-from-top { animation: fromTop 1.5s ease forwards; }
-    @keyframes fromTop { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
-
-    /* --- HEADER INTERNE DES BOXES --- */
-    .box-header {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-bottom: 20px;
-      position: relative;
-    }
-    .back-btn {
-      border: none;
-      background-color: #808080;
-      color: #fff;
-      font-size: 16px;
-      cursor: pointer;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background-color 0.3s, transform 0.3s;
-      margin-bottom: 10px;
-    }
-    .back-btn:hover { background-color: #505050; transform: scale(1.1); }
-    .back-btn:active { background-color: #303030; }
-    #step1 .back-btn.hidden-visibility { display: none; }
-    .box-title { font-size: 18px; font-weight: bold; color: #182d84; text-align: center; }
-
-    /* --- Bouton Suivant --- */
-    .next-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 2px solid #182d84;
-      background-color: transparent;
-      color: #182d84;
-      cursor: pointer;
-      transition: background-color 0.3s, color 0.3s, transform 0.3s;
-      margin: 10px auto;
-    }
-    .next-btn:hover { background-color: #00a48a; color: #fff; transform: scale(1.05); }
-    .next-btn.pulse { animation: electricPulse 1.5s infinite; }
-    @keyframes electricPulse {
-      0% { box-shadow: 0 0 0 0 rgba(0,164,138,0.7); }
-      70% { box-shadow: 0 0 0 10px rgba(0,164,138,0); }
-      100% { box-shadow: 0 0 0 0 rgba(0,164,138,0); }
-    }
-
-    /* --- Cartes pour la sélection des objectifs (STEP1) --- */
+    /* --- STEP1 : Choix d'objectif avec cartes à retourner --- */
     .objectives-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      justify-items: center;
+      margin: 10px 0;
     }
-    .objective-card {
+    /* Dimensions et style pour mobile */
+    .objective-item {
+      position: relative;
+      width: 100px;
+      height: 130px;
       perspective: 1000px;
-      width: 120px;
-      height: 160px;
-      cursor: pointer;
     }
-    .card-inner {
+    .objective-item .card-inner {
       position: relative;
       width: 100%;
       height: 100%;
       transition: transform 0.6s;
       transform-style: preserve-3d;
     }
-    .objective-card.selected .card-inner {
+    .objective-item:hover .card-inner {
       transform: rotateY(180deg);
     }
-    .card-front, .card-back {
+    .objective-item .card-front,
+    .objective-item .card-back {
       position: absolute;
       width: 100%;
       height: 100%;
       backface-visibility: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       border: 1px solid #ccc;
       border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
     }
-    .card-front {
+    .objective-item .card-front {
       background-color: #fff;
+      color: #444;
     }
-    .card-back {
+    .objective-item .card-back {
       background-color: #00a48a;
       color: #fff;
       transform: rotateY(180deg);
+      text-align: center;
+      padding: 5px;
     }
-    /* Variation pour écran large : effet paysage */
+    .objective-item .card-front i,
+    .objective-item .card-back i {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+    }
+    
+    /* --- Media query pour desktop (4 cartes par ligne) --- */
     @media (min-width: 1024px) {
-      .objective-card {
-        width: 180px;
+      .objectives-container {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      .objective-item {
+        width: 150px;
         height: 120px;
-      }
-      .objective-card.selected .card-inner {
-        transform: rotateX(180deg);
-      }
-      .card-back {
-        transform: rotateX(180deg);
       }
     }
 
@@ -313,7 +251,7 @@
       color: #333;
       display: none;
     }
-
+    
     /* --- STEP3 : Enregistrement vidéo --- */
     .video-box {
       margin: 10px auto;
@@ -512,6 +450,21 @@
       to { transform: translateY(0); opacity: 1; }
     }
 
+    /* --- Bulle style pour le sujet --- */
+    .subject-bubble {
+      display: inline-block;
+      position: relative;
+      background: #fefefe;
+      border: 2px solid #ccc;
+      border-radius: 16px;
+      padding: 10px 15px;
+      font-size: 16px;
+      color: #333;
+      max-width: 80%;
+      text-align: center;
+      margin: 0 auto;
+    }
+
     /* --- Messages d'erreur --- */
     .error-message {
       color: red;
@@ -609,7 +562,7 @@
   <div class="main-container">
     <!-- Les étapes du simulateur -->
 
-    <!-- STEP1 : Choix d'objectif -->
+    <!-- STEP1 : Choix d'objectif (cartes à retourner) -->
     <div class="box" id="step1">
       <div class="box-header">
         <button class="back-btn hidden-visibility" id="back-btn1" aria-label="Retour">
@@ -618,95 +571,97 @@
         <div class="box-title">Quel entretien souhaites-tu préparer ?</div>
       </div>
       <div class="objectives-container">
-        <!-- Carte pour "Les Mines" -->
-        <div class="objective-card" data-category="les-mines">
+        <div class="objective-item" data-category="les-mines">
           <div class="card-inner">
             <div class="card-front">
               <i class="fas fa-industry"></i>
+              <span>Les Mines</span>
             </div>
             <div class="card-back">
-              <span>Les Mines</span>
+              <span>Préparation à un entretien d'admission à une Grande école d'ingénieurs</span>
             </div>
           </div>
         </div>
-        <!-- Carte pour "Sciences Po" -->
-        <div class="objective-card" data-category="sciences-po">
+        <div class="objective-item" data-category="sciences-po">
           <div class="card-inner">
             <div class="card-front">
               <i class="fas fa-landmark"></i>
+              <span>Sciences Po</span>
             </div>
             <div class="card-back">
-              <span>Sciences Po</span>
+              <span>Préparation à un entretien d'admission à une Grande école de sciences politiques</span>
             </div>
           </div>
         </div>
-        <!-- Carte pour "Aéronautique & Aérospatial" -->
-        <div class="objective-card" data-category="aeronautique">
+        <div class="objective-item" data-category="aeronautique">
           <div class="card-inner">
             <div class="card-front">
               <i class="fas fa-plane"></i>
+              <span>Aéronautique</span>
             </div>
             <div class="card-back">
-              <span>Aéronautique</span>
+              <span>Préparation à un entretien d'admission à une Grande école en aéronautique et aérospatial</span>
             </div>
           </div>
         </div>
-        <!-- Carte pour "Polytechnique" -->
-        <div class="objective-card" data-category="polytechnique">
+        <div class="objective-item" data-category="polytechnique">
           <div class="card-inner">
             <div class="card-front">
               <i class="fas fa-graduation-cap"></i>
+              <span>Polytechnique</span>
             </div>
             <div class="card-back">
-              <span>Polytechnique</span>
+              <span>Préparation à un entretien d'admission à une Grande école d'ingénieurs</span>
             </div>
           </div>
         </div>
-        <!-- Carte pour "ENS" -->
-        <div class="objective-card" data-category="ens">
+        <div class="objective-item" data-category="ens">
           <div class="card-inner">
             <div class="card-front">
               <i class="fas fa-desktop"></i>
+              <span>ENS</span>
             </div>
             <div class="card-back">
-              <span>ENS</span>
+              <span>Préparation à un entretien d'admission à l'École Normale Supérieure</span>
             </div>
           </div>
         </div>
-        <!-- Carte pour "Embauche" -->
-        <div class="objective-card" data-category="embauche">
+        <div class="objective-item" data-category="embauche">
           <div class="card-inner">
             <div class="card-front">
               <i class="fas fa-briefcase"></i>
+              <span>Embauche</span>
             </div>
             <div class="card-back">
-              <span>Embauche</span>
+              <span>Préparation à un entretien d'embauche</span>
             </div>
           </div>
         </div>
-        <!-- Carte pour "CPGE" -->
-        <div class="objective-card" data-category="cpge">
+        <div class="objective-item" data-category="cpge">
           <div class="card-inner">
             <div class="card-front">
               <i class="fas fa-chalkboard-teacher"></i>
+              <span>CPGE</span>
             </div>
             <div class="card-back">
-              <span>CPGE</span>
+              <span>Préparation à un entretien d'admission aux classes préparatoires aux grandes écoles</span>
             </div>
           </div>
         </div>
-        <!-- Carte pour "HEC" -->
-        <div class="objective-card" data-category="hec">
+        <div class="objective-item" data-category="hec">
           <div class="card-inner">
             <div class="card-front">
               <i class="fas fa-chart-line"></i>
+              <span>HEC</span>
             </div>
             <div class="card-back">
-              <span>HEC</span>
+              <span>Préparation à un entretien d'admission à une Grande école de commerce</span>
             </div>
           </div>
         </div>
       </div>
+      <!-- Bulle d'explication affichant la description de l'objectif -->
+      <div id="explanation-box" class="explanation-box"></div>
       <!-- Message d'erreur si aucun objectif n'est sélectionné -->
       <div id="objective-error" class="error-message"></div>
       <!-- Bouton Suivant pour passer à l'étape suivante -->
@@ -723,6 +678,8 @@
         </button>
         <div class="box-title">Ton entretien</div>
       </div>
+      <!-- Affichage de la description de l'objectif sélectionné -->
+      <p id="selected-objective-display" style="font-weight:bold; margin-bottom:10px;"></p>
       <!-- Bouton pour générer un sujet aléatoire -->
       <button id="generate-subject-btn" class="btn-impro">Générer un sujet</button>
       <div id="subject-wrapper" class="subject-wrapper">
@@ -866,16 +823,6 @@
     let currentCategory = null;
     let currentObjective = "";
     let currentSubject = "";
-    let subjectsCache = {
-      "les-mines": null,
-      "sciences-po": null,
-      "aeronautique": null,
-      "polytechnique": null,
-      "ens": null,
-      "embauche": null,
-      "cpge": null,
-      "hec": null
-    };
 
     // Mise à jour de la barre de progression
     function updateProgressBar(step) {
@@ -905,10 +852,9 @@
       const boxPosition = boxes[next].getBoundingClientRect().top + window.scrollY - (header ? header.offsetHeight : 0) - 20;
       window.scrollTo({ top: boxPosition, behavior: 'smooth' });
       if (next === 2) {
-        // Pour STEP2, le sujet sera généré par la suite
+        document.getElementById('selected-objective-display').textContent = explanations[currentCategory] || currentObjective;
       }
       if (next === 3) {
-        // Pour STEP3, le sujet généré sera affiché
         document.getElementById('current-subject-display').textContent = currentSubject;
       }
       removePulseFromAll();
@@ -930,7 +876,7 @@
 
     // Passage de STEP1 à STEP2 (validation de la sélection)
     nextBtns[1].addEventListener('click', () => {
-      const selected = document.querySelector('.objectives-container .objective-card.selected');
+      const selected = document.querySelector('.objectives-container .selected-objective');
       if (!selected) {
         document.getElementById('objective-error').textContent = "Sélectionne un objectif avant de continuer.";
         document.getElementById('objective-error').style.display = 'block';
@@ -971,38 +917,21 @@
     backBtns[4].addEventListener('click', () => { showBox(4, 3); });
 
     /***********************
-     * Gestion des objectifs et explications (STEP1) via cartes retournables
+     * Gestion des objectifs et explications (STEP1)
      ***********************/
-    const objectiveCards = document.querySelectorAll('.objectives-container .objective-card');
+    // Nouvelles descriptions pour chaque objectif
+    const explanations = {
+      "les-mines": "Préparation à un entretien d'admission à une Grande école d'ingénieurs",
+      "sciences-po": "Préparation à un entretien d'admission à une Grande école de sciences politiques",
+      "aeronautique": "Préparation à un entretien d'admission à une Grande école en aéronautique et aérospatial",
+      "polytechnique": "Préparation à un entretien d'admission à une Grande école d'ingénieurs",
+      "ens": "Préparation à un entretien d'admission à l'École Normale Supérieure",
+      "embauche": "Préparation à un entretien d'embauche",
+      "cpge": "Préparation à un entretien d'admission aux classes préparatoires aux grandes écoles",
+      "hec": "Préparation à un entretien d'admission à une Grande école de commerce"
+    };
 
-    objectiveCards.forEach(card => {
-      card.addEventListener('click', async () => {
-        // Désélectionner toutes les cartes
-        objectiveCards.forEach(el => {
-          el.classList.remove('selected');
-        });
-        // Marquer la carte cliquée comme sélectionnée (elle se retourne)
-        card.classList.add('selected');
-
-        // Récupérer les informations de l'objectif
-        currentCategory = card.dataset.category;
-        currentObjective = card.querySelector('.card-back span').innerText;
-
-        // Charger les sujets si nécessaire
-        if (subjectsCache[currentCategory] === null) {
-          await loadSubjects(currentCategory);
-        }
-
-        // Masquer les éventuels messages d'erreur
-        document.getElementById('objective-error').style.display = 'none';
-        document.getElementById('impro-error').style.display = 'none';
-
-        removePulseFromAll();
-        nextBtns[1].classList.add('pulse');
-      });
-    });
-
-    // Fonction pour charger les sujets depuis le fichier correspondant
+    // Liens vers les sujets aléatoires pour chaque objectif
     const txtFilesByCategory = {
       "les-mines": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_ENS.txt",
       "sciences-po": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_Sciences_Po.txt",
@@ -1014,6 +943,45 @@
       "hec": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_HEC.txt"
     };
 
+    let subjectsCache = {
+      "les-mines": null,
+      "sciences-po": null,
+      "aeronautique": null,
+      "polytechnique": null,
+      "ens": null,
+      "embauche": null,
+      "cpge": null,
+      "hec": null
+    };
+
+    // Sélection des éléments d'objectif (adaptation pour la carte)
+    const objectivesButtons = document.querySelectorAll('.objectives-container .objective-item');
+    const explanationBox = document.getElementById('explanation-box');
+
+    // Gestion de la sélection (ajout d'une classe pour marquer l'objectif sélectionné)
+    objectivesButtons.forEach(item => {
+      item.addEventListener('click', async () => {
+        objectivesButtons.forEach(el => {
+          el.classList.remove('selected-objective');
+        });
+        item.classList.add('selected-objective');
+        currentCategory = item.dataset.category;
+        currentObjective = item.querySelector('.card-front span').innerText;
+        // Affiche l'explication dans la bulle dédiée
+        const explication = explanations[currentCategory] || "";
+        explanationBox.textContent = explication;
+        explanationBox.classList.add('show');
+        if (subjectsCache[currentCategory] === null) {
+          await loadSubjects(currentCategory);
+        }
+        document.getElementById('objective-error').style.display = 'none';
+        document.getElementById('impro-error').style.display = 'none';
+        removePulseFromAll();
+        nextBtns[1].classList.add('pulse');
+      });
+    });
+
+    // Fonction pour charger les sujets depuis le fichier correspondant
     async function loadSubjects(category) {
       const filePath = txtFilesByCategory[category];
       if (!filePath) return [];
