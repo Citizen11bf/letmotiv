@@ -268,7 +268,7 @@
       position: absolute; top: 0; left: 0; z-index: 1; transform: scaleX(-1);
       -webkit-transform: scaleX(-1);
     }
-    /* Overlay des questions positionné en haut */
+    /* Overlay des questions et instructions : positionné en haut */
     .video-overlay {
       position: absolute; top: 0; left: 0;
       width: 100%; height: auto; min-height: 50px;
@@ -277,6 +277,10 @@
       padding: 10px 20px; background: rgba(255,255,255,0.6);
       z-index: 2;
     }
+    /* Contenu par défaut de l'overlay avec instructions et bouton démarrer */
+    .video-overlay.default {
+      display: flex;
+    }
     .video-overlay p { margin: 10px 0; }
     .video-overlay button {
       margin: 15px 0; padding: 10px 20px; font-size: 16px;
@@ -284,6 +288,8 @@
       cursor: pointer; transition: background-color 0.3s;
     }
     .video-overlay button:hover { background-color: #00a48a; }
+    /* L'overlay qui affiche uniquement la question utilisera la même zone (elle sera réécrite) */
+    /* Indicateur d'enregistrement */
     .recording-indicator {
       position: absolute; top: 10px; right: 10px;
       display: flex; align-items: center; background-color: rgba(255,255,255,0.8);
@@ -296,6 +302,7 @@
       animation: blink 1s infinite;
     }
     @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
+    /* Décompte en bas à droite */
     .countdown {
       position: absolute; bottom: 10px; right: 10px;
       font-size: 24px; color: #ffffff; background-color: rgba(0,0,0,0.5);
@@ -483,8 +490,14 @@
       </div>
       <div class="video-box">
         <video id="preview" autoplay muted playsinline webkit-playsinline></video>
-        <!-- Overlay des questions positionné en haut -->
-        <div class="video-overlay" id="question-overlay"></div>
+        <!-- Overlay affichant les instructions et le bouton "Démarrer ton entretien" -->
+        <div class="video-overlay default" id="question-overlay">
+          <p>Ici va s'enregistrer ton entretien vidéo.<br>Lorsque tu es prêt, clique sur le bouton ci-dessous.</p>
+          <button id="start-btn" aria-label="Démarrer l'entretien">
+            Démarrer ton entretien <i class="fas fa-video"></i>
+          </button>
+          <p>NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
+        </div>
         <!-- Indicateur d'enregistrement -->
         <div class="recording-indicator" id="recording-indicator">
           <span class="dot"></span> Enregistrement en cours
@@ -562,7 +575,7 @@
     let currentCategory = null;
     let selectedQuestionCount = 0;
     let currentQuestionIndex = 0; // Compteur pour suivre l'ordre des questions
-    let currentSimulationQuestions = []; // Tableau contenant les questions générées pour cette simulation
+    let currentSimulationQuestions = []; // Tableau contenant les questions générées pour la simulation
 
     // Pour STEP1, mapping d'affichage (si nécessaire)
     const objectiveDisplayMapping = {
@@ -706,7 +719,21 @@
       questionOverlay.style.display = 'flex';
     }
 
-    // On place le bouton "Démarrer ton entretien"
+    // Pour réafficher les instructions avec le bouton "Démarrer ton entretien"
+    function displayStartInstructions() {
+      questionOverlay.classList.add('default');
+      questionOverlay.innerHTML = `
+        <p>Ici va s'enregistrer ton entretien vidéo.<br>Lorsque tu es prêt, clique sur le bouton ci-dessous.</p>
+        <button id="start-btn" aria-label="Démarrer l'entretien">
+          Démarrer ton entretien <i class="fas fa-video"></i>
+        </button>
+        <p>NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
+      `;
+      questionOverlay.style.display = 'flex';
+      bindStartButton();
+    }
+
+    // Lancement du bouton "Démarrer ton entretien"
     function bindStartButton() {
       const startBtn = document.getElementById('start-btn');
       if(startBtn) { startBtn.addEventListener('click', startImpro); }
@@ -726,7 +753,8 @@
       }
       if (!confirm("Votre webcam va se lancer pour démarrer l'entretien. Voulez-vous continuer ?")) { return; }
       if (window.innerWidth <= 600) { document.querySelector('.video-box').style.height = "450px"; }
-      document.querySelector('.video-overlay').style.display = 'none';
+      // Cacher l'overlay d'instructions
+      questionOverlay.style.display = 'none';
       startInitialCountdown();
     }
 
@@ -750,7 +778,7 @@
         document.getElementById('impro-error').style.display = 'block';
         return;
       }
-      // Création de la simulation de questions si ce n'est pas déjà fait
+      // Si ce n'est pas déjà fait, générer la simulation de questions
       if (currentSimulationQuestions.length === 0) {
         const questions = await loadSubjects(currentCategory);
         if (!questions || questions.length === 0) {
@@ -758,9 +786,8 @@
           document.getElementById('impro-error').style.display = 'block';
           return;
         }
-        // La première question est toujours "Présentez-vous" (présumée être l'index 0)
+        // La première question est toujours "Présentez-vous" (index 0)
         currentSimulationQuestions.push(questions[0]);
-        // Pour les questions suivantes, on sélectionne aléatoirement parmi les autres
         for (let i = 1; i < selectedQuestionCount; i++) {
           const randomIndex = Math.floor(Math.random() * (questions.length - 1)) + 1;
           currentSimulationQuestions.push(questions[randomIndex]);
@@ -772,14 +799,11 @@
 
       mediaRecorderInstance = new MediaRecorder(stream);
       recordedChunks = [];
-      mediaRecorderInstance.ondataavailable = (event) => {
-        if (event.data.size > 0) { recordedChunks.push(event.data); }
-      };
+      mediaRecorderInstance.ondataavailable = (event) => { if (event.data.size > 0) { recordedChunks.push(event.data); } };
       mediaRecorderInstance.onstop = () => {
         const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
         videoURL = URL.createObjectURL(videoBlob);
         stream.getTracks().forEach(t => t.stop());
-        // Affichage d'un message de fin dans l'overlay
         questionOverlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Entretien terminé. Passe à l'étape suivante !</p>";
         questionOverlay.style.display = 'flex';
         document.getElementById('impro-error').style.display = 'none';
@@ -834,9 +858,7 @@
             timeRemaining = 120;
           } else {
             clearInterval(timerInterval);
-            if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
-              mediaRecorderInstance.stop();
-            }
+            if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') { mediaRecorderInstance.stop(); }
           }
         }
       }, 1000);
@@ -849,7 +871,7 @@
       countdownElement.style.display = 'block';
     }
 
-    // Bouton "Arrêter ton entretien" : s'active une fois la vidéo démarrée
+    // Bouton "Arrêter ton entretien" : activé lorsque l'enregistrement démarre
     stopBtn.addEventListener('click', () => {
       if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
         mediaRecorderInstance.stop();
@@ -864,18 +886,14 @@
     // Bouton "Recommencer ton entretien" : relance la simulation avec les mêmes questions
     restartBtn.addEventListener('click', async () => {
       restartBtn.classList.add('hidden-btn');
-      // Réinitialiser le compteur et l'overlay
       currentQuestionIndex = 1;
       clearInterval(timerInterval);
       displayQuestion(currentSimulationQuestions[0], currentQuestionIndex, selectedQuestionCount);
-      // Réinitialiser la caméra et l'enregistrement
       const stream = await setupCamera();
       if (!stream) return;
       mediaRecorderInstance = new MediaRecorder(stream);
       recordedChunks = [];
-      mediaRecorderInstance.ondataavailable = (event) => {
-        if (event.data.size > 0) { recordedChunks.push(event.data); }
-      };
+      mediaRecorderInstance.ondataavailable = (event) => { if (event.data.size > 0) { recordedChunks.push(event.data); } };
       mediaRecorderInstance.onstop = () => {
         const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
         videoURL = URL.createObjectURL(videoBlob);
@@ -894,7 +912,6 @@
       recordingIndicator.style.display = 'flex';
       stopBtn.classList.remove('hidden-btn');
       stopBtn.disabled = false;
-      // Redémarrage du cycle de 2 minutes avec les mêmes questions
       startTwoMinutesCycle(currentSimulationQuestions);
     });
 
