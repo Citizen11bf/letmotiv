@@ -268,7 +268,7 @@
       position: absolute; top: 0; left: 0; z-index: 1; transform: scaleX(-1);
       -webkit-transform: scaleX(-1);
     }
-    /* On positionne l'overlay en haut */
+    /* Overlay des questions positionné en haut */
     .video-overlay {
       position: absolute; top: 0; left: 0;
       width: 100%; height: auto; min-height: 50px;
@@ -481,26 +481,25 @@
         </button>
         <div class="box-title">Lance ton entretien</div>
       </div>
-      <!-- Suppression du rappel du sujet -->
       <div class="video-box">
         <video id="preview" autoplay muted playsinline webkit-playsinline></video>
-        <!-- L'overlay est désormais positionné en haut -->
-        <div class="video-overlay" id="question-overlay">
-          <!-- On affichera ici la question avec le préfixe "Question X/Y :" -->
-        </div>
+        <!-- Overlay des questions positionné en haut -->
+        <div class="video-overlay" id="question-overlay"></div>
+        <!-- Indicateur d'enregistrement -->
         <div class="recording-indicator" id="recording-indicator">
           <span class="dot"></span> Enregistrement en cours
         </div>
+        <!-- Décompte affiché en bas à droite -->
         <div class="countdown" id="countdown">2:00</div>
         <div class="initial-countdown-overlay" id="initial-countdown-overlay">
           <div class="initial-countdown" id="initial-countdown">5</div>
         </div>
       </div>
       <div class="impro-actions">
-        <button id="stop-btn" class="hidden-btn btn-impro" aria-label="Arrêter l'entretien">
+        <button id="stop-btn" class="hidden-btn btn-impro" aria-label="Arrêter ton entretien">
           Arrêter ton entretien <i class="fas fa-stop"></i>
         </button>
-        <button id="restart-btn" class="hidden-btn btn-impro" aria-label="Recommencer l'entretien">
+        <button id="restart-btn" class="hidden-btn btn-impro" aria-label="Recommencer ton entretien">
           Recommencer ton entretien <i class="fas fa-redo"></i>
         </button>
       </div>
@@ -562,9 +561,10 @@
     let currentStepGlobal = 0;
     let currentCategory = null;
     let selectedQuestionCount = 0;
-    let currentQuestionIndex = 0; // compteur de questions
+    let currentQuestionIndex = 0; // Compteur pour suivre l'ordre des questions
+    let currentSimulationQuestions = []; // Tableau contenant les questions générées pour cette simulation
 
-    // Affichage pour STEP1
+    // Pour STEP1, mapping d'affichage (si nécessaire)
     const objectiveDisplayMapping = {
       "grand-oral": "passer le Grand Oral",
       "ingenieur-generaliste": "intégrer une école d'ingénieur généraliste",
@@ -586,11 +586,8 @@
       if (!boxes[current] || !boxes[next]) return;
       boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
       boxes[next].classList.add('active');
-      if (next > current) {
-        boxes[next].classList.add('slide-from-bottom');
-      } else {
-        boxes[next].classList.add('slide-from-top');
-      }
+      if (next > current) { boxes[next].classList.add('slide-from-bottom'); }
+      else { boxes[next].classList.add('slide-from-top'); }
       updateProgressBar(next);
       currentStepGlobal = next;
       removePulseFromAll();
@@ -628,7 +625,7 @@
     backBtns[4].addEventListener('click', () => { showBox(4, 3); });
 
     /***********************
-     * Gestion STEP1 : Objectifs
+     * STEP1 : Gestion des objectifs
      ***********************/
     const objectivesCards = document.querySelectorAll('.objectives-container .objective-item');
     const popSound = document.getElementById('pop-sound');
@@ -644,7 +641,7 @@
     });
 
     /***********************
-     * Gestion STEP2 : Choix du nombre de questions avec animation
+     * STEP2 : Choix du nombre de questions avec animation
      ***********************/
     document.querySelectorAll('.simulation-buttons button').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -656,7 +653,7 @@
     });
 
     /***********************
-     * Fonction loadSubjects pour charger les questions depuis un fichier texte
+     * Fonction loadSubjects : Charge les questions depuis un fichier texte
      ***********************/
     async function loadSubjects(category) {
       const txtFilesByCategory = {
@@ -709,14 +706,13 @@
       questionOverlay.style.display = 'flex';
     }
 
-    // On place le bouton "Démarrer ton entretien" si besoin
+    // On place le bouton "Démarrer ton entretien"
     function bindStartButton() {
       const startBtn = document.getElementById('start-btn');
-      if(startBtn) {
-        startBtn.addEventListener('click', startImpro);
-      }
+      if(startBtn) { startBtn.addEventListener('click', startImpro); }
     }
 
+    // Démarrage initial de l'entretien
     async function startImpro() {
       if (selectedQuestionCount === 0) {
         document.getElementById('impro-error').textContent = "Choisis d'abord le nombre de questions en étape 2.";
@@ -728,12 +724,8 @@
         document.getElementById('impro-error').style.display = 'block';
         return;
       }
-      if (!confirm("Votre webcam va se lancer pour démarrer l'entretien. Voulez-vous continuer ?")) {
-        return;
-      }
-      if (window.innerWidth <= 600) {
-          document.querySelector('.video-box').style.height = "450px";
-      }
+      if (!confirm("Votre webcam va se lancer pour démarrer l'entretien. Voulez-vous continuer ?")) { return; }
+      if (window.innerWidth <= 600) { document.querySelector('.video-box').style.height = "450px"; }
       document.querySelector('.video-overlay').style.display = 'none';
       startInitialCountdown();
     }
@@ -744,16 +736,12 @@
       initialCountdownOverlay.style.display = 'flex';
       const initCountdown = setInterval(() => {
         count--;
-        if (count > 0) {
-          initialCountdown.textContent = count;
-        } else {
-          clearInterval(initCountdown);
-          initialCountdownOverlay.style.display = 'none';
-          initiateRecording();
-        }
+        if (count > 0) { initialCountdown.textContent = count; }
+        else { clearInterval(initCountdown); initialCountdownOverlay.style.display = 'none'; initiateRecording(); }
       }, 1000);
     }
 
+    // Initialisation de l'enregistrement et préparation des questions
     async function initiateRecording() {
       const stream = await setupCamera();
       if (!stream) return;
@@ -762,17 +750,36 @@
         document.getElementById('impro-error').style.display = 'block';
         return;
       }
+      // Création de la simulation de questions si ce n'est pas déjà fait
+      if (currentSimulationQuestions.length === 0) {
+        const questions = await loadSubjects(currentCategory);
+        if (!questions || questions.length === 0) {
+          document.getElementById('impro-error').textContent = "Aucune question n'est disponible pour le moment.";
+          document.getElementById('impro-error').style.display = 'block';
+          return;
+        }
+        // La première question est toujours "Présentez-vous" (présumée être l'index 0)
+        currentSimulationQuestions.push(questions[0]);
+        // Pour les questions suivantes, on sélectionne aléatoirement parmi les autres
+        for (let i = 1; i < selectedQuestionCount; i++) {
+          const randomIndex = Math.floor(Math.random() * (questions.length - 1)) + 1;
+          currentSimulationQuestions.push(questions[randomIndex]);
+        }
+      }
+      currentQuestionIndex = 1;
+      // Afficher la première question
+      displayQuestion(currentSimulationQuestions[0], currentQuestionIndex, selectedQuestionCount);
+
       mediaRecorderInstance = new MediaRecorder(stream);
       recordedChunks = [];
       mediaRecorderInstance.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          recordedChunks.push(event.data);
-        }
+        if (event.data.size > 0) { recordedChunks.push(event.data); }
       };
       mediaRecorderInstance.onstop = () => {
         const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
         videoURL = URL.createObjectURL(videoBlob);
         stream.getTracks().forEach(t => t.stop());
+        // Affichage d'un message de fin dans l'overlay
         questionOverlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Entretien terminé. Passe à l'étape suivante !</p>";
         questionOverlay.style.display = 'flex';
         document.getElementById('impro-error').style.display = 'none';
@@ -781,21 +788,8 @@
         improStarted = true;
         removePulseFromAll();
         nextBtns[3].classList.add('pulse');
-        if (window.innerWidth <= 600) {
-            document.querySelector('.video-box').style.height = "300px";
-        }
+        if (window.innerWidth <= 600) { document.querySelector('.video-box').style.height = "300px"; }
       };
-
-      // Chargement des questions depuis le fichier correspondant à la catégorie sélectionnée
-      const questions = await loadSubjects(currentCategory);
-      if (!questions || questions.length === 0) {
-        document.getElementById('impro-error').textContent = "Aucune question n'est disponible pour le moment.";
-        document.getElementById('impro-error').style.display = 'block';
-        return;
-      }
-      // On affiche toujours la première question "Présentez-vous" (supposée être à l'index 0)
-      currentQuestionIndex = 1;
-      displayQuestion(questions[0], currentQuestionIndex, selectedQuestionCount);
 
       mediaRecorderInstance.start();
       recordingIndicator.style.display = 'flex';
@@ -803,8 +797,7 @@
       stopBtn.disabled = false;
       restartBtn.classList.add('hidden-btn');
 
-      // Lancement du cycle de 2 minutes pour passer à la question suivante
-      startTwoMinutesCycle(questions);
+      startTwoMinutesCycle(currentSimulationQuestions);
     }
 
     async function setupCamera() {
@@ -827,27 +820,23 @@
       }
     }
 
-    // Fonction qui gère le cycle de 2 minutes pour changer de question
-    function startTwoMinutesCycle(questions) {
+    // Cycle de 2 minutes pour changer de question et arrêt automatique à la fin
+    function startTwoMinutesCycle(simQuestions) {
       let timeRemaining = 120;
       updateCountdownDisplay(timeRemaining);
-
       timerInterval = setInterval(() => {
         timeRemaining--;
-        if (timeRemaining >= 0) {
-          updateCountdownDisplay(timeRemaining);
-        }
+        if (timeRemaining >= 0) { updateCountdownDisplay(timeRemaining); }
         if (timeRemaining <= 0) {
-          // Si on n'a pas encore affiché toutes les questions, passer à la suivante
           if (currentQuestionIndex < selectedQuestionCount) {
             currentQuestionIndex++;
-            // Pour la première question on affiche toujours "Présentez-vous", pour les suivantes, choisir aléatoirement parmi questions.slice(1)
-            let qText = (currentQuestionIndex === 1) ? questions[0] : questions[Math.floor(Math.random() * (questions.length - 1)) + 1];
-            displayQuestion(qText, currentQuestionIndex, selectedQuestionCount);
+            displayQuestion(simQuestions[currentQuestionIndex - 1], currentQuestionIndex, selectedQuestionCount);
             timeRemaining = 120;
           } else {
-            // Si toutes les questions ont été affichées, on peut arrêter le cycle (ou réinitialiser selon le besoin)
             clearInterval(timerInterval);
+            if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
+              mediaRecorderInstance.stop();
+            }
           }
         }
       }, 1000);
@@ -860,6 +849,7 @@
       countdownElement.style.display = 'block';
     }
 
+    // Bouton "Arrêter ton entretien" : s'active une fois la vidéo démarrée
     stopBtn.addEventListener('click', () => {
       if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
         mediaRecorderInstance.stop();
@@ -870,23 +860,48 @@
         recordingIndicator.style.display = 'none';
       }
     });
-    restartBtn.addEventListener('click', () => {
+
+    // Bouton "Recommencer ton entretien" : relance la simulation avec les mêmes questions
+    restartBtn.addEventListener('click', async () => {
       restartBtn.classList.add('hidden-btn');
-      document.querySelector('.video-overlay').innerHTML = `
-        <p>Ici va s'enregistrer ton entretien vidéo.<br>Lorsque tu es prêt, clique sur le bouton ci-dessous.</p>
-        <button id="start-btn" aria-label="Démarrer l'entretien">
-          Démarrer ton entretien <i class="fas fa-video"></i>
-        </button>
-        <p>NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
-      `;
-      document.querySelector('.video-overlay').style.display = 'flex';
-      improStarted = false;
-      bindStartButton();
+      // Réinitialiser le compteur et l'overlay
+      currentQuestionIndex = 1;
+      clearInterval(timerInterval);
+      displayQuestion(currentSimulationQuestions[0], currentQuestionIndex, selectedQuestionCount);
+      // Réinitialiser la caméra et l'enregistrement
+      const stream = await setupCamera();
+      if (!stream) return;
+      mediaRecorderInstance = new MediaRecorder(stream);
+      recordedChunks = [];
+      mediaRecorderInstance.ondataavailable = (event) => {
+        if (event.data.size > 0) { recordedChunks.push(event.data); }
+      };
+      mediaRecorderInstance.onstop = () => {
+        const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
+        videoURL = URL.createObjectURL(videoBlob);
+        stream.getTracks().forEach(t => t.stop());
+        questionOverlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Entretien terminé. Passe à l'étape suivante !</p>";
+        questionOverlay.style.display = 'flex';
+        document.getElementById('impro-error').style.display = 'none';
+        recordingIndicator.style.display = 'none';
+        clearInterval(timerInterval);
+        improStarted = true;
+        removePulseFromAll();
+        nextBtns[3].classList.add('pulse');
+        if (window.innerWidth <= 600) { document.querySelector('.video-box').style.height = "300px"; }
+      };
+      mediaRecorderInstance.start();
+      recordingIndicator.style.display = 'flex';
+      stopBtn.classList.remove('hidden-btn');
+      stopBtn.disabled = false;
+      // Redémarrage du cycle de 2 minutes avec les mêmes questions
+      startTwoMinutesCycle(currentSimulationQuestions);
     });
+
     bindStartButton();
 
     /***********************
-     * Redirection et téléchargement de la vidéo
+     * STEP4 : Redirection finale et téléchargement de la vidéo
      ***********************/
     const validateFormBtn = document.getElementById('validate-form-btn');
     validateFormBtn.addEventListener('click', () => {
