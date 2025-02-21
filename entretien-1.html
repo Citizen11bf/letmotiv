@@ -54,9 +54,7 @@
   
   <style>
     /* --- GLOBAL --- */
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: 'DM Sans', sans-serif;
@@ -94,10 +92,7 @@
       max-width: 100%;
       overflow-wrap: break-word;
     }
-    .header-l2 {
-      font-size: 14px;
-      font-weight: normal;
-    }
+    .header-l2 { font-size: 14px; font-weight: normal; }
 
     /* --- BARRE DE PROGRESSION --- */
     .progress-container {
@@ -116,11 +111,7 @@
       transition: width 0.5s ease;
     }
 
-      @media (max-width: 600px) {
-        h1 .line {
-        display: block;
-        }
-      }
+    @media (max-width: 600px) { h1 .line { display: block; } }
     
     /* --- BOÎTE D'INTRODUCTION --- */
     .intro-box {
@@ -163,18 +154,9 @@
       transform: scale(1.05);
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
-    @keyframes fadeOut {
-      from { opacity: 1; }
-      to   { opacity: 0; }
-    }
-    @keyframes slideDown {
-      from { transform: translateY(-50px); opacity: 0; }
-      to   { transform: translateY(0); opacity: 1; }
-    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+    @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
     /* --- CONTENEUR PRINCIPAL --- */
     .main-container {
@@ -202,29 +184,17 @@
       display: none;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    .box.active {
-      display: block;
-    }
+    .box.active { display: block; }
     .box:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
     }
 
     /* --- ANIMATIONS VERTICALES --- */
-    .slide-from-bottom {
-      animation: fromBottom 1.5s ease forwards;
-    }
-    @keyframes fromBottom {
-      from { opacity: 0; transform: translateY(50px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .slide-from-top {
-      animation: fromTop 1.5s ease forwards;
-    }
-    @keyframes fromTop {
-      from { opacity: 0; transform: translateY(-50px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    .slide-from-bottom { animation: fromBottom 1.5s ease forwards; }
+    @keyframes fromBottom { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+    .slide-from-top { animation: fromTop 1.5s ease forwards; }
+    @keyframes fromTop { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
 
     /* --- HEADER INTERNE DES BOXES --- */
     .box-header {
@@ -251,22 +221,10 @@
       margin: 0 auto;
       margin-bottom: 10px;
     }
-    .back-btn:hover {
-      background-color: #505050;
-      transform: scale(1.1);
-    }
-    .back-btn:active {
-      background-color: #303030;
-    }
-    #step1 .back-btn.hidden-visibility {
-      display: none;
-    }
-    .box-title {
-      font-size: 18px;
-      font-weight: bold;
-      color: #182d84;
-      text-align: center;
-    }
+    .back-btn:hover { background-color: #505050; transform: scale(1.1); }
+    .back-btn:active { background-color: #303030; }
+    #step1 .back-btn.hidden-visibility { display: none; }
+    .box-title { font-size: 18px; font-weight: bold; color: #182d84; text-align: center; }
 
     /* --- FLECHES HAUT/BAS --- */
     .next-btn, .back-btn { }
@@ -284,14 +242,8 @@
       transition: background-color 0.3s, color 0.3s, transform 0.3s;
       margin: 10px auto;
     }
-    .next-btn:hover {
-      background-color: #00a48a;
-      color: #ffffff;
-      transform: scale(1.05);
-    }
-    .next-btn.pulse {
-      animation: electricPulse 1.5s infinite;
-    }
+    .next-btn:hover { background-color: #00a48a; color: #ffffff; transform: scale(1.05); }
+    .next-btn.pulse { animation: electricPulse 1.5s infinite; }
     @keyframes electricPulse {
       0% { box-shadow: 0 0 0 0 rgba(0,164,138,0.7); }
       70% { box-shadow: 0 0 0 10px rgba(0,164,138,0); }
@@ -311,9 +263,7 @@
       cursor: pointer;
       transition: background-color 0.3s;
     }
-    .btn-impro:hover {
-      background-color: #00a48a;
-    }
+    .btn-impro:hover { background-color: #00a48a; }
 
     /* --- STEP1 : Choix d’objectif avec effet "Carte Flip" --- */
     .objectives-container {
@@ -324,31 +274,15 @@
       margin: 10px 0;
     }
     @media (max-width: 600px) {
-      .objectives-container {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .flip-card {
-        width: 90px;
-        height: 100px;
-      }
-      .flip-card-front i {
-        font-size: 1.8rem;
-      }
-      .flip-card-front span {
-        font-size: 0.9rem;
-      }
+      .objectives-container { grid-template-columns: repeat(2, 1fr); }
+      .flip-card { width: 90px; height: 100px; }
+      .flip-card-front i { font-size: 1.8rem; }
+      .flip-card-front span { font-size: 0.9rem; }
     }
     @media (max-width: 550px) {
-      .flip-card {
-        max-width: 120px;
-        height: 90px;
-      }
-      .flip-card-front i {
-        font-size: 1.5rem;
-      }
-      .flip-card-front span {
-        font-size: 0.7rem;
-      }
+      .flip-card { max-width: 120px; height: 90px; }
+      .flip-card-front i { font-size: 1.5rem; }
+      .flip-card-front span { font-size: 0.7rem; }
     }
     .flip-card {
       background-color: transparent;
@@ -368,9 +302,7 @@
       border-radius: 8px;
       background-color: #fff;
     }
-    .flip-card.flipped .flip-card-inner {
-      transform: rotateY(180deg);
-    }
+    .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
     .flip-card-front,
     .flip-card-back {
       position: absolute;
@@ -390,14 +322,8 @@
       color: #808080;
       border: 1px solid #ccc;
     }
-    .flip-card-front i {
-      font-size: 1.8rem;
-      margin-bottom: 8px;
-    }
-    .flip-card-front span {
-      font-size: 0.9rem;
-      font-weight: bold;
-    }
+    .flip-card-front i { font-size: 1.8rem; margin-bottom: 8px; }
+    .flip-card-front span { font-size: 0.9rem; font-weight: bold; }
     .flip-card-back {
       background: #f0f0f0;
       color: #00a48a;
@@ -468,9 +394,7 @@
       padding: 20px;
       background: rgba(255,255,255,0.6);
     }
-    .video-overlay p {
-      margin: 10px 0;
-    }
+    .video-overlay p { margin: 10px 0; }
     .video-overlay button {
       pointer-events: auto;
       margin: 15px 0;
@@ -483,9 +407,7 @@
       cursor: pointer;
       transition: background-color 0.3s;
     }
-    .video-overlay button:hover {
-      background-color: #00a48a;
-    }
+    .video-overlay button:hover { background-color: #00a48a; }
     .recording-indicator {
       position: absolute;
       top: 10px;
@@ -553,14 +475,10 @@
       justify-content: center;
       margin-top: 10px;
     }
-    .hidden-btn {
-      display: none;
-    }
+    .hidden-btn { display: none; }
 
     /* --- STEP4 : Analyse ta prestation & Téléchargements --- */
-    .download-section {
-      margin-top: 20px;
-    }
+    .download-section { margin-top: 20px; }
     .download-section-accent {
       background: linear-gradient(135deg, #182d84, #00a48a);
       border-radius: 10px;
@@ -575,17 +493,9 @@
       font-size: 1.5rem;
       margin: 0 0 10px;
     }
-    .download-section-accent .subtitle {
-      font-style: italic;
-      margin-bottom: 10px;
-    }
-    .download-section-accent .reassure {
-      font-size: 0.9rem;
-      opacity: 0.9;
-    }
-    .call-to-action {
-      text-align: center;
-    }
+    .download-section-accent .subtitle { font-style: italic; margin-bottom: 10px; }
+    .download-section-accent .reassure { font-size: 0.9rem; opacity: 0.9; }
+    .call-to-action { text-align: center; }
     .call-to-action button {
       background-color: #ffcb2d;
       color: #000;
@@ -629,10 +539,7 @@
       opacity: 1;
       visibility: visible;
     }
-    @keyframes fadeInDown {
-      from { transform: translateY(-20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
+    @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
   </style>
 </head>
 <body>
@@ -826,7 +733,7 @@
       <div class="download-section">
         <div class="download-section-accent">
           <h2>Obtiens gratuitement ta prestation en vidéo et des éléments d'analyse Letmotiv</h2>
-            <p class="reassure">
+          <p class="reassure">
             N'hésite pas à t'entraîner et refaire des simulations pour progresser.
           </p>
         </div>
@@ -978,6 +885,35 @@
     });
 
     /***********************
+     * Fonction loadSubjects pour charger les questions depuis un fichier texte
+     ***********************/
+    async function loadSubjects(category) {
+      const txtFilesByCategory = {
+        "grand-oral": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_Grand_Oral.txt",
+        "ingenieur-generaliste": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_Ingenieur_Generaliste.txt",
+        "ingenieur-aero": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_Ingenieur_Aero.txt",
+        "commerce": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_Commerce.txt",
+        "sciences-politiques": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_Sciences_Politiques.txt",
+        "embauche": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/entretien.txt"
+      };
+      const filePath = txtFilesByCategory[category];
+      if (!filePath) return [];
+      try {
+        const response = await fetch(filePath);
+        if (!response.ok) {
+          console.error("Erreur fetch:", filePath);
+          return [];
+        }
+        const text = await response.text();
+        const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+        return lines;
+      } catch (err) {
+        console.error("Erreur fetch: ", err);
+        return [];
+      }
+    }
+
+    /***********************
      * Enregistrement vidéo (STEP3) et gestion des questions
      ***********************/
     let improStarted = false;
@@ -1084,7 +1020,7 @@
         improErrorDiv.style.display = 'block';
         return;
       }
-      // On suppose que la première ligne du fichier est "Présentez-vous"
+      // Afficher la première question (supposée être à l'index 0)
       displayQuestions([questions[0]]);
 
       mediaRecorderInstance.start();
