@@ -346,6 +346,13 @@
       gap: 10px;
       margin-top: 20px;
     }
+    /* Animation scale sur hover et click pour les boutons de sélection */
+    .simulation-buttons button:hover {
+      transform: scale(1.05);
+    }
+    .simulation-buttons button:active {
+      transform: scale(0.95);
+    }
     .simulation-buttons button.selected {
       background-color: #00a48a;
       color: #fff;
@@ -378,20 +385,23 @@
       transform: scaleX(-1);
       -webkit-transform: scaleX(-1);
     }
+    /* Modification STEP3 : Positionner l'overlay en haut de l'encart caméra */
     .video-overlay {
       position: absolute;
       z-index: 2;
+      top: 0;
+      left: 0;
       width: 100%;
-      height: 100%;
+      /* aligné en haut avec un léger padding */
+      padding: 10px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
       text-align: center;
       color: #555;
       font-style: italic;
       font-size: 14px;
-      padding: 20px;
       background: rgba(255,255,255,0.6);
     }
     .video-overlay p { margin: 10px 0; }
@@ -408,6 +418,7 @@
       transition: background-color 0.3s;
     }
     .video-overlay button:hover { background-color: #00a48a; }
+    /* Modification STEP3 : Enregistrement en cours avec icône (en haut à droite) */
     .recording-indicator {
       position: absolute;
       top: 10px;
@@ -436,6 +447,7 @@
       50% { opacity: 0; }
       100% { opacity: 1; }
     }
+    /* Modification STEP3 : Décompte en bas à droite */
     .countdown {
       position: absolute;
       bottom: 10px;
@@ -693,25 +705,34 @@
       <!-- Suppression du rappel du sujet -->
       <div class="video-box">
         <video id="preview" autoplay muted playsinline webkit-playsinline></video>
-        <div class="video-overlay">
-          <p>Ici va s'enregistrer ton entretien vidéo.<br>Lorsque tu es prêt, clique sur le bouton ci-dessous.</p>
+        <!-- L'overlay sera utilisé pour afficher la question avec préfixe -->
+        <div class="video-overlay" id="question-overlay">
+          <!-- Par défaut, affichage du rappel avant démarrage -->
+          <p style="font-size:18px; text-align:center;">
+            Ici va s'enregistrer ton entretien vidéo.<br>
+            Lorsque tu es prêt, clique sur le bouton ci-dessous.
+          </p>
           <button id="start-btn" aria-label="Démarrer l'entretien">
             Démarrer ton entretien <i class="fas fa-video"></i>
           </button>
-          <p>NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
+          <p style="font-size:12px;">NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
         </div>
+        <!-- Indicateur d'enregistrement avec icône -->
         <div class="recording-indicator" id="recording-indicator">
-          <span class="dot"></span> Enregistrement en cours
+          <i class="fas fa-record-vinyl"></i> Enregistrement en cours
         </div>
+        <!-- Décompte en bas à droite -->
         <div class="countdown" id="countdown">2:00</div>
         <div class="initial-countdown-overlay" id="initial-countdown-overlay">
           <div class="initial-countdown" id="initial-countdown">5</div>
         </div>
       </div>
       <div class="impro-actions">
+        <!-- Bouton "Arrêter l'entretien" (affiché dès le démarrage) -->
         <button id="stop-btn" class="hidden-btn btn-impro" aria-label="Arrêter l'entretien">
           Arrêter ton entretien <i class="fas fa-stop"></i>
         </button>
+        <!-- Bouton "Recommencer l'entretien" (affiché après arrêt ou fin de décompte) -->
         <button id="restart-btn" class="hidden-btn btn-impro" aria-label="Recommencer l'entretien">
           Recommencer ton entretien <i class="fas fa-redo"></i>
         </button>
@@ -723,7 +744,7 @@
     </div>
 
     <!-- STEP4 : Analyse ta prestation & Téléchargements -->
-    <div class="box" id="step">
+    <div class="box" id="step4">
       <div class="box-header">
         <button class="back-btn" id="back-btn5" aria-label="Retour à l'étape précédente">
           <i class="fas fa-arrow-up"></i>
@@ -779,6 +800,7 @@
     let currentCategory = null;
     let selectedQuestionCount = 0;
     let currentSubject = "";
+    let currentQuestionIndex = 1; // Pour le préfixe "Question X/Y"
 
     // Objet de correspondance pour l'affichage dans STEP1
     const objectiveDisplayMapping = {
@@ -926,6 +948,7 @@
     const countdownElement = document.getElementById('countdown');
     const initialCountdownOverlay = document.getElementById('initial-countdown-overlay');
     const initialCountdown = document.getElementById('initial-countdown');
+    const questionOverlay = document.getElementById('question-overlay');
 
     let timerInterval;
     let videoURL = "";
@@ -958,7 +981,8 @@
           const videoBox = document.querySelector('.video-box');
           videoBox.style.height = "450px";
       }
-      document.querySelector('.video-overlay').style.display = 'none';
+      // Masquer l'overlay de rappel initial
+      questionOverlay.style.display = 'none';
       startInitialCountdown();
     }
 
@@ -976,6 +1000,12 @@
           initiateRecording();
         }
       }, 1000);
+    }
+
+    // Fonction pour afficher la question avec préfixe "Question X/Y :"
+    function displayQuestionWithPrefix(current, total, questionText) {
+      questionOverlay.innerHTML = "<p style='font-size:18px; text-align:center;'>Question " + current + "/" + total + " : " + questionText + "</p>";
+      questionOverlay.style.display = 'flex';
     }
 
     async function initiateRecording() {
@@ -998,9 +1028,8 @@
         const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
         videoURL = URL.createObjectURL(videoBlob);
         stream.getTracks().forEach(t => t.stop());
-        const overlay = document.querySelector('.video-overlay');
-        overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Entretien terminé. Passe à l'étape suivante !</p>";
-        overlay.style.display = 'flex';
+        questionOverlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Entretien terminé. Passe à l'étape suivante !</p>";
+        questionOverlay.style.display = 'flex';
         document.getElementById('impro-error').style.display = 'none';
         recordingIndicator.style.display = 'none';
         clearInterval(timerInterval);
@@ -1010,9 +1039,11 @@
         if (window.innerWidth <= 600) {
             document.querySelector('.video-box').style.height = "300px";
         }
+        // Afficher le bouton "Recommencer l'entretien" si non déjà affiché
+        restartBtn.classList.remove('hidden-btn');
       };
 
-      // Affichage de la première question (toujours "Présentez-vous")
+      // Charger les questions depuis le fichier en fonction de la catégorie
       const questions = await loadSubjects(currentCategory);
       if (!questions || questions.length === 0) {
         const improErrorDiv = document.getElementById('impro-error');
@@ -1020,11 +1051,15 @@
         improErrorDiv.style.display = 'block';
         return;
       }
-      // Afficher la première question (supposée être à l'index 0)
-      displayQuestions([questions[0]]);
+      // Réinitialiser l'index de question et afficher la première question avec préfixe
+      currentQuestionIndex = 1;
+      displayQuestionWithPrefix(currentQuestionIndex, selectedQuestionCount, questions[0]);
 
       mediaRecorderInstance.start();
+      // Afficher l'indicateur d'enregistrement et le décompte
       recordingIndicator.style.display = 'flex';
+      countdownElement.style.display = 'block';
+      // Afficher le bouton "Arrêter l'entretien"
       stopBtn.classList.remove('hidden-btn');
       stopBtn.disabled = false;
       restartBtn.classList.add('hidden-btn');
@@ -1051,13 +1086,6 @@
       }
     }
 
-    // Fonction pour afficher la ou les questions dans l'overlay
-    function displayQuestions(questionList) {
-      const overlay = document.querySelector('.video-overlay');
-      overlay.innerHTML = "<p style='font-size:18px; text-align:center;'>" + questionList.join('<br><br>') + "</p>";
-      overlay.style.display = 'flex';
-    }
-
     // Fonction qui gère le cycle de 2 minutes pour changer les questions
     function startTwoMinutesCycle(questions) {
       let timeRemaining = 120;
@@ -1069,16 +1097,26 @@
           updateCountdownDisplay(timeRemaining);
         }
         if (timeRemaining <= 0) {
-          // Calcul du nombre de questions supplémentaires à afficher
-          const additionalCount = selectedQuestionCount - 1;
-          const otherQuestions = questions.slice(1); // exclut la première question "Présentez-vous"
-          const randomQuestions = [];
-          for (let i = 0; i < additionalCount; i++) {
-            const randomIndex = Math.floor(Math.random() * otherQuestions.length);
-            randomQuestions.push(otherQuestions[randomIndex]);
+          if(currentQuestionIndex < selectedQuestionCount) {
+            currentQuestionIndex++;
+            let questionText;
+            // Première question est toujours l'index 0, les suivantes tirées aléatoirement dans le reste
+            if (currentQuestionIndex === 1) {
+              questionText = questions[0];
+            } else {
+              const otherQuestions = questions.slice(1);
+              questionText = otherQuestions[Math.floor(Math.random() * otherQuestions.length)];
+            }
+            displayQuestionWithPrefix(currentQuestionIndex, selectedQuestionCount, questionText);
+            timeRemaining = 120;
+          } else {
+            // Si toutes les questions ont été traitées, arrêter l'enregistrement
+            mediaRecorderInstance.stop();
+            clearInterval(timerInterval);
+            stopBtn.classList.add('hidden-btn');
+            stopBtn.disabled = true;
+            // Le bouton "Recommencer l'entretien" sera affiché dans onstop
           }
-          displayQuestions(randomQuestions);
-          timeRemaining = 120;
         }
       }, 1000);
     }
@@ -1087,7 +1125,6 @@
       const minutes = Math.floor(seconds / 60);
       const sec = seconds % 60;
       countdownElement.textContent = `${minutes}:${sec < 10 ? '0' + sec : sec}`;
-      countdownElement.style.display = 'block';
     }
 
     stopBtn.addEventListener('click', () => {
@@ -1102,14 +1139,17 @@
     });
     restartBtn.addEventListener('click', () => {
       restartBtn.classList.add('hidden-btn');
-      document.querySelector('.video-overlay').innerHTML = `
-        <p>Ici va s'enregistrer ton entretien vidéo.<br>Lorsque tu es prêt, clique sur le bouton ci-dessous.</p>
+      questionOverlay.innerHTML = `
+        <p style="font-size:18px; text-align:center;">
+          Ici va s'enregistrer ton entretien vidéo.<br>
+          Lorsque tu es prêt, clique sur le bouton ci-dessous.
+        </p>
         <button id="start-btn" aria-label="Démarrer l'entretien">
           Démarrer ton entretien <i class="fas fa-video"></i>
         </button>
-        <p>NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
+        <p style="font-size:12px;">NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
       `;
-      document.querySelector('.video-overlay').style.display = 'flex';
+      questionOverlay.style.display = 'flex';
       improStarted = false;
       bindStartButton();
     });
