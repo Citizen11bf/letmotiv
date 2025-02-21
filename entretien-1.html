@@ -69,6 +69,12 @@
       padding-bottom: 20px;
     }
 
+    /* Message d'erreur */
+    .error-message {
+      color: red;
+      font-weight: bold;
+    }
+
     /* --- HEADER --- */
     .header {
       background-color: #182d84;
@@ -117,11 +123,6 @@
       .box { margin: 10px 0; }
       /* Rapprocher les boutons dans .impro-actions */
       .impro-actions { gap: 5px; }
-      /* Centrer verticalement et horizontalement le contenu de l'encart vidéo */
-      .video-overlay {
-        justify-content: center;
-        align-items: center;
-      }
     }
     
     /* --- BOÎTE D'INTRODUCTION --- */
@@ -131,7 +132,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(135deg, #E24B9C, #2E22AC);
+      background: linear-gradient(135deg, #E34C9D, #2E22AC);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -357,14 +358,12 @@
       gap: 10px;
       margin-top: 20px;
     }
-    /* Animation scale sur hover et click pour les boutons de sélection */
     .simulation-buttons button:hover {
       transform: scale(1.05);
     }
     .simulation-buttons button:active {
       transform: scale(0.95);
     }
-    /* Affichage uniquement du chiffre */
     .simulation-buttons button {
       padding: 10px 20px;
       font-size: 16px;
@@ -407,13 +406,14 @@
       transform: scaleX(-1);
       -webkit-transform: scaleX(-1);
     }
-    /* Overlay positionnée en haut de l'encart vidéo et centrée (texte et bouton Démarrer) */
+    /* Overlay centrée verticalement et horizontalement */
     .video-overlay {
       position: absolute;
       z-index: 2;
       top: 0;
       left: 0;
       width: 100%;
+      height: 100%;
       padding: 10px;
       display: flex;
       flex-direction: column;
@@ -439,7 +439,7 @@
       transition: background-color 0.3s;
     }
     .video-overlay button:hover { background-color: #00a48a; }
-    /* Indicateur d'enregistrement repositionné en bas à gauche, avec espace entre l'icône et le texte */
+    /* Indicateur d'enregistrement repositionné en bas à gauche avec espace entre l'icône et le texte */
     .recording-indicator {
       position: absolute;
       bottom: 10px;
@@ -455,7 +455,7 @@
       z-index: 3;
     }
     .recording-indicator i { margin-right: 5px; }
-    /* Chrono avec police réduite */
+    /* Chrono */
     .countdown {
       position: absolute;
       bottom: 10px;
@@ -530,13 +530,13 @@
       transform: translateY(-3px);
       box-shadow: 0 4px 6px rgba(0,0,0,0.2);
     }
-    /* Nouveau container pour les deux boutons apparaissant en STEP4 */
+    /* Boutons STEP4 dans le même design que les autres */
     #step4-extra {
       display: none;
       margin-top: 20px;
     }
     #step4-extra button {
-      background-color: #007bff;
+      background-color: #182d84;
       color: #fff;
       border: none;
       border-radius: 25px;
@@ -547,36 +547,7 @@
       transition: background-color 0.3s;
     }
     #step4-extra button:hover {
-      background-color: #0056b3;
-    }
-    .download-buttons {
-      margin-top: 20px;
-      text-align: center;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.4s ease, transform 0.4s ease;
-      display: none;
-    }
-    .download-buttons.show {
-      opacity: 1;
-      transform: translateY(0);
-      display: block;
-    }
-    .success-message {
-      color: #28a745;
-      background-color: #d4edda;
-      border: 1px solid #c3e6cb;
-      border-radius: 5px;
-      padding: 10px 20px;
-      margin-top: 10px;
-      font-weight: bold;
-      text-align: center;
-      transition: opacity 0.5s ease, visibility 0.5s ease;
-    }
-    .success-message.show {
-      display: block;
-      opacity: 1;
-      visibility: visible;
+      background-color: #00a48a;
     }
     @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
   </style>
@@ -731,7 +702,7 @@
       </div>
       <div class="video-box">
         <video id="preview" autoplay muted playsinline webkit-playsinline></video>
-        <!-- Overlay pour afficher la question et le bouton "Démarrer" (centré verticalement et horizontalement) -->
+        <!-- Overlay centré verticalement et horizontalement -->
         <div class="video-overlay" id="question-overlay">
           <p style="font-size:16px; text-align:center;">
             Ici va s'enregistrer ton entretien vidéo.<br>
@@ -742,7 +713,7 @@
           </button>
           <p style="font-size:12px;">NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
         </div>
-        <!-- Indicateur d'enregistrement repositionné en bas à gauche avec espace entre l'icône et le texte -->
+        <!-- Indicateur d'enregistrement repositionné en bas à gauche -->
         <div class="recording-indicator" id="recording-indicator">
           <i class="fas fa-record-vinyl"></i> Enregistrement en cours
         </div>
@@ -753,15 +724,12 @@
         </div>
       </div>
       <div class="impro-actions">
-        <!-- Bouton intermédiaire pour passer à la question suivante -->
         <button id="next-question-btn" class="hidden-btn btn-impro" aria-label="Question suivante">
           Question suivante <i class="fas fa-forward"></i>
         </button>
-        <!-- Bouton pour arrêter l'enregistrement -->
         <button id="stop-btn" class="hidden-btn btn-impro" aria-label="Arrêter l'entretien">
           Arrêter ton entretien <i class="fas fa-stop"></i>
         </button>
-        <!-- Bouton pour recommencer l'entretien -->
         <button id="restart-btn" class="hidden-btn btn-impro" aria-label="Recommencer l'entretien">
           Recommencer ton entretien <i class="fas fa-redo"></i>
         </button>
@@ -792,7 +760,7 @@
             Télécharger ma vidéo
           </button>
         </div>
-        <!-- Nouveau container pour les deux boutons qui apparaissent après téléchargement -->
+        <!-- Nouveau container pour les deux boutons STEP4 -->
         <div id="step4-extra">
           <button id="redo-btn">Je veux refaire un entretien</button>
           <button id="resources-btn">Je veux accéder aux ressources Letmotiv</button>
@@ -1216,7 +1184,7 @@
     bindStartButton();
 
     /***********************
-     * STEP4 : Téléchargement et apparition de deux boutons
+     * STEP4 : Téléchargement et affichage de deux boutons
      ***********************/
     const validateFormBtn = document.getElementById('validate-form-btn');
     const step4Extra = document.getElementById('step4-extra');
@@ -1232,17 +1200,15 @@
         link.click();
         document.body.removeChild(link);
       }
-      // Au lieu de rediriger, on affiche deux nouveaux boutons
+      // Au lieu de rediriger, on affiche les deux boutons personnalisés
       document.querySelector('.call-to-action').style.display = 'none';
       step4Extra.style.display = 'block';
     });
 
-    // Bouton pour refaire un entretien : retourne au début
     redoBtn.addEventListener('click', () => {
       window.location.reload();
     });
 
-    // Bouton pour accéder aux ressources Letmotiv
     resourcesBtn.addEventListener('click', () => {
       window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/entretien-candidat";
     });
