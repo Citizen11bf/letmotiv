@@ -118,10 +118,58 @@
     }
 
     @media (max-width: 600px) {
-      /* Réduire l'espace sous le header et les marges des boxes sur mobile */
+      /* Réduire l'espace sous le header et les marges des box sur mobile */
       body { padding-top: 40px; }
+      .box { margin: 10px 0; }
+      /* Rapprocher les boutons dans .impro-actions */
+      .impro-actions { gap: 5px; }
     }
     
+    /* --- BOÎTE D'INTRODUCTION --- */
+    .intro-box {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #ff6f61, #00bfa5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #ffffff;
+      z-index: 20;
+      animation: fadeIn 1s ease forwards;
+    }
+    .intro-box h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      animation: slideDown 1s ease forwards;
+    }
+    .intro-box button {
+      background-color: #ffffff;
+      color: #182d84;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 25px;
+      padding: 15px 30px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s, color 0.3s;
+      box-shadow: 0px 4px 6px rgba(0,0,0,0.2);
+    }
+    .intro-box button:hover {
+      background-color: #00a48a;
+      color: #ffffff;
+      transform: scale(1.05);
+    }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+    @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
     /* --- CONTENEUR PRINCIPAL --- */
     .main-container {
       display: flex;
@@ -130,7 +178,7 @@
       justify-content: center;
       flex-grow: 1;
       width: 100%;
-      padding: 10px; /* Réduit par rapport à 20px */
+      padding: 20px;
     }
 
     /* --- BOXES (étapes) --- */
@@ -138,10 +186,10 @@
       position: relative;
       width: 100%;
       max-width: 600px;
-      margin: 10px 0; /* Réduit par rapport à 20px */
+      margin: 20px 0;
       padding: 20px;
       border-radius: 15px;
-      background: linear-gradient(135deg, #ffffff, #f9f9f9);
+      background: linear-gradient(135deg, #2E22AC, #E34C9D);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       text-align: center;
       font-size: 14px;
@@ -358,35 +406,35 @@
       transform: scaleX(-1);
       -webkit-transform: scaleX(-1);
     }
-    /* Overlay pour les questions ou pour le contenu initial/final */
+    /* L'overlay pour les questions sera positionné en haut (sans la classe centered) */
     .video-overlay {
       position: absolute;
       z-index: 2;
       top: 0;
       left: 0;
       width: 100%;
-      /* Par défaut pour les questions, positionné en haut */
-      padding: 5px; /* Réduit le padding pour minimiser la marge grise */
+      padding: 10px;
       display: flex;
       flex-direction: column;
+      /* Par défaut, aligné en haut pour les questions */
       justify-content: flex-start;
       align-items: center;
       text-align: center;
       color: #555;
       font-style: italic;
-      font-size: 14px; /* Taille de police légèrement réduite */
+      font-size: 14px;
       background: rgba(255,255,255,0.6);
     }
-    /* Classe "centered" pour centrer le contenu initial et final */
+    /* Pour l'affichage initial et final, on ajoute la classe "centered" */
     .video-overlay.centered {
       height: 100%;
       justify-content: center;
       align-items: center;
     }
-    .video-overlay p { margin: 5px 0; }  /* Réduction de la marge */
+    .video-overlay p { margin: 10px 0; }
     .video-overlay button {
       pointer-events: auto;
-      margin: 10px 0;
+      margin: 15px 0;
       padding: 10px 20px;
       font-size: 16px;
       background-color: #182d84;
@@ -397,7 +445,7 @@
       transition: background-color 0.3s;
     }
     .video-overlay button:hover { background-color: #00a48a; }
-    /* Indicateur d'enregistrement repositionné en bas à gauche */
+    /* Indicateur d'enregistrement repositionné en bas à gauche avec espace entre l'icône et le texte */
     .recording-indicator {
       position: absolute;
       bottom: 10px;
@@ -660,9 +708,9 @@
       </div>
       <div class="video-box">
         <video id="preview" autoplay muted playsinline webkit-playsinline></video>
-        <!-- Overlay : par défaut pour le contenu initial/final centré -->
+        <!-- Overlay utilisée pour le contenu initial et final (centré) ou pour les questions (non centré) -->
         <div class="video-overlay centered" id="question-overlay">
-          <p style="font-size:14px; text-align:center;">
+          <p style="font-size:16px; text-align:center;">
             Ici va s'enregistrer ton entretien vidéo.<br>
             Lorsque tu es prêt, clique sur le bouton ci-dessous.
           </p>
@@ -692,7 +740,7 @@
           Recommencer ton entretien <i class="fas fa-redo"></i>
         </button>
       </div>
-      <!-- Zone pour messages d'erreur du STEP3 -->
+      <!-- Zone pour les messages d'erreur du STEP3 -->
       <div id="impro-error" class="error-message"></div>
       <button class="next-btn" id="next-btn3" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
@@ -728,6 +776,7 @@
 
   </div>
 
+  <!-- SCRIPT -->
   <script>
     /***********************
      * Gestion des étapes (4 étapes)
@@ -962,10 +1011,11 @@
       }, 1000);
     }
 
-    // Pour l'affichage des questions, on retire la classe "centered"
+    // Affiche la question avec le préfixe "Question X/Y :"
+    // Pour l'affichage des questions, on retire la classe "centered" pour placer l'overlay en haut
     function displayQuestionWithPrefix(current, total, questionText) {
       questionOverlay.classList.remove('centered');
-      questionOverlay.innerHTML = "<p style='font-size:14px; text-align:center;'>Question " + current + "/" + total + " : " + questionText + "</p>";
+      questionOverlay.innerHTML = "<p style='font-size:16px; text-align:center;'>Question " + current + "/" + total + " : " + questionText + "</p>";
       questionOverlay.style.display = 'flex';
     }
 
@@ -1048,6 +1098,7 @@
       }
     }
 
+    // Cycle de 2 minutes pour changer de question
     function startTwoMinutesCycle(questions) {
       let timeRemaining = 120;
       updateCountdownDisplay(timeRemaining);
@@ -1098,7 +1149,7 @@
     });
 
     nextQuestionBtn.addEventListener('click', () => {
-      // Si l'enregistrement n'a pas démarré, afficher un message d'erreur
+      // Si l'entretien n'a pas démarré, afficher un message d'erreur
       if (!mediaRecorderInstance || mediaRecorderInstance.state !== 'recording') {
         const improErrorDiv = document.getElementById('impro-error');
         improErrorDiv.textContent = "Veuillez démarrer l'entretien avant de passer à la question suivante.";
@@ -1128,9 +1179,10 @@
 
     restartBtn.addEventListener('click', () => {
       restartBtn.classList.add('hidden-btn');
+      // Pour revenir à l'état initial, on ajoute la classe "centered" afin de centrer le contenu
       questionOverlay.classList.add('centered');
       questionOverlay.innerHTML = `
-        <p style="font-size:14px; text-align:center;">
+        <p style="font-size:16px; text-align:center;">
           Ici va s'enregistrer ton entretien vidéo.<br>
           Lorsque tu es prêt, clique sur le bouton ci-dessous.
         </p>
