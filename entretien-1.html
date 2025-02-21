@@ -10,7 +10,7 @@
   <link rel="icon" href="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Letmotiv_favicon.webp" type="image/png">
   <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Letmotiv_favicon.webp">
   
-  <!-- Balises Open Graph pour LinkedIn -->
+  <!-- Balises Open Graph -->
   <meta property="og:title" content="Letmotiv - Simulateur d'entretien" />
   <meta property="og:description" content="Prépare-toi aux entretiens d'embauche et d'admission grâce au simulateur d'entretien Letmotiv." />
   <meta property="og:type" content="website" />
@@ -26,15 +26,15 @@
   <meta name="twitter:description" content="Prépare-toi aux entretiens d'embauche et d'admission grâce au simulateur d'entretien Letmotiv.">
   <meta name="twitter:image" content="https://i.postimg.cc/qvxsxJR3/Simulateur-interview.png">
 
-  <!-- Import de la police DM Sans et Montserrat depuis Google Fonts -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans&family=Montserrat:wght@700&display=swap" rel="stylesheet" />
 
-  <!-- Icônes Font Awesome -->
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   
-  <!-- Inclusion de Hammer.js pour la gestion des gestes sur mobile -->
+  <!-- Hammer.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
 
   <script type="application/ld+json">
@@ -68,7 +68,6 @@
       padding-top: 60px;
       padding-bottom: 20px;
     }
-
     /* --- HEADER --- */
     .header {
       background-color: #182d84;
@@ -83,15 +82,7 @@
       left: 0;
       z-index: 10;
     }
-    .header-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      max-width: 100%;
-      overflow-wrap: break-word;
-    }
+    .header-content { display: flex; flex-direction: column; align-items: center; gap: 5px; }
     .header-l2 { font-size: 14px; font-weight: normal; }
 
     /* --- BARRE DE PROGRESSION --- */
@@ -111,22 +102,15 @@
       transition: width 0.5s ease;
     }
 
-    @media (max-width: 600px) { h1 .line { display: block; } }
-    
     /* --- BOÎTE D'INTRODUCTION --- */
     .intro-box {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       background: linear-gradient(135deg, #ff6f61, #00bfa5);
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: #ffffff;
+      flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; color: #ffffff;
       z-index: 20;
       animation: fadeIn 1s ease forwards;
     }
@@ -153,23 +137,14 @@
       color: #ffffff;
       transform: scale(1.05);
     }
-
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
     @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
     /* --- CONTENEUR PRINCIPAL --- */
-    .main-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex-grow: 1;
-      width: 100%;
-      padding: 20px;
-    }
+    .main-container { display: flex; flex-direction: column; align-items: center; padding: 20px; width: 100%; }
 
-    /* --- BOXES (étapes) --- */
+    /* --- BOXES --- */
     .box {
       position: relative;
       width: 100%;
@@ -178,17 +153,14 @@
       padding: 20px;
       border-radius: 15px;
       background: linear-gradient(135deg, #ffffff, #f9f9f9);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       text-align: center;
       font-size: 14px;
       display: none;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     .box.active { display: block; }
-    .box:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-    }
+    .box:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0,0,0,0.15); }
 
     /* --- ANIMATIONS VERTICALES --- */
     .slide-from-bottom { animation: fromBottom 1.5s ease forwards; }
@@ -197,49 +169,23 @@
     @keyframes fromTop { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
 
     /* --- HEADER INTERNE DES BOXES --- */
-    .box-header {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 20px;
-      position: relative;
-    }
+    .box-header { display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; }
     .back-btn {
-      border: none;
-      background-color: #808080;
-      color: #FFFFFF;
-      font-size: 16px;
-      cursor: pointer;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      border: none; background-color: #808080; color: #FFFFFF; font-size: 16px;
+      cursor: pointer; border-radius: 50%; width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
       transition: background-color 0.3s, transform 0.3s;
-      margin: 0 auto;
       margin-bottom: 10px;
     }
     .back-btn:hover { background-color: #505050; transform: scale(1.1); }
-    .back-btn:active { background-color: #303030; }
-    #step1 .back-btn.hidden-visibility { display: none; }
     .box-title { font-size: 18px; font-weight: bold; color: #182d84; text-align: center; }
 
-    /* --- FLECHES HAUT/BAS --- */
-    .next-btn, .back-btn { }
+    /* --- BOUTONS SUIVANT/PRÉCÉDENT --- */
     .next-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 2px solid #182d84;
-      background-color: transparent;
-      color: #182d84;
-      cursor: pointer;
-      transition: background-color 0.3s, color 0.3s, transform 0.3s;
+      width: 40px; height: 40px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid #182d84; background-color: transparent; color: #182d84;
+      cursor: pointer; transition: background-color 0.3s, color 0.3s, transform 0.3s;
       margin: 10px auto;
     }
     .next-btn:hover { background-color: #00a48a; color: #ffffff; transform: scale(1.05); }
@@ -250,28 +196,18 @@
       100% { box-shadow: 0 0 0 0 rgba(0,164,138,0); }
     }
 
-    /* --- Bouton de style pour "Démarrer ton entretien" et boutons similaires --- */
+    /* --- BOUTON D'ENTRETIEN --- */
     .btn-impro {
-      pointer-events: auto;
-      margin: 15px 0;
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #182d84;
-      color: #fff;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      transition: background-color 0.3s;
+      margin: 15px 0; padding: 10px 20px; font-size: 16px;
+      background-color: #182d84; color: #fff; border: none;
+      border-radius: 25px; cursor: pointer; transition: background-color 0.3s;
     }
     .btn-impro:hover { background-color: #00a48a; }
 
-    /* --- STEP1 : Choix d’objectif avec effet "Carte Flip" --- */
+    /* --- STEP1 : CHOIX D'OBJECTIF --- */
     .objectives-container {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-      justify-items: center;
-      margin: 10px 0;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;
+      justify-items: center; margin: 10px 0;
     }
     @media (max-width: 600px) {
       .objectives-container { grid-template-columns: repeat(2, 1fr); }
@@ -279,271 +215,126 @@
       .flip-card-front i { font-size: 1.8rem; }
       .flip-card-front span { font-size: 0.9rem; }
     }
-    @media (max-width: 550px) {
-      .flip-card { max-width: 120px; height: 90px; }
-      .flip-card-front i { font-size: 1.5rem; }
-      .flip-card-front span { font-size: 0.7rem; }
-    }
     .flip-card {
-      background-color: transparent;
-      width: 100%;
-      max-width: 150px;
-      height: 120px;
-      perspective: 1000px;
-      cursor: pointer;
+      background-color: transparent; width: 100%; max-width: 150px; height: 120px;
+      perspective: 1000px; cursor: pointer;
     }
     .flip-card-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transition: transform 0.6s;
-      transform-style: preserve-3d;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      border-radius: 8px;
-      background-color: #fff;
+      position: relative; width: 100%; height: 100%;
+      transition: transform 0.6s; transform-style: preserve-3d;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2); border-radius: 8px; background-color: #fff;
     }
     .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
-    .flip-card-front,
-    .flip-card-back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      border-radius: 8px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 10px;
-      transition: background-color 0.3s, color 0.3s;
+    .flip-card-front, .flip-card-back {
+      position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
+      border-radius: 8px; display: flex; flex-direction: column; align-items: center;
+      justify-content: center; padding: 10px; transition: background-color 0.3s, color 0.3s;
     }
-    .flip-card-front {
-      background: #fff;
-      color: #808080;
-      border: 1px solid #ccc;
-    }
+    .flip-card-front { background: #fff; color: #808080; border: 1px solid #ccc; }
     .flip-card-front i { font-size: 1.8rem; margin-bottom: 8px; }
     .flip-card-front span { font-size: 0.9rem; font-weight: bold; }
     .flip-card-back {
-      background: #f0f0f0;
-      color: #00a48a;
-      transform: rotateY(180deg);
-      font-size: 0.8rem;
-      padding: 8px;
-      text-align: center;
-      border: 1px solid #ccc;
+      background: #f0f0f0; color: #00a48a; transform: rotateY(180deg);
+      font-size: 0.8rem; padding: 8px; text-align: center; border: 1px solid #ccc;
     }
 
-    /* --- STEP2 : Configuration de la simulation --- */
+    /* --- STEP2 : CONFIGURATION DE LA SIMULATION --- */
     .simulation-instructions {
-      padding: 20px;
-      font-size: 16px;
-      text-align: center;
+      padding: 20px; font-size: 16px; text-align: center;
     }
     .simulation-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 20px;
+      display: flex; justify-content: center; gap: 10px; margin-top: 20px;
     }
+    .simulation-buttons button {
+      padding: 10px 20px; font-size: 16px; border: none; border-radius: 25px;
+      background-color: #182d84; color: #fff; cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .simulation-buttons button:hover { transform: scale(1.05); }
+    .simulation-buttons button:active { transform: scale(0.95); }
     .simulation-buttons button.selected {
-      background-color: #00a48a;
-      color: #fff;
+      background-color: #00a48a; color: #fff;
     }
 
-    /* --- STEP3 : Enregistrement vidéo --- */
+    /* --- STEP3 : ENREGISTREMENT VIDÉO --- */
     .video-box {
-      margin: 10px auto;
-      border: 3px solid #182d84;
-      border-radius: 6px;
-      max-width: 500px;
-      background-color: #fefefe;
-      height: 300px;
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
+      margin: 10px auto; border: 3px solid #182d84; border-radius: 6px;
+      max-width: 500px; background-color: #fefefe; height: 300px; position: relative;
+      display: flex; justify-content: center; align-items: center; overflow: hidden;
       transition: height 0.5s ease-in-out;
     }
     .video-box video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 4px;
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 1;
-      transform: scaleX(-1);
+      width: 100%; height: 100%; object-fit: cover; border-radius: 4px;
+      position: absolute; top: 0; left: 0; z-index: 1; transform: scaleX(-1);
       -webkit-transform: scaleX(-1);
     }
+    /* On positionne l'overlay en haut */
     .video-overlay {
-      position: absolute;
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: auto; min-height: 50px;
+      display: flex; flex-direction: column; justify-content: flex-start; align-items: center;
+      text-align: center; color: #555; font-style: italic; font-size: 14px;
+      padding: 10px 20px; background: rgba(255,255,255,0.6);
       z-index: 2;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      color: #555;
-      font-style: italic;
-      font-size: 14px;
-      padding: 20px;
-      background: rgba(255,255,255,0.6);
     }
     .video-overlay p { margin: 10px 0; }
     .video-overlay button {
-      pointer-events: auto;
-      margin: 15px 0;
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #182d84;
-      color: #fff;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      transition: background-color 0.3s;
+      margin: 15px 0; padding: 10px 20px; font-size: 16px;
+      background-color: #182d84; color: #fff; border: none; border-radius: 25px;
+      cursor: pointer; transition: background-color 0.3s;
     }
     .video-overlay button:hover { background-color: #00a48a; }
     .recording-indicator {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      display: flex;
-      align-items: center;
-      background-color: rgba(255,255,255,0.8);
-      padding: 5px 10px;
-      border-radius: 20px;
-      font-size: 14px;
-      color: #ff0000;
-      display: none;
-      z-index: 3;
+      position: absolute; top: 10px; right: 10px;
+      display: flex; align-items: center; background-color: rgba(255,255,255,0.8);
+      padding: 5px 10px; border-radius: 20px; font-size: 14px; color: #ff0000;
+      display: none; z-index: 3;
     }
     .recording-indicator .dot {
-      height: 10px;
-      width: 10px;
-      background-color: #ff0000;
-      border-radius: 50%;
-      display: inline-block;
-      margin-right: 5px;
+      height: 10px; width: 10px; background-color: #ff0000;
+      border-radius: 50%; display: inline-block; margin-right: 5px;
       animation: blink 1s infinite;
     }
-    @keyframes blink {
-      0% { opacity: 1; }
-      50% { opacity: 0; }
-      100% { opacity: 1; }
-    }
+    @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
     .countdown {
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
-      font-size: 24px;
-      color: #ffffff;
-      display: none;
+      position: absolute; bottom: 10px; right: 10px;
+      font-size: 24px; color: #ffffff; background-color: rgba(0,0,0,0.5);
+      padding: 5px 10px; border-radius: 5px; text-align: center; display: block;
       z-index: 4;
-      background-color: rgba(0,0,0,0.5);
-      padding: 5px 10px;
-      border-radius: 5px;
-      text-align: center;
     }
     .initial-countdown-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(128,128,128,0.6);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 5;
-      border-radius: 6px;
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background-color: rgba(128,128,128,0.6); display: none;
+      align-items: center; justify-content: center; z-index: 5; border-radius: 6px;
     }
-    .initial-countdown {
-      font-size: 48px;
-      color: #ffffff;
-      font-weight: bold;
-    }
+    .initial-countdown { font-size: 48px; color: #ffffff; font-weight: bold; }
 
-    .impro-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: center;
-      margin-top: 10px;
-    }
+    .impro-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 10px; }
     .hidden-btn { display: none; }
 
-    /* --- STEP4 : Analyse ta prestation & Téléchargements --- */
+    /* --- STEP4 : ANALYSE ET TÉLÉCHARGEMENTS --- */
     .download-section { margin-top: 20px; }
     .download-section-accent {
-      background: linear-gradient(135deg, #182d84, #00a48a);
-      border-radius: 10px;
-      padding: 20px;
-      text-align: center;
-      color: #fff;
-      margin-bottom: 20px;
+      background: linear-gradient(135deg, #182d84, #00a48a); border-radius: 10px;
+      padding: 20px; text-align: center; color: #fff; margin-bottom: 20px;
       animation: fadeInDown 0.6s ease forwards;
     }
     .download-section-accent h2 {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.5rem;
-      margin: 0 0 10px;
+      font-family: 'Montserrat', sans-serif; font-size: 1.5rem; margin: 0 0 10px;
     }
-    .download-section-accent .subtitle { font-style: italic; margin-bottom: 10px; }
     .download-section-accent .reassure { font-size: 0.9rem; opacity: 0.9; }
     .call-to-action { text-align: center; }
     .call-to-action button {
-      background-color: #ffcb2d;
-      color: #000;
-      border-radius: 30px;
-      padding: 12px 24px;
-      font-weight: bold;
-      font-size: 1rem;
-      transition: transform 0.2s, box-shadow 0.2s;
-      margin: 10px auto;
+      background-color: #ffcb2d; color: #000; border-radius: 30px;
+      padding: 12px 24px; font-weight: bold; font-size: 1rem;
+      transition: transform 0.2s, box-shadow 0.2s; margin: 10px auto;
     }
-    .call-to-action button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-    }
-    .download-buttons {
-      margin-top: 20px;
-      text-align: center;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.4s ease, transform 0.4s ease;
-      display: none;
-    }
-    .download-buttons.show {
-      opacity: 1;
-      transform: translateY(0);
-      display: block;
-    }
-    .success-message {
-      color: #28a745;
-      background-color: #d4edda;
-      border: 1px solid #c3e6cb;
-      border-radius: 5px;
-      padding: 10px 20px;
-      margin-top: 10px;
-      font-weight: bold;
-      text-align: center;
-      transition: opacity 0.5s ease, visibility 0.5s ease;
-    }
-    .success-message.show {
-      display: block;
-      opacity: 1;
-      visibility: visible;
-    }
+    .call-to-action button:hover { transform: translateY(-3px); box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
     @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
   </style>
 </head>
 <body>
-  <!-- Élément audio pour le feedback sonore (pop léger) -->
+  <!-- Feedback sonore -->
   <audio id="pop-sound" src="https://www.soundjay.com/button/sounds/button-30.mp3"></audio>
 
   <!-- BOÎTE D'INTRODUCTION -->
@@ -693,12 +484,9 @@
       <!-- Suppression du rappel du sujet -->
       <div class="video-box">
         <video id="preview" autoplay muted playsinline webkit-playsinline></video>
-        <div class="video-overlay">
-          <p>Ici va s'enregistrer ton entretien vidéo.<br>Lorsque tu es prêt, clique sur le bouton ci-dessous.</p>
-          <button id="start-btn" aria-label="Démarrer l'entretien">
-            Démarrer ton entretien <i class="fas fa-video"></i>
-          </button>
-          <p>NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
+        <!-- L'overlay est désormais positionné en haut -->
+        <div class="video-overlay" id="question-overlay">
+          <!-- On affichera ici la question avec le préfixe "Question X/Y :" -->
         </div>
         <div class="recording-indicator" id="recording-indicator">
           <span class="dot"></span> Enregistrement en cours
@@ -722,7 +510,7 @@
       </button>
     </div>
 
-    <!-- STEP4 : Analyse ta prestation & Téléchargements -->
+    <!-- STEP4 : Analyse et Téléchargements -->
     <div class="box" id="step5">
       <div class="box-header">
         <button class="back-btn" id="back-btn5" aria-label="Retour à l'étape précédente">
@@ -744,13 +532,12 @@
         </div>
       </div>
     </div>
-
   </div>
 
   <!-- SCRIPT -->
   <script>
     /***********************
-     * Gestion des étapes (4 étapes)
+     * Gestion des étapes
      ***********************/
     const boxes = {
       1: document.getElementById('step1'),
@@ -758,19 +545,16 @@
       3: document.getElementById('step3'),
       4: document.getElementById('step5')
     };
-
     const nextBtns = {
       1: document.getElementById('next-btn1'),
       2: document.getElementById('next-btn2'),
       3: document.getElementById('next-btn3')
     };
-
     const backBtns = {
       2: document.getElementById('back-btn2'),
       3: document.getElementById('back-btn3'),
       4: document.getElementById('back-btn5')
     };
-
     const introBox = document.getElementById('intro-box');
     const startIntroBtn = document.getElementById('start-intro-btn');
     const topProgressBar = document.getElementById('top-progress-bar');
@@ -778,9 +562,9 @@
     let currentStepGlobal = 0;
     let currentCategory = null;
     let selectedQuestionCount = 0;
-    let currentSubject = "";
+    let currentQuestionIndex = 0; // compteur de questions
 
-    // Objet de correspondance pour l'affichage dans STEP1
+    // Affichage pour STEP1
     const objectiveDisplayMapping = {
       "grand-oral": "passer le Grand Oral",
       "ingenieur-generaliste": "intégrer une école d'ingénieur généraliste",
@@ -795,11 +579,9 @@
       topProgressBar.style.width = `${progress}%`;
     }
     updateProgressBar(0);
-
     function removePulseFromAll() {
       Object.values(nextBtns).forEach(btn => btn.classList.remove('pulse'));
     }
-
     function showBox(current, next) {
       if (!boxes[current] || !boxes[next]) return;
       boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
@@ -813,7 +595,6 @@
       currentStepGlobal = next;
       removePulseFromAll();
     }
-
     startIntroBtn.addEventListener('click', () => {
       introBox.style.animation = 'fadeOut 0.5s ease forwards';
       setTimeout(() => {
@@ -824,47 +605,37 @@
         removePulseFromAll();
       }, 500);
     });
-
     nextBtns[1].addEventListener('click', () => {
       const selected = document.querySelector('.objectives-container .flip-card.flipped');
       if (!selected) {
-        const errorDiv = document.getElementById('objective-error');
-        errorDiv.textContent = "Sélectionne un objectif avant de continuer.";
-        errorDiv.style.display = 'block';
+        document.getElementById('objective-error').textContent = "Sélectionne un objectif avant de continuer.";
+        document.getElementById('objective-error').style.display = 'block';
         return;
       }
       showBox(1, 2);
     });
-
     nextBtns[2].addEventListener('click', () => {
       if (selectedQuestionCount === 0) {
-        const subjErrorDiv = document.getElementById('subject-error');
-        subjErrorDiv.textContent = "Choisis le nombre de questions avant de continuer.";
-        subjErrorDiv.style.display = 'block';
+        document.getElementById('subject-error').textContent = "Choisis le nombre de questions avant de continuer.";
+        document.getElementById('subject-error').style.display = 'block';
         return;
       }
       showBox(2, 3);
     });
-
-    nextBtns[3].addEventListener('click', () => {
-      showBox(3, 4);
-    });
-
+    nextBtns[3].addEventListener('click', () => { showBox(3, 4); });
     backBtns[2].addEventListener('click', () => { showBox(2, 1); });
     backBtns[3].addEventListener('click', () => { showBox(3, 2); });
     backBtns[4].addEventListener('click', () => { showBox(4, 3); });
 
     /***********************
-     * Gestion des objectifs (STEP1) avec effet "Carte Flip" et feedback sonore
+     * Gestion STEP1 : Objectifs
      ***********************/
     const objectivesCards = document.querySelectorAll('.objectives-container .objective-item');
     const popSound = document.getElementById('pop-sound');
-
     objectivesCards.forEach(card => {
-      card.addEventListener('click', async () => {
+      card.addEventListener('click', () => {
         popSound.currentTime = 0;
         popSound.play();
-
         objectivesCards.forEach(c => c.classList.remove('flipped'));
         card.classList.add('flipped');
         currentCategory = card.dataset.category;
@@ -873,7 +644,7 @@
     });
 
     /***********************
-     * Gestion du choix du nombre de questions (STEP2)
+     * Gestion STEP2 : Choix du nombre de questions avec animation
      ***********************/
     document.querySelectorAll('.simulation-buttons button').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -914,7 +685,7 @@
     }
 
     /***********************
-     * Enregistrement vidéo (STEP3) et gestion des questions
+     * STEP3 : Enregistrement vidéo et gestion des questions
      ***********************/
     let improStarted = false;
     let mediaRecorderInstance;
@@ -926,37 +697,42 @@
     const countdownElement = document.getElementById('countdown');
     const initialCountdownOverlay = document.getElementById('initial-countdown-overlay');
     const initialCountdown = document.getElementById('initial-countdown');
+    const questionOverlay = document.getElementById('question-overlay');
 
     let timerInterval;
     let videoURL = "";
 
-    // Fonction pour démarrer l'entretien
+    // Affiche la question avec le préfixe "Question X/Y :"
+    function displayQuestion(questionText, questionNumber, totalQuestions) {
+      questionOverlay.innerHTML = `<p style="font-size:18px; font-weight:bold;">Question ${questionNumber}/${totalQuestions} :</p>
+                                   <p style="font-size:16px;">${questionText}</p>`;
+      questionOverlay.style.display = 'flex';
+    }
+
+    // On place le bouton "Démarrer ton entretien" si besoin
     function bindStartButton() {
       const startBtn = document.getElementById('start-btn');
-      if(startBtn){
+      if(startBtn) {
         startBtn.addEventListener('click', startImpro);
       }
     }
 
     async function startImpro() {
       if (selectedQuestionCount === 0) {
-        const improErrorDiv = document.getElementById('impro-error');
-        improErrorDiv.textContent = "Choisis d'abord le nombre de questions en étape 2.";
-        improErrorDiv.style.display = 'block';
+        document.getElementById('impro-error').textContent = "Choisis d'abord le nombre de questions en étape 2.";
+        document.getElementById('impro-error').style.display = 'block';
         return;
       }
       if (typeof MediaRecorder === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
-        const improErrorDiv = document.getElementById('impro-error');
-        improErrorDiv.textContent = "L'enregistrement vidéo n'est pas supporté par votre navigateur.";
-        improErrorDiv.style.display = 'block';
+        document.getElementById('impro-error').textContent = "L'enregistrement vidéo n'est pas supporté par votre navigateur.";
+        document.getElementById('impro-error').style.display = 'block';
         return;
       }
       if (!confirm("Votre webcam va se lancer pour démarrer l'entretien. Voulez-vous continuer ?")) {
         return;
       }
       if (window.innerWidth <= 600) {
-          const videoBox = document.querySelector('.video-box');
-          videoBox.style.height = "450px";
+          document.querySelector('.video-box').style.height = "450px";
       }
       document.querySelector('.video-overlay').style.display = 'none';
       startInitialCountdown();
@@ -982,9 +758,8 @@
       const stream = await setupCamera();
       if (!stream) return;
       if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
-        const improErrorDiv = document.getElementById('impro-error');
-        improErrorDiv.textContent = "Ton navigateur ne supporte pas l'enregistrement vidéo.";
-        improErrorDiv.style.display = 'block';
+        document.getElementById('impro-error').textContent = "Ton navigateur ne supporte pas l'enregistrement vidéo.";
+        document.getElementById('impro-error').style.display = 'block';
         return;
       }
       mediaRecorderInstance = new MediaRecorder(stream);
@@ -998,9 +773,8 @@
         const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
         videoURL = URL.createObjectURL(videoBlob);
         stream.getTracks().forEach(t => t.stop());
-        const overlay = document.querySelector('.video-overlay');
-        overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Entretien terminé. Passe à l'étape suivante !</p>";
-        overlay.style.display = 'flex';
+        questionOverlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Entretien terminé. Passe à l'étape suivante !</p>";
+        questionOverlay.style.display = 'flex';
         document.getElementById('impro-error').style.display = 'none';
         recordingIndicator.style.display = 'none';
         clearInterval(timerInterval);
@@ -1012,22 +786,24 @@
         }
       };
 
-      // Affichage de la première question (toujours "Présentez-vous")
+      // Chargement des questions depuis le fichier correspondant à la catégorie sélectionnée
       const questions = await loadSubjects(currentCategory);
       if (!questions || questions.length === 0) {
-        const improErrorDiv = document.getElementById('impro-error');
-        improErrorDiv.textContent = "Aucune question n'est disponible pour le moment.";
-        improErrorDiv.style.display = 'block';
+        document.getElementById('impro-error').textContent = "Aucune question n'est disponible pour le moment.";
+        document.getElementById('impro-error').style.display = 'block';
         return;
       }
-      // Afficher la première question (supposée être à l'index 0)
-      displayQuestions([questions[0]]);
+      // On affiche toujours la première question "Présentez-vous" (supposée être à l'index 0)
+      currentQuestionIndex = 1;
+      displayQuestion(questions[0], currentQuestionIndex, selectedQuestionCount);
 
       mediaRecorderInstance.start();
       recordingIndicator.style.display = 'flex';
       stopBtn.classList.remove('hidden-btn');
       stopBtn.disabled = false;
       restartBtn.classList.add('hidden-btn');
+
+      // Lancement du cycle de 2 minutes pour passer à la question suivante
       startTwoMinutesCycle(questions);
     }
 
@@ -1051,14 +827,7 @@
       }
     }
 
-    // Fonction pour afficher la ou les questions dans l'overlay
-    function displayQuestions(questionList) {
-      const overlay = document.querySelector('.video-overlay');
-      overlay.innerHTML = "<p style='font-size:18px; text-align:center;'>" + questionList.join('<br><br>') + "</p>";
-      overlay.style.display = 'flex';
-    }
-
-    // Fonction qui gère le cycle de 2 minutes pour changer les questions
+    // Fonction qui gère le cycle de 2 minutes pour changer de question
     function startTwoMinutesCycle(questions) {
       let timeRemaining = 120;
       updateCountdownDisplay(timeRemaining);
@@ -1069,16 +838,17 @@
           updateCountdownDisplay(timeRemaining);
         }
         if (timeRemaining <= 0) {
-          // Calcul du nombre de questions supplémentaires à afficher
-          const additionalCount = selectedQuestionCount - 1;
-          const otherQuestions = questions.slice(1); // exclut la première question "Présentez-vous"
-          const randomQuestions = [];
-          for (let i = 0; i < additionalCount; i++) {
-            const randomIndex = Math.floor(Math.random() * otherQuestions.length);
-            randomQuestions.push(otherQuestions[randomIndex]);
+          // Si on n'a pas encore affiché toutes les questions, passer à la suivante
+          if (currentQuestionIndex < selectedQuestionCount) {
+            currentQuestionIndex++;
+            // Pour la première question on affiche toujours "Présentez-vous", pour les suivantes, choisir aléatoirement parmi questions.slice(1)
+            let qText = (currentQuestionIndex === 1) ? questions[0] : questions[Math.floor(Math.random() * (questions.length - 1)) + 1];
+            displayQuestion(qText, currentQuestionIndex, selectedQuestionCount);
+            timeRemaining = 120;
+          } else {
+            // Si toutes les questions ont été affichées, on peut arrêter le cycle (ou réinitialiser selon le besoin)
+            clearInterval(timerInterval);
           }
-          displayQuestions(randomQuestions);
-          timeRemaining = 120;
         }
       }, 1000);
     }
@@ -1113,14 +883,12 @@
       improStarted = false;
       bindStartButton();
     });
-
     bindStartButton();
 
     /***********************
-     * Redirection finale et téléchargement de la vidéo
+     * Redirection et téléchargement de la vidéo
      ***********************/
     const validateFormBtn = document.getElementById('validate-form-btn');
-
     validateFormBtn.addEventListener('click', () => {
       if (videoURL) {
         const link = document.createElement('a');
