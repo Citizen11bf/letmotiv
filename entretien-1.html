@@ -111,7 +111,18 @@
       transition: width 0.5s ease;
     }
 
-    @media (max-width: 600px) { h1 .line { display: block; } }
+    @media (max-width: 600px) {
+      /* Réduire l'espace sous le header et les marges des box sur mobile */
+      body { padding-top: 40px; }
+      .box { margin: 10px 0; }
+      /* Rapprocher les boutons dans .impro-actions */
+      .impro-actions { gap: 5px; }
+      /* Centrer verticalement et horizontalement le contenu de l'encart vidéo */
+      .video-overlay {
+        justify-content: center;
+        align-items: center;
+      }
+    }
     
     /* --- BOÎTE D'INTRODUCTION --- */
     .intro-box {
@@ -353,7 +364,7 @@
     .simulation-buttons button:active {
       transform: scale(0.95);
     }
-    /* Modification STEP2 : Afficher seulement le chiffre sans "questions" */
+    /* Affichage uniquement du chiffre */
     .simulation-buttons button {
       padding: 10px 20px;
       font-size: 16px;
@@ -396,7 +407,7 @@
       transform: scaleX(-1);
       -webkit-transform: scaleX(-1);
     }
-    /* Overlay positionnée en haut de l'encart caméra */
+    /* Overlay positionnée en haut de l'encart vidéo et centrée (texte et bouton Démarrer) */
     .video-overlay {
       position: absolute;
       z-index: 2;
@@ -406,7 +417,7 @@
       padding: 10px;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
+      justify-content: center;
       align-items: center;
       text-align: center;
       color: #555;
@@ -428,7 +439,7 @@
       transition: background-color 0.3s;
     }
     .video-overlay button:hover { background-color: #00a48a; }
-    /* Modification STEP3 : Indicateur d'enregistrement repositionné en bas à gauche */
+    /* Indicateur d'enregistrement repositionné en bas à gauche, avec espace entre l'icône et le texte */
     .recording-indicator {
       position: absolute;
       bottom: 10px;
@@ -443,21 +454,8 @@
       display: none;
       z-index: 3;
     }
-    .recording-indicator .dot {
-      height: 10px;
-      width: 10px;
-      background-color: #ff0000;
-      border-radius: 50%;
-      display: inline-block;
-      margin-right: 5px;
-      animation: blink 1s infinite;
-    }
-    @keyframes blink {
-      0% { opacity: 1; }
-      50% { opacity: 0; }
-      100% { opacity: 1; }
-    }
-    /* Modification STEP3 : Réduire la taille de la police du chrono */
+    .recording-indicator i { margin-right: 5px; }
+    /* Chrono avec police réduite */
     .countdown {
       position: absolute;
       bottom: 10px;
@@ -531,6 +529,25 @@
     .call-to-action button:hover {
       transform: translateY(-3px);
       box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+    /* Nouveau container pour les deux boutons apparaissant en STEP4 */
+    #step4-extra {
+      display: none;
+      margin-top: 20px;
+    }
+    #step4-extra button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 5px;
+      transition: background-color 0.3s;
+    }
+    #step4-extra button:hover {
+      background-color: #0056b3;
     }
     .download-buttons {
       margin-top: 20px;
@@ -694,7 +711,6 @@
         Choisis le nombre de questions que tu souhaites simuler.
       </div>
       <div class="simulation-buttons">
-        <!-- Modification STEP2 : Affichage uniquement du chiffre -->
         <button class="btn-impro" data-question-count="3">3</button>
         <button class="btn-impro" data-question-count="4">4</button>
         <button class="btn-impro" data-question-count="5">5</button>
@@ -713,10 +729,9 @@
         </button>
         <div class="box-title">Lance ton entretien</div>
       </div>
-      <!-- Suppression du rappel du sujet -->
       <div class="video-box">
         <video id="preview" autoplay muted playsinline webkit-playsinline></video>
-        <!-- L'overlay pour afficher la question avec préfixe et le bouton "Question suivante" -->
+        <!-- Overlay pour afficher la question et le bouton "Démarrer" (centré verticalement et horizontalement) -->
         <div class="video-overlay" id="question-overlay">
           <p style="font-size:16px; text-align:center;">
             Ici va s'enregistrer ton entretien vidéo.<br>
@@ -727,26 +742,26 @@
           </button>
           <p style="font-size:12px;">NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
         </div>
-        <!-- Indicateur d'enregistrement repositionné en bas à gauche -->
+        <!-- Indicateur d'enregistrement repositionné en bas à gauche avec espace entre l'icône et le texte -->
         <div class="recording-indicator" id="recording-indicator">
           <i class="fas fa-record-vinyl"></i> Enregistrement en cours
         </div>
-        <!-- Décompte en bas à droite avec police réduite -->
+        <!-- Décompte en bas à droite -->
         <div class="countdown" id="countdown">2:00</div>
         <div class="initial-countdown-overlay" id="initial-countdown-overlay">
           <div class="initial-countdown" id="initial-countdown">5</div>
         </div>
       </div>
       <div class="impro-actions">
-        <!-- Nouveau bouton intermédiaire pour passer à la question suivante -->
+        <!-- Bouton intermédiaire pour passer à la question suivante -->
         <button id="next-question-btn" class="hidden-btn btn-impro" aria-label="Question suivante">
           Question suivante <i class="fas fa-forward"></i>
         </button>
-        <!-- Bouton "Arrêter l'entretien" -->
+        <!-- Bouton pour arrêter l'enregistrement -->
         <button id="stop-btn" class="hidden-btn btn-impro" aria-label="Arrêter l'entretien">
           Arrêter ton entretien <i class="fas fa-stop"></i>
         </button>
-        <!-- Bouton "Recommencer l'entretien" -->
+        <!-- Bouton pour recommencer l'entretien -->
         <button id="restart-btn" class="hidden-btn btn-impro" aria-label="Recommencer l'entretien">
           Recommencer ton entretien <i class="fas fa-redo"></i>
         </button>
@@ -773,9 +788,14 @@
           </p>
         </div>
         <div class="call-to-action">
-          <button id="validate-form-btn" aria-label="Valider les informations">
-            Télécharger ma prestation
+          <button id="validate-form-btn" aria-label="Télécharger ma vidéo">
+            Télécharger ma vidéo
           </button>
+        </div>
+        <!-- Nouveau container pour les deux boutons qui apparaissent après téléchargement -->
+        <div id="step4-extra">
+          <button id="redo-btn">Je veux refaire un entretien</button>
+          <button id="resources-btn">Je veux accéder aux ressources Letmotiv</button>
         </div>
       </div>
     </div>
@@ -1017,7 +1037,7 @@
       }, 1000);
     }
 
-    // Fonction pour afficher la question avec préfixe "Question X/Y :" en police légèrement réduite
+    // Affiche la question avec le préfixe "Question X/Y :"
     function displayQuestionWithPrefix(current, total, questionText) {
       questionOverlay.innerHTML = "<p style='font-size:16px; text-align:center;'>Question " + current + "/" + total + " : " + questionText + "</p>";
       questionOverlay.style.display = 'flex';
@@ -1054,13 +1074,12 @@
         if (window.innerWidth <= 600) {
             document.querySelector('.video-box').style.height = "300px";
         }
-        // Afficher le bouton "Recommencer l'entretien" si non déjà affiché
+        // Afficher le bouton "Recommencer l'entretien"
         restartBtn.classList.remove('hidden-btn');
-        // Masquer le bouton "Question suivante" s'il était affiché
         nextQuestionBtn.classList.add('hidden-btn');
       };
 
-      // Charger les questions depuis le fichier en fonction de la catégorie
+      // Charger les questions depuis le fichier
       const questions = await loadSubjects(currentCategory);
       if (!questions || questions.length === 0) {
         const improErrorDiv = document.getElementById('impro-error');
@@ -1068,18 +1087,16 @@
         improErrorDiv.style.display = 'block';
         return;
       }
-      // Réinitialiser l'index de question et afficher la première question avec préfixe
+      // Réinitialiser l'index et afficher la première question
       currentQuestionIndex = 1;
       displayQuestionWithPrefix(currentQuestionIndex, selectedQuestionCount, questions[0]);
 
       mediaRecorderInstance.start();
-      // Afficher l'indicateur d'enregistrement et le décompte
       recordingIndicator.style.display = 'flex';
       countdownElement.style.display = 'block';
-      // Afficher le bouton "Arrêter l'entretien"
+      // Afficher les boutons "Arrêter" et "Question suivante" (si plus d'une question)
       stopBtn.classList.remove('hidden-btn');
       stopBtn.disabled = false;
-      // Afficher le bouton "Question suivante" si plus d'une question est prévue
       if(selectedQuestionCount > 1) {
         nextQuestionBtn.classList.remove('hidden-btn');
       }
@@ -1107,7 +1124,7 @@
       }
     }
 
-    // Fonction qui gère le cycle de 2 minutes pour changer les questions
+    // Cycle de 2 minutes pour changer de question
     function startTwoMinutesCycle(questions) {
       let timeRemaining = 120;
       updateCountdownDisplay(timeRemaining);
@@ -1118,11 +1135,9 @@
           updateCountdownDisplay(timeRemaining);
         }
         if (timeRemaining <= 0) {
-          // Passage automatique à la question suivante
           if(currentQuestionIndex < selectedQuestionCount) {
             currentQuestionIndex++;
             let questionText;
-            // Première question est toujours à l'index 0, les suivantes tirées aléatoirement dans le reste
             if (currentQuestionIndex === 1) {
               questionText = questions[0];
             } else {
@@ -1132,12 +1147,10 @@
             displayQuestionWithPrefix(currentQuestionIndex, selectedQuestionCount, questionText);
             timeRemaining = 120;
           } else {
-            // Si toutes les questions ont été traitées, arrêter l'enregistrement
             mediaRecorderInstance.stop();
             clearInterval(timerInterval);
             stopBtn.classList.add('hidden-btn');
             stopBtn.disabled = true;
-            // Le bouton "Recommencer l'entretien" sera affiché dans onstop
           }
         }
       }, 1000);
@@ -1149,7 +1162,6 @@
       countdownElement.textContent = `${minutes}:${sec < 10 ? '0' + sec : sec}`;
     }
 
-    // Gestion du bouton "Arrêter l'entretien"
     stopBtn.addEventListener('click', () => {
       if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
         mediaRecorderInstance.stop();
@@ -1162,12 +1174,9 @@
       }
     });
 
-    // Gestion du bouton "Question suivante" permettant de passer manuellement à la question suivante
     nextQuestionBtn.addEventListener('click', () => {
-      // Réinitialiser le timer et passer à la question suivante
       clearInterval(timerInterval);
       let timeRemaining = 120;
-      // Charger les questions depuis le fichier (on suppose que 'questions' est accessible dans ce scope)
       loadSubjects(currentCategory).then(questions => {
         if(currentQuestionIndex < selectedQuestionCount) {
           currentQuestionIndex++;
@@ -1180,10 +1189,8 @@
           }
           displayQuestionWithPrefix(currentQuestionIndex, selectedQuestionCount, questionText);
           updateCountdownDisplay(timeRemaining);
-          // Redémarrer le cycle de 2 minutes
           startTwoMinutesCycle(questions);
         } else {
-          // Si dernière question, on stoppe l'enregistrement
           mediaRecorderInstance.stop();
         }
       });
@@ -1209,9 +1216,12 @@
     bindStartButton();
 
     /***********************
-     * Redirection finale et téléchargement de la vidéo
+     * STEP4 : Téléchargement et apparition de deux boutons
      ***********************/
     const validateFormBtn = document.getElementById('validate-form-btn');
+    const step4Extra = document.getElementById('step4-extra');
+    const redoBtn = document.getElementById('redo-btn');
+    const resourcesBtn = document.getElementById('resources-btn');
 
     validateFormBtn.addEventListener('click', () => {
       if (videoURL) {
@@ -1222,6 +1232,18 @@
         link.click();
         document.body.removeChild(link);
       }
+      // Au lieu de rediriger, on affiche deux nouveaux boutons
+      document.querySelector('.call-to-action').style.display = 'none';
+      step4Extra.style.display = 'block';
+    });
+
+    // Bouton pour refaire un entretien : retourne au début
+    redoBtn.addEventListener('click', () => {
+      window.location.reload();
+    });
+
+    // Bouton pour accéder aux ressources Letmotiv
+    resourcesBtn.addEventListener('click', () => {
       window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/entretien-candidat";
     });
   </script>
