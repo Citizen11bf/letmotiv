@@ -688,6 +688,7 @@
     }
 
     /* --- Bouton de partage LinkedIn --- */
+    <!-– Ajout de display: none pour masquer par défaut le bouton –->
     .linkedin-share-btn {
       position: fixed;
       bottom: 15px;
@@ -706,6 +707,7 @@
       box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
       transition: background-color 0.3s, transform 0.2s;
       z-index: 100;
+      display: none;
     }
     .linkedin-share-btn:hover {
       background-color: #005582;
@@ -907,7 +909,7 @@
     </div>
   </div>
 
-  <!-- Bouton de partage LinkedIn -->
+  <!-- Bouton de partage LinkedIn (masqué par défaut grâce à display: none) -->
   <button class="linkedin-share-btn" id="linkedin-share-btn" aria-label="Partager sur LinkedIn">
     <i class="fab fa-linkedin-in"></i>
   </button>
@@ -1411,7 +1413,7 @@
         document.body.removeChild(link);
       }
 
-      // Remplacer le bouton "Valider" par un bouton "Feedback de l'impro" au même emplacement
+      // Remplacer le bouton "Valider" par le bouton "Feedback de l'impro" au même emplacement
       const callToActionDiv = document.querySelector('.call-to-action');
       callToActionDiv.innerHTML = '<button id="feedback-btn" aria-label="Feedback de ton impro" style="background-color: #ffcb2d; color: #000; border-radius: 30px; padding: 12px 24px; font-weight: bold; font-size: 1rem; transition: transform 0.2s, box-shadow 0.2s; margin: 10px auto;">Feedback de ton impro</button>';
       document.getElementById('feedback-btn').addEventListener('click', () => {
