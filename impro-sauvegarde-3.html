@@ -312,7 +312,6 @@
     }
 
     /* --- STEP1 : Choix d’objectif --- */
-    /* Style des objectifs avec agrandissement de la police, icônes et couleurs plus dynamiques */
     .objectives-container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
@@ -322,7 +321,7 @@
     }
     .objective-item {
       text-align: center;
-      color: #444; /* Couleur par défaut pour le texte */
+      color: #444;
       font-size: 0.9rem;
       cursor: pointer;
       padding: 12px;
@@ -340,7 +339,6 @@
       border-color: #00a48a;
       background-color: rgba(0, 164, 138, 0.1);
     }
-    /* Indicateur de sélection avec effet d'expansion et surbrillance */
     .objective-item.selected-objective {
       transform: scale(1.1);
       background-color: rgba(0, 164, 138, 0.2);
@@ -352,36 +350,34 @@
       color: #00a48a;
     }
 
-    /* Personnalisation des couleurs d'icônes selon la catégorie */
     .objective-item[data-category="convaincre"] i {
-      color: #007BFF;  /* Bleu */
+      color: #007BFF;
     }
     .objective-item[data-category="inspirer"] i {
-      color: #FFC107;  /* Jaune/ambre */
+      color: #FFC107;
     }
     .objective-item[data-category="lacher-prise"] i {
-      color: #FF5722;  /* Orange profond */
+      color: #FF5722;
     }
     .objective-item[data-category="toast"] i {
-      color: #E91E63;  /* Rose */
+      color: #E91E63;
     }
     .objective-item[data-category="repartie"] i {
-      color: #9C27B0;  /* Violet */
+      color: #9C27B0;
     }
     .objective-item[data-category="vendre"] i {
-      color: #4CAF50;  /* Vert */
+      color: #4CAF50;
     }
     .objective-item[data-category="conflit"] i {
-      color: #F44336;  /* Rouge */
+      color: #F44336;
     }
     .objective-item[data-category="diction"] i {
-      color: #00BCD4;  /* Cyan */
+      color: #00BCD4;
     }
     .objective-item[data-category="entretien"] i {
-      color: #795548;  /* Brun/gris foncé */
+      color: #795548;
     }
 
-    /* Bulle d'explication de l'objectif sélectionné */
     .explanation-box {
       visibility: hidden;
       opacity: 0;
@@ -447,7 +443,6 @@
       transform: scaleX(-1);
       -webkit-transform: scaleX(-1);
     }
-    /* Zone overlay pour les instructions et le bouton */
     .video-overlay {
       position: absolute;
       z-index: 2;
@@ -553,7 +548,7 @@
       display: none;
     }
 
-    /* --- STEP4 (anciennement STEP5) : Analyse ta prestation & Téléchargements --- */
+    /* --- STEP4 : Analyse ta prestation & Téléchargements --- */
     .download-section {
       margin-top: 20px;
     }
@@ -692,7 +687,7 @@
       outline: none;
     }
 
-    /* --- Bouton de partage LinkedIn (positionné discrètement en bas à droite) --- */
+    /* --- Bouton de partage LinkedIn --- */
     .linkedin-share-btn {
       position: fixed;
       bottom: 15px;
@@ -907,10 +902,6 @@
           <button id="download-pdf-btn" aria-label="Télécharger la grille d'évaluation">
             <i class="fas fa-download"></i> Télécharger la grille d'évaluation
           </button>
-        </div>
-        <!-- Nouveau bloc pour le bouton de redirection vers le feedback -->
-        <div class="finish-feedback" id="finish-feedback" style="display: none; text-align: center; margin-top: 20px;">
-          <button id="finish-btn" aria-label="Terminer et aller au feedback" style="background-color: #0077B5; color: #fff; border: none; border-radius: 25px; padding: 10px 20px; cursor: pointer;">Terminer et aller au feedback</button>
         </div>
       </div>
     </div>
@@ -1420,12 +1411,12 @@
         document.body.removeChild(link);
       }
 
-      // Afficher le bouton "Terminer" pour permettre la redirection manuelle
-      document.getElementById('finish-feedback').style.display = 'block';
-    });
-
-    document.getElementById('finish-btn').addEventListener('click', () => {
-      window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro";
+      // Remplacer le bouton "Valider" par un bouton "Feedback de l'impro" au même emplacement
+      const callToActionDiv = document.querySelector('.call-to-action');
+      callToActionDiv.innerHTML = '<button id="feedback-btn" aria-label="Feedback de l\'impro" style="background-color: #ffcb2d; color: #000; border-radius: 30px; padding: 12px 24px; font-weight: bold; font-size: 1rem; transition: transform 0.2s, box-shadow 0.2s; margin: 10px auto;">Feedback de l\'impro</button>';
+      document.getElementById('feedback-btn').addEventListener('click', () => {
+        window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro";
+      });
     });
 
     /***********************
