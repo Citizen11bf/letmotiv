@@ -870,6 +870,16 @@
       Object.values(nextBtns).forEach(btn => btn.classList.remove('pulse'));
     }
 
+    // Fonction pour mettre à jour la visibilité du bouton LinkedIn
+    function updateShareButtonVisibility() {
+      // Cache le bouton sur la page d'introduction (étape 0) et l'affiche sinon
+      if (currentStepGlobal === 0) {
+        linkedinShareBtn.style.display = 'none';
+      } else {
+        linkedinShareBtn.style.display = 'flex';
+      }
+    }
+
     function showBox(current, next) {
       if (!boxes[current] || !boxes[next]) return;
       boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
@@ -883,23 +893,12 @@
       currentStepGlobal = next;
       removePulseFromAll();
 
-     /*** Bouton de partage LinkedIn ***/
-    document.getElementById("linkedin-share-btn").addEventListener("click", () => {
-      const shareURL = encodeURIComponent(window.location.href);
-      const shareText = encodeURIComponent("Je m'entraîne à la prise de parole en public avec le simulateur Letmotiv !");
-      const linkedInURL = `https://www.linkedin.com/sharing/share-offsite/?url=${shareURL}&summary=${shareText}`;
-      window.open(linkedInURL, '_blank');
-    });
-      
-    // Gestion de la visibilité du bouton LinkedIn selon l'étape
-    function updateShareButtonVisibility() {
-      // Cache le bouton sur la page d'introduction (step 0) et l'affiche sur les autres étapes
-      if (currentStepGlobal === 0) {
-        linkedinShareBtn.style.display = 'none';
-      } else {
-        linkedinShareBtn.style.display = 'flex';
-      }
+      // Mise à jour de la visibilité du bouton LinkedIn
+      updateShareButtonVisibility();
     }
+    
+    // Au chargement, cacher le bouton (étape 0 = page d'intro)
+    updateShareButtonVisibility();
 
     startIntroBtn.addEventListener('click', () => {
       introBox.style.animation = 'fadeOut 0.5s ease forwards';
@@ -909,6 +908,7 @@
         currentStepGlobal = 1;
         updateProgressBar(1);
         removePulseFromAll();
+        updateShareButtonVisibility();
       }, 500);
     });
 
@@ -1289,6 +1289,16 @@
 
     resourcesBtn.addEventListener('click', () => {
       window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/entretien-candidat";
+    });
+
+    /***********************
+     * Ajout du gestionnaire d'événement pour le bouton LinkedIn
+     ***********************/
+    linkedinShareBtn.addEventListener("click", () => {
+      const shareURL = encodeURIComponent(window.location.href);
+      const shareText = encodeURIComponent("Je m'entraîne à la prise de parole en public avec le simulateur Letmotiv !");
+      const linkedInURL = `https://www.linkedin.com/sharing/share-offsite/?url=${shareURL}&summary=${shareText}`;
+      window.open(linkedInURL, '_blank');
     });
   </script>
 </body>
