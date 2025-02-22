@@ -562,7 +562,6 @@
       background-color: #00a48a;
     }
     @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-    
   </style>
 </head>
 <body>
@@ -620,7 +619,7 @@
           <div class="flip-card-inner">
             <div class="flip-card-front">
               <i class="fas fa-cogs"></i>
-              <span>Ingénieur généraliste</span>
+              <span>Ecole d'ingénieur généraliste</span>
             </div>
             <div class="flip-card-back">
               Prépare ton entretien pour une école d'ingénieur généraliste.
@@ -632,7 +631,7 @@
           <div class="flip-card-inner">
             <div class="flip-card-front">
               <i class="fas fa-rocket"></i>
-              <span>Ingénieur aéro</span>
+              <span>Ecole d'ingénieur aéro</span>
             </div>
             <div class="flip-card-back">
               Prépare ton entretien pour une école d'ingénieur spécialisée en aéronautique.
@@ -656,7 +655,7 @@
           <div class="flip-card-inner">
             <div class="flip-card-front">
               <i class="fas fa-university"></i>
-              <span>Sciences Politiques</span>
+              <span>Ecole de Sciences Politiques</span>
             </div>
             <div class="flip-card-back">
               Prépare ton entretien pour une école de Sciences Politiques.
@@ -783,6 +782,13 @@
 
   </div>
 
+  <!-- Bouton de partage LinkedIn (affiché à partir du STEP1) -->
+  <div id="linkedin-share" style="position: fixed; bottom: 20px; right: 20px; display: none; z-index: 50;">
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://letmotiv-simulateur.fr&title=Letmotiv%20-%20Simulateur%20d'entretien" target="_blank" title="Partager sur LinkedIn" style="text-decoration: none; color: #0077b5; font-size: 24px;">
+      <i class="fab fa-linkedin"></i>
+    </a>
+  </div>
+
   <!-- SCRIPT -->
   <script>
     /***********************
@@ -815,6 +821,7 @@
     let currentCategory = null;
     let selectedQuestionCount = 0;
     let currentQuestionIndex = 1; // Pour "Question X/Y :"
+    let improStarted = false; // Indique si l'entretien a démarré
 
     // Objet de correspondance pour l'affichage dans STEP1
     const objectiveDisplayMapping = {
@@ -848,6 +855,14 @@
       updateProgressBar(next);
       currentStepGlobal = next;
       removePulseFromAll();
+
+      // Gestion de l'affichage du bouton LinkedIn :
+      const linkedinBtn = document.getElementById('linkedin-share');
+      if (next >= 1) {
+        linkedinBtn.style.display = 'block';
+      } else {
+        linkedinBtn.style.display = 'none';
+      }
     }
 
     startIntroBtn.addEventListener('click', () => {
@@ -882,7 +897,14 @@
       showBox(2, 3);
     });
 
+    // Vérification pour STEP3 : on ne passe à STEP4 que si l'entretien a démarré
     nextBtns[3].addEventListener('click', () => {
+      if (!improStarted) {
+        const improErrorDiv = document.getElementById('impro-error');
+        improErrorDiv.textContent = "Tu dois démarrer l'entretien avant de passer à l'étape suivante.";
+        improErrorDiv.style.display = 'block';
+        return;
+      }
       showBox(3, 4);
     });
 
@@ -952,7 +974,6 @@
     /***********************
      * Enregistrement vidéo (STEP3) et gestion des questions
      ***********************/
-    let improStarted = false;
     let mediaRecorderInstance;
     let recordedChunks = [];
     const preview = document.getElementById('preview');
