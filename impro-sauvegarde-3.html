@@ -53,9 +53,7 @@
   <!-- Styles CSS -->
   <style>
     /* --- GLOBAL --- */
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: 'DM Sans', sans-serif;
@@ -94,10 +92,7 @@
       max-width: 100%;
       overflow-wrap: break-word;
     }
-    .header-l2 {
-      font-size: 14px;
-      font-weight: normal;
-    }
+    .header-l2 { font-size: 14px; font-weight: normal; }
 
     /* --- BARRE DE PROGRESSION --- */
     .progress-container {
@@ -119,10 +114,8 @@
     /* --- BOÎTE D'INTRODUCTION --- */
     .intro-box {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       background: linear-gradient(135deg, #182d84, #00a48a);
       display: flex;
       flex-direction: column;
@@ -156,19 +149,9 @@
       color: #ffffff;
       transform: scale(1.05);
     }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
-    @keyframes fadeOut {
-      from { opacity: 1; }
-      to   { opacity: 0; }
-    }
-    @keyframes slideDown {
-      from { transform: translateY(-50px); opacity: 0; }
-      to   { transform: translateY(0); opacity: 1; }
-    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+    @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
     /* --- CONTENEUR PRINCIPAL --- */
     .main-container {
@@ -197,29 +180,14 @@
       display: none;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    .box.active {
-      display: block;
-    }
-    .box:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-    }
+    .box.active { display: block; }
+    .box:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); }
 
     /* --- ANIMATIONS VERTICALES --- */
-    .slide-from-bottom {
-      animation: fromBottom 1.5s ease forwards;
-    }
-    @keyframes fromBottom {
-      from { opacity: 0; transform: translateY(50px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .slide-from-top {
-      animation: fromTop 1.5s ease forwards;
-    }
-    @keyframes fromTop {
-      from { opacity: 0; transform: translateY(-50px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    .slide-from-bottom { animation: fromBottom 1.5s ease forwards; }
+    @keyframes fromBottom { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+    .slide-from-top { animation: fromTop 1.5s ease forwards; }
+    @keyframes fromTop { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
 
     /* --- HEADER INTERNE DES BOXES --- */
     .box-header {
@@ -246,23 +214,11 @@
       margin: 0 auto;
       margin-bottom: 10px;
     }
-    .back-btn:hover {
-      background-color: #505050;
-      transform: scale(1.1);
-    }
-    .back-btn:active {
-      background-color: #303030;
-    }
+    .back-btn:hover { background-color: #505050; transform: scale(1.1); }
+    .back-btn:active { background-color: #303030; }
     /* Pour la box1, le bouton caché ne doit plus occuper d'espace */
-    #step1 .back-btn.hidden-visibility {
-      display: none;
-    }
-    .box-title {
-      font-size: 18px;
-      font-weight: bold;
-      color: #182d84;
-      text-align: center;
-    }
+    #step1 .back-btn.hidden-visibility { display: none; }
+    .box-title { font-size: 18px; font-weight: bold; color: #182d84; text-align: center; }
 
     /* --- FLECHES HAUT/BAS --- */
     .next-btn, .back-btn { }
@@ -280,14 +236,8 @@
       transition: background-color 0.3s, color 0.3s, transform 0.3s;
       margin: 10px auto;
     }
-    .next-btn:hover {
-      background-color: #00a48a;
-      color: #ffffff;
-      transform: scale(1.05);
-    }
-    .next-btn.pulse {
-      animation: electricPulse 1.5s infinite;
-    }
+    .next-btn:hover { background-color: #00a48a; color: #ffffff; transform: scale(1.05); }
+    .next-btn.pulse { animation: electricPulse 1.5s infinite; }
     @keyframes electricPulse {
       0% { box-shadow: 0 0 0 0 rgba(0,164,138,0.7); }
       70% { box-shadow: 0 0 0 10px rgba(0,164,138,0); }
@@ -307,9 +257,7 @@
       cursor: pointer;
       transition: background-color 0.3s;
     }
-    .btn-impro:hover {
-      background-color: #00a48a;
-    }
+    .btn-impro:hover { background-color: #00a48a; }
 
     /* --- STEP1 : Choix d’objectif --- */
     .objectives-container {
@@ -335,10 +283,7 @@
       display: block;
       color: #444;
     }
-    .objective-item:hover {
-      border-color: #00a48a;
-      background-color: rgba(0, 164, 138, 0.1);
-    }
+    .objective-item:hover { border-color: #00a48a; background-color: rgba(0, 164, 138, 0.1); }
     .objective-item.selected-objective {
       transform: scale(1.1);
       background-color: rgba(0, 164, 138, 0.2);
@@ -346,37 +291,16 @@
       border-color: #00a48a;
       transition: all 0.3s ease-in-out;
     }
-    .objective-item.selected-objective i {
-      color: #00a48a;
-    }
-
-    .objective-item[data-category="convaincre"] i {
-      color: #007BFF;
-    }
-    .objective-item[data-category="inspirer"] i {
-      color: #FFC107;
-    }
-    .objective-item[data-category="lacher-prise"] i {
-      color: #FF5722;
-    }
-    .objective-item[data-category="toast"] i {
-      color: #E91E63;
-    }
-    .objective-item[data-category="repartie"] i {
-      color: #9C27B0;
-    }
-    .objective-item[data-category="vendre"] i {
-      color: #4CAF50;
-    }
-    .objective-item[data-category="conflit"] i {
-      color: #F44336;
-    }
-    .objective-item[data-category="diction"] i {
-      color: #00BCD4;
-    }
-    .objective-item[data-category="entretien"] i {
-      color: #795548;
-    }
+    .objective-item.selected-objective i { color: #00a48a; }
+    .objective-item[data-category="convaincre"] i { color: #007BFF; }
+    .objective-item[data-category="inspirer"] i { color: #FFC107; }
+    .objective-item[data-category="lacher-prise"] i { color: #FF5722; }
+    .objective-item[data-category="toast"] i { color: #E91E63; }
+    .objective-item[data-category="repartie"] i { color: #9C27B0; }
+    .objective-item[data-category="vendre"] i { color: #4CAF50; }
+    .objective-item[data-category="conflit"] i { color: #F44336; }
+    .objective-item[data-category="diction"] i { color: #00BCD4; }
+    .objective-item[data-category="entretien"] i { color: #795548; }
 
     .explanation-box {
       visibility: hidden;
@@ -459,9 +383,7 @@
       padding: 20px;
       background: rgba(255,255,255,0.6);
     }
-    .video-overlay p {
-      margin: 10px 0;
-    }
+    .video-overlay p { margin: 10px 0; }
     .video-overlay button {
       pointer-events: auto;
       margin: 15px 0;
@@ -474,9 +396,7 @@
       cursor: pointer;
       transition: background-color 0.3s;
     }
-    .video-overlay button:hover {
-      background-color: #00a48a;
-    }
+    .video-overlay button:hover { background-color: #00a48a; }
     .recording-indicator {
       position: absolute;
       top: 10px;
@@ -500,11 +420,7 @@
       margin-right: 5px;
       animation: blink 1s infinite;
     }
-    @keyframes blink {
-      0% { opacity: 1; }
-      50% { opacity: 0; }
-      100% { opacity: 1; }
-    }
+    @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
     .countdown {
       position: absolute;
       bottom: 10px;
@@ -544,14 +460,10 @@
       justify-content: center;
       margin-top: 10px;
     }
-    .hidden-btn {
-      display: none;
-    }
+    .hidden-btn { display: none; }
 
     /* --- STEP4 : Analyse ta prestation & Téléchargements --- */
-    .download-section {
-      margin-top: 20px;
-    }
+    .download-section { margin-top: 20px; }
     .download-section-accent {
       background: linear-gradient(135deg, #182d84, #00a48a);
       border-radius: 10px;
@@ -575,9 +487,7 @@
       opacity: 0.9;
     }
 
-    .call-to-action {
-      text-align: center;
-    }
+    .call-to-action { text-align: center; }
     .call-to-action button {
       background-color: #ffcb2d;
       color: #000;
@@ -623,11 +533,7 @@
       opacity: 1;
       visibility: visible;
     }
-
-    @keyframes fadeInDown {
-      from { transform: translateY(-20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
+    @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
     /* --- Bulle style BD pour le sujet aléatoire en STEP3 --- */
     .subject-bubble {
@@ -667,11 +573,7 @@
       align-items: flex-start;
       width: 48%;
     }
-    .input-group label {
-      margin-bottom: 5px;
-      font-weight: bold;
-      color: #000;
-    }
+    .input-group label { margin-bottom: 5px; font-weight: bold; color: #000; }
     .input-group input {
       width: 100%;
       padding: 10px;
@@ -682,13 +584,9 @@
       box-sizing: border-box;
       transition: border-color 0.3s;
     }
-    .input-group input:focus {
-      border-color: #00a48a;
-      outline: none;
-    }
+    .input-group input:focus { border-color: #00a48a; outline: none; }
 
-    /* --- Bouton de partage LinkedIn --- */
-    <!-– Ajout de display: none pour masquer par défaut le bouton –->
+    /* --- Bouton de partage LinkedIn (masqué par défaut) --- */
     .linkedin-share-btn {
       position: fixed;
       bottom: 15px;
@@ -713,9 +611,7 @@
       background-color: #005582;
       transform: scale(1.1);
     }
-    .linkedin-share-btn i {
-      font-size: 18px;
-    }
+    .linkedin-share-btn i { font-size: 18px; }
   </style>
 </head>
 <body>
@@ -909,13 +805,25 @@
     </div>
   </div>
 
-  <!-- Bouton de partage LinkedIn (masqué par défaut grâce à display: none) -->
+  <!-- Bouton de partage LinkedIn (masqué par défaut) -->
   <button class="linkedin-share-btn" id="linkedin-share-btn" aria-label="Partager sur LinkedIn">
     <i class="fab fa-linkedin-in"></i>
   </button>
 
   <!-- SCRIPT JavaScript -->
   <script>
+    /***********************
+     * Fonctions de contrôle de la navigation pendant l'enregistrement
+     ***********************/
+    function disableNavigationButtons() {
+      Object.values(nextBtns).forEach(btn => btn.disabled = true);
+      Object.values(backBtns).forEach(btn => btn.disabled = true);
+    }
+    function enableNavigationButtons() {
+      Object.values(nextBtns).forEach(btn => btn.disabled = false);
+      Object.values(backBtns).forEach(btn => btn.disabled = false);
+    }
+
     /***********************
      * Gestion des étapes (4 étapes)
      ***********************/
@@ -1095,16 +1003,12 @@
         });
 
         item.classList.add('selected-objective');
-
         currentCategory = item.dataset.category;
         currentObjective = item.innerText;
-
         item.style.transition = "transform 0.3s, background-color 0.3s";
         item.style.transform = "scale(1.1)";
         item.style.backgroundColor = "rgba(0, 164, 138, 0.2)";
-        setTimeout(() => {
-          item.style.transform = "";
-        }, 300);
+        setTimeout(() => { item.style.transform = ""; }, 300);
 
         const explication = explanations[currentCategory] || "";
         explanationBox.textContent = explication;
@@ -1271,6 +1175,7 @@
         improStarted = true;
         removePulseFromAll();
         nextBtns[3].classList.add('pulse');
+        enableNavigationButtons();
         if (window.innerWidth <= 600) {
             document.querySelector('.video-box').style.height = "300px";
         }
@@ -1280,6 +1185,7 @@
       stopBtn.classList.remove('hidden-btn');
       stopBtn.disabled = false;
       restartBtn.classList.add('hidden-btn');
+      disableNavigationButtons();
       startTimer();
     }
 
@@ -1351,7 +1257,6 @@
       improStarted = false;
       bindStartButton();
     });
-
     bindStartButton();
 
     /***********************
@@ -1415,7 +1320,7 @@
 
       // Remplacer le bouton "Valider" par le bouton "Feedback de l'impro" au même emplacement
       const callToActionDiv = document.querySelector('.call-to-action');
-      callToActionDiv.innerHTML = '<button id="feedback-btn" aria-label="Feedback de ton impro" style="background-color: #ffcb2d; color: #000; border-radius: 30px; padding: 12px 24px; font-weight: bold; font-size: 1rem; transition: transform 0.2s, box-shadow 0.2s; margin: 10px auto;">Feedback de ton impro</button>';
+      callToActionDiv.innerHTML = '<button id="feedback-btn" aria-label="Feedback de l\'impro" style="background-color: #ffcb2d; color: #000; border-radius: 30px; padding: 12px 24px; font-weight: bold; font-size: 1rem; transition: transform 0.2s, box-shadow 0.2s; margin: 10px auto;">Feedback de l\'impro</button>';
       document.getElementById('feedback-btn').addEventListener('click', () => {
         window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro";
       });
