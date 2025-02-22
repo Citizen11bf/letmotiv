@@ -564,7 +564,7 @@
     @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     
     /* --- Styles pour le bouton de partage LinkedIn --- */
-    #linkedin-share {
+    .linkedin-share-btn {
       position: fixed;
       bottom: 15px;
       right: 15px;
@@ -583,8 +583,11 @@
       transition: background-color 0.3s, transform 0.2s;
       z-index: 100;
     }
-   
-    #linkedin-share a {
+    .linkedin-share-btn:hover {
+      background-color: #005582;
+      transform: scale(1.1);
+    }
+    .linkedin-share-btn i {
       font-size: 18px;
     }
     
@@ -805,15 +808,12 @@
         </div>
       </div>
     </div>
-
   </div>
-
-  <!-- Bouton de partage LinkedIn (affiché à partir du STEP1) -->
-  <div id="linkedin-share">
-    <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://letmotiv-simulateur.fr&title=Letmotiv%20-%20Simulateur%20d'entretien" target="_blank" title="Partager sur LinkedIn">
-      <i class="fab fa-linkedin"></i>
-    </a>
-  </div>
+  
+  <!-- Bouton de partage LinkedIn (affiché en bas à droite, caché sur la page d'intro) -->
+  <button class="linkedin-share-btn" id="linkedin-share-btn" aria-label="Partager sur LinkedIn">
+    <i class="fab fa-linkedin-in"></i>
+  </button>
 
   <!-- SCRIPT -->
   <script>
@@ -842,6 +842,7 @@
     const introBox = document.getElementById('intro-box');
     const startIntroBtn = document.getElementById('start-intro-btn');
     const topProgressBar = document.getElementById('top-progress-bar');
+    const linkedinShareBtn = document.getElementById('linkedin-share-btn');
 
     let currentStepGlobal = 0;
     let currentCategory = null;
@@ -882,12 +883,21 @@
       currentStepGlobal = next;
       removePulseFromAll();
 
-      // Gestion de l'affichage du bouton LinkedIn :
-      const linkedinBtn = document.getElementById('linkedin-share');
-      if (next >= 1) {
-        linkedinBtn.style.display = 'flex';
+     /*** Bouton de partage LinkedIn ***/
+    document.getElementById("linkedin-share-btn").addEventListener("click", () => {
+      const shareURL = encodeURIComponent(window.location.href);
+      const shareText = encodeURIComponent("Je m'entraîne à la prise de parole en public avec le simulateur Letmotiv !");
+      const linkedInURL = `https://www.linkedin.com/sharing/share-offsite/?url=${shareURL}&summary=${shareText}`;
+      window.open(linkedInURL, '_blank');
+    });
+      
+    // Gestion de la visibilité du bouton LinkedIn selon l'étape
+    function updateShareButtonVisibility() {
+      // Cache le bouton sur la page d'introduction (step 0) et l'affiche sur les autres étapes
+      if (currentStepGlobal === 0) {
+        linkedinShareBtn.style.display = 'none';
       } else {
-        linkedinBtn.style.display = 'none';
+        linkedinShareBtn.style.display = 'flex';
       }
     }
 
