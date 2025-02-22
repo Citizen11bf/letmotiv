@@ -118,17 +118,13 @@
     }
 
     @media (max-width: 600px) {
-      /* Réduire l'espace sous le header et les marges des box sur mobile */
       body { padding-top: 40px; }
       .box { margin: 10px 0; }
-      /* Rapprocher les boutons dans .impro-actions */
       .impro-actions { gap: 5px; }
     }
 
     @media (max-width: 600px) {
-      h1 .line {
-        display: block;
-      }
+      h1 .line { display: block; }
     }
     
     /* --- BOÎTE D'INTRODUCTION --- */
@@ -412,7 +408,6 @@
       transform: scaleX(-1);
       -webkit-transform: scaleX(-1);
     }
-    /* L'overlay pour les questions sera positionné en haut (sans la classe centered) */
     .video-overlay {
       position: absolute;
       z-index: 2;
@@ -422,7 +417,6 @@
       padding: 5px;
       display: flex;
       flex-direction: column;
-      /* Par défaut, aligné en haut pour les questions */
       justify-content: flex-start;
       align-items: center;
       text-align: center;
@@ -431,7 +425,6 @@
       font-size: 13px;
       background: rgba(255,255,255,0.6);
     }
-    /* Pour l'affichage initial et final, on ajoute la classe "centered" */
     .video-overlay.centered {
       height: 100%;
       justify-content: center;
@@ -451,7 +444,6 @@
       transition: background-color 0.3s;
     }
     .video-overlay button:hover { background-color: #00a48a; }
-    /* Indicateur d'enregistrement repositionné en bas à gauche avec espace entre l'icône et le texte */
     .recording-indicator {
       position: absolute;
       bottom: 10px;
@@ -467,7 +459,6 @@
       z-index: 3;
     }
     .recording-indicator i { margin-right: 5px; }
-    /* Chrono */
     .countdown {
       position: absolute;
       bottom: 10px;
@@ -542,7 +533,6 @@
       transform: translateY(-3px);
       box-shadow: 0 4px 6px rgba(0,0,0,0.2);
     }
-    /* Boutons STEP4 dans le même design que les autres */
     #step4-extra {
       display: none;
       margin-top: 20px;
@@ -775,14 +765,13 @@
           Recommencer ton entretien <i class="fas fa-redo"></i>
         </button>
       </div>
-      <!-- Zone pour les messages d'erreur du STEP3 -->
       <div id="impro-error" class="error-message"></div>
       <button class="next-btn" id="next-btn3" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
       </button>
     </div>
 
-    <!-- STEP4 : Analyse ta prestation & Téléchargements -->
+    <!-- STEP4 : Analyse ton entretien -->
     <div class="box" id="step4">
       <div class="box-header">
         <button class="back-btn" id="back-btn5" aria-label="Retour à l'étape précédente">
@@ -810,7 +799,7 @@
     </div>
   </div>
   
-  <!-- Bouton de partage LinkedIn (affiché en bas à droite, caché sur la page d'intro) -->
+  <!-- Bouton de partage LinkedIn -->
   <button class="linkedin-share-btn" id="linkedin-share-btn" aria-label="Partager sur LinkedIn">
     <i class="fab fa-linkedin-in"></i>
   </button>
@@ -850,7 +839,7 @@
     let currentQuestionIndex = 1; // Pour "Question X/Y :"
     let improStarted = false; // Indique si l'entretien a démarré
 
-    // Objet de correspondance pour l'affichage dans STEP1
+    // Correspondance pour l'affichage dans STEP1
     const objectiveDisplayMapping = {
       "grand-oral": "passer le Grand Oral du BAC",
       "ingenieur-generaliste": "intégrer une école d'ingénieur généraliste",
@@ -870,9 +859,8 @@
       Object.values(nextBtns).forEach(btn => btn.classList.remove('pulse'));
     }
 
-    // Fonction pour mettre à jour la visibilité du bouton LinkedIn
+    // Fonction pour la visibilité du bouton LinkedIn
     function updateShareButtonVisibility() {
-      // Cache le bouton sur la page d'introduction (étape 0) et l'affiche sinon
       if (currentStepGlobal === 0) {
         linkedinShareBtn.style.display = 'none';
       } else {
@@ -892,12 +880,9 @@
       updateProgressBar(next);
       currentStepGlobal = next;
       removePulseFromAll();
-
-      // Mise à jour de la visibilité du bouton LinkedIn
       updateShareButtonVisibility();
     }
     
-    // Au chargement, cacher le bouton (étape 0 = page d'intro)
     updateShareButtonVisibility();
 
     startIntroBtn.addEventListener('click', () => {
@@ -933,7 +918,6 @@
       showBox(2, 3);
     });
 
-    // Vérification pour STEP3 : on ne passe à STEP4 que si l'entretien a démarré
     nextBtns[3].addEventListener('click', () => {
       if (!improStarted) {
         const improErrorDiv = document.getElementById('impro-error');
@@ -958,7 +942,6 @@
       card.addEventListener('click', async () => {
         popSound.currentTime = 0;
         popSound.play();
-
         objectivesCards.forEach(c => c.classList.remove('flipped'));
         card.classList.add('flipped');
         currentCategory = card.dataset.category;
@@ -1025,6 +1008,16 @@
     let timerInterval;
     let videoURL = "";
 
+    // Fonctions de désactivation et réactivation des boutons de navigation
+    function disableNavigationButtons() {
+      Object.values(nextBtns).forEach(btn => btn.disabled = true);
+      Object.values(backBtns).forEach(btn => btn.disabled = true);
+    }
+    function enableNavigationButtons() {
+      Object.values(nextBtns).forEach(btn => btn.disabled = false);
+      Object.values(backBtns).forEach(btn => btn.disabled = false);
+    }
+
     // Fonction pour démarrer l'entretien
     function bindStartButton() {
       const startBtn = document.getElementById('start-btn');
@@ -1053,7 +1046,6 @@
           const videoBox = document.querySelector('.video-box');
           videoBox.style.height = "450px";
       }
-      // Pour le contenu initial, on ajoute la classe "centered"
       questionOverlay.classList.add('centered');
       questionOverlay.style.display = 'none';
       startInitialCountdown();
@@ -1075,8 +1067,7 @@
       }, 1000);
     }
 
-    // Affiche la question avec le préfixe "Question X/Y :"
-    // Pour l'affichage des questions, on retire la classe "centered" pour placer l'overlay en haut
+    // Affichage de la question avec préfixe
     function displayQuestionWithPrefix(current, total, questionText) {
       questionOverlay.classList.remove('centered');
       questionOverlay.innerHTML = "<p style='font-size:16px; text-align:center;'>Question " + current + "/" + total + " : " + questionText + "</p>";
@@ -1103,7 +1094,6 @@
         const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
         videoURL = URL.createObjectURL(videoBlob);
         stream.getTracks().forEach(t => t.stop());
-        // Pour le message final, on remet l'overlay centré
         questionOverlay.classList.add('centered');
         questionOverlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Entretien terminé. Passe à l'étape suivante !</p>";
         questionOverlay.style.display = 'flex';
@@ -1118,6 +1108,8 @@
         }
         restartBtn.classList.remove('hidden-btn');
         nextQuestionBtn.classList.add('hidden-btn');
+        // Réactivation des boutons de navigation à la fin de l'enregistrement
+        enableNavigationButtons();
       };
 
       const questions = await loadSubjects(currentCategory);
@@ -1131,6 +1123,8 @@
       displayQuestionWithPrefix(currentQuestionIndex, selectedQuestionCount, questions[0]);
 
       mediaRecorderInstance.start();
+      // Désactivation des boutons de navigation dès le début de l'enregistrement
+      disableNavigationButtons();
       recordingIndicator.style.display = 'flex';
       countdownElement.style.display = 'block';
       stopBtn.classList.remove('hidden-btn');
@@ -1213,7 +1207,6 @@
     });
 
     nextQuestionBtn.addEventListener('click', () => {
-      // Si l'entretien n'a pas démarré, afficher un message d'erreur
       if (!mediaRecorderInstance || mediaRecorderInstance.state !== 'recording') {
         const improErrorDiv = document.getElementById('impro-error');
         improErrorDiv.textContent = "Veuillez démarrer l'entretien avant de passer à la question suivante.";
@@ -1243,7 +1236,6 @@
 
     restartBtn.addEventListener('click', () => {
       restartBtn.classList.add('hidden-btn');
-      // Pour revenir à l'état initial, on ajoute la classe "centered" afin de centrer le contenu
       questionOverlay.classList.add('centered');
       questionOverlay.innerHTML = `
         <p style="font-size:16px; text-align:center;">
@@ -1292,7 +1284,7 @@
     });
 
     /***********************
-     * Ajout du gestionnaire d'événement pour le bouton LinkedIn
+     * Bouton de partage LinkedIn
      ***********************/
     linkedinShareBtn.addEventListener("click", () => {
       const shareURL = encodeURIComponent(window.location.href);
