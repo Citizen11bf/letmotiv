@@ -566,23 +566,28 @@
     /* --- Styles pour le bouton de partage LinkedIn --- */
     #linkedin-share {
       position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 50;
-      background-color: #0077B5; /* Bleu LinkedIn */
+      bottom: 15px;
+      right: 15px;
+      background-color: #0077B5;
+      color: #fff;
+      font-size: 14px;
+      border: none;
       border-radius: 50%;
-      width: 40px;  /* Diamètre réduit */
-      height: 40px;
+      width: 45px;
+      height: 45px;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      cursor: pointer;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s, transform 0.2s;
+      z-index: 100;
     }
+   
     #linkedin-share a {
-      color: #fff; /* Couleur blanche pour l'icône */
-      font-size: 20px;
-      text-decoration: none;
+      font-size: 18px;
     }
+    
   </style>
 </head>
 <body>
@@ -640,7 +645,7 @@
           <div class="flip-card-inner">
             <div class="flip-card-front">
               <i class="fas fa-cogs"></i>
-              <span>Ingénieur généraliste</span>
+              <span>Ecole d'ingénieur généraliste</span>
             </div>
             <div class="flip-card-back">
               Prépare ton entretien pour une école d'ingénieur généraliste.
@@ -652,7 +657,7 @@
           <div class="flip-card-inner">
             <div class="flip-card-front">
               <i class="fas fa-rocket"></i>
-              <span>Ingénieur aéro</span>
+              <span>Ecole d'ingénieur aéro</span>
             </div>
             <div class="flip-card-back">
               Prépare ton entretien pour une école d'ingénieur spécialisée en aéronautique.
@@ -676,7 +681,7 @@
           <div class="flip-card-inner">
             <div class="flip-card-front">
               <i class="fas fa-university"></i>
-              <span>Sciences Politiques</span>
+              <span>Ecole de Sciences Politiques</span>
             </div>
             <div class="flip-card-back">
               Prépare ton entretien pour une école de Sciences Politiques.
