@@ -126,9 +126,9 @@
     }
 
     @media (max-width: 600px) {
-        h1 .line {
+      h1 .line {
         display: block;
-        }
+      }
     }
     
     /* --- BOÎTE D'INTRODUCTION --- */
@@ -562,6 +562,27 @@
       background-color: #00a48a;
     }
     @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    
+    /* --- Styles pour le bouton de partage LinkedIn --- */
+    #linkedin-share {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 50;
+      background-color: #fff;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+    #linkedin-share a {
+      color: #0077b5;
+      font-size: 24px;
+      text-decoration: none;
+    }
   </style>
 </head>
 <body>
@@ -619,7 +640,7 @@
           <div class="flip-card-inner">
             <div class="flip-card-front">
               <i class="fas fa-cogs"></i>
-              <span>Ecole d'ingénieur généraliste</span>
+              <span>Ingénieur généraliste</span>
             </div>
             <div class="flip-card-back">
               Prépare ton entretien pour une école d'ingénieur généraliste.
@@ -631,7 +652,7 @@
           <div class="flip-card-inner">
             <div class="flip-card-front">
               <i class="fas fa-rocket"></i>
-              <span>Ecole d'ingénieur aéro</span>
+              <span>Ingénieur aéro</span>
             </div>
             <div class="flip-card-back">
               Prépare ton entretien pour une école d'ingénieur spécialisée en aéronautique.
@@ -655,7 +676,7 @@
           <div class="flip-card-inner">
             <div class="flip-card-front">
               <i class="fas fa-university"></i>
-              <span>Ecole de Sciences Politiques</span>
+              <span>Sciences Politiques</span>
             </div>
             <div class="flip-card-back">
               Prépare ton entretien pour une école de Sciences Politiques.
@@ -783,8 +804,8 @@
   </div>
 
   <!-- Bouton de partage LinkedIn (affiché à partir du STEP1) -->
-  <div id="linkedin-share" style="position: fixed; bottom: 20px; right: 20px; display: none; z-index: 50;">
-    <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://letmotiv-simulateur.fr&title=Letmotiv%20-%20Simulateur%20d'entretien" target="_blank" title="Partager sur LinkedIn" style="text-decoration: none; color: #0077b5; font-size: 24px;">
+  <div id="linkedin-share">
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://letmotiv-simulateur.fr&title=Letmotiv%20-%20Simulateur%20d'entretien" target="_blank" title="Partager sur LinkedIn">
       <i class="fab fa-linkedin"></i>
     </a>
   </div>
@@ -859,7 +880,7 @@
       // Gestion de l'affichage du bouton LinkedIn :
       const linkedinBtn = document.getElementById('linkedin-share');
       if (next >= 1) {
-        linkedinBtn.style.display = 'block';
+        linkedinBtn.style.display = 'flex';
       } else {
         linkedinBtn.style.display = 'none';
       }
