@@ -507,69 +507,60 @@
     .download-section-accent .subtitle { font-style: italic; margin-bottom: 10px; }
     .download-section-accent .reassure { font-size: 0.9rem; opacity: 0.9; }
     .call-to-action { text-align: center; }
-    .call-to-action button {
-      background-color: #ffcb2d;
-      color: #000;
-      border-radius: 30px;
-      padding: 12px 24px;
-      font-weight: bold;
-      font-size: 1rem;
-      transition: transform 0.2s, box-shadow 0.2s;
-      margin: 10px auto;
-    }
-    .call-to-action button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-    }
-    #step4-extra {
-      display: none;
-      margin-top: 20px;
-    }
-    #step4-extra button {
-      background-color: #182d84;
-      color: #fff;
-      border: none;
-      border-radius: 25px;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      margin: 5px;
-      transition: background-color 0.3s;
-    }
-    #step4-extra button:hover {
-      background-color: #00a48a;
-    }
-    @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-    
-    /* --- Bouton de partage LinkedIn (déjà présent en bas à droite) --- */
-    .linkedin-share-btn {
-      position: fixed;
-      bottom: 15px;
-      right: 15px;
-      background-color: #0077B5;
-      color: #fff;
-      font-size: 14px;
-      border: none;
-      border-radius: 50%;
-      width: 40px;
+    /* Nouveau style pour le bouton download avec animation */
+    .download-button {
+      position: relative;
+      width: 150px;
       height: 40px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      border: 1px solid #caaa1d;
+      background-color: #ffcb2d;
+      border-radius: 30px;
+      overflow: hidden;
+    }
+    .download-button, .download-button__icon, .download-button__text {
+      transition: all 0.3s;
+    }
+    .download-button .download-button__text {
+      transform: translateX(22px);
+      color: #000;
+      font-weight: bold;
+    }
+    .download-button .download-button__icon {
+      position: absolute;
+      transform: translateX(109px);
+      height: 100%;
+      width: 39px;
+      background-color: #e0b82e;
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-      transition: background-color 0.3s, transform 0.2s;
-      z-index: 100;
     }
-    .linkedin-share-btn:hover {
-      background-color: #005582;
-      transform: scale(1.1);
+    .download-button .download-svg {
+      width: 20px;
+      fill: #000;
     }
-    .linkedin-share-btn i {
-      font-size: 18px;
+    .download-button:hover {
+      background: #e0b82e;
     }
+    .download-button:hover .download-button__text {
+      color: transparent;
+    }
+    .download-button:hover .download-button__icon {
+      width: 148px;
+      transform: translateX(0);
+    }
+    .download-button:active .download-button__icon {
+      background-color: #c8a124;
+    }
+    .download-button:active {
+      border: 1px solid #c8a124;
+    }
+    /* Fin du style download */
 
-    /* --- Styles pour les icônes de partage inspirés de l'exemple --- */
+    /* Suppression des tooltips sur les icônes de partage */
     ul { 
       list-style: none;
       padding: 0;
@@ -583,24 +574,6 @@
     .example-2 .icon-content {
       margin: 0 10px;
       position: relative;
-    }
-    .example-2 .icon-content .tooltip {
-      position: absolute;
-      top: -30px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: #fff;
-      padding: 6px 10px;
-      border-radius: 5px;
-      opacity: 0;
-      visibility: hidden;
-      font-size: 14px;
-      transition: all 0.3s ease;
-    }
-    .example-2 .icon-content:hover .tooltip {
-      opacity: 1;
-      visibility: visible;
-      top: -50px;
     }
     .example-2 .icon-content a {
       position: relative;
@@ -639,24 +612,55 @@
       height: 100%;
     }
     .example-2 .icon-content a[data-social="whatsapp"] .filled,
-    .example-2 .icon-content a[data-social="whatsapp"] ~ .tooltip {
-      background-color: #128c7e;
+    .example-2 .icon-content a[data-social="whatsapp"] {
+      /* Couleur spécifique si besoin */
+      color: #128c7e;
     }
     .example-2 .icon-content a[data-social="facebook"] .filled,
-    .example-2 .icon-content a[data-social="facebook"] ~ .tooltip {
-      background-color: #3b5998;
+    .example-2 .icon-content a[data-social="facebook"] {
+      color: #3b5998;
     }
     .example-2 .icon-content a[data-social="twitter"] .filled,
-    .example-2 .icon-content a[data-social="twitter"] ~ .tooltip {
-      background-color: #1DA1F2;
+    .example-2 .icon-content a[data-social="twitter"] {
+      color: #1DA1F2;
     }
     .example-2 .icon-content a[data-social="linkedin"] .filled,
-    .example-2 .icon-content a[data-social="linkedin"] ~ .tooltip {
-      background-color: #0077B5;
+    .example-2 .icon-content a[data-social="linkedin"] {
+      color: #0077B5;
     }
     .example-2 .icon-content a[data-social="discord"] .filled,
-    .example-2 .icon-content a[data-social="discord"] ~ .tooltip {
-      background-color: #7289da;
+    .example-2 .icon-content a[data-social="discord"] {
+      color: #7289da;
+    }
+
+    @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    
+    /* --- Bouton de partage LinkedIn (déjà présent en bas à droite) --- */
+    .linkedin-share-btn {
+      position: fixed;
+      bottom: 15px;
+      right: 15px;
+      background-color: #0077B5;
+      color: #fff;
+      font-size: 14px;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s, transform 0.2s;
+      z-index: 100;
+    }
+    .linkedin-share-btn:hover {
+      background-color: #005582;
+      transform: scale(1.1);
+    }
+    .linkedin-share-btn i {
+      font-size: 18px;
     }
   </style>
 
@@ -884,8 +888,12 @@
           </p>
         </div>
         <div class="call-to-action">
-          <button id="validate-form-btn" aria-label="Télécharger ma vidéo">
-            Télécharger ma vidéo
+          <!-- Bouton de téléchargement avec animation -->
+          <button id="validate-form-btn" class="download-button" aria-label="Télécharger ma vidéo">
+            <span class="download-button__text">Télécharger ma vidéo</span>
+            <span class="download-button__icon">
+              <i class="fas fa-download download-svg"></i>
+            </span>
           </button>
         </div>
         <div class="share-experience" style="text-align: center; margin-top: 15px;">
@@ -896,35 +904,30 @@
                 <i class="fab fa-whatsapp"></i>
                 <div class="filled"></div>
               </a>
-              <div class="tooltip">WhatsApp</div>
             </div>
             <div class="icon-content">
               <a href="#" data-social="twitter" aria-label="Partager sur Twitter">
                 <i class="fab fa-twitter"></i>
                 <div class="filled"></div>
               </a>
-              <div class="tooltip">Twitter</div>
             </div>
             <div class="icon-content">
               <a href="#" data-social="linkedin" aria-label="Partager sur LinkedIn">
                 <i class="fab fa-linkedin"></i>
                 <div class="filled"></div>
               </a>
-              <div class="tooltip">LinkedIn</div>
             </div>
             <div class="icon-content">
               <a href="#" data-social="discord" aria-label="Partager sur Discord">
                 <i class="fab fa-discord"></i>
                 <div class="filled"></div>
               </a>
-              <div class="tooltip">Discord</div>
             </div>
             <div class="icon-content">
               <a href="#" data-social="facebook" aria-label="Partager sur Facebook">
                 <i class="fab fa-facebook"></i>
                 <div class="filled"></div>
               </a>
-              <div class="tooltip">Facebook</div>
             </div>
           </div>
         </div>
