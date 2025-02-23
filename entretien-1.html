@@ -394,7 +394,7 @@
       transform: scaleX(-1);
       -webkit-transform: scaleX(-1);
     }
-    /* Overlay des questions : police réduite, padding réduit et meilleur contraste */
+    /* Overlay des questions : couleurs restaurées (gris) */
     .video-overlay {
       position: absolute;
       z-index: 2;
@@ -409,7 +409,7 @@
       text-align: center;
       font-style: italic;
       font-size: 14px;
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(128,128,128,0.6);
       color: #ffffff;
     }
     .video-overlay.centered {
@@ -507,60 +507,41 @@
     .download-section-accent .subtitle { font-style: italic; margin-bottom: 10px; }
     .download-section-accent .reassure { font-size: 0.9rem; opacity: 0.9; }
     .call-to-action { text-align: center; }
-    /* Nouveau style pour le bouton download avec animation */
-    .download-button {
-      position: relative;
-      width: 150px;
-      height: 40px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      border: 1px solid #caaa1d;
+    .call-to-action button {
       background-color: #ffcb2d;
-      border-radius: 30px;
-      overflow: hidden;
-    }
-    .download-button, .download-button__icon, .download-button__text {
-      transition: all 0.3s;
-    }
-    .download-button .download-button__text {
-      transform: translateX(22px);
       color: #000;
+      border-radius: 30px;
+      padding: 12px 24px;
       font-weight: bold;
+      font-size: 1rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin: 10px auto;
     }
-    .download-button .download-button__icon {
-      position: absolute;
-      transform: translateX(109px);
-      height: 100%;
-      width: 39px;
-      background-color: #e0b82e;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .call-to-action button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
     }
-    .download-button .download-svg {
-      width: 20px;
-      fill: #000;
+    #step4-extra {
+      display: none;
+      margin-top: 20px;
     }
-    .download-button:hover {
-      background: #e0b82e;
+    #step4-extra button {
+      background-color: #182d84;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 5px;
+      transition: background-color 0.3s;
     }
-    .download-button:hover .download-button__text {
-      color: transparent;
+    #step4-extra button:hover {
+      background-color: #00a48a;
     }
-    .download-button:hover .download-button__icon {
-      width: 148px;
-      transform: translateX(0);
-    }
-    .download-button:active .download-button__icon {
-      background-color: #c8a124;
-    }
-    .download-button:active {
-      border: 1px solid #c8a124;
-    }
-    /* Fin du style download */
-
-    /* Suppression des tooltips sur les icônes de partage */
+    @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    
+    /* --- Styles pour les icônes de partage inspirés de l'exemple --- */
     ul { 
       list-style: none;
       padding: 0;
@@ -610,57 +591,6 @@
     }
     .example-2 .icon-content a:hover .filled {
       height: 100%;
-    }
-    .example-2 .icon-content a[data-social="whatsapp"] .filled,
-    .example-2 .icon-content a[data-social="whatsapp"] {
-      /* Couleur spécifique si besoin */
-      color: #128c7e;
-    }
-    .example-2 .icon-content a[data-social="facebook"] .filled,
-    .example-2 .icon-content a[data-social="facebook"] {
-      color: #3b5998;
-    }
-    .example-2 .icon-content a[data-social="twitter"] .filled,
-    .example-2 .icon-content a[data-social="twitter"] {
-      color: #1DA1F2;
-    }
-    .example-2 .icon-content a[data-social="linkedin"] .filled,
-    .example-2 .icon-content a[data-social="linkedin"] {
-      color: #0077B5;
-    }
-    .example-2 .icon-content a[data-social="discord"] .filled,
-    .example-2 .icon-content a[data-social="discord"] {
-      color: #7289da;
-    }
-
-    @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-    
-    /* --- Bouton de partage LinkedIn (déjà présent en bas à droite) --- */
-    .linkedin-share-btn {
-      position: fixed;
-      bottom: 15px;
-      right: 15px;
-      background-color: #0077B5;
-      color: #fff;
-      font-size: 14px;
-      border: none;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-      transition: background-color 0.3s, transform 0.2s;
-      z-index: 100;
-    }
-    .linkedin-share-btn:hover {
-      background-color: #005582;
-      transform: scale(1.1);
-    }
-    .linkedin-share-btn i {
-      font-size: 18px;
     }
   </style>
 
@@ -888,43 +818,39 @@
           </p>
         </div>
         <div class="call-to-action">
-          <!-- Bouton de téléchargement avec animation -->
-          <button id="validate-form-btn" class="download-button" aria-label="Télécharger ma vidéo">
-            <span class="download-button__text">Télécharger ma vidéo</span>
-            <span class="download-button__icon">
-              <i class="fas fa-download download-svg"></i>
-            </span>
+          <button id="validate-form-btn" aria-label="Télécharger ma vidéo">
+            Télécharger ma vidéo
           </button>
         </div>
         <div class="share-experience" style="text-align: center; margin-top: 15px;">
           <p>Partage ton expérience sur tes réseaux :</p>
           <div class="example-2">
             <div class="icon-content">
-              <a href="#" data-social="whatsapp" aria-label="Partager sur WhatsApp">
+              <a id="share-whatsapp" data-social="whatsapp" aria-label="Partager sur WhatsApp">
                 <i class="fab fa-whatsapp"></i>
                 <div class="filled"></div>
               </a>
             </div>
             <div class="icon-content">
-              <a href="#" data-social="twitter" aria-label="Partager sur Twitter">
+              <a id="share-twitter" data-social="twitter" aria-label="Partager sur Twitter">
                 <i class="fab fa-twitter"></i>
                 <div class="filled"></div>
               </a>
             </div>
             <div class="icon-content">
-              <a href="#" data-social="linkedin" aria-label="Partager sur LinkedIn">
+              <a id="share-linkedin" data-social="linkedin" aria-label="Partager sur LinkedIn">
                 <i class="fab fa-linkedin"></i>
                 <div class="filled"></div>
               </a>
             </div>
             <div class="icon-content">
-              <a href="#" data-social="discord" aria-label="Partager sur Discord">
+              <a id="share-discord" data-social="discord" aria-label="Partager sur Discord">
                 <i class="fab fa-discord"></i>
                 <div class="filled"></div>
               </a>
             </div>
             <div class="icon-content">
-              <a href="#" data-social="facebook" aria-label="Partager sur Facebook">
+              <a id="share-facebook" data-social="facebook" aria-label="Partager sur Facebook">
                 <i class="fab fa-facebook"></i>
                 <div class="filled"></div>
               </a>
@@ -939,11 +865,6 @@
     </div>
   </div>
   
-  <!-- Bouton de partage LinkedIn (en bas à droite) -->
-  <button class="linkedin-share-btn" id="linkedin-share-btn" aria-label="Partager sur LinkedIn">
-    <i class="fab fa-linkedin-in"></i>
-  </button>
-
   <!-- SCRIPT -->
   <script>
     /***********************
@@ -971,7 +892,6 @@
     const introBox = document.getElementById('intro-box');
     const startIntroBtn = document.getElementById('start-intro-btn');
     const topProgressBar = document.getElementById('top-progress-bar');
-    const linkedinShareBtn = document.getElementById('linkedin-share-btn');
 
     let currentStepGlobal = 0;
     let currentCategory = null;
@@ -999,15 +919,6 @@
       Object.values(nextBtns).forEach(btn => btn.classList.remove('pulse'));
     }
 
-    // Fonction pour la visibilité du bouton LinkedIn
-    function updateShareButtonVisibility() {
-      if (currentStepGlobal === 0) {
-        linkedinShareBtn.style.display = 'none';
-      } else {
-        linkedinShareBtn.style.display = 'flex';
-      }
-    }
-
     function showBox(current, next) {
       if (!boxes[current] || !boxes[next]) return;
       boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
@@ -1020,11 +931,8 @@
       updateProgressBar(next);
       currentStepGlobal = next;
       removePulseFromAll();
-      updateShareButtonVisibility();
     }
     
-    updateShareButtonVisibility();
-
     startIntroBtn.addEventListener('click', () => {
       introBox.style.animation = 'fadeOut 0.5s ease forwards';
       setTimeout(() => {
@@ -1033,7 +941,6 @@
         currentStepGlobal = 1;
         updateProgressBar(1);
         removePulseFromAll();
-        updateShareButtonVisibility();
       }, 500);
     });
 
@@ -1148,7 +1055,6 @@
     let timerInterval;
     let videoURL = "";
 
-    // Fonctions de désactivation et réactivation des boutons de navigation
     function disableNavigationButtons() {
       Object.values(nextBtns).forEach(btn => btn.disabled = true);
       Object.values(backBtns).forEach(btn => btn.disabled = true);
@@ -1158,7 +1064,6 @@
       Object.values(backBtns).forEach(btn => btn.disabled = false);
     }
 
-    // Fonction pour démarrer l'entretien
     function bindStartButton() {
       const startBtn = document.getElementById('start-btn');
       if(startBtn){
@@ -1183,8 +1088,8 @@
         return;
       }
       if (window.innerWidth <= 600) {
-          const videoBox = document.querySelector('.video-box');
-          videoBox.style.height = "450px";
+        const videoBox = document.querySelector('.video-box');
+        videoBox.style.height = "450px";
       }
       questionOverlay.classList.add('centered');
       questionOverlay.style.display = 'none';
@@ -1207,7 +1112,6 @@
       }, 1000);
     }
 
-    // Affichage de la question avec préfixe
     function displayQuestionWithPrefix(current, total, questionText) {
       questionOverlay.classList.remove('centered');
       questionOverlay.innerHTML = "<p style='font-size:16px; text-align:center;'>Question " + current + "/" + total + " : " + questionText + "</p>";
@@ -1244,11 +1148,10 @@
         removePulseFromAll();
         nextBtns[3].classList.add('pulse');
         if (window.innerWidth <= 600) {
-            document.querySelector('.video-box').style.height = "300px";
+          document.querySelector('.video-box').style.height = "300px";
         }
         restartBtn.classList.remove('hidden-btn');
         nextQuestionBtn.classList.add('hidden-btn');
-        // Réactivation des boutons de navigation à la fin de l'enregistrement
         enableNavigationButtons();
       };
 
@@ -1263,7 +1166,6 @@
       displayQuestionWithPrefix(currentQuestionIndex, selectedQuestionCount, questions[0]);
 
       mediaRecorderInstance.start();
-      // Désactivation des boutons de navigation dès le début de l'enregistrement
       disableNavigationButtons();
       recordingIndicator.style.display = 'flex';
       countdownElement.style.display = 'block';
@@ -1296,7 +1198,6 @@
       }
     }
 
-    // Cycle de 2 minutes pour changer de question
     function startTwoMinutesCycle(questions) {
       let timeRemaining = 120;
       updateCountdownDisplay(timeRemaining);
@@ -1395,7 +1296,7 @@
     bindStartButton();
 
     /***********************
-     * STEP4 : Téléchargement et affichage de deux boutons
+     * STEP4 : Téléchargement et partage
      ***********************/
     const validateFormBtn = document.getElementById('validate-form-btn');
     const step4Extra = document.getElementById('step4-extra');
@@ -1424,14 +1325,40 @@
     });
 
     /***********************
-     * Bouton de partage LinkedIn
+     * Partage sur réseaux sociaux (mise à jour)
      ***********************/
-    linkedinShareBtn.addEventListener("click", () => {
-      const shareURL = encodeURIComponent(window.location.href);
-      const shareText = encodeURIComponent("Je m'entraîne à la prise de parole en public avec le simulateur Letmotiv !");
-      const linkedInURL = `https://www.linkedin.com/sharing/share-offsite/?url=${shareURL}&summary=${shareText}`;
-      window.open(linkedInURL, '_blank');
-    });
+    const shareWhatsApp = document.getElementById('share-whatsapp');
+    const shareTwitter = document.getElementById('share-twitter');
+    const shareLinkedin = document.getElementById('share-linkedin');
+    const shareDiscord = document.getElementById('share-discord');
+    const shareFacebook = document.getElementById('share-facebook');
+
+    // Préparation des variables de partage
+    const currentURL = encodeURIComponent(window.location.href);
+    const shareText = encodeURIComponent("Je m'entraîne à la prise de parole en public avec le simulateur Letmotiv !");
+
+    // Affectation des liens de partage
+    if(shareWhatsApp) {
+      shareWhatsApp.href = "https://api.whatsapp.com/send?text=" + shareText + "%20" + currentURL;
+      shareWhatsApp.setAttribute("target", "_blank");
+    }
+    if(shareTwitter) {
+      shareTwitter.href = "https://twitter.com/intent/tweet?text=" + shareText + "&url=" + currentURL;
+      shareTwitter.setAttribute("target", "_blank");
+    }
+    if(shareLinkedin) {
+      shareLinkedin.href = "https://www.linkedin.com/sharing/share-offsite/?url=" + currentURL;
+      shareLinkedin.setAttribute("target", "_blank");
+    }
+    if(shareDiscord) {
+      // Discord ne propose pas de partage direct ; ici on ouvre simplement Discord
+      shareDiscord.href = "https://discord.com";
+      shareDiscord.setAttribute("target", "_blank");
+    }
+    if(shareFacebook) {
+      shareFacebook.href = "https://www.facebook.com/sharer/sharer.php?u=" + currentURL;
+      shareFacebook.setAttribute("target", "_blank");
+    }
   </script>
 </body>
 </html>
