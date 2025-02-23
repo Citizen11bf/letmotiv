@@ -44,8 +44,8 @@
     body {
       margin: 0;
       font-family: 'DM Sans', sans-serif;
-      background-color: #ffffff;
-      color: #333333;
+      background-color: #fff;
+      color: #333;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -373,7 +373,7 @@
       transform: scaleX(-1);
       -webkit-transform: scaleX(-1);
     }
-    /* Overlay des questions : couleurs restaurées (gris) */
+    /* Overlay des questions : couleur gris restaurée */
     .video-overlay {
       position: absolute;
       z-index: 2;
@@ -478,15 +478,9 @@
       margin: 0 0 10px;
       line-height: 1.4;
     }
-    /* Première ligne en grand, lignes suivantes plus petites */
-    .download-section-accent h2 .big {
-      font-size: 1.8rem;
-      display: block;
-    }
-    .download-section-accent h2 .small {
-      font-size: 1.2rem;
-      display: block;
-    }
+    /* Mise en forme : première ligne grande, suivantes plus petites */
+    .download-section-accent h2 .big { font-size: 1.8rem; display: block; }
+    .download-section-accent h2 .small { font-size: 1.2rem; display: block; }
     .download-section-accent .reassure { font-size: 0.9rem; opacity: 0.9; }
     .call-to-action { text-align: center; }
     .call-to-action button {
@@ -503,7 +497,7 @@
       transform: translateY(-3px);
       box-shadow: 0 4px 6px rgba(0,0,0,0.2);
     }
-    /* Nouveau bloc pour les boutons extra (Recommencer, Ressources) avec animation */
+    /* Bloc extra (Recommencer & Ressources) avec animation de transition */
     #step4-extra {
       display: none;
       margin-bottom: 15px;
@@ -528,7 +522,7 @@
       transition: background-color 0.3s;
     }
     #step4-extra button:hover { background-color: #00a48a; }
-    /* Les boutons de partage seront placés en dessous du bloc extra */
+    /* Boutons de partage (placés en dessous du bloc extra) */
     .share-experience { text-align: center; margin-top: 15px; }
     /* --- Styles pour les icônes de partage inspirés de l'exemple --- */
     ul { list-style: none; padding: 0; margin: 0; }
@@ -570,23 +564,22 @@
       transition: all 0.3s ease-in-out;
     }
     .example-2 .icon-content a:hover .filled { height: 100%; }
-    /* Attribution des couleurs spécifiques aux icônes */
-    .example-2 .icon-content a[data-social="whatsapp"] .filled {
-      background-color: #128c7e;
-    }
-    .example-2 .icon-content a[data-social="twitter"] .filled {
-      background-color: #1DA1F2;
-    }
-    .example-2 .icon-content a[data-social="linkedin"] .filled {
-      background-color: #0077B5;
-    }
-    .example-2 .icon-content a[data-social="discord"] .filled {
-      background-color: #7289da;
-    }
-    .example-2 .icon-content a[data-social="facebook"] .filled {
-      background-color: #3b5998;
-    }
+    .example-2 .icon-content a[data-social="whatsapp"] .filled { background-color: #128c7e; }
+    .example-2 .icon-content a[data-social="twitter"] .filled { background-color: #1DA1F2; }
+    .example-2 .icon-content a[data-social="linkedin"] .filled { background-color: #0077B5; }
+    .example-2 .icon-content a[data-social="discord"] .filled { background-color: #7289da; }
+    .example-2 .icon-content a[data-social="facebook"] .filled { background-color: #3b5998; }
     @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    /* Optionnel : Animation "push" pour le bouton "Accéder aux ressources" */
+    @keyframes pushButton {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    #resources-btn {
+      animation: pushButton 1s infinite ease-in-out;
+    }
   </style>
 
   <!-- Script JSON-LD -->
@@ -606,7 +599,7 @@
   </script>
 </head>
 <body>
-  <!-- Élément audio pour le feedback sonore (pop léger) -->
+  <!-- Élément audio pour le feedback sonore -->
   <audio id="pop-sound" src="https://www.soundjay.com/button/sounds/button-30.mp3"></audio>
 
   <!-- BOÎTE D'INTRODUCTION -->
@@ -755,7 +748,6 @@
       </div>
       <div class="video-box">
         <video id="preview" autoplay muted playsinline webkit-playsinline></video>
-        <!-- Overlay pour l'enregistrement -->
         <div class="video-overlay centered" id="question-overlay">
           <p style="font-size:16px; text-align:center;">
             Ici va s'enregistrer ton entretien vidéo.<br>
@@ -818,12 +810,11 @@
             Télécharger ma vidéo
           </button>
         </div>
-        <!-- Bloc extra (Recommencer / Ressources) placé au-dessus des partages et animé -->
+        <!-- Bloc extra repositionné au-dessus des partages -->
         <div id="step4-extra">
           <button id="redo-btn">Recommencer</button>
           <button id="resources-btn">Accéder aux ressources</button>
         </div>
-        <!-- Boutons de partage repositionnés en dessous -->
         <div class="share-experience" style="text-align: center; margin-top: 15px;">
           <p>Partage ton expérience sur tes réseaux :</p>
           <div class="example-2">
@@ -1148,7 +1139,7 @@
         timeRemaining--;
         if (timeRemaining >= 0) { updateCountdownDisplay(timeRemaining); }
         if (timeRemaining <= 0) {
-          if(currentQuestionIndex < selectedQuestionCount) {
+          if(currentQuestionIndex < selectedQuestionCount - 1) {
             currentQuestionIndex++;
             let questionText;
             if (currentQuestionIndex === 1) { questionText = questions[0]; }
@@ -1160,6 +1151,7 @@
             clearInterval(timerInterval);
             stopBtn.classList.add('hidden-btn');
             stopBtn.disabled = true;
+            nextQuestionBtn.classList.add('hidden-btn');
           }
         }
       }, 1000);
@@ -1190,7 +1182,7 @@
       clearInterval(timerInterval);
       let timeRemaining = 120;
       loadSubjects(currentCategory).then(questions => {
-        if(currentQuestionIndex < selectedQuestionCount) {
+        if (currentQuestionIndex < selectedQuestionCount - 1) {
           currentQuestionIndex++;
           let questionText;
           if (currentQuestionIndex === 1) { questionText = questions[0]; }
@@ -1198,7 +1190,9 @@
           displayQuestionWithPrefix(currentQuestionIndex, selectedQuestionCount, questionText);
           updateCountdownDisplay(timeRemaining);
           startTwoMinutesCycle(questions);
-        } else { mediaRecorderInstance.stop(); }
+        } else {
+          mediaRecorderInstance.stop();
+        }
       });
     });
     restartBtn.addEventListener('click', () => {
@@ -1212,7 +1206,10 @@
         <button id="start-btn" aria-label="Démarrer l'entretien">
           Démarrer ton entretien <i class="fas fa-video"></i>
         </button>
-        <p style="font-size:12px;">NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
+        <p style="font-size:12px;">
+          NB : ta vidéo est stockée sur ton appareil.<br>
+          Aucun enregistrement n'est conservé par Letmotiv.
+        </p>
       `;
       questionOverlay.style.display = 'flex';
       improStarted = false;
@@ -1237,7 +1234,7 @@
         document.body.removeChild(link);
       }
       document.querySelector('.call-to-action').style.display = 'none';
-      // Ajout de la classe pour déclencher l'animation fluide
+      // Ajout de la classe pour déclencher l'animation fluide d'apparition
       step4Extra.classList.add('show');
     });
     redoBtn.addEventListener('click', () => { window.location.reload(); });
