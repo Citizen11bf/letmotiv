@@ -54,17 +54,12 @@
       padding-top: 60px;
       padding-bottom: 20px;
     }
-
-    /* Messages d'erreur en rouge et en gras */
-    .error-message {
-      color: red;
-      font-weight: bold;
-    }
+    .error-message { color: red; font-weight: bold; }
 
     /* --- HEADER --- */
     .header {
       background-color: #182d84;
-      color: #FFFFFF;
+      color: #fff;
       font-size: 16px;
       font-weight: bold;
       text-align: center;
@@ -93,7 +88,7 @@
       left: 0;
       width: 100%;
       height: 8px;
-      background-color: rgba(24, 45, 132, 0.1);
+      background-color: rgba(24,45,132,0.1);
       z-index: 9;
     }
     .progress-bar {
@@ -103,30 +98,25 @@
       transition: width 0.5s ease;
     }
 
-    @media (max-width: 600px) {
+    @media (max-width:600px) {
       body { padding-top: 40px; }
       .box { margin: 10px 0; }
       .impro-actions { gap: 5px; }
     }
-
-    @media (max-width: 600px) {
-      h1 .line { display: block; }
-    }
+    @media (max-width:600px) { h1 .line { display: block; } }
     
     /* --- BOÎTE D'INTRODUCTION --- */
     .intro-box {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       background: linear-gradient(135deg, #2E22AC, #E34C9D);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
-      color: #ffffff;
+      color: #fff;
       z-index: 20;
       animation: fadeIn 1s ease forwards;
     }
@@ -137,7 +127,7 @@
       animation: slideDown 1s ease forwards;
     }
     .intro-box button {
-      background-color: #ffffff;
+      background-color: #fff;
       color: #182d84;
       font-family: 'DM Sans', sans-serif;
       font-size: 1.2rem;
@@ -150,10 +140,9 @@
     }
     .intro-box button:hover {
       background-color: #00a48a;
-      color: #ffffff;
+      color: #fff;
       transform: scale(1.05);
     }
-
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
     @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
@@ -177,8 +166,8 @@
       margin: 20px 0;
       padding: 20px;
       border-radius: 15px;
-      background: linear-gradient(135deg, #ffffff, #f9f9f9);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      background: linear-gradient(135deg, #fff, #f9f9f9);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       text-align: center;
       font-size: 14px;
       display: none;
@@ -187,7 +176,7 @@
     .box.active { display: block; }
     .box:hover {
       transform: translateY(-5px);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
     }
 
     /* --- ANIMATIONS VERTICALES --- */
@@ -208,18 +197,16 @@
     .back-btn {
       border: none;
       background-color: #808080;
-      color: #FFFFFF;
+      color: #fff;
       font-size: 16px;
       cursor: pointer;
       border-radius: 50%;
-      width: 40px;
-      height: 40px;
+      width: 40px; height: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: background-color 0.3s, transform 0.3s;
-      margin: 0 auto;
-      margin-bottom: 10px;
+      margin: 0 auto 10px;
     }
     .back-btn:hover { background-color: #505050; transform: scale(1.1); }
     .back-btn:active { background-color: #303030; }
@@ -229,12 +216,9 @@
     /* --- FLECHES HAUT/BAS --- */
     .next-btn, .back-btn { }
     .next-btn {
-      width: 40px;
-      height: 40px;
+      width: 40px; height: 40px;
       border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       border: 2px solid #182d84;
       background-color: transparent;
       color: #182d84;
@@ -242,7 +226,7 @@
       transition: background-color 0.3s, color 0.3s, transform 0.3s;
       margin: 10px auto;
     }
-    .next-btn:hover { background-color: #00a48a; color: #ffffff; transform: scale(1.05); }
+    .next-btn:hover { background-color: #00a48a; color: #fff; transform: scale(1.05); }
     .next-btn.pulse { animation: electricPulse 1.5s infinite; }
     @keyframes electricPulse {
       0% { box-shadow: 0 0 0 0 rgba(0,164,138,0.7); }
@@ -250,7 +234,7 @@
       100% { box-shadow: 0 0 0 0 rgba(0,164,138,0); }
     }
 
-    /* --- Bouton de style pour "Démarrer ton entretien" et boutons similaires --- */
+    /* --- Bouton de style pour "Démarrer ton entretien" --- */
     .btn-impro {
       pointer-events: auto;
       margin: 15px 0;
@@ -265,7 +249,7 @@
     }
     .btn-impro:hover { background-color: #00a48a; }
 
-    /* --- STEP1 : Choix d’objectif avec effet "Carte Flip" --- */
+    /* --- STEP1 : Carte Flip --- */
     .objectives-container {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -273,13 +257,13 @@
       justify-items: center;
       margin: 10px 0;
     }
-    @media (max-width: 600px) {
+    @media (max-width:600px) {
       .objectives-container { grid-template-columns: repeat(2, 1fr); }
       .flip-card { width: 90px; height: 100px; }
       .flip-card-front i { font-size: 1.8rem; }
       .flip-card-front span { font-size: 0.9rem; }
     }
-    @media (max-width: 550px) {
+    @media (max-width:550px) {
       .flip-card { max-width: 120px; height: 90px; }
       .flip-card-front i { font-size: 1.5rem; }
       .flip-card-front span { font-size: 0.7rem; }
@@ -344,14 +328,10 @@
       display: flex;
       justify-content: center;
       gap: 10px;
-      margin-top: 10px; /* marge réduite */
+      margin-top: 10px;
     }
-    .simulation-buttons button:hover {
-      transform: scale(1.05);
-    }
-    .simulation-buttons button:active {
-      transform: scale(0.95);
-    }
+    .simulation-buttons button:hover { transform: scale(1.05); }
+    .simulation-buttons button:active { transform: scale(0.95); }
     .simulation-buttons button {
       padding: 10px 20px;
       font-size: 16px;
@@ -388,8 +368,7 @@
       object-fit: cover;
       border-radius: 4px;
       position: absolute;
-      top: 0;
-      left: 0;
+      top: 0; left: 0;
       z-index: 1;
       transform: scaleX(-1);
       -webkit-transform: scaleX(-1);
@@ -398,8 +377,7 @@
     .video-overlay {
       position: absolute;
       z-index: 2;
-      top: 0;
-      left: 0;
+      top: 0; left: 0;
       width: 100%;
       padding: 2px;
       display: flex;
@@ -410,7 +388,7 @@
       font-style: italic;
       font-size: 14px;
       background: rgba(128,128,128,0.6);
-      color: #ffffff;
+      color: #fff;
     }
     .video-overlay.centered {
       height: 100%;
@@ -433,8 +411,7 @@
     .video-overlay button:hover { background-color: #00a48a; }
     .recording-indicator {
       position: absolute;
-      bottom: 10px;
-      left: 10px;
+      bottom: 10px; left: 10px;
       display: flex;
       align-items: center;
       background-color: rgba(255,255,255,0.8);
@@ -448,10 +425,9 @@
     .recording-indicator i { margin-right: 5px; }
     .countdown {
       position: absolute;
-      bottom: 10px;
-      right: 10px;
+      bottom: 10px; right: 10px;
       font-size: 18px;
-      color: #ffffff;
+      color: #fff;
       display: none;
       z-index: 4;
       background-color: rgba(0,0,0,0.5);
@@ -461,10 +437,8 @@
     }
     .initial-countdown-overlay {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       background-color: rgba(128,128,128,0.6);
       display: none;
       align-items: center;
@@ -474,7 +448,7 @@
     }
     .initial-countdown {
       font-size: 48px;
-      color: #ffffff;
+      color: #fff;
       font-weight: bold;
     }
 
@@ -500,11 +474,19 @@
     }
     .download-section-accent h2 {
       font-family: 'Montserrat', sans-serif;
-      font-size: 1.5rem;
+      font-size: 1.8rem;
       margin: 0 0 10px;
       line-height: 1.4;
     }
-    .download-section-accent .subtitle { font-style: italic; margin-bottom: 10px; }
+    /* Première ligne en grand, lignes suivantes plus petites */
+    .download-section-accent h2 .big {
+      font-size: 1.8rem;
+      display: block;
+    }
+    .download-section-accent h2 .small {
+      font-size: 1.2rem;
+      display: block;
+    }
     .download-section-accent .reassure { font-size: 0.9rem; opacity: 0.9; }
     .call-to-action { text-align: center; }
     .call-to-action button {
@@ -521,9 +503,18 @@
       transform: translateY(-3px);
       box-shadow: 0 4px 6px rgba(0,0,0,0.2);
     }
+    /* Nouveau bloc pour les boutons extra (Recommencer, Ressources) avec animation */
     #step4-extra {
       display: none;
-      margin-top: 20px;
+      margin-bottom: 15px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    #step4-extra.show {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
     }
     #step4-extra button {
       background-color: #182d84;
@@ -536,17 +527,11 @@
       margin: 5px;
       transition: background-color 0.3s;
     }
-    #step4-extra button:hover {
-      background-color: #00a48a;
-    }
-    @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-    
+    #step4-extra button:hover { background-color: #00a48a; }
+    /* Les boutons de partage seront placés en dessous du bloc extra */
+    .share-experience { text-align: center; margin-top: 15px; }
     /* --- Styles pour les icônes de partage inspirés de l'exemple --- */
-    ul { 
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
+    ul { list-style: none; padding: 0; margin: 0; }
     .example-2 {
       display: flex;
       justify-content: center;
@@ -565,15 +550,12 @@
       width: 50px;
       height: 50px;
       border-radius: 50%;
-      color: #4d4d4d;
+      color: inherit;
       background-color: #fff;
       transition: all 0.3s ease-in-out;
       text-decoration: none;
     }
-    .example-2 .icon-content a:hover {
-      box-shadow: 3px 2px 45px 0px rgb(0 0 0 / 12%);
-      color: white;
-    }
+    .example-2 .icon-content a:hover { box-shadow: 3px 2px 45px 0px rgb(0 0 0 / 12%); }
     .example-2 .icon-content a svg,
     .example-2 .icon-content a i {
       position: relative;
@@ -582,16 +564,29 @@
     }
     .example-2 .icon-content a .filled {
       position: absolute;
-      bottom: 0;
-      left: 0;
+      bottom: 0; left: 0;
       width: 100%;
       height: 0;
-      background-color: #000;
       transition: all 0.3s ease-in-out;
     }
-    .example-2 .icon-content a:hover .filled {
-      height: 100%;
+    .example-2 .icon-content a:hover .filled { height: 100%; }
+    /* Attribution des couleurs spécifiques aux icônes */
+    .example-2 .icon-content a[data-social="whatsapp"] .filled {
+      background-color: #128c7e;
     }
+    .example-2 .icon-content a[data-social="twitter"] .filled {
+      background-color: #1DA1F2;
+    }
+    .example-2 .icon-content a[data-social="linkedin"] .filled {
+      background-color: #0077B5;
+    }
+    .example-2 .icon-content a[data-social="discord"] .filled {
+      background-color: #7289da;
+    }
+    .example-2 .icon-content a[data-social="facebook"] .filled {
+      background-color: #3b5998;
+    }
+    @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
   </style>
 
   <!-- Script JSON-LD -->
@@ -760,7 +755,7 @@
       </div>
       <div class="video-box">
         <video id="preview" autoplay muted playsinline webkit-playsinline></video>
-        <!-- Overlay utilisée pour le contenu initial et final (centré) ou pour les questions (non centré) -->
+        <!-- Overlay pour l'enregistrement -->
         <div class="video-overlay centered" id="question-overlay">
           <p style="font-size:16px; text-align:center;">
             Ici va s'enregistrer ton entretien vidéo.<br>
@@ -769,13 +764,14 @@
           <button id="start-btn" aria-label="Démarrer l'entretien">
             Démarrer ton entretien <i class="fas fa-video"></i>
           </button>
-          <p style="font-size:12px;">NB : ta vidéo est stockée sur ton appareil. <br>Aucun enregistrement n'est conservé par Letmotiv.</p>
+          <p style="font-size:12px;">
+            NB : ta vidéo est stockée sur ton appareil.<br>
+            Aucun enregistrement n'est conservé par Letmotiv.
+          </p>
         </div>
-        <!-- Indicateur d'enregistrement repositionné en bas à gauche -->
         <div class="recording-indicator" id="recording-indicator">
           <i class="fas fa-record-vinyl"></i> Enregistrement en cours
         </div>
-        <!-- Décompte en bas à droite -->
         <div class="countdown" id="countdown">2:00</div>
         <div class="initial-countdown-overlay" id="initial-countdown-overlay">
           <div class="initial-countdown" id="initial-countdown">5</div>
@@ -809,9 +805,9 @@
       <div class="download-section">
         <div class="download-section-accent">
           <h2>
-            Obtiens gratuitement<br>
-            <i class="fas fa-video"></i> ta prestation en vidéo<br>
-            <i class="fas fa-file-alt"></i> Du contenus Letmotiv pour t'améliorer
+            <span class="big">Obtiens gratuitement</span><br>
+            <span class="small"><i class="fas fa-video"></i> ta prestation en vidéo</span><br>
+            <span class="small"><i class="fas fa-file-alt"></i> Du contenus Letmotiv pour t'améliorer</span>
           </h2>
           <p class="reassure">
             N'hésite pas à t'entraîner et refaire des simulations pour progresser.
@@ -822,6 +818,12 @@
             Télécharger ma vidéo
           </button>
         </div>
+        <!-- Bloc extra (Recommencer / Ressources) placé au-dessus des partages et animé -->
+        <div id="step4-extra">
+          <button id="redo-btn">Recommencer</button>
+          <button id="resources-btn">Accéder aux ressources</button>
+        </div>
+        <!-- Boutons de partage repositionnés en dessous -->
         <div class="share-experience" style="text-align: center; margin-top: 15px;">
           <p>Partage ton expérience sur tes réseaux :</p>
           <div class="example-2">
@@ -857,14 +859,10 @@
             </div>
           </div>
         </div>
-        <div id="step4-extra">
-          <button id="redo-btn">Refaire une simulation d'entretien</button>
-          <button id="resources-btn">Accéder aux ressources Letmotiv</button>
-        </div>
       </div>
     </div>
   </div>
-  
+
   <!-- SCRIPT -->
   <script>
     /***********************
@@ -876,19 +874,16 @@
       3: document.getElementById('step3'),
       4: document.getElementById('step4')
     };
-
     const nextBtns = {
       1: document.getElementById('next-btn1'),
       2: document.getElementById('next-btn2'),
       3: document.getElementById('next-btn3')
     };
-
     const backBtns = {
       2: document.getElementById('back-btn2'),
       3: document.getElementById('back-btn3'),
       4: document.getElementById('back-btn5')
     };
-
     const introBox = document.getElementById('intro-box');
     const startIntroBtn = document.getElementById('start-intro-btn');
     const topProgressBar = document.getElementById('top-progress-bar');
@@ -896,10 +891,9 @@
     let currentStepGlobal = 0;
     let currentCategory = null;
     let selectedQuestionCount = 0;
-    let currentQuestionIndex = 1; // Pour "Question X/Y :"
-    let improStarted = false; // Indique si l'entretien a démarré
+    let currentQuestionIndex = 1;
+    let improStarted = false;
 
-    // Correspondance pour l'affichage dans STEP1
     const objectiveDisplayMapping = {
       "grand-oral": "passer le Grand Oral du BAC",
       "ingenieur-generaliste": "intégrer une école d'ingénieur généraliste",
@@ -914,25 +908,19 @@
       topProgressBar.style.width = `${progress}%`;
     }
     updateProgressBar(0);
-
     function removePulseFromAll() {
       Object.values(nextBtns).forEach(btn => btn.classList.remove('pulse'));
     }
-
     function showBox(current, next) {
       if (!boxes[current] || !boxes[next]) return;
       boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
       boxes[next].classList.add('active');
-      if (next > current) {
-        boxes[next].classList.add('slide-from-bottom');
-      } else {
-        boxes[next].classList.add('slide-from-top');
-      }
+      if (next > current) { boxes[next].classList.add('slide-from-bottom'); }
+      else { boxes[next].classList.add('slide-from-top'); }
       updateProgressBar(next);
       currentStepGlobal = next;
       removePulseFromAll();
     }
-    
     startIntroBtn.addEventListener('click', () => {
       introBox.style.animation = 'fadeOut 0.5s ease forwards';
       setTimeout(() => {
@@ -943,7 +931,6 @@
         removePulseFromAll();
       }, 500);
     });
-
     nextBtns[1].addEventListener('click', () => {
       const selected = document.querySelector('.objectives-container .flip-card.flipped');
       if (!selected) {
@@ -954,7 +941,6 @@
       }
       showBox(1, 2);
     });
-
     nextBtns[2].addEventListener('click', () => {
       if (selectedQuestionCount === 0) {
         const subjErrorDiv = document.getElementById('subject-error');
@@ -964,7 +950,6 @@
       }
       showBox(2, 3);
     });
-
     nextBtns[3].addEventListener('click', () => {
       if (!improStarted) {
         const improErrorDiv = document.getElementById('impro-error');
@@ -974,7 +959,6 @@
       }
       showBox(3, 4);
     });
-
     backBtns[2].addEventListener('click', () => { showBox(2, 1); });
     backBtns[3].addEventListener('click', () => { showBox(3, 2); });
     backBtns[4].addEventListener('click', () => { showBox(4, 3); });
@@ -984,7 +968,6 @@
      ***********************/
     const objectivesCards = document.querySelectorAll('.objectives-container .objective-item');
     const popSound = document.getElementById('pop-sound');
-
     objectivesCards.forEach(card => {
       card.addEventListener('click', async () => {
         popSound.currentTime = 0;
@@ -995,7 +978,6 @@
         document.getElementById('objective-error').style.display = 'none';
       });
     });
-
     /***********************
      * Choix du nombre de questions (STEP2)
      ***********************/
@@ -1007,7 +989,6 @@
         document.getElementById('subject-error').style.display = 'none';
       });
     });
-
     /***********************
      * Fonction loadSubjects pour charger les questions depuis un fichier texte
      ***********************/
@@ -1024,19 +1005,12 @@
       if (!filePath) return [];
       try {
         const response = await fetch(filePath);
-        if (!response.ok) {
-          console.error("Erreur fetch:", filePath);
-          return [];
-        }
+        if (!response.ok) { console.error("Erreur fetch:", filePath); return []; }
         const text = await response.text();
         const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
         return lines;
-      } catch (err) {
-        console.error("Erreur fetch: ", err);
-        return [];
-      }
+      } catch (err) { console.error("Erreur fetch:", err); return []; }
     }
-
     /***********************
      * Enregistrement vidéo (STEP3) et gestion des questions
      ***********************/
@@ -1051,10 +1025,8 @@
     const initialCountdownOverlay = document.getElementById('initial-countdown-overlay');
     const initialCountdown = document.getElementById('initial-countdown');
     const questionOverlay = document.getElementById('question-overlay');
-
     let timerInterval;
     let videoURL = "";
-
     function disableNavigationButtons() {
       Object.values(nextBtns).forEach(btn => btn.disabled = true);
       Object.values(backBtns).forEach(btn => btn.disabled = true);
@@ -1063,14 +1035,10 @@
       Object.values(nextBtns).forEach(btn => btn.disabled = false);
       Object.values(backBtns).forEach(btn => btn.disabled = false);
     }
-
     function bindStartButton() {
       const startBtn = document.getElementById('start-btn');
-      if(startBtn){
-        startBtn.addEventListener('click', startImpro);
-      }
+      if(startBtn){ startBtn.addEventListener('click', startImpro); }
     }
-
     async function startImpro() {
       if (selectedQuestionCount === 0) {
         const improErrorDiv = document.getElementById('impro-error');
@@ -1084,40 +1052,27 @@
         improErrorDiv.style.display = 'block';
         return;
       }
-      if (!confirm("Votre webcam va se lancer pour démarrer l'entretien. Voulez-vous continuer ?")) {
-        return;
-      }
-      if (window.innerWidth <= 600) {
-        const videoBox = document.querySelector('.video-box');
-        videoBox.style.height = "450px";
-      }
+      if (!confirm("Votre webcam va se lancer pour démarrer l'entretien. Voulez-vous continuer ?")) { return; }
+      if (window.innerWidth <= 600) { document.querySelector('.video-box').style.height = "450px"; }
       questionOverlay.classList.add('centered');
       questionOverlay.style.display = 'none';
       startInitialCountdown();
     }
-
     function startInitialCountdown() {
       let count = 5;
       initialCountdown.textContent = count;
       initialCountdownOverlay.style.display = 'flex';
       const initCountdown = setInterval(() => {
         count--;
-        if (count > 0) {
-          initialCountdown.textContent = count;
-        } else {
-          clearInterval(initCountdown);
-          initialCountdownOverlay.style.display = 'none';
-          initiateRecording();
-        }
+        if (count > 0) { initialCountdown.textContent = count; }
+        else { clearInterval(initCountdown); initialCountdownOverlay.style.display = 'none'; initiateRecording(); }
       }, 1000);
     }
-
     function displayQuestionWithPrefix(current, total, questionText) {
       questionOverlay.classList.remove('centered');
       questionOverlay.innerHTML = "<p style='font-size:16px; text-align:center;'>Question " + current + "/" + total + " : " + questionText + "</p>";
       questionOverlay.style.display = 'flex';
     }
-
     async function initiateRecording() {
       const stream = await setupCamera();
       if (!stream) return;
@@ -1129,11 +1084,7 @@
       }
       mediaRecorderInstance = new MediaRecorder(stream);
       recordedChunks = [];
-      mediaRecorderInstance.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          recordedChunks.push(event.data);
-        }
-      };
+      mediaRecorderInstance.ondataavailable = (event) => { if (event.data.size > 0) { recordedChunks.push(event.data); } };
       mediaRecorderInstance.onstop = () => {
         const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
         videoURL = URL.createObjectURL(videoBlob);
@@ -1147,14 +1098,11 @@
         improStarted = true;
         removePulseFromAll();
         nextBtns[3].classList.add('pulse');
-        if (window.innerWidth <= 600) {
-          document.querySelector('.video-box').style.height = "300px";
-        }
+        if (window.innerWidth <= 600) { document.querySelector('.video-box').style.height = "300px"; }
         restartBtn.classList.remove('hidden-btn');
         nextQuestionBtn.classList.add('hidden-btn');
         enableNavigationButtons();
       };
-
       const questions = await loadSubjects(currentCategory);
       if (!questions || questions.length === 0) {
         const improErrorDiv = document.getElementById('impro-error');
@@ -1164,20 +1112,16 @@
       }
       currentQuestionIndex = 1;
       displayQuestionWithPrefix(currentQuestionIndex, selectedQuestionCount, questions[0]);
-
       mediaRecorderInstance.start();
       disableNavigationButtons();
       recordingIndicator.style.display = 'flex';
       countdownElement.style.display = 'block';
       stopBtn.classList.remove('hidden-btn');
       stopBtn.disabled = false;
-      if(selectedQuestionCount > 1) {
-        nextQuestionBtn.classList.remove('hidden-btn');
-      }
+      if(selectedQuestionCount > 1) { nextQuestionBtn.classList.remove('hidden-btn'); }
       restartBtn.classList.add('hidden-btn');
       startTwoMinutesCycle(questions);
     }
-
     async function setupCamera() {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
@@ -1197,26 +1141,18 @@
         return null;
       }
     }
-
     function startTwoMinutesCycle(questions) {
       let timeRemaining = 120;
       updateCountdownDisplay(timeRemaining);
-
       timerInterval = setInterval(() => {
         timeRemaining--;
-        if (timeRemaining >= 0) {
-          updateCountdownDisplay(timeRemaining);
-        }
+        if (timeRemaining >= 0) { updateCountdownDisplay(timeRemaining); }
         if (timeRemaining <= 0) {
           if(currentQuestionIndex < selectedQuestionCount) {
             currentQuestionIndex++;
             let questionText;
-            if (currentQuestionIndex === 1) {
-              questionText = questions[0];
-            } else {
-              const otherQuestions = questions.slice(1);
-              questionText = otherQuestions[Math.floor(Math.random() * otherQuestions.length)];
-            }
+            if (currentQuestionIndex === 1) { questionText = questions[0]; }
+            else { const otherQuestions = questions.slice(1); questionText = otherQuestions[Math.floor(Math.random() * otherQuestions.length)]; }
             displayQuestionWithPrefix(currentQuestionIndex, selectedQuestionCount, questionText);
             timeRemaining = 120;
           } else {
@@ -1228,13 +1164,11 @@
         }
       }, 1000);
     }
-
     function updateCountdownDisplay(seconds) {
       const minutes = Math.floor(seconds / 60);
       const sec = seconds % 60;
       countdownElement.textContent = `${minutes}:${sec < 10 ? '0' + sec : sec}`;
     }
-
     stopBtn.addEventListener('click', () => {
       if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
         mediaRecorderInstance.stop();
@@ -1246,7 +1180,6 @@
         recordingIndicator.style.display = 'none';
       }
     });
-
     nextQuestionBtn.addEventListener('click', () => {
       if (!mediaRecorderInstance || mediaRecorderInstance.state !== 'recording') {
         const improErrorDiv = document.getElementById('impro-error');
@@ -1260,21 +1193,14 @@
         if(currentQuestionIndex < selectedQuestionCount) {
           currentQuestionIndex++;
           let questionText;
-          if (currentQuestionIndex === 1) {
-            questionText = questions[0];
-          } else {
-            const otherQuestions = questions.slice(1);
-            questionText = otherQuestions[Math.floor(Math.random() * otherQuestions.length)];
-          }
+          if (currentQuestionIndex === 1) { questionText = questions[0]; }
+          else { const otherQuestions = questions.slice(1); questionText = otherQuestions[Math.floor(Math.random() * otherQuestions.length)]; }
           displayQuestionWithPrefix(currentQuestionIndex, selectedQuestionCount, questionText);
           updateCountdownDisplay(timeRemaining);
           startTwoMinutesCycle(questions);
-        } else {
-          mediaRecorderInstance.stop();
-        }
+        } else { mediaRecorderInstance.stop(); }
       });
     });
-
     restartBtn.addEventListener('click', () => {
       restartBtn.classList.add('hidden-btn');
       questionOverlay.classList.add('centered');
@@ -1292,7 +1218,6 @@
       improStarted = false;
       bindStartButton();
     });
-
     bindStartButton();
 
     /***********************
@@ -1302,7 +1227,6 @@
     const step4Extra = document.getElementById('step4-extra');
     const redoBtn = document.getElementById('redo-btn');
     const resourcesBtn = document.getElementById('resources-btn');
-
     validateFormBtn.addEventListener('click', () => {
       if (videoURL) {
         const link = document.createElement('a');
@@ -1313,31 +1237,22 @@
         document.body.removeChild(link);
       }
       document.querySelector('.call-to-action').style.display = 'none';
-      step4Extra.style.display = 'block';
+      // Ajout de la classe pour déclencher l'animation fluide
+      step4Extra.classList.add('show');
     });
-
-    redoBtn.addEventListener('click', () => {
-      window.location.reload();
-    });
-
-    resourcesBtn.addEventListener('click', () => {
-      window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/entretien-candidat";
-    });
+    redoBtn.addEventListener('click', () => { window.location.reload(); });
+    resourcesBtn.addEventListener('click', () => { window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/entretien-candidat"; });
 
     /***********************
-     * Partage sur réseaux sociaux (mise à jour)
+     * Partage sur réseaux sociaux
      ***********************/
     const shareWhatsApp = document.getElementById('share-whatsapp');
     const shareTwitter = document.getElementById('share-twitter');
     const shareLinkedin = document.getElementById('share-linkedin');
     const shareDiscord = document.getElementById('share-discord');
     const shareFacebook = document.getElementById('share-facebook');
-
-    // Préparation des variables de partage
     const currentURL = encodeURIComponent(window.location.href);
     const shareText = encodeURIComponent("Je m'entraîne à la prise de parole en public avec le simulateur Letmotiv !");
-
-    // Affectation des liens de partage
     if(shareWhatsApp) {
       shareWhatsApp.href = "https://api.whatsapp.com/send?text=" + shareText + "%20" + currentURL;
       shareWhatsApp.setAttribute("target", "_blank");
@@ -1351,7 +1266,6 @@
       shareLinkedin.setAttribute("target", "_blank");
     }
     if(shareDiscord) {
-      // Discord ne propose pas de partage direct ; ici on ouvre simplement Discord
       shareDiscord.href = "https://discord.com";
       shareDiscord.setAttribute("target", "_blank");
     }
