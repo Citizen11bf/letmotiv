@@ -115,13 +115,14 @@
     @media (max-width: 600px) {
       body { padding-top: 40px; }
       .box { margin: 10px 0; scroll-margin-top: 70px; }
-      .impro-actions { gap: 5px; }
-      /* Désactivation des animations sur mobile */
-      .slide-from-bottom,
-      .slide-from-top {
-        animation: none !important;
+      .impro-actions button {
+        width: 45%;
+        height: 50px;
+        margin: 5px;
+        flex: 1;
       }
     }
+    
     @media (max-width: 600px) { h1 .line { display: block; } }
     
     /* --- BOÎTE D'INTRODUCTION --- */
@@ -483,10 +484,11 @@
     .impro-actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
-      justify-content: center;
+      gap: 5px;
+      justify-content: space-around;
       margin-top: 10px;
     }
+    
     .hidden-btn { display: none; }
 
     /* --- STEP4 : Analyse ton entretien --- */
