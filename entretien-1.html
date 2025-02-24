@@ -53,7 +53,7 @@
     }
   </script>
   
-  <!-- Styles CSS avec commentaires -->
+  <!-- Styles CSS avec commentaires pour la maintenabilité -->
   <style>
     /* --- GLOBAL --- */
     * { box-sizing: border-box; }
@@ -835,10 +835,10 @@
         </div>
         <div id="step4-extra">
           <button id="resources-btn">
-            Accéder aux ressources Letmotiv <i class="fas fa-book-open"></i>
+            <i class="fas fa-book-open"></i> Accéder aux ressources Letmotiv
           </button>
           <button id="redo-btn">
-            Refaire une simulation d'entretien <i class="fas fa-redo"></i>
+            <i class="fas fa-redo"></i> Refaire une simulation d'entretien
           </button>
         </div>
 
@@ -1310,22 +1310,18 @@
       });
     });
 
+    // Modification de l'événement pour "Recommencer ton entretien"
     restartBtn.addEventListener('click', () => {
+      // Masquer le bouton de redémarrage et réinitialiser l'affichage
       restartBtn.classList.add('hidden-btn');
-      questionOverlay.classList.add('centered');
-      questionOverlay.innerHTML = `
-        <p style="font-size:16px; text-align:center;">
-          Ici va s'enregistrer ton entretien vidéo.<br>
-          Lorsque tu es prêt, clique sur le bouton ci-dessous.
-        </p>
-        <button id="start-btn" aria-label="Démarrer l'entretien">
-          Démarrer ton entretien <i class="fas fa-video"></i>
-        </button>
-        <p style="font-size:12px;">NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
-      `;
-      questionOverlay.style.display = 'flex';
+      // Masquer l'overlay de la question
+      questionOverlay.style.display = 'none';
+      // Réinitialiser l'état pour indiquer que l'entretien n'est pas encore démarré
       improStarted = false;
-      bindStartButton();
+      // (Optionnel) Réinitialiser l'index de la question si nécessaire
+      currentQuestionIndex = 1;
+      // Redémarrer directement avec le compte à rebours initial
+      startInitialCountdown();
     });
 
     bindStartButton();
