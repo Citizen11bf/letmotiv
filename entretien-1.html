@@ -37,6 +37,7 @@
   <!-- Hammer.js pour mobile -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
 
+  <!-- Balises JSON-LD pour le SEO -->
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -52,6 +53,7 @@
     }
   </script>
   
+  <!-- Styles CSS avec commentaires -->
   <style>
     /* --- GLOBAL --- */
     * { box-sizing: border-box; }
@@ -112,13 +114,26 @@
       transition: width 0.5s ease;
     }
 
+    /* --- MEDIA QUERIES pour mobile --- */
     @media (max-width: 600px) {
+      /* Ajustement du padding pour le body sur mobile */
       body { padding-top: 40px; }
+      
+      /* Réduction des marges et ajustement du scroll pour les boxes */
       .box { margin: 10px 0; scroll-margin-top: 70px; }
+      
+      /* Mise en forme des boutons dans les actions d'improvisation :
+         - Affichage vertical (colonne)
+         - Chaque bouton prend 100% de la largeur */
+      .impro-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
       .impro-actions button {
         width: 100%;
         height: 50px;
-        margin: 5px;
+        margin: 5px 0;
         flex: 1;
       }
     }
