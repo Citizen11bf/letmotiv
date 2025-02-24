@@ -114,8 +114,13 @@
 
     @media (max-width: 600px) {
       body { padding-top: 40px; }
-      .box { margin: 10px 0; }
+      .box { margin: 10px 0; scroll-margin-top: 70px; }
       .impro-actions { gap: 5px; }
+      /* Désactivation des animations sur mobile */
+      .slide-from-bottom,
+      .slide-from-top {
+        animation: none !important;
+      }
     }
     @media (max-width: 600px) { h1 .line { display: block; } }
     
@@ -801,7 +806,7 @@
       </div>
       <div class="download-section">
         <div class="download-section-accent">
-          <h2>Obtiens gratuitement <br>ta prestation en vidéo <br>du contenu d'analyse Letmotiv</h2>
+          <h2>Obtiens gratuitement ta prestation en vidéo et des éléments d'analyse Letmotiv</h2>
           <p class="reassure">
             N'hésite pas à t'entraîner et refaire des simulations pour progresser.
           </p>
@@ -811,9 +816,9 @@
             Télécharger ma vidéo
           </button>
         </div>
-        <div id="step4-extra">    
-          <button id="resources-btn">Accéder aux ressources Letmotiv</button>
+        <div id="step4-extra">
           <button id="redo-btn">Refaire une simulation d'entretien</button>
+          <button id="resources-btn">Accéder aux ressources Letmotiv</button>
         </div>
         <!-- Ajout de la phrase et des icônes de partage -->
         <p style="margin-top: 20px; font-weight: bold;">Partage ton expérience sur tes réseaux :</p>
