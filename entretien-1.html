@@ -470,13 +470,15 @@
       text-align: center;
       color: #fff;
       margin-bottom: 20px;
+      /* Réduction de la marge inférieure pour diminuer l'espace vertical */
+      margin-bottom: 5px;
       animation: fadeInDown 0.6s ease forwards;
     }
     .download-section-accent h2 {
       font-family: 'Montserrat', sans-serif;
       font-size: 1.8rem;
-      margin: 0 0 10px;
-      line-height: 1.4;
+      margin: 0 0 5px; /* marge réduite */
+      line-height: 1.2;
     }
     /* Mise en forme : première ligne grande, suivantes plus petites */
     .download-section-accent h2 .big { font-size: 1.8rem; display: block; }
@@ -571,14 +573,9 @@
     .example-2 .icon-content a[data-social="facebook"] .filled { background-color: #3b5998; }
     @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-    /* Optionnel : Animation "push" pour le bouton "Accéder aux ressources" */
-    @keyframes pushButton {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
+    /* Suppression de l'animation pour le bouton "Accéder aux ressources" */
     #resources-btn {
-      animation: pushButton 1s infinite ease-in-out;
+      /* animation supprimée */
     }
   </style>
 
@@ -1139,19 +1136,24 @@
         timeRemaining--;
         if (timeRemaining >= 0) { updateCountdownDisplay(timeRemaining); }
         if (timeRemaining <= 0) {
-          if(currentQuestionIndex < selectedQuestionCount - 1) {
+          if (currentQuestionIndex < selectedQuestionCount) {
             currentQuestionIndex++;
             let questionText;
-            if (currentQuestionIndex === 1) { questionText = questions[0]; }
-            else { const otherQuestions = questions.slice(1); questionText = otherQuestions[Math.floor(Math.random() * otherQuestions.length)]; }
+            if (currentQuestionIndex === 1) { 
+              questionText = questions[0]; 
+            } else { 
+              const otherQuestions = questions.slice(1);
+              questionText = otherQuestions[Math.floor(Math.random() * otherQuestions.length)]; 
+            }
             displayQuestionWithPrefix(currentQuestionIndex, selectedQuestionCount, questionText);
+            updateCountdownDisplay(120);
+            if (currentQuestionIndex === selectedQuestionCount) {
+              nextQuestionBtn.classList.add('hidden-btn');
+            }
             timeRemaining = 120;
           } else {
             mediaRecorderInstance.stop();
             clearInterval(timerInterval);
-            stopBtn.classList.add('hidden-btn');
-            stopBtn.disabled = true;
-            nextQuestionBtn.classList.add('hidden-btn');
           }
         }
       }, 1000);
@@ -1166,7 +1168,6 @@
         mediaRecorderInstance.stop();
         clearInterval(timerInterval);
         stopBtn.classList.add('hidden-btn');
-        stopBtn.disabled = true;
         nextQuestionBtn.classList.add('hidden-btn');
         restartBtn.classList.remove('hidden-btn');
         recordingIndicator.style.display = 'none';
@@ -1182,13 +1183,20 @@
       clearInterval(timerInterval);
       let timeRemaining = 120;
       loadSubjects(currentCategory).then(questions => {
-        if (currentQuestionIndex < selectedQuestionCount - 1) {
+        if (currentQuestionIndex < selectedQuestionCount) {
           currentQuestionIndex++;
           let questionText;
-          if (currentQuestionIndex === 1) { questionText = questions[0]; }
-          else { const otherQuestions = questions.slice(1); questionText = otherQuestions[Math.floor(Math.random() * otherQuestions.length)]; }
+          if (currentQuestionIndex === 1) { 
+            questionText = questions[0]; 
+          } else { 
+            const otherQuestions = questions.slice(1);
+            questionText = otherQuestions[Math.floor(Math.random() * otherQuestions.length)]; 
+          }
           displayQuestionWithPrefix(currentQuestionIndex, selectedQuestionCount, questionText);
           updateCountdownDisplay(timeRemaining);
+          if (currentQuestionIndex === selectedQuestionCount) {
+            nextQuestionBtn.classList.add('hidden-btn');
+          }
           startTwoMinutesCycle(questions);
         } else {
           mediaRecorderInstance.stop();
@@ -1234,7 +1242,7 @@
         document.body.removeChild(link);
       }
       document.querySelector('.call-to-action').style.display = 'none';
-      // Ajout de la classe pour déclencher l'animation fluide d'apparition
+      // Afficher le bloc extra sans animation supplémentaire pour le bouton "Accéder aux ressources"
       step4Extra.classList.add('show');
     });
     redoBtn.addEventListener('click', () => { window.location.reload(); });
