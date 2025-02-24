@@ -101,7 +101,14 @@
     @media (max-width:600px) {
       body { padding-top: 40px; }
       .box { margin: 10px 0; }
-      .impro-actions { gap: 5px; }
+      .impro-actions { 
+        flex-direction: row;
+        gap: 5px;
+      }
+      .impro-actions button {
+        width: 48%;
+        margin: 0;
+      }
     }
     @media (max-width:600px) { h1 .line { display: block; } }
     
@@ -459,16 +466,16 @@
       justify-content: center;
       margin-top: 10px;
     }
-    .hidden-btn { display: none; }
 
-     /* Modification pour mobile : même taille pour les boutons et espacement réduit */
-      @media (max-width:600px) {
-      .impro-actions {
-        flex-direction: row;
-        gap: 5px;
-    
     /* --- STEP4 : Analyse ton entretien & Téléchargements --- */
-    .download-section { margin-top: 20px; }
+    .box#step4 {
+      /* Hérite des styles généraux de .box */
+      display: none;
+    }
+    .box#step4.active { display: block; }
+    .download-section { 
+      margin-top: 20px; 
+    }
     .download-section-accent {
       background: linear-gradient(135deg, #182d84, #00a48a);
       border-radius: 10px;
@@ -481,14 +488,24 @@
     .download-section-accent h2 {
       font-family: 'Montserrat', sans-serif;
       font-size: 1.8rem;
-      margin: 0 0 5px; /* marge réduite */
+      margin: 0 0 5px;
       line-height: 1.2;
     }
-    /* Mise en forme : première ligne grande, suivantes plus petites */
-    .download-section-accent h2 .big { font-size: 1.8rem; display: block; }
-    .download-section-accent h2 .small { font-size: 1.2rem; display: block; }
-    .download-section-accent .reassure { font-size: 0.9rem; opacity: 0.9; }
-    .call-to-action { text-align: center; }
+    .download-section-accent h2 .big { 
+      font-size: 1.8rem; 
+      display: block; 
+    }
+    .download-section-accent h2 .small { 
+      font-size: 1.2rem; 
+      display: block; 
+    }
+    .download-section-accent .reassure { 
+      font-size: 0.9rem; 
+      opacity: 0.9; 
+    }
+    .call-to-action { 
+      text-align: center; 
+    }
     .call-to-action button {
       background-color: #ffcb2d;
       color: #000;
@@ -503,7 +520,7 @@
       transform: translateY(-3px);
       box-shadow: 0 4px 6px rgba(0,0,0,0.2);
     }
-    /* Bloc extra (Recommencer & Ressources) avec animation de transition */
+    /* Bloc extra (Recommencer & Ressources) */
     #step4-extra {
       display: none;
       margin-bottom: 15px;
@@ -528,53 +545,10 @@
       transition: background-color 0.3s;
     }
     #step4-extra button:hover { background-color: #00a48a; }
-    /* Boutons de partage (placés en dessous du bloc extra) */
-    .share-experience { text-align: center; margin-top: 15px; }
-    /* --- Styles pour les icônes de partage inspirés de l'exemple --- */
-    ul { list-style: none; padding: 0; margin: 0; }
-    .example-2 {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    .share-experience { 
+      text-align: center; 
+      margin-top: 15px; 
     }
-    .example-2 .icon-content {
-      margin: 0 10px;
-      position: relative;
-    }
-    .example-2 .icon-content a {
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      color: inherit;
-      background-color: #fff;
-      transition: all 0.3s ease-in-out;
-      text-decoration: none;
-    }
-    .example-2 .icon-content a:hover { box-shadow: 3px 2px 45px 0px rgb(0 0 0 / 12%); }
-    .example-2 .icon-content a svg,
-    .example-2 .icon-content a i {
-      position: relative;
-      z-index: 1;
-      font-size: 30px;
-    }
-    .example-2 .icon-content a .filled {
-      position: absolute;
-      bottom: 0; left: 0;
-      width: 100%;
-      height: 0;
-      transition: all 0.3s ease-in-out;
-    }
-    .example-2 .icon-content a:hover .filled { height: 100%; }
-    .example-2 .icon-content a[data-social="whatsapp"] .filled { background-color: #128c7e; }
-    .example-2 .icon-content a[data-social="twitter"] .filled { background-color: #1DA1F2; }
-    .example-2 .icon-content a[data-social="linkedin"] .filled { background-color: #0077B5; }
-    .example-2 .icon-content a[data-social="discord"] .filled { background-color: #7289da; }
-    .example-2 .icon-content a[data-social="facebook"] .filled { background-color: #3b5998; }
     @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
     /* Suppression de l'animation pour le bouton "Accéder aux ressources" */
@@ -816,7 +790,7 @@
           <button id="redo-btn">Recommencer</button>
           <button id="resources-btn">Accéder aux ressources</button>
         </div>
-        <div class="share-experience" style="text-align: center; margin-top: 15px;">
+        <div class="share-experience">
           <p>Partage ton expérience sur tes réseaux :</p>
           <div class="example-2">
             <div class="icon-content">
@@ -1246,7 +1220,6 @@
         document.body.removeChild(link);
       }
       document.querySelector('.call-to-action').style.display = 'none';
-      // Afficher le bloc extra sans animation supplémentaire pour le bouton "Accéder aux ressources"
       step4Extra.classList.add('show');
     });
     redoBtn.addEventListener('click', () => { window.location.reload(); });
