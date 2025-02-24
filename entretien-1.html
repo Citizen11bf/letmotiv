@@ -373,7 +373,7 @@
       transform: scaleX(-1);
       -webkit-transform: scaleX(-1);
     }
-
+    /* Overlay des questions : couleur gris restaurée */
     .video-overlay {
       position: absolute;
       z-index: 2;
@@ -387,7 +387,7 @@
       text-align: center;
       font-style: italic;
       font-size: 14px;
-      background: rgba(255,255,255,0.6);
+      background: rgba(128,128,128,0.6);
       color: #fff;
     }
     .video-overlay.centered {
@@ -414,7 +414,7 @@
       bottom: 10px; left: 10px;
       display: flex;
       align-items: center;
-      background-color: rgba(255,255,255,0.6);
+      background-color: rgba(255,255,255,0.8);
       padding: 5px 10px;
       border-radius: 20px;
       font-size: 14px;
@@ -455,17 +455,11 @@
     .impro-actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 5px;
-      width: 100%;
+      gap: 10px;
       justify-content: center;
       margin-top: 10px;
     }
     .hidden-btn { display: none; }
-
-    @media (max-width: 600px) {
-    .impro-actions {
-      flex-direction: column;
-      align-items: stretch;
 
     /* --- STEP4 : Analyse ton entretien & Téléchargements --- */
     .download-section { margin-top: 20px; }
@@ -495,7 +489,7 @@
       background-color: #ffcb2d;
       color: #000;
       border-radius: 30px;
-      padding: 15px 15px;
+      padding: 12px 12px;
       font-weight: bold;
       font-size: 1rem;
       transition: transform 0.2s, box-shadow 0.2s;
@@ -529,12 +523,10 @@
       margin: 5px;
       transition: background-color 0.3s;
     }
-   
     #step4-extra button:hover { background-color: #00a48a; }
     /* Boutons de partage (placés en dessous du bloc extra) */
     .share-experience { text-align: center; margin-top: 15px; }
-    /* --- Styles pour les icônes de partage --- */
-
+    /* --- Styles pour les icônes de partage inspirés de l'exemple --- */
     ul { list-style: none; padding: 0; margin: 0; }
     .example-2 {
       display: flex;
@@ -581,6 +573,10 @@
     .example-2 .icon-content a[data-social="facebook"] .filled { background-color: #3b5998; }
     @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
+    /* Suppression de l'animation pour le bouton "Accéder aux ressources" */
+    #resources-btn {
+      /* animation supprimée */
+    }
   </style>
 
   <!-- Script JSON-LD -->
