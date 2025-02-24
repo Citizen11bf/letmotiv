@@ -456,10 +456,17 @@
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
+      width: 100%;
+      margin-bottom: 10px;
       justify-content: center;
       margin-top: 10px;
     }
     .hidden-btn { display: none; }
+
+    @media (max-width: 600px) {
+    .impro-actions {
+      flex-direction: column;
+      align-items: stretch;
 
     /* --- STEP4 : Analyse ton entretien & Téléchargements --- */
     .download-section { margin-top: 20px; }
@@ -523,10 +530,12 @@
       margin: 5px;
       transition: background-color 0.3s;
     }
+   
     #step4-extra button:hover { background-color: #00a48a; }
     /* Boutons de partage (placés en dessous du bloc extra) */
     .share-experience { text-align: center; margin-top: 15px; }
-    /* --- Styles pour les icônes de partage inspirés de l'exemple --- */
+    /* --- Styles pour les icônes de partage --- */
+
     ul { list-style: none; padding: 0; margin: 0; }
     .example-2 {
       display: flex;
@@ -573,10 +582,6 @@
     .example-2 .icon-content a[data-social="facebook"] .filled { background-color: #3b5998; }
     @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-    /* Suppression de l'animation pour le bouton "Accéder aux ressources" */
-    #resources-btn {
-      /* animation supprimée */
-    }
   </style>
 
   <!-- Script JSON-LD -->
