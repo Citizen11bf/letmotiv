@@ -10,7 +10,7 @@
   <link rel="icon" href="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Letmotiv_favicon.webp" type="image/png">
   <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Letmotiv_favicon.webp">
   
-  <!-- Balises Open Graph pour LinkedIn -->
+  <!-- Balises Open Graph -->
   <meta property="og:title" content="Letmotiv - Simulateur d'entretien" />
   <meta property="og:description" content="Prépare-toi aux entretiens d'embauche et d'admission grâce au simulateur d'entretien Letmotiv." />
   <meta property="og:type" content="website" />
@@ -26,15 +26,15 @@
   <meta name="twitter:description" content="Prépare-toi aux entretiens d'embauche et d'admission grâce au simulateur d'entretien Letmotiv.">
   <meta name="twitter:image" content="https://i.postimg.cc/qvxsxJR3/Simulateur-interview.png">
 
-  <!-- Import de la police DM Sans et Montserrat depuis Google Fonts -->
+  <!-- Import des polices -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans&family=Montserrat:wght@700&display=swap" rel="stylesheet" />
 
-  <!-- Icônes Font Awesome -->
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   
-  <!-- Inclusion de Hammer.js pour la gestion des gestes sur mobile -->
+  <!-- Hammer.js pour mobile -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
 
   <script type="application/ld+json">
@@ -68,12 +68,7 @@
       padding-top: 60px;
       padding-bottom: 20px;
     }
-
-    /* Messages d'erreur en rouge et en gras */
-    .error-message {
-      color: red;
-      font-weight: bold;
-    }
+    .error-message { color: red; font-weight: bold; }
 
     /* --- HEADER --- */
     .header {
@@ -122,10 +117,7 @@
       .box { margin: 10px 0; }
       .impro-actions { gap: 5px; }
     }
-
-    @media (max-width: 600px) {
-      h1 .line { display: block; }
-    }
+    @media (max-width: 600px) { h1 .line { display: block; } }
     
     /* --- BOÎTE D'INTRODUCTION --- */
     .intro-box {
@@ -167,7 +159,6 @@
       color: #ffffff;
       transform: scale(1.05);
     }
-
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
     @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
@@ -203,8 +194,6 @@
       transform: translateY(-5px);
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
     }
-
-    /* --- ANIMATIONS VERTICALES --- */
     .slide-from-bottom { animation: fromBottom 1.5s ease forwards; }
     @keyframes fromBottom { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
     .slide-from-top { animation: fromTop 1.5s ease forwards; }
@@ -264,7 +253,7 @@
       100% { box-shadow: 0 0 0 0 rgba(0,164,138,0); }
     }
 
-    /* --- Bouton de style pour "Démarrer ton entretien" et boutons similaires --- */
+    /* --- Bouton pour démarrer l'entretien et boutons similaires --- */
     .btn-impro {
       pointer-events: auto;
       margin: 15px 0;
@@ -360,12 +349,8 @@
       gap: 10px;
       margin-top: 10px;
     }
-    .simulation-buttons button:hover {
-      transform: scale(1.05);
-    }
-    .simulation-buttons button:active {
-      transform: scale(0.95);
-    }
+    .simulation-buttons button:hover { transform: scale(1.05); }
+    .simulation-buttons button:active { transform: scale(0.95); }
     .simulation-buttons button {
       padding: 10px 20px;
       font-size: 16px;
@@ -490,7 +475,6 @@
       color: #ffffff;
       font-weight: bold;
     }
-
     .impro-actions {
       display: flex;
       flex-wrap: wrap;
@@ -552,11 +536,10 @@
       background-color: #00a48a;
     }
     @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-    
   </style>
 </head>
 <body>
-  <!-- Élément audio pour le feedback sonore (pop léger) -->
+  <!-- Élément audio pour le feedback sonore -->
   <audio id="pop-sound" src="https://www.soundjay.com/button/sounds/button-30.mp3"></audio>
 
   <!-- BOÎTE D'INTRODUCTION -->
@@ -705,7 +688,7 @@
       </div>
       <div class="video-box">
         <video id="preview" autoplay muted playsinline webkit-playsinline></video>
-        <!-- Overlay utilisée pour le contenu initial et final (centré) ou pour les questions (non centré) -->
+        <!-- Overlay initial : seul le bouton "Démarrer ton entretien" est visible -->
         <div class="video-overlay centered" id="question-overlay">
           <p style="font-size:16px; text-align:center;">
             Ici va s'enregistrer ton entretien vidéo.<br>
@@ -716,23 +699,24 @@
           </button>
           <p style="font-size:12px;">NB : ta vidéo est stockée sur ton appareil. <br>Aucun enregistrement n'est conservé par Letmotiv.</p>
         </div>
-        <!-- Indicateur d'enregistrement repositionné en bas à gauche -->
         <div class="recording-indicator" id="recording-indicator">
           <i class="fas fa-record-vinyl"></i> Enregistrement en cours
         </div>
-        <!-- Décompte en bas à droite -->
         <div class="countdown" id="countdown">2:00</div>
         <div class="initial-countdown-overlay" id="initial-countdown-overlay">
           <div class="initial-countdown" id="initial-countdown">5</div>
         </div>
       </div>
       <div class="impro-actions">
+        <!-- Bouton "Question suivante" sera masqué lors de la dernière question -->
         <button id="next-question-btn" class="hidden-btn btn-impro" aria-label="Question suivante">
           Question suivante <i class="fas fa-forward"></i>
         </button>
+        <!-- Bouton "Arrêter l'entretien" -->
         <button id="stop-btn" class="hidden-btn btn-impro" aria-label="Arrêter l'entretien">
           Arrêter ton entretien <i class="fas fa-stop"></i>
         </button>
+        <!-- Bouton "Recommencer" apparaît après un arrêt -->
         <button id="restart-btn" class="hidden-btn btn-impro" aria-label="Recommencer l'entretien">
           Recommencer ton entretien <i class="fas fa-redo"></i>
         </button>
@@ -805,7 +789,6 @@
     let currentQuestionIndex = 1; // Pour "Question X/Y :"
     let improStarted = false; // Indique si l'entretien a démarré
 
-    // Correspondance pour l'affichage dans STEP1
     const objectiveDisplayMapping = {
       "grand-oral": "passer le Grand Oral du BAC",
       "ingenieur-generaliste": "intégrer une école d'ingénieur généraliste",
@@ -829,11 +812,7 @@
       if (!boxes[current] || !boxes[next]) return;
       boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
       boxes[next].classList.add('active');
-      if (next > current) {
-        boxes[next].classList.add('slide-from-bottom');
-      } else {
-        boxes[next].classList.add('slide-from-top');
-      }
+      boxes[next].classList.add(next > current ? 'slide-from-bottom' : 'slide-from-top');
       updateProgressBar(next);
       currentStepGlobal = next;
       removePulseFromAll();
@@ -915,7 +894,7 @@
     });
 
     /***********************
-     * Fonction loadSubjects pour charger les questions depuis un fichier texte
+     * Chargement des questions depuis un fichier texte
      ***********************/
     async function loadSubjects(category) {
       const txtFilesByCategory = {
@@ -935,10 +914,9 @@
           return [];
         }
         const text = await response.text();
-        const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-        return lines;
+        return text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
       } catch (err) {
-        console.error("Erreur fetch: ", err);
+        console.error("Erreur fetch:", err);
         return [];
       }
     }
@@ -961,7 +939,6 @@
     let timerInterval;
     let videoURL = "";
 
-    // Fonctions de désactivation et réactivation des boutons de navigation
     function disableNavigationButtons() {
       Object.values(nextBtns).forEach(btn => btn.disabled = true);
       Object.values(backBtns).forEach(btn => btn.disabled = true);
@@ -971,7 +948,7 @@
       Object.values(backBtns).forEach(btn => btn.disabled = false);
     }
 
-    // Fonction pour démarrer l'entretien
+    // Attache l'événement au bouton "Démarrer ton entretien"
     function bindStartButton() {
       const startBtn = document.getElementById('start-btn');
       if(startBtn){
@@ -996,9 +973,9 @@
         return;
       }
       if (window.innerWidth <= 600) {
-          const videoBox = document.querySelector('.video-box');
-          videoBox.style.height = "450px";
+        document.querySelector('.video-box').style.height = "450px";
       }
+      // Cache l'overlay initial
       questionOverlay.classList.add('centered');
       questionOverlay.style.display = 'none';
       startInitialCountdown();
@@ -1057,11 +1034,10 @@
         removePulseFromAll();
         nextBtns[3].classList.add('pulse');
         if (window.innerWidth <= 600) {
-            document.querySelector('.video-box').style.height = "300px";
+          document.querySelector('.video-box').style.height = "300px";
         }
         restartBtn.classList.remove('hidden-btn');
         nextQuestionBtn.classList.add('hidden-btn');
-        // Réactivation des boutons de navigation à la fin de l'enregistrement
         enableNavigationButtons();
       };
 
@@ -1076,13 +1052,12 @@
       displayQuestionWithPrefix(currentQuestionIndex, selectedQuestionCount, questions[0]);
 
       mediaRecorderInstance.start();
-      // Désactivation des boutons de navigation dès le début de l'enregistrement
       disableNavigationButtons();
       recordingIndicator.style.display = 'flex';
       countdownElement.style.display = 'block';
       stopBtn.classList.remove('hidden-btn');
       stopBtn.disabled = false;
-      // Afficher le bouton "Question suivante" uniquement si ce n'est pas la dernière question
+      // Affiche "Question suivante" si plusieurs questions et si ce n'est pas la dernière
       if(selectedQuestionCount > 1) {
         nextQuestionBtn.classList.remove('hidden-btn');
       }
@@ -1110,10 +1085,9 @@
       }
     }
 
-    // Cycle de 2 minutes pour changer de question
+    // Cycle de 2 minutes pour chaque question
     function startTwoMinutesCycle(questions) {
       let timeRemaining = 120;
-      // Si c'est la dernière question, on masque le bouton "Question suivante"
       if (currentQuestionIndex === selectedQuestionCount) {
         nextQuestionBtn.classList.add('hidden-btn');
       } else {
@@ -1127,7 +1101,6 @@
           updateCountdownDisplay(timeRemaining);
         }
         if (timeRemaining <= 0) {
-          // Si ce n'est pas encore la dernière question, passer à la suivante
           if (currentQuestionIndex < selectedQuestionCount) {
             currentQuestionIndex++;
             let questionText;
@@ -1139,7 +1112,6 @@
             }
             displayQuestionWithPrefix(currentQuestionIndex, selectedQuestionCount, questionText);
             timeRemaining = 120;
-            // Vérifier de nouveau si on est sur la dernière question pour masquer le bouton
             if (currentQuestionIndex === selectedQuestionCount) {
               nextQuestionBtn.classList.add('hidden-btn');
             }
@@ -1181,7 +1153,6 @@
       clearInterval(timerInterval);
       let timeRemaining = 120;
       loadSubjects(currentCategory).then(questions => {
-        // Si ce n'est pas encore l'avant-dernière question, on passe à la suivante
         if (currentQuestionIndex < selectedQuestionCount - 1) {
           currentQuestionIndex++;
           let questionText;
@@ -1195,7 +1166,6 @@
           updateCountdownDisplay(timeRemaining);
           startTwoMinutesCycle(questions);
         }
-        // Si on est sur l'avant-dernière question, passer à la dernière et masquer le bouton "Question suivante"
         else if (currentQuestionIndex === selectedQuestionCount - 1) {
           currentQuestionIndex++;
           let questionText;
@@ -1230,7 +1200,7 @@
     bindStartButton();
 
     /***********************
-     * STEP4 : Téléchargement et affichage de deux boutons
+     * STEP4 : Analyse et téléchargement
      ***********************/
     const validateFormBtn = document.getElementById('validate-form-btn');
     const step4Extra = document.getElementById('step4-extra');
