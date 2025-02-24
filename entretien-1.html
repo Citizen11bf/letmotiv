@@ -53,7 +53,7 @@
     }
   </script>
   
-  <!-- Styles CSS avec commentaires pour la maintenabilité -->
+  <!-- Styles CSS avec commentaires -->
   <style>
     /* --- GLOBAL --- */
     * { box-sizing: border-box; }
@@ -572,7 +572,8 @@
       position: relative;
     }
     .example-2 .icon-content a {
-      cursor: pointer;
+      position: relative;
+      overflow: hidden;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -582,6 +583,7 @@
       color: #4d4d4d;
       background-color: #fff;
       transition: all 0.3s ease-in-out;
+      text-decoration: none;
     }
     .example-2 .icon-content a:hover {
       box-shadow: 3px 2px 45px 0px rgb(0 0 0 / 12%);
@@ -601,6 +603,7 @@
       height: 0;
       background-color: #000;
       transition: all 0.3s ease-in-out;
+      border-radius: 50%; /* Pour conserver la forme ronde */
     }
     .example-2 .icon-content a:hover .filled {
       height: 100%;
@@ -617,6 +620,9 @@
     }
     .example-2 .icon-content a[data-social="instagram"] .filled {
       background: linear-gradient(45deg, #405de6, #5b51db, #b33ab4, #c135b4, #e1306c, #fd1f1f);
+    }
+    .example-2 .icon-content a[data-social="youtube"] .filled {
+      background-color: #ff0000;
     }
   </style>
 </head>
@@ -776,8 +782,8 @@
             Ici va s'enregistrer ton entretien vidéo.<br>
             Lorsque tu es prêt, clique sur le bouton ci-dessous.
           </p>
-          <button id="start-btn" aria-label="Démarrer ta simulation">
-            Démarrer ta simulation <i class="fas fa-video"></i>
+          <button id="start-btn" aria-label="Démarrer l'entretien">
+            Démarrer ton entretien <i class="fas fa-video"></i>
           </button>
           <p style="font-size:12px;">NB : ta vidéo est stockée sur ton appareil. <br>Aucun enregistrement n'est conservé par Letmotiv.</p>
         </div>
@@ -831,10 +837,10 @@
         </div>
         <div id="step4-extra">
           <button id="resources-btn">
-            Accéder aux ressources <i class="fas fa-book-open"></i>
+            <i class="fas fa-book-open"></i> Accéder aux ressources Letmotiv
           </button>
           <button id="redo-btn">
-            Refaire une simulation <i class="fas fa-redo"></i> 
+            <i class="fas fa-redo"></i> Refaire une simulation d'entretien
           </button>
         </div>
 
@@ -882,7 +888,7 @@
     </div>
   </div>
   
-  <!-- SCRIPT PRINCIPAL -->
+  <!-- SCRIPT -->
   <script>
     /***********************
      * Gestion des étapes (4 étapes)
@@ -1371,6 +1377,9 @@
           shareUrl = "https://www.linkedin.com/sharing/share-offsite/?url=" + currentURL;
         } else if(social === "instagram") {
           alert("Instagram ne supporte pas le partage via URL. Veuillez copier le lien manuellement.");
+          return;
+        } else if(social === "youtube") {
+          alert("YouTube ne supporte pas le partage via URL.");
           return;
         }
         window.open(shareUrl, '_blank');
