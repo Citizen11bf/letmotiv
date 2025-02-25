@@ -634,9 +634,6 @@
   </style>
 </head>
 <body>
-  <!-- Élément audio pour le feedback sonore -->
-  <audio id="pop-sound" src="https://www.soundjay.com/button/sounds/button-30.mp3" preload="auto"></audio>
-  <audio id="pop-sound" src="https://www.soundjay.com/button/sounds/button-30.mp3"></audio>
 
   <!-- BOÎTE D'INTRODUCTION -->
   <div class="intro-box" id="intro-box">
@@ -1009,12 +1006,9 @@
      * Gestion des objectifs (STEP1) et feedback sonore
      ***********************/
     const objectivesCards = document.querySelectorAll('.objectives-container .objective-item');
-    const popSound = document.getElementById('pop-sound');
 
     objectivesCards.forEach(card => {
       card.addEventListener('click', async () => {
-        popSound.currentTime = 0;
-        popSound.play();
         objectivesCards.forEach(c => c.classList.remove('flipped'));
         card.classList.add('flipped');
         currentCategory = card.dataset.category;
