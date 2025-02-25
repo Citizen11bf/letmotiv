@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Letmotiv - Simulateur d'entretien</title>
+  <meta name="description" content="Prépare-toi aux entretiens d'embauche et d'admission grâce au simulateur d'entretien Letmotiv.">
+
+  <!-- Icône de la page (favicon) -->
+  <link rel="icon" href="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Letmotiv_favicon.webp" type="image/png">
+  <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Letmotiv_favicon.webp">
+  
+  <!-- Balises Open Graph -->
+  <meta property="og:title" content="Letmotiv - Simulateur d'entretien" />
+  <meta property="og:description" content="Prépare-toi aux entretiens d'embauche et d'admission grâce au simulateur d'entretien Letmotiv." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://letmotiv-simulateur.fr" />
+  <meta property="og:image" content="https://i.postimg.cc/qvxsxJR3/Simulateur-interview.png" />
+  <meta property="og:image:alt" content="Illustration d'un entretien de simulation." />
+  <meta name="author" content="Simulateur d'entretien Letmotiv" />
+  <meta property="article:published_time" content="2025-01-26" />
+
+  <!-- Balises Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Letmotiv - Simulateur d'entretien">
+  <meta name="twitter:description" content="Prépare-toi aux entretiens d'embauche et d'admission grâce au simulateur d'entretien Letmotiv.">
+  <meta name="twitter:image" content="https://i.postimg.cc/qvxsxJR3/Simulateur-interview.png">
+
+  <!-- Import des polices -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans&family=Montserrat:wght@700&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  
+  <!-- Hammer.js pour mobile -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+
+  <!-- Balises JSON-LD pour le SEO -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Letmotiv - Simulateur d'entretien",
+      "url": "https://letmotiv-simulateur.fr/entretien",
+      "description": "Prépare-toi aux entretiens d'embauche et d'admission grâce au simulateur d'entretien Letmotiv.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Letmotiv",
+        "logo": "https://letmotiv-simulateur.fr/logo.png"
+      }
+    }
+  </script>
+  
+  <!-- Styles CSS avec commentaires -->
+  <style>
+    /* --- GLOBAL --- */
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'DM Sans', sans-serif;
+      background-color: #ffffff;
+      color: #333333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+      padding-top: 60px;
+      padding-bottom: 20px;
+    }
+    .error-message { color: red; font-weight: bold; }
+
+    /* --- HEADER --- */
+    .header {
+      background-color: #182d84;
+      color: #FFFFFF;
+      font-size: 16px;
+      font-weight: bold;
+      text-align: center;
+      padding: 10px;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 10;
+    }
+    .header-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      max-width: 100%;
+      overflow-wrap: break-word;
+    }
+    .header-l2 { font-size: 14px; font-weight: normal; }
+
+    /* --- BARRE DE PROGRESSION --- */
+    .progress-container {
+      position: fixed;
+      top: 60px;
+      left: 0;
+      width: 100%;
+      height: 8px;
+      background-color: rgba(24, 45, 132, 0.1);
+      z-index: 9;
+    }
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      background-color: #00a48a;
+      transition: width 0.5s ease;
+    }
+
+    /* --- MEDIA QUERIES pour mobile --- */
+    @media (max-width: 600px) {
+      /* Ajustement du padding pour le body sur mobile */
+      body { padding-top: 40px; }
+      
+      /* Réduction des marges et ajustement du scroll pour les boxes */
+      .box { 
+        margin: 0; 
+        scroll-margin-top: 70px; 
+        /* Les boxes occupent toute la hauteur disponible en tenant compte du header et de la barre de progression */
+        width: 100vw; 
+        height: calc(100vh - 60px - 8px);
+        padding: 20px; /* Ajustez le padding selon vos besoins */
+      }
+      
+      /* Mise en forme des boutons dans les actions d'improvisation :
+         - Affichage vertical (colonne)
+         - Chaque bouton prend 100% de la largeur */
+      .impro-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .impro-actions button {
+        width: 100%;
+        height: 50px;
+        margin: 5px 0;
+        flex: 1;
+      }
+    }
+    
+    @media (max-width: 600px) { h1 .line { display: block; } }
+    
+    /* --- BOÎTE D'INTRODUCTION --- */
+    .intro-box {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #2E22AC, #E34C9D);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #ffffff;
+      z-index: 20;
+      animation: fadeIn 1s ease forwards;
+    }
+    .intro-box h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      animation: slideDown 1s ease forwards;
+    }
+    .intro-box button {
+      background-color: #ffffff;
+      color: #182d84;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 25px;
+      padding: 15px 30px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s, color 0.3s;
+      box-shadow: 0px 4px 6px rgba(0,0,0,0.2);
+    }
+    .intro-box button:hover {
+      background-color: #00a48a;
+      color: #ffffff;
+      transform: scale(1.05);
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+    @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    /* --- CONTENEUR PRINCIPAL --- */
+    .main-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex-grow: 1;
+      width: 100%;
+      padding: 20px;
+    }
+
+    /* --- BOXES (étapes) --- */
+    .box {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      margin: 20px 0;
+      padding: 20px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, #ffffff, #f9f9f9);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      font-size: 14px;
+      display: none;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .box.active { display: block; }
+    .box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+    .slide-from-bottom { animation: fromBottom 1.5s ease forwards; }
+    @keyframes fromBottom { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+    .slide-from-top { animation: fromTop 1.5s ease forwards; }
+    @keyframes fromTop { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* --- HEADER INTERNE DES BOXES --- */
+    .box-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .back-btn {
+      border: none;
+      background-color: #808080;
+      color: #FFFFFF;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s, transform 0.3s;
+      margin: 0 auto;
+      margin-bottom: 10px;
+    }
+    .back-btn:hover { background-color: #505050; transform: scale(1.1); }
+    .back-btn:active { background-color: #303030; }
+    #step1 .back-btn.hidden-visibility { display: none; }
+    .box-title { font-size: 18px; font-weight: bold; color: #182d84; text-align: center; }
+
+    /* --- FLECHES HAUT/BAS --- */
+    .next-btn, .back-btn { }
+    .next-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #182d84;
+      background-color: transparent;
+      color: #182d84;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s, transform 0.3s;
+      margin: 10px auto;
+    }
+    .next-btn:hover { background-color: #00a48a; color: #ffffff; transform: scale(1.05); }
+    .next-btn.pulse { animation: electricPulse 1.5s infinite; }
+    @keyframes electricPulse {
+      0% { box-shadow: 0 0 0 0 rgba(0,164,138,0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(0,164,138,0); }
+      100% { box-shadow: 0 0 0 0 rgba(0,164,138,0); }
+    }
+
+    /* --- Bouton pour démarrer l'entretien et boutons similaires --- */
+    .btn-impro {
+      pointer-events: auto;
+      margin: 15px 0;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #182d84;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .btn-impro:hover { background-color: #00a48a; }
+
+    /* --- STEP1 : Choix d’objectif avec effet "Carte Flip" --- */
+    .objectives-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      justify-items: center;
+      margin: 10px 0;
+    }
+    @media (max-width: 600px) {
+      .objectives-container { grid-template-columns: repeat(2, 1fr); }
+      .flip-card { width: 90px; height: 100px; }
+      .flip-card-front i { font-size: 1.8rem; }
+      .flip-card-front span { font-size: 0.9rem; }
+    }
+    @media (max-width: 550px) {
+      .flip-card { max-width: 120px; height: 90px; }
+      .flip-card-front i { font-size: 1.5rem; }
+      .flip-card-front span { font-size: 0.7rem; }
+    }
+    .flip-card {
+      background-color: transparent;
+      width: 100%;
+      max-width: 150px;
+      height: 120px;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      border-radius: 8px;
+      background-color: #fff;
+    }
+    .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+    .flip-card-front,
+    .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .flip-card-front {
+      background: #fff;
+      color: #808080;
+      border: 1px solid #ccc;
+    }
+    .flip-card-front i { font-size: 1.8rem; margin-bottom: 8px; }
+    .flip-card-front span { font-size: 0.9rem; font-weight: bold; }
+    .flip-card-back {
+      background: #f0f0f0;
+      color: #00a48a;
+      transform: rotateY(180deg);
+      font-size: 0.8rem;
+      padding: 8px;
+      text-align: center;
+      border: 1px solid #ccc;
+    }
+
+    /* --- STEP2 : Configuration de la simulation --- */
+    .simulation-instructions {
+      padding: 20px;
+      font-size: 16px;
+      text-align: center;
+    }
+    .simulation-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .simulation-buttons button:hover { transform: scale(1.05); }
+    .simulation-buttons button:active { transform: scale(0.95); }
+    .simulation-buttons button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #182d84;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .simulation-buttons button.selected {
+      background-color: #00a48a;
+      color: #fff;
+    }
+
+    /* --- STEP3 : Enregistrement vidéo --- */
+    .video-box {
+      margin: 10px auto;
+      border: 3px solid #182d84;
+      border-radius: 6px;
+      max-width: 500px;
+      background-color: #fefefe;
+      height: 300px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      transition: height 0.5s ease-in-out;
+    }
+    .video-box video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 4px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      transform: scaleX(-1);
+      -webkit-transform: scaleX(-1);
+    }
+    .video-overlay {
+      position: absolute;
+      z-index: 2;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 5px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      text-align: center;
+      color: #555;
+      font-style: italic;
+      font-size: 13px;
+      background: rgba(255,255,255,0.6);
+    }
+    .video-overlay.centered {
+      height: 100%;
+      justify-content: center;
+      align-items: center;
+    }
+    .video-overlay p { margin: 10px 0; }
+    .video-overlay button {
+      pointer-events: auto;
+      margin: 15px 0;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #182d84;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .video-overlay button:hover { background-color: #00a48a; }
+    .recording-indicator {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      display: flex;
+      align-items: center;
+      background-color: rgba(255,255,255,0.8);
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 14px;
+      color: #ff0000;
+      display: none;
+      z-index: 3;
+    }
+    .recording-indicator i { margin-right: 5px; }
+    .countdown {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      font-size: 18px;
+      color: #ffffff;
+      display: none;
+      z-index: 4;
+      background-color: rgba(0,0,0,0.5);
+      padding: 5px 10px;
+      border-radius: 5px;
+      text-align: center;
+    }
+    .initial-countdown-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(128,128,128,0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 5;
+      border-radius: 6px;
+    }
+    .initial-countdown {
+      font-size: 48px;
+      color: #ffffff;
+      font-weight: bold;
+    }
+    .impro-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      justify-content: space-around;
+      margin-top: 10px;
+    }
+    
+    .hidden-btn { display: none; }
+
+    /* --- STEP4 : Analyse ton entretien --- */
+    .download-section { margin-top: 20px; }
+    .download-section-accent {
+      background: linear-gradient(135deg, #182d84, #00a48a);
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      color: #fff;
+      margin-bottom: 20px;
+      animation: fadeInDown 0.6s ease forwards;
+    }
+    .download-section-accent h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.5rem;
+      margin: 0 0 10px;
+    }
+    .download-section-accent .subtitle { font-style: italic; margin-bottom: 10px; }
+    .download-section-accent .reassure { font-size: 0.9rem; opacity: 0.9; }
+    .call-to-action { text-align: center; }
+    .call-to-action button {
+      background-color: #ffcb2d;
+      color: #000;
+      border-radius: 30px;
+      padding: 12px 24px;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin: 10px auto;
+    }
+    .call-to-action button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+    #step4-extra {
+      display: none;
+      margin-top: 20px;
+    }
+    #step4-extra button {
+      background-color: #182d84;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 5px;
+      transition: background-color 0.3s;
+    }
+    #step4-extra button:hover {
+      background-color: #00a48a;
+    }
+    @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    
+    /* --- Style pour les icônes sociales (section de partage) --- */
+    ul { list-style: none; padding: 0; margin: 0; }
+    .example-2 {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+    }
+    .example-2 .icon-content {
+      margin: 0 10px;
+      position: relative;
+    }
+    .example-2 .icon-content a {
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      color: #4d4d4d;
+      background-color: #fff;
+      transition: all 0.3s ease-in-out;
+      text-decoration: none;
+    }
+    .example-2 .icon-content a:hover {
+      box-shadow: 3px 2px 45px 0px rgb(0 0 0 / 12%);
+      color: white;
+    }
+    .example-2 .icon-content a svg {
+      position: relative;
+      z-index: 1;
+      width: 30px;
+      height: 30px;
+    }
+    .example-2 .icon-content a .filled {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 0;
+      background-color: #000;
+      transition: all 0.3s ease-in-out;
+      border-radius: 50%; /* Pour conserver la forme ronde */
+    }
+    .example-2 .icon-content a:hover .filled {
+      height: 100%;
+    }
+    /* Couleurs spécifiques par réseau */
+    .example-2 .icon-content a[data-social="whatsapp"] .filled {
+      background-color: #25D366;
+    }
+    .example-2 .icon-content a[data-social="discord"] .filled {
+      background-color: #7289da;
+    }
+    .example-2 .icon-content a[data-social="linkedin"] .filled {
+      background-color: #0077B5;
+    }
+    .example-2 .icon-content a[data-social="instagram"] .filled {
+      background: linear-gradient(45deg, #405de6, #5b51db, #b33ab4, #c135b4, #e1306c, #fd1f1f);
+    }
+    .example-2 .icon-content a[data-social="youtube"] .filled {
+      background-color: #ff0000;
+    }
+  </style>
+</head>
+<body>
+  <!-- Élément audio pour le feedback sonore -->
+  <audio id="pop-sound" src="https://www.soundjay.com/button/sounds/button-30.mp3"></audio>
+
+  <!-- BOÎTE D'INTRODUCTION -->
+  <div class="intro-box" id="intro-box">
+    <h1>
+      <span class="line">Entraîne-toi</span>
+      <span class="line">pour réussir</span>
+      <span class="line">ton entretien</span>
+    </h1>
+    <button id="start-intro-btn" aria-label="Commencer">Commencer</button>
+  </div>
+  
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-content">
+      <div class="header-l1">Simulateur d'entretien</div>
+      <div class="header-l2">Letmotiv - Coaching en prise de parole</div>
+    </div>
+  </div>
+
+  <!-- BARRE DE PROGRESSION -->
+  <div class="progress-container">
+    <div class="progress-bar" id="top-progress-bar"></div>
+  </div>
+
+  <!-- CONTAINER PRINCIPAL -->
+  <div class="main-container">
+    <!-- STEP1 : Choix d'objectif -->
+    <div class="box" id="step1">
+      <div class="box-header">
+        <button class="back-btn hidden-visibility" id="back-btn1" aria-label="Retour">
+          <i class="fas fa-arrow-up"></i>
+        </button>
+        <div class="box-title">Quel entretien souhaites-tu préparer ?</div>
+      </div>
+      <div class="objectives-container">
+        <!-- Grand Oral -->
+        <div class="flip-card objective-item" data-category="grand-oral">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <i class="fas fa-microphone"></i>
+              <span>Grand Oral</span>
+            </div>
+            <div class="flip-card-back">
+              Prépare-toi pour le Grand Oral.
+            </div>
+          </div>
+        </div>
+        <!-- Ecole d'ingénieur généraliste -->
+        <div class="flip-card objective-item" data-category="ingenieur-generaliste">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <i class="fas fa-cogs"></i>
+              <span>Ecole d'ingénieur généraliste</span>
+            </div>
+            <div class="flip-card-back">
+              Prépare ton entretien pour une école d'ingénieur généraliste.
+            </div>
+          </div>
+        </div>
+        <!-- Ecole d'ingénieur aéro -->
+        <div class="flip-card objective-item" data-category="ingenieur-aero">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <i class="fas fa-rocket"></i>
+              <span>Ecole d'ingénieur aéro</span>
+            </div>
+            <div class="flip-card-back">
+              Prépare ton entretien pour une école d'ingénieur spécialisée en aéronautique.
+            </div>
+          </div>
+        </div>
+        <!-- Ecole de commerce -->
+        <div class="flip-card objective-item" data-category="commerce">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <i class="fas fa-handshake"></i>
+              <span>Ecole de commerce</span>
+            </div>
+            <div class="flip-card-back">
+              Prépare ton entretien pour une école de commerce.
+            </div>
+          </div>
+        </div>
+        <!-- Ecole de Sciences Politiques -->
+        <div class="flip-card objective-item" data-category="sciences-politiques">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <i class="fas fa-university"></i>
+              <span>Ecole de Sciences Politiques</span>
+            </div>
+            <div class="flip-card-back">
+              Prépare ton entretien pour une école de Sciences Politiques.
+            </div>
+          </div>
+        </div>
+        <!-- Entretien d'embauche -->
+        <div class="flip-card objective-item" data-category="embauche">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <i class="fas fa-briefcase"></i>
+              <span>Entretien d'embauche</span>
+            </div>
+            <div class="flip-card-back">
+              Prépare-toi pour ton entretien d'embauche.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="objective-error" class="error-message"></div>
+      <button class="next-btn" id="next-btn1" aria-label="Étape suivante">
+        <i class="fas fa-arrow-down"></i>
+      </button>
+    </div>
+
+    <!-- STEP2 : Configuration de la simulation -->
+    <div class="box" id="step2">
+      <div class="box-header step2-header">
+        <button class="back-btn" id="back-btn2" aria-label="Retour à l'étape précédente">
+          <i class="fas fa-arrow-up"></i>
+        </button>
+        <div class="box-title">Configuration de la simulation</div>
+      </div>
+      <div class="simulation-instructions">
+        Tu vas réaliser une simulation d'entretien. <br>Tu as 2 minutes pour répondre par question.<br><br>
+        Choisis le nombre de questions que tu souhaites simuler : 
+      </div>
+      <div class="simulation-buttons">
+        <button class="btn-impro" data-question-count="3">3</button>
+        <button class="btn-impro" data-question-count="4">4</button>
+        <button class="btn-impro" data-question-count="5">5</button>
+      </div>
+      <div id="subject-error" class="error-message"></div>
+      <button class="next-btn" id="next-btn2" aria-label="Étape suivante">
+        <i class="fas fa-arrow-down"></i>
+      </button>
+    </div>
+
+    <!-- STEP3 : Enregistrement vidéo -->
+    <div class="box" id="step3">
+      <div class="box-header">
+        <button class="back-btn" id="back-btn3" aria-label="Retour à l'étape précédente">
+          <i class="fas fa-arrow-up"></i>
+        </button>
+        <div class="box-title">Lance ton entretien</div>
+      </div>
+      <div class="video-box">
+        <video id="preview" autoplay muted playsinline webkit-playsinline></video>
+        <!-- Overlay initial : seul le bouton "Démarrer ton entretien" est visible -->
+        <div class="video-overlay centered" id="question-overlay">
+          <p style="font-size:16px; text-align:center;">
+            Ici va s'enregistrer ton entretien vidéo.<br>
+            Lorsque tu es prêt, clique sur le bouton ci-dessous.
+          </p>
+          <button id="start-btn" aria-label="Démarrer ta simulation">
+            Démarrer ta simulation <i class="fas fa-video"></i>
+          </button>
+          <p style="font-size:12px;">NB : ta vidéo est stockée sur ton appareil. <br>Aucun enregistrement n'est conservé par Letmotiv.</p>
+        </div>
+        <div class="recording-indicator" id="recording-indicator">
+          <i class="fas fa-record-vinyl"></i> Enregistrement en cours
+        </div>
+        <div class="countdown" id="countdown">2:00</div>
+        <div class="initial-countdown-overlay" id="initial-countdown-overlay">
+          <div class="initial-countdown" id="initial-countdown">5</div>
+        </div>
+      </div>
+      <div class="impro-actions">
+        <!-- Bouton "Question suivante" sera masqué lors de la dernière question -->
+        <button id="next-question-btn" class="hidden-btn btn-impro" aria-label="Question suivante">
+          Question suivante <i class="fas fa-forward"></i>
+        </button>
+        <!-- Bouton "Arrêter l'entretien" -->
+        <button id="stop-btn" class="hidden-btn btn-impro" aria-label="Arrêter l'entretien">
+          Arrêter ton entretien <i class="fas fa-stop"></i>
+        </button>
+        <!-- Bouton "Recommencer" apparaît après un arrêt -->
+        <button id="restart-btn" class="hidden-btn btn-impro" aria-label="Recommencer l'entretien">
+          Recommencer ton entretien <i class="fas fa-redo"></i>
+        </button>
+      </div>
+      <div id="impro-error" class="error-message"></div>
+      <button class="next-btn" id="next-btn3" aria-label="Étape suivante">
+        <i class="fas fa-arrow-down"></i>
+      </button>
+    </div>
+
+    <!-- STEP4 : Analyse ton entretien -->
+    <div class="box" id="step4">
+      <div class="box-header">
+        <button class="back-btn" id="back-btn5" aria-label="Retour à l'étape précédente">
+          <i class="fas fa-arrow-up"></i>
+        </button>
+        <div class="box-title">Analyse ton entretien</div>
+      </div>
+      <div class="download-section">
+        <div class="download-section-accent">
+          <h2>Obtiens gratuitement ta prestation en vidéo et des éléments d'analyse Letmotiv</h2>
+          <p class="reassure">
+            N'hésite pas à t'entraîner et refaire des simulations pour progresser.
+          </p>
+        </div>
+        <div class="call-to-action">
+          <button id="validate-form-btn" aria-label="Télécharger ma vidéo">
+            Télécharger ma vidéo
+          </button>
+        </div>
+        <div id="step4-extra">
+          <button id="resources-btn">
+            Accéder aux ressources <i class="fas fa-book-open"></i> 
+          </button>
+          <button id="redo-btn">
+            Refaire une simulation <i class="fas fa-redo"></i>
+          </button>
+        </div>
+
+        <!-- Section de partage sur les réseaux sociaux -->
+        <p style="margin-top: 20px; font-weight: bold;">Partage ton expérience sur tes réseaux :</p>
+        <ul class="example-2">
+          <!-- Icône WhatsApp -->
+          <li class="icon-content">
+            <a data-social="whatsapp">
+              <div class="filled"></div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-whatsapp" viewBox="0 0 16 16">
+                <path d="M13.601 2.326A7.952 7.952 0 008 0C3.582 0 0 3.582 0 8c0 1.41.37 2.726 1.075 3.892L0 16l4.329-1.136A7.965 7.965 0 008 16c4.418 0 8-3.582 8-8 0-1.976-.726-3.793-2.399-5.674zM8 14.118c-1.444 0-2.813-.396-4.01-1.142l-.285-.17L1.422 14l.771-2.63-.182-.304A6.103 6.103 0 012 8c0-3.312 2.688-6 6-6s6 2.688 6 6-2.688 6-6 6zm3.058-4.663c-.153-.076-.902-.444-1.042-.494-.14-.05-.242-.076-.344.076-.101.153-.395.494-.484.594-.09.101-.18.114-.333.038-.153-.076-.645-.237-1.227-.756-.453-.402-.759-.897-.847-1.05-.09-.153-.009-.236.068-.312.07-.068.153-.176.23-.264.076-.088.101-.153.152-.256.051-.102.026-.191-.013-.268-.04-.076-.344-.832-.47-1.138-.124-.299-.25-.258-.344-.263l-.293-.005c-.101 0-.265.038-.404.191-.14.153-.535.522-.535 1.27 0 .748.547 1.472.623 1.574.076.101 1.094 1.671 2.654 2.342.37.16.658.255.883.325.37.117.708.101.976.061.297-.043.902-.367 1.03-.723.127-.354.127-.658.089-.723z"/>
+              </svg>
+            </a>
+          </li>
+          <!-- Icône Discord -->
+          <li class="icon-content">
+            <a data-social="discord">
+              <div class="filled"></div>
+              <svg viewBox="0 0 16 16" class="bi bi-discord" fill="currentColor" height="16" width="16" xmlns="http://www.w3.org/2000/svg">
+                <path d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612"></path>
+              </svg>
+            </a>
+          </li>
+          <!-- Icône LinkedIn -->
+          <li class="icon-content">
+            <a data-social="linkedin">
+              <div class="filled"></div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 448 512">
+                <path d="M100.28 448H7.4V148.9h92.88zm-46.44-341C24.09 107 0 82.6 0 53.5S24.09 0 53.84 0s53.84 24.41 53.84 53.5-24.1 53.5-53.84 53.5zM447.9 448h-92.68V302.4c0-34.7-.7-79.3-48.4-79.3-48.4 0-55.8 37.7-55.8 76.7V448h-92.68V148.9h88.92v40.8h1.3c12.4-23.4 42.6-48.4 87.7-48.4 93.8 0 111.2 61.8 111.2 142.3V448z"/>
+              </svg>
+            </a>
+          </li>
+          <!-- Icône Instagram -->
+          <li class="icon-content">
+            <a data-social="instagram">
+              <div class="filled"></div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16" xml:space="preserve">
+                <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"/>
+              </svg>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+  <!-- SCRIPT -->
+  <script>
+    /***********************
+     * Gestion des étapes (4 étapes)
+     ***********************/
+    const boxes = {
+      1: document.getElementById('step1'),
+      2: document.getElementById('step2'),
+      3: document.getElementById('step3'),
+      4: document.getElementById('step4')
+    };
+
+    const nextBtns = {
+      1: document.getElementById('next-btn1'),
+      2: document.getElementById('next-btn2'),
+      3: document.getElementById('next-btn3')
+    };
+
+    const backBtns = {
+      2: document.getElementById('back-btn2'),
+      3: document.getElementById('back-btn3'),
+      4: document.getElementById('back-btn5')
+    };
+
+    const introBox = document.getElementById('intro-box');
+    const startIntroBtn = document.getElementById('start-intro-btn');
+    const topProgressBar = document.getElementById('top-progress-bar');
+
+    let currentStepGlobal = 0;
+    let currentCategory = null;
+    let selectedQuestionCount = 0;
+    let currentQuestionIndex = 1; // Pour "Question X/Y :"
+    let improStarted = false; // Indique si l'entretien a démarré
+
+    const objectiveDisplayMapping = {
+      "grand-oral": "passer le Grand Oral du BAC",
+      "ingenieur-generaliste": "intégrer une école d'ingénieur généraliste",
+      "ingenieur-aero": "intégrer une école d'ingénieur aéro",
+      "commerce": "intégrer une école de commerce",
+      "sciences-politiques": "intégrer une école de Sciences Politiques",
+      "embauche": "réussir ton entretien d'embauche"
+    };
+
+    function updateProgressBar(step) {
+      const progress = (step / 4) * 100;
+      topProgressBar.style.width = `${progress}%`;
+    }
+    updateProgressBar(0);
+
+    function removePulseFromAll() {
+      Object.values(nextBtns).forEach(btn => btn.classList.remove('pulse'));
+    }
+
+    function showBox(current, next) {
+      if (!boxes[current] || !boxes[next]) return;
+      boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
+      boxes[next].classList.add('active');
+      boxes[next].classList.add(next > current ? 'slide-from-bottom' : 'slide-from-top');
+      updateProgressBar(next);
+      currentStepGlobal = next;
+      removePulseFromAll();
+    }
+
+    startIntroBtn.addEventListener('click', () => {
+      introBox.style.animation = 'fadeOut 0.5s ease forwards';
+      setTimeout(() => {
+        introBox.style.display = 'none';
+        boxes[1].classList.add('active', 'slide-from-bottom');
+        currentStepGlobal = 1;
+        updateProgressBar(1);
+        removePulseFromAll();
+      }, 500);
+    });
+
+    nextBtns[1].addEventListener('click', () => {
+      const selected = document.querySelector('.objectives-container .flip-card.flipped');
+      if (!selected) {
+        const errorDiv = document.getElementById('objective-error');
+        errorDiv.textContent = "Sélectionne un objectif avant de continuer.";
+        errorDiv.style.display = 'block';
+        return;
+      }
+      showBox(1, 2);
+    });
+
+    nextBtns[2].addEventListener('click', () => {
+      if (selectedQuestionCount === 0) {
+        const subjErrorDiv = document.getElementById('subject-error');
+        subjErrorDiv.textContent = "Choisis le nombre de questions avant de continuer.";
+        subjErrorDiv.style.display = 'block';
+        return;
+      }
+      showBox(2, 3);
+    });
+
+    nextBtns[3].addEventListener('click', () => {
+      if (!improStarted) {
+        const improErrorDiv = document.getElementById('impro-error');
+        improErrorDiv.textContent = "Tu dois démarrer l'entretien avant de passer à l'étape suivante.";
+        improErrorDiv.style.display = 'block';
+        return;
+      }
+      showBox(3, 4);
+    });
+
+    backBtns[2].addEventListener('click', () => { showBox(2, 1); });
+    backBtns[3].addEventListener('click', () => { showBox(3, 2); });
+    backBtns[4].addEventListener('click', () => { showBox(4, 3); });
+
+    /***********************
+     * Gestion des objectifs (STEP1) et feedback sonore
+     ***********************/
+    const objectivesCards = document.querySelectorAll('.objectives-container .objective-item');
+    const popSound = document.getElementById('pop-sound');
+
+    objectivesCards.forEach(card => {
+      card.addEventListener('click', async () => {
+        popSound.currentTime = 0;
+        popSound.play();
+        objectivesCards.forEach(c => c.classList.remove('flipped'));
+        card.classList.add('flipped');
+        currentCategory = card.dataset.category;
+        document.getElementById('objective-error').style.display = 'none';
+      });
+    });
+
+    /***********************
+     * Choix du nombre de questions (STEP2)
+     ***********************/
+    document.querySelectorAll('.simulation-buttons button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectedQuestionCount = parseInt(btn.getAttribute('data-question-count'));
+        document.querySelectorAll('.simulation-buttons button').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        document.getElementById('subject-error').style.display = 'none';
+      });
+    });
+
+    /***********************
+     * Chargement des questions depuis un fichier texte
+     ***********************/
+    async function loadSubjects(category) {
+      const txtFilesByCategory = {
+        "grand-oral": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Grand_Oral.txt",
+        "ingenieur-generaliste": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_Les_Mines.txt",
+        "ingenieur-aero": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_SUPAERO.txt",
+        "commerce": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_HEC.txt",
+        "sciences-politiques": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_Sciences_Po.txt",
+        "embauche": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/entretien.txt"
+      };
+      const filePath = txtFilesByCategory[category];
+      if (!filePath) return [];
+      try {
+        const response = await fetch(filePath);
+        if (!response.ok) {
+          console.error("Erreur fetch:", filePath);
+          return [];
+        }
+        const text = await response.text();
+        return text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+      } catch (err) {
+        console.error("Erreur fetch:", err);
+        return [];
+      }
+    }
+
+    /***********************
+     * Enregistrement vidéo (STEP3) et gestion des questions
+     ***********************/
+    let mediaRecorderInstance;
+    let recordedChunks = [];
+    const preview = document.getElementById('preview');
+    const stopBtn = document.getElementById('stop-btn');
+    const restartBtn = document.getElementById('restart-btn');
+    const nextQuestionBtn = document.getElementById('next-question-btn');
+    const recordingIndicator = document.getElementById('recording-indicator');
+    const countdownElement = document.getElementById('countdown');
+    const initialCountdownOverlay = document.getElementById('initial-countdown-overlay');
+    const initialCountdown = document.getElementById('initial-countdown');
+    const questionOverlay = document.getElementById('question-overlay');
+
+    let timerInterval;
+    let videoURL = "";
+
+    function disableNavigationButtons() {
+      Object.values(nextBtns).forEach(btn => btn.disabled = true);
+      Object.values(backBtns).forEach(btn => btn.disabled = true);
+    }
+    function enableNavigationButtons() {
+      Object.values(nextBtns).forEach(btn => btn.disabled = false);
+      Object.values(backBtns).forEach(btn => btn.disabled = false);
+    }
+
+    // Attache l'événement au bouton "Démarrer ton entretien"
+    function bindStartButton() {
+      const startBtn = document.getElementById('start-btn');
+      if(startBtn){
+        startBtn.addEventListener('click', startImpro);
+      }
+    }
+
+    async function startImpro() {
+      if (selectedQuestionCount === 0) {
+        const improErrorDiv = document.getElementById('impro-error');
+        improErrorDiv.textContent = "Choisis d'abord le nombre de questions en étape 2.";
+        improErrorDiv.style.display = 'block';
+        return;
+      }
+      if (typeof MediaRecorder === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
+        const improErrorDiv = document.getElementById('impro-error');
+        improErrorDiv.textContent = "L'enregistrement vidéo n'est pas supporté par votre navigateur.";
+        improErrorDiv.style.display = 'block';
+        return;
+      }
+      if (!confirm("Votre webcam va se lancer pour démarrer l'entretien. Voulez-vous continuer ?")) {
+        return;
+      }
+      if (window.innerWidth <= 600) {
+        document.querySelector('.video-box').style.height = "450px";
+      }
+      // Cache l'overlay initial
+      questionOverlay.classList.add('centered');
+      questionOverlay.style.display = 'none';
+      startInitialCountdown();
+    }
+
+    function startInitialCountdown() {
+      let count = 5;
+      initialCountdown.textContent = count;
+      initialCountdownOverlay.style.display = 'flex';
+      const initCountdown = setInterval(() => {
+        count--;
+        if (count > 0) {
+          initialCountdown.textContent = count;
+        } else {
+          clearInterval(initCountdown);
+          initialCountdownOverlay.style.display = 'none';
+          initiateRecording();
+        }
+      }, 1000);
+    }
+
+    // Affichage de la question avec préfixe
+    function displayQuestionWithPrefix(current, total, questionText) {
+      questionOverlay.classList.remove('centered');
+      questionOverlay.innerHTML = "<p style='font-size:16px; text-align:center;'>Question " + current + "/" + total + " : " + questionText + "</p>";
+      questionOverlay.style.display = 'flex';
+    }
+
+    async function initiateRecording() {
+      const stream = await setupCamera();
+      if (!stream) return;
+      if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
+        const improErrorDiv = document.getElementById('impro-error');
+        improErrorDiv.textContent = "Ton navigateur ne supporte pas l'enregistrement vidéo.";
+        improErrorDiv.style.display = 'block';
+        return;
+      }
+      mediaRecorderInstance = new MediaRecorder(stream);
+      recordedChunks = [];
+      mediaRecorderInstance.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          recordedChunks.push(event.data);
+        }
+      };
+      mediaRecorderInstance.onstop = () => {
+        const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
+        videoURL = URL.createObjectURL(videoBlob);
+        stream.getTracks().forEach(t => t.stop());
+        questionOverlay.classList.add('centered');
+        questionOverlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Entretien terminé. Passe à l'étape suivante !</p>";
+        questionOverlay.style.display = 'flex';
+        document.getElementById('impro-error').style.display = 'none';
+        recordingIndicator.style.display = 'none';
+        clearInterval(timerInterval);
+        improStarted = true;
+        removePulseFromAll();
+        nextBtns[3].classList.add('pulse');
+        if (window.innerWidth <= 600) {
+          document.querySelector('.video-box').style.height = "300px";
+        }
+        restartBtn.classList.remove('hidden-btn');
+        nextQuestionBtn.classList.add('hidden-btn');
+        enableNavigationButtons();
+      };
+
+      const questions = await loadSubjects(currentCategory);
+      if (!questions || questions.length === 0) {
+        const improErrorDiv = document.getElementById('impro-error');
+        improErrorDiv.textContent = "Aucune question n'est disponible pour le moment.";
+        improErrorDiv.style.display = 'block';
+        return;
+      }
+      currentQuestionIndex = 1;
+      displayQuestionWithPrefix(currentQuestionIndex, selectedQuestionCount, questions[0]);
+
+      mediaRecorderInstance.start();
+      disableNavigationButtons();
+      recordingIndicator.style.display = 'flex';
+      countdownElement.style.display = 'block';
+      stopBtn.classList.remove('hidden-btn');
+      stopBtn.disabled = false;
+      // Affiche "Question suivante" si plusieurs questions et si ce n'est pas la dernière
+      if(selectedQuestionCount > 1) {
+        nextQuestionBtn.classList.remove('hidden-btn');
+      }
+      restartBtn.classList.add('hidden-btn');
+      startTwoMinutesCycle(questions);
+    }
+
+    async function setupCamera() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        preview.srcObject = stream;
+        return stream;
+      } catch (error) {
+        const improErrorDiv = document.getElementById('impro-error');
+        if (error.name === 'NotAllowedError') {
+          improErrorDiv.textContent = "Vous avez refusé l'accès à la webcam. Veuillez autoriser l'accès.";
+        } else if (error.name === 'NotFoundError') {
+          improErrorDiv.textContent = "Aucune caméra/micro détecté.";
+        } else {
+          improErrorDiv.textContent = "Erreur : Impossible d'accéder à la webcam.";
+        }
+        improErrorDiv.style.display = 'block';
+        console.error(error);
+        return null;
+      }
+    }
+
+    // Cycle de 2 minutes pour chaque question
+    function startTwoMinutesCycle(questions) {
+      let timeRemaining = 120;
+      if (currentQuestionIndex === selectedQuestionCount) {
+        nextQuestionBtn.classList.add('hidden-btn');
+      } else {
+        nextQuestionBtn.classList.remove('hidden-btn');
+      }
+      updateCountdownDisplay(timeRemaining);
+
+      timerInterval = setInterval(() => {
+        timeRemaining--;
+        if (timeRemaining >= 0) {
+          updateCountdownDisplay(timeRemaining);
+        }
+        if (timeRemaining <= 0) {
+          if (currentQuestionIndex < selectedQuestionCount) {
+            currentQuestionIndex++;
+            let questionText;
+            if (currentQuestionIndex === 1) {
+              questionText = questions[0];
+            } else {
+              const otherQuestions = questions.slice(1);
+              questionText = otherQuestions[Math.floor(Math.random() * otherQuestions.length)];
+            }
+            displayQuestionWithPrefix(currentQuestionIndex, selectedQuestionCount, questionText);
+            timeRemaining = 120;
+            if (currentQuestionIndex === selectedQuestionCount) {
+              nextQuestionBtn.classList.add('hidden-btn');
+            }
+          } else {
+            mediaRecorderInstance.stop();
+            clearInterval(timerInterval);
+            stopBtn.classList.add('hidden-btn');
+            stopBtn.disabled = true;
+          }
+        }
+      }, 1000);
+    }
+
+    function updateCountdownDisplay(seconds) {
+      const minutes = Math.floor(seconds / 60);
+      const sec = seconds % 60;
+      countdownElement.textContent = `${minutes}:${sec < 10 ? '0' + sec : sec}`;
+    }
+
+    stopBtn.addEventListener('click', () => {
+      if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
+        mediaRecorderInstance.stop();
+        clearInterval(timerInterval);
+        stopBtn.classList.add('hidden-btn');
+        stopBtn.disabled = true;
+        nextQuestionBtn.classList.add('hidden-btn');
+        restartBtn.classList.remove('hidden-btn');
+        recordingIndicator.style.display = 'none';
+      }
+    });
+
+    nextQuestionBtn.addEventListener('click', () => {
+      if (!mediaRecorderInstance || mediaRecorderInstance.state !== 'recording') {
+        const improErrorDiv = document.getElementById('impro-error');
+        improErrorDiv.textContent = "Veuillez démarrer l'entretien avant de passer à la question suivante.";
+        improErrorDiv.style.display = 'block';
+        return;
+      }
+      clearInterval(timerInterval);
+      let timeRemaining = 120;
+      loadSubjects(currentCategory).then(questions => {
+        if (currentQuestionIndex < selectedQuestionCount - 1) {
+          currentQuestionIndex++;
+          let questionText;
+          if (currentQuestionIndex === 1) {
+            questionText = questions[0];
+          } else {
+            const otherQuestions = questions.slice(1);
+            questionText = otherQuestions[Math.floor(Math.random() * otherQuestions.length)];
+          }
+          displayQuestionWithPrefix(currentQuestionIndex, selectedQuestionCount, questionText);
+          updateCountdownDisplay(timeRemaining);
+          startTwoMinutesCycle(questions);
+        }
+        else if (currentQuestionIndex === selectedQuestionCount - 1) {
+          currentQuestionIndex++;
+          let questionText;
+          const otherQuestions = questions.slice(1);
+          questionText = otherQuestions[Math.floor(Math.random() * otherQuestions.length)];
+          displayQuestionWithPrefix(currentQuestionIndex, selectedQuestionCount, questionText);
+          updateCountdownDisplay(timeRemaining);
+          nextQuestionBtn.classList.add('hidden-btn');
+          startTwoMinutesCycle(questions);
+        }
+      });
+    });
+
+    // Modification de l'événement pour "Recommencer ton entretien"
+    restartBtn.addEventListener('click', () => {
+      // Masquer le bouton de redémarrage et réinitialiser l'affichage
+      restartBtn.classList.add('hidden-btn');
+      // Masquer l'overlay de la question
+      questionOverlay.style.display = 'none';
+      // Réinitialiser l'état pour indiquer que l'entretien n'est pas encore démarré
+      improStarted = false;
+      // Réinitialiser l'index de la question
+      currentQuestionIndex = 1;
+      // Redémarrer directement avec le compte à rebours initial
+      startInitialCountdown();
+    });
+
+    bindStartButton();
+
+    /***********************
+     * STEP4 : Analyse et téléchargement
+     ***********************/
+    const validateFormBtn = document.getElementById('validate-form-btn');
+    const step4Extra = document.getElementById('step4-extra');
+    const redoBtn = document.getElementById('redo-btn');
+    const resourcesBtn = document.getElementById('resources-btn');
+
+    validateFormBtn.addEventListener('click', () => {
+      if (videoURL) {
+        const link = document.createElement('a');
+        link.href = videoURL;
+        link.download = 'Letmotiv_Simulation_Entretien.mp4';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+      document.querySelector('.call-to-action').style.display = 'none';
+      step4Extra.style.display = 'block';
+    });
+
+    redoBtn.addEventListener('click', () => {
+      window.location.reload();
+    });
+
+    resourcesBtn.addEventListener('click', () => {
+      window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/entretien-candidat";
+    });
+  </script>
+  
+  <!-- SCRIPT POUR LE PARTAGE DES RÉSEAUX SOCIAUX -->
+  <script>
+    // Pour chaque icône de partage, ajouter un événement qui génère l'URL de partage du site
+    document.querySelectorAll('.example-2 .icon-content a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const currentURL = encodeURIComponent(window.location.href);
+        const text = encodeURIComponent("Découvrez ce site : " + window.location.href);
+        const social = this.getAttribute('data-social');
+        let shareUrl = "";
+        if(social === "whatsapp") {
+          shareUrl = "https://api.whatsapp.com/send?text=" + text;
+        } else if(social === "discord") {
+          // Discord n'a pas d'URL de partage officielle : on redirige vers Discord
+          shareUrl = "https://discord.com/channels/@me";
+        } else if(social === "linkedin") {
+          shareUrl = "https://www.linkedin.com/sharing/share-offsite/?url=" + currentURL;
+        } else if(social === "instagram") {
+          alert("Instagram ne supporte pas le partage via URL. Veuillez copier le lien manuellement.");
+          return;
+        } else if(social === "youtube") {
+          alert("YouTube ne supporte pas le partage via URL.");
+          return;
+        }
+        window.open(shareUrl, '_blank');
+      });
+    });
+  </script>
+</body>
+</html>
