@@ -116,24 +116,21 @@
 
     /* --- MEDIA QUERIES pour mobile --- */
     @media (max-width: 600px) {
-      /* Ajustement du padding pour le body sur mobile */
+
+      { h1 .line { display: block; } }
+    
       body { padding-top: 40px; }
-      
-      /* Positionnement de la box :
-         Le haut de la box est toujours placé à 10px sous le header (60px) */
+    
       .box {
         width: 100vw;
-        /* On définit la marge supérieure pour laisser 10px d'espace sous le header */
         margin-top: 70px;
         margin-bottom: 20px;
         padding: 20px;
-        /* La hauteur s'adapte au contenu */
         height: auto;
       }
       
       /* Mise en forme des boutons dans les actions d'improvisation :
-         - Affichage vertical (colonne)
-         - Chaque bouton prend 100% de la largeur */
+
       .impro-actions {
         display: flex;
         flex-direction: column;
@@ -146,9 +143,7 @@
         flex: 1;
       }
     }
-    
-    @media (max-width: 600px) { h1 .line { display: block; } }
-    
+        
     /* --- BOÎTE D'INTRODUCTION --- */
     .intro-box {
       position: fixed;
