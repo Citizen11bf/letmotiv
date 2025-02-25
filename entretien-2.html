@@ -67,7 +67,7 @@
       align-items: center;
       min-height: 100vh;
       overflow-x: hidden;
-      padding-top: 60px;
+      padding-top: 60px; /* espace pour le header fixe */
       padding-bottom: 20px;
     }
     .error-message { color: red; font-weight: bold; }
@@ -114,17 +114,26 @@
       transition: width 0.5s ease;
     }
 
-    /* --- Mise en forme plus responsive pour mobile --- */
-    @media (max-width: 600px) {
+    /* --- MAIN CONTAINER --- */
+    .main-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center; /* par défaut centré */
+      flex-grow: 1;
+      width: 100%;
+      padding: 20px;
+    }
 
+    /* --- MEDIA QUERIES pour mobile --- */
+    @media (max-width: 600px) {
+      /* Aligner le contenu en haut sur mobile */
       .main-container {
-       justify-content: flex-start;
+        justify-content: flex-start;
       }
-    
-      h1 .line { display: block; }
-    
-      body { padding-top: 40px; }
-    
+      
+      /* La box prend toute la largeur et s'adapte au contenu.
+         La marge supérieure est de 10px pour se placer juste sous le header (body padding-top = 60px) */
       .box {
         width: 100vw;
         margin-top: 10px;
@@ -133,8 +142,7 @@
         height: auto;
       }
       
-      /* Mise en forme des boutons dans les actions d'improvisation :
-
+      /* Mise en forme des boutons dans les actions d'improvisation */
       .impro-actions {
         display: flex;
         flex-direction: column;
@@ -146,8 +154,16 @@
         margin: 5px 0;
         flex: 1;
       }
+      
+      /* Pour les cartes d'objectifs */
+      .objectives-container { grid-template-columns: repeat(2, 1fr); }
+      .flip-card { width: 90px; height: 100px; }
+      .flip-card-front i { font-size: 1.8rem; }
+      .flip-card-front span { font-size: 0.9rem; }
     }
-        
+    
+    @media (max-width: 600px) { h1 .line { display: block; } }
+    
     /* --- BOÎTE D'INTRODUCTION --- */
     .intro-box {
       position: fixed;
@@ -191,17 +207,6 @@
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
     @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-    /* --- CONTENEUR PRINCIPAL --- */
-    .main-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex-grow: 1;
-      width: 100%;
-      padding: 20px;
-    }
 
     /* --- BOXES (étapes) --- */
     .box {
@@ -566,6 +571,21 @@
       background-color: #00a48a;
     }
     @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    /* --- Animation pour le changement de question --- */
+    .question-change {
+      animation: questionChangeAnim 0.5s ease-in-out;
+    }
+    @keyframes questionChangeAnim {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
     
     /* --- Style pour les icônes sociales (section de partage) --- */
     ul { list-style: none; padding: 0; margin: 0; }
@@ -1140,11 +1160,18 @@
       }, 1000);
     }
 
-    // Affichage de la question avec préfixe
+    // Fonction d'affichage de la question avec animation
     function displayQuestionWithPrefix(current, total, questionText) {
-      questionOverlay.classList.remove('centered');
+      // On retire d'abord la classe d'animation si elle est présente
+      questionOverlay.classList.remove('question-change');
       questionOverlay.innerHTML = "<p style='font-size:16px; text-align:center;'>Question " + current + "/" + total + " : " + questionText + "</p>";
       questionOverlay.style.display = 'flex';
+      // Ajout de l'animation
+      questionOverlay.classList.add('question-change');
+      // Suppression de la classe après 500ms (durée de l'animation)
+      setTimeout(() => {
+        questionOverlay.classList.remove('question-change');
+      }, 500);
     }
 
     async function initiateRecording() {
@@ -1381,7 +1408,6 @@
         if(social === "whatsapp") {
           shareUrl = "https://api.whatsapp.com/send?text=" + text;
         } else if(social === "discord") {
-          // Discord n'a pas d'URL de partage officielle : on redirige vers Discord
           shareUrl = "https://discord.com/channels/@me";
         } else if(social === "linkedin") {
           shareUrl = "https://www.linkedin.com/sharing/share-offsite/?url=" + currentURL;
