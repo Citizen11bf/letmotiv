@@ -119,14 +119,16 @@
       /* Ajustement du padding pour le body sur mobile */
       body { padding-top: 40px; }
       
-      /* Réduction des marges et ajustement du scroll pour les boxes */
-      .box { 
-        margin: 0; 
-        scroll-margin-top: 70px; 
-        /* Les boxes occupent toute la hauteur disponible en tenant compte du header et de la barre de progression */
-        width: 100vw; 
-        height: calc(100vh - 60px - 8px);
-        padding: 20px; /* Ajustez le padding selon vos besoins */
+      /* Positionnement de la box :
+         Le haut de la box est toujours placé à 10px sous le header (60px) */
+      .box {
+        width: 100vw;
+        /* On définit la marge supérieure pour laisser 10px d'espace sous le header */
+        margin-top: 70px;
+        margin-bottom: 20px;
+        padding: 20px;
+        /* La hauteur s'adapte au contenu */
+        height: auto;
       }
       
       /* Mise en forme des boutons dans les actions d'improvisation :
@@ -610,7 +612,7 @@
       height: 0;
       background-color: #000;
       transition: all 0.3s ease-in-out;
-      border-radius: 50%; /* Pour conserver la forme ronde */
+      border-radius: 50%;
     }
     .example-2 .icon-content a:hover .filled {
       height: 100%;
@@ -634,6 +636,8 @@
   </style>
 </head>
 <body>
+  <!-- Élément audio pour le feedback sonore -->
+  <audio id="pop-sound" src="https://www.soundjay.com/button/sounds/button-30.mp3" preload="auto"></audio>
 
   <!-- BOÎTE D'INTRODUCTION -->
   <div class="intro-box" id="intro-box">
@@ -1006,9 +1010,14 @@
      * Gestion des objectifs (STEP1) et feedback sonore
      ***********************/
     const objectivesCards = document.querySelectorAll('.objectives-container .objective-item');
+    const popSound = document.getElementById('pop-sound');
 
     objectivesCards.forEach(card => {
       card.addEventListener('click', async () => {
+        popSound.currentTime = 0;
+        popSound.play().catch(error => {
+          console.error("Erreur lors de la lecture du son:", error);
+        });
         objectivesCards.forEach(c => c.classList.remove('flipped'));
         card.classList.add('flipped');
         currentCategory = card.dataset.category;
