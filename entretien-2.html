@@ -427,22 +427,19 @@
       transform: scaleX(-1);
       -webkit-transform: scaleX(-1);
     }
-    .video-overlay {
+    /* Pour l'overlay des questions, on ne veut pas qu'il prenne toute la hauteur */
+    #question-overlay {
       position: absolute;
-      z-index: 2;
       top: 0;
       left: 0;
       width: 100%;
-      padding: 5px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: center;
-      text-align: center;
-      color: #555;
+      padding: 10px;
+      background: rgba(255,255,255,0.6);
       font-style: italic;
       font-size: 13px;
-      background: rgba(255,255,255,0.6);
+      text-align: center;
+      z-index: 2;
+      /* Pas de hauteur fixe, ainsi le contenu détermine la taille */
     }
     .video-overlay.centered {
       height: 100%;
@@ -571,7 +568,7 @@
       background-color: #00a48a;
     }
     @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
+    
     /* --- Animation pour le changement de question --- */
     .question-change {
       animation: questionChangeAnim 0.5s ease-in-out;
@@ -804,8 +801,8 @@
       </div>
       <div class="video-box">
         <video id="preview" autoplay muted playsinline webkit-playsinline></video>
-        <!-- Overlay initial : seul le bouton "Démarrer ton entretien" est visible -->
-        <div class="video-overlay centered" id="question-overlay">
+        <!-- Overlay des questions positionné en haut -->
+        <div class="video-overlay" id="question-overlay">
           <p style="font-size:16px; text-align:center;">
             Ici va s'enregistrer ton entretien vidéo.<br>
             Lorsque tu es prêt, clique sur le bouton ci-dessous.
@@ -813,7 +810,7 @@
           <button id="start-btn" aria-label="Démarrer ta simulation">
             Démarrer ta simulation <i class="fas fa-video"></i>
           </button>
-          <p style="font-size:12px;">NB : ta vidéo est stockée sur ton appareil. <br>Aucun enregistrement n'est conservé par Letmotiv.</p>
+          <p style="font-size:12px;">NB : ta vidéo est stockée sur ton appareil.<br>Aucun enregistrement n'est conservé par Letmotiv.</p>
         </div>
         <div class="recording-indicator" id="recording-indicator">
           <i class="fas fa-record-vinyl"></i> Enregistrement en cours
@@ -1139,7 +1136,6 @@
         document.querySelector('.video-box').style.height = "450px";
       }
       // Cache l'overlay initial
-      questionOverlay.classList.add('centered');
       questionOverlay.style.display = 'none';
       startInitialCountdown();
     }
@@ -1165,7 +1161,7 @@
       // On retire d'abord la classe d'animation si elle est présente
       questionOverlay.classList.remove('question-change');
       questionOverlay.innerHTML = "<p style='font-size:16px; text-align:center;'>Question " + current + "/" + total + " : " + questionText + "</p>";
-      questionOverlay.style.display = 'flex';
+      questionOverlay.style.display = 'block';
       // Ajout de l'animation
       questionOverlay.classList.add('question-change');
       // Suppression de la classe après 500ms (durée de l'animation)
@@ -1194,9 +1190,8 @@
         const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
         videoURL = URL.createObjectURL(videoBlob);
         stream.getTracks().forEach(t => t.stop());
-        questionOverlay.classList.add('centered');
+        questionOverlay.style.display = 'block';
         questionOverlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Entretien terminé. Passe à l'étape suivante !</p>";
-        questionOverlay.style.display = 'flex';
         document.getElementById('impro-error').style.display = 'none';
         recordingIndicator.style.display = 'none';
         clearInterval(timerInterval);
