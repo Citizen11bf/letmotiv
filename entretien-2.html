@@ -53,7 +53,7 @@
     }
   </script>
   
-  <!-- Styles CSS avec commentaires -->
+  <!-- Styles CSS -->
   <style>
     /* --- GLOBAL --- */
     * { box-sizing: border-box; }
@@ -127,13 +127,7 @@
 
     /* --- MEDIA QUERIES pour mobile --- */
     @media (max-width: 600px) {
-      /* Aligner le contenu en haut sur mobile */
-      .main-container {
-        justify-content: flex-start;
-      }
-      
-      /* La box prend toute la largeur et s'adapte au contenu.
-         La marge supérieure est de 10px pour se placer juste sous le header (body padding-top = 60px) */
+      .main-container { justify-content: flex-start; }
       .box {
         width: 100vw;
         margin-top: 10px;
@@ -141,8 +135,6 @@
         padding: 20px;
         height: auto;
       }
-      
-      /* Mise en forme des boutons dans les actions d'improvisation */
       .impro-actions {
         display: flex;
         flex-direction: column;
@@ -154,16 +146,13 @@
         margin: 5px 0;
         flex: 1;
       }
-      
-      /* Pour les cartes d'objectifs */
       .objectives-container { grid-template-columns: repeat(2, 1fr); }
       .flip-card { width: 90px; height: 100px; }
       .flip-card-front i { font-size: 1.8rem; }
       .flip-card-front span { font-size: 0.9rem; }
     }
-    
     @media (max-width: 600px) { h1 .line { display: block; } }
-    
+
     /* --- BOÎTE D'INTRODUCTION --- */
     .intro-box {
       position: fixed;
@@ -427,7 +416,22 @@
       transform: scaleX(-1);
       -webkit-transform: scaleX(-1);
     }
-    /* Pour l'overlay des questions, on ne veut pas qu'il prenne toute la hauteur */
+    /* Overlay d'instructions initiales, centré et couvrant toute la zone vidéo */
+    #instruction-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255,255,255,0.6);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      z-index: 2;
+    }
+    /* Overlay des questions, positionné en haut */
     #question-overlay {
       position: absolute;
       top: 0;
@@ -438,13 +442,8 @@
       font-style: italic;
       font-size: 13px;
       text-align: center;
-      z-index: 2;
-      /* Pas de hauteur fixe, ainsi le contenu détermine la taille */
-    }
-    .video-overlay.centered {
-      height: 100%;
-      justify-content: center;
-      align-items: center;
+      z-index: 3;
+      display: none;
     }
     .video-overlay p { margin: 10px 0; }
     .video-overlay button {
@@ -472,7 +471,7 @@
       font-size: 14px;
       color: #ff0000;
       display: none;
-      z-index: 3;
+      z-index: 4;
     }
     .recording-indicator i { margin-right: 5px; }
     .countdown {
@@ -482,7 +481,7 @@
       font-size: 18px;
       color: #ffffff;
       display: none;
-      z-index: 4;
+      z-index: 5;
       background-color: rgba(0,0,0,0.5);
       padding: 5px 10px;
       border-radius: 5px;
@@ -498,7 +497,7 @@
       display: none;
       align-items: center;
       justify-content: center;
-      z-index: 5;
+      z-index: 6;
       border-radius: 6px;
     }
     .initial-countdown {
@@ -513,7 +512,6 @@
       justify-content: space-around;
       margin-top: 10px;
     }
-    
     .hidden-btn { display: none; }
 
     /* --- STEP4 : Analyse ton entretien --- */
@@ -568,7 +566,7 @@
       background-color: #00a48a;
     }
     @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-    
+
     /* --- Animation pour le changement de question --- */
     .question-change {
       animation: questionChangeAnim 0.5s ease-in-out;
@@ -801,8 +799,8 @@
       </div>
       <div class="video-box">
         <video id="preview" autoplay muted playsinline webkit-playsinline></video>
-        <!-- Overlay des questions positionné en haut -->
-        <div class="video-overlay" id="question-overlay">
+        <!-- Overlay d'instructions initiales -->
+        <div class="video-overlay" id="instruction-overlay">
           <p style="font-size:16px; text-align:center;">
             Ici va s'enregistrer ton entretien vidéo.<br>
             Lorsque tu es prêt, clique sur le bouton ci-dessous.
@@ -810,8 +808,13 @@
           <button id="start-btn" aria-label="Démarrer ta simulation">
             Démarrer ta simulation <i class="fas fa-video"></i>
           </button>
-          <p style="font-size:12px;">NB : ta vidéo est stockée sur ton appareil.<br>Aucun enregistrement n'est conservé par Letmotiv.</p>
+          <p style="font-size:12px;">
+            NB : ta vidéo est stockée sur ton appareil.<br>
+            Aucun enregistrement n'est conservé par Letmotiv.
+          </p>
         </div>
+        <!-- Overlay pour les questions, affiché uniquement après démarrage -->
+        <div class="video-overlay" id="question-overlay"></div>
         <div class="recording-indicator" id="recording-indicator">
           <i class="fas fa-record-vinyl"></i> Enregistrement en cours
         </div>
@@ -821,15 +824,12 @@
         </div>
       </div>
       <div class="impro-actions">
-        <!-- Bouton "Question suivante" sera masqué lors de la dernière question -->
         <button id="next-question-btn" class="hidden-btn btn-impro" aria-label="Question suivante">
           Question suivante <i class="fas fa-forward"></i>
         </button>
-        <!-- Bouton "Arrêter l'entretien" -->
         <button id="stop-btn" class="hidden-btn btn-impro" aria-label="Arrêter l'entretien">
           Arrêter ton entretien <i class="fas fa-stop"></i>
         </button>
-        <!-- Bouton "Recommencer" apparaît après un arrêt -->
         <button id="restart-btn" class="hidden-btn btn-impro" aria-label="Recommencer l'entretien">
           Recommencer ton entretien <i class="fas fa-redo"></i>
         </button>
@@ -868,11 +868,8 @@
             Refaire une simulation <i class="fas fa-redo"></i>
           </button>
         </div>
-
-        <!-- Section de partage sur les réseaux sociaux -->
         <p style="margin-top: 20px; font-weight: bold;">Partage ton expérience sur tes réseaux :</p>
         <ul class="example-2">
-          <!-- Icône WhatsApp -->
           <li class="icon-content">
             <a data-social="whatsapp">
               <div class="filled"></div>
@@ -881,7 +878,6 @@
               </svg>
             </a>
           </li>
-          <!-- Icône Discord -->
           <li class="icon-content">
             <a data-social="discord">
               <div class="filled"></div>
@@ -890,7 +886,6 @@
               </svg>
             </a>
           </li>
-          <!-- Icône LinkedIn -->
           <li class="icon-content">
             <a data-social="linkedin">
               <div class="filled"></div>
@@ -899,7 +894,6 @@
               </svg>
             </a>
           </li>
-          <!-- Icône Instagram -->
           <li class="icon-content">
             <a data-social="instagram">
               <div class="filled"></div>
@@ -924,19 +918,16 @@
       3: document.getElementById('step3'),
       4: document.getElementById('step4')
     };
-
     const nextBtns = {
       1: document.getElementById('next-btn1'),
       2: document.getElementById('next-btn2'),
       3: document.getElementById('next-btn3')
     };
-
     const backBtns = {
       2: document.getElementById('back-btn2'),
       3: document.getElementById('back-btn3'),
       4: document.getElementById('back-btn5')
     };
-
     const introBox = document.getElementById('intro-box');
     const startIntroBtn = document.getElementById('start-intro-btn');
     const topProgressBar = document.getElementById('top-progress-bar');
@@ -944,8 +935,8 @@
     let currentStepGlobal = 0;
     let currentCategory = null;
     let selectedQuestionCount = 0;
-    let currentQuestionIndex = 1; // Pour "Question X/Y :"
-    let improStarted = false; // Indique si l'entretien a démarré
+    let currentQuestionIndex = 1;
+    let improStarted = false;
 
     const objectiveDisplayMapping = {
       "grand-oral": "passer le Grand Oral du BAC",
@@ -1112,7 +1103,11 @@
     function bindStartButton() {
       const startBtn = document.getElementById('start-btn');
       if(startBtn){
-        startBtn.addEventListener('click', startImpro);
+        startBtn.addEventListener('click', () => {
+          // Masquer l'instruction overlay
+          document.getElementById('instruction-overlay').style.display = 'none';
+          startImpro();
+        });
       }
     }
 
@@ -1135,8 +1130,6 @@
       if (window.innerWidth <= 600) {
         document.querySelector('.video-box').style.height = "450px";
       }
-      // Cache l'overlay initial
-      questionOverlay.style.display = 'none';
       startInitialCountdown();
     }
 
@@ -1156,15 +1149,12 @@
       }, 1000);
     }
 
-    // Fonction d'affichage de la question avec animation
+    // Affichage de la question avec animation
     function displayQuestionWithPrefix(current, total, questionText) {
-      // On retire d'abord la classe d'animation si elle est présente
       questionOverlay.classList.remove('question-change');
       questionOverlay.innerHTML = "<p style='font-size:16px; text-align:center;'>Question " + current + "/" + total + " : " + questionText + "</p>";
       questionOverlay.style.display = 'block';
-      // Ajout de l'animation
       questionOverlay.classList.add('question-change');
-      // Suppression de la classe après 500ms (durée de l'animation)
       setTimeout(() => {
         questionOverlay.classList.remove('question-change');
       }, 500);
@@ -1222,7 +1212,6 @@
       countdownElement.style.display = 'block';
       stopBtn.classList.remove('hidden-btn');
       stopBtn.disabled = false;
-      // Affiche "Question suivante" si plusieurs questions et si ce n'est pas la dernière
       if(selectedQuestionCount > 1) {
         nextQuestionBtn.classList.remove('hidden-btn');
       }
@@ -1250,7 +1239,6 @@
       }
     }
 
-    // Cycle de 2 minutes pour chaque question
     function startTwoMinutesCycle(questions) {
       let timeRemaining = 120;
       if (currentQuestionIndex === selectedQuestionCount) {
@@ -1259,7 +1247,6 @@
         nextQuestionBtn.classList.remove('hidden-btn');
       }
       updateCountdownDisplay(timeRemaining);
-
       timerInterval = setInterval(() => {
         timeRemaining--;
         if (timeRemaining >= 0) {
@@ -1330,8 +1317,7 @@
           displayQuestionWithPrefix(currentQuestionIndex, selectedQuestionCount, questionText);
           updateCountdownDisplay(timeRemaining);
           startTwoMinutesCycle(questions);
-        }
-        else if (currentQuestionIndex === selectedQuestionCount - 1) {
+        } else if (currentQuestionIndex === selectedQuestionCount - 1) {
           currentQuestionIndex++;
           let questionText;
           const otherQuestions = questions.slice(1);
@@ -1344,17 +1330,11 @@
       });
     });
 
-    // Modification de l'événement pour "Recommencer ton entretien"
     restartBtn.addEventListener('click', () => {
-      // Masquer le bouton de redémarrage et réinitialiser l'affichage
       restartBtn.classList.add('hidden-btn');
-      // Masquer l'overlay de la question
       questionOverlay.style.display = 'none';
-      // Réinitialiser l'état pour indiquer que l'entretien n'est pas encore démarré
       improStarted = false;
-      // Réinitialiser l'index de la question
       currentQuestionIndex = 1;
-      // Redémarrer directement avec le compte à rebours initial
       startInitialCountdown();
     });
 
@@ -1392,7 +1372,6 @@
   
   <!-- SCRIPT POUR LE PARTAGE DES RÉSEAUX SOCIAUX -->
   <script>
-    // Pour chaque icône de partage, ajouter un événement qui génère l'URL de partage du site
     document.querySelectorAll('.example-2 .icon-content a').forEach(link => {
       link.addEventListener('click', function(e) {
         e.preventDefault();
