@@ -177,21 +177,20 @@
       animation: slideDown 1s ease forwards;
     }
     .intro-box button {
-      background-color: #ffffff;
-      color: #182d84;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 1.2rem;
+      /* Style par défaut pour le bouton dans l'intro-box */
+      pointer-events: auto;
+      margin: 15px 0;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #182d84;
+      color: #fff;
       border: none;
       border-radius: 25px;
-      padding: 15px 30px;
       cursor: pointer;
-      transition: background-color 0.3s, transform 0.3s, color 0.3s;
-      box-shadow: 0px 4px 6px rgba(0,0,0,0.2);
+      transition: background-color 0.3s;
     }
     .intro-box button:hover {
       background-color: #00a48a;
-      color: #ffffff;
-      transform: scale(1.05);
     }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
@@ -431,6 +430,22 @@
       text-align: center;
       z-index: 2;
       padding: 20px;
+    }
+    /* Styles spécifiques pour le bouton dans l'instruction overlay */
+    #instruction-overlay button {
+      pointer-events: auto;
+      margin: 15px 0;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #182d84;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    #instruction-overlay button:hover {
+      background-color: #00a48a;
     }
     /* Overlay pour les questions, positionné en haut */
     #question-overlay {
