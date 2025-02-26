@@ -416,14 +416,13 @@
       transform: scaleX(-1);
       -webkit-transform: scaleX(-1);
     }
-    /* Overlay d'instructions initiales, centré et couvrant toute la zone vidéo */
+    /* Overlay d'instructions initiales, centré verticalement */
     #instruction-overlay {
       position: absolute;
       top: 50%;
-      transform: translateY(-50%);
       left: 0;
       width: 100%;
-      height: 100%;
+      transform: translateY(-50%);
       background: rgba(255,255,255,0.6);
       display: flex;
       flex-direction: column;
@@ -431,8 +430,9 @@
       justify-content: center;
       text-align: center;
       z-index: 2;
+      padding: 20px;
     }
-    /* Overlay des questions, positionné en haut */
+    /* Overlay pour les questions, positionné en haut */
     #question-overlay {
       position: absolute;
       top: 0;
@@ -446,20 +446,6 @@
       z-index: 3;
       display: none;
     }
-    .video-overlay p { margin: 10px 0; }
-    .video-overlay button {
-      pointer-events: auto;
-      margin: 15px 0;
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #182d84;
-      color: #fff;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    .video-overlay button:hover { background-color: #00a48a; }
     .recording-indicator {
       position: absolute;
       bottom: 10px;
@@ -567,19 +553,26 @@
       background-color: #00a48a;
     }
     @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-    /* --- Animation pour le changement de question --- */
+    
+    /* --- Animation pour le changement de question : effet "blitz" --- */
     .question-change {
-      animation: questionChangeAnim 0.5s ease-in-out;
+      animation: questionBlitz 0.8s ease-out;
     }
-    @keyframes questionChangeAnim {
+    @keyframes questionBlitz {
       0% {
         opacity: 0;
-        transform: translateY(20px);
+        transform: scale(0.8) rotateX(-90deg);
+        filter: blur(5px);
+      }
+      50% {
+        opacity: 0.5;
+        transform: scale(1.05) rotateX(20deg);
+        filter: blur(2px);
       }
       100% {
         opacity: 1;
-        transform: translateY(0);
+        transform: scale(1) rotateX(0deg);
+        filter: blur(0);
       }
     }
     
@@ -632,7 +625,6 @@
     .example-2 .icon-content a:hover .filled {
       height: 100%;
     }
-    /* Couleurs spécifiques par réseau */
     .example-2 .icon-content a[data-social="whatsapp"] .filled {
       background-color: #25D366;
     }
@@ -800,7 +792,7 @@
       </div>
       <div class="video-box">
         <video id="preview" autoplay muted playsinline webkit-playsinline></video>
-        <!-- Overlay d'instructions initiales -->
+        <!-- Overlay d'instructions initiales, centré verticalement -->
         <div class="video-overlay" id="instruction-overlay">
           <p style="font-size:16px; text-align:center;">
             Ici va s'enregistrer ton entretien vidéo.<br>
@@ -814,7 +806,7 @@
             Aucun enregistrement n'est conservé par Letmotiv.
           </p>
         </div>
-        <!-- Overlay pour les questions, affiché uniquement après démarrage -->
+        <!-- Overlay pour les questions, positionné en haut -->
         <div class="video-overlay" id="question-overlay"></div>
         <div class="recording-indicator" id="recording-indicator">
           <i class="fas fa-record-vinyl"></i> Enregistrement en cours
@@ -900,6 +892,7 @@
               <div class="filled"></div>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16" xml:space="preserve">
                 <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"/>
+                </path>
               </svg>
             </a>
           </li>
@@ -932,13 +925,11 @@
     const introBox = document.getElementById('intro-box');
     const startIntroBtn = document.getElementById('start-intro-btn');
     const topProgressBar = document.getElementById('top-progress-bar');
-
     let currentStepGlobal = 0;
     let currentCategory = null;
     let selectedQuestionCount = 0;
     let currentQuestionIndex = 1;
     let improStarted = false;
-
     const objectiveDisplayMapping = {
       "grand-oral": "passer le Grand Oral du BAC",
       "ingenieur-generaliste": "intégrer une école d'ingénieur généraliste",
@@ -947,17 +938,14 @@
       "sciences-politiques": "intégrer une école de Sciences Politiques",
       "embauche": "réussir ton entretien d'embauche"
     };
-
     function updateProgressBar(step) {
       const progress = (step / 4) * 100;
       topProgressBar.style.width = `${progress}%`;
     }
     updateProgressBar(0);
-
     function removePulseFromAll() {
       Object.values(nextBtns).forEach(btn => btn.classList.remove('pulse'));
     }
-
     function showBox(current, next) {
       if (!boxes[current] || !boxes[next]) return;
       boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
@@ -967,7 +955,6 @@
       currentStepGlobal = next;
       removePulseFromAll();
     }
-
     startIntroBtn.addEventListener('click', () => {
       introBox.style.animation = 'fadeOut 0.5s ease forwards';
       setTimeout(() => {
@@ -978,7 +965,6 @@
         removePulseFromAll();
       }, 500);
     });
-
     nextBtns[1].addEventListener('click', () => {
       const selected = document.querySelector('.objectives-container .flip-card.flipped');
       if (!selected) {
@@ -989,7 +975,6 @@
       }
       showBox(1, 2);
     });
-
     nextBtns[2].addEventListener('click', () => {
       if (selectedQuestionCount === 0) {
         const subjErrorDiv = document.getElementById('subject-error');
@@ -999,7 +984,6 @@
       }
       showBox(2, 3);
     });
-
     nextBtns[3].addEventListener('click', () => {
       if (!improStarted) {
         const improErrorDiv = document.getElementById('impro-error');
@@ -1009,17 +993,14 @@
       }
       showBox(3, 4);
     });
-
     backBtns[2].addEventListener('click', () => { showBox(2, 1); });
     backBtns[3].addEventListener('click', () => { showBox(3, 2); });
     backBtns[4].addEventListener('click', () => { showBox(4, 3); });
-
     /***********************
      * Gestion des objectifs (STEP1) et feedback sonore
      ***********************/
     const objectivesCards = document.querySelectorAll('.objectives-container .objective-item');
     const popSound = document.getElementById('pop-sound');
-
     objectivesCards.forEach(card => {
       card.addEventListener('click', async () => {
         popSound.currentTime = 0;
@@ -1032,7 +1013,6 @@
         document.getElementById('objective-error').style.display = 'none';
       });
     });
-
     /***********************
      * Choix du nombre de questions (STEP2)
      ***********************/
@@ -1044,7 +1024,6 @@
         document.getElementById('subject-error').style.display = 'none';
       });
     });
-
     /***********************
      * Chargement des questions depuis un fichier texte
      ***********************/
@@ -1072,7 +1051,6 @@
         return [];
       }
     }
-
     /***********************
      * Enregistrement vidéo (STEP3) et gestion des questions
      ***********************/
@@ -1087,10 +1065,8 @@
     const initialCountdownOverlay = document.getElementById('initial-countdown-overlay');
     const initialCountdown = document.getElementById('initial-countdown');
     const questionOverlay = document.getElementById('question-overlay');
-
     let timerInterval;
     let videoURL = "";
-
     function disableNavigationButtons() {
       Object.values(nextBtns).forEach(btn => btn.disabled = true);
       Object.values(backBtns).forEach(btn => btn.disabled = true);
@@ -1099,7 +1075,6 @@
       Object.values(nextBtns).forEach(btn => btn.disabled = false);
       Object.values(backBtns).forEach(btn => btn.disabled = false);
     }
-
     // Attache l'événement au bouton "Démarrer ton entretien"
     function bindStartButton() {
       const startBtn = document.getElementById('start-btn');
@@ -1111,7 +1086,6 @@
         });
       }
     }
-
     async function startImpro() {
       if (selectedQuestionCount === 0) {
         const improErrorDiv = document.getElementById('impro-error');
@@ -1133,7 +1107,6 @@
       }
       startInitialCountdown();
     }
-
     function startInitialCountdown() {
       let count = 5;
       initialCountdown.textContent = count;
@@ -1149,8 +1122,7 @@
         }
       }, 1000);
     }
-
-    // Affichage de la question avec animation
+    // Affichage de la question avec animation "blitz"
     function displayQuestionWithPrefix(current, total, questionText) {
       questionOverlay.classList.remove('question-change');
       questionOverlay.innerHTML = "<p style='font-size:16px; text-align:center;'>Question " + current + "/" + total + " : " + questionText + "</p>";
@@ -1158,9 +1130,8 @@
       questionOverlay.classList.add('question-change');
       setTimeout(() => {
         questionOverlay.classList.remove('question-change');
-      }, 500);
+      }, 800);
     }
-
     async function initiateRecording() {
       const stream = await setupCamera();
       if (!stream) return;
@@ -1196,7 +1167,6 @@
         nextQuestionBtn.classList.add('hidden-btn');
         enableNavigationButtons();
       };
-
       const questions = await loadSubjects(currentCategory);
       if (!questions || questions.length === 0) {
         const improErrorDiv = document.getElementById('impro-error');
@@ -1206,7 +1176,6 @@
       }
       currentQuestionIndex = 1;
       displayQuestionWithPrefix(currentQuestionIndex, selectedQuestionCount, questions[0]);
-
       mediaRecorderInstance.start();
       disableNavigationButtons();
       recordingIndicator.style.display = 'flex';
@@ -1219,7 +1188,6 @@
       restartBtn.classList.add('hidden-btn');
       startTwoMinutesCycle(questions);
     }
-
     async function setupCamera() {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
@@ -1239,7 +1207,6 @@
         return null;
       }
     }
-
     function startTwoMinutesCycle(questions) {
       let timeRemaining = 120;
       if (currentQuestionIndex === selectedQuestionCount) {
@@ -1277,13 +1244,11 @@
         }
       }, 1000);
     }
-
     function updateCountdownDisplay(seconds) {
       const minutes = Math.floor(seconds / 60);
       const sec = seconds % 60;
       countdownElement.textContent = `${minutes}:${sec < 10 ? '0' + sec : sec}`;
     }
-
     stopBtn.addEventListener('click', () => {
       if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
         mediaRecorderInstance.stop();
@@ -1295,7 +1260,6 @@
         recordingIndicator.style.display = 'none';
       }
     });
-
     nextQuestionBtn.addEventListener('click', () => {
       if (!mediaRecorderInstance || mediaRecorderInstance.state !== 'recording') {
         const improErrorDiv = document.getElementById('impro-error');
@@ -1330,7 +1294,6 @@
         }
       });
     });
-
     restartBtn.addEventListener('click', () => {
       restartBtn.classList.add('hidden-btn');
       questionOverlay.style.display = 'none';
@@ -1338,9 +1301,7 @@
       currentQuestionIndex = 1;
       startInitialCountdown();
     });
-
     bindStartButton();
-
     /***********************
      * STEP4 : Analyse et téléchargement
      ***********************/
@@ -1348,7 +1309,6 @@
     const step4Extra = document.getElementById('step4-extra');
     const redoBtn = document.getElementById('redo-btn');
     const resourcesBtn = document.getElementById('resources-btn');
-
     validateFormBtn.addEventListener('click', () => {
       if (videoURL) {
         const link = document.createElement('a');
@@ -1361,11 +1321,9 @@
       document.querySelector('.call-to-action').style.display = 'none';
       step4Extra.style.display = 'block';
     });
-
     redoBtn.addEventListener('click', () => {
       window.location.reload();
     });
-
     resourcesBtn.addEventListener('click', () => {
       window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/entretien-candidat";
     });
