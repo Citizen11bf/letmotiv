@@ -153,7 +153,7 @@
     }
     @media (max-width: 600px) { h1 .line { display: block; } }
 
-    /* --- BOÎTE D'INTRODUCTION --- */
+    /* --- BOÎTE D'INTRODUCTION (STEP0) --- */
     .intro-box {
       position: fixed;
       top: 0;
@@ -176,21 +176,24 @@
       margin-bottom: 30px;
       animation: slideDown 1s ease forwards;
     }
+    /* Rétablissement du design original pour le bouton "Commencer" en STEP0 */
     .intro-box button {
-      /* Style par défaut pour le bouton dans l'intro-box */
       pointer-events: auto;
       margin: 15px 0;
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #182d84;
-      color: #fff;
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      background-color: #ffffff;
+      color: #182d84;
       border: none;
       border-radius: 25px;
       cursor: pointer;
-      transition: background-color 0.3s;
+      transition: background-color 0.3s, transform 0.3s, color 0.3s;
+      box-shadow: 0px 4px 6px rgba(0,0,0,0.2);
     }
     .intro-box button:hover {
       background-color: #00a48a;
+      color: #ffffff;
+      transform: scale(1.05);
     }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
@@ -431,7 +434,7 @@
       z-index: 2;
       padding: 20px;
     }
-    /* Styles spécifiques pour le bouton dans l'instruction overlay */
+    /* Styles spécifiques pour le bouton dans l'instruction overlay ("Démarrer") */
     #instruction-overlay button {
       pointer-events: auto;
       margin: 15px 0;
@@ -661,7 +664,7 @@
   <!-- Élément audio pour le feedback sonore -->
   <audio id="pop-sound" src="https://www.soundjay.com/button/sounds/button-30.mp3" preload="auto"></audio>
 
-  <!-- BOÎTE D'INTRODUCTION -->
+  <!-- BOÎTE D'INTRODUCTION (STEP0) -->
   <div class="intro-box" id="intro-box">
     <h1>
       <span class="line">Entraîne-toi</span>
