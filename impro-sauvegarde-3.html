@@ -7,8 +7,8 @@
   <meta name="description" content="Évaluer et développer sa prise de parole en public avec le simulateur d'improvisation Letmotiv. Entreprise spécialisée dans le coaching en prise de parole.">
 
   <!-- Icône de la page (favicon) -->
-  <link rel="icon" href="https://img.icons8.com/fluency/48/000000/microphone.png" type="image/png">
-  <link rel="apple-touch-icon" href="https://img.icons8.com/fluency/48/182d84/microphone.png">
+  <link rel="icon" href="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Letmotiv_favicon.webp" type="image/png">
+  <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Letmotiv_favicon.webp">
   
   <!-- Balises Open Graph pour LinkedIn -->
   <meta property="og:title" content="Simulateur d'improvisation Letmotiv" />
@@ -259,6 +259,10 @@
     }
     .btn-impro:hover { background-color: #00a48a; }
 
+    @media (max-width: 600px) {
+        h1 .line { display: block; }
+    }
+    
     /* --- STEP1 : Choix d’objectif --- */
     .objectives-container {
       display: grid;
@@ -617,7 +621,11 @@
 <body>
   <!-- BOÎTE D'INTRODUCTION -->
   <div class="intro-box" id="intro-box">
-    <h1>Entraîne-toi à la prise de parole en public</h1>
+    <h1>
+      <span class="line">Entraîne-toi</span>
+      <span class="line">à la prise de</span>
+      <span class="line">parole en public</span>
+    </h1> 
     <button id="start-intro-btn" aria-label="Commencer">Commencer</button>
   </div>
 
@@ -813,20 +821,9 @@
   <!-- SCRIPT JavaScript -->
   <script>
     /***********************
-     * Fonctions de contrôle de la navigation pendant l'enregistrement
+     * VARIABLES ET CONSTANTES
      ***********************/
-    function disableNavigationButtons() {
-      Object.values(nextBtns).forEach(btn => btn.disabled = true);
-      Object.values(backBtns).forEach(btn => btn.disabled = true);
-    }
-    function enableNavigationButtons() {
-      Object.values(nextBtns).forEach(btn => btn.disabled = false);
-      Object.values(backBtns).forEach(btn => btn.disabled = false);
-    }
-
-    /***********************
-     * Gestion des étapes (4 étapes)
-     ***********************/
+    // Gestion des étapes (boxes) et boutons de navigation
     const boxes = {
       1: document.getElementById('step1'),
       2: document.getElementById('step2'),
@@ -851,110 +848,127 @@
     const topProgressBar = document.getElementById('top-progress-bar');
     const linkedinShareBtn = document.getElementById('linkedin-share-btn');
 
-    let currentStepGlobal = 0;
+    // Variables pour la navigation et les étapes
+    let currentStep = 0;
     let currentCategory = null;
     let currentObjective = "";
     let currentSubject = "";
 
+    // Renommage de la variable pour l'enregistrement vidéo
+    let isImproRecordingStarted = false;
+    let mediaRecorderInstance;
+    let recordedChunks = [];
+    let videoURL = "";
+    let timerInterval;
+    let timeRemaining = 120;
+    let countdown;
+
+    /***********************
+     * FONCTIONS UTILITAIRES
+     ***********************/
+    // Mise à jour de la barre de progression
     function updateProgressBar(step) {
       const progress = (step / 4) * 100;
       topProgressBar.style.width = `${progress}%`;
     }
-    updateProgressBar(0);
 
-    function removePulseFromAll() {
-      Object.values(nextBtns).forEach(btn => btn.classList.remove('pulse'));
-    }
-
-    function updateShareButtonVisibility() {
-      if (currentStepGlobal === 0) {
-        linkedinShareBtn.style.display = 'none';
-      } else {
-        linkedinShareBtn.style.display = 'flex';
-      }
-    }
-
-    function showBox(current, next) {
-      if (!boxes[current] || !boxes[next]) return;
-      boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
-      boxes[next].classList.add('active');
-      if (next > current) {
-        boxes[next].classList.add('slide-from-bottom');
-      } else {
-        boxes[next].classList.add('slide-from-top');
-      }
-      updateProgressBar(next);
-      currentStepGlobal = next;
+    // Défilement vers la boîte (étape) cible
+    function scrollToBox(box) {
       const header = document.querySelector('.header');
       const headerHeight = header ? header.offsetHeight : 0;
-      const boxPosition = boxes[next].getBoundingClientRect().top + window.scrollY - headerHeight - 20;
+      const boxPosition = box.getBoundingClientRect().top + window.scrollY - headerHeight - 20;
       window.scrollTo({ top: boxPosition, behavior: 'smooth' });
-      
+    }
+
+    // Affiche un message d'erreur dans un élément donné
+    function displayError(elementId, message) {
+      const el = document.getElementById(elementId);
+      el.textContent = message;
+      el.style.display = 'block';
+    }
+
+    // Mise à jour de la visibilité du bouton LinkedIn en fonction de l'étape
+    function updateShareButtonVisibility() {
+      linkedinShareBtn.style.display = currentStep === 0 ? 'none' : 'flex';
+    }
+
+    /***********************
+     * GESTION DE LA NAVIGATION ENTRE LES ÉTAPES
+     ***********************/
+    function showBox(current, next) {
+      if (!boxes[current] || !boxes[next]) return;
+      // Retirer les classes d'animation de la boîte actuelle
+      boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
+      // Afficher la prochaine boîte et ajouter l'animation selon le sens de la navigation
+      boxes[next].classList.add('active');
+      boxes[next].classList.add(next > current ? 'slide-from-bottom' : 'slide-from-top');
+      updateProgressBar(next);
+      currentStep = next;
+      scrollToBox(boxes[next]);
+      updateShareButtonVisibility();
+      // Mise à jour des contenus spécifiques à certaines étapes
       if (next === 2) {
         document.getElementById('selected-objective-display').textContent = explanations[currentCategory] || currentObjective;
       }
       if (next === 3) {
         document.getElementById('current-subject-display').textContent = currentSubject;
       }
-      
       removePulseFromAll();
-      updateShareButtonVisibility();
     }
 
+    // Regroupe les événements pour les boutons de navigation next et back
+    function initNavigationButtons() {
+      nextBtns[1].addEventListener('click', () => {
+        const selected = document.querySelector('.objectives-container .selected-objective');
+        if (!selected) {
+          displayError('objective-error', "Sélectionne un objectif avant de continuer.");
+          return;
+        }
+        showBox(1, 2);
+      });
+      nextBtns[2].addEventListener('click', () => {
+        if (!currentSubject) {
+          displayError('subject-error', "Tu dois générer un sujet avant de continuer.");
+          return;
+        }
+        showBox(2, 3);
+      });
+      nextBtns[3].addEventListener('click', () => {
+        const improErrorDiv = document.getElementById('impro-error');
+        improErrorDiv.style.display = 'none';
+        if (!currentSubject || !isImproRecordingStarted) {
+          displayError('impro-error', "Tu dois lancer ton improvisation avant de continuer.");
+          return;
+        }
+        showBox(3, 4);
+      });
+      backBtns[2].addEventListener('click', () => { showBox(2, 1); });
+      backBtns[3].addEventListener('click', () => { showBox(3, 2); });
+      backBtns[4].addEventListener('click', () => { showBox(4, 3); });
+    }
+
+    // Supprime la classe de pulsation sur tous les boutons next
+    function removePulseFromAll() {
+      Object.values(nextBtns).forEach(btn => btn.classList.remove('pulse'));
+    }
+
+    /***********************
+     * INITIALISATION DE L'INTRODUCTION
+     ***********************/
     startIntroBtn.addEventListener('click', () => {
       introBox.style.animation = 'fadeOut 0.5s ease forwards';
       setTimeout(() => {
         introBox.style.display = 'none';
         boxes[1].classList.add('active', 'slide-from-bottom');
-        currentStepGlobal = 1;
+        currentStep = 1;
         updateProgressBar(1);
         removePulseFromAll();
         updateShareButtonVisibility();
       }, 500);
     });
 
-    nextBtns[1].addEventListener('click', () => {
-      const selected = document.querySelector('.objectives-container .selected-objective');
-      if (!selected) {
-        const errorDiv = document.getElementById('objective-error');
-        errorDiv.textContent = "Sélectionne un objectif avant de continuer.";
-        errorDiv.style.display = 'block';
-        return;
-      }
-      showBox(1, 2);
-    });
-
-    nextBtns[2].addEventListener('click', () => {
-      if (!currentSubject) {
-        const subjErrorDiv = document.getElementById('subject-error');
-        subjErrorDiv.textContent = "Tu dois générer un sujet avant de continuer.";
-        subjErrorDiv.style.display = 'block';
-        return;
-      }
-      showBox(2, 3);
-    });
-
-    nextBtns[3].addEventListener('click', () => {
-      const improErrorDiv = document.getElementById('impro-error');
-      improErrorDiv.style.display = 'none';
-      if (!currentSubject && !improStarted) {
-        improErrorDiv.textContent = "Tu dois d'abord générer un sujet et lancer ton impro avant de continuer.";
-        improErrorDiv.style.display = 'block';
-        return;
-      } else if (currentSubject && !improStarted) {
-        improErrorDiv.textContent = "Tu dois lancer ton improvisation avant de continuer.";
-        improErrorDiv.style.display = 'block';
-        return;
-      }
-      showBox(3, 4);
-    });
-
-    backBtns[2].addEventListener('click', () => { showBox(2, 1); });
-    backBtns[3].addEventListener('click', () => { showBox(3, 2); });
-    backBtns[4].addEventListener('click', () => { showBox(4, 3); });
-
     /***********************
-     * Gestion des objectifs et explications (STEP1)
+     * GESTION DES OBJECTIFS (STEP1)
      ***********************/
     const explanations = {
       convaincre:   "Tu as 2 minutes pour convaincre ton auditoire sur un sujet délicat",
@@ -979,6 +993,7 @@
       diction:      "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/diction.txt",
       entretien:    "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/entretien.txt"
     };
+
     let subjectsCache = {
       convaincre: null,
       inspirer: null,
@@ -1045,7 +1060,7 @@
     }
 
     /***********************
-     * Gestion du sujet d'impro (STEP2)
+     * GESTION DU SUJET D'IMPRO (STEP2)
      ***********************/
     const generateSubjectBtn = document.getElementById('generate-subject-btn');
     const subjectWrapper = document.getElementById('subject-wrapper');
@@ -1053,9 +1068,7 @@
 
     generateSubjectBtn.addEventListener('click', () => {
       if (!currentCategory) {
-        const errorDiv = document.getElementById('objective-error');
-        errorDiv.textContent = "Merci de sélectionner un objectif avant de générer un sujet.";
-        errorDiv.style.display = 'block';
+        displayError('objective-error', "Merci de sélectionner un objectif avant de générer un sujet.");
         return;
       }
       const subjects = subjectsCache[currentCategory];
@@ -1076,24 +1089,9 @@
     });
 
     /***********************
-     * Enregistrement vidéo (STEP3)
+     * ENREGISTREMENT VIDÉO (STEP3)
      ***********************/
-    let improStarted = false;
-    let mediaRecorderInstance;
-    let recordedChunks = [];
-    const preview = document.getElementById('preview');
-    const stopBtn = document.getElementById('stop-btn');
-    const restartBtn = document.getElementById('restart-btn');
-    const recordingIndicator = document.getElementById('recording-indicator');
-    const countdownElement = document.getElementById('countdown');
-    const initialCountdownOverlay = document.getElementById('initial-countdown-overlay');
-    const initialCountdown = document.getElementById('initial-countdown');
-
-    let countdown;
-    let videoURL = "";
-    let timerInterval;
-    let timeRemaining = 120;
-
+    // Lier le bouton "Démarrer ton impro"
     function bindStartButton() {
       const startBtn = document.getElementById('start-btn');
       if(startBtn){
@@ -1103,15 +1101,11 @@
 
     async function startImpro() {
       if (!currentSubject) {
-        const improErrorDiv = document.getElementById('impro-error');
-        improErrorDiv.textContent = "Tu dois générer un sujet avant de démarrer l'improvisation.";
-        improErrorDiv.style.display = 'block';
+        displayError('impro-error', "Tu dois générer un sujet avant de démarrer l'improvisation.");
         return;
       }
       if (typeof MediaRecorder === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
-        const improErrorDiv = document.getElementById('impro-error');
-        improErrorDiv.textContent = "Désolé, l'enregistrement vidéo n'est pas supporté par votre navigateur.";
-        improErrorDiv.style.display = 'block';
+        displayError('impro-error', "Désolé, l'enregistrement vidéo n'est pas supporté par votre navigateur.");
         return;
       }
       if (!confirm("Votre webcam va se lancer pour démarrer l'improvisation. Voulez-vous continuer ?")) {
@@ -1132,15 +1126,15 @@
 
     function startInitialCountdown() {
       let count = 5;
-      initialCountdown.textContent = count;
-      initialCountdownOverlay.style.display = 'flex';
+      document.getElementById('initial-countdown').textContent = count;
+      document.getElementById('initial-countdown-overlay').style.display = 'flex';
       countdown = setInterval(() => {
         count--;
         if (count > 0) {
-          initialCountdown.textContent = count;
+          document.getElementById('initial-countdown').textContent = count;
         } else {
           clearInterval(countdown);
-          initialCountdownOverlay.style.display = 'none';
+          document.getElementById('initial-countdown-overlay').style.display = 'none';
           initiateRecording();
         }
       }, 1000);
@@ -1150,9 +1144,7 @@
       const stream = await setupCamera();
       if (!stream) return;
       if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
-        const improErrorDiv = document.getElementById('impro-error');
-        improErrorDiv.textContent = "Ton navigateur ne supporte pas l'enregistrement vidéo. Essaye avec Chrome, Edge ou Firefox.";
-        improErrorDiv.style.display = 'block';
+        displayError('impro-error', "Ton navigateur ne supporte pas l'enregistrement vidéo. Essaye avec Chrome, Edge ou Firefox.");
         return;
       }
       mediaRecorderInstance = new MediaRecorder(stream);
@@ -1170,9 +1162,9 @@
         overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Improvisation terminée. Passe à l'étape suivante !</p>";
         overlay.style.display = 'flex';
         document.getElementById('impro-error').style.display = 'none';
-        recordingIndicator.style.display = 'none';
+        document.getElementById('recording-indicator').style.display = 'none';
         clearInterval(timerInterval);
-        improStarted = true;
+        isImproRecordingStarted = true;
         removePulseFromAll();
         nextBtns[3].classList.add('pulse');
         enableNavigationButtons();
@@ -1181,10 +1173,10 @@
         }
       };
       mediaRecorderInstance.start();
-      recordingIndicator.style.display = 'flex';
-      stopBtn.classList.remove('hidden-btn');
-      stopBtn.disabled = false;
-      restartBtn.classList.add('hidden-btn');
+      document.getElementById('recording-indicator').style.display = 'flex';
+      document.getElementById('stop-btn').classList.remove('hidden-btn');
+      document.getElementById('stop-btn').disabled = false;
+      document.getElementById('restart-btn').classList.add('hidden-btn');
       disableNavigationButtons();
       startTimer();
     }
@@ -1192,18 +1184,16 @@
     async function setupCamera() {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-        preview.srcObject = stream;
+        document.getElementById('preview').srcObject = stream;
         return stream;
       } catch (error) {
-        const improErrorDiv = document.getElementById('impro-error');
         if (error.name === 'NotAllowedError') {
-          improErrorDiv.textContent = "Vous avez refusé l'accès à la webcam. Veuillez autoriser l'accès.";
+          displayError('impro-error', "Vous avez refusé l'accès à la webcam. Veuillez autoriser l'accès.");
         } else if (error.name === 'NotFoundError') {
-          improErrorDiv.textContent = "Aucune caméra/micro détectés.";
+          displayError('impro-error', "Aucune caméra/micro détectés.");
         } else {
-          improErrorDiv.textContent = "Erreur : Impossible d'accéder à la webcam.";
+          displayError('impro-error', "Erreur : Impossible d'accéder à la webcam.");
         }
-        improErrorDiv.style.display = 'block';
         console.error(error);
         return null;
       }
@@ -1221,7 +1211,7 @@
           clearInterval(timerInterval);
           if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
             mediaRecorderInstance.stop();
-            restartBtn.classList.remove('hidden-btn');
+            document.getElementById('restart-btn').classList.remove('hidden-btn');
           }
         }
       }, 1000);
@@ -1229,23 +1219,24 @@
     function updateCountdownDisplay() {
       const minutes = Math.floor(timeRemaining / 60);
       const seconds = timeRemaining % 60;
-      countdownElement.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
-      countdownElement.style.display = 'block';
+      const countdownEl = document.getElementById('countdown');
+      countdownEl.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+      countdownEl.style.display = 'block';
     }
 
-    stopBtn.addEventListener('click', () => {
+    document.getElementById('stop-btn').addEventListener('click', () => {
       if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
         mediaRecorderInstance.stop();
         clearInterval(countdown);
         clearInterval(timerInterval);
-        stopBtn.classList.add('hidden-btn');
-        stopBtn.disabled = true;
-        restartBtn.classList.remove('hidden-btn');
-        recordingIndicator.style.display = 'none';
+        document.getElementById('stop-btn').classList.add('hidden-btn');
+        document.getElementById('stop-btn').disabled = true;
+        document.getElementById('restart-btn').classList.remove('hidden-btn');
+        document.getElementById('recording-indicator').style.display = 'none';
       }
     });
-    restartBtn.addEventListener('click', () => {
-      restartBtn.classList.add('hidden-btn');
+    document.getElementById('restart-btn').addEventListener('click', () => {
+      document.getElementById('restart-btn').classList.add('hidden-btn');
       document.querySelector('.video-overlay').innerHTML = `
         <p>Ici va s'enregistrer ton improvisation vidéo. Lorsque tu es prêt, clique sur le bouton ci-dessous.</p>
         <button id="start-btn" aria-label="Démarrer l'improvisation">
@@ -1254,13 +1245,13 @@
         <p>NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
       `;
       document.querySelector('.video-overlay').style.display = 'flex';
-      improStarted = false;
+      isImproRecordingStarted = false;
       bindStartButton();
     });
     bindStartButton();
 
     /***********************
-     * Téléchargements et envoi à Google Forms (STEP4)
+     * TÉLÉCHARGEMENTS ET FORMULAIRE (STEP4)
      ***********************/
     const validateFormBtn = document.getElementById('validate-form-btn');
     const prenomInput = document.getElementById('prenom');
@@ -1318,7 +1309,7 @@
         document.body.removeChild(link);
       }
 
-      // Remplacer le bouton "Valider" par le bouton "Feedback de l'impro" au même emplacement
+      // Remplacer le bouton "Valider" par le bouton "Feedback de l'impro"
       const callToActionDiv = document.querySelector('.call-to-action');
       callToActionDiv.innerHTML = '<button id="feedback-btn" aria-label="Feedback de l\'impro" style="background-color: #ffcb2d; color: #000; border-radius: 30px; padding: 12px 24px; font-weight: bold; font-size: 1rem; transition: transform 0.2s, box-shadow 0.2s; margin: 10px auto;">Feedback de l\'impro</button>';
       document.getElementById('feedback-btn').addEventListener('click', () => {
@@ -1327,7 +1318,7 @@
     });
 
     /***********************
-     * Bouton de partage LinkedIn
+     * PARTAGE SUR LINKEDIN
      ***********************/
     document.getElementById("linkedin-share-btn").addEventListener("click", () => {
       const shareURL = encodeURIComponent(window.location.href);
@@ -1335,6 +1326,19 @@
       const linkedInURL = `https://www.linkedin.com/sharing/share-offsite/?url=${shareURL}&summary=${shareText}`;
       window.open(linkedInURL, '_blank');
     });
+
+    // Initialisation des boutons de navigation
+    initNavigationButtons();
+    
+    // Fonctions de contrôle de la navigation pendant l'enregistrement
+    function disableNavigationButtons() {
+      Object.values(nextBtns).forEach(btn => btn.disabled = true);
+      Object.values(backBtns).forEach(btn => btn.disabled = true);
+    }
+    function enableNavigationButtons() {
+      Object.values(nextBtns).forEach(btn => btn.disabled = false);
+      Object.values(backBtns).forEach(btn => btn.disabled = false);
+    }
   </script>
 </body>
 </html>
