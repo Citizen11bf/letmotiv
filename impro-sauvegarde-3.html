@@ -59,11 +59,7 @@
       font-family: 'DM Sans', sans-serif;
       background-color: #ffffff;
       color: #333333;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      overflow-x: hidden;
+      /* On ajoute un padding-top pour que le contenu ne soit pas caché par le header fixe */
       padding-top: 60px;
       padding-bottom: 20px;
     }
@@ -155,12 +151,8 @@
 
     /* --- CONTENEUR PRINCIPAL --- */
     .main-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex-grow: 1;
-      width: 100%;
+      position: relative;
+      /* Sur desktop, le contenu s'affiche en flux normal */
       padding: 20px;
     }
 
@@ -169,21 +161,20 @@
       position: relative;
       width: 100%;
       max-width: 600px;
-      margin: 20px 0;
+      margin: 20px auto;
       padding: 20px;
       border-radius: 15px;
       background: linear-gradient(135deg, #ffffff, #f9f9f9);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      border: none;
       text-align: center;
       font-size: 14px;
       display: none;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: opacity 0.5s ease;
     }
-    .box.active { display: block; }
-    .box:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); }
+    .box.active { display: block; opacity: 1; }
+    .box.hidden { opacity: 0; }
 
-    /* --- ANIMATIONS VERTICALES --- */
+    /* --- ANIMATIONS VERTICALES POUR TRANSITION --- */
     .slide-from-bottom { animation: fromBottom 1.5s ease forwards; }
     @keyframes fromBottom { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
     .slide-from-top { animation: fromTop 1.5s ease forwards; }
@@ -211,17 +202,14 @@
       align-items: center;
       justify-content: center;
       transition: background-color 0.3s, transform 0.3s;
-      margin: 0 auto;
-      margin-bottom: 10px;
+      margin: 0 auto 10px;
     }
     .back-btn:hover { background-color: #505050; transform: scale(1.1); }
     .back-btn:active { background-color: #303030; }
-    /* Pour la box1, le bouton caché ne doit plus occuper d'espace */
     #step1 .back-btn.hidden-visibility { display: none; }
     .box-title { font-size: 18px; font-weight: bold; color: #182d84; text-align: center; }
 
     /* --- FLECHES HAUT/BAS --- */
-    .next-btn, .back-btn { }
     .next-btn {
       width: 40px;
       height: 40px;
@@ -244,9 +232,7 @@
       100% { box-shadow: 0 0 0 0 rgba(0,164,138,0); }
     }
 
-    /* --- Bouton de style pour "Démarrer ton impro" et boutons similaires --- */
     .btn-impro {
-      pointer-events: auto;
       margin: 15px 0;
       padding: 10px 20px;
       font-size: 16px;
@@ -259,10 +245,6 @@
     }
     .btn-impro:hover { background-color: #00a48a; }
 
-    @media (max-width: 600px) {
-        h1 .line { display: block; }
-    }
-    
     /* --- STEP1 : Choix d’objectif --- */
     .objectives-container {
       display: grid;
@@ -389,7 +371,6 @@
     }
     .video-overlay p { margin: 10px 0; }
     .video-overlay button {
-      pointer-events: auto;
       margin: 15px 0;
       padding: 10px 20px;
       font-size: 16px;
@@ -616,6 +597,22 @@
       transform: scale(1.1);
     }
     .linkedin-share-btn i { font-size: 18px; }
+
+    /* --- MODIFICATION POUR MOBILE : les boxes sont fixées en haut (sous le header) --- */
+    @media (max-width: 600px) {
+      .box {
+        position: fixed;
+        top: calc(60px + 5px);
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        max-width: 600px;
+        /* Permettre le défilement interne si le contenu est trop grand */
+        max-height: calc(100vh - calc(60px + 5px));
+        overflow-y: auto;
+        margin: 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -823,7 +820,6 @@
     /***********************
      * VARIABLES ET CONSTANTES
      ***********************/
-    // Gestion des étapes (boxes) et boutons de navigation
     const boxes = {
       1: document.getElementById('step1'),
       2: document.getElementById('step2'),
@@ -848,13 +844,11 @@
     const topProgressBar = document.getElementById('top-progress-bar');
     const linkedinShareBtn = document.getElementById('linkedin-share-btn');
 
-    // Variables pour la navigation et les étapes
     let currentStep = 0;
     let currentCategory = null;
     let currentObjective = "";
     let currentSubject = "";
 
-    // Renommage de la variable pour l'enregistrement vidéo
     let isImproRecordingStarted = false;
     let mediaRecorderInstance;
     let recordedChunks = [];
@@ -866,30 +860,18 @@
     /***********************
      * FONCTIONS UTILITAIRES
      ***********************/
-    // Mise à jour de la barre de progression
     function updateProgressBar(step) {
       const progress = (step / 4) * 100;
       topProgressBar.style.width = `${progress}%`;
     }
 
-    // Défilement vers la boîte (étape) cible
-    // On utilise la position du bas du header + 5px comme offset
-    function scrollToBox(box) {
-      const header = document.querySelector('.header');
-      const headerBottom = header ? header.getBoundingClientRect().bottom : 0;
-      const offset = headerBottom + 5; // 5px supplémentaires sous le header
-      const boxTop = box.getBoundingClientRect().top + window.pageYOffset;
-      window.scrollTo({ top: boxTop - offset, behavior: 'smooth' });
-    }
-
-    // Affiche un message d'erreur dans un élément donné
+    // Cette fonction affiche un message d'erreur dans l'élément ciblé
     function displayError(elementId, message) {
       const el = document.getElementById(elementId);
       el.textContent = message;
       el.style.display = 'block';
     }
 
-    // Mise à jour de la visibilité du bouton LinkedIn en fonction de l'étape
     function updateShareButtonVisibility() {
       linkedinShareBtn.style.display = currentStep === 0 ? 'none' : 'flex';
     }
@@ -897,18 +879,15 @@
     /***********************
      * GESTION DE LA NAVIGATION ENTRE LES ÉTAPES
      ***********************/
+    // On remplace le défilement par un simple changement d'affichage (fade in/out)
     function showBox(current, next) {
       if (!boxes[current] || !boxes[next]) return;
-      // Retirer les classes d'animation de la boîte actuelle
       boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
-      // Afficher la prochaine boîte et ajouter l'animation selon le sens de la navigation
       boxes[next].classList.add('active');
       boxes[next].classList.add(next > current ? 'slide-from-bottom' : 'slide-from-top');
       updateProgressBar(next);
       currentStep = next;
-      scrollToBox(boxes[next]);
       updateShareButtonVisibility();
-      // Mise à jour des contenus spécifiques à certaines étapes
       if (next === 2) {
         document.getElementById('selected-objective-display').textContent = explanations[currentCategory] || currentObjective;
       }
@@ -918,7 +897,6 @@
       removePulseFromAll();
     }
 
-    // Regroupe les événements pour les boutons de navigation next et back
     function initNavigationButtons() {
       nextBtns[1].addEventListener('click', () => {
         const selected = document.querySelector('.objectives-container .selected-objective');
@@ -949,7 +927,6 @@
       backBtns[4].addEventListener('click', () => { showBox(4, 3); });
     }
 
-    // Supprime la classe de pulsation sur tous les boutons next
     function removePulseFromAll() {
       Object.values(nextBtns).forEach(btn => btn.classList.remove('pulse'));
     }
@@ -1093,7 +1070,6 @@
     /***********************
      * ENREGISTREMENT VIDÉO (STEP3)
      ***********************/
-    // Lier le bouton "Démarrer ton impro"
     function bindStartButton() {
       const startBtn = document.getElementById('start-btn');
       if(startBtn){
@@ -1116,11 +1092,6 @@
       if (window.innerWidth <= 600) {
           const videoBox = document.querySelector('.video-box');
           videoBox.style.height = "450px";
-          const subjectElem = document.getElementById('current-subject-display');
-          if (subjectElem) {
-              const subjectTop = subjectElem.getBoundingClientRect().top + window.pageYOffset;
-              window.scrollTo({ top: subjectTop - 60, behavior: 'smooth' });
-          }
       }
       document.querySelector('.video-overlay').style.display = 'none';
       startInitialCountdown();
@@ -1311,7 +1282,6 @@
         document.body.removeChild(link);
       }
 
-      // Remplacer le bouton "Valider" par le bouton "Feedback de l'impro"
       const callToActionDiv = document.querySelector('.call-to-action');
       callToActionDiv.innerHTML = '<button id="feedback-btn" aria-label="Feedback de l\'impro" style="background-color: #ffcb2d; color: #000; border-radius: 30px; padding: 12px 24px; font-weight: bold; font-size: 1rem; transition: transform 0.2s, box-shadow 0.2s; margin: 10px auto;">Feedback de l\'impro</button>';
       document.getElementById('feedback-btn').addEventListener('click', () => {
@@ -1329,10 +1299,8 @@
       window.open(linkedInURL, '_blank');
     });
 
-    // Initialisation des boutons de navigation
     initNavigationButtons();
-    
-    // Fonctions de contrôle de la navigation pendant l'enregistrement
+
     function disableNavigationButtons() {
       Object.values(nextBtns).forEach(btn => btn.disabled = true);
       Object.values(backBtns).forEach(btn => btn.disabled = true);
