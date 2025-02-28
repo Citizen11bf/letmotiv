@@ -873,10 +873,12 @@
     }
 
     // Défilement vers la boîte (étape) cible
+    // La modification se trouve ici : le haut de la box sera positionné à 5px sous le header.
     function scrollToBox(box) {
       const header = document.querySelector('.header');
       const headerHeight = header ? header.offsetHeight : 0;
-      const boxPosition = box.getBoundingClientRect().top + window.scrollY - headerHeight - 20;
+      const offset = headerHeight + 5; // 5px en dessous du header
+      const boxPosition = box.getBoundingClientRect().top + window.scrollY - offset;
       window.scrollTo({ top: boxPosition, behavior: 'smooth' });
     }
 
