@@ -29,7 +29,10 @@
   <!-- Import des polices -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Les polices existantes -->
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans&family=Montserrat:wght@700&display=swap" rel="stylesheet" />
+  <!-- Import pour le bouton "Commencer" -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:900i" rel="stylesheet">
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
@@ -53,7 +56,7 @@
     }
   </script>
   
-  <!-- Styles CSS avec commentaires -->
+  <!-- Styles CSS -->
   <style>
     /* --- GLOBAL --- */
     * { box-sizing: border-box; }
@@ -67,7 +70,7 @@
       align-items: center;
       min-height: 100vh;
       overflow-x: hidden;
-      padding-top: 60px;
+      padding-top: 60px; /* espace pour le header fixe */
       padding-bottom: 20px;
     }
     .error-message { color: red; font-weight: bold; }
@@ -114,17 +117,28 @@
       transition: width 0.5s ease;
     }
 
+    /* --- MAIN CONTAINER --- */
+    .main-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center; /* par défaut centré */
+      flex-grow: 1;
+      width: 100%;
+      padding: 20px;
+    }
+
     /* --- MEDIA QUERIES pour mobile --- */
     @media (max-width: 600px) {
-      /* Ajustement du padding pour le body sur mobile */
-      body { padding-top: 40px; }
-      
-      /* Réduction des marges et ajustement du scroll pour les boxes */
-      .box { margin: 10px 0; scroll-margin-top: 70px; }
-      
-      /* Mise en forme des boutons dans les actions d'improvisation :
-         - Affichage vertical (colonne)
-         - Chaque bouton prend 100% de la largeur */
+      h1 .line { display: block; }
+      .main-container { justify-content: flex-start; }
+      .box {
+        width: 100vw;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        padding: 20px;
+        height: auto;
+      }
       .impro-actions {
         display: flex;
         flex-direction: column;
@@ -136,11 +150,28 @@
         margin: 5px 0;
         flex: 1;
       }
+      .objectives-container { grid-template-columns: repeat(2, 1fr); }
+      .flip-card { width: 90px; height: 100px; }
+      .flip-card-front i { font-size: 1.8rem; }
+      .flip-card-front span { font-size: 0.9rem; }
+      
+      /* Réduction de la taille du bouton "Commencer" sur mobile */
+      .cta {
+        padding: 8px 30px !important;
+        font-size: 30px !important;
+      }
+      .cta svg {
+        width: 40px !important;
+        height: auto !important;
+      }
+      .cta span:nth-child(2) {
+        margin-left: 20px !important;
+        width: 15px !important;
+        top: 10% !important;
+      }
     }
-    
-    @media (max-width: 600px) { h1 .line { display: block; } }
-    
-    /* --- BOÎTE D'INTRODUCTION --- */
+
+    /* --- BOÎTE D'INTRODUCTION (STEP0) --- */
     .intro-box {
       position: fixed;
       top: 0;
@@ -160,39 +191,46 @@
     .intro-box h1 {
       font-family: 'Montserrat', sans-serif;
       font-size: 2.5rem;
-      margin-bottom: 30px;
+      margin-bottom: 50px; /* écart vertical augmenté */
       animation: slideDown 1s ease forwards;
     }
-    .intro-box button {
-      background-color: #ffffff;
-      color: #182d84;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 1.2rem;
-      border: none;
-      border-radius: 25px;
-      padding: 15px 30px;
-      cursor: pointer;
-      transition: background-color 0.3s, transform 0.3s, color 0.3s;
-      box-shadow: 0px 4px 6px rgba(0,0,0,0.2);
-    }
-    .intro-box button:hover {
-      background-color: #00a48a;
-      color: #ffffff;
-      transform: scale(1.05);
-    }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
-    @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-    /* --- CONTENEUR PRINCIPAL --- */
-    .main-container {
+    /* Nouveau design du bouton "Commencer" en STEP0 */
+    .wrapper {
       display: flex;
-      flex-direction: column;
-      align-items: center;
       justify-content: center;
-      flex-grow: 1;
-      width: 100%;
-      padding: 20px;
+    }
+    
+    .cta {
+      display: flex;
+      padding: 10px 45px;
+      text-decoration: none;
+      font-family: 'Poppins', sans-serif;
+      font-size: 40px;
+      color: white;
+      background: #6225E6;
+      transition: 1s;
+      box-shadow: 6px 6px 0 black;
+      transform: skewX(-15deg);
+    }
+    .cta:focus { outline: none; }
+    .cta:hover {
+      transition: 0.5s;
+      box-shadow: 10px 10px 0 #FBC638;
+    }
+    .cta span:nth-child(2) {
+      transition: 0.5s;
+      margin-right: 0px;
+    }
+    .cta:hover span:nth-child(2) {
+      transition: 0.5s;
+      margin-right: 45px;
+    }
+    .cta span { transform: skewX(15deg); }
+    .cta span:nth-child(2) {
+      width: 20px;
+      margin-left: 30px;
+      position: relative;
+      top: 12%;
     }
 
     /* --- BOXES (étapes) --- */
@@ -363,12 +401,13 @@
       padding: 20px;
       font-size: 16px;
       text-align: center;
+      margin-bottom: 5px; /* écart vertical diminué */
     }
     .simulation-buttons {
       display: flex;
       justify-content: center;
       gap: 10px;
-      margin-top: 10px;
+      margin-top: 5px; /* écart vertical diminué */
     }
     .simulation-buttons button:hover { transform: scale(1.05); }
     .simulation-buttons button:active { transform: scale(0.95); }
@@ -382,10 +421,58 @@
       cursor: pointer;
       transition: background-color 0.3s;
     }
-    .simulation-buttons button.selected {
-      background-color: #00a48a;
-      color: #fff;
-    }
+
+    /* Classe .btn-question */
+  .btn-question {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 1.2rem; /* police légèrement plus grande */
+  font-weight: bold;
+  color: #fff;
+  background-color: #182d84; /* couleur d'origine */
+  border: 2px solid currentColor;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: 0.2s transform ease-in-out;
+  }
+
+  /* Effet hoover en vert */
+  .btn-question::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #00a48a; /* vert uniquement */
+  border-radius: 50%;
+  transform: translate(-100%, 0) rotate(10deg);
+  transform-origin: top left;
+  transition: 0.2s transform ease-out;
+  z-index: -1;
+  }
+
+.btn-question:not(.selected):hover::after {
+  transform: translate(0, 0);
+}
+
+/* L'état sélectionné conserve le bouton en vert sans l'animation ::after */
+.btn-question.selected {
+  background-color: #00a48a;
+  border-color: transparent;
+  color: #fff;
+}
+
+  /* Style pour le message de durée */
+    #duration-info {
+      margin-top: 5px;
+      font-style: italic;
+  }
 
     /* --- STEP3 : Enregistrement vidéo --- */
     .video-box {
@@ -414,30 +501,24 @@
       transform: scaleX(-1);
       -webkit-transform: scaleX(-1);
     }
-    .video-overlay {
+    /* Overlay d'instructions initiales, centré verticalement */
+    #instruction-overlay {
       position: absolute;
-      z-index: 2;
-      top: 0;
+      top: 50%;
       left: 0;
       width: 100%;
-      padding: 5px;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.6);
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
       align-items: center;
-      text-align: center;
-      color: #555;
-      font-style: italic;
-      font-size: 13px;
-      background: rgba(255,255,255,0.6);
-    }
-    .video-overlay.centered {
-      height: 100%;
       justify-content: center;
-      align-items: center;
+      text-align: center;
+      z-index: 2;
+      padding: 20px;
     }
-    .video-overlay p { margin: 10px 0; }
-    .video-overlay button {
+    /* Styles spécifiques pour le bouton "Démarrer" dans l'instruction overlay */
+    #instruction-overlay button {
       pointer-events: auto;
       margin: 15px 0;
       padding: 10px 20px;
@@ -449,7 +530,23 @@
       cursor: pointer;
       transition: background-color 0.3s;
     }
-    .video-overlay button:hover { background-color: #00a48a; }
+    #instruction-overlay button:hover {
+      background-color: #00a48a;
+    }
+    /* Overlay pour les questions, positionné en haut */
+    #question-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 5px;
+      background: rgba(255,255,255,0.6);
+      font-style: italic;
+      font-size: 13px;
+      text-align: center;
+      z-index: 3;
+      display: none;
+    }
     .recording-indicator {
       position: absolute;
       bottom: 10px;
@@ -462,7 +559,7 @@
       font-size: 14px;
       color: #ff0000;
       display: none;
-      z-index: 3;
+      z-index: 4;
     }
     .recording-indicator i { margin-right: 5px; }
     .countdown {
@@ -472,7 +569,7 @@
       font-size: 18px;
       color: #ffffff;
       display: none;
-      z-index: 4;
+      z-index: 5;
       background-color: rgba(0,0,0,0.5);
       padding: 5px 10px;
       border-radius: 5px;
@@ -488,7 +585,7 @@
       display: none;
       align-items: center;
       justify-content: center;
-      z-index: 5;
+      z-index: 6;
       border-radius: 6px;
     }
     .initial-countdown {
@@ -503,7 +600,6 @@
       justify-content: space-around;
       margin-top: 10px;
     }
-    
     .hidden-btn { display: none; }
 
     /* --- STEP4 : Analyse ton entretien --- */
@@ -559,6 +655,28 @@
     }
     @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     
+    /* --- Animation pour le changement de question : effet "blitz" --- */
+    .question-change {
+      animation: questionBlitz 0.8s ease-out;
+    }
+    @keyframes questionBlitz {
+      0% {
+        opacity: 0;
+        transform: scale(0.8) rotateX(-90deg);
+        filter: blur(5px);
+      }
+      50% {
+        opacity: 0.5;
+        transform: scale(1.05) rotateX(20deg);
+        filter: blur(2px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) rotateX(0deg);
+        filter: blur(0);
+      }
+    }
+    
     /* --- Style pour les icônes sociales (section de partage) --- */
     ul { list-style: none; padding: 0; margin: 0; }
     .example-2 {
@@ -603,12 +721,11 @@
       height: 0;
       background-color: #000;
       transition: all 0.3s ease-in-out;
-      border-radius: 50%; /* Pour conserver la forme ronde */
+      border-radius: 50%;
     }
     .example-2 .icon-content a:hover .filled {
       height: 100%;
     }
-    /* Couleurs spécifiques par réseau */
     .example-2 .icon-content a[data-social="whatsapp"] .filled {
       background-color: #25D366;
     }
@@ -628,16 +745,31 @@
 </head>
 <body>
   <!-- Élément audio pour le feedback sonore -->
-  <audio id="pop-sound" src="https://www.soundjay.com/button/sounds/button-30.mp3"></audio>
+  <audio id="pop-sound" src="https://www.soundjay.com/button/sounds/button-30.mp3" preload="auto"></audio>
 
-  <!-- BOÎTE D'INTRODUCTION -->
+  <!-- BOÎTE D'INTRODUCTION (STEP0) --->
   <div class="intro-box" id="intro-box">
     <h1>
       <span class="line">Entraîne-toi</span>
       <span class="line">pour réussir</span>
       <span class="line">ton entretien</span>
     </h1>
-    <button id="start-intro-btn" aria-label="Commencer">Commencer</button>
+   
+    <!-- Nouveau bouton "Commencer" avec le design CTA -->
+    <div class="wrapper">
+      <a id="start-intro-btn" class="cta" href="#">
+        <span>COMMENCER</span>
+        <span>
+          <svg width="66px" height="43px" viewBox="0 0 66 43" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <g id="arrow" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+              <path class="one" d="M40.1543933,3.89485454 L43.9763149,0.139296592 C44.1708311,-0.0518420739 44.4826329,-0.0518571125 44.6771675,0.139262789 L65.6916134,20.7848311 C66.0855801,21.1718824 66.0911863,21.8050225 65.704135,22.1989893 C65.7000188,22.2031791 65.6958657,22.2073326 65.6916762,22.2114492 L44.677098,42.8607841 C44.4825957,43.0519059 44.1708242,43.0519358 43.9762853,42.8608513 L40.1545186,39.1069479 C39.9575152,38.9134427 39.9546793,38.5968729 40.1481845,38.3998695 C40.1502893,38.3977268 40.1524132,38.395603 40.1545562,38.3934985 L56.9937789,21.8567812 C57.1908028,21.6632968 57.193672,21.3467273 57.0001876,21.1497035 C56.9980647,21.1475418 56.9959223,21.1453995 56.9937605,21.1432767 L40.1545208,4.60825197 C39.9574869,4.41477773 39.9546013,4.09820839 40.1480756,3.90117456 C40.1501626,3.89904911 40.1522686,3.89694235 40.1543933,3.89485454 Z" fill="#FFFFFF"></path>
+              <path class="two" d="M20.1543933,3.89485454 L23.9763149,0.139296592 C24.1708311,-0.0518420739 24.4826329,-0.0518571125 24.6771675,0.139262789 L45.6916134,20.7848311 C46.0855801,21.1718824 46.0911863,21.8050225 45.704135,22.1989893 C45.7000188,22.2031791 45.6958657,22.2073326 45.6916762,22.2114492 L24.677098,42.8607841 C24.4825957,43.0519059 24.1708242,43.0519358 23.9762853,42.8608513 L20.1545186,39.1069479 C19.9575152,38.9134427 19.9546793,38.5968729 20.1481845,38.3998695 C20.1502893,38.3977268 20.1524132,38.395603 20.1545562,38.3934985 L36.9937789,21.8567812 C37.1908028,21.6632968 37.193672,21.3467273 37.0001876,21.1497035 C36.9980647,21.1475418 36.9959223,21.1453995 36.9937605,21.1432767 L20.1545208,4.60825197 C19.9574869,4.41477773 19.9546013,4.09820839 20.1480756,3.90117456 C20.1501626,3.89904911 20.1522686,3.89694235 20.1543933,3.89485454 Z" fill="#FFFFFF"></path>
+              <path class="three" d="M0.154393339,3.89485454 L3.97631488,0.139296592 C4.17083111,-0.0518420739 4.48263286,-0.0518571125 4.67716753,0.139262789 L25.6916134,20.7848311 C26.0855801,21.1718824 26.0911863,21.8050225 25.704135,22.1989893 C25.7000188,22.2031791 25.6958657,22.2073326 25.6916762,22.2114492 L4.67709797,42.8607841 C4.48259567,43.0519059 4.17082418,43.0519358 3.97628526,42.8608513 L0.154518591,39.1069479 C-0.0424848215,38.9134427 -0.0453206733,38.5968729 0.148184538,38.3998695 C0.150289256,38.3977268 0.152413239,38.395603 0.154556228,38.3934985 L16.9937789,21.8567812 C17.1908028,21.6632968 17.193672,21.3467273 17.0001876,21.1497035 C16.9980647,21.1475418 16.9959223,21.1453995 16.9937605,21.1432767 L0.15452076,4.60825197 C-0.0425130651,4.41477773 -0.0453986756,4.09820839 0.148075568,3.90117456 C0.150162624,3.89904911 0.152268631,3.89694235 0.154393339,3.89485454 Z" fill="#FFFFFF"></path>
+            </g>
+          </svg>
+        </span> 
+      </a>
+    </div>
   </div>
   
   <!-- HEADER -->
@@ -752,14 +884,20 @@
         <div class="box-title">Configuration de la simulation</div>
       </div>
       <div class="simulation-instructions">
-        Tu vas réaliser une simulation d'entretien. <br>Tu as 2 minutes pour répondre par question.<br><br>
-        Choisis le nombre de questions que tu souhaites simuler : 
+        Tu vas bientôt démarrer ton entretien. <br> 
+        Tu as 2 minutes par question. <br><br>
+        Choisis le nombre de questions que tu souhaites simuler :
       </div>
       <div class="simulation-buttons">
-        <button class="btn-impro" data-question-count="3">3</button>
-        <button class="btn-impro" data-question-count="4">4</button>
-        <button class="btn-impro" data-question-count="5">5</button>
+        <button class="btn-impro btn-question" data-question-count="3">3</button>
+        <button class="btn-impro btn-question" data-question-count="4">4</button>
+        <button class="btn-impro btn-question" data-question-count="5">5</button>
+        <button class="btn-impro btn-question" data-question-count="6">6</button>
+        <button class="btn-impro btn-question" data-question-count="7">7</button>
+        <button class="btn-impro btn-question" data-question-count="8">8</button>
       </div>
+      <!-- Zone pour afficher le message de durée -->
+      <div id="duration-info"></div>
       <div id="subject-error" class="error-message"></div>
       <button class="next-btn" id="next-btn2" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
@@ -776,8 +914,8 @@
       </div>
       <div class="video-box">
         <video id="preview" autoplay muted playsinline webkit-playsinline></video>
-        <!-- Overlay initial : seul le bouton "Démarrer ton entretien" est visible -->
-        <div class="video-overlay centered" id="question-overlay">
+        <!-- Overlay d'instructions initiales, centré verticalement -->
+        <div class="video-overlay" id="instruction-overlay">
           <p style="font-size:16px; text-align:center;">
             Ici va s'enregistrer ton entretien vidéo.<br>
             Lorsque tu es prêt, clique sur le bouton ci-dessous.
@@ -785,8 +923,13 @@
           <button id="start-btn" aria-label="Démarrer ta simulation">
             Démarrer ta simulation <i class="fas fa-video"></i>
           </button>
-          <p style="font-size:12px;">NB : ta vidéo est stockée sur ton appareil. <br>Aucun enregistrement n'est conservé par Letmotiv.</p>
+          <p style="font-size:12px;">
+            NB : ta vidéo est stockée sur ton appareil.<br>
+            Aucun enregistrement n'est conservé par Letmotiv.
+          </p>
         </div>
+        <!-- Overlay pour les questions, positionné en haut -->
+        <div class="video-overlay" id="question-overlay"></div>
         <div class="recording-indicator" id="recording-indicator">
           <i class="fas fa-record-vinyl"></i> Enregistrement en cours
         </div>
@@ -796,15 +939,12 @@
         </div>
       </div>
       <div class="impro-actions">
-        <!-- Bouton "Question suivante" sera masqué lors de la dernière question -->
         <button id="next-question-btn" class="hidden-btn btn-impro" aria-label="Question suivante">
           Question suivante <i class="fas fa-forward"></i>
         </button>
-        <!-- Bouton "Arrêter l'entretien" -->
         <button id="stop-btn" class="hidden-btn btn-impro" aria-label="Arrêter l'entretien">
           Arrêter ton entretien <i class="fas fa-stop"></i>
         </button>
-        <!-- Bouton "Recommencer" apparaît après un arrêt -->
         <button id="restart-btn" class="hidden-btn btn-impro" aria-label="Recommencer l'entretien">
           Recommencer ton entretien <i class="fas fa-redo"></i>
         </button>
@@ -843,11 +983,8 @@
             Refaire une simulation <i class="fas fa-redo"></i>
           </button>
         </div>
-
-        <!-- Section de partage sur les réseaux sociaux -->
         <p style="margin-top: 20px; font-weight: bold;">Partage ton expérience sur tes réseaux :</p>
         <ul class="example-2">
-          <!-- Icône WhatsApp -->
           <li class="icon-content">
             <a data-social="whatsapp">
               <div class="filled"></div>
@@ -856,7 +993,6 @@
               </svg>
             </a>
           </li>
-          <!-- Icône Discord -->
           <li class="icon-content">
             <a data-social="discord">
               <div class="filled"></div>
@@ -865,7 +1001,6 @@
               </svg>
             </a>
           </li>
-          <!-- Icône LinkedIn -->
           <li class="icon-content">
             <a data-social="linkedin">
               <div class="filled"></div>
@@ -874,12 +1009,12 @@
               </svg>
             </a>
           </li>
-          <!-- Icône Instagram -->
           <li class="icon-content">
             <a data-social="instagram">
               <div class="filled"></div>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16" xml:space="preserve">
                 <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"/>
+                </path>
               </svg>
             </a>
           </li>
@@ -899,29 +1034,24 @@
       3: document.getElementById('step3'),
       4: document.getElementById('step4')
     };
-
     const nextBtns = {
       1: document.getElementById('next-btn1'),
       2: document.getElementById('next-btn2'),
       3: document.getElementById('next-btn3')
     };
-
     const backBtns = {
       2: document.getElementById('back-btn2'),
       3: document.getElementById('back-btn3'),
       4: document.getElementById('back-btn5')
     };
-
     const introBox = document.getElementById('intro-box');
     const startIntroBtn = document.getElementById('start-intro-btn');
     const topProgressBar = document.getElementById('top-progress-bar');
-
     let currentStepGlobal = 0;
     let currentCategory = null;
     let selectedQuestionCount = 0;
-    let currentQuestionIndex = 1; // Pour "Question X/Y :"
-    let improStarted = false; // Indique si l'entretien a démarré
-
+    let currentQuestionIndex = 1;
+    let improStarted = false;
     const objectiveDisplayMapping = {
       "grand-oral": "passer le Grand Oral du BAC",
       "ingenieur-generaliste": "intégrer une école d'ingénieur généraliste",
@@ -930,17 +1060,14 @@
       "sciences-politiques": "intégrer une école de Sciences Politiques",
       "embauche": "réussir ton entretien d'embauche"
     };
-
     function updateProgressBar(step) {
       const progress = (step / 4) * 100;
       topProgressBar.style.width = `${progress}%`;
     }
     updateProgressBar(0);
-
     function removePulseFromAll() {
       Object.values(nextBtns).forEach(btn => btn.classList.remove('pulse'));
     }
-
     function showBox(current, next) {
       if (!boxes[current] || !boxes[next]) return;
       boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
@@ -950,7 +1077,6 @@
       currentStepGlobal = next;
       removePulseFromAll();
     }
-
     startIntroBtn.addEventListener('click', () => {
       introBox.style.animation = 'fadeOut 0.5s ease forwards';
       setTimeout(() => {
@@ -961,7 +1087,6 @@
         removePulseFromAll();
       }, 500);
     });
-
     nextBtns[1].addEventListener('click', () => {
       const selected = document.querySelector('.objectives-container .flip-card.flipped');
       if (!selected) {
@@ -972,7 +1097,6 @@
       }
       showBox(1, 2);
     });
-
     nextBtns[2].addEventListener('click', () => {
       if (selectedQuestionCount === 0) {
         const subjErrorDiv = document.getElementById('subject-error');
@@ -982,7 +1106,6 @@
       }
       showBox(2, 3);
     });
-
     nextBtns[3].addEventListener('click', () => {
       if (!improStarted) {
         const improErrorDiv = document.getElementById('impro-error');
@@ -992,28 +1115,26 @@
       }
       showBox(3, 4);
     });
-
     backBtns[2].addEventListener('click', () => { showBox(2, 1); });
     backBtns[3].addEventListener('click', () => { showBox(3, 2); });
     backBtns[4].addEventListener('click', () => { showBox(4, 3); });
-
     /***********************
      * Gestion des objectifs (STEP1) et feedback sonore
      ***********************/
     const objectivesCards = document.querySelectorAll('.objectives-container .objective-item');
     const popSound = document.getElementById('pop-sound');
-
     objectivesCards.forEach(card => {
       card.addEventListener('click', async () => {
         popSound.currentTime = 0;
-        popSound.play();
+        popSound.play().catch(error => {
+          console.error("Erreur lors de la lecture du son:", error);
+        });
         objectivesCards.forEach(c => c.classList.remove('flipped'));
         card.classList.add('flipped');
         currentCategory = card.dataset.category;
         document.getElementById('objective-error').style.display = 'none';
       });
     });
-
     /***********************
      * Choix du nombre de questions (STEP2)
      ***********************/
@@ -1023,9 +1144,13 @@
         document.querySelectorAll('.simulation-buttons button').forEach(b => b.classList.remove('selected'));
         btn.classList.add('selected');
         document.getElementById('subject-error').style.display = 'none';
+
+        // Mise à jour du message de durée (2 minutes par question)
+        const totalMinutes = selectedQuestionCount * 2;
+        document.getElementById('duration-info').textContent =
+          "Ton entretien durera au maximum " + totalMinutes + " minutes.";
       });
     });
-
     /***********************
      * Chargement des questions depuis un fichier texte
      ***********************/
@@ -1053,7 +1178,6 @@
         return [];
       }
     }
-
     /***********************
      * Enregistrement vidéo (STEP3) et gestion des questions
      ***********************/
@@ -1068,10 +1192,8 @@
     const initialCountdownOverlay = document.getElementById('initial-countdown-overlay');
     const initialCountdown = document.getElementById('initial-countdown');
     const questionOverlay = document.getElementById('question-overlay');
-
     let timerInterval;
     let videoURL = "";
-
     function disableNavigationButtons() {
       Object.values(nextBtns).forEach(btn => btn.disabled = true);
       Object.values(backBtns).forEach(btn => btn.disabled = true);
@@ -1080,15 +1202,16 @@
       Object.values(nextBtns).forEach(btn => btn.disabled = false);
       Object.values(backBtns).forEach(btn => btn.disabled = false);
     }
-
     // Attache l'événement au bouton "Démarrer ton entretien"
     function bindStartButton() {
       const startBtn = document.getElementById('start-btn');
       if(startBtn){
-        startBtn.addEventListener('click', startImpro);
+        startBtn.addEventListener('click', () => {
+          document.getElementById('instruction-overlay').style.display = 'none';
+          startImpro();
+        });
       }
     }
-
     async function startImpro() {
       if (selectedQuestionCount === 0) {
         const improErrorDiv = document.getElementById('impro-error');
@@ -1108,12 +1231,8 @@
       if (window.innerWidth <= 600) {
         document.querySelector('.video-box').style.height = "450px";
       }
-      // Cache l'overlay initial
-      questionOverlay.classList.add('centered');
-      questionOverlay.style.display = 'none';
       startInitialCountdown();
     }
-
     function startInitialCountdown() {
       let count = 5;
       initialCountdown.textContent = count;
@@ -1129,14 +1248,16 @@
         }
       }, 1000);
     }
-
-    // Affichage de la question avec préfixe
+    // Affichage de la question avec animation "blitz"
     function displayQuestionWithPrefix(current, total, questionText) {
-      questionOverlay.classList.remove('centered');
+      questionOverlay.classList.remove('question-change');
       questionOverlay.innerHTML = "<p style='font-size:16px; text-align:center;'>Question " + current + "/" + total + " : " + questionText + "</p>";
-      questionOverlay.style.display = 'flex';
+      questionOverlay.style.display = 'block';
+      questionOverlay.classList.add('question-change');
+      setTimeout(() => {
+        questionOverlay.classList.remove('question-change');
+      }, 800);
     }
-
     async function initiateRecording() {
       const stream = await setupCamera();
       if (!stream) return;
@@ -1157,9 +1278,8 @@
         const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
         videoURL = URL.createObjectURL(videoBlob);
         stream.getTracks().forEach(t => t.stop());
-        questionOverlay.classList.add('centered');
+        questionOverlay.style.display = 'block';
         questionOverlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Entretien terminé. Passe à l'étape suivante !</p>";
-        questionOverlay.style.display = 'flex';
         document.getElementById('impro-error').style.display = 'none';
         recordingIndicator.style.display = 'none';
         clearInterval(timerInterval);
@@ -1173,7 +1293,6 @@
         nextQuestionBtn.classList.add('hidden-btn');
         enableNavigationButtons();
       };
-
       const questions = await loadSubjects(currentCategory);
       if (!questions || questions.length === 0) {
         const improErrorDiv = document.getElementById('impro-error');
@@ -1183,21 +1302,18 @@
       }
       currentQuestionIndex = 1;
       displayQuestionWithPrefix(currentQuestionIndex, selectedQuestionCount, questions[0]);
-
       mediaRecorderInstance.start();
       disableNavigationButtons();
       recordingIndicator.style.display = 'flex';
       countdownElement.style.display = 'block';
       stopBtn.classList.remove('hidden-btn');
       stopBtn.disabled = false;
-      // Affiche "Question suivante" si plusieurs questions et si ce n'est pas la dernière
       if(selectedQuestionCount > 1) {
         nextQuestionBtn.classList.remove('hidden-btn');
       }
       restartBtn.classList.add('hidden-btn');
       startTwoMinutesCycle(questions);
     }
-
     async function setupCamera() {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
@@ -1217,8 +1333,6 @@
         return null;
       }
     }
-
-    // Cycle de 2 minutes pour chaque question
     function startTwoMinutesCycle(questions) {
       let timeRemaining = 120;
       if (currentQuestionIndex === selectedQuestionCount) {
@@ -1227,7 +1341,6 @@
         nextQuestionBtn.classList.remove('hidden-btn');
       }
       updateCountdownDisplay(timeRemaining);
-
       timerInterval = setInterval(() => {
         timeRemaining--;
         if (timeRemaining >= 0) {
@@ -1257,13 +1370,11 @@
         }
       }, 1000);
     }
-
     function updateCountdownDisplay(seconds) {
       const minutes = Math.floor(seconds / 60);
       const sec = seconds % 60;
       countdownElement.textContent = `${minutes}:${sec < 10 ? '0' + sec : sec}`;
     }
-
     stopBtn.addEventListener('click', () => {
       if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
         mediaRecorderInstance.stop();
@@ -1275,7 +1386,6 @@
         recordingIndicator.style.display = 'none';
       }
     });
-
     nextQuestionBtn.addEventListener('click', () => {
       if (!mediaRecorderInstance || mediaRecorderInstance.state !== 'recording') {
         const improErrorDiv = document.getElementById('impro-error');
@@ -1298,8 +1408,7 @@
           displayQuestionWithPrefix(currentQuestionIndex, selectedQuestionCount, questionText);
           updateCountdownDisplay(timeRemaining);
           startTwoMinutesCycle(questions);
-        }
-        else if (currentQuestionIndex === selectedQuestionCount - 1) {
+        } else if (currentQuestionIndex === selectedQuestionCount - 1) {
           currentQuestionIndex++;
           let questionText;
           const otherQuestions = questions.slice(1);
@@ -1311,23 +1420,14 @@
         }
       });
     });
-
-    // Modification de l'événement pour "Recommencer ton entretien"
     restartBtn.addEventListener('click', () => {
-      // Masquer le bouton de redémarrage et réinitialiser l'affichage
       restartBtn.classList.add('hidden-btn');
-      // Masquer l'overlay de la question
       questionOverlay.style.display = 'none';
-      // Réinitialiser l'état pour indiquer que l'entretien n'est pas encore démarré
       improStarted = false;
-      // Réinitialiser l'index de la question
       currentQuestionIndex = 1;
-      // Redémarrer directement avec le compte à rebours initial
       startInitialCountdown();
     });
-
     bindStartButton();
-
     /***********************
      * STEP4 : Analyse et téléchargement
      ***********************/
@@ -1335,7 +1435,6 @@
     const step4Extra = document.getElementById('step4-extra');
     const redoBtn = document.getElementById('redo-btn');
     const resourcesBtn = document.getElementById('resources-btn');
-
     validateFormBtn.addEventListener('click', () => {
       if (videoURL) {
         const link = document.createElement('a');
@@ -1348,11 +1447,9 @@
       document.querySelector('.call-to-action').style.display = 'none';
       step4Extra.style.display = 'block';
     });
-
     redoBtn.addEventListener('click', () => {
       window.location.reload();
     });
-
     resourcesBtn.addEventListener('click', () => {
       window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/entretien-candidat";
     });
@@ -1360,7 +1457,6 @@
   
   <!-- SCRIPT POUR LE PARTAGE DES RÉSEAUX SOCIAUX -->
   <script>
-    // Pour chaque icône de partage, ajouter un événement qui génère l'URL de partage du site
     document.querySelectorAll('.example-2 .icon-content a').forEach(link => {
       link.addEventListener('click', function(e) {
         e.preventDefault();
@@ -1371,7 +1467,6 @@
         if(social === "whatsapp") {
           shareUrl = "https://api.whatsapp.com/send?text=" + text;
         } else if(social === "discord") {
-          // Discord n'a pas d'URL de partage officielle : on redirige vers Discord
           shareUrl = "https://discord.com/channels/@me";
         } else if(social === "linkedin") {
           shareUrl = "https://www.linkedin.com/sharing/share-offsite/?url=" + currentURL;
