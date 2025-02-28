@@ -191,7 +191,7 @@
     .intro-box h1 {
       font-family: 'Montserrat', sans-serif;
       font-size: 2.5rem;
-      margin-bottom: 30px;
+      margin-bottom: 50px; /* écart vertical augmenté */
       animation: slideDown 1s ease forwards;
     }
     /* Nouveau design du bouton "Commencer" en STEP0 */
@@ -401,12 +401,13 @@
       padding: 20px;
       font-size: 16px;
       text-align: center;
+      margin-bottom: 5px; /* écart vertical diminué */
     }
     .simulation-buttons {
       display: flex;
       justify-content: center;
       gap: 10px;
-      margin-top: 10px;
+      margin-top: 5px; /* écart vertical diminué */
     }
     .simulation-buttons button:hover { transform: scale(1.05); }
     .simulation-buttons button:active { transform: scale(0.95); }
@@ -420,9 +421,27 @@
       cursor: pointer;
       transition: background-color 0.3s;
     }
-    .simulation-buttons button.selected {
-      background-color: #00a48a;
+    /* Nouvelle classe pour les boutons ronds de sélection de questions */
+    .btn-question {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      font-size: 16px;
+      line-height: 50px;
+      padding: 0;
+      border: none;
+      background-color: #182d84;
       color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .btn-question:hover {
+      background-color: #00a48a;
+    }
+    /* Style pour le message de durée */
+    #duration-info {
+      margin-top: 5px;
+      font-style: italic;
     }
 
     /* --- STEP3 : Enregistrement vidéo --- */
@@ -835,14 +854,18 @@
         <div class="box-title">Configuration de la simulation</div>
       </div>
       <div class="simulation-instructions">
-        Tu vas réaliser une simulation d'entretien. <br>Tu as 2 minutes pour répondre par question.<br><br>
-        Choisis le nombre de questions que tu souhaites simuler : 
+        Choisis le nombre de questions que tu souhaites simuler :
       </div>
       <div class="simulation-buttons">
-        <button class="btn-impro" data-question-count="3">3</button>
-        <button class="btn-impro" data-question-count="4">4</button>
-        <button class="btn-impro" data-question-count="5">5</button>
+        <button class="btn-impro btn-question" data-question-count="3">3</button>
+        <button class="btn-impro btn-question" data-question-count="4">4</button>
+        <button class="btn-impro btn-question" data-question-count="5">5</button>
+        <button class="btn-impro btn-question" data-question-count="6">6</button>
+        <button class="btn-impro btn-question" data-question-count="7">7</button>
+        <button class="btn-impro btn-question" data-question-count="8">8</button>
       </div>
+      <!-- Zone pour afficher le message de durée -->
+      <div id="duration-info"></div>
       <div id="subject-error" class="error-message"></div>
       <button class="next-btn" id="next-btn2" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
@@ -1089,6 +1112,11 @@
         document.querySelectorAll('.simulation-buttons button').forEach(b => b.classList.remove('selected'));
         btn.classList.add('selected');
         document.getElementById('subject-error').style.display = 'none';
+
+        // Mise à jour du message de durée (2 minutes par question)
+        const totalMinutes = selectedQuestionCount * 2;
+        document.getElementById('duration-info').textContent =
+          "Ton entretien durera au maximum " + totalMinutes + " minutes.";
       });
     });
     /***********************
