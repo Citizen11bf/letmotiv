@@ -152,7 +152,6 @@
     /* --- CONTENEUR PRINCIPAL --- */
     .main-container {
       position: relative;
-      /* Sur desktop, le contenu s'affiche en flux normal */
       padding: 20px;
     }
 
@@ -598,17 +597,16 @@
     }
     .linkedin-share-btn i { font-size: 18px; }
 
-    /* --- MODIFICATION POUR MOBILE : les boxes sont fixées en haut (sous le header) --- */
+    /* --- SUR MOBILE : les boxes sont fixées juste sous le header et centrées horizontalement --- */
     @media (max-width: 600px) {
       .box {
         position: fixed;
         top: calc(60px + 5px);
         left: 50%;
         transform: translateX(-50%);
-        width: 100%;
+        width: 90%;
         max-width: 600px;
-        /* Permettre le défilement interne si le contenu est trop grand */
-        max-height: calc(100vh - calc(60px + 5px));
+        max-height: calc(100vh - 65px);
         overflow-y: auto;
         margin: 0;
       }
@@ -865,7 +863,6 @@
       topProgressBar.style.width = `${progress}%`;
     }
 
-    // Cette fonction affiche un message d'erreur dans l'élément ciblé
     function displayError(elementId, message) {
       const el = document.getElementById(elementId);
       el.textContent = message;
@@ -879,7 +876,6 @@
     /***********************
      * GESTION DE LA NAVIGATION ENTRE LES ÉTAPES
      ***********************/
-    // On remplace le défilement par un simple changement d'affichage (fade in/out)
     function showBox(current, next) {
       if (!boxes[current] || !boxes[next]) return;
       boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
