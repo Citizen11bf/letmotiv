@@ -423,20 +423,44 @@
     }
     /* Nouvelle classe pour les boutons ronds de sélection de questions */
     .btn-question {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       width: 50px;
       height: 50px;
       border-radius: 50%;
-      font-size: 16px;
-      line-height: 50px;
-      padding: 0;
-      border: none;
-      background-color: #182d84;
+      font-size: 1.2rem; /* police légèrement plus grande */
+      font-weight: bold;
       color: #fff;
+      background-color: #182d84;
+      border: 2px solid currentColor;
       cursor: pointer;
-      transition: background-color 0.3s;
+      position: relative;
+      overflow: hidden;
+      transition: 0.2s transform ease-in-out;
+    }
+    /* Effet hover inspiré du code "coolBeans" */
+    .btn-question::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #ffcb2d;
+      border-radius: 50%;
+      transform: translate(-100%, 0) rotate(10deg);
+      transform-origin: top left;
+      transition: 0.2s transform ease-out;
+      z-index: -1;
+    }
+    .btn-question:hover::after {
+      transform: translate(0, 0);
     }
     .btn-question:hover {
-      background-color: #00a48a;
+      border-color: transparent;
+      color: #182d84;
+      transform: scale(1.05);
     }
     /* Style pour le message de durée */
     #duration-info {
@@ -717,7 +741,7 @@
   <!-- Élément audio pour le feedback sonore -->
   <audio id="pop-sound" src="https://www.soundjay.com/button/sounds/button-30.mp3" preload="auto"></audio>
 
-  <!-- BOÎTE D'INTRODUCTION (STEP0) -->
+  <!-- BOÎTE D'INTRODUCTION (STEP0) --->
   <div class="intro-box" id="intro-box">
     <h1>
       <span class="line">Entraîne-toi</span>
