@@ -457,21 +457,16 @@
   z-index: -1;
   }
 
-  .btn-question:hover::after {
+.btn-question:not(.selected):hover::after {
   transform: translate(0, 0);
-  }
+}
 
-  .btn-question:hover {
-  border-color: transparent;
-  transform: scale(1.05);
-  }
-
-  /* Bouton sélectionné reste en vert */
-  .btn-question.selected {
+/* L'état sélectionné conserve le bouton en vert sans l'animation ::after */
+.btn-question.selected {
   background-color: #00a48a;
   border-color: transparent;
   color: #fff;
-  }
+}
 
   /* Style pour le message de durée */
     #duration-info {
