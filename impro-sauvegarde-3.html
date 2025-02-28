@@ -873,13 +873,13 @@
     }
 
     // Défilement vers la boîte (étape) cible
-    // La modification se trouve ici : le haut de la box sera positionné à 5px sous le header.
+    // On utilise la position du bas du header + 5px comme offset
     function scrollToBox(box) {
       const header = document.querySelector('.header');
-      const headerHeight = header ? header.offsetHeight : 0;
-      const offset = headerHeight + 5; // 5px en dessous du header
-      const boxPosition = box.getBoundingClientRect().top + window.scrollY - offset;
-      window.scrollTo({ top: boxPosition, behavior: 'smooth' });
+      const headerBottom = header ? header.getBoundingClientRect().bottom : 0;
+      const offset = headerBottom + 5; // 5px supplémentaires sous le header
+      const boxTop = box.getBoundingClientRect().top + window.pageYOffset;
+      window.scrollTo({ top: boxTop - offset, behavior: 'smooth' });
     }
 
     // Affiche un message d'erreur dans un élément donné
