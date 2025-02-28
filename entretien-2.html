@@ -421,52 +421,63 @@
       cursor: pointer;
       transition: background-color 0.3s;
     }
-    /* Nouvelle classe pour les boutons ronds de sélection de questions */
-    .btn-question {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      font-size: 1.2rem; /* police légèrement plus grande */
-      font-weight: bold;
-      color: #fff;
-      background-color: #182d84;
-      border: 2px solid currentColor;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      transition: 0.2s transform ease-in-out;
-    }
-    /* Effet hover inspiré du code "coolBeans" */
-    .btn-question::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: #ffcb2d;
-      border-radius: 50%;
-      transform: translate(-100%, 0) rotate(10deg);
-      transform-origin: top left;
-      transition: 0.2s transform ease-out;
-      z-index: -1;
-    }
-    .btn-question:hover::after {
-      transform: translate(0, 0);
-    }
-    .btn-question:hover {
-      border-color: transparent;
-      color: #182d84;
-      transform: scale(1.05);
-    }
-    /* Style pour le message de durée */
+
+    /* Classe .btn-question */
+  .btn-question {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 1.2rem; /* police légèrement plus grande */
+  font-weight: bold;
+  color: #fff;
+  background-color: #182d84; /* couleur d'origine */
+  border: 2px solid currentColor;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: 0.2s transform ease-in-out;
+  }
+
+  /* Effet hoover en vert */
+  .btn-question::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #00a48a; /* vert uniquement */
+  border-radius: 50%;
+  transform: translate(-100%, 0) rotate(10deg);
+  transform-origin: top left;
+  transition: 0.2s transform ease-out;
+  z-index: -1;
+  }
+
+  .btn-question:hover::after {
+  transform: translate(0, 0);
+  }
+
+  .btn-question:hover {
+  border-color: transparent;
+  transform: scale(1.05);
+  }
+
+  /* Bouton sélectionné reste en vert */
+  .btn-question.selected {
+  background-color: #00a48a;
+  border-color: transparent;
+  color: #fff;
+  }
+
+  /* Style pour le message de durée */
     #duration-info {
       margin-top: 5px;
       font-style: italic;
-    }
+  }
 
     /* --- STEP3 : Enregistrement vidéo --- */
     .video-box {
