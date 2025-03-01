@@ -59,7 +59,8 @@
       font-family: 'DM Sans', sans-serif;
       background-color: #ffffff;
       color: #333333;
-      padding-top: 60px; /* espace pour le header fixe */
+      /* On laisse un padding-top pour ne pas cacher le contenu sous le header fixe */
+      padding-top: 60px;
       padding-bottom: 20px;
     }
 
@@ -149,7 +150,12 @@
     @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
     /* --- CONTENEUR PRINCIPAL --- */
+    /* Sur desktop, nous utilisons flex pour centrer la box active verticalement et horizontalement */
     .main-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: calc(100vh - 60px);
       position: relative;
       padding: 20px;
     }
@@ -169,8 +175,13 @@
       display: none;
       transition: opacity 0.5s ease;
     }
-    .box.active { display: block; opacity: 1; }
-    .box.hidden { opacity: 0; }
+    .box.active {
+      display: block;
+      opacity: 1;
+    }
+    .box.hidden {
+      opacity: 0;
+    }
 
     /* --- ANIMATIONS VERTICALES --- */
     .slide-from-bottom { animation: fromBottom 1.5s ease forwards; }
@@ -267,7 +278,10 @@
       display: block;
       color: #444;
     }
-    .objective-item:hover { border-color: #00a48a; background-color: rgba(0, 164, 138, 0.1); }
+    .objective-item:hover {
+      border-color: #00a48a;
+      background-color: rgba(0, 164, 138, 0.1);
+    }
     .objective-item.selected-objective {
       transform: scale(1.1);
       background-color: rgba(0, 164, 138, 0.2);
@@ -323,21 +337,8 @@
       color: #333;
       display: none;
     }
-         
-    /* --- STEP3 : Enregistrement vidéo de la simulation de prise de parole --- */
-    .subject-bubble {
-      display: inline-block;
-      position: relative;
-      background: #fefefe;
-      border: 2px solid #ccc;
-      border-radius: 16px;
-      padding: 10px 15px;
-      font-size: 16px;
-      color: #333;
-      text-align: center;
-      margin: 0 auto;
-      max-width: 100%;
-    }
+    
+    /* --- STEP3 : Enregistrement vidéo --- */
     .video-box {
       margin: 10px auto;
       border: 3px solid #182d84;
@@ -460,7 +461,7 @@
 
     /* --- STEP4 : Analyse ta prestation & Téléchargements --- */
     .download-section { margin-top: 20px; }
-    .download-section-acce!nt {
+    .download-section-accent {
       background: linear-gradient(135deg, #182d84, #00a48a);
       border-radius: 10px;
       padding: 20px;
@@ -531,7 +532,22 @@
     }
     @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-    /* --- Messages d'erreur --- */
+    /* --- Bulle pour le sujet (STEP2) --- */
+    .subject-bubble {
+      display: inline-block;
+      position: relative;
+      background: #fefefe;
+      border: 2px solid #ccc;
+      border-radius: 16px;
+      padding: 10px 15px;
+      font-size: 16px;
+      color: #333;
+      text-align: center;
+      margin: 0 auto;
+      max-width: 90%;
+    }
+
+    /* --- MESSAGES D'ERREUR --- */
     .error-message {
       color: red;
       margin-top: 10px;
@@ -594,37 +610,23 @@
     }
     .linkedin-share-btn i { font-size: 18px; }
 
-    /* --- MOBILE : boxes fixées en haut, centrées, avec largeur et hauteur adaptées --- */
+    /* --- MOBILE : Chaque étape occupe au moins 60vh et le contenu est centré --- */
     @media (max-width: 600px) {
       .box {
-        position: fixed;
-        top: 70px; /* header (60px) + 10px */
-        left: 0;
-        right: 0;
-        margin: 0 auto;
+        position: relative;
         width: 90%;
         max-width: 400px;
-        max-height: calc(100vh - 70px);
+        margin: 20px auto;
+        min-height: 60vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         overflow-y: auto;
       }
+      /* La bulle du STEP2 occupe toute la largeur de la box */
       .subject-bubble {
-        width: 90%;
-        max-width: 400px;
-        margin: 10px auto; /* espace vertical en plus */
-      }
-    }
-
-    /* --- DESKTOP : centrer les boxes verticalement et horizontalement --- */
-    @media (min-width: 601px) {
-      .main-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: calc(100vh - 60px); /* hauteur de l'écran moins le header */
-      }
-      .box {
-        position: relative;
-        margin: 0 auto;
+        width: 100%;
+        margin: 10px 0;
       }
     }
   </style>
@@ -641,11 +643,7 @@
   </div>
 
   <!-- FORMULAIRE CACHÉ POUR GOOGLE FORMS -->
-  <form id="hidden-google-form"
-        action="https://docs.google.com/forms/d/e/1FAIpQLSfGAcKp0cV5AeVJCJBPbtKLKCLhbYySZf_FkiMg85WKVFUn6A/formResponse"
-        method="POST"
-        target="hidden_iframe"
-        style="display:none;">
+  <form id="hidden-google-form" action="https://docs.google.com/forms/d/e/1FAIpQLSfGAcKp0cV5AeVJCJBPbtKLKCLhbYySZf_FkiMg85WKVFUn6A/formResponse" method="POST" target="hidden_iframe" style="display:none;">
     <input type="text" name="entry.1119647353" id="hidden-prenom">
     <input type="email" name="entry.638831312" id="hidden-email">
   </form>
@@ -666,8 +664,6 @@
 
   <!-- CONTAINER PRINCIPAL -->
   <div class="main-container">
-    <!-- Les étapes du simulateur -->
-
     <!-- STEP1 : Choix d'objectif -->
     <div class="box" id="step1">
       <div class="box-header">
@@ -732,7 +728,8 @@
       <p id="selected-objective-display" style="font-weight:bold; margin-bottom:10px;"></p>
       <button id="generate-subject-btn" class="btn-impro">Générer un sujet</button>
       <div id="subject-wrapper" class="subject-wrapper">
-        <span id="subject-display"></span>
+        <!-- La bulle de sujet s'ajuste sur mobile grâce aux styles ci-dessus -->
+        <span id="subject-display" class="subject-bubble"></span>
       </div>
       <div id="subject-error" class="error-message"></div>
       <button class="next-btn" id="next-btn2" aria-label="Étape suivante">
@@ -1315,6 +1312,7 @@
       window.open(linkedInURL, '_blank');
     });
 
+    // Initialisation des boutons de navigation
     initNavigationButtons();
 
     function disableNavigationButtons() {
