@@ -242,8 +242,7 @@
     }
     .btn-impro:hover { background-color: #00a48a; }
 
-    /* --- STEP1 : Choix d’objectif ---
-         Affichage en grid pour desktop */
+    /* --- STEP1 : Choix d’objectif --- Affichage en grid sur desktop */
     .objectives-container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
@@ -592,7 +591,7 @@
     }
     .linkedin-share-btn i { font-size: 18px; }
 
-    /* --- MOBILE : affichage vertical pour les objectifs style Duolingo --- */
+    /* --- STEP1 : Choix d’objectif --- Affichage avec bouton à la verticale sur mobile */
     @media (max-width: 600px) {
       .objectives-container {
         display: flex;
@@ -605,7 +604,7 @@
       .objective-item {
         display: flex;
         justify-content: space-between;
-        align-items: flex-end;  /* Pour aligner l'icône en bas */
+        align-items: center; 
         background-color: #f0f1f5;
         border-radius: 10px;
         padding: 14px;
@@ -618,12 +617,12 @@
         transition: background-color 0.3s, transform 0.2s;
         border: none;
       }
-      /* Reordonner les éléments : le texte à gauche et l'icône à droite */
       .objective-item i {
         order: 2;
         font-size: 1.8rem;
         margin-left: 12px;
         color: #444;
+        align-self: flex-end; 
       }
       .objective-item span {
         order: 1;
@@ -645,7 +644,7 @@
         transform: translateY(0);
         background-color: #dcdfe3;
       }
-      /* Style pour le message d'explication mobile reste inchangé */
+      /* Style pour le message d'explication de chaque objectif sur mobile */
       .mobile-explanation {
         font-size: 0.8rem;
         color: #555;
