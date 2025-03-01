@@ -60,7 +60,7 @@
       background-color: #ffffff;
       color: #333333;
       /* On ajoute un padding-top pour que le contenu ne soit pas caché par le header fixe */
-      padding-top: 60px; /* Ajuster si ton header fait 60px de hauteur */
+      padding-top: 60px;
       padding-bottom: 20px;
     }
 
@@ -93,7 +93,7 @@
     /* --- BARRE DE PROGRESSION --- */
     .progress-container {
       position: fixed;
-      top: 60px; /* correspond à la hauteur du header */
+      top: 60px;
       left: 0;
       width: 100%;
       height: 8px;
@@ -167,28 +167,17 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       text-align: center;
       font-size: 14px;
-      display: none; /* caché par défaut */
+      display: none;
       transition: opacity 0.5s ease;
     }
-    .box.active {
-      display: block;
-      opacity: 1;
-    }
-    .box.hidden {
-      opacity: 0;
-    }
+    .box.active { display: block; opacity: 1; }
+    .box.hidden { opacity: 0; }
 
     /* --- ANIMATIONS VERTICALES POUR TRANSITION --- */
     .slide-from-bottom { animation: fromBottom 1.5s ease forwards; }
-    @keyframes fromBottom {
-      from { opacity: 0; transform: translateY(50px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes fromBottom { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
     .slide-from-top { animation: fromTop 1.5s ease forwards; }
-    @keyframes fromTop {
-      from { opacity: 0; transform: translateY(-50px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes fromTop { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
 
     /* --- HEADER INTERNE DES BOXES --- */
     .box-header {
@@ -235,9 +224,7 @@
       margin: 10px auto;
     }
     .next-btn:hover { background-color: #00a48a; color: #ffffff; transform: scale(1.05); }
-    .next-btn.pulse {
-      animation: electricPulse 1.5s infinite;
-    }
+    .next-btn.pulse { animation: electricPulse 1.5s infinite; }
     @keyframes electricPulse {
       0% { box-shadow: 0 0 0 0 rgba(0,164,138,0.7); }
       70% { box-shadow: 0 0 0 10px rgba(0,164,138,0); }
@@ -281,10 +268,7 @@
       display: block;
       color: #444;
     }
-    .objective-item:hover {
-      border-color: #00a48a;
-      background-color: rgba(0, 164, 138, 0.1);
-    }
+    .objective-item:hover { border-color: #00a48a; background-color: rgba(0, 164, 138, 0.1); }
     .objective-item.selected-objective {
       transform: scale(1.1);
       background-color: rgba(0, 164, 138, 0.2);
@@ -293,7 +277,6 @@
       transition: all 0.3s ease-in-out;
     }
     .objective-item.selected-objective i { color: #00a48a; }
-    /* Couleurs d'icônes spécifiques (facultatif) */
     .objective-item[data-category="convaincre"] i { color: #007BFF; }
     .objective-item[data-category="inspirer"] i { color: #FFC107; }
     .objective-item[data-category="lacher-prise"] i { color: #FF5722; }
@@ -421,11 +404,7 @@
       margin-right: 5px;
       animation: blink 1s infinite;
     }
-    @keyframes blink {
-      0% { opacity: 1; }
-      50% { opacity: 0; }
-      100% { opacity: 1; }
-    }
+    @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
     .countdown {
       position: absolute;
       bottom: 10px;
@@ -538,12 +517,9 @@
       opacity: 1;
       visibility: visible;
     }
-    @keyframes fadeInDown {
-      from { transform: translateY(-20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
+    @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-    /* --- Bulle style BD pour le sujet aléatoire en STEP3 --- */
+    /* --- Bulle style BD pour le sujet en STEP2 --- */
     .subject-bubble {
       display: inline-block;
       position: relative;
@@ -553,12 +529,13 @@
       padding: 10px 15px;
       font-size: 16px;
       color: #333;
-      max-width: 80%;
       text-align: center;
       margin: 0 auto;
+      /* Par défaut, la largeur peut être max 80% */
+      max-width: 80%;
     }
 
-    /* --- Messages d'erreur en rouge --- */
+    /* --- Messages d'erreur --- */
     .error-message {
       color: red;
       margin-top: 10px;
@@ -568,7 +545,7 @@
       width: 100%;
     }
 
-    /* --- Styles pour les champs Prénom et Email --- */
+    /* --- Champs Prénom et Email --- */
     .download-fields {
       display: flex;
       justify-content: space-between;
@@ -581,11 +558,7 @@
       align-items: flex-start;
       width: 48%;
     }
-    .input-group label {
-      margin-bottom: 5px;
-      font-weight: bold;
-      color: #000;
-    }
+    .input-group label { margin-bottom: 5px; font-weight: bold; color: #000; }
     .input-group input {
       width: 100%;
       padding: 10px;
@@ -596,12 +569,9 @@
       box-sizing: border-box;
       transition: border-color 0.3s;
     }
-    .input-group input:focus {
-      border-color: #00a48a;
-      outline: none;
-    }
+    .input-group input:focus { border-color: #00a48a; outline: none; }
 
-    /* --- Bouton de partage LinkedIn (masqué par défaut) --- */
+    /* --- Bouton de partage LinkedIn --- */
     .linkedin-share-btn {
       position: fixed;
       bottom: 15px;
@@ -628,18 +598,24 @@
     }
     .linkedin-share-btn i { font-size: 18px; }
 
-    /* --- SUR MOBILE : fixées en haut, centrées horizontalement, avec défilement interne si besoin --- */
+    /* --- SUR MOBILE : Fixation des boxes et ajustement de la bulle du STEP2 --- */
     @media (max-width: 600px) {
       .box {
         position: fixed;
-        top: 70px;           /* Header (60px) + 10px de marge, par exemple */
+        top: 70px;           /* Header (60px) + 10px de marge */
         left: 0;
         right: 0;
-        margin: 0 auto;      /* Centre la box horizontalement */
-        width: 90%;          /* 90% de la largeur de l'écran */
-        max-width: 400px;    /* Limite la largeur max sur mobile */
-        max-height: calc(100vh - 70px); /* Scroller en interne si besoin */
+        margin: 0 auto;
+        width: 90%;
+        max-width: 400px;
+        max-height: calc(100vh - 70px);
         overflow-y: auto;
+      }
+      /* Ajustement de la bulle du STEP2 pour qu'elle ait la même largeur que l'encart vidéo */
+      .subject-bubble {
+        width: 90%;
+        max-width: 400px;
+        margin: 0 auto;
       }
     }
   </style>
@@ -843,7 +819,7 @@
     </div>
   </div>
 
-  <!-- Bouton de partage LinkedIn (masqué par défaut) -->
+  <!-- Bouton de partage LinkedIn -->
   <button class="linkedin-share-btn" id="linkedin-share-btn" aria-label="Partager sur LinkedIn">
     <i class="fab fa-linkedin-in"></i>
   </button>
@@ -919,8 +895,6 @@
       updateProgressBar(next);
       currentStep = next;
       updateShareButtonVisibility();
-
-      // Mise à jour du contenu selon l'étape
       if (next === 2) {
         document.getElementById('selected-objective-display').textContent =
           explanations[currentCategory] || currentObjective;
@@ -956,7 +930,6 @@
         }
         showBox(3, 4);
       });
-
       backBtns[2].addEventListener('click', () => { showBox(2, 1); });
       backBtns[3].addEventListener('click', () => { showBox(3, 2); });
       backBtns[4].addEventListener('click', () => { showBox(4, 3); });
@@ -1025,14 +998,12 @@
 
     objectivesButtons.forEach(item => {
       item.addEventListener('click', async () => {
-        // Retire la sélection précédente
         objectivesButtons.forEach(el => {
           el.classList.remove('selected-objective');
           el.style.transform = "";
           el.style.backgroundColor = "";
         });
 
-        // Ajoute la sélection sur l'item cliqué
         item.classList.add('selected-objective');
         currentCategory = item.dataset.category;
         currentObjective = item.innerText;
@@ -1045,7 +1016,6 @@
         explanationBox.textContent = explication;
         explanationBox.classList.add('show');
 
-        // Chargement asynchrone des sujets (si pas déjà en cache)
         if (subjectsCache[currentCategory] === null) {
           await loadSubjects(currentCategory);
         }
@@ -1322,8 +1292,7 @@
 
       const callToActionDiv = document.querySelector('.call-to-action');
       callToActionDiv.innerHTML = `
-        <button id="feedback-btn" aria-label="Feedback de l'impro"
-                style="background-color: #ffcb2d; color: #000; border-radius: 30px; padding: 12px 24px; font-weight: bold; font-size: 1rem; transition: transform 0.2s, box-shadow 0.2s; margin: 10px auto;">
+        <button id="feedback-btn" aria-label="Feedback de l'impro" style="background-color: #ffcb2d; color: #000; border-radius: 30px; padding: 12px 24px; font-weight: bold; font-size: 1rem; transition: transform 0.2s, box-shadow 0.2s; margin: 10px auto;">
           Feedback de l'impro
         </button>`;
       document.getElementById('feedback-btn').addEventListener('click', () => {
