@@ -29,9 +29,7 @@
   <!-- Import des polices -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Les polices existantes -->
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans&family=Montserrat:wght@700&display=swap" rel="stylesheet" />
-  <!-- Import pour le bouton "Commencer" -->
   <link href="https://fonts.googleapis.com/css?family=Poppins:900i" rel="stylesheet">
 
   <!-- Font Awesome -->
@@ -77,7 +75,8 @@
 
     /* --- HEADER --- */
     .header {
-      background-color: #182d84;
+      /* Utilisation du dégradé du STEP0 pour plus de punch */
+      background: linear-gradient(135deg, #2E22AC, #E34C9D);
       color: #FFFFFF;
       font-size: 16px;
       font-weight: bold;
@@ -88,6 +87,7 @@
       top: 0;
       left: 0;
       z-index: 10;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
     }
     .header-content {
       display: flex;
@@ -107,7 +107,7 @@
       left: 0;
       width: 100%;
       height: 8px;
-      background-color: rgba(24, 45, 132, 0.1);
+      background-color: rgba(46,34,172,0.1);
       z-index: 9;
     }
     .progress-bar {
@@ -122,7 +122,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center; /* par défaut centré */
+      justify-content: center;
       flex-grow: 1;
       width: 100%;
       padding: 20px;
@@ -155,7 +155,6 @@
       .flip-card-front i { font-size: 1.8rem; }
       .flip-card-front span { font-size: 0.9rem; }
       
-      /* Réduction de la taille du bouton "Commencer" sur mobile */
       .cta {
         padding: 8px 30px !important;
         font-size: 30px !important;
@@ -191,10 +190,9 @@
     .intro-box h1 {
       font-family: 'Montserrat', sans-serif;
       font-size: 2.5rem;
-      margin-bottom: 50px; /* écart vertical augmenté */
+      margin-bottom: 50px;
       animation: slideDown 1s ease forwards;
     }
-    /* Nouveau design du bouton "Commencer" en STEP0 */
     .wrapper {
       display: flex;
       justify-content: center;
@@ -327,87 +325,18 @@
     }
     .btn-impro:hover { background-color: #00a48a; }
 
-    /* --- STEP1 : Choix d’objectif avec effet "Carte Flip" --- */
-    .objectives-container {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-      justify-items: center;
-      margin: 10px 0;
-    }
-    @media (max-width: 600px) {
-      .objectives-container { grid-template-columns: repeat(2, 1fr); }
-      .flip-card { width: 90px; height: 100px; }
-      .flip-card-front i { font-size: 1.8rem; }
-      .flip-card-front span { font-size: 0.9rem; }
-    }
-    @media (max-width: 550px) {
-      .flip-card { max-width: 120px; height: 90px; }
-      .flip-card-front i { font-size: 1.5rem; }
-      .flip-card-front span { font-size: 0.7rem; }
-    }
-    .flip-card {
-      background-color: transparent;
-      width: 100%;
-      max-width: 150px;
-      height: 120px;
-      perspective: 1000px;
-      cursor: pointer;
-    }
-    .flip-card-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transition: transform 0.6s;
-      transform-style: preserve-3d;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      border-radius: 8px;
-      background-color: #fff;
-    }
-    .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
-    .flip-card-front,
-    .flip-card-back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      border-radius: 8px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 10px;
-      transition: background-color 0.3s, color 0.3s;
-    }
-    .flip-card-front {
-      background: #fff;
-      color: #808080;
-      border: 1px solid #ccc;
-    }
-    .flip-card-front i { font-size: 1.8rem; margin-bottom: 8px; }
-    .flip-card-front span { font-size: 0.9rem; font-weight: bold; }
-    .flip-card-back {
-      background: #f0f0f0;
-      color: #00a48a;
-      transform: rotateY(180deg);
-      font-size: 0.8rem;
-      padding: 8px;
-      text-align: center;
-      border: 1px solid #ccc;
-    }
-
     /* --- STEP2 : Configuration de la simulation --- */
     .simulation-instructions {
       padding: 20px;
       font-size: 16px;
       text-align: center;
-      margin-bottom: 5px; /* écart vertical diminué */
+      margin-bottom: 5px;
     }
     .simulation-buttons {
       display: flex;
       justify-content: center;
       gap: 10px;
-      margin-top: 5px; /* écart vertical diminué */
+      margin-top: 5px;
     }
     .simulation-buttons button:hover { transform: scale(1.05); }
     .simulation-buttons button:active { transform: scale(0.95); }
@@ -422,57 +351,50 @@
       transition: background-color 0.3s;
     }
 
-    /* Classe .btn-question */
-  .btn-question {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  font-size: 1.2rem; /* police légèrement plus grande */
-  font-weight: bold;
-  color: #fff;
-  background-color: #182d84; /* couleur d'origine */
-  border: 2px solid currentColor;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition: 0.2s transform ease-in-out;
-  }
-
-  /* Effet hoover en vert */
-  .btn-question::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #00a48a; /* vert uniquement */
-  border-radius: 50%;
-  transform: translate(-100%, 0) rotate(10deg);
-  transform-origin: top left;
-  transition: 0.2s transform ease-out;
-  z-index: -1;
-  }
-
-.btn-question:not(.selected):hover::after {
-  transform: translate(0, 0);
-}
-
-/* L'état sélectionné conserve le bouton en vert sans l'animation ::after */
-.btn-question.selected {
-  background-color: #00a48a;
-  border-color: transparent;
-  color: #fff;
-}
-
-  /* Style pour le message de durée */
+    /* --- Bouton de sélection des questions --- */
+    .btn-question {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #fff;
+      background-color: #182d84;
+      border: 2px solid currentColor;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: 0.2s transform ease-in-out;
+    }
+    .btn-question::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #00a48a;
+      border-radius: 50%;
+      transform: translate(-100%, 0) rotate(10deg);
+      transform-origin: top left;
+      transition: 0.2s transform ease-out;
+      z-index: -1;
+    }
+    .btn-question:not(.selected):hover::after {
+      transform: translate(0, 0);
+    }
+    .btn-question.selected {
+      background-color: #00a48a;
+      border-color: transparent;
+      color: #fff;
+    }
     #duration-info {
       margin-top: 5px;
       font-style: italic;
-  }
+    }
 
     /* --- STEP3 : Enregistrement vidéo --- */
     .video-box {
@@ -501,7 +423,6 @@
       transform: scaleX(-1);
       -webkit-transform: scaleX(-1);
     }
-    /* Overlay d'instructions initiales, centré verticalement */
     #instruction-overlay {
       position: absolute;
       top: 50%;
@@ -517,7 +438,6 @@
       z-index: 2;
       padding: 20px;
     }
-    /* Styles spécifiques pour le bouton "Démarrer" dans l'instruction overlay */
     #instruction-overlay button {
       pointer-events: auto;
       margin: 15px 0;
@@ -533,7 +453,6 @@
     #instruction-overlay button:hover {
       background-color: #00a48a;
     }
-    /* Overlay pour les questions, positionné en haut */
     #question-overlay {
       position: absolute;
       top: 0;
@@ -602,7 +521,7 @@
     }
     .hidden-btn { display: none; }
 
-    /* --- STEP4 : Analyse ton entretien --- */
+    /* --- STEP4 : Analyse ton entretien et partage --- */
     .download-section { margin-top: 20px; }
     .download-section-accent {
       background: linear-gradient(135deg, #182d84, #00a48a);
@@ -655,7 +574,7 @@
     }
     @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     
-    /* --- Animation pour le changement de question : effet "blitz" --- */
+    /* --- Animation pour le changement de question --- */
     .question-change {
       animation: questionBlitz 0.8s ease-out;
     }
@@ -677,7 +596,7 @@
       }
     }
     
-    /* --- Style pour les icônes sociales (section de partage) --- */
+    /* --- Icônes sociales --- */
     ul { list-style: none; padding: 0; margin: 0; }
     .example-2 {
       display: flex;
@@ -738,9 +657,6 @@
     .example-2 .icon-content a[data-social="instagram"] .filled {
       background: linear-gradient(45deg, #405de6, #5b51db, #b33ab4, #c135b4, #e1306c, #fd1f1f);
     }
-    .example-2 .icon-content a[data-social="youtube"] .filled {
-      background-color: #ff0000;
-    }
   </style>
 </head>
 <body>
@@ -754,13 +670,11 @@
       <span class="line">pour réussir</span>
       <span class="line">ton entretien</span>
     </h1>
-   
-    <!-- Nouveau bouton "Commencer" avec le design CTA -->
     <div class="wrapper">
       <a id="start-intro-btn" class="cta" href="#">
         <span>COMMENCER</span>
         <span>
-          <svg width="66px" height="43px" viewBox="0 0 66 43" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <svg width="66px" height="43px" viewBox="0 0 66 43" version="1.1" xmlns="http://www.w3.org/2000/svg">
             <g id="arrow" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
               <path class="one" d="M40.1543933,3.89485454 L43.9763149,0.139296592 C44.1708311,-0.0518420739 44.4826329,-0.0518571125 44.6771675,0.139262789 L65.6916134,20.7848311 C66.0855801,21.1718824 66.0911863,21.8050225 65.704135,22.1989893 C65.7000188,22.2031791 65.6958657,22.2073326 65.6916762,22.2114492 L44.677098,42.8607841 C44.4825957,43.0519059 44.1708242,43.0519358 43.9762853,42.8608513 L40.1545186,39.1069479 C39.9575152,38.9134427 39.9546793,38.5968729 40.1481845,38.3998695 C40.1502893,38.3977268 40.1524132,38.395603 40.1545562,38.3934985 L56.9937789,21.8567812 C57.1908028,21.6632968 57.193672,21.3467273 57.0001876,21.1497035 C56.9980647,21.1475418 56.9959223,21.1453995 56.9937605,21.1432767 L40.1545208,4.60825197 C39.9574869,4.41477773 39.9546013,4.09820839 40.1480756,3.90117456 C40.1501626,3.89904911 40.1522686,3.89694235 40.1543933,3.89485454 Z" fill="#FFFFFF"></path>
               <path class="two" d="M20.1543933,3.89485454 L23.9763149,0.139296592 C24.1708311,-0.0518420739 24.4826329,-0.0518571125 24.6771675,0.139262789 L45.6916134,20.7848311 C46.0855801,21.1718824 46.0911863,21.8050225 45.704135,22.1989893 C45.7000188,22.2031791 45.6958657,22.2073326 45.6916762,22.2114492 L24.677098,42.8607841 C24.4825957,43.0519059 24.1708242,43.0519358 23.9762853,42.8608513 L20.1545186,39.1069479 C19.9575152,38.9134427 19.9546793,38.5968729 20.1481845,38.3998695 C20.1502893,38.3977268 20.1524132,38.395603 20.1545562,38.3934985 L36.9937789,21.8567812 C37.1908028,21.6632968 37.193672,21.3467273 37.0001876,21.1497035 C36.9980647,21.1475418 36.9959223,21.1453995 36.9937605,21.1432767 L20.1545208,4.60825197 C19.9574869,4.41477773 19.9546013,4.09820839 20.1480756,3.90117456 C20.1501626,3.89904911 20.1522686,3.89694235 20.1543933,3.89485454 Z" fill="#FFFFFF"></path>
@@ -896,7 +810,6 @@
         <button class="btn-impro btn-question" data-question-count="7">7</button>
         <button class="btn-impro btn-question" data-question-count="8">8</button>
       </div>
-      <!-- Zone pour afficher le message de durée -->
       <div id="duration-info"></div>
       <div id="subject-error" class="error-message"></div>
       <button class="next-btn" id="next-btn2" aria-label="Étape suivante">
@@ -914,7 +827,6 @@
       </div>
       <div class="video-box">
         <video id="preview" autoplay muted playsinline webkit-playsinline></video>
-        <!-- Overlay d'instructions initiales, centré verticalement -->
         <div class="video-overlay" id="instruction-overlay">
           <p style="font-size:16px; text-align:center;">
             Ici va s'enregistrer ton entretien vidéo.<br>
@@ -928,7 +840,6 @@
             Aucun enregistrement n'est conservé par Letmotiv.
           </p>
         </div>
-        <!-- Overlay pour les questions, positionné en haut -->
         <div class="video-overlay" id="question-overlay"></div>
         <div class="recording-indicator" id="recording-indicator">
           <i class="fas fa-record-vinyl"></i> Enregistrement en cours
@@ -955,7 +866,7 @@
       </button>
     </div>
 
-    <!-- STEP4 : Analyse ton entretien -->
+    <!-- STEP4 : Analyse ton entretien et partage -->
     <div class="box" id="step4">
       <div class="box-header">
         <button class="back-btn" id="back-btn5" aria-label="Retour à l'étape précédente">
@@ -983,7 +894,7 @@
             Refaire une simulation <i class="fas fa-redo"></i>
           </button>
         </div>
-        <p style="margin-top: 20px; font-weight: bold;">Partage ton expérience sur tes réseaux :</p>
+        <p style="margin-top: 20px; font-weight: bold;">Partage ton expérience :</p>
         <ul class="example-2">
           <li class="icon-content">
             <a data-social="whatsapp">
@@ -1144,8 +1055,6 @@
         document.querySelectorAll('.simulation-buttons button').forEach(b => b.classList.remove('selected'));
         btn.classList.add('selected');
         document.getElementById('subject-error').style.display = 'none';
-
-        // Mise à jour du message de durée (2 minutes par question)
         const totalMinutes = selectedQuestionCount * 2;
         document.getElementById('duration-info').textContent =
           "Ton entretien durera au maximum " + totalMinutes + " minutes.";
@@ -1202,7 +1111,6 @@
       Object.values(nextBtns).forEach(btn => btn.disabled = false);
       Object.values(backBtns).forEach(btn => btn.disabled = false);
     }
-    // Attache l'événement au bouton "Démarrer ton entretien"
     function bindStartButton() {
       const startBtn = document.getElementById('start-btn');
       if(startBtn){
@@ -1248,7 +1156,6 @@
         }
       }, 1000);
     }
-    // Affichage de la question avec animation "blitz"
     function displayQuestionWithPrefix(current, total, questionText) {
       questionOverlay.classList.remove('question-change');
       questionOverlay.innerHTML = "<p style='font-size:16px; text-align:center;'>Question " + current + "/" + total + " : " + questionText + "</p>";
@@ -1429,7 +1336,7 @@
     });
     bindStartButton();
     /***********************
-     * STEP4 : Analyse et téléchargement
+     * STEP4 : Analyse, téléchargement et partage
      ***********************/
     const validateFormBtn = document.getElementById('validate-form-btn');
     const step4Extra = document.getElementById('step4-extra');
@@ -1453,33 +1360,45 @@
     resourcesBtn.addEventListener('click', () => {
       window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/entretien-candidat";
     });
-  </script>
-  
-  <!-- SCRIPT POUR LE PARTAGE DES RÉSEAUX SOCIAUX -->
-  <script>
+    /***********************
+     * PARTAGE DES RÉSEAUX SOCIAUX (STEP4)
+     ***********************/
+    // Paramètres du partage
+    const shareData = {
+      title: "Letmotiv - Simulateur d'entretien",
+      text: "Prépare-toi aux entretiens d'embauche et d'admission avec Letmotiv. Une expérience interactive pour booster ta confiance !",
+      url: window.location.href,
+      image: "https://i.postimg.cc/qvxsxJR3/Simulateur-interview.png"
+    };
     document.querySelectorAll('.example-2 .icon-content a').forEach(link => {
       link.addEventListener('click', function(e) {
         e.preventDefault();
-        const currentURL = encodeURIComponent(window.location.href);
-        const text = encodeURIComponent("Découvrez ce site : " + window.location.href);
         const social = this.getAttribute('data-social');
         let shareUrl = "";
-        if(social === "whatsapp") {
-          shareUrl = "https://api.whatsapp.com/send?text=" + text;
-        } else if(social === "discord") {
-          shareUrl = "https://discord.com/channels/@me";
-        } else if(social === "linkedin") {
-          shareUrl = "https://www.linkedin.com/sharing/share-offsite/?url=" + currentURL;
-        } else if(social === "instagram") {
+        // Construction d'un message complet pour le partage
+        const encodedText = encodeURIComponent(`${shareData.title}\n\n${shareData.text}\n\nDécouvrez-le ici: ${shareData.url}`);
+        if (social === "whatsapp") {
+          // Utilisation du schéma whatsapp:// pour ouvrir l'application
+          shareUrl = `whatsapp://send?text=${encodedText}`;
+        } else if (social === "discord") {
+          // Discord ne propose pas de schéma de partage direct; redirige vers le client Discord
+          shareUrl = `discord://-/channels/@me`;
+          alert("Le partage direct via Discord est limité. Veuillez copier le lien manuellement si nécessaire.");
+        } else if (social === "linkedin") {
+          // Partage via LinkedIn avec des paramètres pour titre, résumé et source
+          shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareData.url)}&title=${encodeURIComponent(shareData.title)}&summary=${encodeURIComponent(shareData.text)}&source=Letmotiv`;
+        } else if (social === "instagram") {
           alert("Instagram ne supporte pas le partage via URL. Veuillez copier le lien manuellement.");
-          return;
-        } else if(social === "youtube") {
-          alert("YouTube ne supporte pas le partage via URL.");
           return;
         }
         window.open(shareUrl, '_blank');
       });
     });
+  </script>
+  
+  <!-- SCRIPT POUR LE PARTAGE DES RÉSEAUX SOCIAUX -->
+  <script>
+    // (Ce script de partage est intégré dans la section précédente pour regrouper la logique de partage.)
   </script>
 </body>
 </html>
