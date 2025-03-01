@@ -243,7 +243,8 @@
     }
     .btn-impro:hover { background-color: #00a48a; }
 
-    /* --- STEP1 : Choix d’objectif --- */
+    /* --- STEP1 : Choix d’objectif ---
+         Affichage en grid pour desktop */
     .objectives-container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
@@ -530,8 +531,6 @@
       opacity: 1;
       visibility: visible;
     }
-    @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
     /* --- Messages d'erreur --- */
     .error-message {
       color: red;
@@ -595,61 +594,62 @@
     }
     .linkedin-share-btn i { font-size: 18px; }
 
-    /* --- MOBILE : boxes fixées en haut, centrées, avec largeur et hauteur adaptées --- */
+    /* --- MOBILE : affichage vertical pour les objectifs --- */
     @media (max-width: 600px) {
-      h1 .line { display: block; }
-      .box {
-        position: fixed;
-        top: 70px; /* header (60px) + 10px */
-        left: 0;
-        right: 0;
-        margin: 0 auto;
-        width: 90%;
-        max-width: 400px;
-        max-height: calc(100vh - 70px);
-        overflow-y: auto;
-      }
-      .subject-bubble {
-        width: 90%;
-        max-width: 400px;
+      .objectives-container {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 0 10px;
         margin: 10px auto;
+        box-sizing: border-box;
+      }
+      .objective-item {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        background-color: #f0f1f5;
+        border-radius: 10px;
+        padding: 14px;
+        width: 100%;
+        box-sizing: border-box;
+        text-align: left;
+        font-size: 1rem;
+        font-family: 'DM Sans', sans-serif;
+        color: #333;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+        border: none;
+      }
+      .objective-item i {
+        font-size: 1.4rem;
+        margin-right: 12px;
+        color: #444;
+      }
+      .objective-item:hover {
+        background-color: #e5e7eb;
+        transform: translateY(-1px);
+      }
+      .objective-item:active {
+        transform: translateY(0);
+        background-color: #dcdfe3;
       }
     }
-  
-    @media (max-width: 500px) {
-  .objectives-container {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 0 10px;
-    box-sizing: border-box;
-  }
-  .objective-item {
-    width: 100%;
-    text-align: center;
-    padding: 10px;
-    font-size: 0.8rem; /* Tu peux ajuster la taille */
-  }
-  .objective-item i {
-    font-size: 1.5rem; /* Ajuste la taille de l'icône */
-    display: block;
-    margin: 0 auto 5px; /* Centrer l'icône et ajouter un petit margin en bas */
-  }
-}
-    
     /* --- DESKTOP : centrer les boxes verticalement et horizontalement --- */
     @media (min-width: 601px) {
       .main-container {
         display: flex;
         justify-content: center;
         align-items: center;
-        min-height: calc(100vh - 60px); /* hauteur de l'écran moins le header */
+        min-height: calc(100vh - 60px);
       }
       .box {
         position: relative;
         margin: 0 auto;
       }
     }
+    /* --- Animation pour fadeInDown --- */
+    @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
   </style>
 </head>
 <body>
@@ -700,6 +700,8 @@
         </button>
         <div class="box-title">Quel est ton objectif ?</div>
       </div>
+      <!-- Utilisation de la même structure existante pour desktop,
+           et la media query ci-dessus transforme l'affichage en vertical sur mobile -->
       <div class="objectives-container">
         <div class="objective-item" data-category="convaincre">
           <i class="fas fa-handshake"></i>
