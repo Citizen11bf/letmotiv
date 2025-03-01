@@ -59,8 +59,7 @@
       font-family: 'DM Sans', sans-serif;
       background-color: #ffffff;
       color: #333333;
-      /* On laisse un padding-top pour ne pas cacher le contenu sous le header fixe */
-      padding-top: 60px;
+      padding-top: 60px; /* espace pour le header fixe */
       padding-bottom: 20px;
     }
 
@@ -150,7 +149,7 @@
     @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
     /* --- CONTENEUR PRINCIPAL --- */
-    /* Sur desktop, nous utilisons flex pour centrer la box active verticalement et horizontalement */
+    /* Sur desktop, centrer la box active au milieu de l'écran */
     .main-container {
       display: flex;
       justify-content: center;
@@ -172,7 +171,7 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       text-align: center;
       font-size: 14px;
-      display: none;
+      display: none; /* Masqué par défaut */
       transition: opacity 0.5s ease;
     }
     .box.active {
@@ -544,7 +543,7 @@
       color: #333;
       text-align: center;
       margin: 0 auto;
-      max-width: 90%;
+      max-width: 80%;
     }
 
     /* --- MESSAGES D'ERREUR --- */
@@ -610,7 +609,10 @@
     }
     .linkedin-share-btn i { font-size: 18px; }
 
-    /* --- MOBILE : Chaque étape occupe au moins 60vh et le contenu est centré --- */
+    /* --- MOBILE : boxes responsive ---
+         - Les boxes occupent au moins 60vh et sont centrées dans leur conteneur.
+         - Les boxes inactives restent masquées (display: none).
+    */
     @media (max-width: 600px) {
       .box {
         position: relative;
@@ -618,15 +620,32 @@
         max-width: 400px;
         margin: 20px auto;
         min-height: 60vh;
-        display: flex;
+        display: none; /* Inactives par défaut */
         flex-direction: column;
         justify-content: center;
         overflow-y: auto;
+      }
+      .box.active {
+        display: flex; /* Seules les boxes actives s'affichent en flex */
       }
       /* La bulle du STEP2 occupe toute la largeur de la box */
       .subject-bubble {
         width: 100%;
         margin: 10px 0;
+      }
+    }
+
+    /* --- DESKTOP : centrer les boxes verticalement et horizontalement --- */
+    @media (min-width: 601px) {
+      .main-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(100vh - 60px);
+      }
+      .box {
+        position: relative;
+        margin: 0 auto;
       }
     }
   </style>
@@ -728,7 +747,6 @@
       <p id="selected-objective-display" style="font-weight:bold; margin-bottom:10px;"></p>
       <button id="generate-subject-btn" class="btn-impro">Générer un sujet</button>
       <div id="subject-wrapper" class="subject-wrapper">
-        <!-- La bulle de sujet s'ajuste sur mobile grâce aux styles ci-dessus -->
         <span id="subject-display" class="subject-bubble"></span>
       </div>
       <div id="subject-error" class="error-message"></div>
@@ -1312,7 +1330,6 @@
       window.open(linkedInURL, '_blank');
     });
 
-    // Initialisation des boutons de navigation
     initNavigationButtons();
 
     function disableNavigationButtons() {
