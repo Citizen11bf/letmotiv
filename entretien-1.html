@@ -75,7 +75,6 @@
 
     /* --- HEADER --- */
     .header {
-      /* Utilisation du gradient STEP0 */
       background: linear-gradient(135deg, #2E22AC, #E34C9D);
       color: #FFFFFF;
       font-size: 16px;
@@ -421,9 +420,7 @@
       transition: background-color 0.3s;
     }
 
-    /* --- Bouton question (STEP2) ---
-         On garde ici uniquement l'animation de la couleur verte via ::after.
-         On annule le hover hérité de .btn-impro en réassignant la même couleur de fond. */
+    /* --- Bouton question (STEP2) --- */
     .btn-question {
       display: flex;
       align-items: center;
@@ -441,6 +438,7 @@
       overflow: hidden;
       transition: 0.2s transform ease-in-out;
     }
+    /* Effet de slide vert venant de la gauche */
     .btn-question::after {
       content: '';
       position: absolute;
@@ -455,14 +453,15 @@
       transition: 0.2s transform ease-out;
       z-index: -1;
     }
+    /* Au hover pour les boutons non sélectionnés */
     .btn-question:not(.selected):hover::after {
       transform: translate(0, 0);
     }
-    .btn-question.selected {
-      background-color: #00a48a;
-      border-color: transparent;
-      color: #fff;
+    /* Pour que l'effet reste lorsque le bouton est sélectionné */
+    .btn-question.selected::after {
+      transform: translate(0, 0);
     }
+    /* Annulation du hover hérité de .btn-impro sur les boutons .btn-question */
     .btn-impro.btn-question:hover {
       background-color: #2E22AC !important;
     }
@@ -633,7 +632,8 @@
       display: none;
       margin-top: 20px;
     }
-    #step4-extra button {
+    /* Boutons renommés dans STEP4 */
+    #resources-btn {
       background-color: #2E22AC;
       color: #fff;
       border: none;
@@ -644,7 +644,21 @@
       margin: 5px;
       transition: background-color 0.3s;
     }
-    #step4-extra button:hover {
+    #resources-btn:hover {
+      background-color: #E34C9D;
+    }
+    #redo-btn {
+      background-color: #2E22AC;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 5px;
+      transition: background-color 0.3s;
+    }
+    #redo-btn:hover {
       background-color: #E34C9D;
     }
     @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
@@ -950,11 +964,12 @@
           </button>
         </div>
         <div id="step4-extra">
+          <!-- Boutons renommés -->
           <button id="resources-btn">
-            Accéder aux ressources <i class="fas fa-book-open"></i> 
+            Comment réussir son entretien ? <i class="fas fa-book-open"></i> 
           </button>
           <button id="redo-btn">
-            Refaire une simulation <i class="fas fa-redo"></i>
+            Refaire un entretien <i class="fas fa-redo"></i>
           </button>
         </div>
         <p style="margin-top: 20px; font-weight: bold;">Partage ton expérience sur tes réseaux :</p>
@@ -1105,6 +1120,9 @@
         card.classList.add('flipped');
         currentCategory = card.dataset.category;
         document.getElementById('objective-error').style.display = 'none';
+        
+        // Ajout de l'animation sur le bouton "suivant" du STEP1
+        nextBtns[1].classList.add('pulse');
       });
     });
     /***********************
@@ -1119,6 +1137,9 @@
         const totalMinutes = selectedQuestionCount * 2;
         document.getElementById('duration-info').textContent =
           "Ton entretien durera au maximum " + totalMinutes + " minutes.";
+          
+        // Ajout de l'animation sur le bouton "suivant" du STEP2
+        nextBtns[2].classList.add('pulse');
       });
     });
     /***********************
@@ -1403,13 +1424,18 @@
           }).catch(err => console.error("Erreur partage :", err));
           return;
         }
-        // Sinon, gérer selon le réseau
         let shareUrl = "";
         if(social === "whatsapp") {
-          shareUrl = "whatsapp://send?text=" + encodeURIComponent(shareData.title + " - " + shareData.text + " " + shareData.url);
+          // Message personnalisé pour WhatsApp
+          shareUrl = "whatsapp://send?text=" + encodeURIComponent(shareData.title + "\n" + shareData.text + "\n" + shareData.url);
           window.location.href = shareUrl;
         } else if(social === "linkedin") {
-          shareUrl = "linkedin://shareArticle?mini=true&url=" + encodeURIComponent(shareData.url) + "&title=" + encodeURIComponent(shareData.title) + "&summary=" + encodeURIComponent(shareData.text) + "&source=Letmotiv";
+          // Utilisation du schéma deep link pour LinkedIn
+          shareUrl = "linkedin://shareArticle?mini=true&url=" 
+            + encodeURIComponent(shareData.url) 
+            + "&title=" + encodeURIComponent(shareData.title) 
+            + "&summary=" + encodeURIComponent(shareData.text) 
+            + "&source=Letmotiv";
           window.location.href = shareUrl;
         } else if(social === "discord") {
           alert("Le partage direct vers Discord n'est pas supporté. Veuillez copier le lien : " + shareData.url);
