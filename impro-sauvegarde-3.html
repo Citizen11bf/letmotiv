@@ -76,7 +76,6 @@
       top: 0;
       left: 0;
       z-index: 10;
-      box-sizing: border-box;
     }
     .header-content {
       display: flex;
@@ -562,7 +561,6 @@
       border-radius: 8px;
       font-family: 'DM Sans', sans-serif;
       font-size: 14px;
-      box-sizing: border-box;
       transition: border-color 0.3s;
     }
     .input-group input:focus { border-color: #00a48a; outline: none; }
@@ -594,7 +592,7 @@
     }
     .linkedin-share-btn i { font-size: 18px; }
 
-    /* --- MOBILE : affichage vertical pour les objectifs --- */
+    /* --- MOBILE : affichage vertical pour les objectifs style Duolingo --- */
     @media (max-width: 600px) {
       .objectives-container {
         display: flex;
@@ -606,14 +604,13 @@
       }
       .objective-item {
         display: flex;
-        align-items: center;
-        justify-content: flex-start;
+        justify-content: space-between;
+        align-items: flex-end;  /* Pour aligner l'icône en bas */
         background-color: #f0f1f5;
         border-radius: 10px;
         padding: 14px;
         width: 100%;
         box-sizing: border-box;
-        text-align: left;
         font-size: 1rem;
         font-family: 'DM Sans', sans-serif;
         color: #333;
@@ -621,10 +618,24 @@
         transition: background-color 0.3s, transform 0.2s;
         border: none;
       }
+      /* Reordonner les éléments : le texte à gauche et l'icône à droite */
       .objective-item i {
+        order: 2;
         font-size: 1.4rem;
-        margin-right: 12px;
+        margin-left: 12px;
         color: #444;
+      }
+      .objective-item span {
+        order: 1;
+        flex: 1;
+        text-align: left;
+      }
+      /* Alternance de rotation pour l'icône */
+      .objective-item:nth-child(odd) i {
+        transform: rotate(-5deg);
+      }
+      .objective-item:nth-child(even) i {
+        transform: rotate(5deg);
       }
       .objective-item:hover {
         background-color: #e5e7eb;
@@ -634,9 +645,7 @@
         transform: translateY(0);
         background-color: #dcdfe3;
       }
-      /* Style pour le message d'explication mobile :
-         - Pas de fond
-         - Texte en italique et précédé de l'emoji 👉 */
+      /* Style pour le message d'explication mobile reste inchangé */
       .mobile-explanation {
         font-size: 0.8rem;
         color: #555;
