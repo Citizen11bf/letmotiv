@@ -634,13 +634,13 @@
         transform: translateY(0);
         background-color: #dcdfe3;
       }
-      /* Style pour le message d'explication mobile */
+      /* Style pour le message d'explication mobile :
+         - Pas de fond
+         - Texte en italique et précédé de l'emoji 👉 */
       .mobile-explanation {
         font-size: 0.8rem;
         color: #555;
-        background: #e5e7eb;
-        padding: 6px;
-        border-radius: 5px;
+        font-style: italic;
         margin: 4px 10px 8px;
         text-align: left;
       }
@@ -1059,12 +1059,12 @@
 
         // Affichage de l'explication
         if(window.innerWidth <= 600) {
-          // Sur mobile : suppression de toute explication affichée et insertion sous le bouton cliqué
+          // Sur mobile : suppression de toute explication affichée et insertion sous le bouton cliqué avec l'emoji 👉
           const existingExp = document.querySelector('.mobile-explanation');
           if(existingExp) { existingExp.remove(); }
           const exp = explanations[currentCategory] || "";
           if(exp) {
-            item.insertAdjacentHTML('afterend', `<div class="mobile-explanation">${exp}</div>`);
+            item.insertAdjacentHTML('afterend', `<div class="mobile-explanation">👉 ${exp}</div>`);
           }
         } else {
           // Sur desktop : affichage dans la boîte globale d'explication
