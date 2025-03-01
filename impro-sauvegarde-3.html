@@ -634,6 +634,16 @@
         transform: translateY(0);
         background-color: #dcdfe3;
       }
+      /* Style pour le message d'explication mobile */
+      .mobile-explanation {
+        font-size: 0.8rem;
+        color: #555;
+        background: #e5e7eb;
+        padding: 6px;
+        border-radius: 5px;
+        margin: 4px 10px 8px;
+        text-align: left;
+      }
     }
     /* --- DESKTOP : centrer les boxes verticalement et horizontalement --- */
     @media (min-width: 601px) {
@@ -700,8 +710,7 @@
         </button>
         <div class="box-title">Quel est ton objectif ?</div>
       </div>
-      <!-- Utilisation de la même structure existante pour desktop,
-           et la media query ci-dessus transforme l'affichage en vertical sur mobile -->
+      <!-- Affichage des objectifs en grid (desktop) qui sera transformé en liste sur mobile -->
       <div class="objectives-container">
         <div class="objective-item" data-category="convaincre">
           <i class="fas fa-handshake"></i>
@@ -740,6 +749,7 @@
           <span>Réussir son entretien</span>
         </div>
       </div>
+      <!-- Sur desktop, la boîte d'explication s'affiche ici -->
       <div id="explanation-box" class="explanation-box"></div>
       <div id="objective-error" class="error-message"></div>
       <button class="next-btn" id="next-btn1" aria-label="Étape suivante">
@@ -1033,6 +1043,7 @@
 
     objectivesButtons.forEach(item => {
       item.addEventListener('click', async () => {
+        // Réinitialisation des boutons
         objectivesButtons.forEach(el => {
           el.classList.remove('selected-objective');
           el.style.transform = "";
@@ -1045,9 +1056,22 @@
         item.style.transform = "scale(1.1)";
         item.style.backgroundColor = "rgba(0, 164, 138, 0.2)";
         setTimeout(() => { item.style.transform = ""; }, 300);
-        const explication = explanations[currentCategory] || "";
-        explanationBox.textContent = explication;
-        explanationBox.classList.add('show');
+
+        // Affichage de l'explication
+        if(window.innerWidth <= 600) {
+          // Sur mobile : suppression de toute explication affichée et insertion sous le bouton cliqué
+          const existingExp = document.querySelector('.mobile-explanation');
+          if(existingExp) { existingExp.remove(); }
+          const exp = explanations[currentCategory] || "";
+          if(exp) {
+            item.insertAdjacentHTML('afterend', `<div class="mobile-explanation">${exp}</div>`);
+          }
+        } else {
+          // Sur desktop : affichage dans la boîte globale d'explication
+          const exp = explanations[currentCategory] || "";
+          explanationBox.textContent = exp;
+          explanationBox.classList.add('show');
+        }
         if (subjectsCache[currentCategory] === null) {
           await loadSubjects(currentCategory);
         }
