@@ -638,10 +638,14 @@
     }
     
     /* --- Icônes sociales (partage) --- */
-    ul { list-style: none; padding: 0; margin: 0; }
-    .example-2 { display: flex; justify-content: center; align-items: center; margin-top: 20px; }
-    .example-2 .icon-content { margin: 0 10px; position: relative; }
-    .example-2 .icon-content a {
+    .share-icons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+    }
+    .share-icons .icon-content { margin: 0 10px; position: relative; }
+    .share-icons .icon-content a {
       position: relative;
       overflow: hidden;
       display: flex;
@@ -655,22 +659,44 @@
       transition: all 0.3s ease-in-out;
       text-decoration: none;
     }
-    .example-2 .icon-content a:hover {
-      box-shadow: 3px 2px 45px 0px rgb(0 0 0 / 12%);
-      color: white;
+    /* Couleurs spécifiques lors du hover */
+    .share-icons .icon-content a[data-social="whatsapp"]:hover {
+      background-color: #25D366;
     }
-    .example-2 .icon-content a svg { position: relative; z-index: 1; width: 30px; height: 30px; }
-    .example-2 .icon-content a .filled {
+    .share-icons .icon-content a[data-social="discord"]:hover {
+      background-color: #7289da;
+    }
+    .share-icons .icon-content a[data-social="linkedin"]:hover {
+      background-color: #0077B5;
+    }
+    .share-icons .icon-content a[data-social="instagram"]:hover {
+      background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+    }
+    .share-icons .icon-content a .filled {
       position: absolute;
       bottom: 0;
       left: 0;
       width: 100%;
       height: 0;
-      background-color: rgba(0,0,0,0.3);
       transition: all 0.3s ease-in-out;
       border-radius: 50%;
     }
-    .example-2 .icon-content a:hover .filled { height: 100%; }
+    .share-icons .icon-content a[data-social="whatsapp"]:hover .filled {
+      background-color: #25D366;
+      height: 100%;
+    }
+    .share-icons .icon-content a[data-social="discord"]:hover .filled {
+      background-color: #7289da;
+      height: 100%;
+    }
+    .share-icons .icon-content a[data-social="linkedin"]:hover .filled {
+      background-color: #0077B5;
+      height: 100%;
+    }
+    .share-icons .icon-content a[data-social="instagram"]:hover .filled {
+      background: radial-gradient(circle at 30% 107%, rgba(253,244,151,0.7) 0%, rgba(253,244,151,0.7) 5%, rgba(253,89,73,0.7) 45%, rgba(214,36,159,0.7) 60%, rgba(40,90,235,0.7) 90%);
+      height: 100%;
+    }
   </style>
 </head>
 <body>
@@ -909,7 +935,7 @@
           </button>
         </div>
         <p style="margin-top: 20px; font-weight: bold;">Partage ton expérience sur tes réseaux :</p>
-        <ul class="example-2">
+        <ul class="share-icons">
           <li class="icon-content">
             <a data-social="whatsapp">
               <div class="filled"></div>
@@ -1105,7 +1131,7 @@
       }
       
       startInitialCountdown() {
-        // Sur mobile, agrandir l'encart vidéo pour prendre en compte le mode selfie
+        // Sur mobile, agrandir l'encart vidéo pour mieux prendre en compte le mode selfie
         if (window.innerWidth <= 600) {
           document.querySelector('.video-box').style.height = "450px";
         }
@@ -1230,7 +1256,7 @@
       }
       
       bindShareEvents() {
-        document.querySelectorAll('.example-2 .icon-content a').forEach(link => {
+        document.querySelectorAll('.share-icons .icon-content a').forEach(link => {
           link.addEventListener('click', (e) => {
             e.preventDefault();
             const social = link.getAttribute('data-social');
