@@ -149,12 +149,7 @@
     @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
     /* --- CONTENEUR PRINCIPAL --- */
-    /* Sur desktop, centrer la box active au milieu de l'écran */
     .main-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: calc(100vh - 60px);
       position: relative;
       padding: 20px;
     }
@@ -171,16 +166,11 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       text-align: center;
       font-size: 14px;
-      display: none; /* Masqué par défaut */
+      display: none;
       transition: opacity 0.5s ease;
     }
-    .box.active {
-      display: block;
-      opacity: 1;
-    }
-    .box.hidden {
-      opacity: 0;
-    }
+    .box.active { display: block; opacity: 1; }
+    .box.hidden { opacity: 0; }
 
     /* --- ANIMATIONS VERTICALES --- */
     .slide-from-bottom { animation: fromBottom 1.5s ease forwards; }
@@ -277,10 +267,7 @@
       display: block;
       color: #444;
     }
-    .objective-item:hover {
-      border-color: #00a48a;
-      background-color: rgba(0, 164, 138, 0.1);
-    }
+    .objective-item:hover { border-color: #00a48a; background-color: rgba(0, 164, 138, 0.1); }
     .objective-item.selected-objective {
       transform: scale(1.1);
       background-color: rgba(0, 164, 138, 0.2);
@@ -338,6 +325,20 @@
     }
     
     /* --- STEP3 : Enregistrement vidéo --- */
+    .subject-bubble {
+      display: inline-block;
+      position: relative;
+      background: #fefefe;
+      border: 2px solid #ccc;
+      border-radius: 16px;
+      padding: 10px 15px;
+      font-size: 16px;
+      color: #333;
+      text-align: center;
+      margin: 0 auto;
+      max-width: 90%;
+    }
+    
     .video-box {
       margin: 10px auto;
       border: 3px solid #182d84;
@@ -531,22 +532,7 @@
     }
     @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-    /* --- Bulle pour le sujet (STEP2) --- */
-    .subject-bubble {
-      display: inline-block;
-      position: relative;
-      background: #fefefe;
-      border: 2px solid #ccc;
-      border-radius: 16px;
-      padding: 10px 15px;
-      font-size: 16px;
-      color: #333;
-      text-align: center;
-      margin: 0 auto;
-      max-width: 80%;
-    }
-
-    /* --- MESSAGES D'ERREUR --- */
+    /* --- Messages d'erreur --- */
     .error-message {
       color: red;
       margin-top: 10px;
@@ -609,29 +595,23 @@
     }
     .linkedin-share-btn i { font-size: 18px; }
 
-    /* --- MOBILE : boxes responsive ---
-         - Les boxes occupent au moins 60vh et sont centrées dans leur conteneur.
-         - Les boxes inactives restent masquées (display: none).
-    */
+    /* --- MOBILE : boxes fixées en haut, centrées, avec largeur et hauteur adaptées --- */
     @media (max-width: 600px) {
       .box {
-        position: relative;
+        position: fixed;
+        top: 70px; /* header (60px) + 10px */
+        left: 0;
+        right: 0;
+        margin: 0 auto;
         width: 90%;
         max-width: 400px;
-        margin: 20px auto;
-        min-height: 60vh;
-        display: none; /* Inactives par défaut */
-        flex-direction: column;
-        justify-content: center;
+        max-height: calc(100vh - 70px);
         overflow-y: auto;
       }
-      .box.active {
-        display: flex; /* Seules les boxes actives s'affichent en flex */
-      }
-      /* La bulle du STEP2 occupe toute la largeur de la box */
       .subject-bubble {
-        width: 100%;
-        margin: 10px 0;
+        width: 90%;
+        max-width: 400px;
+        margin: 10px auto;
       }
     }
 
@@ -641,7 +621,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        min-height: calc(100vh - 60px);
+        min-height: calc(100vh - 60px); /* hauteur de l'écran moins le header */
       }
       .box {
         position: relative;
@@ -651,6 +631,7 @@
   </style>
 </head>
 <body>
+  
   <!-- BOÎTE D'INTRODUCTION -->
   <div class="intro-box" id="intro-box">
     <h1>
@@ -662,7 +643,11 @@
   </div>
 
   <!-- FORMULAIRE CACHÉ POUR GOOGLE FORMS -->
-  <form id="hidden-google-form" action="https://docs.google.com/forms/d/e/1FAIpQLSfGAcKp0cV5AeVJCJBPbtKLKCLhbYySZf_FkiMg85WKVFUn6A/formResponse" method="POST" target="hidden_iframe" style="display:none;">
+  <form id="hidden-google-form"
+        action="https://docs.google.com/forms/d/e/1FAIpQLSfGAcKp0cV5AeVJCJBPbtKLKCLhbYySZf_FkiMg85WKVFUn6A/formResponse"
+        method="POST"
+        target="hidden_iframe"
+        style="display:none;">
     <input type="text" name="entry.1119647353" id="hidden-prenom">
     <input type="email" name="entry.638831312" id="hidden-email">
   </form>
@@ -683,6 +668,8 @@
 
   <!-- CONTAINER PRINCIPAL -->
   <div class="main-container">
+    <!-- Les étapes du simulateur -->
+
     <!-- STEP1 : Choix d'objectif -->
     <div class="box" id="step1">
       <div class="box-header">
@@ -747,7 +734,7 @@
       <p id="selected-objective-display" style="font-weight:bold; margin-bottom:10px;"></p>
       <button id="generate-subject-btn" class="btn-impro">Générer un sujet</button>
       <div id="subject-wrapper" class="subject-wrapper">
-        <span id="subject-display" class="subject-bubble"></span>
+        <span id="subject-display"></span>
       </div>
       <div id="subject-error" class="error-message"></div>
       <button class="next-btn" id="next-btn2" aria-label="Étape suivante">
