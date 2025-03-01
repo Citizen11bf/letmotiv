@@ -441,15 +441,17 @@
       transition: 0.2s transform ease-out;
       z-index: -1;
     }
+    /* Lorsque le bouton est survolé et n'est pas sélectionné */
     .btn-question:not(.selected):hover::after {
       transform: translate(0, 0);
     }
+    /* Lorsque le bouton est sélectionné, on force le dégradé à rester visible */
+    .btn-question.selected {
+      background-color: transparent;
+    }
     .btn-question.selected::after {
       transform: translate(0, 0);
-    }
-    .btn-impro.btn-question:hover {
-      background-color: #2E22AC !important;
-    }
+    }    
     #duration-info {
       margin-top: 5px;
       font-style: italic;
