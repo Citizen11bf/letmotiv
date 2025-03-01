@@ -441,17 +441,16 @@
       transition: 0.2s transform ease-out;
       z-index: -1;
     }
-    /* Lorsque le bouton est survolé et n'est pas sélectionné */
     .btn-question:not(.selected):hover::after {
       transform: translate(0, 0);
     }
-    /* Lorsque le bouton est sélectionné, on force le dégradé à rester visible */
     .btn-question.selected {
       background-color: transparent;
     }
     .btn-question.selected::after {
       transform: translate(0, 0);
-    }    
+    }
+    .btn-impro.btn-question:hover { background-color: #2E22AC !important; }
     #duration-info {
       margin-top: 5px;
       font-style: italic;
@@ -511,9 +510,7 @@
       cursor: pointer;
       transition: background-color 0.3s;
     }
-    #instruction-overlay button:hover {
-      background-color: #E34C9D;
-    }
+    #instruction-overlay button:hover { background-color: #E34C9D; }
     #question-overlay {
       position: absolute;
       top: 0;
@@ -568,18 +565,8 @@
       z-index: 6;
       border-radius: 6px;
     }
-    .initial-countdown {
-      font-size: 48px;
-      color: #ffffff;
-      font-weight: bold;
-    }
-    .impro-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 5px;
-      justify-content: space-around;
-      margin-top: 10px;
-    }
+    .initial-countdown { font-size: 48px; color: #ffffff; font-weight: bold; }
+    .impro-actions { display: flex; flex-wrap: wrap; gap: 5px; justify-content: space-around; margin-top: 10px; }
     .hidden-btn { display: none; }
 
     /* --- STEP4 : Analyse ton entretien --- */
@@ -611,14 +598,8 @@
       transition: transform 0.2s, box-shadow 0.2s;
       margin: 10px auto;
     }
-    .call-to-action button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-    }
-    #step4-extra {
-      display: none;
-      margin-top: 20px;
-    }
+    .call-to-action button:hover { transform: translateY(-3px); box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
+    #step4-extra { display: none; margin-top: 20px; }
     /* Boutons renommés dans STEP4 */
     #resources-btn {
       background-color: #2E22AC;
@@ -658,12 +639,7 @@
     
     /* --- Icônes sociales (partage) --- */
     ul { list-style: none; padding: 0; margin: 0; }
-    .example-2 {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top: 20px;
-    }
+    .example-2 { display: flex; justify-content: center; align-items: center; margin-top: 20px; }
     .example-2 .icon-content { margin: 0 10px; position: relative; }
     .example-2 .icon-content a {
       position: relative;
@@ -683,12 +659,7 @@
       box-shadow: 3px 2px 45px 0px rgb(0 0 0 / 12%);
       color: white;
     }
-    .example-2 .icon-content a svg {
-      position: relative;
-      z-index: 1;
-      width: 30px;
-      height: 30px;
-    }
+    .example-2 .icon-content a svg { position: relative; z-index: 1; width: 30px; height: 30px; }
     .example-2 .icon-content a .filled {
       position: absolute;
       bottom: 0;
@@ -699,9 +670,7 @@
       transition: all 0.3s ease-in-out;
       border-radius: 50%;
     }
-    .example-2 .icon-content a:hover .filled {
-      height: 100%;
-    }
+    .example-2 .icon-content a:hover .filled { height: 100%; }
   </style>
 </head>
 <body>
@@ -1136,6 +1105,10 @@
       }
       
       startInitialCountdown() {
+        // Sur mobile, agrandir l'encart vidéo pour prendre en compte le mode selfie
+        if (window.innerWidth <= 600) {
+          document.querySelector('.video-box').style.height = "450px";
+        }
         let count = 5;
         this.initialCountdown.textContent = count;
         this.initialCountdownOverlay.style.display = 'flex';
@@ -1182,7 +1155,10 @@
           clearInterval(this.timerInterval);
           AppState.improStarted = true;
           document.getElementById('next-btn3').classList.add('pulse');
-          if (window.innerWidth <= 600) document.querySelector('.video-box').style.height = "300px";
+          // Sur mobile, rétablir la hauteur normale après l'enregistrement
+          if (window.innerWidth <= 600) {
+            document.querySelector('.video-box').style.height = "300px";
+          }
           this.restartBtn.classList.remove('hidden-btn');
           this.nextQuestionBtn.classList.add('hidden-btn');
         };
