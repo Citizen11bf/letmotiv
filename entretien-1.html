@@ -421,7 +421,9 @@
       transition: background-color 0.3s;
     }
 
-    /* Bouton question (STEP2) */
+    /* --- Bouton question (STEP2) ---
+         On garde ici uniquement l'animation de la couleur verte via ::after.
+         On annule le hover hérité de .btn-impro en réassignant la même couleur de fond. */
     .btn-question {
       display: flex;
       align-items: center;
@@ -460,6 +462,9 @@
       background-color: #00a48a;
       border-color: transparent;
       color: #fff;
+    }
+    .btn-impro.btn-question:hover {
+      background-color: #2E22AC !important;
     }
     #duration-info {
       margin-top: 5px;
