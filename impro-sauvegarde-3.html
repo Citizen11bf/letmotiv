@@ -607,12 +607,13 @@
         box-sizing: border-box;
       }
       .objective-item {
+        position: relative;
         display: flex;
         justify-content: space-between;
         align-items: center; 
         background-color: #f0f1f5;
         border-radius: 10px;
-        padding: 14px;
+        padding: 14px 40px 14px 14px; 
         width: 100%;
         box-sizing: border-box;
         font-size: 1rem;
@@ -623,18 +624,17 @@
         border: none;
       }
       .objective-item i {
-        order: 2;
-        font-size: 1.8rem;
-        margin-left: 12px;
+        position: absolute;
+        bottom: -5px; /* Ajuster cette valeur pour que l'icône dépasse légèrement le bouton */
+        right: 10px;
+        font-size: 1.6rem;
         color: #444;
-        align-self: flex-end; 
       }
       .objective-item span {
-        order: 1;
         flex: 1;
         text-align: left;
       }
-      /* Alternance de rotation pour l'icône */
+      /* Alternance de rotation pour l'icône à droite */
       .objective-item:nth-child(odd) i {
         transform: rotate(-5deg);
       }
