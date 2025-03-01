@@ -59,12 +59,7 @@
       font-family: 'DM Sans', sans-serif;
       background-color: #ffffff;
       color: #333333;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      overflow-x: hidden;
-      padding-top: 60px;
+      padding-top: 60px; /* espace pour le header fixe */
       padding-bottom: 20px;
     }
 
@@ -81,7 +76,6 @@
       top: 0;
       left: 0;
       z-index: 10;
-      box-sizing: border-box;
     }
     .header-content {
       display: flex;
@@ -155,12 +149,7 @@
 
     /* --- CONTENEUR PRINCIPAL --- */
     .main-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex-grow: 1;
-      width: 100%;
+      position: relative;
       padding: 20px;
     }
 
@@ -169,19 +158,18 @@
       position: relative;
       width: 100%;
       max-width: 600px;
-      margin: 20px 0;
+      margin: 20px auto;
       padding: 20px;
       border-radius: 15px;
       background: linear-gradient(135deg, #ffffff, #f9f9f9);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      border: none;
       text-align: center;
       font-size: 14px;
       display: none;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: opacity 0.5s ease;
     }
-    .box.active { display: block; }
-    .box:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); }
+    .box.active { display: block; opacity: 1; }
+    .box.hidden { opacity: 0; }
 
     /* --- ANIMATIONS VERTICALES --- */
     .slide-from-bottom { animation: fromBottom 1.5s ease forwards; }
@@ -211,17 +199,14 @@
       align-items: center;
       justify-content: center;
       transition: background-color 0.3s, transform 0.3s;
-      margin: 0 auto;
-      margin-bottom: 10px;
+      margin: 0 auto 10px;
     }
     .back-btn:hover { background-color: #505050; transform: scale(1.1); }
     .back-btn:active { background-color: #303030; }
-    /* Pour la box1, le bouton caché ne doit plus occuper d'espace */
     #step1 .back-btn.hidden-visibility { display: none; }
     .box-title { font-size: 18px; font-weight: bold; color: #182d84; text-align: center; }
 
     /* --- FLECHES HAUT/BAS --- */
-    .next-btn, .back-btn { }
     .next-btn {
       width: 40px;
       height: 40px;
@@ -244,9 +229,7 @@
       100% { box-shadow: 0 0 0 0 rgba(0,164,138,0); }
     }
 
-    /* --- Bouton de style pour "Démarrer ton impro" et boutons similaires --- */
     .btn-impro {
-      pointer-events: auto;
       margin: 15px 0;
       padding: 10px 20px;
       font-size: 16px;
@@ -259,11 +242,7 @@
     }
     .btn-impro:hover { background-color: #00a48a; }
 
-    @media (max-width: 600px) {
-        h1 .line { display: block; }
-    }
-    
-    /* --- STEP1 : Choix d’objectif --- */
+    /* --- STEP1 : Choix d’objectif --- Affichage en grid sur desktop */
     .objectives-container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
@@ -345,6 +324,20 @@
     }
     
     /* --- STEP3 : Enregistrement vidéo --- */
+    .subject-bubble {
+      display: inline-block;
+      position: relative;
+      background: #fefefe;
+      border: 2px solid #ccc;
+      border-radius: 16px;
+      padding: 10px 10px;
+      font-size: 16px;
+      color: #333;
+      text-align: center;
+      margin: 0 auto;
+      max-width: 100%;
+    }
+    
     .video-box {
       margin: 10px auto;
       border: 3px solid #182d84;
@@ -389,7 +382,6 @@
     }
     .video-overlay p { margin: 10px 0; }
     .video-overlay button {
-      pointer-events: auto;
       margin: 15px 0;
       padding: 10px 20px;
       font-size: 16px;
@@ -537,24 +529,7 @@
       opacity: 1;
       visibility: visible;
     }
-    @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-    /* --- Bulle style BD pour le sujet aléatoire en STEP3 --- */
-    .subject-bubble {
-      display: inline-block;
-      position: relative;
-      background: #fefefe;
-      border: 2px solid #ccc;
-      border-radius: 16px;
-      padding: 10px 15px;
-      font-size: 16px;
-      color: #333;
-      max-width: 80%;
-      text-align: center;
-      margin: 0 auto;
-    }
-
-    /* --- Messages d'erreur en rouge --- */
+    /* --- Messages d'erreur --- */
     .error-message {
       color: red;
       margin-top: 10px;
@@ -564,7 +539,7 @@
       width: 100%;
     }
 
-    /* --- Styles pour les champs Prénom et Email --- */
+    /* --- Champs Prénom et Email --- */
     .download-fields {
       display: flex;
       justify-content: space-between;
@@ -585,12 +560,11 @@
       border-radius: 8px;
       font-family: 'DM Sans', sans-serif;
       font-size: 14px;
-      box-sizing: border-box;
       transition: border-color 0.3s;
     }
     .input-group input:focus { border-color: #00a48a; outline: none; }
 
-    /* --- Bouton de partage LinkedIn (masqué par défaut) --- */
+    /* --- Bouton de partage LinkedIn --- */
     .linkedin-share-btn {
       position: fixed;
       bottom: 15px;
@@ -616,9 +590,93 @@
       transform: scale(1.1);
     }
     .linkedin-share-btn i { font-size: 18px; }
+
+    /* --- STEP0 : titre du simulateur sur 3 lignes (demande de Pierre) */
+    @media (max-width: 600px) {
+      h1 .line { display: block; }
+    }
+    
+    /* --- STEP1 : Choix d’objectif --- Affichage avec des boutons à la verticale sur mobile */
+    @media (max-width: 600px) {
+      .objectives-container {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 0 5px;
+        margin: 10px auto;
+        box-sizing: border-box;
+      }
+      .objective-item {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center; 
+        background-color: #f0f1f5;
+        border-radius: 10px;
+        padding: 14px 20px 14px 14px; 
+        width: 100%;
+        box-sizing: border-box;
+        font-size: 1rem;
+        font-family: 'DM Sans', sans-serif;
+        color: #333;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+        border: none;
+      }
+      .objective-item i {
+        position: absolute;
+        bottom: 0px; /* Ajuster cette valeur pour que l'icône dépasse légèrement le bouton */
+        right: 10px;
+        font-size: 2.0rem;
+        color: #444;
+      }
+      .objective-item span {
+        flex: 1;
+        text-align: left;
+      }
+      /* Alternance de rotation pour l'icône à droite */
+      .objective-item:nth-child(odd) i {
+        transform: rotate(-10deg);
+      }
+      .objective-item:nth-child(even) i {
+        transform: rotate(10deg);
+      }
+      .objective-item:hover {
+        background-color: #e5e7eb;
+        transform: translateY(-1px);
+      }
+      .objective-item:active {
+        transform: translateY(0);
+        background-color: #dcdfe3;
+      }
+      /* Style pour le message d'explication de chaque objectif sur mobile */
+      .mobile-explanation {
+        font-size: 0.8rem;
+        color: #555;
+        font-style: italic;
+        margin: 4px 10px 8px;
+        text-align: left;
+      }
+    }
+    /* --- DESKTOP : centrer les boxes verticalement et horizontalement --- */
+    @media (min-width: 601px) {
+      .main-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(100vh - 60px);
+      }
+      .box {
+        position: relative;
+        margin: 0 auto;
+      }
+    }
+    /* --- Animation pour fadeInDown --- */
+    @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
   </style>
 </head>
 <body>
+  
   <!-- BOÎTE D'INTRODUCTION -->
   <div class="intro-box" id="intro-box">
     <h1>
@@ -630,7 +688,11 @@
   </div>
 
   <!-- FORMULAIRE CACHÉ POUR GOOGLE FORMS -->
-  <form id="hidden-google-form" action="https://docs.google.com/forms/d/e/1FAIpQLSfGAcKp0cV5AeVJCJBPbtKLKCLhbYySZf_FkiMg85WKVFUn6A/formResponse" method="POST" target="hidden_iframe" style="display:none;">
+  <form id="hidden-google-form"
+        action="https://docs.google.com/forms/d/e/1FAIpQLSfGAcKp0cV5AeVJCJBPbtKLKCLhbYySZf_FkiMg85WKVFUn6A/formResponse"
+        method="POST"
+        target="hidden_iframe"
+        style="display:none;">
     <input type="text" name="entry.1119647353" id="hidden-prenom">
     <input type="email" name="entry.638831312" id="hidden-email">
   </form>
@@ -661,6 +723,7 @@
         </button>
         <div class="box-title">Quel est ton objectif ?</div>
       </div>
+      <!-- Affichage des objectifs en grid (desktop) qui sera transformé en liste sur mobile -->
       <div class="objectives-container">
         <div class="objective-item" data-category="convaincre">
           <i class="fas fa-handshake"></i>
@@ -699,6 +762,7 @@
           <span>Réussir son entretien</span>
         </div>
       </div>
+      <!-- Sur desktop, la boîte d'explication s'affiche ici -->
       <div id="explanation-box" class="explanation-box"></div>
       <div id="objective-error" class="error-message"></div>
       <button class="next-btn" id="next-btn1" aria-label="Étape suivante">
@@ -813,7 +877,7 @@
     </div>
   </div>
 
-  <!-- Bouton de partage LinkedIn (masqué par défaut) -->
+  <!-- Bouton de partage LinkedIn -->
   <button class="linkedin-share-btn" id="linkedin-share-btn" aria-label="Partager sur LinkedIn">
     <i class="fab fa-linkedin-in"></i>
   </button>
@@ -821,19 +885,7 @@
   <!-- SCRIPT JavaScript -->
   <script>
     /***********************
-     * Fonctions de contrôle de la navigation pendant l'enregistrement
-     ***********************/
-    function disableNavigationButtons() {
-      Object.values(nextBtns).forEach(btn => btn.disabled = true);
-      Object.values(backBtns).forEach(btn => btn.disabled = true);
-    }
-    function enableNavigationButtons() {
-      Object.values(nextBtns).forEach(btn => btn.disabled = false);
-      Object.values(backBtns).forEach(btn => btn.disabled = false);
-    }
-
-    /***********************
-     * Gestion des étapes (4 étapes)
+     * VARIABLES ET CONSTANTES
      ***********************/
     const boxes = {
       1: document.getElementById('step1'),
@@ -859,110 +911,109 @@
     const topProgressBar = document.getElementById('top-progress-bar');
     const linkedinShareBtn = document.getElementById('linkedin-share-btn');
 
-    let currentStepGlobal = 0;
+    let currentStep = 0;
     let currentCategory = null;
     let currentObjective = "";
     let currentSubject = "";
 
+    let isImproRecordingStarted = false;
+    let mediaRecorderInstance;
+    let recordedChunks = [];
+    let videoURL = "";
+    let timerInterval;
+    let timeRemaining = 120;
+    let countdown;
+
+    /***********************
+     * FONCTIONS UTILITAIRES
+     ***********************/
     function updateProgressBar(step) {
       const progress = (step / 4) * 100;
       topProgressBar.style.width = `${progress}%`;
     }
-    updateProgressBar(0);
+
+    function displayError(elementId, message) {
+      const el = document.getElementById(elementId);
+      el.textContent = message;
+      el.style.display = 'block';
+    }
+
+    function updateShareButtonVisibility() {
+      linkedinShareBtn.style.display = currentStep === 0 ? 'none' : 'flex';
+    }
+
+    /***********************
+     * GESTION DE LA NAVIGATION ENTRE LES ÉTAPES
+     ***********************/
+    function showBox(current, next) {
+      if (!boxes[current] || !boxes[next]) return;
+      boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
+      boxes[next].classList.add('active');
+      boxes[next].classList.add(next > current ? 'slide-from-bottom' : 'slide-from-top');
+      updateProgressBar(next);
+      currentStep = next;
+      updateShareButtonVisibility();
+      if (next === 2) {
+        document.getElementById('selected-objective-display').textContent =
+          explanations[currentCategory] || currentObjective;
+      }
+      if (next === 3) {
+        document.getElementById('current-subject-display').textContent = currentSubject;
+      }
+      removePulseFromAll();
+    }
+
+    function initNavigationButtons() {
+      nextBtns[1].addEventListener('click', () => {
+        const selected = document.querySelector('.objectives-container .selected-objective');
+        if (!selected) {
+          displayError('objective-error', "Sélectionne un objectif avant de continuer.");
+          return;
+        }
+        showBox(1, 2);
+      });
+      nextBtns[2].addEventListener('click', () => {
+        if (!currentSubject) {
+          displayError('subject-error', "Tu dois générer un sujet avant de continuer.");
+          return;
+        }
+        showBox(2, 3);
+      });
+      nextBtns[3].addEventListener('click', () => {
+        const improErrorDiv = document.getElementById('impro-error');
+        improErrorDiv.style.display = 'none';
+        if (!currentSubject || !isImproRecordingStarted) {
+          displayError('impro-error', "Tu dois lancer ton improvisation avant de continuer.");
+          return;
+        }
+        showBox(3, 4);
+      });
+      backBtns[2].addEventListener('click', () => { showBox(2, 1); });
+      backBtns[3].addEventListener('click', () => { showBox(3, 2); });
+      backBtns[4].addEventListener('click', () => { showBox(4, 3); });
+    }
 
     function removePulseFromAll() {
       Object.values(nextBtns).forEach(btn => btn.classList.remove('pulse'));
     }
 
-    function updateShareButtonVisibility() {
-      if (currentStepGlobal === 0) {
-        linkedinShareBtn.style.display = 'none';
-      } else {
-        linkedinShareBtn.style.display = 'flex';
-      }
-    }
-
-    function showBox(current, next) {
-      if (!boxes[current] || !boxes[next]) return;
-      boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
-      boxes[next].classList.add('active');
-      if (next > current) {
-        boxes[next].classList.add('slide-from-bottom');
-      } else {
-        boxes[next].classList.add('slide-from-top');
-      }
-      updateProgressBar(next);
-      currentStepGlobal = next;
-      const header = document.querySelector('.header');
-      const headerHeight = header ? header.offsetHeight : 0;
-      const boxPosition = boxes[next].getBoundingClientRect().top + window.scrollY - headerHeight - 20;
-      window.scrollTo({ top: boxPosition, behavior: 'smooth' });
-      
-      if (next === 2) {
-        document.getElementById('selected-objective-display').textContent = explanations[currentCategory] || currentObjective;
-      }
-      if (next === 3) {
-        document.getElementById('current-subject-display').textContent = currentSubject;
-      }
-      
-      removePulseFromAll();
-      updateShareButtonVisibility();
-    }
-
+    /***********************
+     * INITIALISATION DE L'INTRODUCTION
+     ***********************/
     startIntroBtn.addEventListener('click', () => {
       introBox.style.animation = 'fadeOut 0.5s ease forwards';
       setTimeout(() => {
         introBox.style.display = 'none';
         boxes[1].classList.add('active', 'slide-from-bottom');
-        currentStepGlobal = 1;
+        currentStep = 1;
         updateProgressBar(1);
         removePulseFromAll();
         updateShareButtonVisibility();
       }, 500);
     });
 
-    nextBtns[1].addEventListener('click', () => {
-      const selected = document.querySelector('.objectives-container .selected-objective');
-      if (!selected) {
-        const errorDiv = document.getElementById('objective-error');
-        errorDiv.textContent = "Sélectionne un objectif avant de continuer.";
-        errorDiv.style.display = 'block';
-        return;
-      }
-      showBox(1, 2);
-    });
-
-    nextBtns[2].addEventListener('click', () => {
-      if (!currentSubject) {
-        const subjErrorDiv = document.getElementById('subject-error');
-        subjErrorDiv.textContent = "Tu dois générer un sujet avant de continuer.";
-        subjErrorDiv.style.display = 'block';
-        return;
-      }
-      showBox(2, 3);
-    });
-
-    nextBtns[3].addEventListener('click', () => {
-      const improErrorDiv = document.getElementById('impro-error');
-      improErrorDiv.style.display = 'none';
-      if (!currentSubject && !improStarted) {
-        improErrorDiv.textContent = "Tu dois d'abord générer un sujet et lancer ton impro avant de continuer.";
-        improErrorDiv.style.display = 'block';
-        return;
-      } else if (currentSubject && !improStarted) {
-        improErrorDiv.textContent = "Tu dois lancer ton improvisation avant de continuer.";
-        improErrorDiv.style.display = 'block';
-        return;
-      }
-      showBox(3, 4);
-    });
-
-    backBtns[2].addEventListener('click', () => { showBox(2, 1); });
-    backBtns[3].addEventListener('click', () => { showBox(3, 2); });
-    backBtns[4].addEventListener('click', () => { showBox(4, 3); });
-
     /***********************
-     * Gestion des objectifs et explications (STEP1)
+     * GESTION DES OBJECTIFS (STEP1)
      ***********************/
     const explanations = {
       convaincre:   "Tu as 2 minutes pour convaincre ton auditoire sur un sujet délicat",
@@ -987,6 +1038,7 @@
       diction:      "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/diction.txt",
       entretien:    "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/entretien.txt"
     };
+
     let subjectsCache = {
       convaincre: null,
       inspirer: null,
@@ -1004,12 +1056,12 @@
 
     objectivesButtons.forEach(item => {
       item.addEventListener('click', async () => {
+        // Réinitialisation des boutons
         objectivesButtons.forEach(el => {
           el.classList.remove('selected-objective');
           el.style.transform = "";
           el.style.backgroundColor = "";
         });
-
         item.classList.add('selected-objective');
         currentCategory = item.dataset.category;
         currentObjective = item.innerText;
@@ -1018,16 +1070,26 @@
         item.style.backgroundColor = "rgba(0, 164, 138, 0.2)";
         setTimeout(() => { item.style.transform = ""; }, 300);
 
-        const explication = explanations[currentCategory] || "";
-        explanationBox.textContent = explication;
-        explanationBox.classList.add('show');
-
+        // Affichage de l'explication
+        if(window.innerWidth <= 600) {
+          // Sur mobile : suppression de toute explication affichée et insertion sous le bouton cliqué avec l'emoji 👉
+          const existingExp = document.querySelector('.mobile-explanation');
+          if(existingExp) { existingExp.remove(); }
+          const exp = explanations[currentCategory] || "";
+          if(exp) {
+            item.insertAdjacentHTML('afterend', `<div class="mobile-explanation">👉 ${exp}</div>`);
+          }
+        } else {
+          // Sur desktop : affichage dans la boîte globale d'explication
+          const exp = explanations[currentCategory] || "";
+          explanationBox.textContent = exp;
+          explanationBox.classList.add('show');
+        }
         if (subjectsCache[currentCategory] === null) {
           await loadSubjects(currentCategory);
         }
         document.getElementById('objective-error').style.display = 'none';
         document.getElementById('impro-error').style.display = 'none';
-        
         removePulseFromAll();
         nextBtns[1].classList.add('pulse');
       });
@@ -1053,7 +1115,7 @@
     }
 
     /***********************
-     * Gestion du sujet d'impro (STEP2)
+     * GESTION DU SUJET D'IMPRO (STEP2)
      ***********************/
     const generateSubjectBtn = document.getElementById('generate-subject-btn');
     const subjectWrapper = document.getElementById('subject-wrapper');
@@ -1061,9 +1123,7 @@
 
     generateSubjectBtn.addEventListener('click', () => {
       if (!currentCategory) {
-        const errorDiv = document.getElementById('objective-error');
-        errorDiv.textContent = "Merci de sélectionner un objectif avant de générer un sujet.";
-        errorDiv.style.display = 'block';
+        displayError('objective-error', "Merci de sélectionner un objectif avant de générer un sujet.");
         return;
       }
       const subjects = subjectsCache[currentCategory];
@@ -1084,24 +1144,8 @@
     });
 
     /***********************
-     * Enregistrement vidéo (STEP3)
+     * ENREGISTREMENT VIDÉO (STEP3)
      ***********************/
-    let improStarted = false;
-    let mediaRecorderInstance;
-    let recordedChunks = [];
-    const preview = document.getElementById('preview');
-    const stopBtn = document.getElementById('stop-btn');
-    const restartBtn = document.getElementById('restart-btn');
-    const recordingIndicator = document.getElementById('recording-indicator');
-    const countdownElement = document.getElementById('countdown');
-    const initialCountdownOverlay = document.getElementById('initial-countdown-overlay');
-    const initialCountdown = document.getElementById('initial-countdown');
-
-    let countdown;
-    let videoURL = "";
-    let timerInterval;
-    let timeRemaining = 120;
-
     function bindStartButton() {
       const startBtn = document.getElementById('start-btn');
       if(startBtn){
@@ -1111,15 +1155,11 @@
 
     async function startImpro() {
       if (!currentSubject) {
-        const improErrorDiv = document.getElementById('impro-error');
-        improErrorDiv.textContent = "Tu dois générer un sujet avant de démarrer l'improvisation.";
-        improErrorDiv.style.display = 'block';
+        displayError('impro-error', "Tu dois générer un sujet avant de démarrer l'improvisation.");
         return;
       }
       if (typeof MediaRecorder === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
-        const improErrorDiv = document.getElementById('impro-error');
-        improErrorDiv.textContent = "Désolé, l'enregistrement vidéo n'est pas supporté par votre navigateur.";
-        improErrorDiv.style.display = 'block';
+        displayError('impro-error', "Désolé, l'enregistrement vidéo n'est pas supporté par votre navigateur.");
         return;
       }
       if (!confirm("Votre webcam va se lancer pour démarrer l'improvisation. Voulez-vous continuer ?")) {
@@ -1128,11 +1168,6 @@
       if (window.innerWidth <= 600) {
           const videoBox = document.querySelector('.video-box');
           videoBox.style.height = "450px";
-          const subjectElem = document.getElementById('current-subject-display');
-          if (subjectElem) {
-              const subjectTop = subjectElem.getBoundingClientRect().top + window.pageYOffset;
-              window.scrollTo({ top: subjectTop - 60, behavior: 'smooth' });
-          }
       }
       document.querySelector('.video-overlay').style.display = 'none';
       startInitialCountdown();
@@ -1140,15 +1175,15 @@
 
     function startInitialCountdown() {
       let count = 5;
-      initialCountdown.textContent = count;
-      initialCountdownOverlay.style.display = 'flex';
+      document.getElementById('initial-countdown').textContent = count;
+      document.getElementById('initial-countdown-overlay').style.display = 'flex';
       countdown = setInterval(() => {
         count--;
         if (count > 0) {
-          initialCountdown.textContent = count;
+          document.getElementById('initial-countdown').textContent = count;
         } else {
           clearInterval(countdown);
-          initialCountdownOverlay.style.display = 'none';
+          document.getElementById('initial-countdown-overlay').style.display = 'none';
           initiateRecording();
         }
       }, 1000);
@@ -1158,9 +1193,7 @@
       const stream = await setupCamera();
       if (!stream) return;
       if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
-        const improErrorDiv = document.getElementById('impro-error');
-        improErrorDiv.textContent = "Ton navigateur ne supporte pas l'enregistrement vidéo. Essaye avec Chrome, Edge ou Firefox.";
-        improErrorDiv.style.display = 'block';
+        displayError('impro-error', "Ton navigateur ne supporte pas l'enregistrement vidéo. Essaye avec Chrome, Edge ou Firefox.");
         return;
       }
       mediaRecorderInstance = new MediaRecorder(stream);
@@ -1178,9 +1211,9 @@
         overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Improvisation terminée. Passe à l'étape suivante !</p>";
         overlay.style.display = 'flex';
         document.getElementById('impro-error').style.display = 'none';
-        recordingIndicator.style.display = 'none';
+        document.getElementById('recording-indicator').style.display = 'none';
         clearInterval(timerInterval);
-        improStarted = true;
+        isImproRecordingStarted = true;
         removePulseFromAll();
         nextBtns[3].classList.add('pulse');
         enableNavigationButtons();
@@ -1189,10 +1222,10 @@
         }
       };
       mediaRecorderInstance.start();
-      recordingIndicator.style.display = 'flex';
-      stopBtn.classList.remove('hidden-btn');
-      stopBtn.disabled = false;
-      restartBtn.classList.add('hidden-btn');
+      document.getElementById('recording-indicator').style.display = 'flex';
+      document.getElementById('stop-btn').classList.remove('hidden-btn');
+      document.getElementById('stop-btn').disabled = false;
+      document.getElementById('restart-btn').classList.add('hidden-btn');
       disableNavigationButtons();
       startTimer();
     }
@@ -1200,18 +1233,16 @@
     async function setupCamera() {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-        preview.srcObject = stream;
+        document.getElementById('preview').srcObject = stream;
         return stream;
       } catch (error) {
-        const improErrorDiv = document.getElementById('impro-error');
         if (error.name === 'NotAllowedError') {
-          improErrorDiv.textContent = "Vous avez refusé l'accès à la webcam. Veuillez autoriser l'accès.";
+          displayError('impro-error', "Vous avez refusé l'accès à la webcam. Veuillez autoriser l'accès.");
         } else if (error.name === 'NotFoundError') {
-          improErrorDiv.textContent = "Aucune caméra/micro détectés.";
+          displayError('impro-error', "Aucune caméra/micro détectés.");
         } else {
-          improErrorDiv.textContent = "Erreur : Impossible d'accéder à la webcam.";
+          displayError('impro-error', "Erreur : Impossible d'accéder à la webcam.");
         }
-        improErrorDiv.style.display = 'block';
         console.error(error);
         return null;
       }
@@ -1229,7 +1260,7 @@
           clearInterval(timerInterval);
           if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
             mediaRecorderInstance.stop();
-            restartBtn.classList.remove('hidden-btn');
+            document.getElementById('restart-btn').classList.remove('hidden-btn');
           }
         }
       }, 1000);
@@ -1237,23 +1268,24 @@
     function updateCountdownDisplay() {
       const minutes = Math.floor(timeRemaining / 60);
       const seconds = timeRemaining % 60;
-      countdownElement.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
-      countdownElement.style.display = 'block';
+      const countdownEl = document.getElementById('countdown');
+      countdownEl.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+      countdownEl.style.display = 'block';
     }
 
-    stopBtn.addEventListener('click', () => {
+    document.getElementById('stop-btn').addEventListener('click', () => {
       if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
         mediaRecorderInstance.stop();
         clearInterval(countdown);
         clearInterval(timerInterval);
-        stopBtn.classList.add('hidden-btn');
-        stopBtn.disabled = true;
-        restartBtn.classList.remove('hidden-btn');
-        recordingIndicator.style.display = 'none';
+        document.getElementById('stop-btn').classList.add('hidden-btn');
+        document.getElementById('stop-btn').disabled = true;
+        document.getElementById('restart-btn').classList.remove('hidden-btn');
+        document.getElementById('recording-indicator').style.display = 'none';
       }
     });
-    restartBtn.addEventListener('click', () => {
-      restartBtn.classList.add('hidden-btn');
+    document.getElementById('restart-btn').addEventListener('click', () => {
+      document.getElementById('restart-btn').classList.add('hidden-btn');
       document.querySelector('.video-overlay').innerHTML = `
         <p>Ici va s'enregistrer ton improvisation vidéo. Lorsque tu es prêt, clique sur le bouton ci-dessous.</p>
         <button id="start-btn" aria-label="Démarrer l'improvisation">
@@ -1262,13 +1294,13 @@
         <p>NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
       `;
       document.querySelector('.video-overlay').style.display = 'flex';
-      improStarted = false;
+      isImproRecordingStarted = false;
       bindStartButton();
     });
     bindStartButton();
 
     /***********************
-     * Téléchargements et envoi à Google Forms (STEP4)
+     * TÉLÉCHARGEMENTS ET FORMULAIRE (STEP4)
      ***********************/
     const validateFormBtn = document.getElementById('validate-form-btn');
     const prenomInput = document.getElementById('prenom');
@@ -1326,16 +1358,18 @@
         document.body.removeChild(link);
       }
 
-      // Remplacer le bouton "Valider" par le bouton "Feedback de l'impro" au même emplacement
       const callToActionDiv = document.querySelector('.call-to-action');
-      callToActionDiv.innerHTML = '<button id="feedback-btn" aria-label="Feedback de l\'impro" style="background-color: #ffcb2d; color: #000; border-radius: 30px; padding: 12px 24px; font-weight: bold; font-size: 1rem; transition: transform 0.2s, box-shadow 0.2s; margin: 10px auto;">Feedback de l\'impro</button>';
+      callToActionDiv.innerHTML = `
+        <button id="feedback-btn" aria-label="Feedback de l'impro" style="background-color: #ffcb2d; color: #000; border-radius: 30px; padding: 12px 24px; font-weight: bold; font-size: 1rem; transition: transform 0.2s, box-shadow 0.2s; margin: 10px auto;">
+          Feedback de l'impro
+        </button>`;
       document.getElementById('feedback-btn').addEventListener('click', () => {
         window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro";
       });
     });
 
     /***********************
-     * Bouton de partage LinkedIn
+     * PARTAGE SUR LINKEDIN
      ***********************/
     document.getElementById("linkedin-share-btn").addEventListener("click", () => {
       const shareURL = encodeURIComponent(window.location.href);
@@ -1343,6 +1377,17 @@
       const linkedInURL = `https://www.linkedin.com/sharing/share-offsite/?url=${shareURL}&summary=${shareText}`;
       window.open(linkedInURL, '_blank');
     });
+
+    initNavigationButtons();
+
+    function disableNavigationButtons() {
+      Object.values(nextBtns).forEach(btn => btn.disabled = true);
+      Object.values(backBtns).forEach(btn => btn.disabled = true);
+    }
+    function enableNavigationButtons() {
+      Object.values(nextBtns).forEach(btn => btn.disabled = false);
+      Object.values(backBtns).forEach(btn => btn.disabled = false);
+    }
   </script>
 </body>
 </html>
