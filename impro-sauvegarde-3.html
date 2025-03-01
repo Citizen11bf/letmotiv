@@ -60,7 +60,7 @@
       background-color: #ffffff;
       color: #333333;
       /* On ajoute un padding-top pour que le contenu ne soit pas caché par le header fixe */
-      padding-top: 60px;
+      padding-top: 60px; /* Ajuster si ton header fait 60px de hauteur */
       padding-bottom: 20px;
     }
 
@@ -93,7 +93,7 @@
     /* --- BARRE DE PROGRESSION --- */
     .progress-container {
       position: fixed;
-      top: 60px;
+      top: 60px; /* correspond à la hauteur du header */
       left: 0;
       width: 100%;
       height: 8px;
@@ -167,17 +167,28 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       text-align: center;
       font-size: 14px;
-      display: none;
+      display: none; /* caché par défaut */
       transition: opacity 0.5s ease;
     }
-    .box.active { display: block; opacity: 1; }
-    .box.hidden { opacity: 0; }
+    .box.active {
+      display: block;
+      opacity: 1;
+    }
+    .box.hidden {
+      opacity: 0;
+    }
 
     /* --- ANIMATIONS VERTICALES POUR TRANSITION --- */
     .slide-from-bottom { animation: fromBottom 1.5s ease forwards; }
-    @keyframes fromBottom { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fromBottom {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
     .slide-from-top { animation: fromTop 1.5s ease forwards; }
-    @keyframes fromTop { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fromTop {
+      from { opacity: 0; transform: translateY(-50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
     /* --- HEADER INTERNE DES BOXES --- */
     .box-header {
@@ -224,7 +235,9 @@
       margin: 10px auto;
     }
     .next-btn:hover { background-color: #00a48a; color: #ffffff; transform: scale(1.05); }
-    .next-btn.pulse { animation: electricPulse 1.5s infinite; }
+    .next-btn.pulse {
+      animation: electricPulse 1.5s infinite;
+    }
     @keyframes electricPulse {
       0% { box-shadow: 0 0 0 0 rgba(0,164,138,0.7); }
       70% { box-shadow: 0 0 0 10px rgba(0,164,138,0); }
@@ -268,7 +281,10 @@
       display: block;
       color: #444;
     }
-    .objective-item:hover { border-color: #00a48a; background-color: rgba(0, 164, 138, 0.1); }
+    .objective-item:hover {
+      border-color: #00a48a;
+      background-color: rgba(0, 164, 138, 0.1);
+    }
     .objective-item.selected-objective {
       transform: scale(1.1);
       background-color: rgba(0, 164, 138, 0.2);
@@ -277,6 +293,7 @@
       transition: all 0.3s ease-in-out;
     }
     .objective-item.selected-objective i { color: #00a48a; }
+    /* Couleurs d'icônes spécifiques (facultatif) */
     .objective-item[data-category="convaincre"] i { color: #007BFF; }
     .objective-item[data-category="inspirer"] i { color: #FFC107; }
     .objective-item[data-category="lacher-prise"] i { color: #FF5722; }
@@ -404,7 +421,11 @@
       margin-right: 5px;
       animation: blink 1s infinite;
     }
-    @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
+    @keyframes blink {
+      0% { opacity: 1; }
+      50% { opacity: 0; }
+      100% { opacity: 1; }
+    }
     .countdown {
       position: absolute;
       bottom: 10px;
@@ -517,7 +538,10 @@
       opacity: 1;
       visibility: visible;
     }
-    @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes fadeInDown {
+      from { transform: translateY(-20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
 
     /* --- Bulle style BD pour le sujet aléatoire en STEP3 --- */
     .subject-bubble {
@@ -557,7 +581,11 @@
       align-items: flex-start;
       width: 48%;
     }
-    .input-group label { margin-bottom: 5px; font-weight: bold; color: #000; }
+    .input-group label {
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #000;
+    }
     .input-group input {
       width: 100%;
       padding: 10px;
@@ -568,7 +596,10 @@
       box-sizing: border-box;
       transition: border-color 0.3s;
     }
-    .input-group input:focus { border-color: #00a48a; outline: none; }
+    .input-group input:focus {
+      border-color: #00a48a;
+      outline: none;
+    }
 
     /* --- Bouton de partage LinkedIn (masqué par défaut) --- */
     .linkedin-share-btn {
@@ -597,18 +628,18 @@
     }
     .linkedin-share-btn i { font-size: 18px; }
 
-    /* --- SUR MOBILE : les boxes sont fixées juste sous le header et centrées horizontalement --- */
+    /* --- SUR MOBILE : fixées en haut, centrées horizontalement, avec défilement interne si besoin --- */
     @media (max-width: 600px) {
       .box {
         position: fixed;
-        top: calc(60px + 5px);
-        left: 50%;
-        transform: translateX(-50%);
-        width: 90%;
-        max-width: 600px;
-        max-height: calc(100vh - 65px);
+        top: 70px;           /* Header (60px) + 10px de marge, par exemple */
+        left: 0;
+        right: 0;
+        margin: 0 auto;      /* Centre la box horizontalement */
+        width: 90%;          /* 90% de la largeur de l'écran */
+        max-width: 400px;    /* Limite la largeur max sur mobile */
+        max-height: calc(100vh - 70px); /* Scroller en interne si besoin */
         overflow-y: auto;
-        margin: 0;
       }
     }
   </style>
@@ -625,7 +656,11 @@
   </div>
 
   <!-- FORMULAIRE CACHÉ POUR GOOGLE FORMS -->
-  <form id="hidden-google-form" action="https://docs.google.com/forms/d/e/1FAIpQLSfGAcKp0cV5AeVJCJBPbtKLKCLhbYySZf_FkiMg85WKVFUn6A/formResponse" method="POST" target="hidden_iframe" style="display:none;">
+  <form id="hidden-google-form"
+        action="https://docs.google.com/forms/d/e/1FAIpQLSfGAcKp0cV5AeVJCJBPbtKLKCLhbYySZf_FkiMg85WKVFUn6A/formResponse"
+        method="POST"
+        target="hidden_iframe"
+        style="display:none;">
     <input type="text" name="entry.1119647353" id="hidden-prenom">
     <input type="email" name="entry.638831312" id="hidden-email">
   </form>
@@ -884,8 +919,11 @@
       updateProgressBar(next);
       currentStep = next;
       updateShareButtonVisibility();
+
+      // Mise à jour du contenu selon l'étape
       if (next === 2) {
-        document.getElementById('selected-objective-display').textContent = explanations[currentCategory] || currentObjective;
+        document.getElementById('selected-objective-display').textContent =
+          explanations[currentCategory] || currentObjective;
       }
       if (next === 3) {
         document.getElementById('current-subject-display').textContent = currentSubject;
@@ -918,6 +956,7 @@
         }
         showBox(3, 4);
       });
+
       backBtns[2].addEventListener('click', () => { showBox(2, 1); });
       backBtns[3].addEventListener('click', () => { showBox(3, 2); });
       backBtns[4].addEventListener('click', () => { showBox(4, 3); });
@@ -986,12 +1025,14 @@
 
     objectivesButtons.forEach(item => {
       item.addEventListener('click', async () => {
+        // Retire la sélection précédente
         objectivesButtons.forEach(el => {
           el.classList.remove('selected-objective');
           el.style.transform = "";
           el.style.backgroundColor = "";
         });
 
+        // Ajoute la sélection sur l'item cliqué
         item.classList.add('selected-objective');
         currentCategory = item.dataset.category;
         currentObjective = item.innerText;
@@ -1004,6 +1045,7 @@
         explanationBox.textContent = explication;
         explanationBox.classList.add('show');
 
+        // Chargement asynchrone des sujets (si pas déjà en cache)
         if (subjectsCache[currentCategory] === null) {
           await loadSubjects(currentCategory);
         }
@@ -1279,7 +1321,11 @@
       }
 
       const callToActionDiv = document.querySelector('.call-to-action');
-      callToActionDiv.innerHTML = '<button id="feedback-btn" aria-label="Feedback de l\'impro" style="background-color: #ffcb2d; color: #000; border-radius: 30px; padding: 12px 24px; font-weight: bold; font-size: 1rem; transition: transform 0.2s, box-shadow 0.2s; margin: 10px auto;">Feedback de l\'impro</button>';
+      callToActionDiv.innerHTML = `
+        <button id="feedback-btn" aria-label="Feedback de l'impro"
+                style="background-color: #ffcb2d; color: #000; border-radius: 30px; padding: 12px 24px; font-weight: bold; font-size: 1rem; transition: transform 0.2s, box-shadow 0.2s; margin: 10px auto;">
+          Feedback de l'impro
+        </button>`;
       document.getElementById('feedback-btn').addEventListener('click', () => {
         window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro";
       });
@@ -1295,6 +1341,7 @@
       window.open(linkedInURL, '_blank');
     });
 
+    // Initialisation
     initNavigationButtons();
 
     function disableNavigationButtons() {
