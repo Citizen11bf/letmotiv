@@ -63,8 +63,8 @@
     body {
       margin: 0;
       font-family: 'DM Sans', sans-serif;
-      background-color: #f4f4f4;
-      color: #fff;
+      background: linear-gradient(135deg, #2E22AC, #E34C9D);
+      color: #333;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -72,9 +72,8 @@
       overflow-x: hidden;
       padding-top: 60px; /* espace pour le header fixe */
       padding-bottom: 20px;
-      background: linear-gradient(135deg, #2E22AC, #E34C9D);
     }
-    .error-message { color: #ffdddd; font-weight: bold; }
+    .error-message { color: #ff4444; font-weight: bold; }
 
     /* --- HEADER --- */
     .header {
@@ -247,9 +246,8 @@
       margin: 20px 0;
       padding: 25px;
       border-radius: 15px;
-      background: rgba(255,255,255,0.1);
-      backdrop-filter: blur(8px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      background: #fff; /* fond blanc */
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
       text-align: center;
       font-size: 15px;
       display: none;
@@ -258,7 +256,7 @@
     .box.active { display: block; }
     .box:hover {
       transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     }
     .slide-from-bottom { animation: fromBottom 1.5s ease forwards; }
     @keyframes fromBottom { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
@@ -276,8 +274,8 @@
     }
     .back-btn {
       border: none;
-      background-color: rgba(255,255,255,0.2);
-      color: #fff;
+      background-color: rgba(0,0,0,0.1);
+      color: #333;
       font-size: 16px;
       cursor: pointer;
       border-radius: 50%;
@@ -289,10 +287,10 @@
       transition: background-color 0.3s, transform 0.3s;
       margin: 0 auto 10px;
     }
-    .back-btn:hover { background-color: rgba(255,255,255,0.4); transform: scale(1.1); }
-    .back-btn:active { background-color: rgba(255,255,255,0.6); }
+    .back-btn:hover { background-color: rgba(0,0,0,0.2); transform: scale(1.1); }
+    .back-btn:active { background-color: rgba(0,0,0,0.3); }
     #step1 .back-btn.hidden-visibility { display: none; }
-    .box-title { font-size: 20px; font-weight: bold; color: #fff; text-align: center; }
+    .box-title { font-size: 20px; font-weight: bold; color: #333; text-align: center; }
 
     /* --- FLECHES HAUT/BAS --- */
     .next-btn, .back-btn { }
@@ -303,9 +301,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 2px solid #fff;
+      border: 2px solid #333;
       background-color: transparent;
-      color: #fff;
+      color: #333;
       cursor: pointer;
       transition: background-color 0.3s, color 0.3s, transform 0.3s;
       margin: 10px auto;
