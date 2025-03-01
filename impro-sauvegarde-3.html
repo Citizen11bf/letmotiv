@@ -59,8 +59,7 @@
       font-family: 'DM Sans', sans-serif;
       background-color: #ffffff;
       color: #333333;
-      /* On ajoute un padding-top pour que le contenu ne soit pas caché par le header fixe */
-      padding-top: 60px;
+      padding-top: 60px; /* espace pour le header fixe */
       padding-bottom: 20px;
     }
 
@@ -173,7 +172,7 @@
     .box.active { display: block; opacity: 1; }
     .box.hidden { opacity: 0; }
 
-    /* --- ANIMATIONS VERTICALES POUR TRANSITION --- */
+    /* --- ANIMATIONS VERTICALES --- */
     .slide-from-bottom { animation: fromBottom 1.5s ease forwards; }
     @keyframes fromBottom { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
     .slide-from-top { animation: fromTop 1.5s ease forwards; }
@@ -325,8 +324,7 @@
       display: none;
     }
     
-    /* --- STEP3 : Enregistrement vidéo de l'entretien --- */
-  
+    /* --- STEP3 : Enregistrement vidéo --- */
     .video-box {
       margin: 10px auto;
       border: 3px solid #182d84;
@@ -341,7 +339,6 @@
       overflow: hidden;
       transition: height 0.5s ease-in-out;
     }
-
     .video-box video {
       width: 100%;
       height: 100%;
@@ -354,22 +351,6 @@
       transform: scaleX(-1);
       -webkit-transform: scaleX(-1);
     }
-
-   /* --- Bulle style BD pour le sujet en STEP2 --- */
-    .subject-bubble {
-      display: inline-block;
-      position: relative;
-      background: #fefefe;
-      border: 2px solid #ccc;
-      border-radius: 16px;
-      padding: 10px 15px;
-      font-size: 16px;
-      color: #333;
-      text-align: center;
-      margin: 0 auto;
-      max-width: 100%;
-    }
-    
     .video-overlay {
       position: absolute;
       z-index: 2;
@@ -537,6 +518,21 @@
     }
     @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
+    /* --- Bulle pour le sujet (STEP2) --- */
+    .subject-bubble {
+      display: inline-block;
+      position: relative;
+      background: #fefefe;
+      border: 2px solid #ccc;
+      border-radius: 16px;
+      padding: 10px 15px;
+      font-size: 16px;
+      color: #333;
+      text-align: center;
+      margin: 0 auto;
+      max-width: 80%;
+    }
+
     /* --- Messages d'erreur --- */
     .error-message {
       color: red;
@@ -600,12 +596,11 @@
     }
     .linkedin-share-btn i { font-size: 18px; }
 
-    /* --- SUR MOBILE : Fixation des boxes et ajustement de la bulle du STEP2 --- */
-   
+    /* --- MOBILE : boxes fixées en haut, centrées, avec largeur et hauteur adaptées --- */
     @media (max-width: 600px) {
       .box {
         position: fixed;
-        top: 70px;           /* Header (60px) + 10px de marge */
+        top: 70px; /* header (60px) + 10px */
         left: 0;
         right: 0;
         margin: 0 auto;
@@ -614,18 +609,29 @@
         max-height: calc(100vh - 70px);
         overflow-y: auto;
       }
-      
       .subject-bubble {
-        width: 100%;
+        width: 90%;
         max-width: 400px;
+        margin: 10px auto; /* espace vertical en plus */
+      }
+    }
+
+    /* --- DESKTOP : centrer les boxes verticalement et horizontalement --- */
+    @media (min-width: 601px) {
+      .main-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(100vh - 60px); /* hauteur de l'écran moins le header */
+      }
+      .box {
+        position: relative;
         margin: 0 auto;
       }
     }
-    
   </style>
 </head>
 <body>
-  
   <!-- BOÎTE D'INTRODUCTION -->
   <div class="intro-box" id="intro-box">
     <h1>
@@ -1008,7 +1014,6 @@
           el.style.transform = "";
           el.style.backgroundColor = "";
         });
-
         item.classList.add('selected-objective');
         currentCategory = item.dataset.category;
         currentObjective = item.innerText;
@@ -1016,17 +1021,14 @@
         item.style.transform = "scale(1.1)";
         item.style.backgroundColor = "rgba(0, 164, 138, 0.2)";
         setTimeout(() => { item.style.transform = ""; }, 300);
-
         const explication = explanations[currentCategory] || "";
         explanationBox.textContent = explication;
         explanationBox.classList.add('show');
-
         if (subjectsCache[currentCategory] === null) {
           await loadSubjects(currentCategory);
         }
         document.getElementById('objective-error').style.display = 'none';
         document.getElementById('impro-error').style.display = 'none';
-        
         removePulseFromAll();
         nextBtns[1].classList.add('pulse');
       });
@@ -1315,7 +1317,6 @@
       window.open(linkedInURL, '_blank');
     });
 
-    // Initialisation
     initNavigationButtons();
 
     function disableNavigationButtons() {
