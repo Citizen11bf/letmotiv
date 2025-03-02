@@ -458,6 +458,14 @@
     }
     .hidden-btn { display: none; }
 
+    /* --- STEP3 : Augmentation de la largeur de l'object subject-bubble */
+    @media (max-width: 600px) {
+      .subject-bubble {
+      padding: 5px 5px;
+      max-width: 100%;
+      }
+    }
+    
     /* --- STEP4 : Analyse ta prestation & Téléchargements --- */
     .download-section { margin-top: 20px; }
     .download-section-accent {
@@ -625,7 +633,7 @@
       }
       .objective-item i {
         position: absolute;
-        bottom: 0px; /* Ajuster cette valeur pour que l'icône dépasse légèrement le bouton */
+        bottom: 0px;
         right: 10px;
         font-size: 2.0rem;
         color: #444;
