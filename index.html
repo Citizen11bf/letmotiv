@@ -204,7 +204,7 @@
     .back-btn:hover { background-color: #505050; transform: scale(1.1); }
     .back-btn:active { background-color: #303030; }
     #step1 .back-btn.hidden-visibility { display: none; }
-    .box-title { font-size: 18px; font-weight: bold; color: #182d84; text-align: center; }
+    .box-title { font-size: 16px; font-weight: bold; color: #182d84; text-align: center; }
 
     /* --- FLECHES HAUT/BAS --- */
     .next-btn {
@@ -953,8 +953,10 @@
       currentStep = next;
       updateShareButtonVisibility();
       if (next === 2) {
-        document.getElementById('selected-objective-display').textContent =
-          explanations[currentCategory] || currentObjective;
+      const step2Title = document.querySelector('#step2 .box-title');
+      step2Title.innerHTML = `Ton objectif ➪ ${currentObjective}`;
+      document.getElementById('selected-objective-display').textContent =
+      explanations[currentCategory] || currentObjective;
       }
       if (next === 3) {
         document.getElementById('current-subject-display').textContent = currentSubject;
