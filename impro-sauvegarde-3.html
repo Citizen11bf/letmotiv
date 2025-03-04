@@ -4,29 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Simulateur d'improvisation</title>
-  <meta name="description" content="Évaluer et développer sa prise de parole en public avec le simulateur d'improvisation Letmotiv. Entreprise spécialisée dans le coaching en prise de parole.">
+  <meta name="description" content="Évaluer et développer sa prise de parole en public avec le simulateur d'improvisation Letmotiv.">
 
   <!-- Icône de la page (favicon) -->
   <link rel="icon" href="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Letmotiv_favicon.webp" type="image/png">
   <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Letmotiv_favicon.webp">
   
-  <!-- Balises Open Graph pour LinkedIn -->
-  <meta property="og:title" content="Simulateur d'improvisation Letmotiv" />
-  <meta property="og:description" content="Évaluer et développer sa prise de parole en public avec le simulateur d'improvisation Letmotiv." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://letmotiv-simulateur.fr" />
-  <meta property="og:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png" />
-  <meta property="og:image:alt" content="Illustration d'une improvisation en public avec un orateur sur scène." />
-  <meta name="author" content="Simulateur d'improvisation Letmotiv" />
-  <meta property="article:published_time" content="2025-01-26" />
-
-  <!-- Balises Twitter (optionnel) -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Simulateur d'improvisation Letmotiv">
-  <meta name="twitter:description" content="Évaluer et développer sa prise de parole en public avec le simulateur d'improvisation Letmotiv.">
-  <meta name="twitter:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png">
-
-  <!-- Import de la police DM Sans et Montserrat depuis Google Fonts -->
+  <!-- Polices Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans&family=Montserrat:wght@700&display=swap" rel="stylesheet" />
@@ -34,36 +18,47 @@
   <!-- Icônes Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
-  <!-- JSON-LD pour le SEO -->
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Simulateur d'improvisation Letmotiv",
-      "url": "https://letmotiv-simulateur.fr",
-      "description": "Évaluer et développer sa prise de parole en public avec le simulateur d'improvisation Letmotiv.",
-      "publisher": {
-        "@type": "Organization",
-        "name": "Letmotiv",
-        "logo": "https://letmotiv-simulateur.fr/logo.png"
-      }
-    }
-  </script>
-  
-  <!-- Styles CSS -->
   <style>
-    /* --- GLOBAL --- */
-    * { box-sizing: border-box; }
+    /* ================== MODIFICATIONS MAJEURES ================== */
+
+    /* 7) Couleurs plus punchy : */
     body {
       margin: 0;
       font-family: 'DM Sans', sans-serif;
-      background-color: #ffffff;
-      color: #333333;
-      padding-top: 60px; /* espace pour le header fixe */
+      background-color: #f7f9fc; /* Fond légèrement coloré */
+      color: #333;
+      padding-top: 60px; 
       padding-bottom: 20px;
     }
 
-    /* --- HEADER --- */
+    /* 5) Hero banner pour la première étape (STEP1) */
+    .hero-banner {
+      width: 100%;
+      min-height: 180px;
+      background: linear-gradient(135deg, #182d84, #00a48a);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+      position: relative;
+      margin-bottom: 20px;
+    }
+    .hero-banner h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2rem;
+      margin: 10px 0 5px;
+    }
+    .hero-banner p {
+      margin: 0 10px;
+      font-size: 1rem;
+      max-width: 600px;
+    }
+
+    /* ================== HEADER FIXE ================== */
     .header {
       background-color: #182d84;
       color: #FFFFFF;
@@ -81,14 +76,16 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
       gap: 5px;
       max-width: 100%;
       overflow-wrap: break-word;
     }
-    .header-l2 { font-size: 14px; font-weight: normal; }
+    .header-l2 {
+      font-size: 14px; 
+      font-weight: normal;
+    }
 
-    /* --- BARRE DE PROGRESSION --- */
+    /* ================== BARRE DE PROGRESSION ================== */
     .progress-container {
       position: fixed;
       top: 60px;
@@ -97,6 +94,7 @@
       height: 8px;
       background-color: rgba(24, 45, 132, 0.1);
       z-index: 9;
+      position: relative; 
     }
     .progress-bar {
       width: 0%;
@@ -104,8 +102,19 @@
       background-color: #00a48a;
       transition: width 0.5s ease;
     }
+    /* 6) Afficher le texte 1/4, 2/4 etc. dans la barre */
+    .progress-step {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #fff;
+      font-weight: bold;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
 
-    /* --- BOÎTE D'INTRODUCTION --- */
+    /* ================== INTRO BOX ================== */
     .intro-box {
       position: fixed;
       top: 0; left: 0;
@@ -127,7 +136,7 @@
       animation: slideDown 1s ease forwards;
     }
     .intro-box button {
-      background-color: #ffffff;
+      background-color: #ffcb2d; /* Couleur punchy */
       color: #182d84;
       font-family: 'DM Sans', sans-serif;
       font-size: 1.2rem;
@@ -140,28 +149,28 @@
     }
     .intro-box button:hover {
       background-color: #00a48a;
-      color: #ffffff;
+      color: #fff;
       transform: scale(1.05);
     }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
     @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-    /* --- CONTENEUR PRINCIPAL --- */
+    /* ================== CONTAINER PRINCIPAL ================== */
     .main-container {
       position: relative;
       padding: 20px;
     }
 
-    /* --- BOXES (étapes) --- */
+    /* ================== BOXES (étapes) ================== */
     .box {
       position: relative;
       width: 100%;
-      max-width: 600px;
+      max-width: 700px;
       margin: 20px auto;
       padding: 20px;
       border-radius: 15px;
-      background: linear-gradient(135deg, #ffffff, #f9f9f9);
+      background: #fff;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       text-align: center;
       font-size: 14px;
@@ -171,13 +180,40 @@
     .box.active { display: block; opacity: 1; }
     .box.hidden { opacity: 0; }
 
-    /* --- ANIMATIONS VERTICALES --- */
+    /* ================== ANIMATIONS VERTICALES ================== */
     .slide-from-bottom { animation: fromBottom 1.5s ease forwards; }
-    @keyframes fromBottom { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fromBottom { 
+      from { opacity: 0; transform: translateY(50px); } 
+      to { opacity: 1; transform: translateY(0); } 
+    }
     .slide-from-top { animation: fromTop 1.5s ease forwards; }
-    @keyframes fromTop { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fromTop { 
+      from { opacity: 0; transform: translateY(-50px); } 
+      to { opacity: 1; transform: translateY(0); } 
+    }
 
-    /* --- HEADER INTERNE DES BOXES --- */
+    /* ================== BOUTONS "ÉTAPE SUIVANTE" ================== */
+    /* 8) Style identique au bouton "Commencer" */
+    .btn-next-step {
+      background-color: #ffcb2d;
+      color: #182d84;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 25px;
+      padding: 12px 30px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s, color 0.3s;
+      box-shadow: 0px 4px 6px rgba(0,0,0,0.2);
+      margin-top: 20px;
+    }
+    .btn-next-step:hover {
+      background-color: #00a48a;
+      color: #fff;
+      transform: scale(1.05);
+    }
+
+    /* ================== BOX HEADER ================== */
     .box-header {
       display: flex;
       flex-direction: column;
@@ -204,87 +240,63 @@
     .back-btn:hover { background-color: #505050; transform: scale(1.1); }
     .back-btn:active { background-color: #303030; }
     #step1 .back-btn.hidden-visibility { display: none; }
-    .box-title { font-size: 16px; font-weight: bold; color: #182d84; text-align: center; }
-
-    /* --- FLECHES HAUT/BAS --- */
-    .next-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 2px solid #182d84;
-      background-color: transparent;
-      color: #182d84;
-      cursor: pointer;
-      transition: background-color 0.3s, color 0.3s, transform 0.3s;
-      margin: 10px auto;
-    }
-    .next-btn:hover { background-color: #00a48a; color: #ffffff; transform: scale(1.05); }
-    .next-btn.pulse { animation: electricPulse 1.5s infinite; }
-    @keyframes electricPulse {
-      0% { box-shadow: 0 0 0 0 rgba(0,164,138,0.7); }
-      70% { box-shadow: 0 0 0 10px rgba(0,164,138,0); }
-      100% { box-shadow: 0 0 0 0 rgba(0,164,138,0); }
+    .box-title { 
+      font-size: 16px; 
+      font-weight: bold; 
+      color: #182d84; 
+      text-align: center; 
     }
 
-    .btn-impro {
-      margin: 15px 0;
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #182d84;
-      color: #fff;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    .btn-impro:hover { background-color: #00a48a; }
-
-    /* --- STEP1 : Choix d’objectif --- Affichage en grid sur desktop */
+    /* ================== STEP1 : CHOIX D’OBJECTIF ================== */
+    /* 1) + 2) + 3) + 4) Appliquer un style "card" + animations + icônes uniformes */
     .objectives-container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 20px; /* plus d'espace entre les cards */
       justify-items: center;
-      margin: 10px 0;
+      margin: 20px 0;
+      padding: 0 10px;
     }
     .objective-item {
+      width: 100%;
+      max-width: 120px;
+      background-color: #fff;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       text-align: center;
-      color: #444;
-      font-size: 0.9rem;
+      padding: 15px;
       cursor: pointer;
-      padding: 12px;
-      border: 1px solid transparent;
-      border-radius: 10px;
-      transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s;
     }
+    /* Icônes uniformes : même couleur de base (#777), plus grosses */
     .objective-item i {
-      font-size: 1.8rem;
-      margin-bottom: 8px;
+      font-size: 2rem;
+      color: #777;
+      margin-bottom: 10px;
+      transition: color 0.3s;
+    }
+    .objective-item span {
       display: block;
-      color: #444;
+      font-size: 0.9rem;
+      color: #333;
     }
-    .objective-item:hover { border-color: #00a48a; background-color: rgba(0, 164, 138, 0.1); }
-    .objective-item.selected-objective {
-      transform: scale(1.1);
-      background-color: rgba(0, 164, 138, 0.2);
+    /* Survol : léger agrandissement + ombre plus marquée + icône colorée */
+    .objective-item:hover {
+      transform: scale(1.03);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+      background-color: #fefefe;
+    }
+    .objective-item:hover i {
       color: #00a48a;
-      border-color: #00a48a;
-      transition: all 0.3s ease-in-out;
     }
-    .objective-item.selected-objective i { color: #00a48a; }
-    .objective-item[data-category="convaincre"] i { color: #007BFF; }
-    .objective-item[data-category="inspirer"] i { color: #FFC107; }
-    .objective-item[data-category="toast"] i { color: #E91E63; }
-    .objective-item[data-category="repartie"] i { color: #9C27B0; }
-    .objective-item[data-category="vendre"] i { color: #4CAF50; }
-    .objective-item[data-category="conflit"] i { color: #F44336; }
-    .objective-item[data-category="diction"] i { color: #00BCD4; }
-    .objective-item[data-category="entretien"] i { color: #795548; }
-    .objective-item[data-category="lacher-prise"] i { color: #FF5722; }
+    .objective-item.selected-objective {
+      border-color: #00a48a;
+      box-shadow: 0 4px 12px rgba(0,164,138,0.2);
+      transform: scale(1.05);
+    }
 
+    /* Boîte d'explication sous la grille */
     .explanation-box {
       visibility: hidden;
       opacity: 0;
@@ -309,8 +321,21 @@
       border: 2px solid #ccc;
     }
 
-    /* --- STEP2 : Génération du sujet --- */
-    
+    /* ================== STEP2 : GÉNÉRATION DU SUJET ================== */
+    .btn-impro {
+      margin: 15px 0;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #182d84;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      box-shadow: 0px 4px 6px rgba(0,0,0,0.2);
+    }
+    .btn-impro:hover { background-color: #00a48a; }
+
     /* Conteneur du sujet généré */
     #subject-wrapper {
       margin-top: 10px;
@@ -319,23 +344,23 @@
       padding: 15px;
       text-align: center;
       font-size: 16px;
-      font-weight: normal;
+      font-weight: bold;
       color: #ffffff;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
       display: none;
     }
-    
-    /* Style du bloc de conseils avant de démarrer */
+
+    /* ================== STEP2 : BLOC DE CONSEILS ================== */
     #advice-toggle {
       cursor: pointer;
-      margin-top: 20px;
-      margin-bottom: 20px;
+      margin-top: 10px;
       text-align: center;
-      font-weight: normal;
+      font-weight: bold;
       color: #182d84;
     }
     #advice-toggle i {
       margin-left: 5px;
+      transition: transform 0.3s;
     }
     #advice-text {
       display: none;
@@ -348,8 +373,8 @@
       line-height: 1.5;
       text-align: left;
     }
-    
-    /* --- STEP3 : Enregistrement vidéo de la simulation --- */
+
+    /* ================== STEP3 : ENREGISTREMENT VIDÉO ================== */
     .subject-bubble {
       display: inline-block;
       position: relative;
@@ -363,7 +388,6 @@
       margin: 0 auto;
       max-width: 90%;
     }
-    
     .video-box {
       margin: 10px auto;
       border: 3px solid #182d84;
@@ -406,7 +430,6 @@
       padding: 20px;
       background: rgba(255,255,255,0.6);
     }
-    .video-overlay p { margin: 10px 0; }
     .video-overlay button {
       margin: 15px 0;
       padding: 10px 20px;
@@ -419,6 +442,7 @@
       transition: background-color 0.3s;
     }
     .video-overlay button:hover { background-color: #00a48a; }
+
     .recording-indicator {
       position: absolute;
       top: 10px;
@@ -443,6 +467,7 @@
       animation: blink 1s infinite;
     }
     @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
+
     .countdown {
       position: absolute;
       bottom: 10px;
@@ -484,15 +509,7 @@
     }
     .hidden-btn { display: none; }
 
-    /* --- STEP3 : Augmentation de la largeur de l'object subject-bubble */
-    @media (max-width: 600px) {
-      .subject-bubble {
-        padding: 5px 5px;
-        max-width: 100%;
-      }
-    }
-    
-    /* --- STEP4 : Analyse ta prestation & Téléchargements --- */
+    /* ================== STEP4 : TÉLÉCHARGEMENTS ================== */
     .download-section { margin-top: 20px; }
     .download-section-accent {
       background: linear-gradient(135deg, #182d84, #00a48a);
@@ -501,7 +518,6 @@
       text-align: center;
       color: #fff;
       margin-bottom: 20px;
-      animation: fadeInDown 0.6s ease forwards;
     }
     .download-section-accent h2 {
       font-family: 'Montserrat', sans-serif;
@@ -546,7 +562,6 @@
       transform: translateY(0);
       display: block;
     }
-
     .success-message {
       color: #28a745;
       background-color: #d4edda;
@@ -563,7 +578,8 @@
       opacity: 1;
       visibility: visible;
     }
-    /* --- Messages d'erreur --- */
+
+    /* ================== MESSAGES D’ERREUR ================== */
     .error-message {
       color: red;
       margin-top: 10px;
@@ -573,7 +589,7 @@
       width: 100%;
     }
 
-    /* --- Champs Prénom et Email --- */
+    /* ================== CHAMPS FORMULAIRE ================== */
     .download-fields {
       display: flex;
       justify-content: space-between;
@@ -586,7 +602,11 @@
       align-items: flex-start;
       width: 48%;
     }
-    .input-group label { margin-bottom: 5px; font-weight: bold; color: #000; }
+    .input-group label {
+      margin-bottom: 5px; 
+      font-weight: bold; 
+      color: #000; 
+    }
     .input-group input {
       width: 100%;
       padding: 10px;
@@ -596,9 +616,12 @@
       font-size: 14px;
       transition: border-color 0.3s;
     }
-    .input-group input:focus { border-color: #00a48a; outline: none; }
+    .input-group input:focus { 
+      border-color: #00a48a; 
+      outline: none; 
+    }
 
-    /* --- Bouton de partage LinkedIn --- */
+    /* ================== BOUTON PARTAGE LINKEDIN ================== */
     .linkedin-share-btn {
       position: fixed;
       bottom: 15px;
@@ -623,95 +646,34 @@
       background-color: #005582;
       transform: scale(1.1);
     }
-    .linkedin-share-btn i { font-size: 18px; }
-
-    /* --- STEP0 : titre du simulateur sur 3 lignes (demande de Pierre) */
-    @media (max-width: 600px) {
-      h1 .line { display: block; }
+    .linkedin-share-btn i {
+      font-size: 18px;
     }
-    
-    /* --- STEP1 : Choix d’objectif --- Affichage avec des boutons à la verticale sur mobile */
+
+    /* ================== RESPONSIVE ================== */
     @media (max-width: 600px) {
       .objectives-container {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        padding: 0 5px;
-        margin: 10px auto;
-        box-sizing: border-box;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
       }
       .objective-item {
-        position: relative;
-        display: flex;
-        justify-content: space-between;
-        align-items: center; 
-        background-color: #f0f1f5;
-        border-radius: 10px;
-        padding: 14px 20px 14px 14px; 
-        width: 100%;
-        box-sizing: border-box;
-        font-size: 1rem;
-        font-family: 'DM Sans', sans-serif;
-        color: #333;
-        cursor: pointer;
-        transition: background-color 0.3s, transform 0.2s;
-        border: none;
+        max-width: 100%;
       }
-      .objective-item i {
-        position: absolute;
-        bottom: 0px;
-        right: 10px;
-        font-size: 2.0rem;
-        color: #444;
+      .hero-banner h2 {
+        font-size: 1.8rem;
       }
-      .objective-item span {
-        flex: 1;
-        text-align: left;
-      }
-      /* Alternance de rotation pour l'icône à droite */
-      .objective-item:nth-child(odd) i {
-        transform: rotate(-10deg);
-      }
-      .objective-item:nth-child(even) i {
-        transform: rotate(10deg);
-      }
-      .objective-item:hover {
-        background-color: #e5e7eb;
-        transform: translateY(-1px);
-      }
-      .objective-item:active {
-        transform: translateY(0);
-        background-color: #dcdfe3;
-      }
-      /* Style pour le message d'explication de chaque objectif sur mobile */
-      .mobile-explanation {
-        font-size: 0.8rem;
-        color: #555;
-        font-weight: bold;
-        margin: 4px 10px 8px;
-        text-align: left;
+      .hero-banner p {
+        font-size: 0.9rem;
       }
     }
-    /* --- DESKTOP : centrer les boxes verticalement et horizontalement --- */
-    @media (min-width: 601px) {
-      .main-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: calc(100vh - 60px);
-      }
-      .box {
-        position: relative;
-        margin: 0 auto;
-      }
+    @keyframes fadeInDown {
+      from { transform: translateY(-20px); opacity: 0; } 
+      to { transform: translateY(0); opacity: 1; }
     }
-    /* --- Animation pour fadeInDown --- */
-    @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
   </style>
 </head>
 <body>
-  
-  <!-- BOÎTE D'INTRODUCTION -->
+  <!-- INTRO BOX -->
   <div class="intro-box" id="intro-box">
     <h1>
       <span class="line">Entraîne-toi</span>
@@ -732,7 +694,7 @@
   </form>
   <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
 
-  <!-- HEADER -->
+  <!-- HEADER FIXE -->
   <div class="header">
     <div class="header-content">
       <div class="header-l1">Coaching en prise de parole</div>
@@ -743,21 +705,26 @@
   <!-- BARRE DE PROGRESSION -->
   <div class="progress-container">
     <div class="progress-bar" id="top-progress-bar"></div>
+    <!-- 6) Texte 1/4, 2/4... au milieu de la barre -->
+    <div class="progress-step" id="progress-step">1/4</div>
   </div>
 
   <!-- CONTAINER PRINCIPAL -->
   <div class="main-container">
-    <!-- Les étapes du simulateur -->
-
     <!-- STEP1 : Choix d'objectif -->
     <div class="box" id="step1">
+      <!-- 5) Hero banner au sein de la box (ou avant la box) -->
+      <div class="hero-banner">
+        <h2>Quel est ton objectif ?</h2>
+        <p>Choisis l'objectif qui correspond le mieux à tes besoins en prise de parole.</p>
+      </div>
+
       <div class="box-header">
         <button class="back-btn hidden-visibility" id="back-btn1" aria-label="Retour">
           <i class="fas fa-arrow-up"></i>
         </button>
-        <div class="box-title">Quel est ton objectif ?</div>
       </div>
-      <!-- Affichage des objectifs en grid (desktop) qui sera transformé en liste sur mobile -->
+
       <div class="objectives-container">
         <div class="objective-item" data-category="convaincre">
           <i class="fas fa-handshake"></i>
@@ -796,11 +763,13 @@
           <span>Réussir son entretien</span>
         </div>
       </div>
-      <!-- Sur desktop, la boîte d'explication s'affiche ici -->
+
       <div id="explanation-box" class="explanation-box"></div>
       <div id="objective-error" class="error-message"></div>
-      <button class="next-btn" id="next-btn1" aria-label="Étape suivante">
-        <i class="fas fa-arrow-down"></i>
+
+      <!-- 8) Bouton Étape suivante -->
+      <button class="btn-next-step" id="next-btn1" aria-label="Étape suivante">
+        Étape suivante
       </button>
     </div>
 
@@ -813,26 +782,30 @@
         <div class="box-title">Ton objectif</div>
       </div>
       <p id="selected-objective-display"></p>
-      <button id="generate-subject-btn" class="btn-impro">Générer un sujet</button>
-      <!-- Conteneur du sujet généré (design punchy) -->
+      <button id="generate-subject-btn" class="btn-impro">
+        <i class="fas fa-random"></i> Générer un sujet
+      </button>
       <div id="subject-wrapper">
         <span id="subject-display"></span>
       </div>
-      <!-- Nouveau bloc de conseils interactif -->
       <div id="advice-toggle">
-        Quelques conseils avant de démarrer ta simulation <i id="advice-icon" class="fas fa-chevron-down"></i>
+        Quelques conseils avant de démarrer ta simulation 
+        <i id="advice-icon" class="fas fa-chevron-down"></i>
       </div>
       <div id="advice-text">
-        1) Positionne tes yeux face à la caméra. <br>
-        2) Choisis un fond neutre et dégagé afin d'éviter toute distraction.<br>
-        3) Assure-toi que l'éclairage met en valeur ton visage.<br>
-        4) Vérifie que le son et la vidéo fonctionne sur ton appareil.<br>
-        5) Adopte une posture naturelle et confiante.<br>
-        6) Respire profondément et détends-toi avant de commencer.
+        Voici quelques conseils pour bien démarrer ta simulation :<br>
+        - Positionne tes yeux de façon à regarder directement l'appareil pour établir un contact visuel fort.<br>
+        - Choisis un fond neutre et dégagé afin d'éviter toute distraction.<br>
+        - Assure-toi que l'éclairage met en valeur ton visage.<br>
+        - Vérifie que le son et la qualité vidéo sont optimaux.<br>
+        - Adopte une posture naturelle et confiante.<br>
+        - Respire profondément et détends-toi avant de commencer.
       </div>
       <div id="subject-error" class="error-message"></div>
-      <button class="next-btn" id="next-btn2" aria-label="Étape suivante">
-        <i class="fas fa-arrow-down"></i>
+
+      <!-- Bouton Étape suivante -->
+      <button class="btn-next-step" id="next-btn2" aria-label="Étape suivante">
+        Étape suivante
       </button>
     </div>
 
@@ -871,8 +844,10 @@
         </button>
       </div>
       <div id="impro-error" class="error-message"></div>
-      <button class="next-btn" id="next-btn3" aria-label="Étape suivante">
-        <i class="fas fa-arrow-down"></i>
+
+      <!-- Bouton Étape suivante -->
+      <button class="btn-next-step" id="next-btn3" aria-label="Étape suivante">
+        Étape suivante
       </button>
     </div>
 
@@ -929,11 +904,11 @@
     <i class="fab fa-linkedin-in"></i>
   </button>
 
-  <!-- SCRIPT JavaScript -->
+  <!-- SCRIPT -->
   <script>
-    /***********************
+    /******************************
      * VARIABLES ET CONSTANTES
-     ***********************/
+     ******************************/
     const boxes = {
       1: document.getElementById('step1'),
       2: document.getElementById('step2'),
@@ -956,6 +931,7 @@
     const introBox = document.getElementById('intro-box');
     const startIntroBtn = document.getElementById('start-intro-btn');
     const topProgressBar = document.getElementById('top-progress-bar');
+    const progressStepText = document.getElementById('progress-step'); // texte 1/4
     const linkedinShareBtn = document.getElementById('linkedin-share-btn');
 
     let currentStep = 0;
@@ -971,12 +947,13 @@
     let timeRemaining = 120;
     let countdown;
 
-    /***********************
+    /******************************
      * FONCTIONS UTILITAIRES
-     ***********************/
+     ******************************/
     function updateProgressBar(step) {
       const progress = (step / 4) * 100;
       topProgressBar.style.width = `${progress}%`;
+      progressStepText.textContent = `${step}/4`; // (6) Mettre à jour le texte "1/4, 2/4, etc."
     }
 
     function displayError(elementId, message) {
@@ -989,9 +966,9 @@
       linkedinShareBtn.style.display = currentStep === 0 ? 'none' : 'flex';
     }
 
-    /***********************
-     * GESTION DE LA NAVIGATION ENTRE LES ÉTAPES
-     ***********************/
+    /******************************
+     * NAVIGATION ENTRE LES ÉTAPES
+     ******************************/
     function showBox(current, next) {
       if (!boxes[current] || !boxes[next]) return;
       boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
@@ -1046,9 +1023,9 @@
       Object.values(nextBtns).forEach(btn => btn.classList.remove('pulse'));
     }
 
-    /***********************
-     * INITIALISATION DE L'INTRODUCTION
-     ***********************/
+    /******************************
+     * INTRODUCTION
+     ******************************/
     startIntroBtn.addEventListener('click', () => {
       introBox.style.animation = 'fadeOut 0.5s ease forwards';
       setTimeout(() => {
@@ -1061,9 +1038,9 @@
       }, 500);
     });
 
-    /***********************
-     * GESTION DES OBJECTIFS (STEP1)
-     ***********************/
+    /******************************
+     * STEP1 : OBJECTIFS
+     ******************************/
     const explanations = {
       convaincre:   "Tu as 2 minutes pour convaincre ton auditoire sur un sujet délicat",
       inspirer:     "Tu as 2 minutes pour inspirer ton auditoire",
@@ -1105,21 +1082,15 @@
 
     objectivesButtons.forEach(item => {
       item.addEventListener('click', async () => {
-        // Réinitialisation des boutons
         objectivesButtons.forEach(el => {
           el.classList.remove('selected-objective');
           el.style.transform = "";
-          el.style.backgroundColor = "";
         });
         item.classList.add('selected-objective');
         currentCategory = item.dataset.category;
         currentObjective = item.innerText;
-        item.style.transition = "transform 0.3s, background-color 0.3s";
-        item.style.transform = "scale(1.1)";
-        item.style.backgroundColor = "rgba(0, 164, 138, 0.2)";
-        setTimeout(() => { item.style.transform = ""; }, 300);
 
-        // Sur mobile : affichage de l'explication en-dessous de chaque objectif
+        // Sur mobile : explication en-dessous de chaque objectif
         if(window.innerWidth <= 600) {
           const existingExp = document.querySelector('.mobile-explanation');
           if(existingExp) { existingExp.remove(); }
@@ -1128,11 +1099,12 @@
             item.insertAdjacentHTML('afterend', `<div class="mobile-explanation">${exp}</div>`);
           }
         } else {
-          // Sur desktop : affichage de l'explication dans la boîte globale en-dessous des objectifs
+          // Sur desktop : explication dans la boîte globale
           const exp = explanations[currentCategory] || "";
           explanationBox.textContent = exp;
           explanationBox.classList.add('show');
         }
+
         if (subjectsCache[currentCategory] === null) {
           await loadSubjects(currentCategory);
         }
@@ -1162,9 +1134,9 @@
       }
     }
 
-    /***********************
-     * GESTION DU SUJET D'IMPRO (STEP2)
-     ***********************/
+    /******************************
+     * STEP2 : GÉNÉRATION DU SUJET
+     ******************************/
     const generateSubjectBtn = document.getElementById('generate-subject-btn');
     const subjectWrapper = document.getElementById('subject-wrapper');
     const subjectDisplay = document.getElementById('subject-display');
@@ -1185,15 +1157,12 @@
       currentSubject = subjects[randomIndex];
       subjectDisplay.textContent = currentSubject;
       subjectWrapper.style.display = 'block';
-      generateSubjectBtn.classList.add('subject-generated');
       document.getElementById('subject-error').style.display = 'none';
       removePulseFromAll();
       nextBtns[2].classList.add('pulse');
     });
 
-    /***********************
-     * Gestion du bloc de conseils (nouveau)
-     ***********************/
+    /* BLOC DE CONSEILS : flèche bas / haut */
     document.getElementById('advice-toggle').addEventListener('click', () => {
       const adviceText = document.getElementById('advice-text');
       const adviceIcon = document.getElementById('advice-icon');
@@ -1208,9 +1177,9 @@
       }
     });
 
-    /***********************
-     * ENREGISTREMENT VIDÉO (STEP3)
-     ***********************/
+    /******************************
+     * STEP3 : ENREGISTREMENT VIDÉO
+     ******************************/
     function bindStartButton() {
       const startBtn = document.getElementById('start-btn');
       if(startBtn){
@@ -1364,9 +1333,9 @@
     });
     bindStartButton();
 
-    /***********************
-     * TÉLÉCHARGEMENTS ET FORMULAIRE (STEP4)
-     ***********************/
+    /******************************
+     * STEP4 : TÉLÉCHARGEMENTS
+     ******************************/
     const validateFormBtn = document.getElementById('validate-form-btn');
     const prenomInput = document.getElementById('prenom');
     const emailInput = document.getElementById('email');
@@ -1433,9 +1402,9 @@
       });
     });
 
-    /***********************
-     * PARTAGE SUR LINKEDIN
-     ***********************/
+    /******************************
+     * PARTAGE LINKEDIN
+     ******************************/
     document.getElementById("linkedin-share-btn").addEventListener("click", () => {
       const shareURL = encodeURIComponent(window.location.href);
       const shareText = encodeURIComponent("Je m'entraîne à la prise de parole en public avec le simulateur Letmotiv !");
