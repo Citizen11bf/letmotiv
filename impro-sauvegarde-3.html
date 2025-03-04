@@ -311,7 +311,7 @@
 
     /* --- STEP2 : Génération du sujet --- */
     
-    /* Nouveau design plus punchy pour le conteneur du sujet généré */
+    /* Conteneur du sujet généré */
     #subject-wrapper {
       margin-top: 10px;
       background: linear-gradient(135deg, #00a48a, #182d84);
@@ -325,12 +325,13 @@
       display: none;
     }
     
-    /* Style du bloc de conseils */
+    /* Style du bloc de conseils avant de démarrer */
     #advice-toggle {
       cursor: pointer;
-      margin-top: 10px;
+      margin-top: 20px;
+      margin-bottom: 20px;
       text-align: center;
-      font-weight: bold;
+      font-weight: normal;
       color: #182d84;
     }
     #advice-toggle i {
@@ -348,7 +349,7 @@
       text-align: left;
     }
     
-    /* --- STEP3 : Enregistrement vidéo --- */
+    /* --- STEP3 : Enregistrement vidéo de la simulation --- */
     .subject-bubble {
       display: inline-block;
       position: relative;
@@ -822,13 +823,12 @@
         Quelques conseils avant de démarrer ta simulation <i id="advice-icon" class="fas fa-chevron-down"></i>
       </div>
       <div id="advice-text">
-        Voici quelques conseils pour bien démarrer ta simulation :<br>
-        - Positionne tes yeux de façon à regarder directement l'appareil pour établir un contact visuel fort.<br>
-        - Choisis un fond neutre et dégagé afin d'éviter toute distraction.<br>
-        - Assure-toi que l'éclairage met en valeur ton visage.<br>
-        - Vérifie que le son et la qualité vidéo sont optimaux.<br>
-        - Adopte une posture naturelle et confiante.<br>
-        - Respire profondément et détends-toi avant de commencer.
+        1) Positionne tes yeux de façon à regarder directement l'appareil pour établir un contact visuel fort.<br>
+        2) Choisis un fond neutre et dégagé afin d'éviter toute distraction.<br>
+        3) Assure-toi que l'éclairage met en valeur ton visage.<br>
+        4) Vérifie que le son et la vidéo fonctionne sur ton appareil.<br>
+        5) Adopte une posture naturelle et confiante.<br>
+        6) Respire profondément et détends-toi avant de commencer.
       </div>
       <div id="subject-error" class="error-message"></div>
       <button class="next-btn" id="next-btn2" aria-label="Étape suivante">
