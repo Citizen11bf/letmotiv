@@ -311,26 +311,45 @@
 
     /* --- STEP2 : Génération du sujet --- */
     
-    #selected-objective-display {
-      font-weight: normal;
-      m argin-bottom: 5px;
-    }
-
-    .subject-wrapper {
+    /* Conteneur du sujet généré */
+    #subject-wrapper {
       margin-top: 10px;
-      background-color: #fefefe;
-      border: 2px solid #ccc;
+      background: linear-gradient(135deg, #00a48a, #182d84);
       border-radius: 8px;
-      padding: 10px;
+      padding: 15px;
       text-align: center;
-      font-size: 14px;
-      font-style: italic;
-      font-weight: bold;
-      color: #333;
+      font-size: 16px;
+      font-weight: normal;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
       display: none;
     }
     
-    /* --- STEP3 : Enregistrement vidéo --- */
+    /* Style du bloc de conseils avant de démarrer */
+    #advice-toggle {
+      cursor: pointer;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      text-align: center;
+      font-weight: normal;
+      color: #182d84;
+    }
+    #advice-toggle i {
+      margin-left: 5px;
+    }
+    #advice-text {
+      display: none;
+      margin-top: 10px;
+      padding: 10px;
+      background-color: #fefefe;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+      line-height: 1.5;
+      text-align: left;
+    }
+    
+    /* --- STEP3 : Enregistrement vidéo de la simulation --- */
     .subject-bubble {
       display: inline-block;
       position: relative;
@@ -468,8 +487,8 @@
     /* --- STEP3 : Augmentation de la largeur de l'object subject-bubble */
     @media (max-width: 600px) {
       .subject-bubble {
-      padding: 5px 5px;
-      max-width: 100%;
+        padding: 5px 5px;
+        max-width: 100%;
       }
     }
     
@@ -793,10 +812,23 @@
         </button>
         <div class="box-title">Ton objectif</div>
       </div>
-      <p id="selected-objective-display" ></p>
+      <p id="selected-objective-display"></p>
       <button id="generate-subject-btn" class="btn-impro">Générer un sujet</button>
-      <div id="subject-wrapper" class="subject-wrapper">
+      <!-- Conteneur du sujet généré (design punchy) -->
+      <div id="subject-wrapper">
         <span id="subject-display"></span>
+      </div>
+      <!-- Nouveau bloc de conseils interactif -->
+      <div id="advice-toggle">
+        Quelques conseils avant de démarrer ta simulation <i id="advice-icon" class="fas fa-chevron-down"></i>
+      </div>
+      <div id="advice-text">
+        1) Positionne tes yeux face à la caméra. <br>
+        2) Choisis un fond neutre et dégagé afin d'éviter toute distraction.<br>
+        3) Assure-toi que l'éclairage met en valeur ton visage.<br>
+        4) Vérifie que le son et la vidéo fonctionne sur ton appareil.<br>
+        5) Adopte une posture naturelle et confiante.<br>
+        6) Respire profondément et détends-toi avant de commencer.
       </div>
       <div id="subject-error" class="error-message"></div>
       <button class="next-btn" id="next-btn2" aria-label="Étape suivante">
@@ -969,10 +1001,10 @@
       currentStep = next;
       updateShareButtonVisibility();
       if (next === 2) {
-      const step2Title = document.querySelector('#step2 .box-title');
-      step2Title.innerHTML = `Ton objectif ➪ ${currentObjective}`;
-      document.getElementById('selected-objective-display').textContent =
-      explanations[currentCategory] || currentObjective;
+        const step2Title = document.querySelector('#step2 .box-title');
+        step2Title.innerHTML = `Ton objectif ➪ ${currentObjective}`;
+        document.getElementById('selected-objective-display').textContent =
+          explanations[currentCategory] || currentObjective;
       }
       if (next === 3) {
         document.getElementById('current-subject-display').textContent = currentSubject;
@@ -1157,6 +1189,23 @@
       document.getElementById('subject-error').style.display = 'none';
       removePulseFromAll();
       nextBtns[2].classList.add('pulse');
+    });
+
+    /***********************
+     * Gestion du bloc de conseils (nouveau)
+     ***********************/
+    document.getElementById('advice-toggle').addEventListener('click', () => {
+      const adviceText = document.getElementById('advice-text');
+      const adviceIcon = document.getElementById('advice-icon');
+      if (adviceText.style.display === 'none' || adviceText.style.display === '') {
+        adviceText.style.display = 'block';
+        adviceIcon.classList.remove('fa-chevron-down');
+        adviceIcon.classList.add('fa-chevron-up');
+      } else {
+        adviceText.style.display = 'none';
+        adviceIcon.classList.remove('fa-chevron-up');
+        adviceIcon.classList.add('fa-chevron-down');
+      }
     });
 
     /***********************
