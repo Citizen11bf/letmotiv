@@ -1002,7 +1002,7 @@
       updateShareButtonVisibility();
       if (next === 2) {
         const step2Title = document.querySelector('#step2 .box-title');
-        step2Title.innerHTML = `Ton objectif ➪ ${currentObjective}`;
+        step2Title.innerHTML = `Ton objectif : ${currentObjective.toLowerCase()}`;
         document.getElementById('selected-objective-display').textContent =
           explanations[currentCategory] || currentObjective;
       }
