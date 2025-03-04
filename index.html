@@ -1202,10 +1202,12 @@
         adviceText.style.display = 'block';
         adviceIcon.classList.remove('fa-chevron-down');
         adviceIcon.classList.add('fa-chevron-up');
+        adviceIcon.style.transform = 'rotate(0deg)';
       } else {
         adviceText.style.display = 'none';
         adviceIcon.classList.remove('fa-chevron-up');
         adviceIcon.classList.add('fa-chevron-down');
+        adviceIcon.style.transform = 'rotate(0deg)';
       }
     });
 
