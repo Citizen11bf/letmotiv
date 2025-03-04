@@ -204,73 +204,148 @@
     .back-btn:hover { background-color: #505050; transform: scale(1.1); }
     .back-btn:active { background-color: #303030; }
     #step1 .back-btn.hidden-visibility { display: none; }
-    .box-title { font-size: 18px; font-weight: bold; color: #182d84; text-align: center; }
+    .box-title { font-size: 16px; font-weight: bold; color: #182d84; text-align: center; }
 
-    /* --- Bouton "Suivant" style Duolingo --- */
-    .cta {
+    /* --- FLECHES HAUT/BAS --- */
+    .next-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 11px 33px;
-      text-decoration: none;
-      font-size: 25px;
-      color: white;
-      background: #6225e6;
-      transition: 1s;
-      box-shadow: 6px 6px 0 black;
-      transform: skewX(-15deg);
-      border: none;
+      border: 2px solid #182d84;
+      background-color: transparent;
+      color: #182d84;
       cursor: pointer;
-      margin-top: 20px;
+      transition: background-color 0.3s, color 0.3s, transform 0.3s;
+      margin: 10px auto;
     }
-    .cta:focus { outline: none; }
-    .cta:hover {
-      transition: 0.5s;
-      box-shadow: 10px 10px 0 #fbc638;
-    }
-    .cta .span {
-      transform: skewX(15deg);
-    }
-    .cta .second {
-      transition: 0.5s;
-      margin-right: 0;
-    }
-    .cta:hover .second { transition: 0.5s; margin-right: 45px; }
-    .second {
-      width: 20px;
-      margin-left: 30px;
-      position: relative;
-      top: 12%;
-    }
-    .one { transition: 0.4s; transform: translateX(-60%); }
-    .two { transition: 0.5s; transform: translateX(-30%); }
-    .cta:hover .three { animation: color_anim 1s infinite 0.2s; }
-    .cta:hover .one {
-      transform: translateX(0%);
-      animation: color_anim 1s infinite 0.6s;
-    }
-    .cta:hover .two {
-      transform: translateX(0%);
-      animation: color_anim 1s infinite 0.4s;
-    }
-    @keyframes color_anim {
-      0% { fill: white; }
-      50% { fill: #fbc638; }
-      100% { fill: white; }
+    .next-btn:hover { background-color: #00a48a; color: #ffffff; transform: scale(1.05); }
+    .next-btn.pulse { animation: electricPulse 1.5s infinite; }
+    @keyframes electricPulse {
+      0% { box-shadow: 0 0 0 0 rgba(0,164,138,0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(0,164,138,0); }
+      100% { box-shadow: 0 0 0 0 rgba(0,164,138,0); }
     }
 
-    /* --- STEP2 : Génération du sujet --- */
-    .subject-wrapper {
-      margin-top: 10px;
+    .btn-impro {
+      margin: 15px 0;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #182d84;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .btn-impro:hover { background-color: #00a48a; }
+
+    /* --- STEP1 : Choix d’objectif --- Affichage en grid sur desktop */
+    .objectives-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 10px;
+      justify-items: center;
+      margin: 10px 0;
+    }
+    .objective-item {
+      text-align: center;
+      color: #444;
+      font-size: 0.9rem;
+      cursor: pointer;
+      padding: 12px;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+    }
+    .objective-item i {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+      display: block;
+      color: #444;
+    }
+    .objective-item:hover { border-color: #00a48a; background-color: rgba(0, 164, 138, 0.1); }
+    .objective-item.selected-objective {
+      transform: scale(1.1);
+      background-color: rgba(0, 164, 138, 0.2);
+      color: #00a48a;
+      border-color: #00a48a;
+      transition: all 0.3s ease-in-out;
+    }
+    .objective-item.selected-objective i { color: #00a48a; }
+    .objective-item[data-category="convaincre"] i { color: #007BFF; }
+    .objective-item[data-category="inspirer"] i { color: #FFC107; }
+    .objective-item[data-category="toast"] i { color: #E91E63; }
+    .objective-item[data-category="repartie"] i { color: #9C27B0; }
+    .objective-item[data-category="vendre"] i { color: #4CAF50; }
+    .objective-item[data-category="conflit"] i { color: #F44336; }
+    .objective-item[data-category="diction"] i { color: #00BCD4; }
+    .objective-item[data-category="entretien"] i { color: #795548; }
+    .objective-item[data-category="lacher-prise"] i { color: #FF5722; }
+
+    .explanation-box {
+      visibility: hidden;
+      opacity: 0;
+      transform: translateY(-10px);
+      margin: 10px auto;
       background-color: #fefefe;
-      border: 2px solid #ccc;
+      border: 0 solid #ccc;
       border-radius: 8px;
       padding: 10px;
       text-align: center;
+      font-weight: bold;
       font-size: 14px;
       font-style: italic;
       color: #333;
+      transition: border 0.5s ease, opacity 0.5s ease, transform 0.5s ease;
+      max-width: 90%;
+    }
+    .explanation-box.show {
+      visibility: visible;
+      opacity: 1;
+      transform: translateY(0);
+      border: 2px solid #ccc;
+    }
+
+    /* --- STEP2 : Génération du sujet --- */
+    
+    /* Nouveau design plus punchy pour le conteneur du sujet généré */
+    #subject-wrapper {
+      margin-top: 10px;
+      background: linear-gradient(135deg, #00a48a, #182d84);
+      border-radius: 8px;
+      padding: 15px;
+      text-align: center;
+      font-size: 16px;
+      font-weight: bold;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
       display: none;
+    }
+    
+    /* Style du bloc de conseils */
+    #advice-toggle {
+      cursor: pointer;
+      margin-top: 10px;
+      text-align: center;
+      font-weight: bold;
+      color: #182d84;
+    }
+    #advice-toggle i {
+      margin-left: 5px;
+    }
+    #advice-text {
+      display: none;
+      margin-top: 10px;
+      padding: 10px;
+      background-color: #fefefe;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+      line-height: 1.5;
+      text-align: left;
     }
     
     /* --- STEP3 : Enregistrement vidéo --- */
@@ -280,8 +355,8 @@
       background: #fefefe;
       border: 2px solid #ccc;
       border-radius: 16px;
-      padding: 10px 15px;
-      font-size: 16px;
+      padding: 10px 10px;
+      font-size: 14px;
       color: #333;
       text-align: center;
       margin: 0 auto;
@@ -408,6 +483,14 @@
     }
     .hidden-btn { display: none; }
 
+    /* --- STEP3 : Augmentation de la largeur de l'object subject-bubble */
+    @media (max-width: 600px) {
+      .subject-bubble {
+        padding: 5px 5px;
+        max-width: 100%;
+      }
+    }
+    
     /* --- STEP4 : Analyse ta prestation & Téléchargements --- */
     .download-section { margin-top: 20px; }
     .download-section-accent {
@@ -541,25 +624,29 @@
     }
     .linkedin-share-btn i { font-size: 18px; }
 
-    /* --- MOBILE : affichage vertical pour les objectifs style Duolingo --- */
+    /* --- STEP0 : titre du simulateur sur 3 lignes (demande de Pierre) */
+    @media (max-width: 600px) {
+      h1 .line { display: block; }
+    }
+    
+    /* --- STEP1 : Choix d’objectif --- Affichage avec des boutons à la verticale sur mobile */
     @media (max-width: 600px) {
       .objectives-container {
         display: flex;
         flex-direction: column;
         gap: 12px;
-        padding: 0 4px;
-        margin: 0 auto;
+        padding: 0 5px;
+        margin: 10px auto;
         box-sizing: border-box;
       }
       .objective-item {
         position: relative;
         display: flex;
         justify-content: space-between;
-        align-items: center;
+        align-items: center; 
         background-color: #f0f1f5;
         border-radius: 10px;
-        /* Padding horizontal ajusté pour occuper toute la largeur */
-        padding: 14px 20px 14px 14px;
+        padding: 14px 20px 14px 14px; 
         width: 100%;
         box-sizing: border-box;
         font-size: 1rem;
@@ -569,20 +656,24 @@
         transition: background-color 0.3s, transform 0.2s;
         border: none;
       }
+      .objective-item i {
+        position: absolute;
+        bottom: 0px;
+        right: 10px;
+        font-size: 2.0rem;
+        color: #444;
+      }
       .objective-item span {
-        order: 1;
         flex: 1;
         text-align: left;
       }
-      .objective-item i {
-        position: absolute;
-        bottom: -5px;
-        right: 10px;
-        font-size: 1.6rem;
-        color: #444;
+      /* Alternance de rotation pour l'icône à droite */
+      .objective-item:nth-child(odd) i {
+        transform: rotate(-10deg);
       }
-      .objective-item:nth-child(odd) i { transform: rotate(-5deg); }
-      .objective-item:nth-child(even) i { transform: rotate(5deg); }
+      .objective-item:nth-child(even) i {
+        transform: rotate(10deg);
+      }
       .objective-item:hover {
         background-color: #e5e7eb;
         transform: translateY(-1px);
@@ -591,10 +682,11 @@
         transform: translateY(0);
         background-color: #dcdfe3;
       }
+      /* Style pour le message d'explication de chaque objectif sur mobile */
       .mobile-explanation {
         font-size: 0.8rem;
         color: #555;
-        font-style: italic;
+        font-weight: bold;
         margin: 4px 10px 8px;
         text-align: left;
       }
@@ -607,8 +699,12 @@
         align-items: center;
         min-height: calc(100vh - 60px);
       }
-      .box { position: relative; margin: 0 auto; }
+      .box {
+        position: relative;
+        margin: 0 auto;
+      }
     }
+    /* --- Animation pour fadeInDown --- */
     @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
   </style>
 </head>
@@ -650,6 +746,8 @@
 
   <!-- CONTAINER PRINCIPAL -->
   <div class="main-container">
+    <!-- Les étapes du simulateur -->
+
     <!-- STEP1 : Choix d'objectif -->
     <div class="box" id="step1">
       <div class="box-header">
@@ -658,6 +756,7 @@
         </button>
         <div class="box-title">Quel est ton objectif ?</div>
       </div>
+      <!-- Affichage des objectifs en grid (desktop) qui sera transformé en liste sur mobile -->
       <div class="objectives-container">
         <div class="objective-item" data-category="convaincre">
           <i class="fas fa-handshake"></i>
@@ -696,20 +795,11 @@
           <span>Réussir son entretien</span>
         </div>
       </div>
+      <!-- Sur desktop, la boîte d'explication s'affiche ici -->
       <div id="explanation-box" class="explanation-box"></div>
       <div id="objective-error" class="error-message"></div>
-      <!-- Bouton "Suivant" style Duolingo -->
-      <button class="cta" id="next-btn1" aria-label="Étape suivante">
-        <span class="span">Suivant</span>
-        <span class="second">
-          <svg width="70" height="45" viewBox="0 0 70 45" xmlns="http://www.w3.org/2000/svg">
-            <g id="arrow" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-              <path class="one" d="M40.15,3.89 L43.98,0.14 C44.17,-0.05 44.48,-0.05 44.68,0.14 L65.69,20.78 C66.09,21.17 66.09,21.81 65.70,22.20 C65.70,22.20 65.70,22.21 65.69,22.21 L44.68,42.86 C44.48,43.05 44.17,43.05 43.98,42.86 L40.15,39.11 C39.96,38.91 39.96,38.60 40.15,38.40 L56.99,21.86 C57.19,21.66 57.19,21.35 57.00,21.15 C57.00,21.15 57.00,21.14 56.99,21.14 L40.15,4.61 C39.96,4.41 39.96,4.10 40.15,3.90 Z" fill="#FFFFFF"></path>
-              <path class="two" d="M20.15,3.89 L23.98,0.14 C24.17,-0.05 24.48,-0.05 24.68,0.14 L45.69,20.78 C46.09,21.17 46.09,21.81 45.70,22.20 C45.70,22.20 45.70,22.21 45.69,22.21 L24.68,42.86 C24.48,43.05 24.17,43.05 23.98,42.86 L20.15,39.11 C19.96,38.91 19.96,38.60 20.15,38.40 L36.99,21.86 C37.19,21.66 37.19,21.35 37.00,21.15 C37.00,21.15 37.00,21.14 36.99,21.14 L20.15,4.61 C19.96,4.41 19.96,4.10 20.15,3.90 Z" fill="#FFFFFF"></path>
-              <path class="three" d="M0.15,3.89 L3.98,0.14 C4.17,-0.05 4.48,-0.05 4.68,0.14 L25.69,20.78 C26.09,21.17 26.09,21.81 25.70,22.20 C25.70,22.20 25.70,22.21 25.69,22.21 L4.68,42.86 C4.48,43.05 4.17,43.05 3.98,42.86 L0.15,39.11 C-0.04,38.91 -0.04,38.60 0.15,38.40 L16.99,21.86 C17.19,21.66 17.19,21.35 17.00,21.15 C17.00,21.15 17.00,21.14 16.99,21.14 L0.15,4.61 C-0.04,4.41 -0.04,4.10 0.15,3.90 Z" fill="#FFFFFF"></path>
-            </g>
-          </svg>
-        </span>
+      <button class="next-btn" id="next-btn1" aria-label="Étape suivante">
+        <i class="fas fa-arrow-down"></i>
       </button>
     </div>
 
@@ -721,24 +811,28 @@
         </button>
         <div class="box-title">Ton objectif</div>
       </div>
-      <p id="selected-objective-display" style="font-weight:bold; margin-bottom:10px;"></p>
+      <p id="selected-objective-display"></p>
       <button id="generate-subject-btn" class="btn-impro">Générer un sujet</button>
-      <div id="subject-wrapper" class="subject-wrapper">
+      <!-- Conteneur du sujet généré (design punchy) -->
+      <div id="subject-wrapper">
         <span id="subject-display"></span>
       </div>
+      <!-- Nouveau bloc de conseils interactif -->
+      <div id="advice-toggle">
+        Quelques conseils avant de démarrer ta simulation <i id="advice-icon" class="fas fa-chevron-down"></i>
+      </div>
+      <div id="advice-text">
+        Voici quelques conseils pour bien démarrer ta simulation :<br>
+        - Positionne tes yeux de façon à regarder directement l'appareil pour établir un contact visuel fort.<br>
+        - Choisis un fond neutre et dégagé afin d'éviter toute distraction.<br>
+        - Assure-toi que l'éclairage met en valeur ton visage.<br>
+        - Vérifie que le son et la qualité vidéo sont optimaux.<br>
+        - Adopte une posture naturelle et confiante.<br>
+        - Respire profondément et détends-toi avant de commencer.
+      </div>
       <div id="subject-error" class="error-message"></div>
-      <!-- Bouton "Suivant" style Duolingo -->
-      <button class="cta" id="next-btn2" aria-label="Étape suivante">
-        <span class="span">Suivant</span>
-        <span class="second">
-          <svg width="70" height="45" viewBox="0 0 70 45" xmlns="http://www.w3.org/2000/svg">
-            <g id="arrow" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-              <path class="one" d="M40.15,3.89 L43.98,0.14 C44.17,-0.05 44.48,-0.05 44.68,0.14 L65.69,20.78 C66.09,21.17 66.09,21.81 65.70,22.20 C65.70,22.20 65.70,22.21 65.69,22.21 L44.68,42.86 C44.48,43.05 44.17,43.05 43.98,42.86 L40.15,39.11 C39.96,38.91 39.96,38.60 40.15,38.40 L56.99,21.86 C57.19,21.66 57.19,21.35 57.00,21.15 C57.00,21.15 57.00,21.14 56.99,21.14 L40.15,4.61 C39.96,4.41 39.96,4.10 40.15,3.90 Z" fill="#FFFFFF"></path>
-              <path class="two" d="M20.15,3.89 L23.98,0.14 C24.17,-0.05 24.48,-0.05 24.68,0.14 L45.69,20.78 C46.09,21.17 46.09,21.81 45.70,22.20 C45.70,22.20 45.70,22.21 45.69,22.21 L24.68,42.86 C24.48,43.05 24.17,43.05 23.98,42.86 L20.15,39.11 C19.96,38.91 19.96,38.60 20.15,38.40 L36.99,21.86 C37.19,21.66 37.19,21.35 37.00,21.15 C37.00,21.15 37.00,21.14 36.99,21.14 L20.15,4.61 C19.96,4.41 19.96,4.10 20.15,3.90 Z" fill="#FFFFFF"></path>
-              <path class="three" d="M0.15,3.89 L3.98,0.14 C4.17,-0.05 4.48,-0.05 4.68,0.14 L25.69,20.78 C26.09,21.17 26.09,21.81 25.70,22.20 C25.70,22.20 25.70,22.21 25.69,22.21 L4.68,42.86 C4.48,43.05 4.17,43.05 3.98,42.86 L0.15,39.11 C-0.04,38.91 -0.04,38.60 0.15,38.40 L16.99,21.86 C17.19,21.66 17.19,21.35 17.00,21.15 C17.00,21.15 17.00,21.14 16.99,21.14 L0.15,4.61 C-0.04,4.41 -0.04,4.10 0.15,3.90 Z" fill="#FFFFFF"></path>
-            </g>
-          </svg>
-        </span>
+      <button class="next-btn" id="next-btn2" aria-label="Étape suivante">
+        <i class="fas fa-arrow-down"></i>
       </button>
     </div>
 
@@ -777,18 +871,8 @@
         </button>
       </div>
       <div id="impro-error" class="error-message"></div>
-      <!-- Bouton "Suivant" style Duolingo -->
-      <button class="cta" id="next-btn3" aria-label="Étape suivante">
-        <span class="span">Suivant</span>
-        <span class="second">
-          <svg width="70" height="45" viewBox="0 0 70 45" xmlns="http://www.w3.org/2000/svg">
-            <g id="arrow" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-              <path class="one" d="M40.15,3.89 L43.98,0.14 C44.17,-0.05 44.48,-0.05 44.68,0.14 L65.69,20.78 C66.09,21.17 66.09,21.81 65.70,22.20 C65.70,22.20 65.70,22.21 65.69,22.21 L44.68,42.86 C44.48,43.05 44.17,43.05 43.98,42.86 L40.15,39.11 C39.96,38.91 39.96,38.60 40.15,38.40 L56.99,21.86 C57.19,21.66 57.19,21.35 57.00,21.15 C57.00,21.15 57.00,21.14 56.99,21.14 L40.15,4.61 C39.96,4.41 39.96,4.10 40.15,3.90 Z" fill="#FFFFFF"></path>
-              <path class="two" d="M20.15,3.89 L23.98,0.14 C24.17,-0.05 24.48,-0.05 24.68,0.14 L45.69,20.78 C46.09,21.17 46.09,21.81 45.70,22.20 C45.70,22.20 45.70,22.21 45.69,22.21 L24.68,42.86 C24.48,43.05 24.17,43.05 23.98,42.86 L20.15,39.11 C19.96,38.91 19.96,38.60 20.15,38.40 L36.99,21.86 C37.19,21.66 37.19,21.35 37.00,21.15 C37.00,21.15 37.00,21.14 36.99,21.14 L20.15,4.61 C19.96,4.41 19.96,4.10 20.15,3.90 Z" fill="#FFFFFF"></path>
-              <path class="three" d="M0.15,3.89 L3.98,0.14 C4.17,-0.05 4.48,-0.05 4.68,0.14 L25.69,20.78 C26.09,21.17 26.09,21.81 25.70,22.20 C25.70,22.20 25.70,22.21 25.69,22.21 L4.68,42.86 C4.48,43.05 4.17,43.05 3.98,42.86 L0.15,39.11 C-0.04,38.91 -0.04,38.60 0.15,38.40 L16.99,21.86 C17.19,21.66 17.19,21.35 17.00,21.15 C17.00,21.15 17.00,21.14 16.99,21.14 L0.15,4.61 C-0.04,4.41 -0.04,4.10 0.15,3.90 Z" fill="#FFFFFF"></path>
-            </g>
-          </svg>
-        </span>
+      <button class="next-btn" id="next-btn3" aria-label="Étape suivante">
+        <i class="fas fa-arrow-down"></i>
       </button>
     </div>
 
@@ -917,12 +1001,11 @@
       currentStep = next;
       updateShareButtonVisibility();
       if (next === 2) {
-      const step2Title = document.querySelector('#step2 .box-title');
-      step2Title.innerHTML = `Ton objectif ➪ ${currentObjective}`;
-      document.getElementById('selected-objective-display').textContent =
-      explanations[currentCategory] || currentObjective;
+        const step2Title = document.querySelector('#step2 .box-title');
+        step2Title.innerHTML = `Ton objectif ➪ ${currentObjective}`;
+        document.getElementById('selected-objective-display').textContent =
+          explanations[currentCategory] || currentObjective;
       }
-      
       if (next === 3) {
         document.getElementById('current-subject-display').textContent = currentSubject;
       }
@@ -984,13 +1067,13 @@
     const explanations = {
       convaincre:   "Tu as 2 minutes pour convaincre ton auditoire sur un sujet délicat",
       inspirer:     "Tu as 2 minutes pour inspirer ton auditoire",
-      'lacher-prise': "Oublie la censure et exprime ton grain de folie",
       toast:        "Tu as 2 minutes pour porter un toast marquant lors d'un événement",
-      repartie:     "Au travail, répond au tac au tac à la phrase qu’on te dit",
+      repartie:     "Savoir répondre avec justesse et rapidité à une remarque désagréable au travail",
       vendre:       "Tu as 2 minutes pour vendre un objet insolite",
       conflit:      "Gère un désaccord ou une tension avec diplomatie",
-      diction:      "Répète la phrase suivante 5 fois de suite sans te tromper",
-      entretien:    "Convaincs ton futur employeur que tu es la pépite qu'il recherche"
+      diction:      "Répète une phrase complexe plusieurs fois de suite sans te tromper",
+      entretien:    "Convaincs ton futur employeur que tu es la pépite qu'il recherche",
+      'lacher-prise': "Oublie la censure et exprime ton grain de folie",
     };
 
     const txtFilesByCategory = {
@@ -1036,15 +1119,16 @@
         item.style.backgroundColor = "rgba(0, 164, 138, 0.2)";
         setTimeout(() => { item.style.transform = ""; }, 300);
 
-        // Affichage de l'explication
+        // Sur mobile : affichage de l'explication en-dessous de chaque objectif
         if(window.innerWidth <= 600) {
           const existingExp = document.querySelector('.mobile-explanation');
           if(existingExp) { existingExp.remove(); }
           const exp = explanations[currentCategory] || "";
           if(exp) {
-            item.insertAdjacentHTML('afterend', `<div class="mobile-explanation">👉 ${exp}</div>`);
+            item.insertAdjacentHTML('afterend', `<div class="mobile-explanation">${exp}</div>`);
           }
         } else {
+          // Sur desktop : affichage de l'explication dans la boîte globale en-dessous des objectifs
           const exp = explanations[currentCategory] || "";
           explanationBox.textContent = exp;
           explanationBox.classList.add('show');
@@ -1108,6 +1192,23 @@
     });
 
     /***********************
+     * Gestion du bloc de conseils (nouveau)
+     ***********************/
+    document.getElementById('advice-toggle').addEventListener('click', () => {
+      const adviceText = document.getElementById('advice-text');
+      const adviceIcon = document.getElementById('advice-icon');
+      if (adviceText.style.display === 'none' || adviceText.style.display === '') {
+        adviceText.style.display = 'block';
+        adviceIcon.classList.remove('fa-chevron-down');
+        adviceIcon.classList.add('fa-chevron-up');
+      } else {
+        adviceText.style.display = 'none';
+        adviceIcon.classList.remove('fa-chevron-up');
+        adviceIcon.classList.add('fa-chevron-down');
+      }
+    });
+
+    /***********************
      * ENREGISTREMENT VIDÉO (STEP3)
      ***********************/
     function bindStartButton() {
@@ -1130,8 +1231,8 @@
         return;
       }
       if (window.innerWidth <= 600) {
-        const videoBox = document.querySelector('.video-box');
-        videoBox.style.height = "450px";
+          const videoBox = document.querySelector('.video-box');
+          videoBox.style.height = "450px";
       }
       document.querySelector('.video-overlay').style.display = 'none';
       startInitialCountdown();
@@ -1182,7 +1283,7 @@
         nextBtns[3].classList.add('pulse');
         enableNavigationButtons();
         if (window.innerWidth <= 600) {
-          document.querySelector('.video-box').style.height = "300px";
+            document.querySelector('.video-box').style.height = "300px";
         }
       };
       mediaRecorderInstance.start();
