@@ -310,6 +310,12 @@
     }
 
     /* --- STEP2 : Génération du sujet --- */
+    
+    #selected-objective-display {
+      font-weight: normal;
+      m argin-bottom: 5px;
+    }
+
     .subject-wrapper {
       margin-top: 10px;
       background-color: #fefefe;
@@ -319,6 +325,7 @@
       text-align: center;
       font-size: 14px;
       font-style: italic;
+      font-weight: bold;
       color: #333;
       display: none;
     }
@@ -661,6 +668,7 @@
       .mobile-explanation {
         font-size: 0.8rem;
         color: #555;
+        font-weight: bold;
         margin: 4px 10px 8px;
         text-align: left;
       }
@@ -785,7 +793,7 @@
         </button>
         <div class="box-title">Ton objectif</div>
       </div>
-      <p id="selected-objective-display" style="font-weight:bold; margin-bottom:10px;"></p>
+      <p id="selected-objective-display" ></p>
       <button id="generate-subject-btn" class="btn-impro">Générer un sujet</button>
       <div id="subject-wrapper" class="subject-wrapper">
         <span id="subject-display"></span>
@@ -1079,17 +1087,16 @@
         item.style.backgroundColor = "rgba(0, 164, 138, 0.2)";
         setTimeout(() => { item.style.transform = ""; }, 300);
 
-        // Affichage de l'explication
+        // Sur mobile : affichage de l'explication en-dessous de chaque objectif
         if(window.innerWidth <= 600) {
-          // Sur mobile : suppression de toute explication affichée et insertion sous le bouton cliqué avec l'emoji 👉
           const existingExp = document.querySelector('.mobile-explanation');
           if(existingExp) { existingExp.remove(); }
           const exp = explanations[currentCategory] || "";
           if(exp) {
-            item.insertAdjacentHTML('afterend', `<div class="mobile-explanation">👉 ${exp}</div>`);
+            item.insertAdjacentHTML('afterend', `<div class="mobile-explanation">${exp}</div>`);
           }
         } else {
-          // Sur desktop : affichage dans la boîte globale d'explication
+          // Sur desktop : affichage de l'explication dans la boîte globale en-dessous des objectifs
           const exp = explanations[currentCategory] || "";
           explanationBox.textContent = exp;
           explanationBox.classList.add('show');
