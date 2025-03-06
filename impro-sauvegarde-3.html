@@ -94,7 +94,7 @@
       top: 60px;
       left: 0;
       width: 100%;
-      height: 8px;
+      height: 10px;
       background-color: rgba(24, 45, 132, 0.1);
       z-index: 9;
     }
@@ -291,6 +291,9 @@
       color: grey;
       font-size: 0.8rem;
       margin-bottom: 10px;
+    }
+    #current-objective {
+      text-transform: lowercase;
     }
     
     #subject-wrapper {
@@ -815,7 +818,6 @@
       </div>
         <!-- Rappel de l'objectif -->
         <div id="objective-reminder">Rappel de ton objectif : <span id="current-objective"></span></div>
-        document.getElementById('current-objective').textContent = currentObjective.toLowerCase();
       <button id="generate-subject-btn" class="btn-impro">Générer un sujet  <i class="fas fa-random"></i></button>
       <div id="subject-wrapper">
         <span id="subject-display"></span>
