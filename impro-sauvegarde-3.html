@@ -297,6 +297,12 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
       display: none;
     }
+    /* Nouveau rappel de l'objectif dans STEP2 */
+    #objective-reminder {
+      color: grey;
+      font-size: 0.8rem;
+      margin-bottom: 10px;
+    }
     #advice-toggle {
       cursor: pointer;
       margin-top: 20px;
@@ -801,14 +807,17 @@
         <button class="back-btn" id="back-btn2" aria-label="Retour à l'étape précédente">
           <i class="fas fa-arrow-up"></i>
         </button>
-        <div class="box-title">Ton objectif</div>
+        <!-- Nouveau titre -->
+        <div class="box-title">Quel sujet pour ta prise de parole ?</div>
+        <!-- Rappel de l'objectif -->
+        <div id="objective-reminder">Rappel de ton objectif : <span id="current-objective"></span></div>
       </div>
       <button id="generate-subject-btn" class="btn-impro">Générer un sujet  <i class="fas fa-random"></i></button>
       <div id="subject-wrapper">
         <span id="subject-display"></span>
       </div>
       <div id="advice-toggle">
-        Des conseils avant de démarrer ta prise de parole ? <i id="advice-icon" class="fas fa-chevron-down"></i>
+        Des conseils avant de <br>démarrer ta prise de parole ? <i id="advice-icon" class="fas fa-chevron-down"></i>
       </div>
       <div id="advice-text">
         1) Positionne tes yeux à hauteur de la caméra. <br><br>
@@ -988,10 +997,8 @@
       currentStep = next;
       updateShareButtonVisibility();
       if (next === 2) {
-        const step2Title = document.querySelector('#step2 .box-title');
-        step2Title.innerHTML = `Ton objectif : ${currentObjective.toLowerCase()}`;
-        document.getElementById('selected-objective-display').textContent =
-          explanations[currentCategory] || currentObjective;
+        // Mise à jour du rappel de l'objectif dans STEP2
+        document.getElementById('current-objective').textContent = currentObjective;
       }
       if (next === 3) {
         document.getElementById('current-subject-display').textContent = currentSubject;
