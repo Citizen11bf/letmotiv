@@ -285,6 +285,14 @@
     .objective-item[data-category="lacher-prise"] i { color: #FF5722; }
 
     /* --- STEP2 : Génération du sujet --- */
+    
+    /* Rappel de l'objectif dans STEP2 */
+    #objective-reminder {
+      color: grey;
+      font-size: 0.8rem;
+      margin-bottom: 10px;
+    }
+    
     #subject-wrapper {
       margin-top: 10px;
       background: linear-gradient(135deg, #00a48a, #182d84);
@@ -297,12 +305,7 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
       display: none;
     }
-    /* Nouveau rappel de l'objectif dans STEP2 */
-    #objective-reminder {
-      color: grey;
-      font-size: 0.8rem;
-      margin-bottom: 10px;
-    }
+   
     #advice-toggle {
       cursor: pointer;
       margin-top: 20px;
@@ -812,6 +815,7 @@
       </div>
         <!-- Rappel de l'objectif -->
         <div id="objective-reminder">Rappel de ton objectif : <span id="current-objective"></span></div>
+        document.getElementById('current-objective').textContent = currentObjective.toLowerCase();
       <button id="generate-subject-btn" class="btn-impro">Générer un sujet  <i class="fas fa-random"></i></button>
       <div id="subject-wrapper">
         <span id="subject-display"></span>
