@@ -481,7 +481,7 @@
     }
     .hidden-btn { display: none; }
 
-    /* --- STEP3 : Augmentation de la largeur de l'object subject-bubble */
+    /* --- STEP3 : Augmentation de la largeur de l'object subject-bubble --- */
     @media (max-width: 600px) {
       .subject-bubble {
         padding: 5px 5px;
@@ -623,75 +623,8 @@
       h1 .line { display: block; }
     }
     
-    /* --- STEP1 : Choix d’objectif (mobile) --- */
-    @media (max-width: 600px) {
-      .objectives-container {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        padding: 0 5px;
-        margin: 10px auto;
-        box-sizing: border-box;
-      }
-      .objective-item {
-        position: relative;
-        display: flex;
-        justify-content: space-between;
-        align-items: center; 
-        background-color: #f0f1f5;
-        border-radius: 10px;
-        padding: 14px 20px 14px 14px; 
-        width: 100%;
-        box-sizing: border-box;
-        font-size: 1rem;
-        font-family: 'DM Sans', sans-serif;
-        color: #333;
-        cursor: pointer;
-        transition: background-color 0.3s, transform 0.2s;
-        border: none;
-      }
-      .objective-item i {
-        position: absolute;
-        bottom: 0px;
-        right: 10px;
-        font-size: 2.0rem;
-        color: #444;
-      }
-      .objective-item:nth-child(odd) i {
-        transform: rotate(-10deg);
-      }
-      .objective-item:nth-child(even) i {
-        transform: rotate(10deg);
-      }
-      .objective-item:hover {
-        background-color: #e5e7eb;
-        transform: translateY(-1px);
-      }
-      .objective-item:active {
-        transform: translateY(0);
-        background-color: #dcdfe3;
-      }
-      .mobile-explanation {
-        font-size: 0.8rem;
-        color: #555;
-        font-weight: bold;
-        margin: 4px 10px 8px;
-        text-align: left;
-      }
-    }
-    
-    /* --- DESKTOP : centrage des boxes et améliorations STEP1 --- */
+    /* --- STEP1 : Adaptations pour desktop uniquement --- */
     @media (min-width: 601px) {
-      .main-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: calc(100vh - 60px);
-      }
-      .box {
-        position: relative;
-        margin: 0 auto;
-      }
       /* Nouveau Hero Banner pour STEP1 */
       #step1 .hero-banner {
         text-align: center;
