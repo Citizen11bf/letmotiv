@@ -184,21 +184,24 @@
       align-items: center;
       margin-bottom: 20px;
     }
-    /* Bouton Retour placé dans le flux, centré horizontalement */
+    /* Bouton Retour placé dans le flux, centré horizontalement.
+       On le cache totalement dans le STEP1. */
     .back-btn {
       display: block;
       background-color: #808080;
       color: #FFFFFF;
-      font-size: 16px;
+      font-size: 14px;
       cursor: pointer;
       border: none;
       border-radius: 4px;
-      padding: 10px 15px;
+      padding: 8px 12px;
       margin: 0 auto 10px;
       text-align: center;
+      opacity: 0.6;
+      transition: opacity 0.3s;
     }
-    .back-btn:hover { background-color: #505050; transform: scale(1.03); }
-    .back-btn:active { background-color: #303030; }
+    .back-btn:hover { opacity: 0.8; }
+    .back-btn:active { opacity: 1; }
 
     .box-title { 
       font-size: 16px; 
@@ -213,14 +216,16 @@
       display: block;
       background-color: transparent;
       color: #182d84;
-      font-size: 16px;
+      font-size: 14px;
       cursor: pointer;
       border: 2px solid #182d84;
       border-radius: 4px;
-      padding: 10px 20px;
+      padding: 8px 16px;
       margin: 20px auto 0;
+      opacity: 0.6;
+      transition: opacity 0.3s;
     }
-    .next-btn:hover { background-color: #00a48a; color: #fff; transform: scale(1.03); }
+    .next-btn:hover { background-color: #00a48a; color: #fff; opacity: 0.8; }
     .next-btn.pulse { animation: electricPulse 1.5s infinite; }
     @keyframes electricPulse {
       0% { box-shadow: 0 0 0 0 rgba(0,164,138,0.7); }
@@ -663,7 +668,7 @@
       #step1 .back-btn { display: none; }
     }
     
-    /* --- DESKTOP : Centrage sur deux lignes --- */
+    /* --- DESKTOP --- */
     @media (min-width: 601px) {
       .main-container {
         display: flex;
@@ -754,6 +759,7 @@
     <!-- STEP1 : Choix d'objectif -->
     <div class="box active" id="step1">
       <div class="box-header">
+        <!-- Bouton "Retour" est caché dans STEP1 (sur mobile et desktop) -->
         <button class="back-btn hidden-visibility" id="back-btn1" aria-label="Retour">
           <i class="fas fa-arrow-left"></i> Retour
         </button>
