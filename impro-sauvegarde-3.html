@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Simulateur d'improvisation</title>
+  <title>Simulateur d'improvisation Letmotiv</title>
   <meta name="description" content="Évaluer et développer sa prise de parole en public avec le simulateur d'improvisation Letmotiv. Entreprise spécialisée dans le coaching en prise de parole.">
 
   <!-- Icône de la page (favicon) -->
@@ -122,26 +122,42 @@
     }
     .intro-box h1 {
       font-family: 'Montserrat', sans-serif;
-      font-size: 2.5rem;
+      font-size: 2.8rem;
+      line-height: 1.2;
       margin-bottom: 30px;
-      animation: slideDown 1s ease forwards;
+      animation: pulseTitle 2s infinite;
     }
-    .intro-box button {
-      background-color: #ffffff;
-      color: #182d84;
-      font-family: 'DM Sans', sans-serif;
+    .intro-box h1 span {
+      display: block;
+    }
+    @keyframes pulseTitle {
+      0% {
+        transform: scale(1);
+        opacity: 0.9;
+      }
+      50% {
+        transform: scale(1.05);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 0.9;
+      }
+    }
+    .start-button {
+      margin-top: 30px;
+      padding: 15px 30px;
       font-size: 1.2rem;
+      background: #ffcb2d;
+      color: #000;
       border: none;
       border-radius: 25px;
-      padding: 15px 30px;
       cursor: pointer;
-      transition: background-color 0.3s, transform 0.3s, color 0.3s;
-      box-shadow: 0px 4px 6px rgba(0,0,0,0.2);
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s;
     }
-    .intro-box button:hover {
-      background-color: #00a48a;
-      color: #ffffff;
-      transform: scale(1.05);
+    .start-button:hover {
+      transform: scale(1.1);
     }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
@@ -729,11 +745,11 @@
   <!-- BOÎTE D'INTRODUCTION -->
   <div class="intro-box" id="intro-box">
     <h1>
-      <span class="line">Entraîne-toi</span>
-      <span class="line">à la prise de</span>
-      <span class="line">parole en public</span>
+      <span>ENTRAINE TOI</span>
+      <span>A LA PRISE DE PAROLE</span>
+      <span>EN PUBLIC !</span>
     </h1> 
-    <button id="start-intro-btn" aria-label="Commencer">Commencer</button>
+    <button id="start-intro-btn" class="start-button" aria-label="Commencer le simulateur">Commencer le simulateur</button>
   </div>
 
   <!-- FORMULAIRE CACHÉ POUR GOOGLE FORMS -->
