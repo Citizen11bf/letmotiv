@@ -186,7 +186,7 @@
       margin-bottom: 20px;
       position: relative;
     }
-    /* Positionnement des boutons de navigation */
+    /* Bouton Retour reste en haut à gauche */
     .back-btn {
       position: absolute;
       top: 10px;
@@ -196,32 +196,30 @@
       font-size: 16px;
       cursor: pointer;
       border: none;
-      border-radius: 50%;
+      border-radius: 4px;
       padding: 10px 15px;
       transition: background-color 0.3s, transform 0.3s;
     }
     .back-btn:hover { background-color: #505050; transform: scale(1.1); }
     .back-btn:active { background-color: #303030; }
-    /* Pour les boutons de retour cachés dans certains cas */
     .hidden-visibility { display: none; }
     
     .box-title { font-size: 16px; font-weight: bold; color: #182d84; text-align: center; }
 
-    /* Bouton Suivant en bas à droite */
+    /* --- Bouton Suivant : nouveau design et positionnement --- */
     .next-btn {
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
+      display: block;
+      margin: 20px auto 0;
       background-color: transparent;
       color: #182d84;
       font-size: 16px;
       cursor: pointer;
       border: 2px solid #182d84;
-      border-radius: 50%;
-      padding: 10px 15px;
+      border-radius: 4px;
+      padding: 10px 20px;
       transition: background-color 0.3s, color 0.3s, transform 0.3s;
     }
-    .next-btn:hover { background-color: #00a48a; color: #ffffff; transform: scale(1.05); }
+    .next-btn:hover { background-color: #00a48a; color: #fff; transform: scale(1.03); }
     .next-btn.pulse { animation: electricPulse 1.5s infinite; }
     @keyframes electricPulse {
       0% { box-shadow: 0 0 0 0 rgba(0,164,138,0.7); }
@@ -322,6 +320,7 @@
     #advice-text {
       display: none;
       margin-top: 10px;
+      margin-bottom: 20px; /* marge ajoutée pour éviter le chevauchement */
       padding: 10px;
       background-color: #fefefe;
       border: 1px solid #ccc;
@@ -795,7 +794,7 @@
           <span>Vendre</span>
         </div>
       </div>
-      <div id="explanation-box" class="explanation-box"></div>
+      <div id="explanation-box" class="explanation-box" style="margin-bottom:20px;"></div>
       <div id="objective-error" class="error-message"></div>
       <button class="next-btn" id="next-btn1" aria-label="Suivant">
         Suivant <i class="fas fa-arrow-right"></i>
