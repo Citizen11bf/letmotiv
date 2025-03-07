@@ -208,7 +208,7 @@
     #step1 .back-btn.hidden-visibility { display: none; }
     .box-title { font-size: 16px; font-weight: bold; color: #182d84; text-align: center; }
 
-    /* --- FLECHES HAUT/BAS AVEC TEXTE --- */
+    /* --- Boutons avec flèches et texte --- */
     .next-btn, .back-btn {
       display: flex;
       align-items: center;
@@ -763,8 +763,9 @@
     <!-- STEP1 : Choix d'objectif -->
     <div class="box" id="step1">
       <div class="box-header">
+        <!-- Bouton retour caché dans STEP1 -->
         <button class="back-btn hidden-visibility" id="back-btn1" aria-label="Retour">
-          Retour <i class="fas fa-arrow-up"></i>
+          <i class="fas fa-arrow-left"></i> Retour <i class="fas fa-arrow-left"></i>
         </button>
         <div class="box-title">Quel est ton objectif ?</div>
       </div>
@@ -808,16 +809,18 @@
       </div>
       <div id="explanation-box" class="explanation-box"></div>
       <div id="objective-error" class="error-message"></div>
+      <!-- Bouton Suivant avec deux flèches à droite -->
       <button class="next-btn" id="next-btn1" aria-label="Étape suivante">
-        Suivant <i class="fas fa-arrow-down"></i>
+        <i class="fas fa-arrow-right"></i> Suivant <i class="fas fa-arrow-right"></i>
       </button>
     </div>
 
     <!-- STEP2 : Génération du sujet -->
     <div class="box" id="step2">
       <div class="box-header">
+        <!-- Bouton Retour avec flèches gauche -->
         <button class="back-btn" id="back-btn2" aria-label="Retour à l'étape précédente">
-          Retour <i class="fas fa-arrow-up"></i>
+          <i class="fas fa-arrow-left"></i> Retour <i class="fas fa-arrow-left"></i>
         </button>
         <!-- Titre du STEP2 -->
         <div class="box-title">Quel sujet pour ta prise de parole ?</div>
@@ -839,16 +842,18 @@
         5) Reste concentré et prends du plaisir. 
       </div>
       <div id="subject-error" class="error-message"></div>
+      <!-- Bouton Suivant -->
       <button class="next-btn" id="next-btn2" aria-label="Étape suivante">
-        Suivant <i class="fas fa-arrow-down"></i>
+        <i class="fas fa-arrow-right"></i> Suivant <i class="fas fa-arrow-right"></i>
       </button>
     </div>
 
     <!-- STEP3 : Enregistrement vidéo -->
     <div class="box" id="step3">
       <div class="box-header">
+        <!-- Bouton Retour -->
         <button class="back-btn" id="back-btn3" aria-label="Retour à l'étape précédente">
-          Retour <i class="fas fa-arrow-up"></i>
+          <i class="fas fa-arrow-left"></i> Retour <i class="fas fa-arrow-left"></i>
         </button>
         <div class="box-title">Lance ton improvisation</div>
       </div>
@@ -879,16 +884,18 @@
         </button>
       </div>
       <div id="impro-error" class="error-message"></div>
+      <!-- Bouton Suivant -->
       <button class="next-btn" id="next-btn3" aria-label="Étape suivante">
-        Suivant <i class="fas fa-arrow-down"></i>
+        <i class="fas fa-arrow-right"></i> Suivant <i class="fas fa-arrow-right"></i>
       </button>
     </div>
 
     <!-- STEP4 : Analyse ta prestation & Téléchargements -->
     <div class="box" id="step5">
       <div class="box-header">
+        <!-- Bouton Retour -->
         <button class="back-btn" id="back-btn5" aria-label="Retour à l'étape précédente">
-          Retour <i class="fas fa-arrow-up"></i>
+          <i class="fas fa-arrow-left"></i> Retour <i class="fas fa-arrow-left"></i>
         </button>
         <div class="box-title">Analyse ta prestation</div>
       </div>
