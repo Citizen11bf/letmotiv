@@ -309,6 +309,7 @@
       display: none;
     }
    
+    /* Modification pour l'affichage sur mobile du toggle de conseils */
     #advice-toggle {
       cursor: pointer;
       margin-top: 20px;
@@ -332,7 +333,16 @@
       line-height: 1.5;
       text-align: left;
     }
-    
+    /* Saut de ligne spécifique pour mobile */
+    .mobile-break {
+      display: none;
+    }
+    @media (max-width: 600px) {
+      .mobile-break {
+        display: inline;
+      }
+    }
+
     /* --- STEP3 : Enregistrement vidéo --- */
     .subject-bubble {
       display: inline-block;
@@ -823,7 +833,7 @@
         <span id="subject-display"></span>
       </div>
       <div id="advice-toggle">
-        Des conseils avant de démarrer ta prise de parole ? <i id="advice-icon" class="fas fa-chevron-down"></i>
+        Des conseils avant de démarrer<span class="mobile-break"><br></span>ta prise de parole ? <i id="advice-icon" class="fas fa-chevron-down"></i>
       </div>
       <div id="advice-text">
         1) Positionne tes yeux à hauteur de la caméra. <br><br>
@@ -1434,8 +1444,7 @@
      ***********************/
     document.getElementById("linkedin-share-btn").addEventListener("click", () => {
       const shareURL = encodeURIComponent(window.location.href);
-      const shareText = encodeURIComponent("Je m'entraîne à la prise de parole en public avec le simulateur Letmotiv !");
-      const linkedInURL = `https://www.linkedin.com/sharing/share-offsite/?url=${shareURL}&summary=${shareText}`;
+      const linkedInURL = "https://www.linkedin.com/sharing/share-offsite/?url=" + shareURL;
       window.open(linkedInURL, '_blank');
     });
 
