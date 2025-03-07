@@ -59,7 +59,7 @@
       font-family: 'DM Sans', sans-serif;
       background-color: #ffffff;
       color: #333333;
-      padding-top: 60px; /* espace pour le header fixe */
+      padding-top: 60px;
       padding-bottom: 20px;
     }
 
@@ -153,7 +153,7 @@
       padding: 20px;
     }
 
-    /* --- BOXES (étapes) --- */
+    /* --- BOXES --- */
     .box {
       position: relative;
       width: 100%;
@@ -162,7 +162,7 @@
       padding: 20px;
       border-radius: 15px;
       background: linear-gradient(135deg, #ffffff, #f9f9f9);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       text-align: center;
       font-size: 14px;
       display: none;
@@ -171,68 +171,52 @@
     .box.active { display: block; opacity: 1; }
     .box.hidden { opacity: 0; }
 
-    /* --- ANIMATIONS VERTICALES --- */
+    /* --- ANIMATIONS --- */
     .slide-from-bottom { animation: fromBottom 1.5s ease forwards; }
     @keyframes fromBottom { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
     .slide-from-top { animation: fromTop 1.5s ease forwards; }
     @keyframes fromTop { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* --- HEADER INTERNE DES BOXES --- */
-    .box-header {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-    /* Bouton Retour placé dans le flux, centré horizontalement.
-       On le cache totalement dans le STEP1. */
-    .back-btn {
-      display: block;
-      background-color: #808080;
-      color: #FFFFFF;
+    /* --- NAVIGATION EN DEHORS DES BOXES --- */
+    /* Les boutons de navigation sont positionnés absolument par rapport à la .box */
+    .box .back-btn,
+    .box .next-btn {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
       font-size: 14px;
-      cursor: pointer;
       border: none;
       border-radius: 4px;
       padding: 8px 12px;
-      margin: 0 auto 10px;
-      text-align: center;
       opacity: 0.6;
       transition: opacity 0.3s;
+      background-color: #808080;
+      color: #FFFFFF;
     }
-    .back-btn:hover { opacity: 0.8; }
-    .back-btn:active { opacity: 1; }
-
-    .box-title { 
-      font-size: 16px; 
-      font-weight: bold; 
-      color: #182d84; 
-      text-align: center;
-      width: 100%;
+    .box .back-btn:hover,
+    .box .next-btn:hover {
+      opacity: 0.8;
     }
-
-    /* Bouton Suivant centré horizontalement */
-    .next-btn {
-      display: block;
+    /* Bouton "Retour" : 5px au-dessus de la box */
+    .box .back-btn {
+      top: -5px;
+    }
+    /* Bouton "Suivant" : 5px en-dessous de la box */
+    .box .next-btn {
+      bottom: -5px;
       background-color: transparent;
       color: #182d84;
-      font-size: 14px;
-      cursor: pointer;
       border: 2px solid #182d84;
-      border-radius: 4px;
-      padding: 8px 16px;
-      margin: 20px auto 0;
-      opacity: 0.6;
-      transition: opacity 0.3s;
     }
-    .next-btn:hover { background-color: #00a48a; color: #fff; opacity: 0.8; }
-    .next-btn.pulse { animation: electricPulse 1.5s infinite; }
-    @keyframes electricPulse {
-      0% { box-shadow: 0 0 0 0 rgba(0,164,138,0.7); }
-      70% { box-shadow: 0 0 0 10px rgba(0,164,138,0); }
-      100% { box-shadow: 0 0 0 0 rgba(0,164,138,0); }
+    .box .next-btn:hover {
+      background-color: #00a48a;
+      color: #fff;
     }
 
+    /* --- Masquer le bouton Retour dans le STEP1 --- */
+    #step1 .back-btn { display: none !important; }
+
+    /* --- Autres styles (boutons CTA, etc.) restent inchangés --- */
     .btn-impro {
       margin: 15px 0;
       padding: 10px 20px;
@@ -246,7 +230,6 @@
     }
     .btn-impro:hover { background-color: #00a48a; }
 
-    /* --- STEP1 : Choix d’objectif --- */
     .objectives-container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
@@ -288,7 +271,6 @@
     .objective-item[data-category="entretien"] i { color: #795548; }
     .objective-item[data-category="lacher-prise"] i { color: #FF5722; }
 
-    /* --- STEP2 : Génération du sujet --- */
     #objective-reminder {
       color: grey;
       font-size: 0.8rem;
@@ -326,7 +308,7 @@
     #advice-text {
       display: none;
       margin-top: 10px;
-      margin-bottom: 20px; /* marge ajoutée pour éviter le chevauchement */
+      margin-bottom: 20px;
       padding: 10px;
       background-color: #fefefe;
       border: 1px solid #ccc;
@@ -336,14 +318,13 @@
       text-align: left;
     }
     
-    /* --- STEP3 : Enregistrement vidéo --- */
     .subject-bubble {
       display: inline-block;
       position: relative;
       background: #fefefe;
       border: 2px solid #ccc;
       border-radius: 16px;
-      padding: 10px 10px;
+      padding: 10px;
       font-size: 14px;
       color: #333;
       text-align: center;
@@ -470,7 +451,6 @@
     }
     .hidden-btn { display: none; }
 
-    /* --- STEP4 : Analyse ta prestation & Téléchargements --- */
     .download-section { margin-top: 20px; }
     .download-section-accent {
       background: linear-gradient(135deg, #182d84, #00a48a);
@@ -549,7 +529,6 @@
       text-align: center;
       width: 100%;
     }
-
     .download-fields {
       display: flex;
       justify-content: space-between;
@@ -589,7 +568,7 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+      box-shadow: 0px 4px 6px rgba(0,0,0,0.2);
       transition: background-color 0.3s, transform 0.2s;
       z-index: 100;
       display: none;
@@ -600,13 +579,8 @@
     }
     .linkedin-share-btn i { font-size: 18px; }
 
-    /* --- STEP0 : titre du simulateur sur 3 lignes --- */
     @media (max-width: 600px) {
       h1 .line { display: block; }
-    }
-    
-    /* --- STEP1 : Affichage sur mobile --- */
-    @media (max-width: 600px) {
       .objectives-container {
         display: flex;
         flex-direction: column;
@@ -643,12 +617,8 @@
         flex: 1;
         text-align: left;
       }
-      .objective-item:nth-child(odd) i {
-        transform: rotate(-10deg);
-      }
-      .objective-item:nth-child(even) i {
-        transform: rotate(10deg);
-      }
+      .objective-item:nth-child(odd) i { transform: rotate(-10deg); }
+      .objective-item:nth-child(even) i { transform: rotate(10deg); }
       .objective-item:hover {
         background-color: #e5e7eb;
         transform: translateY(-1px);
@@ -664,11 +634,8 @@
         margin: 4px 10px 8px;
         text-align: left;
       }
-      /* Sur mobile, ne pas afficher le bouton Retour dans le STEP1 */
-      #step1 .back-btn { display: none; }
     }
     
-    /* --- DESKTOP --- */
     @media (min-width: 601px) {
       .main-container {
         display: flex;
@@ -707,35 +674,26 @@
         transform: scale(1.03);
         background-color: #00a48a;
       }
-      .objective-item:hover i {
-        color: #fff;
-      }
-      .objective-item:hover span {
-        color: #fff;
-      }
+      .objective-item:hover i { color: #fff; }
+      .objective-item:hover span { color: #fff; }
     }
     
     @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
   </style>
 </head>
 <body>
-  
   <!-- BOÎTE D'INTRODUCTION -->
   <div class="intro-box" id="intro-box">
     <h1>
       <span class="line">Entraîne-toi</span>
       <span class="line">à la prise de</span>
       <span class="line">parole en public</span>
-    </h1> 
+    </h1>
     <button id="start-intro-btn" aria-label="Commencer">Commencer</button>
   </div>
 
   <!-- FORMULAIRE CACHÉ POUR GOOGLE FORMS -->
-  <form id="hidden-google-form"
-        action="https://docs.google.com/forms/d/e/1FAIpQLSfGAcKp0cV5AeVJCJBPbtKLKCLhbYySZf_FkiMg85WKVFUn6A/formResponse"
-        method="POST"
-        target="hidden_iframe"
-        style="display:none;">
+  <form id="hidden-google-form" action="https://docs.google.com/forms/d/e/1FAIpQLSfGAcKp0cV5AeVJCJBPbtKLKCLhbYySZf_FkiMg85WKVFUn6A/formResponse" method="POST" target="hidden_iframe" style="display:none;">
     <input type="text" name="entry.1119647353" id="hidden-prenom">
     <input type="email" name="entry.638831312" id="hidden-email">
   </form>
@@ -759,8 +717,8 @@
     <!-- STEP1 : Choix d'objectif -->
     <div class="box active" id="step1">
       <div class="box-header">
-        <!-- Bouton "Retour" est caché dans STEP1 (sur mobile et desktop) -->
-        <button class="back-btn hidden-visibility" id="back-btn1" aria-label="Retour">
+        <!-- Le bouton "Retour" dans le STEP1 est masqué via CSS -->
+        <button class="back-btn" id="back-btn1" aria-label="Retour">
           <i class="fas fa-arrow-left"></i> Retour
         </button>
         <div class="box-title">Quel est ton objectif ?</div>
@@ -819,7 +777,7 @@
         <div class="box-title">Quel sujet pour ta prise de parole ?</div>
       </div>
       <div id="objective-reminder">Rappel de ton objectif : <span id="current-objective"></span></div>
-      <button id="generate-subject-btn" class="btn-impro">Générer un sujet  <i class="fas fa-random"></i></button>
+      <button id="generate-subject-btn" class="btn-impro">Générer un sujet <i class="fas fa-random"></i></button>
       <div id="subject-wrapper">
         <span id="subject-display"></span>
       </div>
@@ -827,11 +785,11 @@
         Des conseils avant de démarrer ta prise de parole ? <i id="advice-icon" class="fas fa-chevron-down"></i>
       </div>
       <div id="advice-text">
-        1) Positionne tes yeux à hauteur de la caméra. <br><br>
+        1) Positionne tes yeux à hauteur de la caméra.<br><br>
         2) Choisis un fond neutre pour éviter toute distraction.<br><br>
-        3) Assure-toi que l'éclairage te met en valeur. <br><br>
+        3) Assure-toi que l'éclairage te met en valeur.<br><br>
         4) Vérifie que le son et la vidéo fonctionnent.<br><br>
-        5) Reste concentré et prends du plaisir. 
+        5) Reste concentré et prends du plaisir.
       </div>
       <div id="subject-error" class="error-message"></div>
       <button class="next-btn" id="next-btn2" aria-label="Suivant">
