@@ -1444,8 +1444,7 @@
      ***********************/
     document.getElementById("linkedin-share-btn").addEventListener("click", () => {
       const shareURL = encodeURIComponent(window.location.href);
-      const shareText = encodeURIComponent("Je m'entraîne à la prise de parole en public avec le simulateur Letmotiv !");
-      const linkedInURL = `https://www.linkedin.com/sharing/share-offsite/?url=${shareURL}&summary=${shareText}`;
+      const linkedInURL = "https://www.linkedin.com/sharing/share-offsite/?url=" + shareURL;
       window.open(linkedInURL, '_blank');
     });
 
