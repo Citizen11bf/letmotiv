@@ -186,55 +186,48 @@
       margin-bottom: 20px;
       position: relative;
     }
-    /* Boutons Retour modifiés pour ressembler au bouton Suivant */
-    .back-btn {
-      border: none;
-      background-color: #808080;
-      color: #FFFFFF;
-      font-size: 16px;
-      cursor: pointer;
-      border-radius: 25px;
-      padding: 0 15px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      transition: background-color 0.3s, transform 0.3s;
-      margin: 0 auto 10px;
-    }
-    .back-btn:hover { background-color: #505050; transform: scale(1.1); }
-    .back-btn:active { background-color: #303030; }
-    #step1 .back-btn.hidden-visibility { display: none; }
-    .box-title { font-size: 16px; font-weight: bold; color: #182d84; text-align: center; }
 
-    /* --- Boutons avec flèches et texte --- */
+    /* --- Boutons de navigation (Retour/Suivant) --- */
+    /* Style commun aux deux boutons */
     .next-btn, .back-btn {
-      display: flex;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 5px;
-    }
-    .next-btn {
-      width: auto;
-      height: 40px;
-      padding: 0 15px;
-      border-radius: 25px;
-      border: 2px solid #182d84;
-      background-color: transparent;
-      color: #182d84;
+      gap: 8px;
+      padding: 0 20px;
+      height: 48px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
       cursor: pointer;
-      transition: background-color 0.3s, color 0.3s, transform 0.3s;
-      margin: 10px auto;
+      transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+      border: 2px solid transparent;
+      /* Pour les distinguer des autres boutons d'action */
+      background-color: #ffffff;
     }
-    .next-btn:hover { background-color: #00a48a; color: #ffffff; transform: scale(1.05); }
-    .next-btn.pulse { animation: electricPulse 1.5s infinite; }
-    @keyframes electricPulse {
-      0% { box-shadow: 0 0 0 0 rgba(0,164,138,0.7); }
-      70% { box-shadow: 0 0 0 10px rgba(0,164,138,0); }
-      100% { box-shadow: 0 0 0 0 rgba(0,164,138,0); }
+    /* Bouton Suivant : utilisation d'un bleu discret pour le contour */
+    .next-btn {
+      color: #182d84;
+      border-color: #182d84;
+    }
+    .next-btn:hover {
+      background-color: #f0f8ff;
+      border-color: #182d84;
+      transform: scale(1.03);
+    }
+    /* Bouton Retour : un gris plus "peps" */
+    .back-btn {
+      color: #333;
+      border-color: #666;
+      background-color: #f7f7f7;
+    }
+    .back-btn:hover {
+      background-color: #e0e0e0;
+      border-color: #555;
+      transform: scale(1.03);
     }
 
+    /* --- Boutons d'actions spécifiques (ex. Générer un sujet, Démarrer l'impro) --- */
     .btn-impro {
       margin: 15px 0;
       padding: 10px 20px;
@@ -291,8 +284,6 @@
     .objective-item[data-category="lacher-prise"] i { color: #FF5722; }
 
     /* --- STEP2 : Génération du sujet --- */
-    
-    /* Rappel de l'objectif dans STEP2 */
     #objective-reminder {
       color: grey;
       font-size: 0.8rem;
@@ -301,7 +292,6 @@
     #current-objective {
       text-transform: lowercase;
     }
-    
     #subject-wrapper {
       margin-top: 10px;
       background: linear-gradient(135deg, #00a48a, #182d84);
@@ -681,7 +671,6 @@
         position: relative;
         margin: 0 auto;
       }
-      /* Modification de la grille STEP1 */
       .objectives-container {
         display: flex;
         flex-wrap: wrap;
