@@ -353,7 +353,6 @@
       transform-style: preserve-3d;
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
       border-radius: 8px;
-      background-color: #fff;
     }
     .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
     .flip-card-front,
@@ -368,24 +367,15 @@
       align-items: center;
       justify-content: center;
       padding: 10px;
-      transition: background-color 0.3s, color 0.3s;
-    }
-    /* --- Nouveau style pour le STEP1 --- */
-    .flip-card-front {
-      background: #ffffff;
+      /* On applique ici le même style pour les deux faces pour conserver le titre et l'icône */
+      background: #fff;
       color: #2E22AC;
       border: 2px solid #2E22AC;
+      transition: background-color 0.3s, color 0.3s;
     }
+    /* Même style pour la face arrière */
     .flip-card-back {
-      background: #00a48a;
-      color: #ffffff;
-      border: 2px solid #00a48a;
-    }
-    /* Inversion des couleurs lors du flip */
-    .flip-card.flipped .flip-card-front {
-      background: #2E22AC;
-      color: #ffffff;
-      border: 2px solid #2E22AC;
+      transform: rotateY(180deg);
     }
 
     /* --- STEP2 : Configuration de la simulation --- */
@@ -706,7 +696,7 @@
   <!-- Élément audio pour le feedback sonore -->
   <audio id="pop-sound" src="https://www.soundjay.com/button/sounds/button-30.mp3" preload="auto"></audio>
 
-  <!-- BOÎTE D'INTRODUCTION (STEP0) --->
+  <!-- BOÎTE D'INTRODUCTION (STEP0) -->
   <div class="intro-box" id="intro-box">
     <h1>
       <span class="line">Entraîne-toi</span>
@@ -761,7 +751,8 @@
               <span>Grand Oral</span>
             </div>
             <div class="flip-card-back">
-              Prépare-toi pour le Grand Oral.
+              <i class="fas fa-microphone"></i>
+              <span>Grand Oral</span>
             </div>
           </div>
         </div>
@@ -773,7 +764,8 @@
               <span>Ecole d'ingénieur généraliste</span>
             </div>
             <div class="flip-card-back">
-              Prépare ton entretien pour une école d'ingénieur généraliste.
+              <i class="fas fa-cogs"></i>
+              <span>Ecole d'ingénieur généraliste</span>
             </div>
           </div>
         </div>
@@ -785,7 +777,8 @@
               <span>Ecole d'ingénieur aéro</span>
             </div>
             <div class="flip-card-back">
-              Prépare ton entretien pour une école d'ingénieur spécialisée en aéronautique.
+              <i class="fas fa-rocket"></i>
+              <span>Ecole d'ingénieur aéro</span>
             </div>
           </div>
         </div>
@@ -797,7 +790,8 @@
               <span>Ecole de commerce</span>
             </div>
             <div class="flip-card-back">
-              Prépare ton entretien pour une école de commerce.
+              <i class="fas fa-handshake"></i>
+              <span>Ecole de commerce</span>
             </div>
           </div>
         </div>
@@ -809,7 +803,8 @@
               <span>Ecole de Sciences Politiques</span>
             </div>
             <div class="flip-card-back">
-              Prépare ton entretien pour une école de Sciences Politiques.
+              <i class="fas fa-university"></i>
+              <span>Ecole de Sciences Politiques</span>
             </div>
           </div>
         </div>
@@ -821,7 +816,8 @@
               <span>Entretien d'embauche</span>
             </div>
             <div class="flip-card-back">
-              Prépare-toi pour ton entretien d'embauche.
+              <i class="fas fa-briefcase"></i>
+              <span>Entretien d'embauche</span>
             </div>
           </div>
         </div>
