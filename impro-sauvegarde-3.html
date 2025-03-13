@@ -491,86 +491,14 @@
     }
     .hidden-btn { display: none; }
 
-    /* --- STEP4 : Analyse ta prestation & Téléchargements --- */
-    .download-section { margin-top: 20px; }
-    .download-section-accent {
-      background: linear-gradient(135deg, #182d84, #00a48a);
-      border-radius: 10px;
-      padding: 20px;
-      text-align: center;
-      color: #fff;
-      margin-bottom: 20px;
-      animation: fadeInDown 0.6s ease forwards;
-    }
-    .download-section-accent h2 {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.5rem;
-      margin: 0 0 10px;
-    }
-    .download-section-accent .subtitle {
-      font-style: italic;
-      margin-bottom: 10px;
-    }
-    .download-section-accent .reassure {
-      font-size: 0.9rem;
-      opacity: 0.9;
-    }
-
-    .call-to-action { text-align: center; }
-    .call-to-action button {
-      background-color: #ffcb2d;
-      color: #000;
-      border-radius: 30px;
-      padding: 12px 24px;
-      font-weight: bold;
-      font-size: 1rem;
-      transition: transform 0.2s, box-shadow 0.2s;
-      margin: 10px auto;
-    }
-    .call-to-action button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-    }
-
-    .download-buttons {
-      margin-top: 20px;
-      text-align: center;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.4s ease, transform 0.4s ease;
-      display: none;
-    }
-    .download-buttons.show {
-      opacity: 1;
-      transform: translateY(0);
-      display: block;
-    }
-
-    .success-message {
-      color: #28a745;
-      background-color: #d4edda;
-      border: 1px solid #c3e6cb;
-      border-radius: 5px;
-      padding: 10px 20px;
-      margin-top: 10px;
-      font-weight: bold;
-      text-align: center;
-      transition: opacity 0.5s ease, visibility 0.5s ease;
-    }
-    .success-message.show {
-      display: block;
-      opacity: 1;
-      visibility: visible;
-    }
-    .error-message {
-      color: red;
-      margin-top: 10px;
-      font-weight: bold;
-      display: none;
-      text-align: center;
-      width: 100%;
-    }
-
+    /* --- STEP4 : Analyse ta prestation & Téléchargements ---
+         Mise à jour pour afficher :
+         - Titre (déjà présent)
+         - Box dégradée avec message de félicitations et emoji
+         - Bouton "Télécharger ma vidéo" avec message de confirmation et animation sur le bouton "Analyse ta prestation"
+         - Section Newsletter avec champs optionnels pour Prénom et Email
+    */
+    /* Les styles existants pour .download-section et .download-section-accent sont conservés */
     .download-fields {
       display: flex;
       justify-content: space-between;
@@ -623,12 +551,12 @@
 
     /* --- STEP0 : titre du simulateur sur 3 lignes --- */
     @media (max-width: 600px) {
-    h1 .line { display: block; }
-    
-    .intro-box h1 {
-      font-size: 1.8rem;
-    }
-    
+      h1 .line { display: block; }
+      
+      .intro-box h1 {
+        font-size: 1.8rem;
+      }
+      
       .cta {
         padding: 8px 30px !important;
         font-size: 30px !important;
@@ -907,7 +835,7 @@
           <button id="start-btn" aria-label="Démarrer l'improvisation">
             Démarrer ton impro <i class="fas fa-video"></i>
           </button>
-          <p>NB : ta vidéo est stockée sur ton appareil. <br>Aucun enregistrement n'est conservé par Letmotiv.</p>
+          <p>NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
         </div>
         <div class="recording-indicator" id="recording-indicator">
           <span class="dot"></span> Enregistrement en cours
@@ -940,40 +868,53 @@
         <div class="box-title">Analyse ta prestation</div>
       </div>
       <div class="download-section">
+        <!-- Box de félicitations -->
         <div class="download-section-accent">
-          <h2>Obtiens gratuitement ta prestation en vidéo et la grille d'analyse Letmotiv</h2>
-          <p class="subtitle">Analyse et évalue ton improvisation grâce aux conseils Letmotiv.</p>
-          <p class="reassure">
-            N'hésite pas à t'entraîner et refaire des improvisations pour progresser sur tes axes d'amélioration.
-          </p>
+          <h2 style="font-weight: bold; font-size: 1.8rem;">
+            Félicitations pour avoir réalisé ton improvisation ! <span>🤩</span>
+          </h2>
         </div>
-        <div class="download-fields">
-          <div class="input-group">
-            <label for="prenom">Prénom :</label>
-            <input type="text" id="prenom" placeholder="Votre prénom" aria-label="Prénom"/>
-            <div id="prenom-error" class="error-message"></div>
+
+        <!-- Bouton Télécharger ma vidéo -->
+        <div class="call-to-action" style="margin: 20px 0;">
+          <button id="download-video-btn" aria-label="Télécharger ma vidéo">
+            <i class="fas fa-download"></i> Télécharger ma vidéo
+          </button>
+        </div>
+        <!-- Message de confirmation de téléchargement -->
+        <div id="download-message" class="success-message" style="display: none; text-align: center;">
+          Une vidéo va être téléchargée.
+        </div>
+
+        <!-- Bouton Analyse ta prestation -->
+        <div class="call-to-action" style="margin: 20px 0;">
+          <button id="feedback-btn" aria-label="Analyse ta prestation" onclick="window.location.href='https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro'">
+            Analyse ta prestation
+          </button>
+        </div>
+
+        <!-- Section Newsletter (optionnelle) -->
+        <div class="download-section-accent" style="margin-top: 30px;">
+          <h2 style="font-weight: bold; font-size: 1.5rem;">
+            Abonne-toi à notre newsletter si tu veux progresser et prendre la parole avec impact !
+          </h2>
+          <div class="download-fields" style="margin-top: 20px;">
+            <div class="input-group">
+              <label for="newsletter-prenom">Prénom :</label>
+              <input type="text" id="newsletter-prenom" placeholder="Votre prénom" aria-label="Prénom"/>
+              <div id="newsletter-prenom-error" class="error-message"></div>
+            </div>
+            <div class="input-group">
+              <label for="newsletter-email">Email :</label>
+              <input type="email" id="newsletter-email" placeholder="Votre email" aria-label="Email"/>
+              <div id="newsletter-email-error" class="error-message"></div>
+            </div>
           </div>
-          <div class="input-group">
-            <label for="email">Email :</label>
-            <input type="email" id="email" placeholder="Votre email" aria-label="Email"/>
-            <div id="email-error" class="error-message"></div>
+          <div class="call-to-action" style="margin-top: 20px;">
+            <button id="newsletter-submit-btn" aria-label="S'abonner">
+              S'abonner
+            </button>
           </div>
-        </div>
-        <div class="call-to-action">
-          <button id="validate-form-btn" aria-label="Valider les informations">
-            Valider
-          </button>
-        </div>
-        <div id="success-message" class="success-message" style="display: none;">
-          Merci ! Tes informations ont été enregistrées et tes ressources sont prêtes à être téléchargées.
-        </div>
-        <div class="download-buttons" id="download-buttons">
-          <button id="download-video-btn" aria-label="Télécharger ta vidéo">
-            <i class="fas fa-download"></i> Télécharger ta vidéo
-          </button>
-          <button id="download-pdf-btn" aria-label="Télécharger la grille d'évaluation">
-            <i class="fas fa-download"></i> Télécharger la grille d'évaluation
-          </button>
         </div>
       </div>
     </div>
@@ -1017,7 +958,6 @@
     let currentCategory = null;
     let currentObjective = "";
     let currentSubject = "";
-
     let isImproRecordingStarted = false;
     let mediaRecorderInstance;
     let recordedChunks = [];
@@ -1414,72 +1354,41 @@
     bindStartButton();
 
     /***********************
-     * TÉLÉCHARGEMENTS ET FORMULAIRE (STEP4)
+     * TÉLÉCHARGEMENTS ET NEWSLETTER (STEP4)
      ***********************/
-    const validateFormBtn = document.getElementById('validate-form-btn');
-    const prenomInput = document.getElementById('prenom');
-    const emailInput = document.getElementById('email');
-    const prenomError = document.getElementById('prenom-error');
-    const emailError = document.getElementById('email-error');
-    const downloadButtons = document.getElementById('download-buttons');
-    const downloadVideoBtn = document.getElementById('download-video-btn');
-    const downloadPdfBtn = document.getElementById('download-pdf-btn');
-
-    validateFormBtn.addEventListener('click', () => {
-      const prenomValue = prenomInput.value.trim();
-      const emailValue = emailInput.value.trim();
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      const prenomRegex = /^[A-Za-zÀ-ÿ '-]+$/;
-
-      let valid = true;
-      prenomError.style.display = 'none';
-      emailError.style.display = 'none';
-
-      if (!prenomValue || !prenomRegex.test(prenomValue)) {
-        prenomError.textContent = "Entre un prénom valide (sans chiffres ni caractères spéciaux).";
-        prenomError.style.display = 'block';
-        valid = false;
-      }
-      if (!emailValue) {
-        emailError.textContent = "Merci de renseigner ton email pour continuer.";
-        emailError.style.display = 'block';
-        valid = false;
-      } else if (!emailRegex.test(emailValue)) {
-        emailError.textContent = "Entre une adresse email valide.";
-        emailError.style.display = 'block';
-        valid = false;
-      }
-      if (!valid) return;
-
-      document.getElementById('hidden-prenom').value = prenomValue;
-      document.getElementById('hidden-email').value = emailValue;
-      document.getElementById('hidden-google-form').submit();
-
-      const successMessage = document.getElementById('success-message');
-      successMessage.style.display = 'block';
-      successMessage.classList.add('show');
+    // Gestion du téléchargement de la vidéo
+    document.getElementById('download-video-btn').addEventListener('click', () => {
+      const msgEl = document.getElementById('download-message');
+      msgEl.style.display = 'block';
       setTimeout(() => {
-        successMessage.classList.remove('show');
-        successMessage.style.display = 'none';
-      }, 5000);
+        if (confirm("Une vidéo va être téléchargée. Voulez-vous continuer ?")) {
+          if (videoURL) {
+            const link = document.createElement('a');
+            link.href = videoURL;
+            link.download = 'Letmotiv_Improvisation.mp4';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            // Ajoute l'animation sur le bouton "Analyse ta prestation"
+            const feedbackBtn = document.getElementById('feedback-btn');
+            feedbackBtn.classList.add('pulse');
+          } else {
+            alert("Aucune vidéo n'est disponible pour le moment.");
+          }
+        }
+        msgEl.style.display = 'none';
+      }, 500);
+    });
 
-      if (videoURL) {
-        const link = document.createElement('a');
-        link.href = videoURL;
-        link.download = 'Letmotiv_Improvisation.mp4';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      }
-
-      const callToActionDiv = document.querySelector('.call-to-action');
-      callToActionDiv.innerHTML = `
-        <button id="feedback-btn" aria-label="Feedback de l'impro" style="background-color: #ffcb2d; color: #000; border-radius: 30px; padding: 12px 24px; font-weight: bold; font-size: 1rem; transition: transform 0.2s, box-shadow 0.2s; margin: 10px auto;">
-          Feedback de l'impro
-        </button>`;
-      document.getElementById('feedback-btn').addEventListener('click', () => {
-        window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro";
-      });
+    // Gestion de la newsletter optionnelle
+    document.getElementById('newsletter-submit-btn').addEventListener('click', () => {
+      const prenom = document.getElementById('newsletter-prenom').value.trim();
+      const email = document.getElementById('newsletter-email').value.trim();
+      // Ici, on peut ajouter des validations si besoin. Puis soumettre le formulaire caché Google Forms.
+      document.getElementById('hidden-prenom').value = prenom;
+      document.getElementById('hidden-email').value = email;
+      document.getElementById('hidden-google-form').submit();
+      alert("Merci pour ton abonnement !");
     });
 
     /***********************
