@@ -51,7 +51,7 @@
     }
   </script>
   
-  <!-- Styles CSS -->
+  <!-- Styles CSS Global -->
   <style>
     /* --- GLOBAL --- */
     * { box-sizing: border-box; }
@@ -63,7 +63,6 @@
       padding-top: 60px; /* espace pour le header fixe */
       padding-bottom: 20px;
     }
-
     /* --- HEADER --- */
     .header {
       background-color: #182d84;
@@ -88,7 +87,6 @@
       overflow-wrap: break-word;
     }
     .header-l2 { font-size: 14px; font-weight: normal; }
-
     /* --- BARRE DE PROGRESSION --- */
     .progress-container {
       position: fixed;
@@ -105,7 +103,6 @@
       background-color: #00a48a;
       transition: width 0.5s ease;
     }
-
     /* --- BOÎTE D'INTRODUCTION --- */
     .intro-box {
       position: fixed;
@@ -131,7 +128,6 @@
     .intro-box h1 span {
       display: block;
     }
-
     .wrapper { display: flex; justify-content: center; }
     .cta {
       display: flex;
@@ -157,17 +153,14 @@
       position: relative;
       top: 12%;
     }
-    
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
     @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
     /* --- CONTENEUR PRINCIPAL --- */
     .main-container {
       position: relative;
       padding: 20px;
     }
-
     /* --- BOXES (étapes) --- */
     .box {
       position: relative;
@@ -185,13 +178,11 @@
     }
     .box.active { display: block; opacity: 1; }
     .box.hidden { opacity: 0; }
-
     /* --- ANIMATIONS VERTICALES --- */
     .slide-from-bottom { animation: fromBottom 1.5s ease forwards; }
     @keyframes fromBottom { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
     .slide-from-top { animation: fromTop 1.5s ease forwards; }
     @keyframes fromTop { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
-
     /* --- HEADER INTERNE DES BOXES --- */
     .box-header {
       display: flex;
@@ -220,7 +211,6 @@
     .back-btn:active { background-color: #303030; }
     #step1 .back-btn.hidden-visibility { display: none; }
     .box-title { font-size: 16px; font-weight: bold; color: #182d84; text-align: center; }
-
     /* --- FLECHES HAUT/BAS --- */
     .next-btn {
       width: 40px;
@@ -243,7 +233,6 @@
       70% { box-shadow: 0 0 0 10px rgba(0,164,138,0); }
       100% { box-shadow: 0 0 0 0 rgba(0,164,138,0); }
     }
-
     .btn-impro {
       margin: 15px 0;
       padding: 10px 20px;
@@ -256,7 +245,6 @@
       transition: background-color 0.3s;
     }
     .btn-impro:hover { background-color: #00a48a; }
-
     /* --- STEP1 : Choix d’objectif --- */
     .objectives-container {
       display: grid;
@@ -298,10 +286,7 @@
     .objective-item[data-category="diction"] i { color: #00BCD4; }
     .objective-item[data-category="entretien"] i { color: #795548; }
     .objective-item[data-category="lacher-prise"] i { color: #FF5722; }
-
     /* --- STEP2 : Génération du sujet --- */
-    
-    /* Rappel de l'objectif dans STEP2 */
     #objective-reminder {
       color: grey;
       font-size: 0.8rem;
@@ -310,7 +295,6 @@
     #current-objective {
       text-transform: lowercase;
     }
-    
     #subject-wrapper {
       margin-top: 10px;
       background: linear-gradient(135deg, #00a48a, #182d84);
@@ -323,7 +307,6 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
       display: none;
     }
-   
     #advice-toggle {
       cursor: pointer;
       margin-top: 20px;
@@ -347,16 +330,12 @@
       line-height: 1.5;
       text-align: left;
     }
-    
     .mobile-break {
       display: none;
     }
     @media (max-width: 600px) {
-      .mobile-break {
-        display: inline;
-      }
+      .mobile-break { display: inline; }
     }
-
     /* --- STEP3 : Enregistrement vidéo --- */
     .subject-bubble {
       display: inline-block;
@@ -481,7 +460,6 @@
       color: #ffffff;
       font-weight: bold;
     }
-
     .impro-actions {
       display: flex;
       flex-wrap: wrap;
@@ -490,15 +468,6 @@
       margin-top: 10px;
     }
     .hidden-btn { display: none; }
-
-    /* --- STEP4 : Analyse ta prestation & Téléchargements ---
-         Mise à jour pour afficher :
-         - Titre (déjà présent)
-         - Box dégradée avec message de félicitations et emoji
-         - Bouton "Télécharger ma vidéo" avec message de confirmation et animation sur le bouton "Analyse ta prestation"
-         - Section Newsletter avec champs optionnels pour Prénom et Email
-    */
-    /* Les styles existants pour .download-section et .download-section-accent sont conservés */
     .download-fields {
       display: flex;
       justify-content: space-between;
@@ -522,7 +491,6 @@
       transition: border-color 0.3s;
     }
     .input-group input:focus { border-color: #00a48a; outline: none; }
-
     .linkedin-share-btn {
       position: fixed;
       bottom: 15px;
@@ -548,31 +516,13 @@
       transform: scale(1.1);
     }
     .linkedin-share-btn i { font-size: 18px; }
-
-    /* --- STEP0 : titre du simulateur sur 3 lignes --- */
     @media (max-width: 600px) {
       h1 .line { display: block; }
-      
-      .intro-box h1 {
-        font-size: 1.8rem;
-      }
-      
-      .cta {
-        padding: 8px 30px !important;
-        font-size: 30px !important;
-      }
-      .cta svg {
-        width: 40px !important;
-        height: auto !important;
-      }
-      .cta span:nth-child(2) {
-        margin-left: 20px !important;
-        width: 15px !important;
-        top: 10% !important;
-      }
+      .intro-box h1 { font-size: 1.8rem; }
+      .cta { padding: 8px 30px !important; font-size: 30px !important; }
+      .cta svg { width: 40px !important; height: auto !important; }
+      .cta span:nth-child(2) { margin-left: 20px !important; width: 15px !important; top: 10% !important; }
     }
-    
-    /* --- STEP1 : Affichage sur mobile --- */
     @media (max-width: 600px) {
       .objectives-container {
         display: flex;
@@ -606,34 +556,13 @@
         font-size: 2.0rem;
         color: #444;
       }
-      .objective-item span {
-        flex: 1;
-        text-align: left;
-      }
-      .objective-item:nth-child(odd) i {
-        transform: rotate(-10deg);
-      }
-      .objective-item:nth-child(even) i {
-        transform: rotate(10deg);
-      }
-      .objective-item:hover {
-        background-color: #e5e7eb;
-        transform: translateY(-1px);
-      }
-      .objective-item:active {
-        transform: translateY(0);
-        background-color: #dcdfe3;
-      }
-      .mobile-explanation {
-        font-size: 0.8rem;
-        color: #555;
-        font-weight: bold;
-        margin: 4px 10px 8px;
-        text-align: left;
-      }
+      .objective-item span { flex: 1; text-align: left; }
+      .objective-item:nth-child(odd) i { transform: rotate(-10deg); }
+      .objective-item:nth-child(even) i { transform: rotate(10deg); }
+      .objective-item:hover { background-color: #e5e7eb; transform: translateY(-1px); }
+      .objective-item:active { transform: translateY(0); background-color: #dcdfe3; }
+      .mobile-explanation { font-size: 0.8rem; color: #555; font-weight: bold; margin: 4px 10px 8px; text-align: left; }
     }
-    
-    /* --- DESKTOP : Centrage sur deux lignes --- */
     @media (min-width: 601px) {
       .main-container {
         display: flex;
@@ -641,11 +570,7 @@
         align-items: center;
         min-height: calc(100vh - 60px);
       }
-      .box {
-        position: relative;
-        margin: 0 auto;
-      }
-      /* Modification de la grille STEP1 */
+      .box { position: relative; margin: 0 auto; }
       .objectives-container {
         display: flex;
         flex-wrap: wrap;
@@ -665,23 +590,59 @@
         flex: 1 1 150px;
         text-align: center;
       }
-      .objective-item i {
-        color: #777;
-        transition: color 0.3s;
-      }
-      .objective-item:hover {
-        transform: scale(1.03);
-        background-color: #00a48a;
-      }
-      .objective-item:hover i {
-        color: #fff;
-      }
-      .objective-item:hover span {
-        color: #fff;
-      }
+      .objective-item i { color: #777; transition: color 0.3s; }
+      .objective-item:hover { transform: scale(1.03); background-color: #00a48a; }
+      .objective-item:hover i { color: #fff; }
+      .objective-item:hover span { color: #fff; }
     }
-    
-    @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  </style>
+
+  <!-- Styles spécifiques pour le STEP4 -->
+  <style>
+    /* Styles pour la section STEP4 (ID "step5") */
+    #step5 .download-section-accent {
+      background: linear-gradient(135deg, #182d84, #00a48a);
+      padding: 30px;
+      border-radius: 12px;
+      color: #fff;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    #step5 .download-section-accent h2 {
+      margin: 0;
+    }
+    /* Boutons dédiés au STEP4 */
+    #step5 .call-to-action button,
+    #step5 .btn-download,
+    #step5 .btn-feedback,
+    #step5 .btn-newsletter {
+      background-color: #ffcb2d;
+      color: #000;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin: 10px 0;
+    }
+    #step5 .call-to-action button:hover,
+    #step5 .btn-download:hover,
+    #step5 .btn-feedback:hover,
+    #step5 .btn-newsletter:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+    /* Animation pulse pour inciter l'utilisateur */
+    @keyframes pulseAnimation {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    #step5 .pulse {
+      animation: pulseAnimation 1.5s infinite;
+    }
   </style>
 </head>
 <body>
@@ -796,7 +757,6 @@
         <button class="back-btn" id="back-btn2" aria-label="Retour à l'étape précédente">
           <i class="fas fa-arrow-up"></i>
         </button>
-        <!-- Titre du STEP2 -->
         <div class="box-title">Prêt à relever le défi ?</div>
       </div>
       <button id="generate-subject-btn" class="btn-impro">Générer un sujet  <i class="fas fa-random"></i></button>
@@ -876,8 +836,8 @@
         </div>
 
         <!-- Bouton Télécharger ma vidéo -->
-        <div class="call-to-action" style="margin: 20px 0;">
-          <button id="download-video-btn" aria-label="Télécharger ma vidéo">
+        <div class="call-to-action">
+          <button id="download-video-btn" class="btn-download" aria-label="Télécharger ma vidéo">
             <i class="fas fa-download"></i> Télécharger ma vidéo
           </button>
         </div>
@@ -887,8 +847,8 @@
         </div>
 
         <!-- Bouton Analyse ta prestation -->
-        <div class="call-to-action" style="margin: 20px 0;">
-          <button id="feedback-btn" aria-label="Analyse ta prestation" onclick="window.location.href='https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro'">
+        <div class="call-to-action">
+          <button id="feedback-btn" class="btn-feedback" aria-label="Analyse ta prestation" onclick="window.location.href='https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro'">
             Analyse ta prestation
           </button>
         </div>
@@ -910,8 +870,8 @@
               <div id="newsletter-email-error" class="error-message"></div>
             </div>
           </div>
-          <div class="call-to-action" style="margin-top: 20px;">
-            <button id="newsletter-submit-btn" aria-label="S'abonner">
+          <div class="call-to-action">
+            <button id="newsletter-submit-btn" class="btn-newsletter" aria-label="S'abonner">
               S'abonner
             </button>
           </div>
@@ -996,7 +956,6 @@
       currentStep = next;
       updateShareButtonVisibility();
       if (next === 2) {
-        // Mise à jour du rappel de l'objectif dans STEP2
         document.getElementById('current-objective').textContent = currentObjective;
       }
       if (next === 3) {
