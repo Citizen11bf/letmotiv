@@ -599,49 +599,70 @@
 
   <!-- Styles spécifiques pour le STEP4 -->
   <style>
-    /* Styles pour la section STEP4 (ID "step5") */
-    #step5 .download-section-accent {
+    /* Boutons communs STEP4 */
+    .btn-common {
       background: linear-gradient(135deg, #182d84, #00a48a);
-      padding: 30px;
-      border-radius: 12px;
       color: #fff;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-    }
-    #step5 .download-section-accent h2 {
-      margin: 0;
-    }
-    /* Boutons dédiés au STEP4 */
-    #step5 .call-to-action button,
-    #step5 .btn-download,
-    #step5 .btn-feedback,
-    #step5 .btn-newsletter {
-      background-color: #ffcb2d;
-      color: #000;
-      border: none;
-      padding: 15px 30px;
-      border-radius: 30px;
-      font-size: 1rem;
       font-weight: bold;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 8px;
       cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: transform 0.3s, box-shadow 0.3s;
       margin: 10px 0;
     }
-    #step5 .call-to-action button:hover,
-    #step5 .btn-download:hover,
-    #step5 .btn-feedback:hover,
-    #step5 .btn-newsletter:hover {
-      transform: translateY(-3px);
+    .btn-common:hover {
+      transform: translateY(-2px);
       box-shadow: 0 4px 6px rgba(0,0,0,0.2);
     }
-    /* Animation pulse pour inciter l'utilisateur */
-    @keyframes pulseAnimation {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
+    /* Réduction de la taille de la police pour les encarts "Félicitations" et "Newsletter" */
+    #step5 .download-section-accent h2 {
+      font-size: 1.6rem;
     }
-    #step5 .pulse {
-      animation: pulseAnimation 1.5s infinite;
+    /* Newsletter styles inspirés du snippet fourni */
+    .newsletter-container {
+      width: 100%;
+      max-width: 400px;
+      background-color: #2d3748;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      padding: 20px;
+      margin: 30px auto;
+      color: #e2e8f0;
+      text-align: center;
+    }
+    .newsletter-title {
+      font-size: 1.4rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    .newsletter-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .newsletter-form input {
+      background-color: #4a5568;
+      color: #e2e8f0;
+      border: none;
+      border-radius: 8px;
+      padding: 10px;
+      outline: none;
+      transition: background-color 0.3s, box-shadow 0.3s;
+    }
+    .newsletter-form input:focus {
+      background-color: #2d3748;
+      box-shadow: 0 0 0 1px #3182ce;
+    }
+    .newsletter-error {
+      color: red;
+      font-size: 0.8rem;
+      text-align: left;
+    }
+    .newsletter-success {
+      color: green;
+      font-size: 0.9rem;
+      margin-top: 10px;
     }
   </style>
 </head>
@@ -696,8 +717,6 @@
 
   <!-- CONTAINER PRINCIPAL -->
   <div class="main-container">
-    <!-- Les étapes du simulateur -->
-
     <!-- STEP1 : Choix d'objectif -->
     <div class="box" id="step1">
       <div class="box-header">
@@ -828,16 +847,14 @@
         <div class="box-title">Analyse ta prestation</div>
       </div>
       <div class="download-section">
-        <!-- Box de félicitations -->
+        <!-- Encart Félicitations -->
         <div class="download-section-accent">
-          <h2 style="font-weight: bold; font-size: 1.8rem;">
-            Félicitations pour avoir réalisé ton improvisation ! <span>🤩</span>
-          </h2>
+          <h2 style="font-weight: bold;">Félicitations pour avoir réalisé ton improvisation ! <span>🤩</span></h2>
         </div>
 
         <!-- Bouton Télécharger ma vidéo -->
         <div class="call-to-action">
-          <button id="download-video-btn" class="btn-download" aria-label="Télécharger ma vidéo">
+          <button id="download-video-btn" class="btn-common" aria-label="Télécharger ma vidéo">
             <i class="fas fa-download"></i> Télécharger ma vidéo
           </button>
         </div>
@@ -848,33 +865,22 @@
 
         <!-- Bouton Analyse ta prestation -->
         <div class="call-to-action">
-          <button id="feedback-btn" class="btn-feedback" aria-label="Analyse ta prestation" onclick="window.location.href='https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro'">
+          <button id="feedback-btn" class="btn-common" aria-label="Analyse ta prestation" onclick="window.location.href='https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro'">
             Analyse ta prestation
           </button>
         </div>
 
-        <!-- Section Newsletter (optionnelle) -->
-        <div class="download-section-accent" style="margin-top: 30px;">
-          <h2 style="font-weight: bold; font-size: 1.5rem;">
-            Abonne-toi à notre newsletter si tu veux progresser et prendre la parole avec impact !
-          </h2>
-          <div class="download-fields" style="margin-top: 20px;">
-            <div class="input-group">
-              <label for="newsletter-prenom">Prénom :</label>
-              <input type="text" id="newsletter-prenom" placeholder="Votre prénom" aria-label="Prénom"/>
-              <div id="newsletter-prenom-error" class="error-message"></div>
-            </div>
-            <div class="input-group">
-              <label for="newsletter-email">Email :</label>
-              <input type="email" id="newsletter-email" placeholder="Votre email" aria-label="Email"/>
-              <div id="newsletter-email-error" class="error-message"></div>
-            </div>
-          </div>
-          <div class="call-to-action">
-            <button id="newsletter-submit-btn" class="btn-newsletter" aria-label="S'abonner">
-              S'abonner
-            </button>
-          </div>
+        <!-- Section Newsletter -->
+        <div class="newsletter-container">
+          <h2 class="newsletter-title">Abonne-toi à notre newsletter pour progresser et prendre la parole avec impact !</h2>
+          <form id="newsletter-form" class="newsletter-form">
+            <input type="text" id="newsletter-prenom" placeholder="Prénom" aria-label="Prénom">
+            <div id="newsletter-prenom-error" class="newsletter-error"></div>
+            <input type="email" id="newsletter-email" placeholder="Votre email" aria-label="Email">
+            <div id="newsletter-email-error" class="newsletter-error"></div>
+            <button type="submit" id="newsletter-submit-btn" class="btn-common">S'abonner</button>
+          </form>
+          <div id="newsletter-success" class="newsletter-success" style="display: none;">Tu es maintenant abonné à la newsletter Letmotiv.</div>
         </div>
       </div>
     </div>
@@ -1313,7 +1319,7 @@
     bindStartButton();
 
     /***********************
-     * TÉLÉCHARGEMENTS ET NEWSLETTER (STEP4)
+     * TÉLÉCHARGEMENT & NEWSLETTER (STEP4)
      ***********************/
     // Gestion du téléchargement de la vidéo
     document.getElementById('download-video-btn').addEventListener('click', () => {
@@ -1339,15 +1345,45 @@
       }, 500);
     });
 
-    // Gestion de la newsletter optionnelle
-    document.getElementById('newsletter-submit-btn').addEventListener('click', () => {
-      const prenom = document.getElementById('newsletter-prenom').value.trim();
-      const email = document.getElementById('newsletter-email').value.trim();
-      // Ici, on peut ajouter des validations si besoin. Puis soumettre le formulaire caché Google Forms.
-      document.getElementById('hidden-prenom').value = prenom;
-      document.getElementById('hidden-email').value = email;
+    // Gestion de la newsletter
+    document.getElementById('newsletter-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      let valid = true;
+      const prenomInput = document.getElementById('newsletter-prenom');
+      const emailInput = document.getElementById('newsletter-email');
+      const prenomErrorEl = document.getElementById('newsletter-prenom-error');
+      const emailErrorEl = document.getElementById('newsletter-email-error');
+      prenomErrorEl.style.display = 'none';
+      emailErrorEl.style.display = 'none';
+
+      if (prenomInput.value.trim() === "") {
+        prenomErrorEl.textContent = "Le prénom est requis.";
+        prenomErrorEl.style.display = 'block';
+        valid = false;
+      }
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (emailInput.value.trim() === "") {
+        emailErrorEl.textContent = "L'email est requis.";
+        emailErrorEl.style.display = 'block';
+        valid = false;
+      } else if (!emailRegex.test(emailInput.value.trim())) {
+        emailErrorEl.textContent = "L'email n'est pas valide.";
+        emailErrorEl.style.display = 'block';
+        valid = false;
+      }
+      if (!valid) return;
+
+      // Envoi vers Google Forms (les champs cachés sont mis à jour)
+      document.getElementById('hidden-prenom').value = prenomInput.value.trim();
+      document.getElementById('hidden-email').value = emailInput.value.trim();
       document.getElementById('hidden-google-form').submit();
-      alert("Merci pour ton abonnement !");
+
+      // Affichage du message de succès
+      const successEl = document.getElementById('newsletter-success');
+      successEl.style.display = 'block';
+      setTimeout(() => {
+        successEl.style.display = 'none';
+      }, 5000);
     });
 
     /***********************
