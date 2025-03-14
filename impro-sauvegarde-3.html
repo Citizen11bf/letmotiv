@@ -63,6 +63,12 @@
       padding-top: 60px;
       padding-bottom: 20px;
     }
+    /* --- ERROR MESSAGES --- */
+    .error-message {
+      color: red;
+      font-size: 14px;
+      margin-top: 5px;
+    }
     /* --- HEADER --- */
     .header {
       background-color: #182d84;
@@ -860,6 +866,8 @@
           <button id="feedback-btn" class="btn-action" aria-label="Analyse ta prestation">
             Apprends à analyser ta prestation
           </button>
+          <!-- Message d'erreur ajouté sous le bouton -->
+          <div id="feedback-error" class="error-message" style="display: none;"></div>
         </div>
 
         <!-- Section Newsletter -->
@@ -1367,8 +1375,11 @@
 
     // Gestion du bouton "Apprends à analyser ta prestation"
     document.getElementById('feedback-btn').addEventListener('click', () => {
+      const feedbackErrorEl = document.getElementById('feedback-error');
+      feedbackErrorEl.style.display = 'none';
       if (!videoDownloaded) {
-        alert("Télécharge ta vidéo avant de quitter le simulateur.");
+        feedbackErrorEl.textContent = "Télécharge ta vidéo avant de quitter le simulateur.";
+        feedbackErrorEl.style.display = 'block';
       } else {
         window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro";
       }
