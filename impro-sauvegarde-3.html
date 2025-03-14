@@ -125,9 +125,7 @@
       animation: slideDown 1s ease forwards;
       text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
     }
-    .intro-box h1 span {
-      display: block;
-    }
+    .intro-box h1 span { display: block; }
     .wrapper { display: flex; justify-content: center; }
     .cta {
       display: flex;
@@ -157,10 +155,7 @@
     @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
     @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     /* --- CONTENEUR PRINCIPAL --- */
-    .main-container {
-      position: relative;
-      padding: 20px;
-    }
+    .main-container { position: relative; padding: 20px; }
     /* --- BOXES (étapes) --- */
     .box {
       position: relative;
@@ -287,14 +282,8 @@
     .objective-item[data-category="entretien"] i { color: #795548; }
     .objective-item[data-category="lacher-prise"] i { color: #FF5722; }
     /* --- STEP2 : Génération du sujet --- */
-    #objective-reminder {
-      color: grey;
-      font-size: 0.8rem;
-      margin-bottom: 10px;
-    }
-    #current-objective {
-      text-transform: lowercase;
-    }
+    #objective-reminder { color: grey; font-size: 0.8rem; margin-bottom: 10px; }
+    #current-objective { text-transform: lowercase; }
     #subject-wrapper {
       margin-top: 10px;
       background: linear-gradient(135deg, #00a48a, #182d84);
@@ -330,12 +319,8 @@
       line-height: 1.5;
       text-align: left;
     }
-    .mobile-break {
-      display: none;
-    }
-    @media (max-width: 600px) {
-      .mobile-break { display: inline; }
-    }
+    .mobile-break { display: none; }
+    @media (max-width: 600px) { .mobile-break { display: inline; } }
     /* --- STEP3 : Enregistrement vidéo --- */
     .subject-bubble {
       display: inline-block;
@@ -564,12 +549,7 @@
       .mobile-explanation { font-size: 0.8rem; color: #555; font-weight: bold; margin: 4px 10px 8px; text-align: left; }
     }
     @media (min-width: 601px) {
-      .main-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: calc(100vh - 60px);
-      }
+      .main-container { display: flex; justify-content: center; align-items: center; min-height: calc(100vh - 60px); }
       .box { position: relative; margin: 0 auto; }
       .objectives-container {
         display: flex;
@@ -599,8 +579,34 @@
 
   <!-- Styles spécifiques pour le STEP4 -->
   <style>
-    /* Boutons communs STEP4 */
-    .btn-common {
+    /* Box de félicitations dégradée */
+    #step5 .download-section-accent {
+      background: linear-gradient(135deg, #182d84, #00a48a);
+      padding: 30px;
+      border-radius: 12px;
+      color: #fff;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      font-size: 1.6rem; /* taille de police légèrement réduite */
+    }
+    /* Boutons actions (Télécharge / Analyse) en couleur punchy */
+    .btn-action {
+      background-color: #FF5722;
+      color: #fff;
+      font-weight: bold;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      margin: 10px 0;
+    }
+    .btn-action:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+    /* Bouton Newsletter (dérivé de .btn-common renommé en .btn-newsletter) */
+    .btn-newsletter {
       background: linear-gradient(135deg, #182d84, #00a48a);
       color: #fff;
       font-weight: bold;
@@ -611,18 +617,14 @@
       transition: transform 0.3s, box-shadow 0.3s;
       margin: 10px 0;
     }
-    .btn-common:hover {
+    .btn-newsletter:hover {
       transform: translateY(-2px);
       box-shadow: 0 4px 6px rgba(0,0,0,0.2);
     }
-    /* Réduction de la taille de la police pour les encarts "Félicitations" et "Newsletter" */
-    #step5 .download-section-accent h2 {
-      font-size: 1.6rem;
-    }
-    /* Newsletter styles inspirés du snippet fourni */
+    /* Newsletter container élargi */
     .newsletter-container {
       width: 100%;
-      max-width: 400px;
+      max-width: 500px; /* augmenté pour occuper plus de largeur */
       background-color: #2d3748;
       border-radius: 12px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.15);
@@ -847,30 +849,24 @@
         <div class="box-title">Analyse ta prestation</div>
       </div>
       <div class="download-section">
-        <!-- Encart Félicitations -->
+        <!-- Encart Félicitations avec box dégradée -->
         <div class="download-section-accent">
           <h2 style="font-weight: bold;">Félicitations pour avoir réalisé ton improvisation ! <span>🤩</span></h2>
         </div>
 
-        <!-- Bouton Télécharger ma vidéo -->
+        <!-- Section Boutons Actions (Télécharger & Analyser) -->
         <div class="call-to-action">
-          <button id="download-video-btn" class="btn-common" aria-label="Télécharger ma vidéo">
-            <i class="fas fa-download"></i> Télécharger ma vidéo
+          <button id="download-video-btn" class="btn-action" aria-label="Télécharger ma vidéo">
+            <i class="fas fa-download"></i> Télécharge ta vidéo
           </button>
         </div>
-        <!-- Message de confirmation de téléchargement -->
-        <div id="download-message" class="success-message" style="display: none; text-align: center;">
-          Une vidéo va être téléchargée.
-        </div>
-
-        <!-- Bouton Analyse ta prestation -->
         <div class="call-to-action">
-          <button id="feedback-btn" class="btn-common" aria-label="Analyse ta prestation" onclick="window.location.href='https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro'">
-            Analyse ta prestation
+          <button id="feedback-btn" class="btn-action" aria-label="Analyse ta prestation" onclick="window.location.href='https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro'">
+            Apprends à analyser ta prestation
           </button>
         </div>
 
-        <!-- Section Newsletter -->
+        <!-- Section Newsletter agrandie -->
         <div class="newsletter-container">
           <h2 class="newsletter-title">Abonne-toi à notre newsletter pour progresser et prendre la parole avec impact !</h2>
           <form id="newsletter-form" class="newsletter-form">
@@ -878,7 +874,7 @@
             <div id="newsletter-prenom-error" class="newsletter-error"></div>
             <input type="email" id="newsletter-email" placeholder="Votre email" aria-label="Email">
             <div id="newsletter-email-error" class="newsletter-error"></div>
-            <button type="submit" id="newsletter-submit-btn" class="btn-common">S'abonner</button>
+            <button type="submit" id="newsletter-submit-btn" class="btn-newsletter">S'abonner</button>
           </form>
           <div id="newsletter-success" class="newsletter-success" style="display: none;">Tu es maintenant abonné à la newsletter Letmotiv.</div>
         </div>
@@ -1321,28 +1317,23 @@
     /***********************
      * TÉLÉCHARGEMENT & NEWSLETTER (STEP4)
      ***********************/
-    // Gestion du téléchargement de la vidéo
+    // Gestion du téléchargement de la vidéo (popup de confirmation conservé)
     document.getElementById('download-video-btn').addEventListener('click', () => {
-      const msgEl = document.getElementById('download-message');
-      msgEl.style.display = 'block';
-      setTimeout(() => {
-        if (confirm("Une vidéo va être téléchargée. Voulez-vous continuer ?")) {
-          if (videoURL) {
-            const link = document.createElement('a');
-            link.href = videoURL;
-            link.download = 'Letmotiv_Improvisation.mp4';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            // Ajoute l'animation sur le bouton "Analyse ta prestation"
-            const feedbackBtn = document.getElementById('feedback-btn');
-            feedbackBtn.classList.add('pulse');
-          } else {
-            alert("Aucune vidéo n'est disponible pour le moment.");
-          }
+      if (confirm("Une vidéo va être téléchargée. Voulez-vous continuer ?")) {
+        if (videoURL) {
+          const link = document.createElement('a');
+          link.href = videoURL;
+          link.download = 'Letmotiv_Improvisation.mp4';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          // Ajoute l'animation sur le bouton "Analyse ta prestation"
+          const feedbackBtn = document.getElementById('feedback-btn');
+          feedbackBtn.classList.add('pulse');
+        } else {
+          alert("Aucune vidéo n'est disponible pour le moment.");
         }
-        msgEl.style.display = 'none';
-      }, 500);
+      }
     });
 
     // Gestion de la newsletter
@@ -1378,12 +1369,10 @@
       document.getElementById('hidden-email').value = emailInput.value.trim();
       document.getElementById('hidden-google-form').submit();
 
-      // Affichage du message de succès
+      // Affichage du message de succès sans popup
       const successEl = document.getElementById('newsletter-success');
       successEl.style.display = 'block';
-      setTimeout(() => {
-        successEl.style.display = 'none';
-      }, 5000);
+      setTimeout(() => { successEl.style.display = 'none'; }, 5000);
     });
 
     /***********************
