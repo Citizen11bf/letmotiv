@@ -60,7 +60,7 @@
       font-family: 'DM Sans', sans-serif;
       background-color: #ffffff;
       color: #333333;
-      padding-top: 60px; /* espace pour le header fixe */
+      padding-top: 60px;
       padding-bottom: 20px;
     }
     /* --- HEADER --- */
@@ -281,6 +281,7 @@
     .objective-item[data-category="diction"] i { color: #00BCD4; }
     .objective-item[data-category="entretien"] i { color: #795548; }
     .objective-item[data-category="lacher-prise"] i { color: #FF5722; }
+    
     /* --- STEP2 : Génération du sujet --- */
     #objective-reminder { color: grey; font-size: 0.8rem; margin-bottom: 10px; }
     #current-objective { text-transform: lowercase; }
@@ -575,18 +576,21 @@
       .objective-item:hover i { color: #fff; }
       .objective-item:hover span { color: #fff; }
     }
-
-    /* STEP4 : Box de félicitations (couleur dégradée) */
+  </style>
+  
+  <!-- Styles spécifiques pour le STEP4 -->
+  <style>
+    /* Box dégradée pour "Félicitations..." */
     #step5 .download-section-accent {
       background: linear-gradient(135deg, #182d84, #00a48a);
-      padding: 10px 30px;
+      padding: 15px 30px;
       border-radius: 12px;
       color: #fff;
       margin-bottom: 20px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-      font-size: 1.0rem; 
+      font-size: 1.0rem;
     }
-    /* Boutons CTA pour télécharger la vidéo & analyse la prestation */
+    /* Boutons "Télécharge ta vidéo" et "Apprends à analyser ta prestation" */
     .btn-action {
       background-color: #FF5722;
       color: #fff;
@@ -602,7 +606,7 @@
       transform: translateY(-2px);
       box-shadow: 0 4px 6px rgba(0,0,0,0.2);
     }
-    /* Bouton "Abonne-toi" pour la newsletter Letmotiv*/
+    /* Bouton Newsletter */
     .btn-newsletter {
       background: linear-gradient(135deg, #182d84, #00a48a);
       color: #fff;
@@ -618,21 +622,21 @@
       transform: translateY(-2px);
       box-shadow: 0 4px 6px rgba(0,0,0,0.2);
     }
-    /* Container de la newsletter */
+    /* Newsletter container */
     .newsletter-container {
       width: 100%;
-      max-width: 100%; 
+      max-width: 100%;
       background-color: #2d3748;
       border-radius: 12px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.15);
       padding: 20px;
       margin: 30px auto;
-      color: #fff;
+      color: #e2e8f0;
       text-align: center;
     }
     .newsletter-title {
       font-size: 1.0rem;
-      font-weight: bold;
+      font-weight: normal;
       margin-bottom: 20px;
     }
     .newsletter-form {
@@ -685,17 +689,13 @@
               <path class="three" d="M0.154393339,3.89485454 L3.97631488,0.139296592 C4.17083111,-0.0518420739 4.48263286,-0.0518571125 4.67716753,0.139262789 L25.6916134,20.7848311 C26.0855801,21.1718824 26.0911863,21.8050225 25.704135,22.1989893 C25.7000188,22.2031791 25.6958657,22.2073326 25.6916762,22.2114492 L4.67709797,42.8607841 C4.48259567,43.0519059 4.17082418,43.0519358 3.97628526,42.8608513 L0.154518591,39.1069479 C-0.0424848215,38.9134427 -0.0453206733,38.5968729 0.148184538,38.3998695 C0.150289256,38.3977268 0.152413239,38.395603 0.154556228,38.3934985 L16.9937789,21.8567812 C17.1908028,21.6632968 17.193672,21.3467273 17.0001876,21.1497035 C16.9980647,21.1475418 16.9959223,21.1453995 16.9937605,21.1432767 L0.15452076,4.60825197 C-0.0425130651,4.41477773 -0.0453986756,4.09820839 0.148075568,3.90117456 C0.150162624,3.89904911 0.152268631,3.89694235 0.154393339,3.89485454 Z" fill="#FFFFFF"></path>
             </g>
           </svg>
-        </span> 
+        </span>
       </a>
     </div>
   </div>
 
   <!-- FORMULAIRE CACHÉ POUR GOOGLE FORMS -->
-  <form id="hidden-google-form"
-        action="https://docs.google.com/forms/d/e/1FAIpQLSfGAcKp0cV5AeVJCJBPbtKLKCLhbYySZf_FkiMg85WKVFUn6A/formResponse"
-        method="POST"
-        target="hidden_iframe"
-        style="display:none;">
+  <form id="hidden-google-form" action="https://docs.google.com/forms/d/e/1FAIpQLSfGAcKp0cV5AeVJCJBPbtKLKCLhbYySZf_FkiMg85WKVFUn6A/formResponse" method="POST" target="hidden_iframe" style="display:none;">
     <input type="text" name="entry.1119647353" id="hidden-prenom">
     <input type="email" name="entry.638831312" id="hidden-email">
   </form>
@@ -846,14 +846,14 @@
         <div class="box-title">Analyse ta prestation</div>
       </div>
       <div class="download-section">
-        <!-- Encart Félicitations avec box dégradée -->
+        <!-- Box dégradée "Félicitations..." -->
         <div class="download-section-accent">
-          <h2 style="font-weight: bold;">Félicitations pour avoir <br> réalisé ton improvisation ! <span>🤩</span></h2>
+          <h2 style="font-weight: bold;">Félicitations pour avoir réalisé <br>ton improvisation ! <span>🤩</span></h2>
         </div>
 
-        <!-- Section Boutons Actions (Télécharger & Analyser) -->
+        <!-- Boutons d'action : Télécharge et Analyse -->
         <div class="call-to-action">
-          <button id="download-video-btn" class="btn-action" aria-label="Télécharger ma vidéo">
+          <button id="download-video-btn" class="btn-action" aria-label="Télécharge ta vidéo">
             <i class="fas fa-download"></i> Télécharge ta vidéo
           </button>
         </div>
@@ -863,7 +863,7 @@
           </button>
         </div>
 
-        <!-- Section Newsletter agrandie -->
+        <!-- Section Newsletter élargie -->
         <div class="newsletter-container">
           <h2 class="newsletter-title">Abonne-toi à la newsletter Letmotiv <br>pour progresser et prendre la parole avec impact !</h2>
           <form id="newsletter-form" class="newsletter-form">
@@ -926,6 +926,30 @@
     let countdown;
 
     /***********************
+     * GESTION DE L'HISTORIQUE (pushState/popstate)
+     ***********************/
+    function pushStepState(step) {
+      history.pushState({ step }, null, `#step${step}`);
+    }
+
+    window.addEventListener('popstate', (event) => {
+      if (event.state && event.state.step) {
+        const stepToShow = event.state.step;
+        // Masquer toutes les boxes
+        Object.values(boxes).forEach(box => box.classList.remove('active'));
+        // Afficher la box correspondante
+        boxes[stepToShow].classList.add('active');
+        currentStep = stepToShow;
+        updateProgressBar(stepToShow);
+      } else {
+        // Si aucun state, on peut réafficher l'intro ou un STEP par défaut
+        Object.values(boxes).forEach(box => box.classList.remove('active'));
+        introBox.style.display = 'block';
+        currentStep = 0;
+      }
+    });
+
+    /***********************
      * FONCTIONS UTILITAIRES
      ***********************/
     function updateProgressBar(step) {
@@ -954,12 +978,7 @@
       updateProgressBar(next);
       currentStep = next;
       updateShareButtonVisibility();
-      if (next === 2) {
-        document.getElementById('current-objective').textContent = currentObjective;
-      }
-      if (next === 3) {
-        document.getElementById('current-subject-display').textContent = currentSubject;
-      }
+      pushStepState(next);
       removePulseFromAll();
     }
 
@@ -1009,6 +1028,7 @@
         updateProgressBar(1);
         removePulseFromAll();
         updateShareButtonVisibility();
+        pushStepState(1);
       }, 500);
     });
 
@@ -1314,7 +1334,7 @@
     /***********************
      * TÉLÉCHARGEMENT & NEWSLETTER (STEP4)
      ***********************/
-    // Gestion du téléchargement de la vidéo (popup de confirmation conservé)
+    // Gestion du téléchargement de la vidéo (confirmation par popup)
     document.getElementById('download-video-btn').addEventListener('click', () => {
       if (confirm("Une vidéo va être téléchargée. Voulez-vous continuer ?")) {
         if (videoURL) {
@@ -1391,6 +1411,16 @@
       Object.values(nextBtns).forEach(btn => btn.disabled = false);
       Object.values(backBtns).forEach(btn => btn.disabled = false);
     }
+
+    // Au chargement, vérifie le hash pour afficher l'étape correspondante
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.location.hash) {
+        const stepFromHash = window.location.hash.replace('#step', '');
+        if (boxes[stepFromHash]) {
+          showBox(currentStep, stepFromHash);
+        }
+      }
+    });
   </script>
 </body>
 </html>
