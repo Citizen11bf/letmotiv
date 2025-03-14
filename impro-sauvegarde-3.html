@@ -941,6 +941,10 @@
         boxes[stepToShow].classList.add('active');
         currentStep = stepToShow;
         updateProgressBar(stepToShow);
+        // Si on revient à la STEP3, réafficher le sujet généré
+        if (stepToShow == 3) {
+        document.getElementById('current-subject-display').textContent = currentSubject;
+        }
       } else {
         // Si aucun state, on peut réafficher l'intro ou un STEP par défaut
         Object.values(boxes).forEach(box => box.classList.remove('active'));
