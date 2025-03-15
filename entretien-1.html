@@ -978,7 +978,7 @@
   <script>
     /* --- Fonction utilitaire pour obtenir une image aléatoire --- */
     function getRandomImageUrl() {
-      // Liste d'URLs d'images issues d'une banque d'images gratuites (ici Unsplash)
+      // Utilisation d'Unsplash pour obtenir une image aléatoire
       const images = [
         "https://source.unsplash.com/random/800x600?landscape",
         "https://source.unsplash.com/random/800x600?city",
@@ -993,7 +993,8 @@
     const AppState = {
       currentStep: 0,
       currentCategory: null,
-      selectedQuestionCount: 0,
+      selectedQuestionCount: 0,  // questions aléatoires choisies par l'utilisateur
+      totalQuestions: 0,         // total = selectedQuestionCount (+ 3 pour Sciences Po)
       currentQuestionIndex: 1,
       improStarted: false,
       videoURL: "",
@@ -1126,6 +1127,7 @@
         this.mediaRecorder = null;
         this.recordedChunks = [];
         this.questions = [];
+        this.analysisImageUrl = ""; // pour stocker l'image d'analyse en Sciences Po
       }
       
       async setupCamera() {
@@ -1163,23 +1165,28 @@
       }
       
       displayQuestion(current, total, text) {
-        // Contenu de base pour la question
-        let content = `<p style="font-size:16px; text-align:center;">Question ${current}/${total} : ${text}</p>`;
-        
-        // Si la catégorie est "sciences-politiques" et pour les questions 3 à 5,
-        // afficher une image aléatoire et les 3 consignes d'analyse.
-        if (AppState.currentCategory === "sciences-politiques" && current >= 3 && current <= 5) {
-          const imageUrl = getRandomImageUrl();
-          content += `
+        let content = "";
+        // Pour la catégorie "sciences-politiques", si la question est une question d'analyse d'image (après les questions aléatoires)
+        if (AppState.currentCategory === "sciences-politiques" && current > AppState.selectedQuestionCount) {
+          const imageQuestionIndex = current - AppState.selectedQuestionCount;
+          let questionText = "";
+          if (imageQuestionIndex === 1) {
+            questionText = "Décrivez l'image que vous voyez.";
+          } else if (imageQuestionIndex === 2) {
+            questionText = "Pouvez-vous contextualiser cette image ?";
+          } else if (imageQuestionIndex === 3) {
+            questionText = "Comment interprétez-vous cette image au regard du contexte qui l'entoure ?";
+          }
+          content = `
+            <p style="font-size:16px; text-align:center;">Question ${current}/${total} : ${questionText}</p>
             <div style="margin-top: 10px;">
-              <img src="${imageUrl}" alt="Analyse d'image" style="max-width:100%; border: 1px solid #ccc; border-radius:4px;">
+              <img src="${this.analysisImageUrl}" alt="Analyse d'image" style="max-width:100%; border: 1px solid #ccc; border-radius:4px;"/>
             </div>
-            <p style="font-size:14px; text-align:center; margin-top: 10px;">1. Décrivez l'image que vous voyez.</p>
-            <p style="font-size:14px; text-align:center;">2. Pouvez-vous contextualiser cette image ?</p>
-            <p style="font-size:14px; text-align:center;">3. Comment interprétez-vous cette image au regard du contexte qui l'entoure ?</p>
           `;
+        } else {
+          // Question aléatoire classique
+          content = `<p style="font-size:16px; text-align:center;">Question ${current}/${total} : ${text}</p>`;
         }
-        
         this.questionOverlay.classList.remove('question-change');
         this.questionOverlay.innerHTML = content;
         this.questionOverlay.style.display = 'block';
@@ -1224,21 +1231,30 @@
           document.getElementById('impro-error').style.display = 'block';
           return;
         }
+        // Si l'objectif est "Sciences Po", ajouter 3 questions d'analyse d'image à la fin
+        if (AppState.currentCategory === "sciences-politiques") {
+          AppState.totalQuestions = AppState.selectedQuestionCount + 3;
+          // Récupérer une image aléatoire une seule fois pour toutes les questions d'analyse
+          this.analysisImageUrl = getRandomImageUrl();
+        } else {
+          AppState.totalQuestions = AppState.selectedQuestionCount;
+        }
         AppState.currentQuestionIndex = 1;
-        this.displayQuestion(AppState.currentQuestionIndex, AppState.selectedQuestionCount, this.questions[0]);
+        // Afficher la première question aléatoire
+        this.displayQuestion(AppState.currentQuestionIndex, AppState.totalQuestions, this.questions[0]);
         this.mediaRecorder.start();
         this.recordingIndicator.style.display = 'flex';
         this.countdownElement.style.display = 'block';
         this.stopBtn.classList.remove('hidden-btn');
         this.stopBtn.disabled = false;
-        if (AppState.selectedQuestionCount > 1) this.nextQuestionBtn.classList.remove('hidden-btn');
+        if (AppState.totalQuestions > 1) this.nextQuestionBtn.classList.remove('hidden-btn');
         this.restartBtn.classList.add('hidden-btn');
         this.startTwoMinutesCycle();
       }
       
       startTwoMinutesCycle() {
         let timeRemaining = 120;
-        if (AppState.currentQuestionIndex === AppState.selectedQuestionCount) {
+        if (AppState.currentQuestionIndex === AppState.totalQuestions) {
           this.nextQuestionBtn.classList.add('hidden-btn');
         } else {
           this.nextQuestionBtn.classList.remove('hidden-btn');
@@ -1248,12 +1264,16 @@
           timeRemaining--;
           if (timeRemaining >= 0) this.updateCountdown(timeRemaining);
           if (timeRemaining <= 0) {
-            if (AppState.currentQuestionIndex < AppState.selectedQuestionCount) {
+            if (AppState.currentQuestionIndex < AppState.totalQuestions) {
               AppState.currentQuestionIndex++;
-              let qText = AppState.currentQuestionIndex === 1 ? this.questions[0] : this.questions.slice(1)[Math.floor(Math.random() * (this.questions.length - 1))];
-              this.displayQuestion(AppState.currentQuestionIndex, AppState.selectedQuestionCount, qText);
+              let qText = "";
+              // Si nous sommes encore dans les questions aléatoires
+              if (AppState.currentQuestionIndex <= AppState.selectedQuestionCount) {
+                qText = this.questions[AppState.currentQuestionIndex === 1 ? 0 : Math.floor(Math.random() * (this.questions.length - 1)) + 1];
+              }
+              this.displayQuestion(AppState.currentQuestionIndex, AppState.totalQuestions, qText);
               timeRemaining = 120;
-              if (AppState.currentQuestionIndex === AppState.selectedQuestionCount) {
+              if (AppState.currentQuestionIndex === AppState.totalQuestions) {
                 this.nextQuestionBtn.classList.add('hidden-btn');
               }
             } else {
@@ -1374,18 +1394,15 @@
         clearInterval(videoRecorder.timerInterval);
         let timeRemaining = 120;
         QuestionLoader.loadSubjects(AppState.currentCategory).then(questions => {
-          if (AppState.currentQuestionIndex < AppState.selectedQuestionCount - 1) {
+          if (AppState.currentQuestionIndex < AppState.totalQuestions) {
             AppState.currentQuestionIndex++;
-            let qText = AppState.currentQuestionIndex === 1 ? questions[0] : questions.slice(1)[Math.floor(Math.random() * (questions.length - 1))];
-            videoRecorder.displayQuestion(AppState.currentQuestionIndex, AppState.selectedQuestionCount, qText);
+            let qText = "";
+            // Si nous sommes dans la phase des questions aléatoires
+            if (AppState.currentQuestionIndex <= AppState.selectedQuestionCount) {
+              qText = AppState.currentQuestionIndex === 1 ? questions[0] : questions[Math.floor(Math.random() * (questions.length - 1)) + 1];
+            }
+            videoRecorder.displayQuestion(AppState.currentQuestionIndex, AppState.totalQuestions, qText);
             videoRecorder.updateCountdown(timeRemaining);
-            videoRecorder.startTwoMinutesCycle();
-          } else if (AppState.currentQuestionIndex === AppState.selectedQuestionCount - 1) {
-            AppState.currentQuestionIndex++;
-            let qText = questions.slice(1)[Math.floor(Math.random() * (questions.length - 1))];
-            videoRecorder.displayQuestion(AppState.currentQuestionIndex, AppState.selectedQuestionCount, qText);
-            videoRecorder.updateCountdown(timeRemaining);
-            videoRecorder.nextQuestionBtn.classList.add('hidden-btn');
             videoRecorder.startTwoMinutesCycle();
           }
         });
