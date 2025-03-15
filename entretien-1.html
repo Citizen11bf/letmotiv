@@ -150,10 +150,7 @@
         flex: 1;
       }
       .objectives-container { grid-template-columns: repeat(2, 1fr); }
-      .flip-card { width: 90px; height: 100px; }
-      .flip-card-front i { font-size: 1.8rem; }
-      .flip-card-front span { font-size: 0.9rem; }
-      /* Pour les boutons du STEP2 sur mobile */
+      /* Ajustements pour les boutons du STEP2 sur mobile */
       .simulation-buttons {
          flex-wrap: wrap;
          justify-content: center;
@@ -310,7 +307,7 @@
     }
     .btn-impro:hover { background-color: #E34C9D; }
 
-    /* --- STEP1 : Choix d’objectif (flip cards simplifiées) --- */
+    /* --- STEP1 : Choix d’objectif (flip cards simplifiées et homogènes) --- */
     .objectives-container {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -318,12 +315,17 @@
       justify-items: center;
       margin: 10px 0;
     }
-    /* Simplification des flip cards (suppression du retournement) */
     .flip-card {
       background-color: #f7f7f7;
       border: 2px solid #2E22AC;
       border-radius: 8px;
-      padding: 15px;
+      padding: 20px;
+      width: 150px;
+      height: 150px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
       transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s;
     }
@@ -340,8 +342,6 @@
     .flip-card.selected span {
       color: #fff;
     }
-    /* On masque les éléments internes inutiles */
-    .flip-card-inner, .flip-card-back { display: none; }
     .flip-card-front {
       display: flex;
       flex-direction: column;
@@ -365,7 +365,6 @@
       margin: 5px 0;
       flex-wrap: wrap;
     }
-    /* Boutons du STEP2 */
     .simulation-buttons button {
       padding: 8px 20px;
       font-size: 16px;
@@ -904,18 +903,23 @@
   
   <!-- SCRIPT -->
   <script>
-    // Utilisation de l'API de Wikimedia Commons pour obtenir une image aléatoire
+    // Nouvelle fonction getRandomImageUrl() avec mélange de catégories
     async function getRandomImageUrl() {
-      const endpoint = "https://commons.wikimedia.org/w/api.php?action=query&generator=random&grnnamespace=6&prop=imageinfo&iiprop=url&format=json&origin=*";
+      const categories = ["Historical_photographs", "Political_history"];
+      const category = categories[Math.floor(Math.random() * categories.length)];
+      const endpoint = `https://commons.wikimedia.org/w/api.php?action=query&generator=categorymembers&gcmtitle=Category:${encodeURIComponent(category)}&gcmlimit=10&prop=imageinfo&iiprop=url&format=json&origin=*`;
       try {
         const response = await fetch(endpoint);
         const data = await response.json();
-        const pages = data.query.pages;
-        const pageId = Object.keys(pages)[0];
-        return pages[pageId].imageinfo[0].url;
+        if (!data.query) {
+          throw new Error("Aucun résultat pour la catégorie " + category);
+        }
+        const pages = Object.values(data.query.pages);
+        const randomPage = pages[Math.floor(Math.random() * pages.length)];
+        return randomPage.imageinfo[0].url;
       } catch (error) {
         console.error("Erreur lors de la récupération de l'image depuis Wikimedia Commons :", error);
-        return "https://picsum.photos/800/600"; // URL de secours
+        return "https://picsum.photos/800/600";
       }
     }
 
@@ -923,15 +927,15 @@
     const AppState = {
       currentStep: 0,
       currentCategory: null,
-      selectedQuestionCount: 5,  // par défaut, 5 questions
-      minutesPerQuestion: 2,     // par défaut, 2 minutes par question
-      totalQuestions: 0,         
+      selectedQuestionCount: 5,
+      minutesPerQuestion: 2,
+      totalQuestions: 0,
       currentQuestionIndex: 1,
       improStarted: false,
       videoURL: "",
     };
 
-    /* --- Classe StepManager : Gestion de la navigation entre étapes --- */
+    /* --- Classe StepManager --- */
     class StepManager {
       constructor() {
         this.boxes = {
@@ -994,7 +998,7 @@
             return;
           }
           this.showBox(1, 2);
-          updateDurationInfo(); // Affiche la durée dès l'arrivée sur STEP2
+          updateDurationInfo();
         });
         this.nextBtns[2].addEventListener('click', () => {
           if (AppState.selectedQuestionCount === 0 || !AppState.minutesPerQuestion) {
@@ -1018,7 +1022,7 @@
       }
     }
 
-    /* --- Classe QuestionLoader : Chargement des questions selon la catégorie --- */
+    /* --- Classe QuestionLoader --- */
     class QuestionLoader {
       static async loadSubjects(category) {
         const files = {
@@ -1043,7 +1047,7 @@
       }
     }
 
-    /* --- Classe VideoRecorder : Gestion de l'enregistrement vidéo et des questions --- */
+    /* --- Classe VideoRecorder --- */
     class VideoRecorder {
       constructor() {
         this.preview = document.getElementById('preview');
@@ -1059,7 +1063,7 @@
         this.mediaRecorder = null;
         this.recordedChunks = [];
         this.questions = [];
-        this.analysisImageUrl = ""; // image d'analyse pour Sciences Po
+        this.analysisImageUrl = "";
       }
       
       async setupCamera() {
@@ -1096,7 +1100,6 @@
       }
       
       async displayQuestion(current, total, text) {
-        // Pour Sciences Po, on gère les questions d'analyse avec texte par défaut et image
         if (AppState.currentCategory === "sciences-politiques" && current > AppState.selectedQuestionCount) {
           let imageIndex = current - AppState.selectedQuestionCount;
           let questionText = "";
@@ -1104,7 +1107,6 @@
           else if (imageIndex === 2) questionText = "Pouvez-vous contextualiser cette image ?";
           else if (imageIndex === 3) questionText = "Comment interprétez-vous cette image au regard du contexte qui l'entoure ?";
           this.questionOverlay.innerHTML = `<p style="font-size:16px; text-align:center;">Question ${current}/${total} : ${questionText}</p>`;
-          // Afficher l'image d'analyse
           document.getElementById('analysis-image').innerHTML = `<img src="${this.analysisImageUrl}" alt="Analyse d'image" />`;
           document.getElementById('analysis-image').style.display = 'block';
         } else {
@@ -1211,7 +1213,7 @@
       }
     }
 
-    /* --- Classe ShareManager : Gestion du partage sur réseaux sociaux --- */
+    /* --- Classe ShareManager --- */
     class ShareManager {
       constructor() {
         this.shareData = {
@@ -1270,7 +1272,7 @@
       }
     }
 
-    /* --- Attacher un écouteur global sur le conteneur #analysis-image --- */
+    /* --- Attacher un écouteur global sur #analysis-image --- */
     document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("analysis-image").addEventListener("click", function(e) {
         if(e.target && e.target.tagName.toLowerCase() === "img") {
@@ -1283,19 +1285,18 @@
       const shareManager = new ShareManager();
       const popSound = document.getElementById('pop-sound');
       
-      // Gestion des flip cards pour le choix d'objectif (simplifiées)
+      // Gestion des cartes du STEP1
       const objectivesCards = document.querySelectorAll('.objectives-container .objective-item');
       objectivesCards.forEach(card => {
         card.addEventListener('click', async () => {
           popSound.currentTime = 0;
           popSound.play().catch(err => console.error("Erreur lors de la lecture du son :", err));
-          // Supprimer la classe 'selected' de toutes les cartes
           objectivesCards.forEach(c => c.classList.remove('selected'));
           card.classList.add('selected');
           AppState.currentCategory = card.dataset.category;
           document.getElementById('objective-error').style.display = 'none';
           stepManager.nextBtns[1].classList.add('pulse');
-          updateDurationInfo(); // Recalculer la durée dès que la catégorie est définie
+          updateDurationInfo();
         });
       });
 
@@ -1327,12 +1328,12 @@
 
       updateDurationInfo();
 
-      // Bouton de démarrage du recording
+      // Démarrage de l'enregistrement vidéo
       document.getElementById('start-btn').addEventListener('click', () => {
         document.getElementById('instruction-overlay').style.display = 'none';
         videoRecorder.startInitialCountdown();
       });
-      // Gestion des boutons du STEP3
+      // Boutons du STEP3
       videoRecorder.stopBtn.addEventListener('click', () => {
         if (videoRecorder.mediaRecorder && videoRecorder.mediaRecorder.state === 'recording') {
           videoRecorder.mediaRecorder.stop();
