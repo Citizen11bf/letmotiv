@@ -952,9 +952,19 @@
   
   <!-- SCRIPT -->
   <script>
-    // Utilisation de l'Unsplash Source API pour générer une image aléatoire
-    function getRandomImageUrl() {
-      return "https://source.unsplash.com/random/800x600?sig=" + Math.random();
+    // Utilisation de l'API de Wikimedia Commons pour obtenir une image aléatoire
+    async function getRandomImageUrl() {
+      const endpoint = "https://commons.wikimedia.org/w/api.php?action=query&generator=random&grnnamespace=6&prop=imageinfo&iiprop=url&format=json&origin=*";
+      try {
+        const response = await fetch(endpoint);
+        const data = await response.json();
+        const pages = data.query.pages;
+        const pageId = Object.keys(pages)[0];
+        return pages[pageId].imageinfo[0].url;
+      } catch (error) {
+        console.error("Erreur lors de la récupération de l'image depuis Wikimedia Commons :", error);
+        return "https://picsum.photos/800/600"; // URL de secours
+      }
     }
 
     /* --- Global State Manager --- */
@@ -1133,8 +1143,8 @@
         }, 1000);
       }
       
-      displayQuestion(current, total, text) {
-        // Pour Sciences Po, si nous sommes dans la phase des questions d'analyse
+      async displayQuestion(current, total, text) {
+        // Pour Sciences Po, on gère les questions d'analyse avec texte par défaut et image
         if (AppState.currentCategory === "sciences-politiques" && current > AppState.selectedQuestionCount) {
           let imageIndex = current - AppState.selectedQuestionCount;
           let questionText = "";
@@ -1142,7 +1152,7 @@
           else if (imageIndex === 2) questionText = "Pouvez-vous contextualiser cette image ?";
           else if (imageIndex === 3) questionText = "Comment interprétez-vous cette image au regard du contexte qui l'entoure ?";
           this.questionOverlay.innerHTML = `<p style="font-size:16px; text-align:center;">Question ${current}/${total} : ${questionText}</p>`;
-          // Afficher l'image d'analyse dans l'élément dédié
+          // Afficher l'image d'analyse
           document.getElementById('analysis-image').innerHTML = `<img src="${this.analysisImageUrl}" alt="Analyse d'image" style="max-width:150px; border:2px solid #ccc; border-radius:4px;" />`;
           document.getElementById('analysis-image').style.display = 'block';
         } else {
@@ -1193,12 +1203,13 @@
         }
         if (AppState.currentCategory === "sciences-politiques") {
           AppState.totalQuestions = AppState.selectedQuestionCount + 3;
-          this.analysisImageUrl = getRandomImageUrl();
+          // Appeler la fonction asynchrone pour récupérer une image depuis Wikimedia Commons
+          this.analysisImageUrl = await getRandomImageUrl();
         } else {
           AppState.totalQuestions = AppState.selectedQuestionCount;
         }
         AppState.currentQuestionIndex = 1;
-        this.displayQuestion(AppState.currentQuestionIndex, AppState.totalQuestions, this.questions[0]);
+        await this.displayQuestion(AppState.currentQuestionIndex, AppState.totalQuestions, this.questions[0]);
         this.mediaRecorder.start();
         this.recordingIndicator.style.display = 'flex';
         this.countdownElement.style.display = 'block';
@@ -1217,7 +1228,7 @@
           this.nextQuestionBtn.classList.remove('hidden-btn');
         }
         this.updateCountdown(timeRemaining);
-        this.timerInterval = setInterval(() => {
+        this.timerInterval = setInterval(async () => {
           timeRemaining--;
           if (timeRemaining >= 0) this.updateCountdown(timeRemaining);
           if (timeRemaining <= 0) {
@@ -1227,7 +1238,7 @@
               if (AppState.currentQuestionIndex <= AppState.selectedQuestionCount) {
                 qText = AppState.currentQuestionIndex === 1 ? this.questions[0] : this.questions[Math.floor(Math.random() * (this.questions.length - 1)) + 1];
               }
-              this.displayQuestion(AppState.currentQuestionIndex, AppState.totalQuestions, qText);
+              await this.displayQuestion(AppState.currentQuestionIndex, AppState.totalQuestions, qText);
               timeRemaining = AppState.minutesPerQuestion * 60;
               if (AppState.currentQuestionIndex === AppState.totalQuestions) {
                 this.nextQuestionBtn.classList.add('hidden-btn');
@@ -1295,7 +1306,7 @@
       }
     }
 
-    /* --- Global Event Bindings pour objectifs et simulation --- */
+    /* --- Global Event Bindings --- */
     document.addEventListener('DOMContentLoaded', () => {
       const stepManager = new StepManager();
       const videoRecorder = new VideoRecorder();
@@ -1342,7 +1353,7 @@
         });
       });
 
-      // Mettre à jour et afficher immédiatement le texte de durée sur STEP2
+      // Mettre à jour et afficher immédiatement la durée sur STEP2
       function updateDurationInfo() {
         if(AppState.selectedQuestionCount && AppState.minutesPerQuestion) {
           let totalMinutes = AppState.selectedQuestionCount * AppState.minutesPerQuestion;
