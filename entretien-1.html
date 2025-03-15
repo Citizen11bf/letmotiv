@@ -426,30 +426,7 @@
       overflow: hidden;
       transition: 0.2s transform ease-in-out;
     }
-    /* Utilisation du dégradé STEP0 pour l'effet de slide */
-    .btn-question::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #2E22AC, #E34C9D);
-      border-radius: 50%;
-      transform: translate(-100%, 0) rotate(10deg);
-      transform-origin: top left;
-      transition: 0.2s transform ease-out;
-      z-index: -1;
-    }
-    .btn-question:not(.selected):hover::after {
-      transform: translate(0, 0);
-    }
-    .btn-question.selected {
-      background-color: transparent;
-    }
-    .btn-question.selected::after {
-      transform: translate(0, 0);
-    }
+    .btn-question.selected { background-color: transparent; }
     .btn-impro.btn-question:hover { background-color: #2E22AC !important; }
     #duration-info {
       margin-top: 5px;
@@ -838,17 +815,25 @@
         <div class="box-title">Configuration de la simulation</div>
       </div>
       <div class="simulation-instructions">
-        Tu vas bientôt démarrer ton entretien.<br> 
-        Tu as 2 minutes par question.<br><br>
         Choisis le nombre de questions que tu souhaites simuler :
       </div>
-      <div class="simulation-buttons">
+      <div class="simulation-buttons" id="question-count-buttons">
         <button class="btn-impro btn-question" data-question-count="3">3</button>
         <button class="btn-impro btn-question" data-question-count="4">4</button>
         <button class="btn-impro btn-question" data-question-count="5">5</button>
         <button class="btn-impro btn-question" data-question-count="6">6</button>
         <button class="btn-impro btn-question" data-question-count="7">7</button>
         <button class="btn-impro btn-question" data-question-count="8">8</button>
+      </div>
+      <!-- Nouvelle section pour le choix du temps par question -->
+      <div class="simulation-instructions" style="margin-top:20px;">
+        Combien de minutes par question ?
+      </div>
+      <div class="simulation-buttons" id="minutes-per-question-buttons">
+        <button class="btn-impro btn-question" data-minute-per-question="2">2</button>
+        <button class="btn-impro btn-question" data-minute-per-question="3">3</button>
+        <button class="btn-impro btn-question" data-minute-per-question="4">4</button>
+        <button class="btn-impro btn-question" data-minute-per-question="5">5</button>
       </div>
       <div id="duration-info"></div>
       <div id="subject-error" class="error-message"></div>
@@ -883,7 +868,7 @@
         <div class="recording-indicator" id="recording-indicator">
           <i class="fas fa-record-vinyl"></i> Enregistrement en cours
         </div>
-        <div class="countdown" id="countdown">2:00</div>
+        <div class="countdown" id="countdown"></div>
         <div class="initial-countdown-overlay" id="initial-countdown-overlay">
           <div class="initial-countdown" id="initial-countdown">5</div>
         </div>
@@ -994,7 +979,8 @@
       currentStep: 0,
       currentCategory: null,
       selectedQuestionCount: 0,  // questions aléatoires choisies par l'utilisateur
-      totalQuestions: 0,         // total = selectedQuestionCount (+ 3 pour Sciences Po)
+      minutesPerQuestion: 2,     // valeur par défaut, modifiable par l'utilisateur
+      totalQuestions: 0,         
       currentQuestionIndex: 1,
       improStarted: false,
       videoURL: "",
@@ -1065,8 +1051,8 @@
           this.showBox(1, 2);
         });
         this.nextBtns[2].addEventListener('click', () => {
-          if (AppState.selectedQuestionCount === 0) {
-            document.getElementById('subject-error').textContent = "Choisis le nombre de questions avant de continuer.";
+          if (AppState.selectedQuestionCount === 0 || !AppState.minutesPerQuestion) {
+            document.getElementById('subject-error').textContent = "Choisis le nombre de questions et le temps par question avant de continuer.";
             document.getElementById('subject-error').style.display = 'block';
             return;
           }
@@ -1249,16 +1235,19 @@
         this.stopBtn.disabled = false;
         if (AppState.totalQuestions > 1) this.nextQuestionBtn.classList.remove('hidden-btn');
         this.restartBtn.classList.add('hidden-btn');
-        this.startTwoMinutesCycle();
+        this.startQuestionCycle();
       }
       
-      startTwoMinutesCycle() {
-        let timeRemaining = 120;
+      startQuestionCycle() {
+        // Utilise le nombre de minutes par question choisi
+        let timeRemaining = AppState.minutesPerQuestion * 60;
+        
         if (AppState.currentQuestionIndex === AppState.totalQuestions) {
           this.nextQuestionBtn.classList.add('hidden-btn');
         } else {
           this.nextQuestionBtn.classList.remove('hidden-btn');
         }
+        
         this.updateCountdown(timeRemaining);
         this.timerInterval = setInterval(() => {
           timeRemaining--;
@@ -1272,7 +1261,7 @@
                 qText = AppState.currentQuestionIndex === 1 ? this.questions[0] : this.questions[Math.floor(Math.random() * (this.questions.length - 1)) + 1];
               }
               this.displayQuestion(AppState.currentQuestionIndex, AppState.totalQuestions, qText);
-              timeRemaining = 120;
+              timeRemaining = AppState.minutesPerQuestion * 60; // Réinitialiser le temps pour la nouvelle question
               if (AppState.currentQuestionIndex === AppState.totalQuestions) {
                 this.nextQuestionBtn.classList.add('hidden-btn');
               }
@@ -1345,6 +1334,8 @@
       const videoRecorder = new VideoRecorder();
       const shareManager = new ShareManager();
       const popSound = document.getElementById('pop-sound');
+      
+      // Gestion des flip-cards pour le choix d'objectif
       const objectivesCards = document.querySelectorAll('.objectives-container .objective-item');
       objectivesCards.forEach(card => {
         card.addEventListener('click', async () => {
@@ -1357,21 +1348,45 @@
           stepManager.nextBtns[1].classList.add('pulse');
         });
       });
-      document.querySelectorAll('.simulation-buttons button').forEach(btn => {
+
+      // Gestion du choix du nombre de questions
+      const questionCountButtons = document.querySelectorAll('#question-count-buttons .btn-question');
+      questionCountButtons.forEach(btn => {
         btn.addEventListener('click', () => {
           AppState.selectedQuestionCount = parseInt(btn.getAttribute('data-question-count'));
-          document.querySelectorAll('.simulation-buttons button').forEach(b => b.classList.remove('selected'));
+          questionCountButtons.forEach(b => b.classList.remove('selected'));
           btn.classList.add('selected');
           document.getElementById('subject-error').style.display = 'none';
-          let totalMinutes = AppState.selectedQuestionCount * 2;
-          let durationText = "Ton entretien durera au maximum " + totalMinutes + " minutes.";
-          if(AppState.currentCategory === "sciences-politiques") {
-            durationText += " NB : Dans le cadre de cet entretien, 3 questions en lien avec l'analyse d'une image sont ajoutées aux questions classiques (compte 6 minutes en plus).";
-          }
-          document.getElementById('duration-info').textContent = durationText;
+          updateDurationInfo();
           stepManager.nextBtns[2].classList.add('pulse');
         });
       });
+
+      // Gestion du choix du temps par question
+      const minuteButtons = document.querySelectorAll('#minutes-per-question-buttons .btn-question');
+      minuteButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          AppState.minutesPerQuestion = parseInt(btn.getAttribute('data-minute-per-question'));
+          minuteButtons.forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          document.getElementById('subject-error').style.display = 'none';
+          updateDurationInfo();
+          stepManager.nextBtns[2].classList.add('pulse');
+        });
+      });
+
+      // Fonction pour mettre à jour le texte de durée
+      function updateDurationInfo() {
+        if(AppState.selectedQuestionCount && AppState.minutesPerQuestion) {
+          let totalMinutes = AppState.selectedQuestionCount * AppState.minutesPerQuestion;
+          // Pour Sciences Po, ajouter 3 questions d'analyse d'image
+          if(AppState.currentCategory === "sciences-politiques") {
+            totalMinutes = (AppState.selectedQuestionCount + 3) * AppState.minutesPerQuestion;
+          }
+          document.getElementById('duration-info').textContent = "Ton entretien durera au maximum " + totalMinutes + " minutes.";
+        }
+      }
+
       // Bouton de démarrage du recording
       document.getElementById('start-btn').addEventListener('click', () => {
         document.getElementById('instruction-overlay').style.display = 'none';
@@ -1396,18 +1411,17 @@
           return;
         }
         clearInterval(videoRecorder.timerInterval);
-        let timeRemaining = 120;
+        let timeRemaining = AppState.minutesPerQuestion * 60;
         QuestionLoader.loadSubjects(AppState.currentCategory).then(questions => {
           if (AppState.currentQuestionIndex < AppState.totalQuestions) {
             AppState.currentQuestionIndex++;
             let qText = "";
-            // Si nous sommes dans la phase des questions aléatoires
             if (AppState.currentQuestionIndex <= AppState.selectedQuestionCount) {
               qText = AppState.currentQuestionIndex === 1 ? questions[0] : questions[Math.floor(Math.random() * (questions.length - 1)) + 1];
             }
             videoRecorder.displayQuestion(AppState.currentQuestionIndex, AppState.totalQuestions, qText);
             videoRecorder.updateCountdown(timeRemaining);
-            videoRecorder.startTwoMinutesCycle();
+            videoRecorder.startQuestionCycle();
           }
         });
       });
