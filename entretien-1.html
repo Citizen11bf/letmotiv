@@ -473,33 +473,30 @@
     #analysis-image img.enlarged {
       transform: scale(2);
     }
+    /* Regroupement en bas à gauche pour l'indicateur d'enregistrement et le compte à rebours */
     .recording-indicator {
       position: absolute;
       bottom: 10px;
       left: 10px;
-      display: flex;
-      align-items: center;
+      font-size: 12px;
       background-color: rgba(255,255,255,0.8);
       padding: 5px 10px;
       border-radius: 20px;
-      font-size: 14px;
       color: #ff0000;
-      display: none;
       z-index: 4;
     }
-    .recording-indicator i { margin-right: 5px; }
     .countdown {
       position: absolute;
       bottom: 10px;
-      right: 10px;
-      font-size: 18px;
-      color: #ffffff;
-      display: none;
-      z-index: 5;
+      left: 10px;
+      transform: translateY(30px);
+      font-size: 12px;
       background-color: rgba(0,0,0,0.5);
       padding: 5px 10px;
       border-radius: 5px;
+      color: #ffffff;
       text-align: center;
+      z-index: 5;
     }
     .initial-countdown-overlay {
       position: absolute;
@@ -903,7 +900,7 @@
   
   <!-- SCRIPT -->
   <script>
-    // Nouvelle fonction getRandomImageUrl() mélangeant deux catégories
+    // Fonction pour récupérer une image aléatoire d'une catégorie parmi Historical_photographs et Political_history
     async function getRandomImageUrl() {
       const categories = ["Historical_photographs", "Political_history"];
       const category = categories[Math.floor(Math.random() * categories.length)];
@@ -1136,7 +1133,7 @@
           const blob = new Blob(this.recordedChunks, { type: 'video/mp4' });
           AppState.videoURL = URL.createObjectURL(blob);
           stream.getTracks().forEach(track => track.stop());
-          // Masquer l'image d'analyse et le compte à rebours une fois l'enregistrement terminé
+          // Masquer l'image d'analyse et le compte à rebours après l'enregistrement
           document.getElementById('analysis-image').style.display = 'none';
           this.countdownElement.style.display = 'none';
           this.questionOverlay.style.display = 'block';
