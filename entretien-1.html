@@ -393,9 +393,9 @@
       display: flex;
       justify-content: center;
       gap: 10px;
-      margin: 5px 0; /* marge verticale réduite */
+      margin: 5px 0;
     }
-    /* Styles spécifiques pour les boutons du STEP2 */
+    /* Boutons du STEP2 */
     .simulation-buttons button {
       padding: 8px 20px;
       font-size: 16px;
@@ -409,10 +409,10 @@
     }
     .simulation-buttons button:hover {
       transform: scale(1.05);
-      background-color: #90ee90 !important; /* vert clair */
+      background-color: #90ee90 !important;
     }
     .simulation-buttons button.selected {
-      background-color: #006400 !important; /* vert foncé */
+      background-color: #006400 !important;
     }
 
     /* --- STEP3 : Enregistrement vidéo --- */
@@ -470,7 +470,7 @@
       transition: background-color 0.3s;
     }
     #instruction-overlay button:hover { background-color: #E34C9D; }
-    /* Correction UX STEP3 : overlay des questions à top: 0 */
+    /* Overlay des questions placé en haut (top: 0) */
     #question-overlay {
       position: absolute;
       top: 0;
@@ -482,6 +482,13 @@
       font-size: 13px;
       text-align: center;
       z-index: 3;
+      display: none;
+    }
+    /* Élément pour l'image d'analyse */
+    #analysis-image {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
       display: none;
     }
     .recording-indicator {
@@ -619,7 +626,6 @@
       transition: all 0.3s ease-in-out;
       text-decoration: none;
     }
-    /* Couleurs spécifiques lors du hover */
     .share-icons .icon-content a[data-social="whatsapp"]:hover {
       background-color: #25D366;
     }
@@ -850,9 +856,9 @@
             Aucun enregistrement n'est conservé par Letmotiv.
           </p>
         </div>
-        <!-- Overlay des questions avec top: 0 -->
+        <!-- Overlay des questions placé en haut (top: 0) -->
         <div class="video-overlay" id="question-overlay"></div>
-        <!-- Nouvel élément pour afficher l'image d'analyse pour Sciences Politiques -->
+        <!-- Élément pour afficher l'image d'analyse pour Sciences Po -->
         <div id="analysis-image" style="position: absolute; bottom: 10px; right: 10px; display: none;"></div>
         <div class="recording-indicator" id="recording-indicator">
           <i class="fas fa-record-vinyl"></i> Enregistrement en cours
@@ -951,7 +957,6 @@
   <script>
     /* --- Fonction utilitaire pour obtenir une image aléatoire --- */
     function getRandomImageUrl() {
-      // Utilisation d'Unsplash pour obtenir une image aléatoire
       const images = [
         "https://source.unsplash.com/random/800x600?landscape",
         "https://source.unsplash.com/random/800x600?city",
@@ -966,15 +971,15 @@
     const AppState = {
       currentStep: 0,
       currentCategory: null,
-      selectedQuestionCount: 5,  // par défaut, 5 questions
-      minutesPerQuestion: 2,     // par défaut, 2 minutes par question
+      selectedQuestionCount: 5,
+      minutesPerQuestion: 2,
       totalQuestions: 0,         
       currentQuestionIndex: 1,
       improStarted: false,
       videoURL: "",
     };
 
-    /* --- Classe StepManager : Gestion de la navigation entre étapes --- */
+    /* --- Classe StepManager --- */
     class StepManager {
       constructor() {
         this.boxes = {
@@ -1037,7 +1042,6 @@
             return;
           }
           this.showBox(1, 2);
-          // Afficher immédiatement la durée totale sur le STEP2
           updateDurationInfo();
         });
         this.nextBtns[2].addEventListener('click', () => {
@@ -1062,7 +1066,7 @@
       }
     }
 
-    /* --- Classe QuestionLoader : Chargement des questions selon la catégorie --- */
+    /* --- Classe QuestionLoader --- */
     class QuestionLoader {
       static async loadSubjects(category) {
         const files = {
@@ -1087,7 +1091,7 @@
       }
     }
 
-    /* --- Classe VideoRecorder : Gestion de l'enregistrement vidéo et des questions --- */
+    /* --- Classe VideoRecorder --- */
     class VideoRecorder {
       constructor() {
         this.preview = document.getElementById('preview');
@@ -1103,7 +1107,7 @@
         this.mediaRecorder = null;
         this.recordedChunks = [];
         this.questions = [];
-        this.analysisImageUrl = ""; // pour stocker l'image d'analyse en Sciences Po
+        this.analysisImageUrl = "";
       }
       
       async setupCamera() {
@@ -1122,7 +1126,6 @@
       }
       
       startInitialCountdown() {
-        // Sur mobile, agrandir l'encart vidéo pour mieux prendre en compte le mode selfie
         if (window.innerWidth <= 600) {
           document.querySelector('.video-box').style.height = "450px";
         }
@@ -1141,14 +1144,22 @@
       }
       
       displayQuestion(current, total, text) {
-        // Pour Sciences Po, si nous sommes dans la phase d'analyse, ne pas afficher l'image dans l'overlay
+        // Pour Sciences Politiques, afficher les trois questions d'analyse avec texte par défaut
         if (AppState.currentCategory === "sciences-politiques" && current > AppState.selectedQuestionCount) {
-          this.questionOverlay.innerHTML = `<p style="font-size:16px; text-align:center;">Question ${current}/${total} : ${text}</p>`;
-          // Afficher l'image d'analyse dans l'élément dédié
+          const imageQuestionIndex = current - AppState.selectedQuestionCount;
+          let questionText = "";
+          if (imageQuestionIndex === 1) {
+            questionText = "Décrivez l'image que vous voyez.";
+          } else if (imageQuestionIndex === 2) {
+            questionText = "Pouvez-vous contextualiser cette image ?";
+          } else if (imageQuestionIndex === 3) {
+            questionText = "Comment interprétez-vous cette image au regard du contexte qui l'entoure ?";
+          }
+          this.questionOverlay.innerHTML = `<p style="font-size:16px; text-align:center;">Question ${current}/${total} : ${questionText}</p>`;
+          // Afficher l'image dans l'élément dédié
           document.getElementById('analysis-image').innerHTML = `<img src="${this.analysisImageUrl}" alt="Analyse d'image" style="max-width:150px; border:2px solid #ccc; border-radius:4px;" />`;
           document.getElementById('analysis-image').style.display = 'block';
         } else {
-          // Pour les autres questions, masquer l'image d'analyse si visible
           document.getElementById('analysis-image').style.display = 'none';
           this.questionOverlay.innerHTML = `<p style="font-size:16px; text-align:center;">Question ${current}/${total} : ${text}</p>`;
         }
@@ -1182,7 +1193,6 @@
           clearInterval(this.timerInterval);
           AppState.improStarted = true;
           document.getElementById('next-btn3').classList.add('pulse');
-          // Sur mobile, rétablir la hauteur normale après l'enregistrement
           if (window.innerWidth <= 600) {
             document.querySelector('.video-box').style.height = "300px";
           }
@@ -1195,7 +1205,6 @@
           document.getElementById('impro-error').style.display = 'block';
           return;
         }
-        // Pour Sciences Po, ajouter 3 questions d'analyse et récupérer l'image d'analyse
         if (AppState.currentCategory === "sciences-politiques") {
           AppState.totalQuestions = AppState.selectedQuestionCount + 3;
           this.analysisImageUrl = getRandomImageUrl();
@@ -1203,7 +1212,6 @@
           AppState.totalQuestions = AppState.selectedQuestionCount;
         }
         AppState.currentQuestionIndex = 1;
-        // Afficher la première question
         this.displayQuestion(AppState.currentQuestionIndex, AppState.totalQuestions, this.questions[0]);
         this.mediaRecorder.start();
         this.recordingIndicator.style.display = 'flex';
@@ -1255,7 +1263,7 @@
       }
     }
 
-    /* --- Classe ShareManager : Gestion du partage sur réseaux sociaux --- */
+    /* --- Classe ShareManager --- */
     class ShareManager {
       constructor() {
         this.shareData = {
@@ -1301,14 +1309,14 @@
       }
     }
 
-    /* --- Global Event Bindings pour objectifs et simulation --- */
+    /* --- Global Event Bindings --- */
     document.addEventListener('DOMContentLoaded', () => {
       const stepManager = new StepManager();
       const videoRecorder = new VideoRecorder();
       const shareManager = new ShareManager();
       const popSound = document.getElementById('pop-sound');
       
-      // Gestion des flip-cards pour le choix d'objectif
+      // Flip-cards
       const objectivesCards = document.querySelectorAll('.objectives-container .objective-item');
       objectivesCards.forEach(card => {
         card.addEventListener('click', async () => {
@@ -1322,7 +1330,7 @@
         });
       });
 
-      // Gestion du choix du nombre de questions
+      // Boutons du STEP2 - Nombre de questions
       const questionCountButtons = document.querySelectorAll('#question-count-buttons .btn-question');
       questionCountButtons.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -1335,7 +1343,7 @@
         });
       });
 
-      // Gestion du choix du temps par question
+      // Boutons du STEP2 - Minutes par question
       const minuteButtons = document.querySelectorAll('#minutes-per-question-buttons .btn-question');
       minuteButtons.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -1348,7 +1356,6 @@
         });
       });
 
-      // Fonction pour mettre à jour le texte de durée dès l'arrivée sur STEP2
       function updateDurationInfo() {
         if(AppState.selectedQuestionCount && AppState.minutesPerQuestion) {
           let totalMinutes = AppState.selectedQuestionCount * AppState.minutesPerQuestion;
@@ -1358,15 +1365,13 @@
           document.getElementById('duration-info').textContent = "Ton entretien durera au maximum " + totalMinutes + " minutes.";
         }
       }
-      // Appeler la fonction dès le chargement de STEP2 (si déjà sur cette étape par défaut)
       updateDurationInfo();
 
-      // Bouton de démarrage du recording
+      // Démarrage
       document.getElementById('start-btn').addEventListener('click', () => {
         document.getElementById('instruction-overlay').style.display = 'none';
         videoRecorder.startInitialCountdown();
       });
-      // Gestion des boutons du STEP3
       videoRecorder.stopBtn.addEventListener('click', () => {
         if (videoRecorder.mediaRecorder && videoRecorder.mediaRecorder.state === 'recording') {
           videoRecorder.mediaRecorder.stop();
@@ -1406,7 +1411,6 @@
         AppState.currentQuestionIndex = 1;
         videoRecorder.startInitialCountdown();
       });
-      // STEP4 : Analyse et téléchargement
       document.getElementById('validate-form-btn').addEventListener('click', () => {
         if (AppState.videoURL) {
           const link = document.createElement('a');
