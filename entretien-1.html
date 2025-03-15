@@ -395,7 +395,7 @@
       gap: 10px;
       margin: 5px 0;
     }
-    /* Boutons du STEP2 */
+    /* Boutons du STEP2 : couleur par défaut bleue, vert clair au survol et vert foncé lorsqu'ils sont sélectionnés */
     .simulation-buttons button {
       padding: 8px 20px;
       font-size: 16px;
@@ -470,7 +470,7 @@
       transition: background-color 0.3s;
     }
     #instruction-overlay button:hover { background-color: #E34C9D; }
-    /* Overlay des questions placé en haut (top: 0) */
+    /* Overlay des questions fixé à top: 0 */
     #question-overlay {
       position: absolute;
       top: 0;
@@ -484,12 +484,13 @@
       z-index: 3;
       display: none;
     }
-    /* Élément pour l'image d'analyse */
+    /* Élément pour l'image d'analyse pour Sciences Po */
     #analysis-image {
       position: absolute;
       bottom: 10px;
       right: 10px;
       display: none;
+      z-index: 3;
     }
     .recording-indicator {
       position: absolute;
@@ -807,7 +808,6 @@
         Choisis le nombre de questions que tu souhaites simuler :
       </div>
       <div class="simulation-buttons" id="question-count-buttons">
-        <!-- Par défaut, le bouton 5 est sélectionné -->
         <button class="btn-impro btn-question" data-question-count="3">3</button>
         <button class="btn-impro btn-question" data-question-count="4">4</button>
         <button class="btn-impro btn-question selected" data-question-count="5">5</button>
@@ -815,18 +815,15 @@
         <button class="btn-impro btn-question" data-question-count="7">7</button>
         <button class="btn-impro btn-question" data-question-count="8">8</button>
       </div>
-      <!-- Nouvelle section pour le choix du temps par question -->
       <div class="simulation-instructions" style="margin-top:20px;">
         Combien de minutes par question ?
       </div>
       <div class="simulation-buttons" id="minutes-per-question-buttons">
-        <!-- Par défaut, le bouton 2 est sélectionné -->
         <button class="btn-impro btn-question selected" data-minute-per-question="2">2</button>
         <button class="btn-impro btn-question" data-minute-per-question="3">3</button>
         <button class="btn-impro btn-question" data-minute-per-question="4">4</button>
         <button class="btn-impro btn-question" data-minute-per-question="5">5</button>
       </div>
-      <!-- Affichage immédiat du texte de durée -->
       <div id="duration-info"></div>
       <div id="subject-error" class="error-message"></div>
       <button class="next-btn" id="next-btn2" aria-label="Étape suivante">
@@ -856,10 +853,10 @@
             Aucun enregistrement n'est conservé par Letmotiv.
           </p>
         </div>
-        <!-- Overlay des questions placé en haut (top: 0) -->
+        <!-- Overlay des questions fixé à top: 0 -->
         <div class="video-overlay" id="question-overlay"></div>
-        <!-- Élément pour afficher l'image d'analyse pour Sciences Po -->
-        <div id="analysis-image" style="position: absolute; bottom: 10px; right: 10px; display: none;"></div>
+        <!-- Élément pour l'image d'analyse pour Sciences Po -->
+        <div id="analysis-image"></div>
         <div class="recording-indicator" id="recording-indicator">
           <i class="fas fa-record-vinyl"></i> Enregistrement en cours
         </div>
@@ -955,31 +952,24 @@
   
   <!-- SCRIPT -->
   <script>
-    /* --- Fonction utilitaire pour obtenir une image aléatoire --- */
+    // Utilisation de l'Unsplash Source API pour générer une image aléatoire
     function getRandomImageUrl() {
-      const images = [
-        "https://source.unsplash.com/random/800x600?landscape",
-        "https://source.unsplash.com/random/800x600?city",
-        "https://source.unsplash.com/random/800x600?history",
-        "https://source.unsplash.com/random/800x600?art",
-        "https://source.unsplash.com/random/800x600?abstract"
-      ];
-      return images[Math.floor(Math.random() * images.length)] + "&sig=" + Math.random();
+      return "https://source.unsplash.com/random/800x600?sig=" + Math.random();
     }
 
     /* --- Global State Manager --- */
     const AppState = {
       currentStep: 0,
       currentCategory: null,
-      selectedQuestionCount: 5,
-      minutesPerQuestion: 2,
+      selectedQuestionCount: 5,  // par défaut, 5 questions
+      minutesPerQuestion: 2,     // par défaut, 2 minutes par question
       totalQuestions: 0,         
       currentQuestionIndex: 1,
       improStarted: false,
       videoURL: "",
     };
 
-    /* --- Classe StepManager --- */
+    /* --- Classe StepManager : Gestion de la navigation entre étapes --- */
     class StepManager {
       constructor() {
         this.boxes = {
@@ -1042,7 +1032,7 @@
             return;
           }
           this.showBox(1, 2);
-          updateDurationInfo();
+          updateDurationInfo(); // Affiche la durée dès l'arrivée sur STEP2
         });
         this.nextBtns[2].addEventListener('click', () => {
           if (AppState.selectedQuestionCount === 0 || !AppState.minutesPerQuestion) {
@@ -1066,7 +1056,7 @@
       }
     }
 
-    /* --- Classe QuestionLoader --- */
+    /* --- Classe QuestionLoader : Chargement des questions selon la catégorie --- */
     class QuestionLoader {
       static async loadSubjects(category) {
         const files = {
@@ -1091,7 +1081,7 @@
       }
     }
 
-    /* --- Classe VideoRecorder --- */
+    /* --- Classe VideoRecorder : Gestion de l'enregistrement vidéo et des questions --- */
     class VideoRecorder {
       constructor() {
         this.preview = document.getElementById('preview');
@@ -1107,7 +1097,7 @@
         this.mediaRecorder = null;
         this.recordedChunks = [];
         this.questions = [];
-        this.analysisImageUrl = "";
+        this.analysisImageUrl = ""; // image d'analyse pour Sciences Po
       }
       
       async setupCamera() {
@@ -1144,19 +1134,15 @@
       }
       
       displayQuestion(current, total, text) {
-        // Pour Sciences Politiques, afficher les trois questions d'analyse avec texte par défaut
+        // Pour Sciences Po, si nous sommes dans la phase des questions d'analyse
         if (AppState.currentCategory === "sciences-politiques" && current > AppState.selectedQuestionCount) {
-          const imageQuestionIndex = current - AppState.selectedQuestionCount;
+          let imageIndex = current - AppState.selectedQuestionCount;
           let questionText = "";
-          if (imageQuestionIndex === 1) {
-            questionText = "Décrivez l'image que vous voyez.";
-          } else if (imageQuestionIndex === 2) {
-            questionText = "Pouvez-vous contextualiser cette image ?";
-          } else if (imageQuestionIndex === 3) {
-            questionText = "Comment interprétez-vous cette image au regard du contexte qui l'entoure ?";
-          }
+          if (imageIndex === 1) questionText = "Décrivez l'image que vous voyez.";
+          else if (imageIndex === 2) questionText = "Pouvez-vous contextualiser cette image ?";
+          else if (imageIndex === 3) questionText = "Comment interprétez-vous cette image au regard du contexte qui l'entoure ?";
           this.questionOverlay.innerHTML = `<p style="font-size:16px; text-align:center;">Question ${current}/${total} : ${questionText}</p>`;
-          // Afficher l'image dans l'élément dédié
+          // Afficher l'image d'analyse dans l'élément dédié
           document.getElementById('analysis-image').innerHTML = `<img src="${this.analysisImageUrl}" alt="Analyse d'image" style="max-width:150px; border:2px solid #ccc; border-radius:4px;" />`;
           document.getElementById('analysis-image').style.display = 'block';
         } else {
@@ -1263,7 +1249,7 @@
       }
     }
 
-    /* --- Classe ShareManager --- */
+    /* --- Classe ShareManager : Gestion du partage sur réseaux sociaux --- */
     class ShareManager {
       constructor() {
         this.shareData = {
@@ -1309,14 +1295,14 @@
       }
     }
 
-    /* --- Global Event Bindings --- */
+    /* --- Global Event Bindings pour objectifs et simulation --- */
     document.addEventListener('DOMContentLoaded', () => {
       const stepManager = new StepManager();
       const videoRecorder = new VideoRecorder();
       const shareManager = new ShareManager();
       const popSound = document.getElementById('pop-sound');
       
-      // Flip-cards
+      // Gestion des flip-cards pour le choix d'objectif
       const objectivesCards = document.querySelectorAll('.objectives-container .objective-item');
       objectivesCards.forEach(card => {
         card.addEventListener('click', async () => {
@@ -1330,7 +1316,7 @@
         });
       });
 
-      // Boutons du STEP2 - Nombre de questions
+      // Gestion du choix du nombre de questions
       const questionCountButtons = document.querySelectorAll('#question-count-buttons .btn-question');
       questionCountButtons.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -1343,7 +1329,7 @@
         });
       });
 
-      // Boutons du STEP2 - Minutes par question
+      // Gestion du choix du temps par question
       const minuteButtons = document.querySelectorAll('#minutes-per-question-buttons .btn-question');
       minuteButtons.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -1356,6 +1342,7 @@
         });
       });
 
+      // Mettre à jour et afficher immédiatement le texte de durée sur STEP2
       function updateDurationInfo() {
         if(AppState.selectedQuestionCount && AppState.minutesPerQuestion) {
           let totalMinutes = AppState.selectedQuestionCount * AppState.minutesPerQuestion;
@@ -1367,11 +1354,12 @@
       }
       updateDurationInfo();
 
-      // Démarrage
+      // Bouton de démarrage du recording
       document.getElementById('start-btn').addEventListener('click', () => {
         document.getElementById('instruction-overlay').style.display = 'none';
         videoRecorder.startInitialCountdown();
       });
+      // Gestion des boutons du STEP3
       videoRecorder.stopBtn.addEventListener('click', () => {
         if (videoRecorder.mediaRecorder && videoRecorder.mediaRecorder.state === 'recording') {
           videoRecorder.mediaRecorder.stop();
@@ -1411,6 +1399,7 @@
         AppState.currentQuestionIndex = 1;
         videoRecorder.startInitialCountdown();
       });
+      // STEP4 : Analyse et téléchargement
       document.getElementById('validate-form-btn').addEventListener('click', () => {
         if (AppState.videoURL) {
           const link = document.createElement('a');
