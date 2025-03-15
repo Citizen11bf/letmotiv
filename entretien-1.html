@@ -393,9 +393,9 @@
       display: flex;
       justify-content: center;
       gap: 10px;
-      margin: 5px 0; /* marge réduite */
+      margin: 5px 0; /* marge verticale réduite */
     }
-    /* Styles pour les boutons du STEP2 */
+    /* Styles spécifiques pour les boutons du STEP2 */
     .simulation-buttons button {
       padding: 8px 20px;
       font-size: 16px;
@@ -409,35 +409,10 @@
     }
     .simulation-buttons button:hover {
       transform: scale(1.05);
-      background-color: #90ee90; /* vert clair */
+      background-color: #90ee90 !important; /* vert clair */
     }
     .simulation-buttons button.selected {
-      background-color: #006400; /* vert foncé */
-    }
-
-    /* --- Bouton question (STEP2) --- */
-    .btn-question {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: #fff;
-      background-color: #2E22AC;
-      border: 2px solid currentColor;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      transition: 0.2s transform ease-in-out;
-    }
-    .btn-question.selected { background-color: transparent; }
-    .btn-impro.btn-question:hover { background-color: #2E22AC !important; }
-    #duration-info {
-      margin-top: 5px;
-      font-style: italic;
+      background-color: #006400 !important; /* vert foncé */
     }
 
     /* --- STEP3 : Enregistrement vidéo --- */
@@ -495,6 +470,7 @@
       transition: background-color 0.3s;
     }
     #instruction-overlay button:hover { background-color: #E34C9D; }
+    /* Correction UX STEP3 : overlay des questions à top: 0 */
     #question-overlay {
       position: absolute;
       top: 0;
@@ -844,6 +820,7 @@
         <button class="btn-impro btn-question" data-minute-per-question="4">4</button>
         <button class="btn-impro btn-question" data-minute-per-question="5">5</button>
       </div>
+      <!-- Affichage immédiat du texte de durée -->
       <div id="duration-info"></div>
       <div id="subject-error" class="error-message"></div>
       <button class="next-btn" id="next-btn2" aria-label="Étape suivante">
@@ -873,7 +850,10 @@
             Aucun enregistrement n'est conservé par Letmotiv.
           </p>
         </div>
+        <!-- Overlay des questions avec top: 0 -->
         <div class="video-overlay" id="question-overlay"></div>
+        <!-- Nouvel élément pour afficher l'image d'analyse pour Sciences Politiques -->
+        <div id="analysis-image" style="position: absolute; bottom: 10px; right: 10px; display: none;"></div>
         <div class="recording-indicator" id="recording-indicator">
           <i class="fas fa-record-vinyl"></i> Enregistrement en cours
         </div>
@@ -979,7 +959,6 @@
         "https://source.unsplash.com/random/800x600?art",
         "https://source.unsplash.com/random/800x600?abstract"
       ];
-      // Ajoute un paramètre aléatoire pour forcer le chargement d'une nouvelle image
       return images[Math.floor(Math.random() * images.length)] + "&sig=" + Math.random();
     }
 
@@ -1058,6 +1037,8 @@
             return;
           }
           this.showBox(1, 2);
+          // Afficher immédiatement la durée totale sur le STEP2
+          updateDurationInfo();
         });
         this.nextBtns[2].addEventListener('click', () => {
           if (AppState.selectedQuestionCount === 0 || !AppState.minutesPerQuestion) {
@@ -1160,30 +1141,18 @@
       }
       
       displayQuestion(current, total, text) {
-        let content = "";
-        // Pour la catégorie "sciences-politiques", si la question est d'analyse d'image (après les questions aléatoires)
+        // Pour Sciences Po, si nous sommes dans la phase d'analyse, ne pas afficher l'image dans l'overlay
         if (AppState.currentCategory === "sciences-politiques" && current > AppState.selectedQuestionCount) {
-          const imageQuestionIndex = current - AppState.selectedQuestionCount;
-          let questionText = "";
-          if (imageQuestionIndex === 1) {
-            questionText = "Décrivez l'image que vous voyez.";
-          } else if (imageQuestionIndex === 2) {
-            questionText = "Pouvez-vous contextualiser cette image ?";
-          } else if (imageQuestionIndex === 3) {
-            questionText = "Comment interprétez-vous cette image au regard du contexte qui l'entoure ?";
-          }
-          content = `
-            <p style="font-size:16px; text-align:center;">Question ${current}/${total} : ${questionText}</p>
-            <div style="margin-top: 10px;">
-              <img src="${this.analysisImageUrl}" alt="Analyse d'image" style="max-width:100%; border: 1px solid #ccc; border-radius:4px;"/>
-            </div>
-          `;
+          this.questionOverlay.innerHTML = `<p style="font-size:16px; text-align:center;">Question ${current}/${total} : ${text}</p>`;
+          // Afficher l'image d'analyse dans l'élément dédié
+          document.getElementById('analysis-image').innerHTML = `<img src="${this.analysisImageUrl}" alt="Analyse d'image" style="max-width:150px; border:2px solid #ccc; border-radius:4px;" />`;
+          document.getElementById('analysis-image').style.display = 'block';
         } else {
-          // Question aléatoire classique
-          content = `<p style="font-size:16px; text-align:center;">Question ${current}/${total} : ${text}</p>`;
+          // Pour les autres questions, masquer l'image d'analyse si visible
+          document.getElementById('analysis-image').style.display = 'none';
+          this.questionOverlay.innerHTML = `<p style="font-size:16px; text-align:center;">Question ${current}/${total} : ${text}</p>`;
         }
         this.questionOverlay.classList.remove('question-change');
-        this.questionOverlay.innerHTML = content;
         this.questionOverlay.style.display = 'block';
         this.questionOverlay.classList.add('question-change');
         setTimeout(() => this.questionOverlay.classList.remove('question-change'), 800);
@@ -1226,16 +1195,15 @@
           document.getElementById('impro-error').style.display = 'block';
           return;
         }
-        // Si l'objectif est "Sciences Po", ajouter 3 questions d'analyse d'image à la fin
+        // Pour Sciences Po, ajouter 3 questions d'analyse et récupérer l'image d'analyse
         if (AppState.currentCategory === "sciences-politiques") {
           AppState.totalQuestions = AppState.selectedQuestionCount + 3;
-          // Récupérer une image aléatoire une seule fois pour toutes les questions d'analyse
           this.analysisImageUrl = getRandomImageUrl();
         } else {
           AppState.totalQuestions = AppState.selectedQuestionCount;
         }
         AppState.currentQuestionIndex = 1;
-        // Afficher la première question aléatoire
+        // Afficher la première question
         this.displayQuestion(AppState.currentQuestionIndex, AppState.totalQuestions, this.questions[0]);
         this.mediaRecorder.start();
         this.recordingIndicator.style.display = 'flex';
@@ -1248,15 +1216,12 @@
       }
       
       startQuestionCycle() {
-        // Utilise le nombre de minutes par question choisi
         let timeRemaining = AppState.minutesPerQuestion * 60;
-        
         if (AppState.currentQuestionIndex === AppState.totalQuestions) {
           this.nextQuestionBtn.classList.add('hidden-btn');
         } else {
           this.nextQuestionBtn.classList.remove('hidden-btn');
         }
-        
         this.updateCountdown(timeRemaining);
         this.timerInterval = setInterval(() => {
           timeRemaining--;
@@ -1265,12 +1230,11 @@
             if (AppState.currentQuestionIndex < AppState.totalQuestions) {
               AppState.currentQuestionIndex++;
               let qText = "";
-              // Si nous sommes dans la phase des questions aléatoires
               if (AppState.currentQuestionIndex <= AppState.selectedQuestionCount) {
                 qText = AppState.currentQuestionIndex === 1 ? this.questions[0] : this.questions[Math.floor(Math.random() * (this.questions.length - 1)) + 1];
               }
               this.displayQuestion(AppState.currentQuestionIndex, AppState.totalQuestions, qText);
-              timeRemaining = AppState.minutesPerQuestion * 60; // Réinitialiser le temps pour la nouvelle question
+              timeRemaining = AppState.minutesPerQuestion * 60;
               if (AppState.currentQuestionIndex === AppState.totalQuestions) {
                 this.nextQuestionBtn.classList.add('hidden-btn');
               }
@@ -1384,17 +1348,18 @@
         });
       });
 
-      // Fonction pour mettre à jour le texte de durée
+      // Fonction pour mettre à jour le texte de durée dès l'arrivée sur STEP2
       function updateDurationInfo() {
         if(AppState.selectedQuestionCount && AppState.minutesPerQuestion) {
           let totalMinutes = AppState.selectedQuestionCount * AppState.minutesPerQuestion;
-          // Pour Sciences Po, ajouter 3 questions d'analyse d'image
           if(AppState.currentCategory === "sciences-politiques") {
             totalMinutes = (AppState.selectedQuestionCount + 3) * AppState.minutesPerQuestion;
           }
           document.getElementById('duration-info').textContent = "Ton entretien durera au maximum " + totalMinutes + " minutes.";
         }
       }
+      // Appeler la fonction dès le chargement de STEP2 (si déjà sur cette étape par défaut)
+      updateDurationInfo();
 
       // Bouton de démarrage du recording
       document.getElementById('start-btn').addEventListener('click', () => {
