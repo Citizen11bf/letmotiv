@@ -899,7 +899,9 @@
   <script>
     // Fonction getRandomImageUrl() avec sélection aléatoire entre deux catégories d'images sur Wikimédia
     async function getRandomImageUrl() {
-      const categories = ["Historical_events", "Political_events"]; 
+      const categories = [
+      "Political_events", "Revolutions", "Elections", "Cold_War", "Protests","United_Nations", "World_War_I", "World_War_II", 
+      "Fall_of_the_Berlin_Wall", "French_Revolution", "Russian_Revolution_of_1917", "Historical_speeches"];
       const category = categories[Math.floor(Math.random() * categories.length)];
       const endpoint = `https://commons.wikimedia.org/w/api.php?action=query&generator=categorymembers&gcmtitle=Category:${encodeURIComponent(category)}&gcmlimit=10&prop=imageinfo&iiprop=url&format=json&origin=*`;
       try {
