@@ -393,19 +393,26 @@
       display: flex;
       justify-content: center;
       gap: 10px;
-      margin-top: 5px;
+      margin: 5px 0; /* marge réduite */
     }
-    .simulation-buttons button:hover { transform: scale(1.05); }
-    .simulation-buttons button:active { transform: scale(0.95); }
+    /* Styles pour les boutons du STEP2 */
     .simulation-buttons button {
-      padding: 10px 20px;
+      padding: 8px 20px;
       font-size: 16px;
       background-color: #2E22AC;
       color: #fff;
       border: none;
       border-radius: 25px;
       cursor: pointer;
-      transition: background-color 0.3s;
+      transition: transform 0.2s, background-color 0.2s;
+      margin: 5px;
+    }
+    .simulation-buttons button:hover {
+      transform: scale(1.05);
+      background-color: #90ee90; /* vert clair */
+    }
+    .simulation-buttons button.selected {
+      background-color: #006400; /* vert foncé */
     }
 
     /* --- Bouton question (STEP2) --- */
@@ -488,9 +495,10 @@
       transition: background-color 0.3s;
     }
     #instruction-overlay button:hover { background-color: #E34C9D; }
+    /* Correction UX STEP3 : ajustement de l'overlay des questions */
     #question-overlay {
       position: absolute;
-      top: 0;
+      top: 10px; /* décalage de 10px par rapport au haut */
       left: 0;
       width: 100%;
       padding: 5px;
@@ -818,9 +826,10 @@
         Choisis le nombre de questions que tu souhaites simuler :
       </div>
       <div class="simulation-buttons" id="question-count-buttons">
+        <!-- Par défaut, le bouton 5 est sélectionné -->
         <button class="btn-impro btn-question" data-question-count="3">3</button>
         <button class="btn-impro btn-question" data-question-count="4">4</button>
-        <button class="btn-impro btn-question" data-question-count="5">5</button>
+        <button class="btn-impro btn-question selected" data-question-count="5">5</button>
         <button class="btn-impro btn-question" data-question-count="6">6</button>
         <button class="btn-impro btn-question" data-question-count="7">7</button>
         <button class="btn-impro btn-question" data-question-count="8">8</button>
@@ -830,7 +839,8 @@
         Combien de minutes par question ?
       </div>
       <div class="simulation-buttons" id="minutes-per-question-buttons">
-        <button class="btn-impro btn-question" data-minute-per-question="2">2</button>
+        <!-- Par défaut, le bouton 2 est sélectionné -->
+        <button class="btn-impro btn-question selected" data-minute-per-question="2">2</button>
         <button class="btn-impro btn-question" data-minute-per-question="3">3</button>
         <button class="btn-impro btn-question" data-minute-per-question="4">4</button>
         <button class="btn-impro btn-question" data-minute-per-question="5">5</button>
@@ -932,7 +942,7 @@
             <a data-social="discord">
               <div class="filled"></div>
               <svg viewBox="0 0 16 16" class="bi bi-discord" fill="currentColor" height="16" width="16" xmlns="http://www.w3.org/2000/svg">
-                <path d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612"></path>
+                <path d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.612 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.612 0 .888-.631 1.612-1.438 1.612"></path>
               </svg>
             </a>
           </li>
@@ -978,8 +988,8 @@
     const AppState = {
       currentStep: 0,
       currentCategory: null,
-      selectedQuestionCount: 0,  // questions aléatoires choisies par l'utilisateur
-      minutesPerQuestion: 2,     // valeur par défaut, modifiable par l'utilisateur
+      selectedQuestionCount: 5,  // par défaut, 5 questions
+      minutesPerQuestion: 2,     // par défaut, 2 minutes par question
       totalQuestions: 0,         
       currentQuestionIndex: 1,
       improStarted: false,
