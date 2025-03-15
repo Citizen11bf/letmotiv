@@ -310,7 +310,7 @@
     /* --- STEP1 : Choix d’objectif (flip cards homogènes) --- */
     .objectives-container {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 15px;
       justify-items: center;
       margin: 10px 0;
@@ -366,12 +366,13 @@
       flex-wrap: wrap;
     }
     .simulation-buttons button {
-      padding: 8px 14px;
+      /* Harmonisation avec le style .btn-impro */
+      padding: 10px 20px;
       font-size: 16px;
       background-color: #2E22AC;
       color: #fff;
       border: none;
-      border-radius: 50%;
+      border-radius: 25px;
       cursor: pointer;
       transition: transform 0.2s, background-color 0.2s;
       margin: 5px;
@@ -492,7 +493,6 @@
       margin-right: 5px;
     }
     /* Le compte à rebours sera affiché dans un span à l'intérieur de .recording-indicator */
-    /* (Pas de style additionnel nécessaire ici) */
 
     .initial-countdown-overlay {
       position: absolute;
