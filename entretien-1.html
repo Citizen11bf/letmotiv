@@ -307,7 +307,7 @@
     }
     .btn-impro:hover { background-color: #E34C9D; }
 
-    /* --- STEP1 : Choix d’objectif (flip cards simplifiées et homogènes) --- */
+    /* --- STEP1 : Choix d’objectif (flip cards homogènes) --- */
     .objectives-container {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -473,31 +473,27 @@
     #analysis-image img.enlarged {
       transform: scale(2);
     }
-    /* Regroupement en bas à gauche pour l'indicateur d'enregistrement et le compte à rebours */
+    /* Regroupement de l'icône d'enregistrement et du compte à rebours */
     .recording-indicator {
       position: absolute;
       bottom: 10px;
       left: 10px;
+      display: none;
+      z-index: 4;
       font-size: 12px;
       background-color: rgba(255,255,255,0.8);
       padding: 5px 10px;
       border-radius: 20px;
-      color: #ff0000;
-      z-index: 4;
+      display: flex;
+      align-items: center;
     }
-    .countdown {
-      position: absolute;
-      bottom: 10px;
-      left: 10px;
-      transform: translateY(30px);
-      font-size: 12px;
-      background-color: rgba(0,0,0,0.5);
-      padding: 5px 10px;
-      border-radius: 5px;
-      color: #ffffff;
-      text-align: center;
-      z-index: 5;
+    .recording-indicator i {
+      color: red;
+      margin-right: 5px;
     }
+    /* Le compte à rebours sera affiché dans un span à l'intérieur de .recording-indicator */
+    /* (Pas de style additionnel nécessaire ici) */
+
     .initial-countdown-overlay {
       position: absolute;
       top: 0;
@@ -699,7 +695,7 @@
         <div class="flip-card objective-item" data-category="insp">
           <div class="flip-card-front">
             <i class="fas fa-microphone"></i>
-            <span>Ecole de la haute administration</span>
+            <span>INSP</span>
           </div>
         </div>
         <!-- Ecole d'ingénieur généraliste -->
@@ -805,10 +801,8 @@
         <div class="video-overlay" id="question-overlay"></div>
         <!-- Élément pour l'image d'analyse pour Sciences Po -->
         <div id="analysis-image"></div>
-        <div class="recording-indicator" id="recording-indicator">
-          <i class="fas fa-record-vinyl"></i> Enregistrement en cours
-        </div>
-        <div class="countdown" id="countdown"></div>
+        <!-- Conteneur regroupant l'icône d'enregistrement et le compte à rebours -->
+        <div class="recording-indicator" id="recording-indicator"></div>
         <div class="initial-countdown-overlay" id="initial-countdown-overlay">
           <div class="initial-countdown" id="initial-countdown">5</div>
         </div>
@@ -900,7 +894,7 @@
   
   <!-- SCRIPT -->
   <script>
-    // Fonction pour récupérer une image aléatoire d'une catégorie parmi Historical_photographs et Political_history
+    // Fonction getRandomImageUrl() avec sélection aléatoire entre deux catégories
     async function getRandomImageUrl() {
       const categories = ["Historical_photographs", "Political_history"];
       const category = categories[Math.floor(Math.random() * categories.length)];
@@ -1052,7 +1046,6 @@
         this.restartBtn = document.getElementById('restart-btn');
         this.nextQuestionBtn = document.getElementById('next-question-btn');
         this.recordingIndicator = document.getElementById('recording-indicator');
-        this.countdownElement = document.getElementById('countdown');
         this.initialCountdownOverlay = document.getElementById('initial-countdown-overlay');
         this.initialCountdown = document.getElementById('initial-countdown');
         this.questionOverlay = document.getElementById('question-overlay');
@@ -1135,11 +1128,11 @@
           stream.getTracks().forEach(track => track.stop());
           // Masquer l'image d'analyse et le compte à rebours après l'enregistrement
           document.getElementById('analysis-image').style.display = 'none';
-          this.countdownElement.style.display = 'none';
+          this.recordingIndicator.style.display = 'none';
           this.questionOverlay.style.display = 'block';
           this.questionOverlay.innerHTML = `<p style="color: white; font-size: 18px; text-align: center;">Entretien terminé. Passe à l'étape suivante !</p>`;
           document.getElementById('impro-error').style.display = 'none';
-          this.recordingIndicator.style.display = 'none';
+          this.mediaRecorder = null;
           clearInterval(this.timerInterval);
           AppState.improStarted = true;
           document.getElementById('next-btn3').classList.add('pulse');
@@ -1163,9 +1156,12 @@
         }
         AppState.currentQuestionIndex = 1;
         await this.displayQuestion(AppState.currentQuestionIndex, AppState.totalQuestions, this.questions[0]);
+        // Démarrer l'enregistrement et afficher l'indicateur d'enregistrement + compte à rebours
         this.mediaRecorder.start();
+        // Insérer l'icône rouge et le span pour le compte à rebours dans le conteneur
+        this.recordingIndicator.innerHTML = '<i class="fas fa-circle"></i><span id="countdown"></span>';
         this.recordingIndicator.style.display = 'flex';
-        this.countdownElement.style.display = 'block';
+        this.updateCountdown(AppState.minutesPerQuestion * 60);
         this.stopBtn.classList.remove('hidden-btn');
         this.stopBtn.disabled = false;
         if (AppState.totalQuestions > 1) this.nextQuestionBtn.classList.remove('hidden-btn');
@@ -1209,7 +1205,10 @@
       updateCountdown(seconds) {
         const minutes = Math.floor(seconds / 60);
         const sec = seconds % 60;
-        this.countdownElement.textContent = `${minutes}:${sec < 10 ? '0' + sec : sec}`;
+        const countdownSpan = document.getElementById('countdown');
+        if(countdownSpan) {
+          countdownSpan.textContent = `${minutes}:${sec < 10 ? '0' + sec : sec}`;
+        }
       }
     }
 
@@ -1272,7 +1271,7 @@
       }
     }
 
-    /* --- Attacher un écouteur global sur #analysis-image --- */
+    /* --- Attacher un écouteur sur #analysis-image --- */
     document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("analysis-image").addEventListener("click", function(e) {
         if(e.target && e.target.tagName.toLowerCase() === "img") {
@@ -1300,7 +1299,7 @@
         });
       });
 
-      // Gestion du choix du nombre de questions
+      // Choix du nombre de questions
       const questionCountButtons = document.querySelectorAll('#question-count-buttons .btn-question');
       questionCountButtons.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -1313,7 +1312,7 @@
         });
       });
 
-      // Gestion du choix du temps par question
+      // Choix du temps par question
       const minuteButtons = document.querySelectorAll('#minutes-per-question-buttons .btn-question');
       minuteButtons.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -1371,8 +1370,8 @@
         videoRecorder.questionOverlay.style.display = 'none';
         AppState.improStarted = false;
         AppState.currentQuestionIndex = 1;
-        // Réafficher le compte à rebours lors du redémarrage
-        videoRecorder.countdownElement.style.display = 'block';
+        // Réafficher l'indicateur (icône et compte à rebours) lors du redémarrage
+        videoRecorder.recordingIndicator.style.display = 'flex';
         videoRecorder.startInitialCountdown();
       });
       // STEP4 : Analyse et téléchargement
