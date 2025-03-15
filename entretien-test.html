@@ -127,40 +127,13 @@
       padding: 20px;
     }
 
-    /* --- MEDIA QUERIES pour mobile --- */
-    @media (max-width: 600px) {
-      h1 .line { display: block; }
-      .main-container { justify-content: flex-start; }
-      .box {
-        width: 100vw;
-        margin-top: 10px;
-        margin-bottom: 20px;
-        padding: 20px;
-        height: auto;
-      }
-      .impro-actions {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-      .impro-actions button {
-        width: 100%;
-        height: 50px;
-        margin: 5px 0;
-        flex: 1;
-      }
-      .objectives-container { grid-template-columns: repeat(2, 1fr); }
-      
-      .simulation-buttons {
-         flex-wrap: wrap;
-         justify-content: center;
-         gap: 5px;
-      }
-      .simulation-buttons button {
-         flex: 1 1 auto;
-         min-width: 60px;
-         margin: 5px;
-      }
+    /* --- STEP1 : Choix d’objectif (flip cards homogènes) --- */
+    .objectives-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr); /* Par défaut : 3 colonnes sur desktop */
+      gap: 15px;
+      justify-items: center;
+      margin: 10px 0;
     }
 
     /* --- BOÎTE D'INTRODUCTION (STEP0) --- */
@@ -307,14 +280,7 @@
     }
     .btn-impro:hover { background-color: #E34C9D; }
 
-    /* --- STEP1 : Choix d’objectif (flip cards homogènes) --- */
-    .objectives-container {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-      justify-items: center;
-      margin: 10px 0;
-    }
+    /* --- STEP1 : Cartes (flip cards) --- */
     .flip-card {
       background-color: #f7f7f7;
       border: 2px solid #2E22AC;
@@ -366,7 +332,6 @@
       flex-wrap: wrap;
     }
     .simulation-buttons button {
-      /* Harmonisation avec le style .btn-impro */
       padding: 10px 20px;
       font-size: 16px;
       background-color: #2E22AC;
@@ -637,6 +602,44 @@
     .share-icons .icon-content a[data-social="instagram"]:hover .filled {
       background: radial-gradient(circle at 30% 107%, rgba(253,244,151,0.7) 0%, rgba(253,244,151,0.7) 5%, rgba(253,89,73,0.7) 45%, rgba(214,36,159,0.7) 60%, rgba(40,90,235,0.7) 90%);
       height: 100%;
+    }
+
+    /* ------------------- MEDIA QUERIES POUR MOBILE ------------------- */
+    @media (max-width: 600px) {
+      h1 .line { display: block; }
+      .main-container { justify-content: flex-start; }
+      .box {
+        width: 100vw;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        padding: 20px;
+        height: auto;
+      }
+      .impro-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .impro-actions button {
+        width: 100%;
+        height: 50px;
+        margin: 5px 0;
+        flex: 1;
+      }
+      /* Pour le STEP1, on force 2 colonnes uniquement sur mobile */
+      .objectives-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      /* Pour les boutons de STEP2, on fixe une taille circulaire */
+      .simulation-buttons button {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
     }
   </style>
 </head>
