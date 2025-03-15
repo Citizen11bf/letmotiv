@@ -894,9 +894,9 @@
   
   <!-- SCRIPT -->
   <script>
-    // Fonction getRandomImageUrl() avec sélection aléatoire entre deux catégories
+    // Fonction getRandomImageUrl() avec sélection aléatoire entre deux catégories d'images sur Wikimédia
     async function getRandomImageUrl() {
-      const categories = ["Historical_photographs", "Political_history"];
+      const categories = ["Historical_events", "Political_events"]; 
       const category = categories[Math.floor(Math.random() * categories.length)];
       const endpoint = `https://commons.wikimedia.org/w/api.php?action=query&generator=categorymembers&gcmtitle=Category:${encodeURIComponent(category)}&gcmlimit=10&prop=imageinfo&iiprop=url&format=json&origin=*`;
       try {
