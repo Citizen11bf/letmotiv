@@ -986,7 +986,8 @@
         "https://source.unsplash.com/random/800x600?art",
         "https://source.unsplash.com/random/800x600?abstract"
       ];
-      return images[Math.floor(Math.random() * images.length)];
+      // Ajoute un paramètre aléatoire pour forcer le chargement d'une nouvelle image
+      return images[Math.floor(Math.random() * images.length)] + "&sig=" + Math.random();
     }
 
     /* --- Global State Manager --- */
@@ -1166,7 +1167,7 @@
       
       displayQuestion(current, total, text) {
         let content = "";
-        // Pour la catégorie "sciences-politiques", si la question est une question d'analyse d'image (après les questions aléatoires)
+        // Pour la catégorie "sciences-politiques", si la question est d'analyse d'image (après les questions aléatoires)
         if (AppState.currentCategory === "sciences-politiques" && current > AppState.selectedQuestionCount) {
           const imageQuestionIndex = current - AppState.selectedQuestionCount;
           let questionText = "";
@@ -1267,9 +1268,9 @@
             if (AppState.currentQuestionIndex < AppState.totalQuestions) {
               AppState.currentQuestionIndex++;
               let qText = "";
-              // Si nous sommes encore dans les questions aléatoires
+              // Si nous sommes dans la phase des questions aléatoires
               if (AppState.currentQuestionIndex <= AppState.selectedQuestionCount) {
-                qText = this.questions[AppState.currentQuestionIndex === 1 ? 0 : Math.floor(Math.random() * (this.questions.length - 1)) + 1];
+                qText = AppState.currentQuestionIndex === 1 ? this.questions[0] : this.questions[Math.floor(Math.random() * (this.questions.length - 1)) + 1];
               }
               this.displayQuestion(AppState.currentQuestionIndex, AppState.totalQuestions, qText);
               timeRemaining = 120;
@@ -1363,8 +1364,12 @@
           document.querySelectorAll('.simulation-buttons button').forEach(b => b.classList.remove('selected'));
           btn.classList.add('selected');
           document.getElementById('subject-error').style.display = 'none';
-          const totalMinutes = AppState.selectedQuestionCount * 2;
-          document.getElementById('duration-info').textContent = "Ton entretien durera au maximum " + totalMinutes + " minutes.";
+          let totalMinutes = AppState.selectedQuestionCount * 2;
+          let durationText = "Ton entretien durera au maximum " + totalMinutes + " minutes.";
+          if(AppState.currentCategory === "sciences-politiques") {
+            durationText += " NB : Dans le cadre de cet entretien, 3 questions en lien avec l'analyse d'une image sont ajoutées aux questions classiques (compte 6 minutes en plus).";
+          }
+          document.getElementById('duration-info').textContent = durationText;
           stepManager.nextBtns[2].classList.add('pulse');
         });
       });
