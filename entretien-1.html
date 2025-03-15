@@ -492,13 +492,14 @@
       display: none;
       z-index: 3;
     }
-    /* Styles pour rendre l'image cliquable et agrandie */
+    /* Styles pour rendre l'image cliquable et agrandie vers la gauche */
     #analysis-image img {
       transition: transform 0.3s ease;
       cursor: pointer;
       max-width: 150px;
       border: 2px solid #ccc;
       border-radius: 4px;
+      transform-origin: right center; /* L'image s'agrandit vers la gauche */
     }
     #analysis-image img.enlarged {
       transform: scale(2);
@@ -1316,9 +1317,8 @@
       }
     }
 
-    /* --- Attacher l'écouteur pour agrandir/reduire l'image --- */
+    /* --- Attacher l'écouteur sur #analysis-image pour agrandir/réduire l'image --- */
     document.addEventListener("DOMContentLoaded", () => {
-      // Ajout de l'écouteur sur le conteneur d'image
       document.getElementById("analysis-image").addEventListener("click", function(e) {
         if(e.target && e.target.tagName.toLowerCase() === "img") {
           e.target.classList.toggle("enlarged");
