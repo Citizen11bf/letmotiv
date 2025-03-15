@@ -339,11 +339,6 @@
       height: 120px;
       perspective: 1000px;
       cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .flip-card:hover {
-      transform: scale(1.05);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
     }
     .flip-card-inner {
       position: relative;
@@ -353,6 +348,7 @@
       transform-style: preserve-3d;
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
       border-radius: 8px;
+      background-color: #fff;
     }
     .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
     .flip-card-front,
@@ -367,15 +363,23 @@
       align-items: center;
       justify-content: center;
       padding: 10px;
-      /* On applique ici le même style pour les deux faces pour conserver le titre et l'icône */
-      background: #fff;
-      color: #2E22AC;
-      border: 2px solid #2E22AC;
       transition: background-color 0.3s, color 0.3s;
     }
-    /* Même style pour la face arrière */
+    .flip-card-front {
+      background: #fff;
+      color: #808080;
+      border: 1px solid #ccc;
+    }
+    .flip-card-front i { font-size: 1.8rem; margin-bottom: 8px; }
+    .flip-card-front span { font-size: 0.9rem; }
     .flip-card-back {
+      background: #f0f0f0;
+      color: #00a48a;
       transform: rotateY(180deg);
+      font-size: 0.8rem;
+      padding: 8px;
+      text-align: center;
+      border: 1px solid #ccc;
     }
 
     /* --- STEP2 : Configuration de la simulation --- */
@@ -422,6 +426,7 @@
       overflow: hidden;
       transition: 0.2s transform ease-in-out;
     }
+    /* Utilisation du dégradé STEP0 pour l'effet de slide */
     .btn-question::after {
       content: '';
       position: absolute;
@@ -595,6 +600,7 @@
     }
     .call-to-action button:hover { transform: translateY(-3px); box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
     #step4-extra { display: none; margin-top: 20px; }
+    /* Boutons renommés dans STEP4 */
     #resources-btn {
       background-color: #2E22AC;
       color: #fff;
@@ -653,6 +659,7 @@
       transition: all 0.3s ease-in-out;
       text-decoration: none;
     }
+    /* Couleurs spécifiques lors du hover */
     .share-icons .icon-content a[data-social="whatsapp"]:hover {
       background-color: #25D366;
     }
@@ -751,8 +758,7 @@
               <span>Grand Oral</span>
             </div>
             <div class="flip-card-back">
-              <i class="fas fa-microphone"></i>
-              <span>Grand Oral</span>
+              Prépare-toi pour le Grand Oral.
             </div>
           </div>
         </div>
@@ -764,8 +770,7 @@
               <span>Ecole d'ingénieur généraliste</span>
             </div>
             <div class="flip-card-back">
-              <i class="fas fa-cogs"></i>
-              <span>Ecole d'ingénieur généraliste</span>
+              Prépare ton entretien pour une école d'ingénieur généraliste.
             </div>
           </div>
         </div>
@@ -777,8 +782,7 @@
               <span>Ecole d'ingénieur aéro</span>
             </div>
             <div class="flip-card-back">
-              <i class="fas fa-rocket"></i>
-              <span>Ecole d'ingénieur aéro</span>
+              Prépare ton entretien pour une école d'ingénieur spécialisée en aéronautique.
             </div>
           </div>
         </div>
@@ -790,8 +794,7 @@
               <span>Ecole de commerce</span>
             </div>
             <div class="flip-card-back">
-              <i class="fas fa-handshake"></i>
-              <span>Ecole de commerce</span>
+              Prépare ton entretien pour une école de commerce.
             </div>
           </div>
         </div>
@@ -803,8 +806,7 @@
               <span>Ecole de Sciences Politiques</span>
             </div>
             <div class="flip-card-back">
-              <i class="fas fa-university"></i>
-              <span>Ecole de Sciences Politiques</span>
+              Prépare ton entretien pour une école de Sciences Politiques.
             </div>
           </div>
         </div>
@@ -816,8 +818,7 @@
               <span>Entretien d'embauche</span>
             </div>
             <div class="flip-card-back">
-              <i class="fas fa-briefcase"></i>
-              <span>Entretien d'embauche</span>
+              Prépare-toi pour ton entretien d'embauche.
             </div>
           </div>
         </div>
@@ -975,6 +976,19 @@
   
   <!-- SCRIPT -->
   <script>
+    /* --- Fonction utilitaire pour obtenir une image aléatoire --- */
+    function getRandomImageUrl() {
+      // Liste d'URLs d'images issues d'une banque d'images gratuites (ici Unsplash)
+      const images = [
+        "https://source.unsplash.com/random/800x600?landscape",
+        "https://source.unsplash.com/random/800x600?city",
+        "https://source.unsplash.com/random/800x600?history",
+        "https://source.unsplash.com/random/800x600?art",
+        "https://source.unsplash.com/random/800x600?abstract"
+      ];
+      return images[Math.floor(Math.random() * images.length)];
+    }
+
     /* --- Global State Manager --- */
     const AppState = {
       currentStep: 0,
@@ -1149,8 +1163,25 @@
       }
       
       displayQuestion(current, total, text) {
+        // Contenu de base pour la question
+        let content = `<p style="font-size:16px; text-align:center;">Question ${current}/${total} : ${text}</p>`;
+        
+        // Si la catégorie est "sciences-politiques" et pour les questions 3 à 5,
+        // afficher une image aléatoire et les 3 consignes d'analyse.
+        if (AppState.currentCategory === "sciences-politiques" && current >= 3 && current <= 5) {
+          const imageUrl = getRandomImageUrl();
+          content += `
+            <div style="margin-top: 10px;">
+              <img src="${imageUrl}" alt="Analyse d'image" style="max-width:100%; border: 1px solid #ccc; border-radius:4px;">
+            </div>
+            <p style="font-size:14px; text-align:center; margin-top: 10px;">1. Décrivez l'image que vous voyez.</p>
+            <p style="font-size:14px; text-align:center;">2. Pouvez-vous contextualiser cette image ?</p>
+            <p style="font-size:14px; text-align:center;">3. Comment interprétez-vous cette image au regard du contexte qui l'entoure ?</p>
+          `;
+        }
+        
         this.questionOverlay.classList.remove('question-change');
-        this.questionOverlay.innerHTML = `<p style="font-size:16px; text-align:center;">Question ${current}/${total} : ${text}</p>`;
+        this.questionOverlay.innerHTML = content;
         this.questionOverlay.style.display = 'block';
         this.questionOverlay.classList.add('question-change');
         setTimeout(() => this.questionOverlay.classList.remove('question-change'), 800);
