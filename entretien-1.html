@@ -225,7 +225,7 @@
       padding: 20px;
       border-radius: 15px;
       background: #fff;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       text-align: center;
       font-size: 14px;
       display: none;
@@ -234,7 +234,7 @@
     .box.active { display: block; }
     .box:hover {
       transform: translateY(-5px);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
     }
     .slide-from-bottom { animation: fromBottom 1.5s ease forwards; }
     @keyframes fromBottom { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
@@ -310,7 +310,7 @@
     }
     .btn-impro:hover { background-color: #E34C9D; }
 
-    /* --- STEP1 : Choix d’objectif avec effet "Carte Flip" --- */
+    /* --- STEP1 : Choix d’objectif (flip cards simplifiées) --- */
     .objectives-container {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -318,66 +318,38 @@
       justify-items: center;
       margin: 10px 0;
     }
-    @media (max-width: 600px) {
-      .objectives-container { grid-template-columns: repeat(2, 1fr); }
-      .flip-card { width: 90px; height: 100px; }
-      .flip-card-front i { font-size: 1.8rem; }
-      .flip-card-front span { font-size: 0.9rem; }
-    }
-    @media (max-width: 550px) {
-      .flip-card { max-width: 120px; height: 90px; }
-      .flip-card-front i { font-size: 1.5rem; }
-      .flip-card-front span { font-size: 0.7rem; }
-    }
+    /* Simplification des flip cards (suppression du retournement) */
     .flip-card {
-      background-color: transparent;
-      width: 100%;
-      max-width: 150px;
-      height: 120px;
-      perspective: 1000px;
+      background-color: #f7f7f7;
+      border: 2px solid #2E22AC;
+      border-radius: 8px;
+      padding: 15px;
       cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s;
     }
-    .flip-card-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transition: transform 0.6s;
-      transform-style: preserve-3d;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      border-radius: 8px;
-      background-color: #fff;
+    .flip-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
-    .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
-    .flip-card-front,
-    .flip-card-back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      border-radius: 8px;
+    .flip-card.selected {
+      background-color: #00a48a;
+      color: #fff;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    }
+    .flip-card.selected i,
+    .flip-card.selected span {
+      color: #fff;
+    }
+    /* On masque les éléments internes inutiles */
+    .flip-card-inner, .flip-card-back { display: none; }
+    .flip-card-front {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 10px;
-      transition: background-color 0.3s, color 0.3s;
     }
-    .flip-card-front {
-      background: #fff;
-      color: #808080;
-      border: 1px solid #ccc;
-    }
-    .flip-card-front i { font-size: 1.8rem; margin-bottom: 8px; }
-    .flip-card-front span { font-size: 0.9rem; }
-    .flip-card-back {
-      background: #f0f0f0;
-      color: #00a48a;
-      transform: rotateY(180deg);
-      font-size: 0.8rem;
-      padding: 8px;
-      text-align: center;
-      border: 1px solid #ccc;
-    }
+    .flip-card-front i { font-size: 2rem; margin-bottom: 8px; }
+    .flip-card-front span { font-size: 1rem; }
 
     /* --- STEP2 : Configuration de la simulation --- */
     .simulation-instructions {
@@ -393,7 +365,7 @@
       margin: 5px 0;
       flex-wrap: wrap;
     }
-    /* Boutons du STEP2 : couleur par défaut bleue, vert clair au survol et vert foncé lorsqu'ils sont sélectionnés */
+    /* Boutons du STEP2 */
     .simulation-buttons button {
       padding: 8px 20px;
       font-size: 16px;
@@ -680,7 +652,7 @@
   <!-- Élément audio pour le feedback sonore -->
   <audio id="pop-sound" src="https://www.soundjay.com/button/sounds/button-30.mp3" preload="auto"></audio>
 
-  <!-- BOÎTE D'INTRODUCTION (STEP0) --->
+  <!-- BOÎTE D'INTRODUCTION (STEP0) -->
   <div class="intro-box" id="intro-box">
     <h1>
       <span class="line">Entraîne-toi</span>
@@ -729,74 +701,44 @@
       <div class="objectives-container">
         <!-- INSP -->
         <div class="flip-card objective-item" data-category="insp">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <i class="fas fa-microphone"></i>
-              <span>INSP</span>
-            </div>
-            <div class="flip-card-back">
-              Prépare-toi pour l'entretien à l'INSP.
-            </div>
+          <div class="flip-card-front">
+            <i class="fas fa-microphone"></i>
+            <span>INSP</span>
           </div>
         </div>
         <!-- Ecole d'ingénieur généraliste -->
         <div class="flip-card objective-item" data-category="ingenieur-generaliste">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <i class="fas fa-cogs"></i>
-              <span>Ecole d'ingénieur généraliste</span>
-            </div>
-            <div class="flip-card-back">
-              Prépare ton entretien pour une école d'ingénieur généraliste.
-            </div>
+          <div class="flip-card-front">
+            <i class="fas fa-cogs"></i>
+            <span>Ecole d'ingénieur généraliste</span>
           </div>
         </div>
         <!-- Ecole d'ingénieur aéro -->
         <div class="flip-card objective-item" data-category="ingenieur-aero">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <i class="fas fa-rocket"></i>
-              <span>Ecole d'ingénieur aéro</span>
-            </div>
-            <div class="flip-card-back">
-              Prépare ton entretien pour une école d'ingénieur spécialisée en aéronautique.
-            </div>
+          <div class="flip-card-front">
+            <i class="fas fa-rocket"></i>
+            <span>Ecole d'ingénieur aéro</span>
           </div>
         </div>
         <!-- Ecole de commerce -->
         <div class="flip-card objective-item" data-category="commerce">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <i class="fas fa-handshake"></i>
-              <span>Ecole de commerce</span>
-            </div>
-            <div class="flip-card-back">
-              Prépare ton entretien pour une école de commerce.
-            </div>
+          <div class="flip-card-front">
+            <i class="fas fa-handshake"></i>
+            <span>Ecole de commerce</span>
           </div>
         </div>
         <!-- Ecole de Sciences Politiques -->
         <div class="flip-card objective-item" data-category="sciences-politiques">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <i class="fas fa-university"></i>
-              <span>Ecole de Sciences Politiques</span>
-            </div>
-            <div class="flip-card-back">
-              Prépare ton entretien pour une école de Sciences Politiques.
-            </div>
+          <div class="flip-card-front">
+            <i class="fas fa-university"></i>
+            <span>Ecole de Sciences Politiques</span>
           </div>
         </div>
         <!-- Entretien d'embauche -->
         <div class="flip-card objective-item" data-category="embauche">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <i class="fas fa-briefcase"></i>
-              <span>Entretien d'embauche</span>
-            </div>
-            <div class="flip-card-back">
-              Prépare-toi pour ton entretien d'embauche.
-            </div>
+          <div class="flip-card-front">
+            <i class="fas fa-briefcase"></i>
+            <span>Entretien d'embauche</span>
           </div>
         </div>
       </div>
@@ -1045,7 +987,7 @@
           }, 500);
         });
         this.nextBtns[1].addEventListener('click', () => {
-          const selected = document.querySelector('.objectives-container .flip-card.flipped');
+          const selected = document.querySelector('.objectives-container .objective-item.selected');
           if (!selected) {
             document.getElementById('objective-error').textContent = "Sélectionne un objectif avant de continuer.";
             document.getElementById('objective-error').style.display = 'block';
@@ -1322,9 +1264,9 @@
         let infoText = "Ton entretien durera au maximum " + baseMinutes + " minutes.";
         if (AppState.currentCategory === "sciences-politiques") {
           const extraMinutes = 3 * AppState.minutesPerQuestion;
-          infoText += " NB : compter " + extraMinutes + " minutes de plus pour la séquence d'analyse d'une image.";
+          infoText += "<br>NB : compter " + extraMinutes + " minutes de plus pour la séquence d'analyse d'une image.";
         }
-        document.getElementById('duration-info').textContent = infoText;
+        document.getElementById('duration-info').innerHTML = infoText;
       }
     }
 
@@ -1341,14 +1283,15 @@
       const shareManager = new ShareManager();
       const popSound = document.getElementById('pop-sound');
       
-      // Gestion des flip-cards pour le choix d'objectif
+      // Gestion des flip cards pour le choix d'objectif (simplifiées)
       const objectivesCards = document.querySelectorAll('.objectives-container .objective-item');
       objectivesCards.forEach(card => {
         card.addEventListener('click', async () => {
           popSound.currentTime = 0;
           popSound.play().catch(err => console.error("Erreur lors de la lecture du son :", err));
-          objectivesCards.forEach(c => c.classList.remove('flipped'));
-          card.classList.add('flipped');
+          // Supprimer la classe 'selected' de toutes les cartes
+          objectivesCards.forEach(c => c.classList.remove('selected'));
+          card.classList.add('selected');
           AppState.currentCategory = card.dataset.category;
           document.getElementById('objective-error').style.display = 'none';
           stepManager.nextBtns[1].classList.add('pulse');
