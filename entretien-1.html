@@ -153,19 +153,16 @@
       .flip-card { width: 90px; height: 100px; }
       .flip-card-front i { font-size: 1.8rem; }
       .flip-card-front span { font-size: 0.9rem; }
-      
-      .cta {
-        padding: 8px 30px !important;
-        font-size: 30px !important;
+      /* Pour les boutons du STEP2 sur mobile */
+      .simulation-buttons {
+         flex-wrap: wrap;
+         justify-content: center;
+         gap: 5px;
       }
-      .cta svg {
-        width: 40px !important;
-        height: auto !important;
-      }
-      .cta span:nth-child(2) {
-        margin-left: 20px !important;
-        width: 15px !important;
-        top: 10% !important;
+      .simulation-buttons button {
+         flex: 1 1 auto;
+         min-width: 60px;
+         margin: 5px;
       }
     }
 
@@ -394,6 +391,7 @@
       justify-content: center;
       gap: 10px;
       margin: 5px 0;
+      flex-wrap: wrap;
     }
     /* Boutons du STEP2 : couleur par défaut bleue, vert clair au survol et vert foncé lorsqu'ils sont sélectionnés */
     .simulation-buttons button {
@@ -470,15 +468,16 @@
       transition: background-color 0.3s;
     }
     #instruction-overlay button:hover { background-color: #E34C9D; }
+    /* Overlay des questions fixé à top: 0 */
     #question-overlay {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
-      padding: 0px;
+      padding: 5px;
       background: rgba(255,255,255,0.6);
-      font-style: normal;
-      font-size: 12px;
+      font-style: italic;
+      font-size: 13px;
       text-align: center;
       z-index: 3;
       display: none;
@@ -498,7 +497,7 @@
       max-width: 150px;
       border: 2px solid #ccc;
       border-radius: 4px;
-      transform-origin: bottom right; /* L'image s'agrandit vers la gauche */
+      transform-origin: bottom right;
     }
     #analysis-image img.enlarged {
       transform: scale(2);
@@ -681,7 +680,7 @@
   <!-- Élément audio pour le feedback sonore -->
   <audio id="pop-sound" src="https://www.soundjay.com/button/sounds/button-30.mp3" preload="auto"></audio>
 
-  <!-- BOÎTE D'INTRODUCTION (STEP0) -->
+  <!-- BOÎTE D'INTRODUCTION (STEP0) --->
   <div class="intro-box" id="intro-box">
     <h1>
       <span class="line">Entraîne-toi</span>
@@ -1316,6 +1315,19 @@
       }
     }
 
+    /* --- Mettre à jour la durée affichée dans le STEP2 --- */
+    function updateDurationInfo() {
+      if (AppState.selectedQuestionCount && AppState.minutesPerQuestion) {
+        const baseMinutes = AppState.selectedQuestionCount * AppState.minutesPerQuestion;
+        let infoText = "Ton entretien durera au maximum " + baseMinutes + " minutes.";
+        if (AppState.currentCategory === "sciences-politiques") {
+          const extraMinutes = 3 * AppState.minutesPerQuestion;
+          infoText += " NB : compter " + extraMinutes + " minutes de plus pour la séquence d'analyse d'une image.";
+        }
+        document.getElementById('duration-info').textContent = infoText;
+      }
+    }
+
     /* --- Attacher un écouteur global sur le conteneur #analysis-image --- */
     document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("analysis-image").addEventListener("click", function(e) {
@@ -1340,6 +1352,7 @@
           AppState.currentCategory = card.dataset.category;
           document.getElementById('objective-error').style.display = 'none';
           stepManager.nextBtns[1].classList.add('pulse');
+          updateDurationInfo(); // Recalculer la durée dès que la catégorie est définie
         });
       });
 
@@ -1369,16 +1382,6 @@
         });
       });
 
-      // Mettre à jour et afficher immédiatement le texte de durée sur STEP2
-      function updateDurationInfo() {
-        if(AppState.selectedQuestionCount && AppState.minutesPerQuestion) {
-          let totalMinutes = AppState.selectedQuestionCount * AppState.minutesPerQuestion;
-          if(AppState.currentCategory === "sciences-politiques") {
-            totalMinutes = (AppState.selectedQuestionCount + 3) * AppState.minutesPerQuestion;
-          }
-          document.getElementById('duration-info').textContent = "Ton entretien durera au maximum " + totalMinutes + " minutes.";
-        }
-      }
       updateDurationInfo();
 
       // Bouton de démarrage du recording
