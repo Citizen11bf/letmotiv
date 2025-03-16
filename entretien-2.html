@@ -648,7 +648,7 @@
   <!-- Élément audio pour le feedback sonore -->
   <audio id="pop-sound" src="https://www.soundjay.com/button/sounds/button-30.mp3" preload="auto"></audio>
 
-  <!-- BOÎTE D'INTRODUCTION (STEP0) --->
+  <!-- BOÎTE D'INTRODUCTION (STEP0) -->
   <div class="intro-box" id="intro-box">
     <h1>
       <span class="line">Entraîne-toi</span>
@@ -900,7 +900,6 @@
   
   <!-- SCRIPT -->
   <script>
-   
     // Fonction getRandomImageUrl() avec un grand tableau de catégories (événements historiques/politiques depuis 1700)
     async function getRandomImageUrl() {
       const categories = [
@@ -1100,8 +1099,9 @@
       }
       
       startInitialCountdown() {
-        // Avant de démarrer, on efface le compte à rebours des minutes
+        // Avant de démarrer, effacer le compte à rebours des minutes et s'assurer que l'indicateur reste masqué
         document.getElementById('countdown').textContent = "";
+        this.recordingIndicator.style.display = 'none';
         if (window.innerWidth <= 600) {
           document.querySelector('.video-box').style.height = "450px";
         }
@@ -1171,7 +1171,7 @@
           }
           this.restartBtn.classList.remove('hidden-btn');
           this.nextQuestionBtn.classList.add('hidden-btn');
-          // On efface le décompte des minutes en fin de simulation
+          // Effacer le décompte des minutes en fin de simulation
           document.getElementById('countdown').textContent = "";
         };
         this.questions = await QuestionLoader.loadSubjects(AppState.currentCategory);
@@ -1190,7 +1190,6 @@
         await this.displayQuestion(AppState.currentQuestionIndex, AppState.totalQuestions, this.questions[0]);
         // Démarrer l'enregistrement et afficher l'indicateur d'enregistrement + compte à rebours
         this.mediaRecorder.start();
-        // Afficher l'indicateur avec le compte à rebours
         this.recordingIndicator.style.display = 'flex';
         this.updateCountdown(AppState.minutesPerQuestion * 60);
         this.stopBtn.classList.remove('hidden-btn');
@@ -1375,7 +1374,7 @@
           videoRecorder.nextQuestionBtn.classList.add('hidden-btn');
           videoRecorder.restartBtn.classList.remove('hidden-btn');
           videoRecorder.recordingIndicator.style.display = 'none';
-          // On efface le décompte des minutes lors de l'arrêt
+          // Effacer le décompte des minutes lors de l'arrêt
           document.getElementById('countdown').textContent = "";
         }
       });
@@ -1407,8 +1406,7 @@
         AppState.currentQuestionIndex = 1;
         // Effacer le décompte des minutes avant de redémarrer
         document.getElementById('countdown').textContent = "";
-        // Réafficher l'indicateur (icône et compte à rebours) lors du redémarrage
-        videoRecorder.recordingIndicator.style.display = 'flex';
+        // Ne pas afficher immédiatement l'indicateur, le décompte lancera son affichage via initiateRecording()
         videoRecorder.startInitialCountdown();
       });
       // STEP4 : Analyse et téléchargement
