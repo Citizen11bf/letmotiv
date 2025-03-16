@@ -406,6 +406,7 @@
     }
     #instruction-overlay button:hover { background-color: #E34C9D; }
     
+    /* Overlay des questions fixé à top: 0 */
     #question-overlay {
       position: absolute;
       top: 0;
@@ -647,7 +648,7 @@
   <!-- Élément audio pour le feedback sonore -->
   <audio id="pop-sound" src="https://www.soundjay.com/button/sounds/button-30.mp3" preload="auto"></audio>
 
-  <!-- BOÎTE D'INTRODUCTION (STEP0) -->
+  <!-- BOÎTE D'INTRODUCTION (STEP0) --->
   <div class="intro-box" id="intro-box">
     <h1>
       <span class="line">Entraîne-toi</span>
@@ -805,7 +806,9 @@
         <!-- Élément pour l'image d'analyse pour Sciences Po -->
         <div id="analysis-image"></div>
         <!-- Conteneur regroupant l'icône d'enregistrement et le compte à rebours -->
-        <div class="recording-indicator" id="recording-indicator"></div>
+        <div class="recording-indicator" id="recording-indicator">
+          <i class="fas fa-circle"></i><span id="countdown"></span>
+        </div>
         <div class="initial-countdown-overlay" id="initial-countdown-overlay">
           <div class="initial-countdown" id="initial-countdown">5</div>
         </div>
@@ -898,46 +901,46 @@
   <!-- SCRIPT -->
   <script>
    
-    // Fonction getRandomImageUrl() avec sélection aléatoire entre deux catégories d'images sur Wikimédia
+    // Fonction getRandomImageUrl() avec un grand tableau de catégories (événements historiques/politiques depuis 1700)
     async function getRandomImageUrl() {
-  const categories = [
-    "French and Indian War", "American Revolution", "French Revolution", "Napoleonic Wars", "War of 1812",
-    "Latin American Wars of Independence", "Greek War of Independence", "Belgian Revolution", "Revolutions of 1848", "Crimean War",
-    "American Civil War", "Franco-Prussian War", "German Unification", "Scramble for Africa", "Boxer Rebellion",
-    "Russian Revolution of 1905", "Russian Revolution", "World War I", "Treaty of Versailles", "Great Depression",
-    "World War II", "Holocaust", "Partition of India", "Chinese Civil War", "Cuban Revolution",
-    "Korean War", "Vietnam War", "Cultural Revolution", "Six-Day War", "Yom Kippur War",
-    "Iranian Revolution", "Soviet-Afghan War", "Fall of Saigon", "Solidarity Movement", "Carnation Revolution",
-    "Iran-Iraq War", "Falklands War", "Rwandan Genocide", "Gulf War", "Fall of the Berlin Wall",
-    "Collapse of the Soviet Union", "Balkan Wars", "Kosovo War", "9/11 Attacks", "War in Afghanistan",
-    "Iraq War", "Arab Spring", "Syrian Civil War", "Ukrainian Revolution 2014", "Brexit Referendum",
-    "Hong Kong Protests", "George Floyd Protests", "Tiananmen Square Protests", "May 1968 Events in France", "Spanish Transition to Democracy",
-    "End of Apartheid", "Rwandan Civil War", "First Gulf War", "Second Congo War", "First Intifada",
-    "Second Intifada", "Suez Crisis", "Yugoslav Wars", "Dot-com Bubble", "Icelandic Financial Crisis",
-    "Global Financial Crisis 2008", "Occupy Wall Street", "Libyan Civil War", "Egyptian Revolution 2011", "Syrian Refugee Crisis",
-    "Crimea Annexation", "Russian Annexation of Crimea", "North Korean Nuclear Crisis", "Malaysian Political Crisis", "Colombian Peace Agreement",
-    "Boko Haram Insurgency", "Darfur Conflict", "Nepalese Civil War", "Mali War", "Hong Kong Anti-Extradition Protests",
-    "Myanmar Protests", "Catalan Independence Referendum", "Soviet Invasion of Afghanistan", "U.S. Civil Rights Movement", "Stonewall Riots",
-    "Anti-Vietnam War Protests", "March on Washington", "Feminist Movement", "LGBT Rights Movement", "MeToo Movement",
-    "Environmental Movement", "Global Climate Strikes", "Russian Constitutional Crisis 1993", "Czechoslovak Velvet Revolution", "Prague Spring",
-    "Iran Hostage Crisis", "Indonesian National Revolution", "Fall of the Ottoman Empire", "Balfour Declaration", "Italian Unification"
-  ];
-  const category = categories[Math.floor(Math.random() * categories.length)];
-  const endpoint = `https://commons.wikimedia.org/w/api.php?action=query&list=categorymembers&cmtitle=Category:Political_events&cmtype=file&format=json&origin=*`;
-  try {
-    const response = await fetch(endpoint);
-    const data = await response.json();
-    if (!data.query) {
-      throw new Error("Aucun résultat pour la catégorie " + category);
+      const categories = [
+        "French and Indian War", "American Revolution", "French Revolution", "Napoleonic Wars", "War of 1812",
+        "Latin American Wars of Independence", "Greek War of Independence", "Belgian Revolution", "Revolutions of 1848", "Crimean War",
+        "American Civil War", "Franco-Prussian War", "German Unification", "Scramble for Africa", "Boxer Rebellion",
+        "Russian Revolution of 1905", "Russian Revolution", "World War I", "Treaty of Versailles", "Great Depression",
+        "World War II", "Holocaust", "Partition of India", "Chinese Civil War", "Cuban Revolution",
+        "Korean War", "Vietnam War", "Cultural Revolution", "Six-Day War", "Yom Kippur War",
+        "Iranian Revolution", "Soviet-Afghan War", "Fall of Saigon", "Solidarity Movement", "Carnation Revolution",
+        "Iran-Iraq War", "Falklands War", "Rwandan Genocide", "Gulf War", "Fall of the Berlin Wall",
+        "Collapse of the Soviet Union", "Balkan Wars", "Kosovo War", "9/11 Attacks", "War in Afghanistan",
+        "Iraq War", "Arab Spring", "Syrian Civil War", "Ukrainian Revolution 2014", "Brexit Referendum",
+        "Hong Kong Protests", "George Floyd Protests", "Tiananmen Square Protests", "May 1968 Events in France", "Spanish Transition to Democracy",
+        "End of Apartheid", "Rwandan Civil War", "First Gulf War", "Second Congo War", "First Intifada",
+        "Second Intifada", "Suez Crisis", "Yugoslav Wars", "Dot-com Bubble", "Icelandic Financial Crisis",
+        "Global Financial Crisis 2008", "Occupy Wall Street", "Libyan Civil War", "Egyptian Revolution 2011", "Syrian Refugee Crisis",
+        "Crimea Annexation", "Russian Annexation of Crimea", "North Korean Nuclear Crisis", "Malaysian Political Crisis", "Colombian Peace Agreement",
+        "Boko Haram Insurgency", "Darfur Conflict", "Nepalese Civil War", "Mali War", "Hong Kong Anti-Extradition Protests",
+        "Myanmar Protests", "Catalan Independence Referendum", "Soviet Invasion of Afghanistan", "U.S. Civil Rights Movement", "Stonewall Riots",
+        "Anti-Vietnam War Protests", "March on Washington", "Feminist Movement", "LGBT Rights Movement", "MeToo Movement",
+        "Environmental Movement", "Global Climate Strikes", "Russian Constitutional Crisis 1993", "Czechoslovak Velvet Revolution", "Prague Spring",
+        "Iran Hostage Crisis", "Indonesian National Revolution", "Fall of the Ottoman Empire", "Balfour Declaration", "Italian Unification"
+      ];
+      const category = categories[Math.floor(Math.random() * categories.length)];
+      const endpoint = `https://commons.wikimedia.org/w/api.php?action=query&list=categorymembers&cmtitle=Category:${encodeURIComponent(category)}&cmtype=file&format=json&origin=*`;
+      try {
+        const response = await fetch(endpoint);
+        const data = await response.json();
+        if (!data.query) {
+          throw new Error("Aucun résultat pour la catégorie " + category);
+        }
+        const pages = Object.values(data.query.pages);
+        const randomPage = pages[Math.floor(Math.random() * pages.length)];
+        return randomPage.imageinfo[0].url;
+      } catch (error) {
+        console.error("Erreur lors de la récupération de l'image depuis Wikimedia Commons :", error);
+        return "Erreur lors de la récupération de l'image via Wikimedia Commons";
+      }
     }
-    const pages = Object.values(data.query.pages);
-    const randomPage = pages[Math.floor(Math.random() * pages.length)];
-    return randomPage.imageinfo[0].url;
-  } catch (error) {
-    console.error("Erreur lors de la récupération de l'image depuis Wikimedia Commons :", error);
-    return "Erreur lors de la récupération de l'image via Wikimedia Commons";
-  }
-}
 
     /* --- Global State Manager --- */
     const AppState = {
@@ -1097,6 +1100,8 @@
       }
       
       startInitialCountdown() {
+        // Avant de démarrer, on efface le compte à rebours des minutes
+        document.getElementById('countdown').textContent = "";
         if (window.innerWidth <= 600) {
           document.querySelector('.video-box').style.height = "450px";
         }
@@ -1151,7 +1156,7 @@
           const blob = new Blob(this.recordedChunks, { type: 'video/mp4' });
           AppState.videoURL = URL.createObjectURL(blob);
           stream.getTracks().forEach(track => track.stop());
-          // Masquer l'image d'analyse et le compte à rebours après l'enregistrement
+          // Masquer l'image d'analyse, le compte à rebours et l'indicateur après l'enregistrement
           document.getElementById('analysis-image').style.display = 'none';
           this.recordingIndicator.style.display = 'none';
           this.questionOverlay.style.display = 'block';
@@ -1166,6 +1171,8 @@
           }
           this.restartBtn.classList.remove('hidden-btn');
           this.nextQuestionBtn.classList.add('hidden-btn');
+          // On efface le décompte des minutes en fin de simulation
+          document.getElementById('countdown').textContent = "";
         };
         this.questions = await QuestionLoader.loadSubjects(AppState.currentCategory);
         if (!this.questions || this.questions.length === 0) {
@@ -1183,8 +1190,7 @@
         await this.displayQuestion(AppState.currentQuestionIndex, AppState.totalQuestions, this.questions[0]);
         // Démarrer l'enregistrement et afficher l'indicateur d'enregistrement + compte à rebours
         this.mediaRecorder.start();
-        // Insérer l'icône rouge et le span pour le compte à rebours dans le conteneur
-        this.recordingIndicator.innerHTML = '<i class="fas fa-circle"></i><span id="countdown"></span>';
+        // Afficher l'indicateur avec le compte à rebours
         this.recordingIndicator.style.display = 'flex';
         this.updateCountdown(AppState.minutesPerQuestion * 60);
         this.stopBtn.classList.remove('hidden-btn');
@@ -1222,6 +1228,8 @@
               clearInterval(this.timerInterval);
               this.stopBtn.classList.add('hidden-btn');
               this.stopBtn.disabled = true;
+              // Effacer le décompte des minutes en cas d'arrêt
+              document.getElementById('countdown').textContent = "";
             }
           }
         }, 1000);
@@ -1367,6 +1375,8 @@
           videoRecorder.nextQuestionBtn.classList.add('hidden-btn');
           videoRecorder.restartBtn.classList.remove('hidden-btn');
           videoRecorder.recordingIndicator.style.display = 'none';
+          // On efface le décompte des minutes lors de l'arrêt
+          document.getElementById('countdown').textContent = "";
         }
       });
       videoRecorder.nextQuestionBtn.addEventListener('click', () => {
@@ -1395,6 +1405,8 @@
         videoRecorder.questionOverlay.style.display = 'none';
         AppState.improStarted = false;
         AppState.currentQuestionIndex = 1;
+        // Effacer le décompte des minutes avant de redémarrer
+        document.getElementById('countdown').textContent = "";
         // Réafficher l'indicateur (icône et compte à rebours) lors du redémarrage
         videoRecorder.recordingIndicator.style.display = 'flex';
         videoRecorder.startInitialCountdown();
