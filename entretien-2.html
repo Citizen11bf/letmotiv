@@ -648,7 +648,7 @@
   <!-- Élément audio pour le feedback sonore -->
   <audio id="pop-sound" src="https://www.soundjay.com/button/sounds/button-30.mp3" preload="auto"></audio>
 
-  <!-- BOÎTE D'INTRODUCTION (STEP0) -->
+  <!-- BOÎTE D'INTRODUCTION (STEP0) --->
   <div class="intro-box" id="intro-box">
     <h1>
       <span class="line">Entraîne-toi</span>
@@ -900,6 +900,7 @@
   
   <!-- SCRIPT -->
   <script>
+   
     // Fonction getRandomImageUrl() avec un grand tableau de catégories (événements historiques/politiques depuis 1700)
     async function getRandomImageUrl() {
       const categories = [
@@ -924,56 +925,22 @@
         "Environmental Movement", "Global Climate Strikes", "Russian Constitutional Crisis 1993", "Czechoslovak Velvet Revolution", "Prague Spring",
         "Iran Hostage Crisis", "Indonesian National Revolution", "Fall of the Ottoman Empire", "Balfour Declaration", "Italian Unification"
       ];
-      // Sélectionner une catégorie aléatoire
       const category = categories[Math.floor(Math.random() * categories.length)];
-      
-      // Première requête : obtenir la liste des fichiers dans la catégorie
-      const listEndpoint = `https://commons.wikimedia.org/w/api.php?action=query&list=categorymembers&cmtitle=Category:${encodeURIComponent(category)}&cmtype=file&cmlimit=10&format=json&origin=*`;
+      const endpoint = `https://commons.wikimedia.org/w/api.php?action=query&list=categorymembers&cmtitle=Category:${encodeURIComponent(category)}&cmtype=file&format=json&origin=*`;
       try {
-        const listResponse = await fetch(listEndpoint);
-        const listData = await listResponse.json();
-        if (!listData.query || !listData.query.categorymembers || listData.query.categorymembers.length === 0) {
-          throw new Error("Aucun membre trouvé dans la catégorie " + category);
+        const response = await fetch(endpoint);
+        const data = await response.json();
+        if (!data.query) {
+          throw new Error("Aucun résultat pour la catégorie " + category);
         }
-        
-        // Sélectionner un membre aléatoire
-        const randomMember = listData.query.categorymembers[Math.floor(Math.random() * listData.query.categorymembers.length)];
-        const pageId = randomMember.pageid;
-        
-        // Deuxième requête : obtenir l'URL de l'image pour le pageId sélectionné
-        const infoEndpoint = `https://commons.wikimedia.org/w/api.php?action=query&prop=imageinfo&iiprop=url&pageids=${pageId}&format=json&origin=*`;
-        const infoResponse = await fetch(infoEndpoint);
-        const infoData = await infoResponse.json();
-        
-        if (!infoData.query || !infoData.query.pages || !infoData.query.pages[pageId]) {
-          throw new Error("Impossible de récupérer les informations pour la page " + pageId);
-        }
-        const pageInfo = infoData.query.pages[pageId];
-        if (!pageInfo.imageinfo || !pageInfo.imageinfo[0] || !pageInfo.imageinfo[0].url) {
-          throw new Error("L'image sélectionnée dans la catégorie " + category + " n'a pas d'URL.");
-        }
-        
-        // Retourner un objet contenant l'URL et la catégorie
-        return { url: pageInfo.imageinfo[0].url, category: category };
+        const pages = Object.values(data.query.pages);
+        const randomPage = pages[Math.floor(Math.random() * pages.length)];
+        return randomPage.imageinfo[0].url;
       } catch (error) {
         console.error("Erreur lors de la récupération de l'image depuis Wikimedia Commons :", error);
-        return { error: "Erreur lors de la récupération de l'image via Wikimedia Commons: " + error.message };
+        return "Erreur lors de la récupération de l'image via Wikimedia Commons";
       }
     }
-
-    document.getElementById('testBtn').addEventListener('click', async function() {
-      const resultDiv = document.getElementById('result');
-      resultDiv.innerHTML = "Chargement...";
-      const result = await getRandomImageData();
-      if (result.error) {
-        resultDiv.innerHTML = `<p style="color: red;">${result.error}</p>`;
-      } else {
-        resultDiv.innerHTML = `
-          <img src="${result.url}" alt="Image récupérée via Wikimedia Commons" style="max-width: 400px;">
-          <p>Catégorie : <strong>${result.category}</strong></p>
-        `;
-      }
-    });
 
     /* --- Global State Manager --- */
     const AppState = {
@@ -1133,9 +1100,8 @@
       }
       
       startInitialCountdown() {
-        // Avant de démarrer, effacer le compte à rebours des minutes et s'assurer que l'indicateur reste masqué
+        // Avant de démarrer, on efface le compte à rebours des minutes
         document.getElementById('countdown').textContent = "";
-        this.recordingIndicator.style.display = 'none';
         if (window.innerWidth <= 600) {
           document.querySelector('.video-box').style.height = "450px";
         }
@@ -1205,7 +1171,7 @@
           }
           this.restartBtn.classList.remove('hidden-btn');
           this.nextQuestionBtn.classList.add('hidden-btn');
-          // Effacer le décompte des minutes en fin de simulation
+          // On efface le décompte des minutes en fin de simulation
           document.getElementById('countdown').textContent = "";
         };
         this.questions = await QuestionLoader.loadSubjects(AppState.currentCategory);
@@ -1224,6 +1190,7 @@
         await this.displayQuestion(AppState.currentQuestionIndex, AppState.totalQuestions, this.questions[0]);
         // Démarrer l'enregistrement et afficher l'indicateur d'enregistrement + compte à rebours
         this.mediaRecorder.start();
+        // Afficher l'indicateur avec le compte à rebours
         this.recordingIndicator.style.display = 'flex';
         this.updateCountdown(AppState.minutesPerQuestion * 60);
         this.stopBtn.classList.remove('hidden-btn');
@@ -1408,7 +1375,7 @@
           videoRecorder.nextQuestionBtn.classList.add('hidden-btn');
           videoRecorder.restartBtn.classList.remove('hidden-btn');
           videoRecorder.recordingIndicator.style.display = 'none';
-          // Effacer le décompte des minutes lors de l'arrêt
+          // On efface le décompte des minutes lors de l'arrêt
           document.getElementById('countdown').textContent = "";
         }
       });
@@ -1440,7 +1407,8 @@
         AppState.currentQuestionIndex = 1;
         // Effacer le décompte des minutes avant de redémarrer
         document.getElementById('countdown').textContent = "";
-        // Ne pas afficher immédiatement l'indicateur, le décompte lancera son affichage via initiateRecording()
+        // Réafficher l'indicateur (icône et compte à rebours) lors du redémarrage
+        videoRecorder.recordingIndicator.style.display = 'flex';
         videoRecorder.startInitialCountdown();
       });
       // STEP4 : Analyse et téléchargement
