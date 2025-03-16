@@ -902,6 +902,26 @@
       const categories = [
       "Political_events", "Revolutions", "Elections", "Cold_War", "Protests","United_Nations", "World_War_I", "World_War_II", 
       "Fall_of_the_Berlin_Wall", "French_Revolution", "Russian_Revolution_of_1917", "Historical_speeches"];
+      "French and Indian War", "American Revolution", "French Revolution", "Napoleonic Wars", "War of 1812",
+      "Latin American Wars of Independence", "Greek War of Independence", "Belgian Revolution", "Revolutions of 1848", "Crimean War",
+      "American Civil War", "Franco-Prussian War", "German Unification", "Scramble for Africa", "Boxer Rebellion",
+      "Russian Revolution of 1905", "Russian Revolution", "World War I", "Treaty of Versailles", "Great Depression",
+      "World War II", "Holocaust", "Partition of India", "Chinese Civil War", "Cuban Revolution",
+      "Korean War", "Vietnam War", "Cultural Revolution", "Six-Day War", "Yom Kippur War",
+      "Iranian Revolution", "Soviet-Afghan War", "Fall of Saigon", "Solidarity Movement", "Carnation Revolution",
+      "Iran-Iraq War", "Falklands War", "Rwandan Genocide", "Gulf War", "Fall of the Berlin Wall",
+      "Collapse of the Soviet Union", "Balkan Wars", "Kosovo War", "9/11 Attacks", "War in Afghanistan",
+      "Iraq War", "Arab Spring", "Syrian Civil War", "Ukrainian Revolution 2014", "Brexit Referendum",
+      "Hong Kong Protests", "George Floyd Protests", "Tiananmen Square Protests", "May 1968 Events in France", "Spanish Transition to Democracy",
+      "End of Apartheid", "Rwandan Civil War", "First Gulf War", "Second Congo War", "First Intifada",
+      "Second Intifada", "Suez Crisis", "Yugoslav Wars", "Dot-com Bubble", "Icelandic Financial Crisis",
+      "Global Financial Crisis 2008", "Occupy Wall Street", "Libyan Civil War", "Egyptian Revolution 2011", "Syrian Refugee Crisis",
+      "Crimea Annexation", "Russian Annexation of Crimea", "North Korean Nuclear Crisis", "Malaysian Political Crisis", "Colombian Peace Agreement",
+      "Boko Haram Insurgency", "Darfur Conflict", "Nepalese Civil War", "Mali War", "Hong Kong Anti-Extradition Protests",
+      "Myanmar Protests", "Catalan Independence Referendum", "Soviet Invasion of Afghanistan", "U.S. Civil Rights Movement", "Stonewall Riots",
+      "Anti-Vietnam War Protests", "March on Washington", "Feminist Movement", "LGBT Rights Movement", "MeToo Movement",
+      "Environmental Movement", "Global Climate Strikes", "Russian Constitutional Crisis 1993", "Czechoslovak Velvet Revolution", "Prague Spring",
+      "Iran Hostage Crisis", "Indonesian National Revolution", "Fall of the Ottoman Empire", "Balfour Declaration", "Italian Unification"
       const category = categories[Math.floor(Math.random() * categories.length)];
       const endpoint = `https://commons.wikimedia.org/w/api.php?action=query&generator=categorymembers&gcmtitle=Category:${encodeURIComponent(category)}&gcmlimit=10&cmtype=file&prop=imageinfo&iiprop=url&format=json&origin=*`;
       try {
