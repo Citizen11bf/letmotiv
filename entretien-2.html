@@ -906,7 +906,7 @@
     "French_Revolution", "Russian_Revolution_of_1917", "Historical_speeches"
   ];
   const category = categories[Math.floor(Math.random() * categories.length)];
-  const endpoint = `https://commons.wikimedia.org/w/api.php?action=query&generator=categorymembers&gcmtitle=Category:${encodeURIComponent(category)}&gcmlimit=10&cmtype=file&prop=imageinfo&iiprop=url&format=json&origin=*`;
+  const endpoint = `https://commons.wikimedia.org/w/api.php?action=query&list=categorymembers&cmtitle=Category:Political_events&cmtype=file&format=json&origin=*`;
   try {
     const response = await fetch(endpoint);
     const data = await response.json();
