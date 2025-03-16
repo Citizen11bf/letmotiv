@@ -6,8 +6,8 @@
     <title>Générateur d'image historique aléatoire</title>
     <script>
         function genererImageAleatoire() {
-            const url = "https://source.unsplash.com/random/800x600/?politics,history";
-            document.getElementById('imageGeneree').src = url + '&' + new Date().getTime();
+            const url = "https://picsum.photos/800/600?random=" + new Date().getTime();
+            document.getElementById('imageGeneree').src = url;
         }
     </script>
     <style>
@@ -28,7 +28,7 @@
     </style>
 </head>
 <body>
-    <h2>Générateur d'image historique ou politique</h2>
+    <h2>Générateur d'image aléatoire (test)</h2>
     <button onclick="genererImageAleatoire()">Générer une image</button>
     <div>
         <img id="imageGeneree" src="" alt="Votre image apparaîtra ici">
