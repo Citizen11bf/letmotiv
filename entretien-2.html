@@ -105,7 +105,7 @@
       top: 60px;
       left: 0;
       width: 100%;
-      height: 8px;
+      height: 10px;
       background-color: rgba(46,34,172,0.1);
       z-index: 9;
     }
@@ -127,46 +127,13 @@
       padding: 20px;
     }
 
-    /* --- MEDIA QUERIES pour mobile --- */
-    @media (max-width: 600px) {
-      h1 .line { display: block; }
-      .main-container { justify-content: flex-start; }
-      .box {
-        width: 100vw;
-        margin-top: 10px;
-        margin-bottom: 20px;
-        padding: 20px;
-        height: auto;
-      }
-      .impro-actions {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-      .impro-actions button {
-        width: 100%;
-        height: 50px;
-        margin: 5px 0;
-        flex: 1;
-      }
-      .objectives-container { grid-template-columns: repeat(2, 1fr); }
-      .flip-card { width: 90px; height: 100px; }
-      .flip-card-front i { font-size: 1.8rem; }
-      .flip-card-front span { font-size: 0.9rem; }
-      
-      .cta {
-        padding: 8px 30px !important;
-        font-size: 30px !important;
-      }
-      .cta svg {
-        width: 40px !important;
-        height: auto !important;
-      }
-      .cta span:nth-child(2) {
-        margin-left: 20px !important;
-        width: 15px !important;
-        top: 10% !important;
-      }
+    /* --- STEP1 : Choix d’objectif (flip cards homogènes) --- */
+    .objectives-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr); /* Par défaut : 3 colonnes sur desktop */
+      gap: 15px;
+      justify-items: center;
+      margin: 10px 0;
     }
 
     /* --- BOÎTE D'INTRODUCTION (STEP0) --- */
@@ -228,7 +195,7 @@
       padding: 20px;
       border-radius: 15px;
       background: #fff;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       text-align: center;
       font-size: 14px;
       display: none;
@@ -237,7 +204,7 @@
     .box.active { display: block; }
     .box:hover {
       transform: translateY(-5px);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
     }
     .slide-from-bottom { animation: fromBottom 1.5s ease forwards; }
     @keyframes fromBottom { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
@@ -313,78 +280,46 @@
     }
     .btn-impro:hover { background-color: #E34C9D; }
 
-    /* --- STEP1 : Choix d’objectif avec effet "Carte Flip" --- */
-    .objectives-container {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-      justify-items: center;
-      margin: 10px 0;
-    }
-    @media (max-width: 600px) {
-      .objectives-container { grid-template-columns: repeat(2, 1fr); }
-      .flip-card { width: 90px; height: 100px; }
-      .flip-card-front i { font-size: 1.8rem; }
-      .flip-card-front span { font-size: 0.9rem; }
-    }
-    @media (max-width: 550px) {
-      .flip-card { max-width: 120px; height: 90px; }
-      .flip-card-front i { font-size: 1.5rem; }
-      .flip-card-front span { font-size: 0.7rem; }
-    }
+    /* --- STEP1 : Cartes (flip cards) --- */
     .flip-card {
-      background-color: transparent;
-      width: 100%;
-      max-width: 150px;
-      height: 120px;
-      perspective: 1000px;
-      cursor: pointer;
-    }
-    .flip-card-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transition: transform 0.6s;
-      transform-style: preserve-3d;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      background-color: #f7f7f7;
+      border: 2px solid #2E22AC;
       border-radius: 8px;
-      background-color: #fff;
-    }
-    .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
-    .flip-card-front,
-    .flip-card-back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      border-radius: 8px;
+      padding: 20px;
+      width: 150px;
+      height: 150px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 10px;
-      transition: background-color 0.3s, color 0.3s;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s;
+    }
+    .flip-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .flip-card.selected {
+      background-color: #00a48a;
+      color: #fff;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    }
+    .flip-card.selected i,
+    .flip-card.selected span {
+      color: #fff;
     }
     .flip-card-front {
-      background: #fff;
-      color: #808080;
-      border: 1px solid #ccc;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
-    .flip-card-front i { font-size: 1.8rem; margin-bottom: 8px; }
-    .flip-card-front span { font-size: 0.9rem; }
-    .flip-card-back {
-      background: #f0f0f0;
-      color: #00a48a;
-      transform: rotateY(180deg);
-      font-size: 0.8rem;
-      padding: 8px;
-      text-align: center;
-      border: 1px solid #ccc;
-    }
+    .flip-card-front i { font-size: 2rem; margin-bottom: 8px; }
+    .flip-card-front span { font-size: 1rem; }
 
     /* --- STEP2 : Configuration de la simulation --- */
     .simulation-instructions {
-      padding: 20px;
+      padding: 10px;
       font-size: 16px;
       text-align: center;
       margin-bottom: 5px;
@@ -393,10 +328,9 @@
       display: flex;
       justify-content: center;
       gap: 10px;
-      margin-top: 5px;
+      margin: 5px 0;
+      flex-wrap: wrap;
     }
-    .simulation-buttons button:hover { transform: scale(1.05); }
-    .simulation-buttons button:active { transform: scale(0.95); }
     .simulation-buttons button {
       padding: 10px 20px;
       font-size: 16px;
@@ -405,56 +339,15 @@
       border: none;
       border-radius: 25px;
       cursor: pointer;
-      transition: background-color 0.3s;
+      transition: transform 0.2s, background-color 0.2s;
+      margin: 5px;
     }
-
-    /* --- Bouton question (STEP2) --- */
-    .btn-question {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: #fff;
-      background-color: #2E22AC;
-      border: 2px solid currentColor;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      transition: 0.2s transform ease-in-out;
+    .simulation-buttons button:hover {
+      transform: scale(1.05);
+      background-color: #90ee90 !important;
     }
-    /* Utilisation du dégradé STEP0 pour l'effet de slide */
-    .btn-question::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #2E22AC, #E34C9D);
-      border-radius: 50%;
-      transform: translate(-100%, 0) rotate(10deg);
-      transform-origin: top left;
-      transition: 0.2s transform ease-out;
-      z-index: -1;
-    }
-    /* Lorsque le bouton est survolé et n'est pas sélectionné */
-    .btn-question:not(.selected):hover::after {
-      transform: translate(0, 0);
-    }
-    /* Lorsque le bouton est sélectionné, on force le dégradé à rester visible */
-    .btn-question.selected {
-      background-color: transparent;
-    }
-    .btn-question.selected::after {
-      transform: translate(0, 0);
-    }    
-    #duration-info {
-      margin-top: 5px;
-      font-style: italic;
+    .simulation-buttons button.selected {
+      background-color: #006400 !important;
     }
 
     /* --- STEP3 : Enregistrement vidéo --- */
@@ -497,7 +390,7 @@
       justify-content: center;
       text-align: center;
       z-index: 2;
-      padding: 20px;
+      padding: 10px 20px;
     }
     #instruction-overlay button {
       pointer-events: auto;
@@ -511,50 +404,61 @@
       cursor: pointer;
       transition: background-color 0.3s;
     }
-    #instruction-overlay button:hover {
-      background-color: #E34C9D;
-    }
+    #instruction-overlay button:hover { background-color: #E34C9D; }
+    
     #question-overlay {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
-      padding: 5px;
+      padding: 5px 5px;
       background: rgba(255,255,255,0.6);
-      font-style: italic;
-      font-size: 13px;
+      font-style: normal;
+      font-size: 12px;
       text-align: center;
       z-index: 3;
       display: none;
     }
+    /* Élément pour l'image d'analyse pour Sciences Po */
+    #analysis-image {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      display: none;
+      z-index: 3;
+    }
+    /* Styles pour rendre l'image cliquable et agrandie vers la gauche */
+    #analysis-image img {
+      transition: transform 0.3s ease;
+      cursor: pointer;
+      max-width: 150px;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      transform-origin: bottom right;
+    }
+    #analysis-image img.enlarged {
+      transform: scale(2);
+    }
+    /* Regroupement de l'icône d'enregistrement et du compte à rebours */
     .recording-indicator {
       position: absolute;
       bottom: 10px;
       left: 10px;
-      display: flex;
-      align-items: center;
+      display: none;
+      z-index: 4;
+      font-size: 12px;
       background-color: rgba(255,255,255,0.8);
       padding: 5px 10px;
       border-radius: 20px;
-      font-size: 14px;
-      color: #ff0000;
-      display: none;
-      z-index: 4;
+      display: flex;
+      align-items: center;
     }
-    .recording-indicator i { margin-right: 5px; }
-    .countdown {
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
-      font-size: 18px;
-      color: #ffffff;
-      display: none;
-      z-index: 5;
-      background-color: rgba(0,0,0,0.5);
-      padding: 5px 10px;
-      border-radius: 5px;
-      text-align: center;
+    .recording-indicator i {
+      color: red;
+      margin-right: 5px;
     }
+    /* Le compte à rebours sera affiché dans un span à l'intérieur de .recording-indicator */
+
     .initial-countdown-overlay {
       position: absolute;
       top: 0;
@@ -568,18 +472,8 @@
       z-index: 6;
       border-radius: 6px;
     }
-    .initial-countdown {
-      font-size: 48px;
-      color: #ffffff;
-      font-weight: bold;
-    }
-    .impro-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 5px;
-      justify-content: space-around;
-      margin-top: 10px;
-    }
+    .initial-countdown { font-size: 48px; color: #ffffff; font-weight: bold; }
+    .impro-actions { display: flex; flex-wrap: wrap; gap: 5px; justify-content: space-around; margin-top: 10px; }
     .hidden-btn { display: none; }
 
     /* --- STEP4 : Analyse ton entretien --- */
@@ -611,14 +505,8 @@
       transition: transform 0.2s, box-shadow 0.2s;
       margin: 10px auto;
     }
-    .call-to-action button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-    }
-    #step4-extra {
-      display: none;
-      margin-top: 20px;
-    }
+    .call-to-action button:hover { transform: translateY(-3px); box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
+    #step4-extra { display: none; margin-top: 20px; }
     /* Boutons renommés dans STEP4 */
     #resources-btn {
       background-color: #2E22AC;
@@ -653,19 +541,18 @@
     @keyframes questionBlitz {
       0% { opacity: 0; transform: scale(0.8) rotateX(-90deg); filter: blur(5px); }
       50% { opacity: 0.5; transform: scale(1.05) rotateX(20deg); filter: blur(2px); }
-      100% { opacity: 1; transform: scale(1) rotateX(0deg); filter: blur(0); }
+      100% { opacity: 1; transform: scale(1) rotateX(0); filter: blur(0); }
     }
     
     /* --- Icônes sociales (partage) --- */
-    ul { list-style: none; padding: 0; margin: 0; }
-    .example-2 {
+    .share-icons {
       display: flex;
       justify-content: center;
       align-items: center;
       margin-top: 20px;
     }
-    .example-2 .icon-content { margin: 0 10px; position: relative; }
-    .example-2 .icon-content a {
+    .share-icons .icon-content { margin: 0 10px; position: relative; }
+    .share-icons .icon-content a {
       position: relative;
       overflow: hidden;
       display: flex;
@@ -679,28 +566,80 @@
       transition: all 0.3s ease-in-out;
       text-decoration: none;
     }
-    .example-2 .icon-content a:hover {
-      box-shadow: 3px 2px 45px 0px rgb(0 0 0 / 12%);
-      color: white;
+    .share-icons .icon-content a[data-social="whatsapp"]:hover {
+      background-color: #25D366;
     }
-    .example-2 .icon-content a svg {
-      position: relative;
-      z-index: 1;
-      width: 30px;
-      height: 30px;
+    .share-icons .icon-content a[data-social="discord"]:hover {
+      background-color: #7289da;
     }
-    .example-2 .icon-content a .filled {
+    .share-icons .icon-content a[data-social="linkedin"]:hover {
+      background-color: #0077B5;
+    }
+    .share-icons .icon-content a[data-social="instagram"]:hover {
+      background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+    }
+    .share-icons .icon-content a .filled {
       position: absolute;
       bottom: 0;
       left: 0;
       width: 100%;
       height: 0;
-      background-color: rgba(0,0,0,0.3);
       transition: all 0.3s ease-in-out;
       border-radius: 50%;
     }
-    .example-2 .icon-content a:hover .filled {
+    .share-icons .icon-content a[data-social="whatsapp"]:hover .filled {
+      background-color: #25D366;
       height: 100%;
+    }
+    .share-icons .icon-content a[data-social="discord"]:hover .filled {
+      background-color: #7289da;
+      height: 100%;
+    }
+    .share-icons .icon-content a[data-social="linkedin"]:hover .filled {
+      background-color: #0077B5;
+      height: 100%;
+    }
+    .share-icons .icon-content a[data-social="instagram"]:hover .filled {
+      background: radial-gradient(circle at 30% 107%, rgba(253,244,151,0.7) 0%, rgba(253,244,151,0.7) 5%, rgba(253,89,73,0.7) 45%, rgba(214,36,159,0.7) 60%, rgba(40,90,235,0.7) 90%);
+      height: 100%;
+    }
+
+    /* ------------------- MEDIA QUERIES POUR MOBILE ------------------- */
+    @media (max-width: 600px) {
+      h1 .line { display: block; }
+      .main-container { justify-content: flex-start; }
+      .box {
+        width: 100vw;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        padding: 20px;
+        height: auto;
+      }
+      .impro-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .impro-actions button {
+        width: 100%;
+        height: 50px;
+        margin: 5px 0;
+        flex: 1;
+      }
+      /* Pour le STEP1, on force 2 colonnes uniquement sur mobile */
+      .objectives-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      /* Pour les boutons de STEP2, on fixe une taille circulaire */
+      .simulation-buttons button {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
     }
   </style>
 </head>
@@ -755,76 +694,46 @@
         <div class="box-title">Quel entretien souhaites-tu préparer ?</div>
       </div>
       <div class="objectives-container">
-        <!-- Grand Oral -->
-        <div class="flip-card objective-item" data-category="grand-oral">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <i class="fas fa-microphone"></i>
-              <span>Grand Oral</span>
-            </div>
-            <div class="flip-card-back">
-              Prépare-toi pour le Grand Oral.
-            </div>
+        <!-- INSP -->
+        <div class="flip-card objective-item" data-category="insp">
+          <div class="flip-card-front">
+            <i class="fas fa-user-tie"></i>
+            <span>Ecole de la Haute Administration</span>
           </div>
         </div>
         <!-- Ecole d'ingénieur généraliste -->
         <div class="flip-card objective-item" data-category="ingenieur-generaliste">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <i class="fas fa-cogs"></i>
-              <span>Ecole d'ingénieur généraliste</span>
-            </div>
-            <div class="flip-card-back">
-              Prépare ton entretien pour une école d'ingénieur généraliste.
-            </div>
+          <div class="flip-card-front">
+            <i class="fas fa-cogs"></i>
+            <span>Ecole d'ingénieur généraliste</span>
           </div>
         </div>
         <!-- Ecole d'ingénieur aéro -->
         <div class="flip-card objective-item" data-category="ingenieur-aero">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <i class="fas fa-rocket"></i>
-              <span>Ecole d'ingénieur aéro</span>
-            </div>
-            <div class="flip-card-back">
-              Prépare ton entretien pour une école d'ingénieur spécialisée en aéronautique.
-            </div>
+          <div class="flip-card-front">
+            <i class="fas fa-rocket"></i>
+            <span>Ecole d'ingénieur aéro</span>
           </div>
         </div>
         <!-- Ecole de commerce -->
         <div class="flip-card objective-item" data-category="commerce">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <i class="fas fa-handshake"></i>
-              <span>Ecole de commerce</span>
-            </div>
-            <div class="flip-card-back">
-              Prépare ton entretien pour une école de commerce.
-            </div>
+          <div class="flip-card-front">
+            <i class="fas fa-handshake"></i>
+            <span>Ecole de commerce</span>
           </div>
         </div>
         <!-- Ecole de Sciences Politiques -->
         <div class="flip-card objective-item" data-category="sciences-politiques">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <i class="fas fa-university"></i>
-              <span>Ecole de Sciences Politiques</span>
-            </div>
-            <div class="flip-card-back">
-              Prépare ton entretien pour une école de Sciences Politiques.
-            </div>
+          <div class="flip-card-front">
+            <i class="fas fa-university"></i>
+            <span>Ecole de Sciences Politiques</span>
           </div>
         </div>
         <!-- Entretien d'embauche -->
         <div class="flip-card objective-item" data-category="embauche">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <i class="fas fa-briefcase"></i>
-              <span>Entretien d'embauche</span>
-            </div>
-            <div class="flip-card-back">
-              Prépare-toi pour ton entretien d'embauche.
-            </div>
+          <div class="flip-card-front">
+            <i class="fas fa-briefcase"></i>
+            <span>Entretien d'embauche</span>
           </div>
         </div>
       </div>
@@ -843,17 +752,24 @@
         <div class="box-title">Configuration de la simulation</div>
       </div>
       <div class="simulation-instructions">
-        Tu vas bientôt démarrer ton entretien.<br> 
-        Tu as 2 minutes par question.<br><br>
         Choisis le nombre de questions que tu souhaites simuler :
       </div>
-      <div class="simulation-buttons">
+      <div class="simulation-buttons" id="question-count-buttons">
         <button class="btn-impro btn-question" data-question-count="3">3</button>
         <button class="btn-impro btn-question" data-question-count="4">4</button>
-        <button class="btn-impro btn-question" data-question-count="5">5</button>
+        <button class="btn-impro btn-question selected" data-question-count="5">5</button>
         <button class="btn-impro btn-question" data-question-count="6">6</button>
         <button class="btn-impro btn-question" data-question-count="7">7</button>
         <button class="btn-impro btn-question" data-question-count="8">8</button>
+      </div>
+      <div class="simulation-instructions" style="margin-top:20px;">
+        Combien de minutes par question ?
+      </div>
+      <div class="simulation-buttons" id="minutes-per-question-buttons">
+        <button class="btn-impro btn-question selected" data-minute-per-question="2">2</button>
+        <button class="btn-impro btn-question" data-minute-per-question="3">3</button>
+        <button class="btn-impro btn-question" data-minute-per-question="4">4</button>
+        <button class="btn-impro btn-question" data-minute-per-question="5">5</button>
       </div>
       <div id="duration-info"></div>
       <div id="subject-error" class="error-message"></div>
@@ -868,14 +784,13 @@
         <button class="back-btn" id="back-btn3" aria-label="Retour à l'étape précédente">
           <i class="fas fa-arrow-up"></i>
         </button>
-        <div class="box-title">Lance ton entretien</div>
+        <div class="box-title">C'est parti, lance ton entretien !</div>
       </div>
       <div class="video-box">
         <video id="preview" autoplay muted playsinline webkit-playsinline></video>
         <div class="video-overlay" id="instruction-overlay">
           <p style="font-size:16px; text-align:center;">
-            Ici va s'enregistrer ton entretien vidéo.<br>
-            Lorsque tu es prêt, clique sur le bouton ci-dessous.
+            Ton entretien vidéo va s'enregistrer ici.
           </p>
           <button id="start-btn" aria-label="Démarrer ta simulation">
             Démarrer ta simulation <i class="fas fa-video"></i>
@@ -885,11 +800,12 @@
             Aucun enregistrement n'est conservé par Letmotiv.
           </p>
         </div>
+        <!-- Overlay des questions fixé à top: 0 -->
         <div class="video-overlay" id="question-overlay"></div>
-        <div class="recording-indicator" id="recording-indicator">
-          <i class="fas fa-record-vinyl"></i> Enregistrement en cours
-        </div>
-        <div class="countdown" id="countdown">2:00</div>
+        <!-- Élément pour l'image d'analyse pour Sciences Po -->
+        <div id="analysis-image"></div>
+        <!-- Conteneur regroupant l'icône d'enregistrement et le compte à rebours -->
+        <div class="recording-indicator" id="recording-indicator"></div>
         <div class="initial-countdown-overlay" id="initial-countdown-overlay">
           <div class="initial-countdown" id="initial-countdown">5</div>
         </div>
@@ -940,7 +856,7 @@
           </button>
         </div>
         <p style="margin-top: 20px; font-weight: bold;">Partage ton expérience sur tes réseaux :</p>
-        <ul class="example-2">
+        <ul class="share-icons">
           <li class="icon-content">
             <a data-social="whatsapp">
               <div class="filled"></div>
@@ -953,7 +869,7 @@
             <a data-social="discord">
               <div class="filled"></div>
               <svg viewBox="0 0 16 16" class="bi bi-discord" fill="currentColor" height="16" width="16" xmlns="http://www.w3.org/2000/svg">
-                <path d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612"></path>
+                <path d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.612 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.612 0 .888-.631 1.612-1.438 1.612"></path>
               </svg>
             </a>
           </li>
@@ -981,17 +897,44 @@
   
   <!-- SCRIPT -->
   <script>
+   
+    // Fonction getRandomImageUrl() avec sélection aléatoire entre deux catégories d'images sur Wikimédia
+    async function getRandomImageUrl() {
+  const categories = [
+    "Political_events", "Revolutions", "Elections", "Cold_War", "Protests",
+    "United_Nations", "World_War_I", "World_War_II", "Fall_of_the_Berlin_Wall",
+    "French_Revolution", "Russian_Revolution_of_1917", "Historical_speeches"
+  ];
+  const category = categories[Math.floor(Math.random() * categories.length)];
+  const endpoint = `https://commons.wikimedia.org/w/api.php?action=query&generator=categorymembers&gcmtitle=Category:${encodeURIComponent(category)}&gcmlimit=10&cmtype=file&prop=imageinfo&iiprop=url&format=json&origin=*`;
+  try {
+    const response = await fetch(endpoint);
+    const data = await response.json();
+    if (!data.query) {
+      throw new Error("Aucun résultat pour la catégorie " + category);
+    }
+    const pages = Object.values(data.query.pages);
+    const randomPage = pages[Math.floor(Math.random() * pages.length)];
+    return randomPage.imageinfo[0].url;
+  } catch (error) {
+    console.error("Erreur lors de la récupération de l'image depuis Wikimedia Commons :", error);
+    return "Erreur lors de la récupération de l'image via Wikimedia Commons";
+  }
+}
+
     /* --- Global State Manager --- */
     const AppState = {
       currentStep: 0,
       currentCategory: null,
-      selectedQuestionCount: 0,
+      selectedQuestionCount: 5,
+      minutesPerQuestion: 2,
+      totalQuestions: 0,
       currentQuestionIndex: 1,
       improStarted: false,
       videoURL: "",
     };
 
-    /* --- Classe StepManager : Gestion de la navigation entre étapes --- */
+    /* --- Classe StepManager --- */
     class StepManager {
       constructor() {
         this.boxes = {
@@ -1047,17 +990,18 @@
           }, 500);
         });
         this.nextBtns[1].addEventListener('click', () => {
-          const selected = document.querySelector('.objectives-container .flip-card.flipped');
+          const selected = document.querySelector('.objectives-container .objective-item.selected');
           if (!selected) {
             document.getElementById('objective-error').textContent = "Sélectionne un objectif avant de continuer.";
             document.getElementById('objective-error').style.display = 'block';
             return;
           }
           this.showBox(1, 2);
+          updateDurationInfo();
         });
         this.nextBtns[2].addEventListener('click', () => {
-          if (AppState.selectedQuestionCount === 0) {
-            document.getElementById('subject-error').textContent = "Choisis le nombre de questions avant de continuer.";
+          if (AppState.selectedQuestionCount === 0 || !AppState.minutesPerQuestion) {
+            document.getElementById('subject-error').textContent = "Choisis le nombre de questions et le temps par question avant de continuer.";
             document.getElementById('subject-error').style.display = 'block';
             return;
           }
@@ -1077,11 +1021,11 @@
       }
     }
 
-    /* --- Classe QuestionLoader : Chargement des questions selon la catégorie --- */
+    /* --- Classe QuestionLoader --- */
     class QuestionLoader {
       static async loadSubjects(category) {
         const files = {
-          "grand-oral": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Grand_Oral.txt",
+          "insp": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_INSP.txt",
           "ingenieur-generaliste": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_Les_Mines.txt",
           "ingenieur-aero": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_SUPAERO.txt",
           "commerce": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_HEC.txt",
@@ -1102,7 +1046,7 @@
       }
     }
 
-    /* --- Classe VideoRecorder : Gestion de l'enregistrement vidéo et des questions --- */
+    /* --- Classe VideoRecorder --- */
     class VideoRecorder {
       constructor() {
         this.preview = document.getElementById('preview');
@@ -1110,7 +1054,6 @@
         this.restartBtn = document.getElementById('restart-btn');
         this.nextQuestionBtn = document.getElementById('next-question-btn');
         this.recordingIndicator = document.getElementById('recording-indicator');
-        this.countdownElement = document.getElementById('countdown');
         this.initialCountdownOverlay = document.getElementById('initial-countdown-overlay');
         this.initialCountdown = document.getElementById('initial-countdown');
         this.questionOverlay = document.getElementById('question-overlay');
@@ -1118,6 +1061,7 @@
         this.mediaRecorder = null;
         this.recordedChunks = [];
         this.questions = [];
+        this.analysisImageUrl = "";
       }
       
       async setupCamera() {
@@ -1136,6 +1080,9 @@
       }
       
       startInitialCountdown() {
+        if (window.innerWidth <= 600) {
+          document.querySelector('.video-box').style.height = "450px";
+        }
         let count = 5;
         this.initialCountdown.textContent = count;
         this.initialCountdownOverlay.style.display = 'flex';
@@ -1150,9 +1097,21 @@
         }, 1000);
       }
       
-      displayQuestion(current, total, text) {
+      async displayQuestion(current, total, text) {
+        if (AppState.currentCategory === "sciences-politiques" && current > AppState.selectedQuestionCount) {
+          let imageIndex = current - AppState.selectedQuestionCount;
+          let questionText = "";
+          if (imageIndex === 1) questionText = "Décrivez l'image que vous voyez.";
+          else if (imageIndex === 2) questionText = "Pouvez-vous contextualiser cette image ?";
+          else if (imageIndex === 3) questionText = "Comment interprétez-vous cette image au regard du contexte qui l'entoure ?";
+          this.questionOverlay.innerHTML = `<p style="font-size:16px; text-align:center;">Question ${current}/${total} : ${questionText}</p>`;
+          document.getElementById('analysis-image').innerHTML = `<img src="${this.analysisImageUrl}" alt="Analyse d'image" />`;
+          document.getElementById('analysis-image').style.display = 'block';
+        } else {
+          document.getElementById('analysis-image').style.display = 'none';
+          this.questionOverlay.innerHTML = `<p style="font-size:16px; text-align:center;">Question ${current}/${total} : ${text}</p>`;
+        }
         this.questionOverlay.classList.remove('question-change');
-        this.questionOverlay.innerHTML = `<p style="font-size:16px; text-align:center;">Question ${current}/${total} : ${text}</p>`;
         this.questionOverlay.style.display = 'block';
         this.questionOverlay.classList.add('question-change');
         setTimeout(() => this.questionOverlay.classList.remove('question-change'), 800);
@@ -1175,14 +1134,19 @@
           const blob = new Blob(this.recordedChunks, { type: 'video/mp4' });
           AppState.videoURL = URL.createObjectURL(blob);
           stream.getTracks().forEach(track => track.stop());
-          this.questionOverlay.style.display = 'block';
-          this.questionOverlay.innerHTML = `<p style="color: white; font-size: 18px; text-align: center;">Entretien terminé. Passe à l'étape suivante !</p>`;
-          document.getElementById('impro-error').style.display = 'none';
+          // Masquer l'image d'analyse et le compte à rebours après l'enregistrement
+          document.getElementById('analysis-image').style.display = 'none';
           this.recordingIndicator.style.display = 'none';
+          this.questionOverlay.style.display = 'block';
+          this.questionOverlay.innerHTML = `<p style="color: white; font-size: 18px; text-align: center;">Entretien terminé. <br>Passe à l'étape suivante !</p>`;
+          document.getElementById('impro-error').style.display = 'none';
+          this.mediaRecorder = null;
           clearInterval(this.timerInterval);
           AppState.improStarted = true;
           document.getElementById('next-btn3').classList.add('pulse');
-          if (window.innerWidth <= 600) document.querySelector('.video-box').style.height = "300px";
+          if (window.innerWidth <= 600) {
+            document.querySelector('.video-box').style.height = "300px";
+          }
           this.restartBtn.classList.remove('hidden-btn');
           this.nextQuestionBtn.classList.add('hidden-btn');
         };
@@ -1192,36 +1156,48 @@
           document.getElementById('impro-error').style.display = 'block';
           return;
         }
+        if (AppState.currentCategory === "sciences-politiques") {
+          AppState.totalQuestions = AppState.selectedQuestionCount + 3;
+          this.analysisImageUrl = await getRandomImageUrl();
+        } else {
+          AppState.totalQuestions = AppState.selectedQuestionCount;
+        }
         AppState.currentQuestionIndex = 1;
-        this.displayQuestion(AppState.currentQuestionIndex, AppState.selectedQuestionCount, this.questions[0]);
+        await this.displayQuestion(AppState.currentQuestionIndex, AppState.totalQuestions, this.questions[0]);
+        // Démarrer l'enregistrement et afficher l'indicateur d'enregistrement + compte à rebours
         this.mediaRecorder.start();
+        // Insérer l'icône rouge et le span pour le compte à rebours dans le conteneur
+        this.recordingIndicator.innerHTML = '<i class="fas fa-circle"></i><span id="countdown"></span>';
         this.recordingIndicator.style.display = 'flex';
-        this.countdownElement.style.display = 'block';
+        this.updateCountdown(AppState.minutesPerQuestion * 60);
         this.stopBtn.classList.remove('hidden-btn');
         this.stopBtn.disabled = false;
-        if (AppState.selectedQuestionCount > 1) this.nextQuestionBtn.classList.remove('hidden-btn');
+        if (AppState.totalQuestions > 1) this.nextQuestionBtn.classList.remove('hidden-btn');
         this.restartBtn.classList.add('hidden-btn');
-        this.startTwoMinutesCycle();
+        this.startQuestionCycle();
       }
       
-      startTwoMinutesCycle() {
-        let timeRemaining = 120;
-        if (AppState.currentQuestionIndex === AppState.selectedQuestionCount) {
+      startQuestionCycle() {
+        let timeRemaining = AppState.minutesPerQuestion * 60;
+        if (AppState.currentQuestionIndex === AppState.totalQuestions) {
           this.nextQuestionBtn.classList.add('hidden-btn');
         } else {
           this.nextQuestionBtn.classList.remove('hidden-btn');
         }
         this.updateCountdown(timeRemaining);
-        this.timerInterval = setInterval(() => {
+        this.timerInterval = setInterval(async () => {
           timeRemaining--;
           if (timeRemaining >= 0) this.updateCountdown(timeRemaining);
           if (timeRemaining <= 0) {
-            if (AppState.currentQuestionIndex < AppState.selectedQuestionCount) {
+            if (AppState.currentQuestionIndex < AppState.totalQuestions) {
               AppState.currentQuestionIndex++;
-              let qText = AppState.currentQuestionIndex === 1 ? this.questions[0] : this.questions.slice(1)[Math.floor(Math.random() * (this.questions.length - 1))];
-              this.displayQuestion(AppState.currentQuestionIndex, AppState.selectedQuestionCount, qText);
-              timeRemaining = 120;
-              if (AppState.currentQuestionIndex === AppState.selectedQuestionCount) {
+              let qText = "";
+              if (AppState.currentQuestionIndex <= AppState.selectedQuestionCount) {
+                qText = AppState.currentQuestionIndex === 1 ? this.questions[0] : this.questions[Math.floor(Math.random() * (this.questions.length - 1)) + 1];
+              }
+              await this.displayQuestion(AppState.currentQuestionIndex, AppState.totalQuestions, qText);
+              timeRemaining = AppState.minutesPerQuestion * 60;
+              if (AppState.currentQuestionIndex === AppState.totalQuestions) {
                 this.nextQuestionBtn.classList.add('hidden-btn');
               }
             } else {
@@ -1237,11 +1213,14 @@
       updateCountdown(seconds) {
         const minutes = Math.floor(seconds / 60);
         const sec = seconds % 60;
-        this.countdownElement.textContent = `${minutes}:${sec < 10 ? '0' + sec : sec}`;
+        const countdownSpan = document.getElementById('countdown');
+        if(countdownSpan) {
+          countdownSpan.textContent = `${minutes}:${sec < 10 ? '0' + sec : sec}`;
+        }
       }
     }
 
-    /* --- Classe ShareManager : Gestion du partage sur réseaux sociaux --- */
+    /* --- Classe ShareManager --- */
     class ShareManager {
       constructor() {
         this.shareData = {
@@ -1254,7 +1233,7 @@
       }
       
       bindShareEvents() {
-        document.querySelectorAll('.example-2 .icon-content a').forEach(link => {
+        document.querySelectorAll('.share-icons .icon-content a').forEach(link => {
           link.addEventListener('click', (e) => {
             e.preventDefault();
             const social = link.getAttribute('data-social');
@@ -1287,41 +1266,81 @@
       }
     }
 
-    /* --- Global Event Bindings pour objectifs et simulation --- */
-    document.addEventListener('DOMContentLoaded', () => {
+    /* --- Mettre à jour la durée affichée dans le STEP2 --- */
+    function updateDurationInfo() {
+      if (AppState.selectedQuestionCount && AppState.minutesPerQuestion) {
+        const baseMinutes = AppState.selectedQuestionCount * AppState.minutesPerQuestion;
+        let infoText = "Ton entretien durera au maximum " + baseMinutes + " minutes.";
+        if (AppState.currentCategory === "sciences-politiques") {
+          const extraMinutes = 3 * AppState.minutesPerQuestion;
+          infoText += "<br>NB : compte " + extraMinutes + " minutes de plus pour la séquence d'analyse d'une image.";
+        }
+        document.getElementById('duration-info').innerHTML = infoText;
+      }
+    }
+
+    /* --- Attacher un écouteur sur #analysis-image --- */
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("analysis-image").addEventListener("click", function(e) {
+        if(e.target && e.target.tagName.toLowerCase() === "img") {
+          e.target.classList.toggle("enlarged");
+        }
+      });
+
       const stepManager = new StepManager();
       const videoRecorder = new VideoRecorder();
       const shareManager = new ShareManager();
       const popSound = document.getElementById('pop-sound');
+      
+      // Gestion des cartes du STEP1
       const objectivesCards = document.querySelectorAll('.objectives-container .objective-item');
       objectivesCards.forEach(card => {
         card.addEventListener('click', async () => {
           popSound.currentTime = 0;
           popSound.play().catch(err => console.error("Erreur lors de la lecture du son :", err));
-          objectivesCards.forEach(c => c.classList.remove('flipped'));
-          card.classList.add('flipped');
+          objectivesCards.forEach(c => c.classList.remove('selected'));
+          card.classList.add('selected');
           AppState.currentCategory = card.dataset.category;
           document.getElementById('objective-error').style.display = 'none';
           stepManager.nextBtns[1].classList.add('pulse');
+          updateDurationInfo();
         });
       });
-      document.querySelectorAll('.simulation-buttons button').forEach(btn => {
+
+      // Choix du nombre de questions
+      const questionCountButtons = document.querySelectorAll('#question-count-buttons .btn-question');
+      questionCountButtons.forEach(btn => {
         btn.addEventListener('click', () => {
           AppState.selectedQuestionCount = parseInt(btn.getAttribute('data-question-count'));
-          document.querySelectorAll('.simulation-buttons button').forEach(b => b.classList.remove('selected'));
+          questionCountButtons.forEach(b => b.classList.remove('selected'));
           btn.classList.add('selected');
           document.getElementById('subject-error').style.display = 'none';
-          const totalMinutes = AppState.selectedQuestionCount * 2;
-          document.getElementById('duration-info').textContent = "Ton entretien durera au maximum " + totalMinutes + " minutes.";
+          updateDurationInfo();
           stepManager.nextBtns[2].classList.add('pulse');
         });
       });
-      // Bouton de démarrage du recording
+
+      // Choix du temps par question
+      const minuteButtons = document.querySelectorAll('#minutes-per-question-buttons .btn-question');
+      minuteButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          AppState.minutesPerQuestion = parseInt(btn.getAttribute('data-minute-per-question'));
+          minuteButtons.forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          document.getElementById('subject-error').style.display = 'none';
+          updateDurationInfo();
+          stepManager.nextBtns[2].classList.add('pulse');
+        });
+      });
+
+      updateDurationInfo();
+
+      // Démarrage de l'enregistrement vidéo
       document.getElementById('start-btn').addEventListener('click', () => {
         document.getElementById('instruction-overlay').style.display = 'none';
         videoRecorder.startInitialCountdown();
       });
-      // Gestion des boutons du STEP3
+      // Boutons du STEP3
       videoRecorder.stopBtn.addEventListener('click', () => {
         if (videoRecorder.mediaRecorder && videoRecorder.mediaRecorder.state === 'recording') {
           videoRecorder.mediaRecorder.stop();
@@ -1340,21 +1359,17 @@
           return;
         }
         clearInterval(videoRecorder.timerInterval);
-        let timeRemaining = 120;
+        let timeRemaining = AppState.minutesPerQuestion * 60;
         QuestionLoader.loadSubjects(AppState.currentCategory).then(questions => {
-          if (AppState.currentQuestionIndex < AppState.selectedQuestionCount - 1) {
+          if (AppState.currentQuestionIndex < AppState.totalQuestions) {
             AppState.currentQuestionIndex++;
-            let qText = AppState.currentQuestionIndex === 1 ? questions[0] : questions.slice(1)[Math.floor(Math.random() * (questions.length - 1))];
-            videoRecorder.displayQuestion(AppState.currentQuestionIndex, AppState.selectedQuestionCount, qText);
+            let qText = "";
+            if (AppState.currentQuestionIndex <= AppState.selectedQuestionCount) {
+              qText = AppState.currentQuestionIndex === 1 ? questions[0] : questions[Math.floor(Math.random() * (questions.length - 1)) + 1];
+            }
+            videoRecorder.displayQuestion(AppState.currentQuestionIndex, AppState.totalQuestions, qText);
             videoRecorder.updateCountdown(timeRemaining);
-            videoRecorder.startTwoMinutesCycle();
-          } else if (AppState.currentQuestionIndex === AppState.selectedQuestionCount - 1) {
-            AppState.currentQuestionIndex++;
-            let qText = questions.slice(1)[Math.floor(Math.random() * (questions.length - 1))];
-            videoRecorder.displayQuestion(AppState.currentQuestionIndex, AppState.selectedQuestionCount, qText);
-            videoRecorder.updateCountdown(timeRemaining);
-            videoRecorder.nextQuestionBtn.classList.add('hidden-btn');
-            videoRecorder.startTwoMinutesCycle();
+            videoRecorder.startQuestionCycle();
           }
         });
       });
@@ -1363,6 +1378,8 @@
         videoRecorder.questionOverlay.style.display = 'none';
         AppState.improStarted = false;
         AppState.currentQuestionIndex = 1;
+        // Réafficher l'indicateur (icône et compte à rebours) lors du redémarrage
+        videoRecorder.recordingIndicator.style.display = 'flex';
         videoRecorder.startInitialCountdown();
       });
       // STEP4 : Analyse et téléchargement
