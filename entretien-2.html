@@ -135,6 +135,42 @@
       justify-items: center;
       margin: 10px 0;
     }
+    /* Styles des cards (flip cards) */
+    .flip-card {
+      background-color: #f7f7f7;
+      border: 2px solid #2E22AC;
+      border-radius: 8px;
+      padding: 20px;
+      width: 150px;
+      height: 150px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s;
+    }
+    .flip-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .flip-card.selected {
+      background-color: #00a48a;
+      color: #fff;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    }
+    .flip-card.selected i,
+    .flip-card.selected span {
+      color: #fff;
+    }
+    .flip-card-front {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .flip-card-front i { font-size: 2rem; margin-bottom: 8px; }
+    .flip-card-front span { font-size: 1rem; }
 
     /* --- BOÎTE D'INTRODUCTION (STEP0) --- */
     .intro-box {
@@ -273,16 +309,25 @@
       margin: 10px 0;
     }
     .rating-icon {
-      font-size: 2rem;
-      color: #ccc;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      border: 2px solid #2E22AC;
+      border-radius: 50%;
+      background-color: #f7f7f7;
+      font-weight: bold;
+      color: #2E22AC;
       cursor: pointer;
-      transition: color 0.3s, transform 0.2s;
+      transition: background-color 0.3s, transform 0.2s, color 0.3s;
     }
     .rating-icon:hover {
       transform: scale(1.1);
     }
     .rating-icon.selected {
-      color: #2E22AC;
+      background-color: #2E22AC;
+      color: #fff;
     }
 
     /* --- STEP3 : Enregistrement vidéo --- */
@@ -443,31 +488,18 @@
     }
     .call-to-action button:hover { transform: translateY(-3px); box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
     #step4-extra { display: none; margin-top: 20px; }
-    /* Boutons renommés dans STEP4 */
-    #resources-btn {
-      background-color: #2E22AC;
-      color: #fff;
-      border: none;
-      border-radius: 25px;
-      padding: 10px 20px;
-      font-size: 16px;
+    /* Suppression des boutons de partage initiaux et affichage d'une icône unique */
+    .share-icon {
+      font-size: 2rem;
+      color: #2E22AC;
       cursor: pointer;
-      margin: 5px;
-      transition: background-color 0.3s;
+      transition: transform 0.3s, color 0.3s;
+      margin: 10px auto;
     }
-    #resources-btn:hover { background-color: #E34C9D; }
-    #redo-btn {
-      background-color: #2E22AC;
-      color: #fff;
-      border: none;
-      border-radius: 25px;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      margin: 5px;
-      transition: background-color 0.3s;
+    .share-icon:hover {
+      transform: scale(1.1);
+      color: #00a48a;
     }
-    #redo-btn:hover { background-color: #E34C9D; }
     @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     
     /* --- Animation pour changement de question --- */
@@ -480,66 +512,6 @@
       100% { opacity: 1; transform: scale(1) rotateX(0); filter: blur(0); }
     }
     
-    /* --- Icônes sociales (partage) --- */
-    .share-icons {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top: 20px;
-    }
-    .share-icons .icon-content { margin: 0 10px; position: relative; }
-    .share-icons .icon-content a {
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      color: #fff;
-      background-color: #2E22AC;
-      transition: all 0.3s ease-in-out;
-      text-decoration: none;
-    }
-    .share-icons .icon-content a[data-social="whatsapp"]:hover {
-      background-color: #25D366;
-    }
-    .share-icons .icon-content a[data-social="discord"]:hover {
-      background-color: #7289da;
-    }
-    .share-icons .icon-content a[data-social="linkedin"]:hover {
-      background-color: #0077B5;
-    }
-    .share-icons .icon-content a[data-social="instagram"]:hover {
-      background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
-    }
-    .share-icons .icon-content a .filled {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 0;
-      transition: all 0.3s ease-in-out;
-      border-radius: 50%;
-    }
-    .share-icons .icon-content a[data-social="whatsapp"]:hover .filled {
-      background-color: #25D366;
-      height: 100%;
-    }
-    .share-icons .icon-content a[data-social="discord"]:hover .filled {
-      background-color: #7289da;
-      height: 100%;
-    }
-    .share-icons .icon-content a[data-social="linkedin"]:hover .filled {
-      background-color: #0077B5;
-      height: 100%;
-    }
-    .share-icons .icon-content a[data-social="instagram"]:hover .filled {
-      background: radial-gradient(circle at 30% 107%, rgba(253,244,151,0.7) 0%, rgba(253,244,151,0.7) 5%, rgba(253,89,73,0.7) 45%, rgba(214,36,159,0.7) 60%, rgba(40,90,235,0.7) 90%);
-      height: 100%;
-    }
-
     /* ------------------- MEDIA QUERIES POUR MOBILE ------------------- */
     @media (max-width: 600px) {
       h1 .line { display: block; }
@@ -691,24 +663,24 @@
         Choisis le nombre de questions que tu souhaites simuler :
       </div>
       <div class="rating-container" id="question-rating">
-        <!-- Valeurs de 3 à 8 -->
-        <span class="rating-icon" data-value="3"><i class="fas fa-question-circle"></i></span>
-        <span class="rating-icon" data-value="4"><i class="fas fa-question-circle"></i></span>
-        <span class="rating-icon" data-value="5"><i class="fas fa-question-circle"></i></span>
-        <span class="rating-icon" data-value="6"><i class="fas fa-question-circle"></i></span>
-        <span class="rating-icon" data-value="7"><i class="fas fa-question-circle"></i></span>
-        <span class="rating-icon" data-value="8"><i class="fas fa-question-circle"></i></span>
+        <!-- Affichage des nombres de 3 à 8 -->
+        <span class="rating-icon" data-value="3">3</span>
+        <span class="rating-icon" data-value="4">4</span>
+        <span class="rating-icon" data-value="5">5</span>
+        <span class="rating-icon" data-value="6">6</span>
+        <span class="rating-icon" data-value="7">7</span>
+        <span class="rating-icon" data-value="8">8</span>
       </div>
       
       <div class="simulation-instructions" style="margin-top:20px;">
         Combien de minutes par question ?
       </div>
       <div class="rating-container" id="minutes-rating">
-        <!-- Valeurs de 2 à 5 minutes -->
-        <span class="rating-icon" data-value="2"><i class="fas fa-hourglass-half"></i></span>
-        <span class="rating-icon" data-value="3"><i class="fas fa-hourglass-half"></i></span>
-        <span class="rating-icon" data-value="4"><i class="fas fa-hourglass-half"></i></span>
-        <span class="rating-icon" data-value="5"><i class="fas fa-hourglass-half"></i></span>
+        <!-- Affichage des nombres de 2 à 5 -->
+        <span class="rating-icon" data-value="2">2</span>
+        <span class="rating-icon" data-value="3">3</span>
+        <span class="rating-icon" data-value="4">4</span>
+        <span class="rating-icon" data-value="5">5</span>
       </div>
       
       <div id="duration-info"></div>
@@ -789,6 +761,11 @@
             Télécharger ma vidéo
           </button>
         </div>
+        <!-- Suppression des anciens boutons de partage.
+             Ajout d'une icône unique de partage qui se comporte comme le partage WhatsApp -->
+        <div class="share-area">
+          <i class="fas fa-share-alt share-icon" aria-label="Partager"></i>
+        </div>
         <div id="step4-extra">
           <button id="resources-btn">
             Comment réussir son entretien ? <i class="fas fa-book-open"></i> 
@@ -797,42 +774,6 @@
             Refaire un entretien <i class="fas fa-redo"></i>
           </button>
         </div>
-        <p style="margin-top: 20px; font-weight: bold;">Partage ton expérience sur tes réseaux :</p>
-        <ul class="share-icons">
-          <li class="icon-content">
-            <a data-social="whatsapp">
-              <div class="filled"></div>
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-whatsapp" viewBox="0 0 16 16">
-                <path d="M13.601 2.326A7.952 7.952 0 008 0C3.582 0 0 3.582 0 8c0 1.41.37 2.726 1.075 3.892L0 16l4.329-1.136A7.965 7.965 0 008 16c4.418 0 8-3.582 8-8 0-1.976-.726-3.793-2.399-5.674zM8 14.118c-1.444 0-2.813-.396-4.01-1.142l-.285-.17L1.422 14l.771-2.63-.182-.304A6.103 6.103 0 012 8c0-3.312 2.688-6 6-6s6 2.688 6 6-2.688 6-6 6zm3.058-4.663c-.153-.076-.902-.444-1.042-.494-.14-.05-.242-.076-.344.076-.101.153-.395.494-.484.594-.09.101-.18.114-.333.038-.153-.076-.645-.237-1.227-.756-.453-.402-.759-.897-.847-1.05-.09-.153-.009-.236.068-.312.07-.068.153-.176.23-.264.076-.088.101-.153.152-.256.051-.102.026-.191-.013-.268-.04-.076-.344-.832-.47-1.138-.124-.299-.25-.258-.344-.263l-.293-.005c-.101 0-.265.038-.404.191-.14.153-.535.522-.535 1.27 0 .748.547 1.472.623 1.574.076.101 1.094 1.671 2.654 2.342.37.16.658.255.883.325.37.117.708.101.976.061.297-.043.902-.367 1.03-.723.127-.354.127-.658.089-.723z"/>
-              </svg>
-            </a>
-          </li>
-          <li class="icon-content">
-            <a data-social="discord">
-              <div class="filled"></div>
-              <svg viewBox="0 0 16 16" class="bi bi-discord" fill="currentColor" height="16" width="16" xmlns="http://www.w3.org/2000/svg">
-                <path d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.612 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.612 0 .888-.631 1.612-1.438 1.612"></path>
-              </svg>
-            </a>
-          </li>
-          <li class="icon-content">
-            <a data-social="linkedin">
-              <div class="filled"></div>
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 448 512">
-                <path d="M100.28 448H7.4V148.9h92.88zm-46.44-341C24.09 107 0 82.6 0 53.5S24.09 0 53.84 0s53.84 24.41 53.84 53.5-24.1 53.5-53.84 53.5zM447.9 448h-92.68V302.4c0-34.7-.7-79.3-48.4-79.3-48.4 0-55.8 37.7-55.8 76.7V448h-92.68V148.9h88.92v40.8h1.3c12.4-23.4 42.6-48.4 87.7-48.4 93.8 0 111.2 61.8 111.2 142.3V448z"/>
-              </svg>
-            </a>
-          </li>
-          <li class="icon-content">
-            <a data-social="instagram">
-              <div class="filled"></div>
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16" xml:space="preserve">
-                <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"/>
-                </path>
-              </svg>
-            </a>
-          </li>
-        </ul>
       </div>
     </div>
   </div>
@@ -1196,35 +1137,20 @@
       }
       
       bindShareEvents() {
-        document.querySelectorAll('.share-icons .icon-content a').forEach(link => {
-          link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const social = link.getAttribute('data-social');
-            if (navigator.share) {
-              navigator.share({
-                title: this.shareData.title,
-                text: this.shareData.text,
-                url: this.shareData.url
-              }).catch(err => console.error("Erreur partage :", err));
-              return;
-            }
-            let shareUrl = "";
-            if (social === "whatsapp") {
-              shareUrl = "whatsapp://send?text=" + encodeURIComponent(this.shareData.title + "\n" + this.shareData.text + "\n" + this.shareData.url);
-              window.location.href = shareUrl;
-            } else if (social === "linkedin") {
-              shareUrl = "linkedin://shareArticle?mini=true&url=" 
-                + encodeURIComponent(this.shareData.url) 
-                + "&title=" + encodeURIComponent(this.shareData.title) 
-                + "&summary=" + encodeURIComponent(this.shareData.text) 
-                + "&source=Letmotiv";
-              window.location.href = shareUrl;
-            } else if (social === "discord") {
-              alert("Le partage direct vers Discord n'est pas supporté. Veuillez copier le lien : " + this.shareData.url);
-            } else if (social === "instagram") {
-              alert("Instagram ne permet pas le partage via URL. Veuillez copier le lien : " + this.shareData.url);
-            }
-          });
+        // Pour l'icône unique de partage dans STEP4
+        document.querySelector('.share-icon').addEventListener('click', (e) => {
+          e.preventDefault();
+          if (navigator.share) {
+            navigator.share({
+              title: this.shareData.title,
+              text: this.shareData.text,
+              url: this.shareData.url
+            }).catch(err => console.error("Erreur partage :", err));
+            return;
+          }
+          // Sinon, simuler un partage via WhatsApp
+          const shareUrl = "whatsapp://send?text=" + encodeURIComponent(this.shareData.title + "\n" + this.shareData.text + "\n" + this.shareData.url);
+          window.location.href = shareUrl;
         });
       }
     }
