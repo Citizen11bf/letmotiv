@@ -127,49 +127,14 @@
       padding: 20px;
     }
 
-    /* --- STEP1 : Cartes d'objectif --- */
+    /* --- STEP1 : Choix d’objectif (flip cards homogènes) --- */
     .objectives-container {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, 1fr); /* Par défaut : 3 colonnes sur desktop */
       gap: 15px;
       justify-items: center;
       margin: 10px 0;
     }
-    .flip-card {
-      background-color: #f7f7f7;
-      border: 2px solid #2E22AC;
-      border-radius: 8px;
-      padding: 20px;
-      width: 150px;
-      height: 150px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s;
-    }
-    .flip-card:hover {
-      transform: scale(1.05);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    }
-    .flip-card.selected {
-      background-color: #00a48a;
-      color: #fff;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.3);
-    }
-    .flip-card.selected i,
-    .flip-card.selected span {
-      color: #fff;
-    }
-    .flip-card-front {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-    .flip-card-front i { font-size: 2rem; margin-bottom: 8px; }
-    .flip-card-front span { font-size: 1rem; }
 
     /* --- BOÎTE D'INTRODUCTION (STEP0) --- */
     .intro-box {
@@ -300,76 +265,24 @@
       100% { box-shadow: 0 0 0 0 rgba(0,164,138,0); }
     }
 
-    /* --- STEP2 : Configuration de la simulation (valeur dans le curseur) --- */
-    .slider-container {
-      position: relative;
-      width: 80%;
-      margin: 20px auto;
+    /* --- STEP2 : Configuration de la simulation (NOUVEAU DESIGN) --- */
+    .rating-container {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin: 10px 0;
     }
-    .slider-container input[type="range"] {
-      -webkit-appearance: none;
-      width: 100%;
-      height: 8px;
-      border-radius: 5px;
-      background: #ddd;
-      outline: none;
-      /* On définit une variable CSS --val qu'on mettra à jour en JS */
-      --val: 5; /* valeur par défaut */
-    }
-    /* La piste (track) */
-    .slider-container input[type="range"]::-webkit-slider-runnable-track {
-      height: 8px;
-      border-radius: 5px;
-      background: #ddd;
-    }
-    .slider-container input[type="range"]::-moz-range-track {
-      height: 8px;
-      border-radius: 5px;
-      background: #ddd;
-    }
-    /* Le curseur (thumb) */
-    .slider-container input[type="range"]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: #2E22AC;
+    .rating-icon {
+      font-size: 2rem;
+      color: #ccc;
       cursor: pointer;
-      border: 2px solid #fff;
-      position: relative;
-      top: 0;
+      transition: color 0.3s, transform 0.2s;
     }
-    /* On affiche la valeur dans un pseudo-élément ::after du thumb (Chrome / Safari) */
-    .slider-container input[type="range"]::-webkit-slider-thumb::after {
-      content: var(--val);
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: #fff;
-      font-size: 14px;
-      pointer-events: none;
+    .rating-icon:hover {
+      transform: scale(1.1);
     }
-    /* Pour Firefox */
-    .slider-container input[type="range"]::-moz-range-thumb {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: #2E22AC;
-      border: 2px solid #fff;
-      cursor: pointer;
-      position: relative;
-    }
-    .slider-container input[type="range"]::-moz-range-thumb::after {
-      content: var(--val);
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: #fff;
-      font-size: 14px;
-      pointer-events: none;
+    .rating-icon.selected {
+      color: #2E22AC;
     }
 
     /* --- STEP3 : Enregistrement vidéo --- */
@@ -450,6 +363,7 @@
       display: none;
       z-index: 3;
     }
+    /* Styles pour rendre l'image cliquable et agrandie vers la gauche */
     #analysis-image img {
       transition: transform 0.3s ease;
       cursor: pointer;
@@ -479,6 +393,8 @@
       color: red;
       margin-right: 5px;
     }
+    /* Le compte à rebours sera affiché dans un span à l'intérieur de .recording-indicator */
+
     .initial-countdown-overlay {
       position: absolute;
       top: 0;
@@ -527,6 +443,7 @@
     }
     .call-to-action button:hover { transform: translateY(-3px); box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
     #step4-extra { display: none; margin-top: 20px; }
+    /* Boutons renommés dans STEP4 */
     #resources-btn {
       background-color: #2E22AC;
       color: #fff;
@@ -624,14 +541,6 @@
     }
 
     /* ------------------- MEDIA QUERIES POUR MOBILE ------------------- */
-    @keyframes fadeIn  {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
-    @keyframes slideDown {
-      from { transform: translateY(-50px); }
-      to   { transform: translateY(0); }
-    }
     @media (max-width: 600px) {
       h1 .line { display: block; }
       .main-container { justify-content: flex-start; }
@@ -653,8 +562,19 @@
         margin: 5px 0;
         flex: 1;
       }
+      /* Pour le STEP1, on force 2 colonnes uniquement sur mobile */
       .objectives-container {
         grid-template-columns: repeat(2, 1fr);
+      }
+      /* Pour les boutons de STEP2, on fixe une taille circulaire */
+      .simulation-buttons button {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
     }
   </style>
@@ -759,7 +679,7 @@
       </button>
     </div>
 
-    <!-- STEP2 : Configuration de la simulation -->
+    <!-- STEP2 : Configuration de la simulation (MIS À JOUR) -->
     <div class="box" id="step2">
       <div class="box-header step2-header">
         <button class="back-btn" id="back-btn2" aria-label="Retour à l'étape précédente">
@@ -770,30 +690,28 @@
       <div class="simulation-instructions">
         Choisis le nombre de questions que tu souhaites simuler :
       </div>
-      <div class="slider-container">
-        <input 
-          type="range" 
-          id="question-slider" 
-          min="3" 
-          max="8" 
-          step="1" 
-          value="5"
-        >
+      <div class="rating-container" id="question-rating">
+        <!-- Valeurs de 3 à 8 -->
+        <span class="rating-icon" data-value="3"><i class="fas fa-question-circle"></i></span>
+        <span class="rating-icon" data-value="4"><i class="fas fa-question-circle"></i></span>
+        <span class="rating-icon" data-value="5"><i class="fas fa-question-circle"></i></span>
+        <span class="rating-icon" data-value="6"><i class="fas fa-question-circle"></i></span>
+        <span class="rating-icon" data-value="7"><i class="fas fa-question-circle"></i></span>
+        <span class="rating-icon" data-value="8"><i class="fas fa-question-circle"></i></span>
       </div>
+      
       <div class="simulation-instructions" style="margin-top:20px;">
         Combien de minutes par question ?
       </div>
-      <div class="slider-container">
-        <input 
-          type="range" 
-          id="minute-slider" 
-          min="2" 
-          max="5" 
-          step="1" 
-          value="2"
-        >
+      <div class="rating-container" id="minutes-rating">
+        <!-- Valeurs de 2 à 5 minutes -->
+        <span class="rating-icon" data-value="2"><i class="fas fa-hourglass-half"></i></span>
+        <span class="rating-icon" data-value="3"><i class="fas fa-hourglass-half"></i></span>
+        <span class="rating-icon" data-value="4"><i class="fas fa-hourglass-half"></i></span>
+        <span class="rating-icon" data-value="5"><i class="fas fa-hourglass-half"></i></span>
       </div>
-      <div id="duration-info" style="text-align: center; margin-top:10px;"></div>
+      
+      <div id="duration-info"></div>
       <div id="subject-error" class="error-message"></div>
       <button class="next-btn" id="next-btn2" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
@@ -822,8 +740,11 @@
             Aucun enregistrement n'est conservé par Letmotiv.
           </p>
         </div>
+        <!-- Overlay des questions fixé à top: 0 -->
         <div class="video-overlay" id="question-overlay"></div>
+        <!-- Élément pour l'image d'analyse pour Sciences Po -->
         <div id="analysis-image"></div>
+        <!-- Conteneur regroupant l'icône d'enregistrement et le compte à rebours -->
         <div class="recording-indicator" id="recording-indicator">
           <i class="fas fa-circle"></i><span id="countdown"></span>
         </div>
@@ -918,7 +839,7 @@
   
   <!-- SCRIPT -->
   <script>
-    // Fonction getRandomImageUrl() avec un grand tableau de catégories
+    // Fonction getRandomImageUrl() avec un grand tableau de catégories (événements historiques/politiques depuis 1700)
     async function getRandomImageUrl() {
       const categories = [
         "French and Indian War", "American Revolution", "French Revolution", "Napoleonic Wars", "War of 1812",
@@ -1117,6 +1038,7 @@
       }
       
       startInitialCountdown() {
+        // Avant de démarrer, effacer le compte à rebours des minutes et s'assurer que l'indicateur reste masqué
         document.getElementById('countdown').textContent = "";
         this.recordingIndicator.style.display = 'none';
         if (window.innerWidth <= 600) {
@@ -1173,6 +1095,7 @@
           const blob = new Blob(this.recordedChunks, { type: 'video/mp4' });
           AppState.videoURL = URL.createObjectURL(blob);
           stream.getTracks().forEach(track => track.stop());
+          // Masquer l'image d'analyse, le compte à rebours et l'indicateur après l'enregistrement
           document.getElementById('analysis-image').style.display = 'none';
           this.recordingIndicator.style.display = 'none';
           this.questionOverlay.style.display = 'block';
@@ -1187,6 +1110,7 @@
           }
           this.restartBtn.classList.remove('hidden-btn');
           this.nextQuestionBtn.classList.add('hidden-btn');
+          // Effacer le décompte des minutes en fin de simulation
           document.getElementById('countdown').textContent = "";
         };
         this.questions = await QuestionLoader.loadSubjects(AppState.currentCategory);
@@ -1203,6 +1127,7 @@
         }
         AppState.currentQuestionIndex = 1;
         await this.displayQuestion(AppState.currentQuestionIndex, AppState.totalQuestions, this.questions[0]);
+        // Démarrer l'enregistrement et afficher l'indicateur d'enregistrement + compte à rebours
         this.mediaRecorder.start();
         this.recordingIndicator.style.display = 'flex';
         this.updateCountdown(AppState.minutesPerQuestion * 60);
@@ -1241,6 +1166,7 @@
               clearInterval(this.timerInterval);
               this.stopBtn.classList.add('hidden-btn');
               this.stopBtn.disabled = true;
+              // Effacer le décompte des minutes en cas d'arrêt
               document.getElementById('countdown').textContent = "";
             }
           }
@@ -1287,3 +1213,179 @@
               shareUrl = "whatsapp://send?text=" + encodeURIComponent(this.shareData.title + "\n" + this.shareData.text + "\n" + this.shareData.url);
               window.location.href = shareUrl;
             } else if (social === "linkedin") {
+              shareUrl = "linkedin://shareArticle?mini=true&url=" 
+                + encodeURIComponent(this.shareData.url) 
+                + "&title=" + encodeURIComponent(this.shareData.title) 
+                + "&summary=" + encodeURIComponent(this.shareData.text) 
+                + "&source=Letmotiv";
+              window.location.href = shareUrl;
+            } else if (social === "discord") {
+              alert("Le partage direct vers Discord n'est pas supporté. Veuillez copier le lien : " + this.shareData.url);
+            } else if (social === "instagram") {
+              alert("Instagram ne permet pas le partage via URL. Veuillez copier le lien : " + this.shareData.url);
+            }
+          });
+        });
+      }
+    }
+
+    /* --- Mettre à jour la durée affichée dans le STEP2 --- */
+    function updateDurationInfo() {
+      if (AppState.selectedQuestionCount && AppState.minutesPerQuestion) {
+        const baseMinutes = AppState.selectedQuestionCount * AppState.minutesPerQuestion;
+        let infoText = "Ton entretien durera au maximum " + baseMinutes + " minutes.";
+        if (AppState.currentCategory === "sciences-politiques") {
+          const extraMinutes = 3 * AppState.minutesPerQuestion;
+          infoText += "<br>NB : compte " + extraMinutes + " minutes de plus pour la séquence d'analyse d'une image.";
+        }
+        document.getElementById('duration-info').innerHTML = infoText;
+      }
+    }
+
+    /* --- Gestion des interactions pour le nouveau design du STEP2 --- */
+    // Initialisation par défaut (par exemple, 5 questions et 2 minutes)
+    AppState.selectedQuestionCount = 5;
+    AppState.minutesPerQuestion = 2;
+
+    // Gestion de la sélection pour le nombre de questions
+    document.querySelectorAll('#question-rating .rating-icon').forEach(icon => {
+      // Initialiser l'état selon la valeur par défaut
+      if (parseInt(icon.getAttribute('data-value')) <= AppState.selectedQuestionCount) {
+        icon.classList.add('selected');
+      }
+      icon.addEventListener('click', () => {
+        const value = parseInt(icon.getAttribute('data-value'));
+        AppState.selectedQuestionCount = value;
+        // Met à jour visuellement : on sélectionne toutes les icônes jusqu'à la valeur cliquée
+        document.querySelectorAll('#question-rating .rating-icon').forEach(el => {
+          if (parseInt(el.getAttribute('data-value')) <= value) {
+            el.classList.add('selected');
+          } else {
+            el.classList.remove('selected');
+          }
+        });
+        document.getElementById('subject-error').style.display = 'none';
+        updateDurationInfo();
+        document.getElementById('next-btn2').classList.add('pulse');
+      });
+    });
+
+    // Gestion de la sélection pour le nombre de minutes
+    document.querySelectorAll('#minutes-rating .rating-icon').forEach(icon => {
+      // Initialiser l'état selon la valeur par défaut
+      if (parseInt(icon.getAttribute('data-value')) <= AppState.minutesPerQuestion) {
+        icon.classList.add('selected');
+      }
+      icon.addEventListener('click', () => {
+        const value = parseInt(icon.getAttribute('data-value'));
+        AppState.minutesPerQuestion = value;
+        // Mise à jour visuelle : sélectionner les icônes jusqu'à celle cliquée
+        document.querySelectorAll('#minutes-rating .rating-icon').forEach(el => {
+          if (parseInt(el.getAttribute('data-value')) <= value) {
+            el.classList.add('selected');
+          } else {
+            el.classList.remove('selected');
+          }
+        });
+        document.getElementById('subject-error').style.display = 'none';
+        updateDurationInfo();
+        document.getElementById('next-btn2').classList.add('pulse');
+      });
+    });
+
+    /* --- Attacher un écouteur sur #analysis-image --- */
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("analysis-image").addEventListener("click", function(e) {
+        if(e.target && e.target.tagName.toLowerCase() === "img") {
+          e.target.classList.toggle("enlarged");
+        }
+      });
+
+      const stepManager = new StepManager();
+      const videoRecorder = new VideoRecorder();
+      const shareManager = new ShareManager();
+      const popSound = document.getElementById('pop-sound');
+      
+      // Gestion des cartes du STEP1
+      const objectivesCards = document.querySelectorAll('.objectives-container .objective-item');
+      objectivesCards.forEach(card => {
+        card.addEventListener('click', async () => {
+          popSound.currentTime = 0;
+          popSound.play().catch(err => console.error("Erreur lors de la lecture du son :", err));
+          objectivesCards.forEach(c => c.classList.remove('selected'));
+          card.classList.add('selected');
+          AppState.currentCategory = card.dataset.category;
+          document.getElementById('objective-error').style.display = 'none';
+          stepManager.nextBtns[1].classList.add('pulse');
+          updateDurationInfo();
+        });
+      });
+
+      updateDurationInfo();
+
+      // Démarrage de l'enregistrement vidéo
+      document.getElementById('start-btn').addEventListener('click', () => {
+        document.getElementById('instruction-overlay').style.display = 'none';
+        videoRecorder.startInitialCountdown();
+      });
+      // Boutons du STEP3
+      videoRecorder.stopBtn.addEventListener('click', () => {
+        if (videoRecorder.mediaRecorder && videoRecorder.mediaRecorder.state === 'recording') {
+          videoRecorder.mediaRecorder.stop();
+          clearInterval(videoRecorder.timerInterval);
+          videoRecorder.stopBtn.classList.add('hidden-btn');
+          videoRecorder.stopBtn.disabled = true;
+          videoRecorder.nextQuestionBtn.classList.add('hidden-btn');
+          videoRecorder.restartBtn.classList.remove('hidden-btn');
+          videoRecorder.recordingIndicator.style.display = 'none';
+          document.getElementById('countdown').textContent = "";
+        }
+      });
+      videoRecorder.nextQuestionBtn.addEventListener('click', () => {
+        if (!videoRecorder.mediaRecorder || videoRecorder.mediaRecorder.state !== 'recording') {
+          document.getElementById('impro-error').textContent = "Veuillez démarrer l'entretien avant de passer à la question suivante.";
+          document.getElementById('impro-error').style.display = 'block';
+          return;
+        }
+        clearInterval(videoRecorder.timerInterval);
+        let timeRemaining = AppState.minutesPerQuestion * 60;
+        QuestionLoader.loadSubjects(AppState.currentCategory).then(questions => {
+          if (AppState.currentQuestionIndex < AppState.totalQuestions) {
+            AppState.currentQuestionIndex++;
+            let qText = "";
+            if (AppState.currentQuestionIndex <= AppState.selectedQuestionCount) {
+              qText = AppState.currentQuestionIndex === 1 ? questions[0] : questions[Math.floor(Math.random() * (questions.length - 1)) + 1];
+            }
+            videoRecorder.displayQuestion(AppState.currentQuestionIndex, AppState.totalQuestions, qText);
+            videoRecorder.updateCountdown(timeRemaining);
+            videoRecorder.startQuestionCycle();
+          }
+        });
+      });
+      videoRecorder.restartBtn.addEventListener('click', () => {
+        videoRecorder.restartBtn.classList.add('hidden-btn');
+        videoRecorder.questionOverlay.style.display = 'none';
+        AppState.improStarted = false;
+        AppState.currentQuestionIndex = 1;
+        document.getElementById('countdown').textContent = "";
+        videoRecorder.startInitialCountdown();
+      });
+      // STEP4 : Analyse et téléchargement
+      document.getElementById('validate-form-btn').addEventListener('click', () => {
+        if (AppState.videoURL) {
+          const link = document.createElement('a');
+          link.href = AppState.videoURL;
+          link.download = 'Letmotiv_Simulation_Entretien.mp4';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
+        document.querySelector('.call-to-action').style.display = 'none';
+        document.getElementById('step4-extra').style.display = 'block';
+      });
+      document.getElementById('redo-btn').addEventListener('click', () => window.location.reload());
+      document.getElementById('resources-btn').addEventListener('click', () => window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/entretien-candidat");
+    });
+  </script>
+</body>
+</html>
