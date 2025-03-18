@@ -127,7 +127,7 @@
       padding: 20px;
     }
 
-    /* --- STEP1 : Choix d’objectif (flip cards homogènes) --- */
+    /* --- STEP1 : Choix d’objectif --- */
     .objectives-container {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -307,7 +307,7 @@
       100% { box-shadow: 0 0 0 0 rgba(0,164,138,0); }
     }
 
-    /* --- STEP2 : Configuration de la simulation (NOUVEAU DESIGN) --- */
+    /* --- STEP2 : Configuration de la simulation --- */
     .rating-container {
       display: flex;
       gap: 10px;
@@ -335,12 +335,11 @@
       background-color: #2E22AC;
       color: #fff;
     }
-    /* Augmentation de la marge sous le texte de durée */
     #duration-info {
       margin-bottom: 20px;
     }
 
-    /* --- Boutons d'action en STEP3 (réintégration du design) --- */
+    /* --- Boutons d'action en STEP3 --- */
     .btn-impro {
       pointer-events: auto;
       margin: 15px 0;
@@ -411,13 +410,13 @@
     }
     #instruction-overlay button:hover { background-color: #E34C9D; }
     
-    /* Overlay des questions fixé à top: 0 */
+    /* Overlay des questions */
     #question-overlay {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
-      padding: 5px 5px;
+      padding: 5px;
       background: rgba(255,255,255,0.6);
       font-style: normal;
       font-size: 12px;
@@ -425,7 +424,6 @@
       z-index: 3;
       display: none;
     }
-    /* Élément pour l'image d'analyse pour Sciences Po */
     #analysis-image {
       position: absolute;
       bottom: 10px;
@@ -433,7 +431,6 @@
       display: none;
       z-index: 3;
     }
-    /* Styles pour rendre l'image cliquable et agrandie vers la gauche */
     #analysis-image img {
       transition: transform 0.3s ease;
       cursor: pointer;
@@ -445,7 +442,6 @@
     #analysis-image img.enlarged {
       transform: scale(2);
     }
-    /* Regroupement de l'icône d'enregistrement et du compte à rebours */
     .recording-indicator {
       position: absolute;
       bottom: 10px;
@@ -481,7 +477,6 @@
     .hidden-btn { display: none; }
 
     /* --- STEP4 : Nouvelle version (inspirée du code fourni) --- */
-    /* Box dégradée pour le message de félicitations */
     #step5 .download-section-accent {
       background: linear-gradient(135deg, #182d84, #00a48a);
       padding: 15px 30px;
@@ -496,7 +491,6 @@
         font-size: 0.8rem;
       }
     }
-    /* Boutons d'actions */
     .btn-action {
       background-color: #FF5722;
       color: #fff;
@@ -510,11 +504,10 @@
     }
     .btn-action:hover {
       background-color: #FBC638;
-      color: #000000;
+      color: #000;
       transform: translateY(-2px);
       box-shadow: 0 4px 6px rgba(0,0,0,0.2);
     }
-    /* Bouton Newsletter */
     .btn-newsletter {
       background: linear-gradient(135deg, #182d84, #00a48a);
       color: #fff;
@@ -530,7 +523,6 @@
       transform: translateY(-2px);
       box-shadow: 0 4px 6px rgba(0,0,0,0.2);
     }
-    /* Newsletter container */
     .newsletter-container {
       width: 100%;
       max-width: 600px;
@@ -579,7 +571,7 @@
       margin-top: 10px;
     }
 
-    /* --- Bouton global de partage (toujours visible en bas à droite sauf STEP0) --- */
+    /* --- Bouton global de partage --- */
     #global-share-btn {
       position: fixed;
       bottom: 20px;
@@ -600,20 +592,16 @@
       background-color: #00a48a;
     }
     .hide-share #global-share-btn { display: none; }
-    
+
     @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     
-    /* --- Animation pour changement de question --- */
-    .question-change {
-      animation: questionBlitz 0.8s ease-out;
-    }
     @keyframes questionBlitz {
       0% { opacity: 0; transform: scale(0.8) rotateX(-90deg); filter: blur(5px); }
       50% { opacity: 0.5; transform: scale(1.05) rotateX(20deg); filter: blur(2px); }
       100% { opacity: 1; transform: scale(1) rotateX(0); filter: blur(0); }
     }
+    .question-change { animation: questionBlitz 0.8s ease-out; }
     
-    /* ------------------- MEDIA QUERIES POUR MOBILE ------------------- */
     @media (max-width: 600px) {
       h1 .line { display: block; }
       .main-container { justify-content: flex-start; }
@@ -649,20 +637,17 @@
       }
     }
   </style>
-  
-  <!-- STEP4 : Analyse ta prestation & Téléchargements & Newsletter -->
-  <!-- Remarquez que l'ID de cette box est "step5" -->
 </head>
 <body class="hide-share">
   <!-- Élément audio pour le feedback sonore -->
   <audio id="pop-sound" src="https://www.soundjay.com/button/sounds/button-30.mp3" preload="auto"></audio>
 
-  <!-- Bouton global de partage en bas à droite -->
+  <!-- Bouton global de partage (invisible en STEP0) -->
   <div id="global-share-btn" aria-label="Partager">
     <i class="fas fa-share-alt"></i>
   </div>
 
-  <!-- BOÎTE D'INTRODUCTION (STEP0) -->
+  <!-- STEP0 : BOÎTE D'INTRODUCTION -->
   <div class="intro-box" id="intro-box">
     <h1>
       <span class="line">Entraîne-toi</span>
@@ -680,7 +665,7 @@
               <path class="three" d="M0.154393339,3.89485454 L3.97631488,0.139296592 C4.17083111,-0.0518420739 4.48263286,-0.0518571125 4.67716753,0.139262789 L25.6916134,20.7848311 C26.0855801,21.1718824 26.0911863,21.8050225 25.704135,22.1989893 C25.7000188,22.2031791 25.6958657,22.2073326 25.6916762,22.2114492 L4.67709797,42.8607841 C4.48259567,43.0519059 4.17082418,43.0519358 3.97628526,42.8608513 L0.154518591,39.1069479 C-0.0424848215,38.9134427 -0.0453206733,38.5968729 0.148184538,38.3998695 C0.150289256,38.3977268 0.152413239,38.395603 0.154556228,38.3934985 L16.9937789,21.8567812 C17.1908028,21.6632968 17.193672,21.3467273 17.0001876,21.1497035 C16.9980647,21.1475418 16.9959223,21.1453995 16.9937605,21.1432767 L0.15452076,4.60825197 C-0.0425130651,4.41477773 -0.0453986756,4.09820839 0.148075568,3.90117456 C0.150162624,3.89904911 0.152268631,3.89694235 0.154393339,3.89485454 Z" fill="#FFFFFF"></path>
             </g>
           </svg>
-        </span> 
+        </span>
       </a>
     </div>
   
@@ -691,12 +676,12 @@
         <div class="header-l2">Letmotiv - Coaching en prise de parole</div>
       </div>
     </div>
-
+  
     <!-- BARRE DE PROGRESSION -->
     <div class="progress-container">
       <div class="progress-bar" id="top-progress-bar"></div>
     </div>
-
+  
     <!-- CONTAINER PRINCIPAL -->
     <div class="main-container">
       <!-- STEP1 : Choix d'objectif -->
@@ -708,42 +693,36 @@
           <div class="box-title">Quel entretien souhaites-tu préparer ?</div>
         </div>
         <div class="objectives-container">
-          <!-- INSP -->
           <div class="flip-card objective-item" data-category="insp">
             <div class="flip-card-front">
               <i class="fas fa-user-tie"></i>
               <span>Ecole de la Haute Administration</span>
             </div>
           </div>
-          <!-- Ecole d'ingénieur généraliste -->
           <div class="flip-card objective-item" data-category="ingenieur-generaliste">
             <div class="flip-card-front">
               <i class="fas fa-cogs"></i>
               <span>Ecole d'ingénieur généraliste</span>
             </div>
           </div>
-          <!-- Ecole d'ingénieur aéro -->
           <div class="flip-card objective-item" data-category="ingenieur-aero">
             <div class="flip-card-front">
               <i class="fas fa-rocket"></i>
               <span>Ecole d'ingénieur aéro</span>
             </div>
           </div>
-          <!-- Ecole de commerce -->
           <div class="flip-card objective-item" data-category="commerce">
             <div class="flip-card-front">
               <i class="fas fa-handshake"></i>
               <span>Ecole de commerce</span>
             </div>
           </div>
-          <!-- Ecole de Sciences Politiques -->
           <div class="flip-card objective-item" data-category="sciences-politiques">
             <div class="flip-card-front">
               <i class="fas fa-university"></i>
               <span>Ecole de Sciences Politiques</span>
             </div>
           </div>
-          <!-- Entretien d'embauche -->
           <div class="flip-card objective-item" data-category="embauche">
             <div class="flip-card-front">
               <i class="fas fa-briefcase"></i>
@@ -756,7 +735,7 @@
           <i class="fas fa-arrow-down"></i>
         </button>
       </div>
-
+  
       <!-- STEP2 : Configuration de la simulation -->
       <div class="box" id="step2">
         <div class="box-header step2-header">
@@ -776,7 +755,6 @@
           <span class="rating-icon" data-value="7">7</span>
           <span class="rating-icon" data-value="8">8</span>
         </div>
-        
         <div class="simulation-instructions" style="margin-top:20px;">
           Combien de minutes par question ?
         </div>
@@ -786,14 +764,13 @@
           <span class="rating-icon" data-value="4">4</span>
           <span class="rating-icon" data-value="5">5</span>
         </div>
-        
         <div id="duration-info"></div>
         <div id="subject-error" class="error-message"></div>
         <button class="next-btn" id="next-btn2" aria-label="Étape suivante">
           <i class="fas fa-arrow-down"></i>
         </button>
       </div>
-
+  
       <!-- STEP3 : Enregistrement vidéo -->
       <div class="box" id="step3">
         <div class="box-header">
@@ -841,8 +818,8 @@
           <i class="fas fa-arrow-down"></i>
         </button>
       </div>
-
-      <!-- STEP4 : Nouvelle version : Félicitations, actions et Newsletter -->
+  
+      <!-- STEP4 : Nouvelle version (Félicitations, actions et Newsletter) -->
       <div class="box" id="step5">
         <div class="box-header">
           <button class="back-btn" id="back-btn5" aria-label="Retour à l'étape précédente">
@@ -851,15 +828,14 @@
           <div class="box-title">C'est l'heure du bilan !</div>
         </div>
         <div class="download-section">
-          <!-- Box dégradée "Félicitations..." -->
+          <!-- Box dégradée pour le message de félicitations -->
           <div class="download-section-accent">
             <h2 style="font-weight: bold;">Félicitations pour avoir réalisé ton improvisation ! <span>🤩</span></h2>
           </div>
-
           <!-- Boutons d'action -->
           <div class="call-to-action">
             <button id="download-video-btn" class="btn-action" aria-label="Télécharge ta vidéo">
-              Télécharge ta vidéo  <i class="fas fa-download"></i>
+              Télécharge ta vidéo <i class="fas fa-download"></i>
             </button>
           </div>
           <div class="call-to-action">
@@ -1268,7 +1244,7 @@
       }
     }
 
-    /* --- Gestion des interactions pour le STEP2 --- */
+    /* --- Gestion des interactions --- */
     AppState.selectedQuestionCount = 5;
     AppState.minutesPerQuestion = 2;
     document.querySelectorAll('#question-rating .rating-icon').forEach(icon => {
