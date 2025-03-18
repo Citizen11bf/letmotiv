@@ -447,7 +447,7 @@
       position: absolute;
       bottom: 10px;
       left: 10px;
-      display: none;
+      display: none; /* Masqué dès le départ */
       z-index: 4;
       font-size: 12px;
       background-color: rgba(255,255,255,0.8);
@@ -511,15 +511,15 @@
     .call-to-action button:hover { transform: translateY(-3px); box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
     #step4-extra { display: none; margin-top: 20px; }
     
-    /* --- Bouton global de partage (toujours visible en bas à droite) --- */
+    /* --- Bouton global de partage (toujours visible en bas à droite sauf STEP0) --- */
     #global-share-btn {
       position: fixed;
       bottom: 20px;
       right: 20px;
       background-color: #2E22AC;
       color: #fff;
-      width: 50px;
-      height: 50px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -531,6 +531,8 @@
     #global-share-btn:hover {
       background-color: #00a48a;
     }
+    /* Par défaut, le bouton de partage est masqué pendant le STEP0 */
+    .hide-share #global-share-btn { display: none; }
 
     @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     
@@ -583,7 +585,7 @@
     }
   </style>
 </head>
-<body>
+<body class="hide-share">
   <!-- Élément audio pour le feedback sonore -->
   <audio id="pop-sound" src="https://www.soundjay.com/button/sounds/button-30.mp3" preload="auto"></audio>
 
@@ -754,7 +756,7 @@
         <!-- Élément pour l'image d'analyse pour Sciences Po -->
         <div id="analysis-image"></div>
         <!-- Conteneur regroupant l'icône d'enregistrement et le compte à rebours -->
-        <div class="recording-indicator" id="recording-indicator">
+        <div class="recording-indicator" id="recording-indicator" style="display: none;">
           <i class="fas fa-circle"></i><span id="countdown"></span>
         </div>
         <div class="initial-countdown-overlay" id="initial-countdown-overlay">
@@ -907,6 +909,10 @@
         this.updateProgressBar(next);
         AppState.currentStep = next;
         this.removePulse();
+        // Affichage du bouton de partage global (masqué en STEP0)
+        if(next > 0) {
+          document.body.classList.remove('hide-share');
+        }
       }
       
       bindEvents() {
@@ -918,6 +924,8 @@
             AppState.currentStep = 1;
             this.updateProgressBar(1);
             this.removePulse();
+            // Afficher le bouton de partage dès le STEP1
+            document.body.classList.remove('hide-share');
           }, 500);
         });
         this.nextBtns[1].addEventListener('click', () => {
@@ -1164,7 +1172,6 @@
       }
       
       bindShareEvents() {
-        // Pour le bouton global de partage
         document.getElementById('global-share-btn').addEventListener('click', (e) => {
           e.preventDefault();
           if (navigator.share) {
@@ -1185,10 +1192,11 @@
     function updateDurationInfo() {
       if (AppState.selectedQuestionCount && AppState.minutesPerQuestion) {
         const baseMinutes = AppState.selectedQuestionCount * AppState.minutesPerQuestion;
-        let infoText = "Ton entretien durera au maximum " + baseMinutes + " minutes.";
+        // On met en gras le nombre de minutes
+        let infoText = `Ton entretien durera au maximum <strong>${baseMinutes} minutes</strong>.`;
         if (AppState.currentCategory === "sciences-politiques") {
           const extraMinutes = 3 * AppState.minutesPerQuestion;
-          infoText += "<br>NB : compte " + extraMinutes + " minutes de plus pour la séquence d'analyse d'une image.";
+          infoText += `<br>NB : compte <strong>${extraMinutes} minutes</strong> de plus pour la séquence d'analyse d'une image.`;
         }
         document.getElementById('duration-info').innerHTML = infoText;
       }
