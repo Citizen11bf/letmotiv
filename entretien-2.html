@@ -171,13 +171,13 @@
     }
     .flip-card-front i { font-size: 2rem; margin-bottom: 8px; }
     .flip-card-front span { font-size: 1rem; }
-    /* Couleurs différentes pour les icônes des cards */
-    .flip-card[data-category="insp"] .flip-card-front i { color: #FF5733; }
-    .flip-card[data-category="ingenieur-generaliste"] .flip-card-front i { color: #33FF57; }
-    .flip-card[data-category="ingenieur-aero"] .flip-card-front i { color: #3357FF; }
-    .flip-card[data-category="commerce"] .flip-card-front i { color: #FF33A8; }
-    .flip-card[data-category="sciences-politiques"] .flip-card-front i { color: #FFC300; }
-    .flip-card[data-category="embauche"] .flip-card-front i { color: #33FFF5; }
+    /* Couleurs adoucies pour les icônes des cards */
+    .flip-card[data-category="insp"] .flip-card-front i { color: #B37E7E; }
+    .flip-card[data-category="ingenieur-generaliste"] .flip-card-front i { color: #7EB37E; }
+    .flip-card[data-category="ingenieur-aero"] .flip-card-front i { color: #7E89B3; }
+    .flip-card[data-category="commerce"] .flip-card-front i { color: #B37EB3; }
+    .flip-card[data-category="sciences-politiques"] .flip-card-front i { color: #B3A77E; }
+    .flip-card[data-category="embauche"] .flip-card-front i { color: #7EB3B3; }
 
     /* --- BOÎTE D'INTRODUCTION (STEP0) --- */
     .intro-box {
@@ -335,6 +335,10 @@
     .rating-icon.selected {
       background-color: #2E22AC;
       color: #fff;
+    }
+    /* Augmentation de la marge sous le texte de durée */
+    #duration-info {
+      margin-bottom: 20px;
     }
 
     /* --- Boutons d'action en STEP3 (réintégration du design) --- */
@@ -531,7 +535,7 @@
     #global-share-btn:hover {
       background-color: #00a48a;
     }
-    /* Par défaut, le bouton de partage est masqué pendant le STEP0 */
+    /* Masquer le bouton de partage pendant le STEP0 */
     .hide-share #global-share-btn { display: none; }
 
     @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
@@ -1192,18 +1196,13 @@
     function updateDurationInfo() {
       if (AppState.selectedQuestionCount && AppState.minutesPerQuestion) {
         const baseMinutes = AppState.selectedQuestionCount * AppState.minutesPerQuestion;
-        // On met en gras le nombre de minutes
-        let infoText = `Ton entretien durera au maximum <strong>${baseMinutes} minutes</strong>.`;
-        if (AppState.currentCategory === "sciences-politiques") {
-          const extraMinutes = 3 * AppState.minutesPerQuestion;
-          infoText += `<br>NB : compte <strong>${extraMinutes} minutes</strong> de plus pour la séquence d'analyse d'une image.`;
-        }
+        // Insertion d'un saut de ligne supplémentaire et mise en gras du nombre de minutes
+        let infoText = `Ton entretien durera au maximum <strong>${baseMinutes} minutes</strong>.<br><br>NB : compte <strong>${3 * AppState.minutesPerQuestion} minutes</strong> de plus pour la séquence d'analyse d'une image.`;
         document.getElementById('duration-info').innerHTML = infoText;
       }
     }
 
     /* --- Gestion des interactions pour le nouveau design du STEP2 --- */
-    // Initialisation par défaut (par exemple, 5 questions et 2 minutes)
     AppState.selectedQuestionCount = 5;
     AppState.minutesPerQuestion = 2;
 
@@ -1318,12 +1317,14 @@
         });
       });
       videoRecorder.restartBtn.addEventListener('click', () => {
-        videoRecorder.restartBtn.classList.add('hidden-btn');
-        videoRecorder.questionOverlay.style.display = 'none';
-        AppState.improStarted = false;
-        AppState.currentQuestionIndex = 1;
-        document.getElementById('countdown').textContent = "";
-        videoRecorder.startInitialCountdown();
+        if(confirm("Es-tu sûr de vouloir recommencer ? Tu perdras ta simulation actuelle (tu pourras la télécharger à l'étape suivante).")) {
+          videoRecorder.restartBtn.classList.add('hidden-btn');
+          videoRecorder.questionOverlay.style.display = 'none';
+          AppState.improStarted = false;
+          AppState.currentQuestionIndex = 1;
+          document.getElementById('countdown').textContent = "";
+          videoRecorder.startInitialCountdown();
+        }
       });
       // STEP4 : Analyse et téléchargement
       document.getElementById('validate-form-btn').addEventListener('click', () => {
