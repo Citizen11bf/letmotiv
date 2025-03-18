@@ -130,12 +130,11 @@
     /* --- STEP1 : Choix d’objectif (flip cards homogènes) --- */
     .objectives-container {
       display: grid;
-      grid-template-columns: repeat(3, 1fr); /* Par défaut : 3 colonnes sur desktop */
+      grid-template-columns: repeat(3, 1fr);
       gap: 15px;
       justify-items: center;
       margin: 10px 0;
     }
-    /* Styles des cards (flip cards) */
     .flip-card {
       background-color: #f7f7f7;
       border: 2px solid #2E22AC;
@@ -171,7 +170,7 @@
     }
     .flip-card-front i { font-size: 2rem; margin-bottom: 8px; }
     .flip-card-front span { font-size: 1rem; }
-    /* Couleurs adoucies pour les icônes des cards */
+    /* Couleurs adoucies pour les icônes */
     .flip-card[data-category="insp"] .flip-card-front i { color: #B37E7E; }
     .flip-card[data-category="ingenieur-generaliste"] .flip-card-front i { color: #7EB37E; }
     .flip-card[data-category="ingenieur-aero"] .flip-card-front i { color: #7E89B3; }
@@ -179,7 +178,7 @@
     .flip-card[data-category="sciences-politiques"] .flip-card-front i { color: #B3A77E; }
     .flip-card[data-category="embauche"] .flip-card-front i { color: #7EB3B3; }
 
-    /* --- BOÎTE D'INTRODUCTION (STEP0) --- */
+    /* --- STEP0 : BOÎTE D'INTRODUCTION --- */
     .intro-box {
       position: fixed;
       top: 0;
@@ -451,7 +450,7 @@
       position: absolute;
       bottom: 10px;
       left: 10px;
-      display: none; /* Masqué dès le départ */
+      display: none;
       z-index: 4;
       font-size: 12px;
       background-color: rgba(255,255,255,0.8);
@@ -464,8 +463,6 @@
       color: red;
       margin-right: 5px;
     }
-    /* Le compte à rebours sera affiché dans un span à l'intérieur de .recording-indicator */
-
     .initial-countdown-overlay {
       position: absolute;
       top: 0;
@@ -483,38 +480,105 @@
     .impro-actions { display: flex; flex-wrap: wrap; gap: 5px; justify-content: space-around; margin-top: 10px; }
     .hidden-btn { display: none; }
 
-    /* --- STEP4 : Analyse ton entretien --- */
-    .download-section { margin-top: 20px; }
-    .download-section-accent {
-      background: linear-gradient(135deg, #2E22AC, #00a48a);
-      border-radius: 10px;
-      padding: 20px;
-      text-align: center;
+    /* --- STEP4 : Nouvelle version (inspirée du code fourni) --- */
+    /* Box dégradée pour le message de félicitations */
+    #step5 .download-section-accent {
+      background: linear-gradient(135deg, #182d84, #00a48a);
+      padding: 15px 30px;
+      border-radius: 12px;
       color: #fff;
       margin-bottom: 20px;
-      animation: fadeInDown 0.6s ease forwards;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      font-size: 1.0rem;
     }
-    .download-section-accent h2 {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.5rem;
-      margin: 0 0 10px;
+    @media (max-width: 600px) {
+      #step5 .download-section-accent {
+        font-size: 0.8rem;
+      }
     }
-    .download-section-accent .subtitle { font-style: italic; margin-bottom: 10px; }
-    .download-section-accent .reassure { font-size: 0.9rem; opacity: 0.9; }
-    .call-to-action { text-align: center; }
-    .call-to-action button {
-      background-color: #ffcb2d;
-      color: #000;
-      border-radius: 30px;
-      padding: 12px 24px;
+    /* Boutons d'actions */
+    .btn-action {
+      background-color: #FF5722;
+      color: #fff;
       font-weight: bold;
-      font-size: 1rem;
-      transition: transform 0.2s, box-shadow 0.2s;
-      margin: 10px auto;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      margin: 10px 0;
     }
-    .call-to-action button:hover { transform: translateY(-3px); box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
-    #step4-extra { display: none; margin-top: 20px; }
-    
+    .btn-action:hover {
+      background-color: #FBC638;
+      color: #000000;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+    /* Bouton Newsletter */
+    .btn-newsletter {
+      background: linear-gradient(135deg, #182d84, #00a48a);
+      color: #fff;
+      font-weight: bold;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      margin: 10px 0;
+    }
+    .btn-newsletter:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+    /* Newsletter container */
+    .newsletter-container {
+      width: 100%;
+      max-width: 600px;
+      background-color: #2d3748;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      padding: 20px;
+      margin: 30px auto;
+      color: #e2e8f0;
+      text-align: center;
+    }
+    .newsletter-title {
+      font-size: 1.0rem;
+      font-weight: normal;
+      margin-bottom: 20px;
+    }
+    .newsletter-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .newsletter-form input::placeholder {
+      color: #fff;
+    }
+    .newsletter-form input {
+      background-color: #4a5568;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px;
+      outline: none;
+      transition: background-color 0.3s, box-shadow 0.3s;
+    }
+    .newsletter-form input:focus {
+      background-color: #2d3748;
+      box-shadow: 0 0 0 1px #3182ce;
+    }
+    .newsletter-error {
+      color: red;
+      font-size: 0.8rem;
+      text-align: left;
+    }
+    .newsletter-success {
+      color: green;
+      font-size: 0.9rem;
+      margin-top: 10px;
+    }
+
     /* --- Bouton global de partage (toujours visible en bas à droite sauf STEP0) --- */
     #global-share-btn {
       position: fixed;
@@ -535,9 +599,8 @@
     #global-share-btn:hover {
       background-color: #00a48a;
     }
-    /* Masquer le bouton de partage pendant le STEP0 */
     .hide-share #global-share-btn { display: none; }
-
+    
     @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     
     /* --- Animation pour changement de question --- */
@@ -572,11 +635,9 @@
         margin: 5px 0;
         flex: 1;
       }
-      /* Pour le STEP1, on force 2 colonnes uniquement sur mobile */
       .objectives-container {
         grid-template-columns: repeat(2, 1fr);
       }
-      /* Pour les boutons de STEP2, on fixe une taille circulaire */
       .simulation-buttons button {
         width: 50px;
         height: 50px;
@@ -588,6 +649,9 @@
       }
     }
   </style>
+  
+  <!-- STEP4 : Analyse ta prestation & Téléchargements & Newsletter -->
+  <!-- Remarquez que l'ID de cette box est "step5" -->
 </head>
 <body class="hide-share">
   <!-- Élément audio pour le feedback sonore -->
@@ -619,198 +683,203 @@
         </span> 
       </a>
     </div>
-  </div>
   
-  <!-- HEADER -->
-  <div class="header">
-    <div class="header-content">
-      <div class="header-l1">Simulateur d'entretien</div>
-      <div class="header-l2">Letmotiv - Coaching en prise de parole</div>
-    </div>
-  </div>
-
-  <!-- BARRE DE PROGRESSION -->
-  <div class="progress-container">
-    <div class="progress-bar" id="top-progress-bar"></div>
-  </div>
-
-  <!-- CONTAINER PRINCIPAL -->
-  <div class="main-container">
-    <!-- STEP1 : Choix d'objectif -->
-    <div class="box" id="step1">
-      <div class="box-header">
-        <button class="back-btn hidden-visibility" id="back-btn1" aria-label="Retour">
-          <i class="fas fa-arrow-up"></i>
-        </button>
-        <div class="box-title">Quel entretien souhaites-tu préparer ?</div>
+    <!-- HEADER -->
+    <div class="header">
+      <div class="header-content">
+        <div class="header-l1">Simulateur d'entretien</div>
+        <div class="header-l2">Letmotiv - Coaching en prise de parole</div>
       </div>
-      <div class="objectives-container">
-        <!-- INSP -->
-        <div class="flip-card objective-item" data-category="insp">
-          <div class="flip-card-front">
-            <i class="fas fa-user-tie"></i>
-            <span>Ecole de la Haute Administration</span>
-          </div>
-        </div>
-        <!-- Ecole d'ingénieur généraliste -->
-        <div class="flip-card objective-item" data-category="ingenieur-generaliste">
-          <div class="flip-card-front">
-            <i class="fas fa-cogs"></i>
-            <span>Ecole d'ingénieur généraliste</span>
-          </div>
-        </div>
-        <!-- Ecole d'ingénieur aéro -->
-        <div class="flip-card objective-item" data-category="ingenieur-aero">
-          <div class="flip-card-front">
-            <i class="fas fa-rocket"></i>
-            <span>Ecole d'ingénieur aéro</span>
-          </div>
-        </div>
-        <!-- Ecole de commerce -->
-        <div class="flip-card objective-item" data-category="commerce">
-          <div class="flip-card-front">
-            <i class="fas fa-handshake"></i>
-            <span>Ecole de commerce</span>
-          </div>
-        </div>
-        <!-- Ecole de Sciences Politiques -->
-        <div class="flip-card objective-item" data-category="sciences-politiques">
-          <div class="flip-card-front">
-            <i class="fas fa-university"></i>
-            <span>Ecole de Sciences Politiques</span>
-          </div>
-        </div>
-        <!-- Entretien d'embauche -->
-        <div class="flip-card objective-item" data-category="embauche">
-          <div class="flip-card-front">
-            <i class="fas fa-briefcase"></i>
-            <span>Entretien d'embauche</span>
-          </div>
-        </div>
-      </div>
-      <div id="objective-error" class="error-message"></div>
-      <button class="next-btn" id="next-btn1" aria-label="Étape suivante">
-        <i class="fas fa-arrow-down"></i>
-      </button>
     </div>
 
-    <!-- STEP2 : Configuration de la simulation (MIS À JOUR) -->
-    <div class="box" id="step2">
-      <div class="box-header step2-header">
-        <button class="back-btn" id="back-btn2" aria-label="Retour à l'étape précédente">
-          <i class="fas fa-arrow-up"></i>
-        </button>
-        <div class="box-title">Configuration de la simulation</div>
-      </div>
-      <div class="simulation-instructions">
-        Choisis le nombre de questions que tu souhaites simuler :
-      </div>
-      <div class="rating-container" id="question-rating">
-        <!-- Affichage des nombres de 3 à 8 -->
-        <span class="rating-icon" data-value="3">3</span>
-        <span class="rating-icon" data-value="4">4</span>
-        <span class="rating-icon" data-value="5">5</span>
-        <span class="rating-icon" data-value="6">6</span>
-        <span class="rating-icon" data-value="7">7</span>
-        <span class="rating-icon" data-value="8">8</span>
-      </div>
-      
-      <div class="simulation-instructions" style="margin-top:20px;">
-        Combien de minutes par question ?
-      </div>
-      <div class="rating-container" id="minutes-rating">
-        <!-- Affichage des nombres de 2 à 5 -->
-        <span class="rating-icon" data-value="2">2</span>
-        <span class="rating-icon" data-value="3">3</span>
-        <span class="rating-icon" data-value="4">4</span>
-        <span class="rating-icon" data-value="5">5</span>
-      </div>
-      
-      <div id="duration-info"></div>
-      <div id="subject-error" class="error-message"></div>
-      <button class="next-btn" id="next-btn2" aria-label="Étape suivante">
-        <i class="fas fa-arrow-down"></i>
-      </button>
+    <!-- BARRE DE PROGRESSION -->
+    <div class="progress-container">
+      <div class="progress-bar" id="top-progress-bar"></div>
     </div>
 
-    <!-- STEP3 : Enregistrement vidéo -->
-    <div class="box" id="step3">
-      <div class="box-header">
-        <button class="back-btn" id="back-btn3" aria-label="Retour à l'étape précédente">
-          <i class="fas fa-arrow-up"></i>
-        </button>
-        <div class="box-title">C'est parti, lance ton entretien !</div>
-      </div>
-      <div class="video-box">
-        <video id="preview" autoplay muted playsinline webkit-playsinline></video>
-        <div class="video-overlay" id="instruction-overlay">
-          <p style="font-size:16px; text-align:center;">
-            Ton entretien vidéo va s'enregistrer ici.
-          </p>
-          <button id="start-btn" aria-label="Démarrer ta simulation">
-            Démarrer ta simulation <i class="fas fa-video"></i>
+    <!-- CONTAINER PRINCIPAL -->
+    <div class="main-container">
+      <!-- STEP1 : Choix d'objectif -->
+      <div class="box" id="step1">
+        <div class="box-header">
+          <button class="back-btn hidden-visibility" id="back-btn1" aria-label="Retour">
+            <i class="fas fa-arrow-up"></i>
           </button>
-          <p style="font-size:12px;">
-            NB : ta vidéo est stockée sur ton appareil.<br>
-            Aucun enregistrement n'est conservé par Letmotiv.
-          </p>
+          <div class="box-title">Quel entretien souhaites-tu préparer ?</div>
         </div>
-        <!-- Overlay des questions fixé à top: 0 -->
-        <div class="video-overlay" id="question-overlay"></div>
-        <!-- Élément pour l'image d'analyse pour Sciences Po -->
-        <div id="analysis-image"></div>
-        <!-- Conteneur regroupant l'icône d'enregistrement et le compte à rebours -->
-        <div class="recording-indicator" id="recording-indicator" style="display: none;">
-          <i class="fas fa-circle"></i><span id="countdown"></span>
+        <div class="objectives-container">
+          <!-- INSP -->
+          <div class="flip-card objective-item" data-category="insp">
+            <div class="flip-card-front">
+              <i class="fas fa-user-tie"></i>
+              <span>Ecole de la Haute Administration</span>
+            </div>
+          </div>
+          <!-- Ecole d'ingénieur généraliste -->
+          <div class="flip-card objective-item" data-category="ingenieur-generaliste">
+            <div class="flip-card-front">
+              <i class="fas fa-cogs"></i>
+              <span>Ecole d'ingénieur généraliste</span>
+            </div>
+          </div>
+          <!-- Ecole d'ingénieur aéro -->
+          <div class="flip-card objective-item" data-category="ingenieur-aero">
+            <div class="flip-card-front">
+              <i class="fas fa-rocket"></i>
+              <span>Ecole d'ingénieur aéro</span>
+            </div>
+          </div>
+          <!-- Ecole de commerce -->
+          <div class="flip-card objective-item" data-category="commerce">
+            <div class="flip-card-front">
+              <i class="fas fa-handshake"></i>
+              <span>Ecole de commerce</span>
+            </div>
+          </div>
+          <!-- Ecole de Sciences Politiques -->
+          <div class="flip-card objective-item" data-category="sciences-politiques">
+            <div class="flip-card-front">
+              <i class="fas fa-university"></i>
+              <span>Ecole de Sciences Politiques</span>
+            </div>
+          </div>
+          <!-- Entretien d'embauche -->
+          <div class="flip-card objective-item" data-category="embauche">
+            <div class="flip-card-front">
+              <i class="fas fa-briefcase"></i>
+              <span>Entretien d'embauche</span>
+            </div>
+          </div>
         </div>
-        <div class="initial-countdown-overlay" id="initial-countdown-overlay">
-          <div class="initial-countdown" id="initial-countdown">5</div>
-        </div>
+        <div id="objective-error" class="error-message"></div>
+        <button class="next-btn" id="next-btn1" aria-label="Étape suivante">
+          <i class="fas fa-arrow-down"></i>
+        </button>
       </div>
-      <div class="impro-actions">
-        <button id="next-question-btn" class="hidden-btn btn-impro" aria-label="Question suivante">
-          Question suivante <i class="fas fa-forward"></i>
-        </button>
-        <button id="stop-btn" class="hidden-btn btn-impro" aria-label="Arrêter l'entretien">
-          Arrêter ton entretien <i class="fas fa-stop"></i>
-        </button>
-        <button id="restart-btn" class="hidden-btn btn-impro" aria-label="Recommencer l'entretien">
-          Recommencer ton entretien <i class="fas fa-redo"></i>
-        </button>
-      </div>
-      <div id="impro-error" class="error-message"></div>
-      <button class="next-btn" id="next-btn3" aria-label="Étape suivante">
-        <i class="fas fa-arrow-down"></i>
-      </button>
-    </div>
 
-    <!-- STEP4 : Analyse ton entretien -->
-    <div class="box" id="step4">
-      <div class="box-header">
-        <button class="back-btn" id="back-btn5" aria-label="Retour à l'étape précédente">
-          <i class="fas fa-arrow-up"></i>
+      <!-- STEP2 : Configuration de la simulation -->
+      <div class="box" id="step2">
+        <div class="box-header step2-header">
+          <button class="back-btn" id="back-btn2" aria-label="Retour à l'étape précédente">
+            <i class="fas fa-arrow-up"></i>
+          </button>
+          <div class="box-title">Configuration de la simulation</div>
+        </div>
+        <div class="simulation-instructions">
+          Choisis le nombre de questions que tu souhaites simuler :
+        </div>
+        <div class="rating-container" id="question-rating">
+          <span class="rating-icon" data-value="3">3</span>
+          <span class="rating-icon" data-value="4">4</span>
+          <span class="rating-icon" data-value="5">5</span>
+          <span class="rating-icon" data-value="6">6</span>
+          <span class="rating-icon" data-value="7">7</span>
+          <span class="rating-icon" data-value="8">8</span>
+        </div>
+        
+        <div class="simulation-instructions" style="margin-top:20px;">
+          Combien de minutes par question ?
+        </div>
+        <div class="rating-container" id="minutes-rating">
+          <span class="rating-icon" data-value="2">2</span>
+          <span class="rating-icon" data-value="3">3</span>
+          <span class="rating-icon" data-value="4">4</span>
+          <span class="rating-icon" data-value="5">5</span>
+        </div>
+        
+        <div id="duration-info"></div>
+        <div id="subject-error" class="error-message"></div>
+        <button class="next-btn" id="next-btn2" aria-label="Étape suivante">
+          <i class="fas fa-arrow-down"></i>
         </button>
-        <div class="box-title">Analyse ton entretien</div>
       </div>
-      <div class="download-section">
-        <div class="download-section-accent">
-          <h2>Obtiens gratuitement ta prestation en vidéo et des éléments d'analyse Letmotiv</h2>
-          <p class="reassure">
-            N'hésite pas à t'entraîner et refaire des simulations pour progresser.
-          </p>
+
+      <!-- STEP3 : Enregistrement vidéo -->
+      <div class="box" id="step3">
+        <div class="box-header">
+          <button class="back-btn" id="back-btn3" aria-label="Retour à l'étape précédente">
+            <i class="fas fa-arrow-up"></i>
+          </button>
+          <div class="box-title">C'est parti, lance ton entretien !</div>
         </div>
-        <div class="call-to-action">
-          <button id="validate-form-btn" aria-label="Télécharger ma vidéo">
-            Télécharger ma vidéo
+        <div class="video-box">
+          <video id="preview" autoplay muted playsinline webkit-playsinline></video>
+          <div class="video-overlay" id="instruction-overlay">
+            <p style="font-size:16px; text-align:center;">
+              Ton entretien vidéo va s'enregistrer ici.
+            </p>
+            <button id="start-btn" aria-label="Démarrer ta simulation">
+              Démarrer ta simulation <i class="fas fa-video"></i>
+            </button>
+            <p style="font-size:12px;">
+              NB : ta vidéo est stockée sur ton appareil.<br>
+              Aucun enregistrement n'est conservé par Letmotiv.
+            </p>
+          </div>
+          <div class="video-overlay" id="question-overlay"></div>
+          <div id="analysis-image"></div>
+          <div class="recording-indicator" id="recording-indicator" style="display: none;">
+            <i class="fas fa-circle"></i><span id="countdown"></span>
+          </div>
+          <div class="initial-countdown-overlay" id="initial-countdown-overlay">
+            <div class="initial-countdown" id="initial-countdown">5</div>
+          </div>
+        </div>
+        <div class="impro-actions">
+          <button id="next-question-btn" class="hidden-btn btn-impro" aria-label="Question suivante">
+            Question suivante <i class="fas fa-forward"></i>
+          </button>
+          <button id="stop-btn" class="hidden-btn btn-impro" aria-label="Arrêter l'entretien">
+            Arrêter ton entretien <i class="fas fa-stop"></i>
+          </button>
+          <button id="restart-btn" class="hidden-btn btn-impro" aria-label="Recommencer l'entretien">
+            Recommencer ton entretien <i class="fas fa-redo"></i>
           </button>
         </div>
-        <div id="step4-extra">
-          <button id="resources-btn">
-            Comment réussir son entretien ? <i class="fas fa-book-open"></i> 
+        <div id="impro-error" class="error-message"></div>
+        <button class="next-btn" id="next-btn3" aria-label="Étape suivante">
+          <i class="fas fa-arrow-down"></i>
+        </button>
+      </div>
+
+      <!-- STEP4 : Nouvelle version : Félicitations, actions et Newsletter -->
+      <div class="box" id="step5">
+        <div class="box-header">
+          <button class="back-btn" id="back-btn5" aria-label="Retour à l'étape précédente">
+            <i class="fas fa-arrow-up"></i>
           </button>
-          <button id="redo-btn">
-            Refaire un entretien <i class="fas fa-redo"></i>
-          </button>
+          <div class="box-title">C'est l'heure du bilan !</div>
+        </div>
+        <div class="download-section">
+          <!-- Box dégradée "Félicitations..." -->
+          <div class="download-section-accent">
+            <h2 style="font-weight: bold;">Félicitations pour avoir réalisé ton improvisation ! <span>🤩</span></h2>
+          </div>
+
+          <!-- Boutons d'action -->
+          <div class="call-to-action">
+            <button id="download-video-btn" class="btn-action" aria-label="Télécharge ta vidéo">
+              Télécharge ta vidéo  <i class="fas fa-download"></i>
+            </button>
+          </div>
+          <div class="call-to-action">
+            <button id="feedback-btn" class="btn-action" aria-label="Analyse ta prestation">
+              Comment réussir son entretien ?
+            </button>
+            <div id="feedback-error" class="error-message" style="display: none;"></div>
+          </div>
+          <!-- Section Newsletter -->
+          <div class="newsletter-container">
+            <h2 class="newsletter-title">Inscris-toi à la newsletter Letmotiv <br>pour progresser et prendre la parole avec impact :</h2>
+            <form id="newsletter-form" class="newsletter-form">
+              <input type="text" id="newsletter-prenom" placeholder="Prénom" aria-label="Prénom">
+              <div id="newsletter-prenom-error" class="newsletter-error"></div>
+              <input type="email" id="newsletter-email" placeholder="Votre email" aria-label="Email">
+              <div id="newsletter-email-error" class="newsletter-error"></div>
+              <button type="submit" id="newsletter-submit-btn" class="btn-newsletter">S'abonner</button>
+            </form>
+            <div id="newsletter-success" class="newsletter-success" style="display: none;">Tu es maintenant abonné à la newsletter Letmotiv.</div>
+          </div>
         </div>
       </div>
     </div>
@@ -818,7 +887,7 @@
   
   <!-- SCRIPT -->
   <script>
-    // Fonction getRandomImageUrl() avec un grand tableau de catégories (événements historiques/politiques depuis 1700)
+    // Fonction getRandomImageUrl() avec un grand tableau de catégories
     async function getRandomImageUrl() {
       const categories = [
         "French and Indian War", "American Revolution", "French Revolution", "Napoleonic Wars", "War of 1812",
@@ -854,8 +923,8 @@
         const randomPage = pages[Math.floor(Math.random() * pages.length)];
         return randomPage.imageinfo[0].url;
       } catch (error) {
-        console.error("Erreur lors de la récupération de l'image depuis Wikimedia Commons :", error);
-        return "Erreur lors de la récupération de l'image via Wikimedia Commons";
+        console.error("Erreur lors de la récupération de l'image :", error);
+        return "Erreur lors de la récupération de l'image";
       }
     }
 
@@ -878,7 +947,7 @@
           1: document.getElementById('step1'),
           2: document.getElementById('step2'),
           3: document.getElementById('step3'),
-          4: document.getElementById('step4')
+          4: document.getElementById('step5')
         };
         this.nextBtns = {
           1: document.getElementById('next-btn1'),
@@ -913,7 +982,6 @@
         this.updateProgressBar(next);
         AppState.currentStep = next;
         this.removePulse();
-        // Affichage du bouton de partage global (masqué en STEP0)
         if(next > 0) {
           document.body.classList.remove('hide-share');
         }
@@ -928,7 +996,6 @@
             AppState.currentStep = 1;
             this.updateProgressBar(1);
             this.removePulse();
-            // Afficher le bouton de partage dès le STEP1
             document.body.classList.remove('hide-share');
           }, 500);
         });
@@ -1196,17 +1263,14 @@
     function updateDurationInfo() {
       if (AppState.selectedQuestionCount && AppState.minutesPerQuestion) {
         const baseMinutes = AppState.selectedQuestionCount * AppState.minutesPerQuestion;
-        // Insertion d'un saut de ligne supplémentaire et mise en gras du nombre de minutes
         let infoText = `Ton entretien durera au maximum <strong>${baseMinutes} minutes</strong>.<br><br>NB : compte <strong>${3 * AppState.minutesPerQuestion} minutes</strong> de plus pour la séquence d'analyse d'une image.`;
         document.getElementById('duration-info').innerHTML = infoText;
       }
     }
 
-    /* --- Gestion des interactions pour le nouveau design du STEP2 --- */
+    /* --- Gestion des interactions pour le STEP2 --- */
     AppState.selectedQuestionCount = 5;
     AppState.minutesPerQuestion = 2;
-
-    // Gestion de la sélection pour le nombre de questions
     document.querySelectorAll('#question-rating .rating-icon').forEach(icon => {
       if (parseInt(icon.getAttribute('data-value')) <= AppState.selectedQuestionCount) {
         icon.classList.add('selected');
@@ -1226,8 +1290,6 @@
         document.getElementById('next-btn2').classList.add('pulse');
       });
     });
-
-    // Gestion de la sélection pour le nombre de minutes
     document.querySelectorAll('#minutes-rating .rating-icon').forEach(icon => {
       if (parseInt(icon.getAttribute('data-value')) <= AppState.minutesPerQuestion) {
         icon.classList.add('selected');
@@ -1260,7 +1322,6 @@
       const shareManager = new ShareManager();
       const popSound = document.getElementById('pop-sound');
       
-      // Gestion des cartes du STEP1
       const objectivesCards = document.querySelectorAll('.objectives-container .objective-item');
       objectivesCards.forEach(card => {
         card.addEventListener('click', async () => {
@@ -1277,12 +1338,10 @@
 
       updateDurationInfo();
 
-      // Démarrage de l'enregistrement vidéo
       document.getElementById('start-btn').addEventListener('click', () => {
         document.getElementById('instruction-overlay').style.display = 'none';
         videoRecorder.startInitialCountdown();
       });
-      // Boutons du STEP3
       videoRecorder.stopBtn.addEventListener('click', () => {
         if (videoRecorder.mediaRecorder && videoRecorder.mediaRecorder.state === 'recording') {
           videoRecorder.mediaRecorder.stop();
@@ -1326,8 +1385,7 @@
           videoRecorder.startInitialCountdown();
         }
       });
-      // STEP4 : Analyse et téléchargement
-      document.getElementById('validate-form-btn').addEventListener('click', () => {
+      document.getElementById('download-video-btn').addEventListener('click', () => {
         if (AppState.videoURL) {
           const link = document.createElement('a');
           link.href = AppState.videoURL;
@@ -1336,11 +1394,36 @@
           link.click();
           document.body.removeChild(link);
         }
-        document.querySelector('.call-to-action').style.display = 'none';
-        document.getElementById('step4-extra').style.display = 'block';
+      });
+      document.getElementById('feedback-btn').addEventListener('click', () => {
+        window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/entretien-candidat";
+      });
+      document.getElementById('newsletter-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const prenom = document.getElementById('newsletter-prenom').value.trim();
+        const email = document.getElementById('newsletter-email').value.trim();
+        let hasError = false;
+        if (!prenom) {
+          document.getElementById('newsletter-prenom-error').textContent = "Veuillez saisir votre prénom.";
+          hasError = true;
+        } else {
+          document.getElementById('newsletter-prenom-error').textContent = "";
+        }
+        if (!email) {
+          document.getElementById('newsletter-email-error').textContent = "Veuillez saisir votre email.";
+          hasError = true;
+        } else {
+          document.getElementById('newsletter-email-error').textContent = "";
+        }
+        if (!hasError) {
+          document.getElementById('newsletter-success').style.display = 'block';
+          document.getElementById('newsletter-form').reset();
+        }
+      });
+      document.getElementById('resources-btn').addEventListener('click', () => {
+        window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/entretien-candidat";
       });
       document.getElementById('redo-btn').addEventListener('click', () => window.location.reload());
-      document.getElementById('resources-btn').addEventListener('click', () => window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/entretien-candidat");
     });
   </script>
 </body>
