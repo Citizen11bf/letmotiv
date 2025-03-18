@@ -265,91 +265,11 @@
       100% { box-shadow: 0 0 0 0 rgba(0,164,138,0); }
     }
 
-    /* --- Boutons d'action (STEP3) --- */
-    .btn-impro {
-      pointer-events: auto;
-      margin: 15px 0;
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #2E22AC;
-      color: #fff;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      transition: background-color 0.3s;
+    /* --- STEP2 : Configuration de la simulation (modifié avec curseurs) --- */
+    .slider-container {
+      margin: 10px 0;
     }
-    .btn-impro:hover { background-color: #E34C9D; }
-
-    /* --- STEP1 : Cartes (flip cards) --- */
-    .flip-card {
-      background-color: #f7f7f7;
-      border: 2px solid #2E22AC;
-      border-radius: 8px;
-      padding: 20px;
-      width: 150px;
-      height: 150px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s;
-    }
-    .flip-card:hover {
-      transform: scale(1.05);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    }
-    .flip-card.selected {
-      background-color: #00a48a;
-      color: #fff;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.3);
-    }
-    .flip-card.selected i,
-    .flip-card.selected span {
-      color: #fff;
-    }
-    .flip-card-front {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-    .flip-card-front i { font-size: 2rem; margin-bottom: 8px; }
-    .flip-card-front span { font-size: 1rem; }
-
-    /* --- STEP2 : Configuration de la simulation --- */
-    .simulation-instructions {
-      padding: 10px;
-      font-size: 16px;
-      text-align: center;
-      margin-bottom: 5px;
-    }
-    .simulation-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin: 5px 0;
-      flex-wrap: wrap;
-    }
-    .simulation-buttons button {
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #2E22AC;
-      color: #fff;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      transition: transform 0.2s, background-color 0.2s;
-      margin: 5px;
-    }
-    .simulation-buttons button:hover {
-      transform: scale(1.05);
-      background-color: #90ee90 !important;
-    }
-    .simulation-buttons button.selected {
-      background-color: #006400 !important;
-    }
-
+    
     /* --- STEP3 : Enregistrement vidéo --- */
     .video-box {
       margin: 10px auto;
@@ -744,7 +664,7 @@
       </button>
     </div>
 
-    <!-- STEP2 : Configuration de la simulation -->
+    <!-- STEP2 : Configuration de la simulation (modifié avec curseurs) -->
     <div class="box" id="step2">
       <div class="box-header step2-header">
         <button class="back-btn" id="back-btn2" aria-label="Retour à l'étape précédente">
@@ -755,24 +675,18 @@
       <div class="simulation-instructions">
         Choisis le nombre de questions que tu souhaites simuler :
       </div>
-      <div class="simulation-buttons" id="question-count-buttons">
-        <button class="btn-impro btn-question" data-question-count="3">3</button>
-        <button class="btn-impro btn-question" data-question-count="4">4</button>
-        <button class="btn-impro btn-question selected" data-question-count="5">5</button>
-        <button class="btn-impro btn-question" data-question-count="6">6</button>
-        <button class="btn-impro btn-question" data-question-count="7">7</button>
-        <button class="btn-impro btn-question" data-question-count="8">8</button>
+      <div class="slider-container" style="text-align: center; margin: 10px 0;">
+        <input type="range" id="question-slider" min="3" max="8" step="1" value="5">
+        <div>Nombre de questions : <span id="question-slider-value">5</span></div>
       </div>
       <div class="simulation-instructions" style="margin-top:20px;">
         Combien de minutes par question ?
       </div>
-      <div class="simulation-buttons" id="minutes-per-question-buttons">
-        <button class="btn-impro btn-question selected" data-minute-per-question="2">2</button>
-        <button class="btn-impro btn-question" data-minute-per-question="3">3</button>
-        <button class="btn-impro btn-question" data-minute-per-question="4">4</button>
-        <button class="btn-impro btn-question" data-minute-per-question="5">5</button>
+      <div class="slider-container" style="text-align: center; margin: 10px 0;">
+        <input type="range" id="minute-slider" min="2" max="5" step="1" value="2">
+        <div>Minutes par question : <span id="minute-slider-value">2</span></div>
       </div>
-      <div id="duration-info"></div>
+      <div id="duration-info" style="text-align: center; margin-top:10px;"></div>
       <div id="subject-error" class="error-message"></div>
       <button class="next-btn" id="next-btn2" aria-label="Étape suivante">
         <i class="fas fa-arrow-down"></i>
@@ -1019,6 +933,7 @@
           updateDurationInfo();
         });
         this.nextBtns[2].addEventListener('click', () => {
+          // Les valeurs sont mises à jour via les sliders
           if (AppState.selectedQuestionCount === 0 || !AppState.minutesPerQuestion) {
             document.getElementById('subject-error').textContent = "Choisis le nombre de questions et le temps par question avant de continuer.";
             document.getElementById('subject-error').style.display = 'block';
@@ -1227,7 +1142,7 @@
               clearInterval(this.timerInterval);
               this.stopBtn.classList.add('hidden-btn');
               this.stopBtn.disabled = true;
-              // Effacer le décompte des minutes en cas d'arrêt
+              // Effacer le décompte des minutes lors de l'arrêt
               document.getElementById('countdown').textContent = "";
             }
           }
@@ -1292,15 +1207,21 @@
 
     /* --- Mettre à jour la durée affichée dans le STEP2 --- */
     function updateDurationInfo() {
-      if (AppState.selectedQuestionCount && AppState.minutesPerQuestion) {
-        const baseMinutes = AppState.selectedQuestionCount * AppState.minutesPerQuestion;
-        let infoText = "Ton entretien durera au maximum " + baseMinutes + " minutes.";
-        if (AppState.currentCategory === "sciences-politiques") {
-          const extraMinutes = 3 * AppState.minutesPerQuestion;
-          infoText += "<br>NB : compte " + extraMinutes + " minutes de plus pour la séquence d'analyse d'une image.";
-        }
-        document.getElementById('duration-info').innerHTML = infoText;
+      // Récupérer les valeurs des sliders
+      const questionCount = parseInt(document.getElementById('question-slider').value);
+      const minutesPerQuestion = parseInt(document.getElementById('minute-slider').value);
+      
+      // Mettre à jour l'état global
+      AppState.selectedQuestionCount = questionCount;
+      AppState.minutesPerQuestion = minutesPerQuestion;
+      
+      const baseMinutes = questionCount * minutesPerQuestion;
+      let infoText = "Ton entretien durera au maximum " + baseMinutes + " minutes.";
+      if (AppState.currentCategory === "sciences-politiques") {
+        const extraMinutes = 3 * minutesPerQuestion;
+        infoText += "<br>NB : compte " + extraMinutes + " minutes de plus pour la séquence d'analyse d'une image.";
       }
+      document.getElementById('duration-info').innerHTML = infoText;
     }
 
     /* --- Attacher un écouteur sur #analysis-image --- */
@@ -1331,32 +1252,25 @@
         });
       });
 
-      // Choix du nombre de questions
-      const questionCountButtons = document.querySelectorAll('#question-count-buttons .btn-question');
-      questionCountButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          AppState.selectedQuestionCount = parseInt(btn.getAttribute('data-question-count'));
-          questionCountButtons.forEach(b => b.classList.remove('selected'));
-          btn.classList.add('selected');
-          document.getElementById('subject-error').style.display = 'none';
-          updateDurationInfo();
-          stepManager.nextBtns[2].classList.add('pulse');
-        });
+      // Écouteur pour le slider du nombre de questions
+      const questionSlider = document.getElementById('question-slider');
+      const questionSliderValue = document.getElementById('question-slider-value');
+      questionSlider.addEventListener('input', () => {
+        questionSliderValue.textContent = questionSlider.value;
+        updateDurationInfo();
+        stepManager.nextBtns[2].classList.add('pulse');
       });
 
-      // Choix du temps par question
-      const minuteButtons = document.querySelectorAll('#minutes-per-question-buttons .btn-question');
-      minuteButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          AppState.minutesPerQuestion = parseInt(btn.getAttribute('data-minute-per-question'));
-          minuteButtons.forEach(b => b.classList.remove('selected'));
-          btn.classList.add('selected');
-          document.getElementById('subject-error').style.display = 'none';
-          updateDurationInfo();
-          stepManager.nextBtns[2].classList.add('pulse');
-        });
+      // Écouteur pour le slider des minutes par question
+      const minuteSlider = document.getElementById('minute-slider');
+      const minuteSliderValue = document.getElementById('minute-slider-value');
+      minuteSlider.addEventListener('input', () => {
+        minuteSliderValue.textContent = minuteSlider.value;
+        updateDurationInfo();
+        stepManager.nextBtns[2].classList.add('pulse');
       });
 
+      // Appel initial pour afficher la durée
       updateDurationInfo();
 
       // Démarrage de l'enregistrement vidéo
