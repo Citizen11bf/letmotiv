@@ -171,6 +171,13 @@
     }
     .flip-card-front i { font-size: 2rem; margin-bottom: 8px; }
     .flip-card-front span { font-size: 1rem; }
+    /* Couleurs différentes pour les icônes des cards */
+    .flip-card[data-category="insp"] .flip-card-front i { color: #FF5733; }
+    .flip-card[data-category="ingenieur-generaliste"] .flip-card-front i { color: #33FF57; }
+    .flip-card[data-category="ingenieur-aero"] .flip-card-front i { color: #3357FF; }
+    .flip-card[data-category="commerce"] .flip-card-front i { color: #FF33A8; }
+    .flip-card[data-category="sciences-politiques"] .flip-card-front i { color: #FFC300; }
+    .flip-card[data-category="embauche"] .flip-card-front i { color: #33FFF5; }
 
     /* --- BOÎTE D'INTRODUCTION (STEP0) --- */
     .intro-box {
@@ -330,6 +337,21 @@
       color: #fff;
     }
 
+    /* --- Boutons d'action en STEP3 (réintégration du design) --- */
+    .btn-impro {
+      pointer-events: auto;
+      margin: 15px 0;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #2E22AC;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .btn-impro:hover { background-color: #E34C9D; }
+
     /* --- STEP3 : Enregistrement vidéo --- */
     .video-box {
       margin: 10px auto;
@@ -488,18 +510,28 @@
     }
     .call-to-action button:hover { transform: translateY(-3px); box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
     #step4-extra { display: none; margin-top: 20px; }
-    /* Suppression des boutons de partage initiaux et affichage d'une icône unique */
-    .share-icon {
-      font-size: 2rem;
-      color: #2E22AC;
+    
+    /* --- Bouton global de partage (toujours visible en bas à droite) --- */
+    #global-share-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #2E22AC;
+      color: #fff;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
-      transition: transform 0.3s, color 0.3s;
-      margin: 10px auto;
+      z-index: 1000;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
     }
-    .share-icon:hover {
-      transform: scale(1.1);
-      color: #00a48a;
+    #global-share-btn:hover {
+      background-color: #00a48a;
     }
+
     @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     
     /* --- Animation pour changement de question --- */
@@ -554,6 +586,11 @@
 <body>
   <!-- Élément audio pour le feedback sonore -->
   <audio id="pop-sound" src="https://www.soundjay.com/button/sounds/button-30.mp3" preload="auto"></audio>
+
+  <!-- Bouton global de partage en bas à droite -->
+  <div id="global-share-btn" aria-label="Partager">
+    <i class="fas fa-share-alt"></i>
+  </div>
 
   <!-- BOÎTE D'INTRODUCTION (STEP0) -->
   <div class="intro-box" id="intro-box">
@@ -760,11 +797,6 @@
           <button id="validate-form-btn" aria-label="Télécharger ma vidéo">
             Télécharger ma vidéo
           </button>
-        </div>
-        <!-- Suppression des anciens boutons de partage.
-             Ajout d'une icône unique de partage qui se comporte comme le partage WhatsApp -->
-        <div class="share-area">
-          <i class="fas fa-share-alt share-icon" aria-label="Partager"></i>
         </div>
         <div id="step4-extra">
           <button id="resources-btn">
@@ -979,7 +1011,6 @@
       }
       
       startInitialCountdown() {
-        // Avant de démarrer, effacer le compte à rebours des minutes et s'assurer que l'indicateur reste masqué
         document.getElementById('countdown').textContent = "";
         this.recordingIndicator.style.display = 'none';
         if (window.innerWidth <= 600) {
@@ -1036,7 +1067,6 @@
           const blob = new Blob(this.recordedChunks, { type: 'video/mp4' });
           AppState.videoURL = URL.createObjectURL(blob);
           stream.getTracks().forEach(track => track.stop());
-          // Masquer l'image d'analyse, le compte à rebours et l'indicateur après l'enregistrement
           document.getElementById('analysis-image').style.display = 'none';
           this.recordingIndicator.style.display = 'none';
           this.questionOverlay.style.display = 'block';
@@ -1051,7 +1081,6 @@
           }
           this.restartBtn.classList.remove('hidden-btn');
           this.nextQuestionBtn.classList.add('hidden-btn');
-          // Effacer le décompte des minutes en fin de simulation
           document.getElementById('countdown').textContent = "";
         };
         this.questions = await QuestionLoader.loadSubjects(AppState.currentCategory);
@@ -1068,7 +1097,6 @@
         }
         AppState.currentQuestionIndex = 1;
         await this.displayQuestion(AppState.currentQuestionIndex, AppState.totalQuestions, this.questions[0]);
-        // Démarrer l'enregistrement et afficher l'indicateur d'enregistrement + compte à rebours
         this.mediaRecorder.start();
         this.recordingIndicator.style.display = 'flex';
         this.updateCountdown(AppState.minutesPerQuestion * 60);
@@ -1107,7 +1135,6 @@
               clearInterval(this.timerInterval);
               this.stopBtn.classList.add('hidden-btn');
               this.stopBtn.disabled = true;
-              // Effacer le décompte des minutes en cas d'arrêt
               document.getElementById('countdown').textContent = "";
             }
           }
@@ -1137,8 +1164,8 @@
       }
       
       bindShareEvents() {
-        // Pour l'icône unique de partage dans STEP4
-        document.querySelector('.share-icon').addEventListener('click', (e) => {
+        // Pour le bouton global de partage
+        document.getElementById('global-share-btn').addEventListener('click', (e) => {
           e.preventDefault();
           if (navigator.share) {
             navigator.share({
@@ -1148,7 +1175,6 @@
             }).catch(err => console.error("Erreur partage :", err));
             return;
           }
-          // Sinon, simuler un partage via WhatsApp
           const shareUrl = "whatsapp://send?text=" + encodeURIComponent(this.shareData.title + "\n" + this.shareData.text + "\n" + this.shareData.url);
           window.location.href = shareUrl;
         });
@@ -1175,14 +1201,12 @@
 
     // Gestion de la sélection pour le nombre de questions
     document.querySelectorAll('#question-rating .rating-icon').forEach(icon => {
-      // Initialiser l'état selon la valeur par défaut
       if (parseInt(icon.getAttribute('data-value')) <= AppState.selectedQuestionCount) {
         icon.classList.add('selected');
       }
       icon.addEventListener('click', () => {
         const value = parseInt(icon.getAttribute('data-value'));
         AppState.selectedQuestionCount = value;
-        // Met à jour visuellement : on sélectionne toutes les icônes jusqu'à la valeur cliquée
         document.querySelectorAll('#question-rating .rating-icon').forEach(el => {
           if (parseInt(el.getAttribute('data-value')) <= value) {
             el.classList.add('selected');
@@ -1198,14 +1222,12 @@
 
     // Gestion de la sélection pour le nombre de minutes
     document.querySelectorAll('#minutes-rating .rating-icon').forEach(icon => {
-      // Initialiser l'état selon la valeur par défaut
       if (parseInt(icon.getAttribute('data-value')) <= AppState.minutesPerQuestion) {
         icon.classList.add('selected');
       }
       icon.addEventListener('click', () => {
         const value = parseInt(icon.getAttribute('data-value'));
         AppState.minutesPerQuestion = value;
-        // Mise à jour visuelle : sélectionner les icônes jusqu'à celle cliquée
         document.querySelectorAll('#minutes-rating .rating-icon').forEach(el => {
           if (parseInt(el.getAttribute('data-value')) <= value) {
             el.classList.add('selected');
@@ -1219,7 +1241,6 @@
       });
     });
 
-    /* --- Attacher un écouteur sur #analysis-image --- */
     document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("analysis-image").addEventListener("click", function(e) {
         if(e.target && e.target.tagName.toLowerCase() === "img") {
