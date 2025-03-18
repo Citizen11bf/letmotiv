@@ -127,14 +127,49 @@
       padding: 20px;
     }
 
-    /* --- STEP1 : Choix d’objectif (flip cards homogènes) --- */
+    /* --- STEP1 : Cartes d'objectif --- */
     .objectives-container {
       display: grid;
-      grid-template-columns: repeat(3, 1fr); /* Par défaut : 3 colonnes sur desktop */
+      grid-template-columns: repeat(3, 1fr);
       gap: 15px;
       justify-items: center;
       margin: 10px 0;
     }
+    .flip-card {
+      background-color: #f7f7f7;
+      border: 2px solid #2E22AC;
+      border-radius: 8px;
+      padding: 20px;
+      width: 150px;
+      height: 150px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s;
+    }
+    .flip-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .flip-card.selected {
+      background-color: #00a48a;
+      color: #fff;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    }
+    .flip-card.selected i,
+    .flip-card.selected span {
+      color: #fff;
+    }
+    .flip-card-front {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .flip-card-front i { font-size: 2rem; margin-bottom: 8px; }
+    .flip-card-front span { font-size: 1rem; }
 
     /* --- BOÎTE D'INTRODUCTION (STEP0) --- */
     .intro-box {
@@ -265,11 +300,58 @@
       100% { box-shadow: 0 0 0 0 rgba(0,164,138,0); }
     }
 
-    /* --- STEP2 : Configuration de la simulation (modifié avec curseurs) --- */
+    /* --- STEP2 : Configuration de la simulation avec curseurs --- */
     .slider-container {
-      margin: 10px 0;
+      position: relative;
+      width: 80%;
+      margin: 20px auto;
     }
-    
+    .slider-container input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 8px;
+      border-radius: 5px;
+      background: #ddd;
+      outline: none;
+    }
+    .slider-container input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #2E22AC;
+      cursor: pointer;
+      border: 2px solid #fff;
+      margin-top: -16px;
+      position: relative;
+      z-index: 2;
+    }
+    .slider-container input[type="range"]::-moz-range-thumb {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #2E22AC;
+      cursor: pointer;
+      border: 2px solid #fff;
+    }
+    /* Le label affichant la valeur, positionné au-dessus de la thumb */
+    .slider-container .slider-value {
+      position: absolute;
+      top: -50px;
+      left: 0;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #2E22AC;
+      color: #fff;
+      text-align: center;
+      line-height: 40px;
+      font-size: 16px;
+      pointer-events: none;
+      z-index: 3;
+    }
+
     /* --- STEP3 : Enregistrement vidéo --- */
     .video-box {
       margin: 10px auto;
@@ -348,7 +430,6 @@
       display: none;
       z-index: 3;
     }
-    /* Styles pour rendre l'image cliquable et agrandie vers la gauche */
     #analysis-image img {
       transition: transform 0.3s ease;
       cursor: pointer;
@@ -378,8 +459,6 @@
       color: red;
       margin-right: 5px;
     }
-    /* Le compte à rebours sera affiché dans un span à l'intérieur de .recording-indicator */
-
     .initial-countdown-overlay {
       position: absolute;
       top: 0;
@@ -428,7 +507,6 @@
     }
     .call-to-action button:hover { transform: translateY(-3px); box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
     #step4-extra { display: none; margin-top: 20px; }
-    /* Boutons renommés dans STEP4 */
     #resources-btn {
       background-color: #2E22AC;
       color: #fff;
@@ -547,19 +625,8 @@
         margin: 5px 0;
         flex: 1;
       }
-      /* Pour le STEP1, on force 2 colonnes uniquement sur mobile */
       .objectives-container {
         grid-template-columns: repeat(2, 1fr);
-      }
-      /* Pour les boutons de STEP2, on fixe une taille circulaire */
-      .simulation-buttons button {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        padding: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
       }
     }
   </style>
@@ -664,7 +731,7 @@
       </button>
     </div>
 
-    <!-- STEP2 : Configuration de la simulation (modifié avec curseurs) -->
+    <!-- STEP2 : Configuration de la simulation avec curseurs -->
     <div class="box" id="step2">
       <div class="box-header step2-header">
         <button class="back-btn" id="back-btn2" aria-label="Retour à l'étape précédente">
@@ -675,16 +742,16 @@
       <div class="simulation-instructions">
         Choisis le nombre de questions que tu souhaites simuler :
       </div>
-      <div class="slider-container" style="text-align: center; margin: 10px 0;">
+      <div class="slider-container">
         <input type="range" id="question-slider" min="3" max="8" step="1" value="5">
-        <div>Nombre de questions : <span id="question-slider-value">5</span></div>
+        <div class="slider-value" id="question-slider-value">5</div>
       </div>
       <div class="simulation-instructions" style="margin-top:20px;">
         Combien de minutes par question ?
       </div>
-      <div class="slider-container" style="text-align: center; margin: 10px 0;">
+      <div class="slider-container">
         <input type="range" id="minute-slider" min="2" max="5" step="1" value="2">
-        <div>Minutes par question : <span id="minute-slider-value">2</span></div>
+        <div class="slider-value" id="minute-slider-value">2</div>
       </div>
       <div id="duration-info" style="text-align: center; margin-top:10px;"></div>
       <div id="subject-error" class="error-message"></div>
@@ -715,11 +782,8 @@
             Aucun enregistrement n'est conservé par Letmotiv.
           </p>
         </div>
-        <!-- Overlay des questions fixé à top: 0 -->
         <div class="video-overlay" id="question-overlay"></div>
-        <!-- Élément pour l'image d'analyse pour Sciences Po -->
         <div id="analysis-image"></div>
-        <!-- Conteneur regroupant l'icône d'enregistrement et le compte à rebours -->
         <div class="recording-indicator" id="recording-indicator">
           <i class="fas fa-circle"></i><span id="countdown"></span>
         </div>
@@ -814,7 +878,7 @@
   
   <!-- SCRIPT -->
   <script>
-    // Fonction getRandomImageUrl() avec un grand tableau de catégories (événements historiques/politiques depuis 1700)
+    // Fonction getRandomImageUrl() avec un grand tableau de catégories
     async function getRandomImageUrl() {
       const categories = [
         "French and Indian War", "American Revolution", "French Revolution", "Napoleonic Wars", "War of 1812",
@@ -933,7 +997,6 @@
           updateDurationInfo();
         });
         this.nextBtns[2].addEventListener('click', () => {
-          // Les valeurs sont mises à jour via les sliders
           if (AppState.selectedQuestionCount === 0 || !AppState.minutesPerQuestion) {
             document.getElementById('subject-error').textContent = "Choisis le nombre de questions et le temps par question avant de continuer.";
             document.getElementById('subject-error').style.display = 'block';
@@ -1014,7 +1077,6 @@
       }
       
       startInitialCountdown() {
-        // Avant de démarrer, effacer le compte à rebours des minutes et s'assurer que l'indicateur reste masqué
         document.getElementById('countdown').textContent = "";
         this.recordingIndicator.style.display = 'none';
         if (window.innerWidth <= 600) {
@@ -1071,7 +1133,6 @@
           const blob = new Blob(this.recordedChunks, { type: 'video/mp4' });
           AppState.videoURL = URL.createObjectURL(blob);
           stream.getTracks().forEach(track => track.stop());
-          // Masquer l'image d'analyse, le compte à rebours et l'indicateur après l'enregistrement
           document.getElementById('analysis-image').style.display = 'none';
           this.recordingIndicator.style.display = 'none';
           this.questionOverlay.style.display = 'block';
@@ -1086,7 +1147,6 @@
           }
           this.restartBtn.classList.remove('hidden-btn');
           this.nextQuestionBtn.classList.add('hidden-btn');
-          // Effacer le décompte des minutes en fin de simulation
           document.getElementById('countdown').textContent = "";
         };
         this.questions = await QuestionLoader.loadSubjects(AppState.currentCategory);
@@ -1103,7 +1163,6 @@
         }
         AppState.currentQuestionIndex = 1;
         await this.displayQuestion(AppState.currentQuestionIndex, AppState.totalQuestions, this.questions[0]);
-        // Démarrer l'enregistrement et afficher l'indicateur d'enregistrement + compte à rebours
         this.mediaRecorder.start();
         this.recordingIndicator.style.display = 'flex';
         this.updateCountdown(AppState.minutesPerQuestion * 60);
@@ -1142,7 +1201,6 @@
               clearInterval(this.timerInterval);
               this.stopBtn.classList.add('hidden-btn');
               this.stopBtn.disabled = true;
-              // Effacer le décompte des minutes lors de l'arrêt
               document.getElementById('countdown').textContent = "";
             }
           }
@@ -1207,14 +1265,10 @@
 
     /* --- Mettre à jour la durée affichée dans le STEP2 --- */
     function updateDurationInfo() {
-      // Récupérer les valeurs des sliders
       const questionCount = parseInt(document.getElementById('question-slider').value);
       const minutesPerQuestion = parseInt(document.getElementById('minute-slider').value);
-      
-      // Mettre à jour l'état global
       AppState.selectedQuestionCount = questionCount;
       AppState.minutesPerQuestion = minutesPerQuestion;
-      
       const baseMinutes = questionCount * minutesPerQuestion;
       let infoText = "Ton entretien durera au maximum " + baseMinutes + " minutes.";
       if (AppState.currentCategory === "sciences-politiques") {
@@ -1224,7 +1278,19 @@
       document.getElementById('duration-info').innerHTML = infoText;
     }
 
-    /* --- Attacher un écouteur sur #analysis-image --- */
+    /* --- Fonction pour mettre à jour la position du label de l'échelle --- */
+    function updateSliderPosition(slider, valueElem) {
+      const min = parseInt(slider.min);
+      const max = parseInt(slider.max);
+      const val = parseInt(slider.value);
+      const percent = (val - min) / (max - min);
+      const sliderWidth = slider.clientWidth;
+      const thumbWidth = 40; // largeur de la thumb
+      const offset = percent * (sliderWidth - thumbWidth);
+      valueElem.style.left = offset + "px";
+      valueElem.textContent = slider.value;
+    }
+
     document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("analysis-image").addEventListener("click", function(e) {
         if(e.target && e.target.tagName.toLowerCase() === "img") {
@@ -1252,25 +1318,26 @@
         });
       });
 
-      // Écouteur pour le slider du nombre de questions
+      // Slider pour le nombre de questions
       const questionSlider = document.getElementById('question-slider');
       const questionSliderValue = document.getElementById('question-slider-value');
       questionSlider.addEventListener('input', () => {
-        questionSliderValue.textContent = questionSlider.value;
+        updateSliderPosition(questionSlider, questionSliderValue);
         updateDurationInfo();
         stepManager.nextBtns[2].classList.add('pulse');
       });
+      updateSliderPosition(questionSlider, questionSliderValue);
 
-      // Écouteur pour le slider des minutes par question
+      // Slider pour le temps par question
       const minuteSlider = document.getElementById('minute-slider');
       const minuteSliderValue = document.getElementById('minute-slider-value');
       minuteSlider.addEventListener('input', () => {
-        minuteSliderValue.textContent = minuteSlider.value;
+        updateSliderPosition(minuteSlider, minuteSliderValue);
         updateDurationInfo();
         stepManager.nextBtns[2].classList.add('pulse');
       });
+      updateSliderPosition(minuteSlider, minuteSliderValue);
 
-      // Appel initial pour afficher la durée
       updateDurationInfo();
 
       // Démarrage de l'enregistrement vidéo
@@ -1288,7 +1355,6 @@
           videoRecorder.nextQuestionBtn.classList.add('hidden-btn');
           videoRecorder.restartBtn.classList.remove('hidden-btn');
           videoRecorder.recordingIndicator.style.display = 'none';
-          // Effacer le décompte des minutes lors de l'arrêt
           document.getElementById('countdown').textContent = "";
         }
       });
@@ -1318,9 +1384,7 @@
         videoRecorder.questionOverlay.style.display = 'none';
         AppState.improStarted = false;
         AppState.currentQuestionIndex = 1;
-        // Effacer le décompte des minutes avant de redémarrer
         document.getElementById('countdown').textContent = "";
-        // Ne pas afficher immédiatement l'indicateur, le décompte lancera son affichage via initiateRecording()
         videoRecorder.startInitialCountdown();
       });
       // STEP4 : Analyse et téléchargement
