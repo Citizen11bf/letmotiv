@@ -300,7 +300,7 @@
       100% { box-shadow: 0 0 0 0 rgba(0,164,138,0); }
     }
 
-    /* --- STEP2 : Configuration de la simulation avec curseurs --- */
+    /* --- STEP2 : Configuration de la simulation (valeur dans le curseur) --- */
     .slider-container {
       position: relative;
       width: 80%;
@@ -313,7 +313,21 @@
       border-radius: 5px;
       background: #ddd;
       outline: none;
+      /* On définit une variable CSS --val qu'on mettra à jour en JS */
+      --val: 5; /* valeur par défaut */
     }
+    /* La piste (track) */
+    .slider-container input[type="range"]::-webkit-slider-runnable-track {
+      height: 8px;
+      border-radius: 5px;
+      background: #ddd;
+    }
+    .slider-container input[type="range"]::-moz-range-track {
+      height: 8px;
+      border-radius: 5px;
+      background: #ddd;
+    }
+    /* Le curseur (thumb) */
     .slider-container input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
@@ -323,33 +337,39 @@
       background: #2E22AC;
       cursor: pointer;
       border: 2px solid #fff;
-      margin-top: -16px;
       position: relative;
-      z-index: 2;
+      top: 0;
     }
+    /* On affiche la valeur dans un pseudo-élément ::after du thumb (Chrome / Safari) */
+    .slider-container input[type="range"]::-webkit-slider-thumb::after {
+      content: var(--val);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #fff;
+      font-size: 14px;
+      pointer-events: none;
+    }
+    /* Pour Firefox */
     .slider-container input[type="range"]::-moz-range-thumb {
       width: 40px;
       height: 40px;
       border-radius: 50%;
       background: #2E22AC;
-      cursor: pointer;
       border: 2px solid #fff;
+      cursor: pointer;
+      position: relative;
     }
-    /* Le label affichant la valeur, positionné au-dessus de la thumb */
-    .slider-container .slider-value {
+    .slider-container input[type="range"]::-moz-range-thumb::after {
+      content: var(--val);
       position: absolute;
-      top: -50px;
-      left: 0;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: #2E22AC;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       color: #fff;
-      text-align: center;
-      line-height: 40px;
-      font-size: 16px;
+      font-size: 14px;
       pointer-events: none;
-      z-index: 3;
     }
 
     /* --- STEP3 : Enregistrement vidéo --- */
@@ -604,6 +624,14 @@
     }
 
     /* ------------------- MEDIA QUERIES POUR MOBILE ------------------- */
+    @keyframes fadeIn  {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes slideDown {
+      from { transform: translateY(-50px); }
+      to   { transform: translateY(0); }
+    }
     @media (max-width: 600px) {
       h1 .line { display: block; }
       .main-container { justify-content: flex-start; }
@@ -731,7 +759,7 @@
       </button>
     </div>
 
-    <!-- STEP2 : Configuration de la simulation avec curseurs -->
+    <!-- STEP2 : Configuration de la simulation -->
     <div class="box" id="step2">
       <div class="box-header step2-header">
         <button class="back-btn" id="back-btn2" aria-label="Retour à l'étape précédente">
@@ -743,15 +771,27 @@
         Choisis le nombre de questions que tu souhaites simuler :
       </div>
       <div class="slider-container">
-        <input type="range" id="question-slider" min="3" max="8" step="1" value="5">
-        <div class="slider-value" id="question-slider-value">5</div>
+        <input 
+          type="range" 
+          id="question-slider" 
+          min="3" 
+          max="8" 
+          step="1" 
+          value="5"
+        >
       </div>
       <div class="simulation-instructions" style="margin-top:20px;">
         Combien de minutes par question ?
       </div>
       <div class="slider-container">
-        <input type="range" id="minute-slider" min="2" max="5" step="1" value="2">
-        <div class="slider-value" id="minute-slider-value">2</div>
+        <input 
+          type="range" 
+          id="minute-slider" 
+          min="2" 
+          max="5" 
+          step="1" 
+          value="2"
+        >
       </div>
       <div id="duration-info" style="text-align: center; margin-top:10px;"></div>
       <div id="subject-error" class="error-message"></div>
@@ -1247,162 +1287,3 @@
               shareUrl = "whatsapp://send?text=" + encodeURIComponent(this.shareData.title + "\n" + this.shareData.text + "\n" + this.shareData.url);
               window.location.href = shareUrl;
             } else if (social === "linkedin") {
-              shareUrl = "linkedin://shareArticle?mini=true&url=" 
-                + encodeURIComponent(this.shareData.url) 
-                + "&title=" + encodeURIComponent(this.shareData.title) 
-                + "&summary=" + encodeURIComponent(this.shareData.text) 
-                + "&source=Letmotiv";
-              window.location.href = shareUrl;
-            } else if (social === "discord") {
-              alert("Le partage direct vers Discord n'est pas supporté. Veuillez copier le lien : " + this.shareData.url);
-            } else if (social === "instagram") {
-              alert("Instagram ne permet pas le partage via URL. Veuillez copier le lien : " + this.shareData.url);
-            }
-          });
-        });
-      }
-    }
-
-    /* --- Mettre à jour la durée affichée dans le STEP2 --- */
-    function updateDurationInfo() {
-      const questionCount = parseInt(document.getElementById('question-slider').value);
-      const minutesPerQuestion = parseInt(document.getElementById('minute-slider').value);
-      AppState.selectedQuestionCount = questionCount;
-      AppState.minutesPerQuestion = minutesPerQuestion;
-      const baseMinutes = questionCount * minutesPerQuestion;
-      let infoText = "Ton entretien durera au maximum " + baseMinutes + " minutes.";
-      if (AppState.currentCategory === "sciences-politiques") {
-        const extraMinutes = 3 * minutesPerQuestion;
-        infoText += "<br>NB : compte " + extraMinutes + " minutes de plus pour la séquence d'analyse d'une image.";
-      }
-      document.getElementById('duration-info').innerHTML = infoText;
-    }
-
-    /* --- Fonction pour mettre à jour la position du label de l'échelle --- */
-    function updateSliderPosition(slider, valueElem) {
-      const min = parseInt(slider.min);
-      const max = parseInt(slider.max);
-      const val = parseInt(slider.value);
-      const percent = (val - min) / (max - min);
-      const sliderWidth = slider.clientWidth;
-      const thumbWidth = 40; // largeur de la thumb
-      const offset = percent * (sliderWidth - thumbWidth);
-      valueElem.style.left = offset + "px";
-      valueElem.textContent = slider.value;
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      document.getElementById("analysis-image").addEventListener("click", function(e) {
-        if(e.target && e.target.tagName.toLowerCase() === "img") {
-          e.target.classList.toggle("enlarged");
-        }
-      });
-
-      const stepManager = new StepManager();
-      const videoRecorder = new VideoRecorder();
-      const shareManager = new ShareManager();
-      const popSound = document.getElementById('pop-sound');
-      
-      // Gestion des cartes du STEP1
-      const objectivesCards = document.querySelectorAll('.objectives-container .objective-item');
-      objectivesCards.forEach(card => {
-        card.addEventListener('click', async () => {
-          popSound.currentTime = 0;
-          popSound.play().catch(err => console.error("Erreur lors de la lecture du son :", err));
-          objectivesCards.forEach(c => c.classList.remove('selected'));
-          card.classList.add('selected');
-          AppState.currentCategory = card.dataset.category;
-          document.getElementById('objective-error').style.display = 'none';
-          stepManager.nextBtns[1].classList.add('pulse');
-          updateDurationInfo();
-        });
-      });
-
-      // Slider pour le nombre de questions
-      const questionSlider = document.getElementById('question-slider');
-      const questionSliderValue = document.getElementById('question-slider-value');
-      questionSlider.addEventListener('input', () => {
-        updateSliderPosition(questionSlider, questionSliderValue);
-        updateDurationInfo();
-        stepManager.nextBtns[2].classList.add('pulse');
-      });
-      updateSliderPosition(questionSlider, questionSliderValue);
-
-      // Slider pour le temps par question
-      const minuteSlider = document.getElementById('minute-slider');
-      const minuteSliderValue = document.getElementById('minute-slider-value');
-      minuteSlider.addEventListener('input', () => {
-        updateSliderPosition(minuteSlider, minuteSliderValue);
-        updateDurationInfo();
-        stepManager.nextBtns[2].classList.add('pulse');
-      });
-      updateSliderPosition(minuteSlider, minuteSliderValue);
-
-      updateDurationInfo();
-
-      // Démarrage de l'enregistrement vidéo
-      document.getElementById('start-btn').addEventListener('click', () => {
-        document.getElementById('instruction-overlay').style.display = 'none';
-        videoRecorder.startInitialCountdown();
-      });
-      // Boutons du STEP3
-      videoRecorder.stopBtn.addEventListener('click', () => {
-        if (videoRecorder.mediaRecorder && videoRecorder.mediaRecorder.state === 'recording') {
-          videoRecorder.mediaRecorder.stop();
-          clearInterval(videoRecorder.timerInterval);
-          videoRecorder.stopBtn.classList.add('hidden-btn');
-          videoRecorder.stopBtn.disabled = true;
-          videoRecorder.nextQuestionBtn.classList.add('hidden-btn');
-          videoRecorder.restartBtn.classList.remove('hidden-btn');
-          videoRecorder.recordingIndicator.style.display = 'none';
-          document.getElementById('countdown').textContent = "";
-        }
-      });
-      videoRecorder.nextQuestionBtn.addEventListener('click', () => {
-        if (!videoRecorder.mediaRecorder || videoRecorder.mediaRecorder.state !== 'recording') {
-          document.getElementById('impro-error').textContent = "Veuillez démarrer l'entretien avant de passer à la question suivante.";
-          document.getElementById('impro-error').style.display = 'block';
-          return;
-        }
-        clearInterval(videoRecorder.timerInterval);
-        let timeRemaining = AppState.minutesPerQuestion * 60;
-        QuestionLoader.loadSubjects(AppState.currentCategory).then(questions => {
-          if (AppState.currentQuestionIndex < AppState.totalQuestions) {
-            AppState.currentQuestionIndex++;
-            let qText = "";
-            if (AppState.currentQuestionIndex <= AppState.selectedQuestionCount) {
-              qText = AppState.currentQuestionIndex === 1 ? questions[0] : questions[Math.floor(Math.random() * (questions.length - 1)) + 1];
-            }
-            videoRecorder.displayQuestion(AppState.currentQuestionIndex, AppState.totalQuestions, qText);
-            videoRecorder.updateCountdown(timeRemaining);
-            videoRecorder.startQuestionCycle();
-          }
-        });
-      });
-      videoRecorder.restartBtn.addEventListener('click', () => {
-        videoRecorder.restartBtn.classList.add('hidden-btn');
-        videoRecorder.questionOverlay.style.display = 'none';
-        AppState.improStarted = false;
-        AppState.currentQuestionIndex = 1;
-        document.getElementById('countdown').textContent = "";
-        videoRecorder.startInitialCountdown();
-      });
-      // STEP4 : Analyse et téléchargement
-      document.getElementById('validate-form-btn').addEventListener('click', () => {
-        if (AppState.videoURL) {
-          const link = document.createElement('a');
-          link.href = AppState.videoURL;
-          link.download = 'Letmotiv_Simulation_Entretien.mp4';
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-        }
-        document.querySelector('.call-to-action').style.display = 'none';
-        document.getElementById('step4-extra').style.display = 'block';
-      });
-      document.getElementById('redo-btn').addEventListener('click', () => window.location.reload());
-      document.getElementById('resources-btn').addEventListener('click', () => window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/entretien-candidat");
-    });
-  </script>
-</body>
-</html>
