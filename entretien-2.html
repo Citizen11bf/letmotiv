@@ -71,7 +71,7 @@
       padding-top: 60px;
       padding-bottom: 20px;
     }
-    /* Bouton de partage par défaut masqué, affiché uniquement quand body n'a pas la classe hide-share */
+    /* Bouton de partage par défaut masqué, affiché uniquement quand le body n'a pas la classe hide-share */
     #global-share-btn { display: none; }
     body:not(.hide-share) #global-share-btn {
       display: flex;
@@ -122,6 +122,7 @@
     }
 
     /* --- Bouton de partage --- */
+    /* La règle de masquage (définie ci-dessus) prévaut sur celle-ci, puisque l'attribut display est supprimé ici */
     #global-share-btn {
       position: fixed;
       bottom: 20px;
@@ -131,7 +132,6 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
@@ -682,35 +682,35 @@
         <div class="flip-card objective-item" data-category="insp">
           <div class="flip-card-front">
             <i class="fas fa-user-tie"></i>
-            <span>Ecole de la Haute Administration</span>
+            <span>École de la Haute Administration</span>
           </div>
         </div>
-        <!-- Ecole d'ingénieur généraliste -->
+        <!-- École d'ingénieur généraliste -->
         <div class="flip-card objective-item" data-category="ingenieur-generaliste">
           <div class="flip-card-front">
             <i class="fas fa-cogs"></i>
-            <span>Ecole d'ingénieur généraliste</span>
+            <span>École d'ingénieur généraliste</span>
           </div>
         </div>
-        <!-- Ecole d'ingénieur aéro -->
+        <!-- École d'ingénieur aéro -->
         <div class="flip-card objective-item" data-category="ingenieur-aero">
           <div class="flip-card-front">
             <i class="fas fa-rocket"></i>
-            <span>Ecole d'ingénieur aéro</span>
+            <span>École d'ingénieur aéro</span>
           </div>
         </div>
-        <!-- Ecole de commerce -->
+        <!-- École de commerce -->
         <div class="flip-card objective-item" data-category="commerce">
           <div class="flip-card-front">
             <i class="fas fa-handshake"></i>
-            <span>Ecole de commerce</span>
+            <span>École de commerce</span>
           </div>
         </div>
-        <!-- Ecole de Sciences Politiques -->
+        <!-- École de Sciences Politiques -->
         <div class="flip-card objective-item" data-category="sciences-politiques">
           <div class="flip-card-front">
             <i class="fas fa-university"></i>
-            <span>Ecole de Sciences Politiques</span>
+            <span>École de Sciences Politiques</span>
           </div>
         </div>
         <!-- Entretien d'embauche -->
@@ -961,7 +961,7 @@
         AppState.currentStep = next;
         this.removePulse();
         
-        // Masquer le bouton de partage si l'intro est encore visible
+        // Masquer le bouton de partage si l'intro est visible (STEP0)
         const introBox = document.getElementById('intro-box');
         if (getComputedStyle(introBox).display !== 'none') {
           document.body.classList.add('hide-share');
@@ -1147,7 +1147,9 @@
           stream.getTracks().forEach(track => track.stop());
           document.getElementById('analysis-image').style.display = 'none';
           this.recordingIndicator.style.display = 'none';
-          // Au lieu d'afficher le message dans l'overlay, on le place dans un élément centré dans la vidéo
+          // Masquer l'overlay des questions
+          this.questionOverlay.style.display = 'none';
+          // Affichage du message final dans l'encart vidéo
           const videoBox = document.querySelector('.video-box');
           const finalMessage = document.createElement('div');
           finalMessage.classList.add('final-message');
@@ -1225,10 +1227,10 @@
       
       updateCountdown(seconds) {
         const minutes = Math.floor(seconds / 60);
-        const sec = seconds % 60;
+        const sec = seconds % 10 < 10 ? '0' + seconds % 60 : seconds % 60;
         const countdownSpan = document.getElementById('countdown');
         if(countdownSpan) {
-          countdownSpan.textContent = `${minutes}:${sec < 10 ? '0' + sec : sec}`;
+          countdownSpan.textContent = `${minutes}:${sec}`;
         }
       }
     }
@@ -1386,6 +1388,11 @@
       });
       videoRecorder.restartBtn.addEventListener('click', () => {
         if(confirm("Es-tu sûr de vouloir recommencer ? Tu perdras ta simulation actuelle (tu pourras la télécharger à l'étape suivante).")) {
+          // Supprimer le message final s'il existe
+          const finalMsg = document.querySelector('.final-message');
+          if(finalMsg) {
+            finalMsg.remove();
+          }
           videoRecorder.restartBtn.classList.add('hidden-btn');
           videoRecorder.questionOverlay.style.display = 'none';
           AppState.improStarted = false;
