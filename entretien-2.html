@@ -664,36 +664,42 @@
         <div class="box-title">Quel entretien souhaites-tu préparer ?</div>
       </div>
       <div class="objectives-container">
+        <!-- INSP -->
         <div class="flip-card objective-item" data-category="insp">
           <div class="flip-card-front">
             <i class="fas fa-user-tie"></i>
             <span>Ecole de la Haute Administration</span>
           </div>
         </div>
+        <!-- Ecole d'ingénieur généraliste -->
         <div class="flip-card objective-item" data-category="ingenieur-generaliste">
           <div class="flip-card-front">
             <i class="fas fa-cogs"></i>
             <span>Ecole d'ingénieur généraliste</span>
           </div>
         </div>
+        <!-- Ecole d'ingénieur aéro -->
         <div class="flip-card objective-item" data-category="ingenieur-aero">
           <div class="flip-card-front">
             <i class="fas fa-rocket"></i>
             <span>Ecole d'ingénieur aéro</span>
           </div>
         </div>
+        <!-- Ecole de commerce -->
         <div class="flip-card objective-item" data-category="commerce">
           <div class="flip-card-front">
             <i class="fas fa-handshake"></i>
             <span>Ecole de commerce</span>
           </div>
         </div>
+        <!-- Ecole de Sciences Politiques -->
         <div class="flip-card objective-item" data-category="sciences-politiques">
           <div class="flip-card-front">
             <i class="fas fa-university"></i>
             <span>Ecole de Sciences Politiques</span>
           </div>
         </div>
+        <!-- Entretien d'embauche -->
         <div class="flip-card objective-item" data-category="embauche">
           <div class="flip-card-front">
             <i class="fas fa-briefcase"></i>
@@ -822,6 +828,7 @@
       <!-- Section Newsletter -->
       <div class="newsletter-container">
         <h2 class="newsletter-title">Inscris-toi à la newsletter Letmotiv <br>pour progresser et prendre la parole avec impact :</h2>
+        <!-- Ajout de l'attribut novalidate pour éviter la validation native -->
         <form id="newsletter-form" class="newsletter-form" novalidate>
           <input type="text" id="newsletter-prenom" placeholder="Prénom" aria-label="Prénom">
           <div id="newsletter-prenom-error" class="newsletter-error"></div>
@@ -843,8 +850,8 @@
 
   <!-- SCRIPT -->
   <script>
-    // Fonction getValidImageUrl() : itère sur les catégories jusqu'à obtenir une image valide
-    async function getValidImageUrl() {
+    // Fonction getRandomImageUrl() avec un tableau de catégories
+    async function getRandomImageUrl() {
       const categories = [
         "French and Indian War", "American Revolution", "French Revolution", "Napoleonic Wars", "War of 1812",
         "Latin American Wars of Independence", "Greek War of Independence", "Belgian Revolution", "Revolutions of 1848", "Crimean War",
@@ -852,34 +859,34 @@
         "Russian Revolution of 1905", "Russian Revolution", "World War I", "Treaty of Versailles", "Great Depression",
         "World War II", "Holocaust", "Partition of India", "Chinese Civil War", "Cuban Revolution",
         "Korean War", "Vietnam War", "Cultural Revolution", "Six-Day War", "Yom Kippur War",
-        "Iranian Revolution", "Soviet-Afghan War", "Fall of Saigon", "Solidarity Movement", "Carnation Revolution"
+        "Iranian Revolution", "Soviet-Afghan War", "Fall of Saigon", "Solidarity Movement", "Carnation Revolution",
+        "Iran-Iraq War", "Falklands War", "Rwandan Genocide", "Gulf War", "Fall of the Berlin Wall",
+        "Collapse of the Soviet Union", "Balkan Wars", "Kosovo War", "9/11 Attacks", "War in Afghanistan",
+        "Iraq War", "Arab Spring", "Syrian Civil War", "Ukrainian Revolution 2014", "Brexit Referendum",
+        "Hong Kong Protests", "George Floyd Protests", "Tiananmen Square Protests", "May 1968 Events in France", "Spanish Transition to Democracy",
+        "End of Apartheid", "Rwandan Civil War", "First Gulf War", "Second Congo War", "First Intifada",
+        "Second Intifada", "Suez Crisis", "Yugoslav Wars", "Dot-com Bubble", "Icelandic Financial Crisis",
+        "Global Financial Crisis 2008", "Occupy Wall Street", "Libyan Civil War", "Egyptian Revolution 2011", "Syrian Refugee Crisis",
+        "Crimea Annexation", "Russian Annexation of Crimea", "North Korean Nuclear Crisis", "Malaysian Political Crisis", "Colombian Peace Agreement",
+        "Boko Haram Insurgency", "Darfur Conflict", "Nepalese Civil War", "Mali War", "Hong Kong Anti-Extradition Protests",
+        "Myanmar Protests", "Catalan Independence Referendum", "Soviet Invasion of Afghanistan", "U.S. Civil Rights Movement", "Stonewall Riots",
+        "Anti-Vietnam War Protests", "March on Washington", "Feminist Movement", "LGBT Rights Movement", "MeToo Movement",
+        "Environmental Movement", "Global Climate Strikes", "Russian Constitutional Crisis 1993", "Czechoslovak Velvet Revolution", "Prague Spring",
+        "Iran Hostage Crisis", "Indonesian National Revolution", "Fall of the Ottoman Empire", "Balfour Declaration", "Italian Unification"
       ];
-      const fallbackImage = "chemin/vers/fallback-image.png"; // Remplacez par le chemin vers votre image de secours
-      for (const category of categories) {
-        const endpoint = `https://commons.wikimedia.org/w/api.php?action=query&list=categorymembers&cmtitle=Category:${encodeURIComponent(category)}&cmtype=file&format=json&origin=*`;
-        try {
-          const response = await fetch(endpoint);
-          const data = await response.json();
-          if (!data.query) {
-            console.warn("Aucun résultat pour la catégorie", category);
-            continue;
-          }
-          const pages = Object.values(data.query.pages);
-          if (!pages.length) {
-            console.warn("Aucune page trouvée pour la catégorie", category);
-            continue;
-          }
-          const randomPage = pages[Math.floor(Math.random() * pages.length)];
-          if (randomPage.imageinfo && randomPage.imageinfo[0].url) {
-            return randomPage.imageinfo[0].url;
-          } else {
-            console.warn("Pas d'image info pour la catégorie", category);
-          }
-        } catch (error) {
-          console.error("Erreur pour la catégorie", category, error);
-        }
+      const category = categories[Math.floor(Math.random() * categories.length)];
+      const endpoint = `https://commons.wikimedia.org/w/api.php?action=query&list=categorymembers&cmtitle=Category:${encodeURIComponent(category)}&cmtype=file&format=json&origin=*`;
+      try {
+        const response = await fetch(endpoint);
+        const data = await response.json();
+        if (!data.query) throw new Error("Aucun résultat pour la catégorie " + category);
+        const pages = Object.values(data.query.pages);
+        const randomPage = pages[Math.floor(Math.random() * pages.length)];
+        return randomPage.imageinfo[0].url;
+      } catch (error) {
+        console.error("Erreur lors de la récupération de l'image :", error);
+        return "Erreur lors de la récupération de l'image";
       }
-      return fallbackImage;
     }
 
     /* --- Global State Manager --- */
@@ -939,6 +946,7 @@
         this.updateProgressBar(next);
         AppState.currentStep = next;
         this.removePulse();
+        // Afficher le bouton de partage seulement si on n'est pas au STEP0
         if(next > 0) {
           document.body.classList.remove('hide-share');
         } else {
@@ -1091,9 +1099,7 @@
           else if (imageIndex === 2) questionText = "Pouvez-vous contextualiser cette image ?";
           else if (imageIndex === 3) questionText = "Comment interprétez-vous cette image au regard du contexte ?";
           this.questionOverlay.innerHTML = `<p style="font-size:16px; text-align:center;">Question ${current}/${total} : ${questionText}</p>`;
-          // Récupération de l'image valide via la nouvelle fonction
-          this.analysisImageUrl = await getValidImageUrl();
-          document.getElementById('analysis-image').innerHTML = `<img src="${this.analysisImageUrl}" alt="Analyse d'image" onerror="this.onerror=null; this.src='chemin/vers/fallback-image.png';">`;
+          document.getElementById('analysis-image').innerHTML = `<img src="${this.analysisImageUrl}" alt="Analyse d'image" />`;
           document.getElementById('analysis-image').style.display = 'block';
         } else {
           document.getElementById('analysis-image').style.display = 'none';
@@ -1146,8 +1152,7 @@
         }
         if (AppState.currentCategory === "sciences-politiques") {
           AppState.totalQuestions = AppState.selectedQuestionCount + 3;
-          // Affichage d'une image valide dès le début
-          this.analysisImageUrl = await getValidImageUrl();
+          this.analysisImageUrl = await getRandomImageUrl();
         } else {
           AppState.totalQuestions = AppState.selectedQuestionCount;
         }
