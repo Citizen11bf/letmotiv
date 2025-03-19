@@ -959,7 +959,7 @@
       
       handleHashChange() {
         const hash = window.location.hash;
-        const step = hash ? parseInt(hash.replace("#step", "")) : 0;
+        const step = hash ? parseInt(hash.replace("#step", "")) : 1;
         Object.values(this.boxes).forEach(box => box.classList.remove('active'));
         if (this.boxes[step]) {
           this.boxes[step].classList.add('active');
