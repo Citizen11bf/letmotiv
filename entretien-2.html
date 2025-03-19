@@ -71,10 +71,13 @@
       padding-top: 60px;
       padding-bottom: 20px;
     }
+    /* Bouton de partage par défaut masqué, affiché uniquement quand body n'a pas la classe hide-share */
+    #global-share-btn { display: none; }
+    body:not(.hide-share) #global-share-btn {
+      display: flex;
+    }
     .error-message { color: red; font-weight: bold; }
-    /* Masquer le bouton de partage dans le STEP0 */
-    .hide-share #global-share-btn { display: none; }
-
+    
     /* --- HEADER --- */
     .header {
       background: linear-gradient(135deg, #2E22AC, #E34C9D);
@@ -402,6 +405,17 @@
       transform: scaleX(-1);
       -webkit-transform: scaleX(-1);
     }
+    /* Message final affiché au centre de l'encart vidéo */
+    .final-message {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 18px;
+      text-align: center;
+      z-index: 2;
+    }
     #instruction-overlay {
       position: absolute;
       top: 50%;
@@ -612,7 +626,7 @@
   <!-- Élément audio pour le feedback sonore -->
   <audio id="pop-sound" src="https://www.soundjay.com/button/sounds/button-30.mp3" preload="auto"></audio>
 
-  <!-- Bouton global de partage (fixé en bas à droite, masqué au STEP0) -->
+  <!-- Bouton global de partage (fixé en bas à droite) -->
   <div id="global-share-btn" aria-label="Partager">
     <i class="fas fa-share-alt"></i>
   </div>
@@ -955,10 +969,10 @@
           document.body.classList.remove('hide-share');
         }
         
-  if (pushState) {
-    history.pushState({ step: next }, "", "#step" + next);
-  }
-}
+        if (pushState) {
+          history.pushState({ step: next }, "", "#step" + next);
+        }
+      }
       
       handleHashChange() {
         const hash = window.location.hash;
@@ -1133,8 +1147,12 @@
           stream.getTracks().forEach(track => track.stop());
           document.getElementById('analysis-image').style.display = 'none';
           this.recordingIndicator.style.display = 'none';
-          this.questionOverlay.style.display = 'block';
-          this.questionOverlay.innerHTML = `<p style="color: white; font-size: 18px; text-align: center;">Entretien terminé.<br>Passe à l'étape suivante !</p>`;
+          // Au lieu d'afficher le message dans l'overlay, on le place dans un élément centré dans la vidéo
+          const videoBox = document.querySelector('.video-box');
+          const finalMessage = document.createElement('div');
+          finalMessage.classList.add('final-message');
+          finalMessage.innerHTML = 'Entretien terminé.<br>Passe à l\'étape suivante !';
+          videoBox.appendChild(finalMessage);
           document.getElementById('impro-error').style.display = 'none';
           this.mediaRecorder = null;
           clearInterval(this.timerInterval);
