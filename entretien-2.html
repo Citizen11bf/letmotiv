@@ -71,8 +71,9 @@
       padding-top: 60px;
       padding-bottom: 20px;
     }
-    /* Bouton de partage par défaut masqué, affiché uniquement quand le body n'a pas la classe hide-share */
+    /* Bouton de partage masqué par défaut */
     #global-share-btn { display: none; }
+    /* Affiché uniquement si body ne possède PAS la classe hide-share */
     body:not(.hide-share) #global-share-btn {
       display: flex;
     }
@@ -122,7 +123,6 @@
     }
 
     /* --- Bouton de partage --- */
-    /* La règle de masquage (définie ci-dessus) prévaut sur celle-ci, puisque l'attribut display est supprimé ici */
     #global-share-btn {
       position: fixed;
       bottom: 20px;
@@ -682,35 +682,35 @@
         <div class="flip-card objective-item" data-category="insp">
           <div class="flip-card-front">
             <i class="fas fa-user-tie"></i>
-            <span>École de la Haute Administration</span>
+            <span>Ecole de la Haute Administration</span>
           </div>
         </div>
-        <!-- École d'ingénieur généraliste -->
+        <!-- Ecole d'ingénieur généraliste -->
         <div class="flip-card objective-item" data-category="ingenieur-generaliste">
           <div class="flip-card-front">
             <i class="fas fa-cogs"></i>
-            <span>École d'ingénieur généraliste</span>
+            <span>Ecole d'ingénieur généraliste</span>
           </div>
         </div>
-        <!-- École d'ingénieur aéro -->
+        <!-- Ecole d'ingénieur aéro -->
         <div class="flip-card objective-item" data-category="ingenieur-aero">
           <div class="flip-card-front">
             <i class="fas fa-rocket"></i>
-            <span>École d'ingénieur aéro</span>
+            <span>Ecole d'ingénieur aéro</span>
           </div>
         </div>
-        <!-- École de commerce -->
+        <!-- Ecole de commerce -->
         <div class="flip-card objective-item" data-category="commerce">
           <div class="flip-card-front">
             <i class="fas fa-handshake"></i>
-            <span>École de commerce</span>
+            <span>Ecole de commerce</span>
           </div>
         </div>
-        <!-- École de Sciences Politiques -->
+        <!-- Ecole de Sciences Politiques -->
         <div class="flip-card objective-item" data-category="sciences-politiques">
           <div class="flip-card-front">
             <i class="fas fa-university"></i>
-            <span>École de Sciences Politiques</span>
+            <span>Ecole de Sciences Politiques</span>
           </div>
         </div>
         <!-- Entretien d'embauche -->
@@ -961,9 +961,8 @@
         AppState.currentStep = next;
         this.removePulse();
         
-        // Masquer le bouton de partage si l'intro est visible (STEP0)
-        const introBox = document.getElementById('intro-box');
-        if (getComputedStyle(introBox).display !== 'none') {
+        // Utiliser le numéro d'étape pour gérer la classe hide-share
+        if (next === 0) {
           document.body.classList.add('hide-share');
         } else {
           document.body.classList.remove('hide-share');
@@ -995,6 +994,7 @@
           this.introBox.style.animation = 'fadeOut 0.5s ease forwards';
           setTimeout(() => {
             this.introBox.style.display = 'none';
+            // Lorsque l'intro est terminée, passer à l'étape 1
             this.showBox(0, 1);
           }, 500);
         });
@@ -1149,7 +1149,7 @@
           this.recordingIndicator.style.display = 'none';
           // Masquer l'overlay des questions
           this.questionOverlay.style.display = 'none';
-          // Affichage du message final dans l'encart vidéo
+          // Afficher le message final dans l'encart vidéo
           const videoBox = document.querySelector('.video-box');
           const finalMessage = document.createElement('div');
           finalMessage.classList.add('final-message');
@@ -1227,7 +1227,7 @@
       
       updateCountdown(seconds) {
         const minutes = Math.floor(seconds / 60);
-        const sec = seconds % 10 < 10 ? '0' + seconds % 60 : seconds % 60;
+        const sec = seconds % 60 < 10 ? '0' + seconds % 60 : seconds % 60;
         const countdownSpan = document.getElementById('countdown');
         if(countdownSpan) {
           countdownSpan.textContent = `${minutes}:${sec}`;
