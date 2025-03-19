@@ -308,7 +308,7 @@
       100% { box-shadow: 0 0 0 0 rgba(0,164,138,0); }
     }
 
-    /* --- STEP2 : Configuration de la simulation (NOUVEAU DESIGN) --- */
+    /* --- STEP2 : Configuration de la simulation (MIS À JOUR) --- */
     .rating-container {
       display: flex;
       gap: 10px;
@@ -550,6 +550,70 @@
       100% { opacity: 1; transform: scale(1) rotateX(0); filter: blur(0); }
     }
     
+    /* --- STEP4 - Newsletter CSS --- */
+    .btn-newsletter {
+      background: linear-gradient(135deg, #182d84, #00a48a);
+      color: #fff;
+      font-weight: bold;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      margin: 10px 0;
+    }
+    .btn-newsletter:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+    .newsletter-container {
+      width: 100%;
+      max-width: 600px;
+      background-color: #2d3748;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      padding: 20px;
+      margin: 30px auto;
+      color: #e2e8f0;
+      text-align: center;
+    }
+    .newsletter-title {
+      font-size: 1.0rem;
+      font-weight: normal;
+      margin-bottom: 20px;
+    }
+    .newsletter-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .newsletter-form input::placeholder {
+      color: #fff;
+    }
+    .newsletter-form input {
+      background-color: #4a5568;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px;
+      outline: none;
+      transition: background-color 0.3s, box-shadow 0.3s;
+    }
+    .newsletter-form input:focus {
+      background-color: #2d3748;
+      box-shadow: 0 0 0 1px #3182ce;
+    }
+    .newsletter-error {
+      color: red;
+      font-size: 0.8rem;
+      text-align: left;
+    }
+    .newsletter-success {
+      color: green;
+      font-size: 0.9rem;
+      margin-top: 10px;
+    }
+    
     /* ------------------- MEDIA QUERIES POUR MOBILE ------------------- */
     @media (max-width: 600px) {
       h1 .line { display: block; }
@@ -572,11 +636,9 @@
         margin: 5px 0;
         flex: 1;
       }
-      /* Pour le STEP1, on force 2 colonnes uniquement sur mobile */
       .objectives-container {
         grid-template-columns: repeat(2, 1fr);
       }
-      /* Pour les boutons de STEP2, on fixe une taille circulaire */
       .simulation-buttons button {
         width: 50px;
         height: 50px;
@@ -813,9 +875,28 @@
           </button>
         </div>
       </div>
+      <!-- Section Newsletter -->
+      <div class="newsletter-container">
+        <h2 class="newsletter-title">Inscris-toi à la newsletter Letmotiv <br>pour progresser et prendre la parole avec impact :</h2>
+        <form id="newsletter-form" class="newsletter-form">
+          <input type="text" id="newsletter-prenom" placeholder="Prénom" aria-label="Prénom">
+          <div id="newsletter-prenom-error" class="newsletter-error"></div>
+          <input type="email" id="newsletter-email" placeholder="Votre email" aria-label="Email">
+          <div id="newsletter-email-error" class="newsletter-error"></div>
+          <button type="submit" id="newsletter-submit-btn" class="btn-newsletter">S'abonner</button>
+        </form>
+        <div id="newsletter-success" class="newsletter-success" style="display: none;">Tu es maintenant abonné à la newsletter Letmotiv.</div>
+      </div>
     </div>
   </div>
   
+  <!-- FORMULAIRE CACHÉ POUR GOOGLE FORMS -->
+  <form id="hidden-google-form" action="https://docs.google.com/forms/d/e/1FAIpQLSfGAcKp0cV5AeVJCJBPbtKLKCLhbYySZf_FkiMg85WKVFUn6A/formResponse" method="POST" target="hidden_iframe" style="display:none;">
+    <input type="text" name="entry.1119647353" id="hidden-prenom">
+    <input type="email" name="entry.638831312" id="hidden-email">
+  </form>
+  <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
   <!-- SCRIPT -->
   <script>
     // Fonction getRandomImageUrl() avec un grand tableau de catégories (événements historiques/politiques depuis 1700)
@@ -1196,7 +1277,6 @@
     function updateDurationInfo() {
       if (AppState.selectedQuestionCount && AppState.minutesPerQuestion) {
         const baseMinutes = AppState.selectedQuestionCount * AppState.minutesPerQuestion;
-        // Insertion d'un saut de ligne supplémentaire et mise en gras du nombre de minutes
         let infoText = `Ton entretien durera au maximum <strong>${baseMinutes} minutes</strong>.<br><br>NB : compte <strong>${3 * AppState.minutesPerQuestion} minutes</strong> de plus pour la séquence d'analyse d'une image.`;
         document.getElementById('duration-info').innerHTML = infoText;
       }
@@ -1341,6 +1421,43 @@
       });
       document.getElementById('redo-btn').addEventListener('click', () => window.location.reload());
       document.getElementById('resources-btn').addEventListener('click', () => window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/entretien-candidat");
+
+      // Gestion de la newsletter
+      document.getElementById('newsletter-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        let valid = true;
+        const prenomInput = document.getElementById('newsletter-prenom');
+        const emailInput = document.getElementById('newsletter-email');
+        const prenomErrorEl = document.getElementById('newsletter-prenom-error');
+        const emailErrorEl = document.getElementById('newsletter-email-error');
+        prenomErrorEl.style.display = 'none';
+        emailErrorEl.style.display = 'none';
+
+        if (prenomInput.value.trim() === "") {
+          prenomErrorEl.textContent = "Le prénom est requis.";
+          prenomErrorEl.style.display = 'block';
+          valid = false;
+        }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (emailInput.value.trim() === "") {
+          emailErrorEl.textContent = "L'email est requis.";
+          emailErrorEl.style.display = 'block';
+          valid = false;
+        } else if (!emailRegex.test(emailInput.value.trim())) {
+          emailErrorEl.textContent = "L'email n'est pas valide.";
+          emailErrorEl.style.display = 'block';
+          valid = false;
+        }
+        if (!valid) return;
+
+        // Envoi vers Google Forms (les champs cachés sont mis à jour)
+        document.getElementById('hidden-prenom').value = prenomInput.value.trim();
+        document.getElementById('hidden-email').value = emailInput.value.trim();
+        document.getElementById('hidden-google-form').submit();
+
+        // Afficher message de succès
+        document.getElementById('newsletter-success').style.display = 'block';
+      });
     });
   </script>
 </body>
