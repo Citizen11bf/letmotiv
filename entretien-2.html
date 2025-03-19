@@ -946,16 +946,19 @@
         this.updateProgressBar(next);
         AppState.currentStep = next;
         this.removePulse();
-        // Afficher le bouton de partage seulement si on n'est pas au STEP0
-        if(next > 0) {
-          document.body.classList.remove('hide-share');
-        } else {
+        
+        // Masquer le bouton de partage si l'intro est encore visible
+        const introBox = document.getElementById('intro-box');
+        if (getComputedStyle(introBox).display !== 'none') {
           document.body.classList.add('hide-share');
+        } else {
+          document.body.classList.remove('hide-share');
         }
-        if (pushState) {
-          history.pushState({step: next}, "", "#step" + next);
-        }
-      }
+        
+  if (pushState) {
+    history.pushState({ step: next }, "", "#step" + next);
+  }
+}
       
       handleHashChange() {
         const hash = window.location.hash;
