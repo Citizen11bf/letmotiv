@@ -130,12 +130,11 @@
     /* --- STEP1 : Choix d’objectif (flip cards homogènes) --- */
     .objectives-container {
       display: grid;
-      grid-template-columns: repeat(3, 1fr); /* Par défaut : 3 colonnes sur desktop */
+      grid-template-columns: repeat(3, 1fr);
       gap: 15px;
       justify-items: center;
       margin: 10px 0;
     }
-    /* Styles des cards (flip cards) */
     .flip-card {
       background-color: #f7f7f7;
       border: 2px solid #2E22AC;
@@ -171,7 +170,6 @@
     }
     .flip-card-front i { font-size: 2rem; margin-bottom: 8px; }
     .flip-card-front span { font-size: 1rem; }
-    /* Couleurs adoucies pour les icônes des cards */
     .flip-card[data-category="insp"] .flip-card-front i { color: #B37E7E; }
     .flip-card[data-category="ingenieur-generaliste"] .flip-card-front i { color: #7EB37E; }
     .flip-card[data-category="ingenieur-aero"] .flip-card-front i { color: #7E89B3; }
@@ -336,7 +334,6 @@
       background-color: #2E22AC;
       color: #fff;
     }
-    /* Augmentation de la marge sous le texte de durée */
     #duration-info {
       margin-bottom: 20px;
     }
@@ -434,7 +431,6 @@
       display: none;
       z-index: 3;
     }
-    /* Styles pour rendre l'image cliquable et agrandie vers la gauche */
     #analysis-image img {
       transition: transform 0.3s ease;
       cursor: pointer;
@@ -446,12 +442,11 @@
     #analysis-image img.enlarged {
       transform: scale(2);
     }
-    /* Regroupement de l'icône d'enregistrement et du compte à rebours */
     .recording-indicator {
       position: absolute;
       bottom: 10px;
       left: 10px;
-      display: none; /* Masqué dès le départ */
+      display: none;
       z-index: 4;
       font-size: 12px;
       background-color: rgba(255,255,255,0.8);
@@ -464,8 +459,6 @@
       color: red;
       margin-right: 5px;
     }
-    /* Le compte à rebours sera affiché dans un span à l'intérieur de .recording-indicator */
-
     .initial-countdown-overlay {
       position: absolute;
       top: 0;
@@ -499,10 +492,13 @@
       font-size: 1.5rem;
       margin: 0 0 10px;
     }
-    .download-section-accent .subtitle { font-style: italic; margin-bottom: 10px; }
-    .download-section-accent .reassure { font-size: 0.9rem; opacity: 0.9; }
-    .call-to-action { text-align: center; }
-    .call-to-action button {
+    .call-to-action,
+    .extra-buttons {
+      text-align: center;
+      margin-top: 10px;
+    }
+    .call-to-action button,
+    .extra-buttons button {
       background-color: #ffcb2d;
       color: #000;
       border-radius: 30px;
@@ -510,45 +506,10 @@
       font-weight: bold;
       font-size: 1rem;
       transition: transform 0.2s, box-shadow 0.2s;
-      margin: 10px auto;
+      margin: 10px;
     }
-    .call-to-action button:hover { transform: translateY(-3px); box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
-    #step4-extra { display: none; margin-top: 20px; }
-    
-    /* --- Bouton global de partage (toujours visible en bas à droite sauf STEP0) --- */
-    #global-share-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: #2E22AC;
-      color: #fff;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      z-index: 1000;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-    }
-    #global-share-btn:hover {
-      background-color: #00a48a;
-    }
-    /* Masquer le bouton de partage pendant le STEP0 */
-    .hide-share #global-share-btn { display: none; }
-
-    @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-    
-    /* --- Animation pour changement de question --- */
-    .question-change {
-      animation: questionBlitz 0.8s ease-out;
-    }
-    @keyframes questionBlitz {
-      0% { opacity: 0; transform: scale(0.8) rotateX(-90deg); filter: blur(5px); }
-      50% { opacity: 0.5; transform: scale(1.05) rotateX(20deg); filter: blur(2px); }
-      100% { opacity: 1; transform: scale(1) rotateX(0); filter: blur(0); }
-    }
+    .call-to-action button:hover,
+    .extra-buttons button:hover { transform: translateY(-3px); box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
     
     /* --- STEP4 - Newsletter CSS --- */
     .btn-newsletter {
@@ -768,7 +729,6 @@
         Choisis le nombre de questions que tu souhaites simuler :
       </div>
       <div class="rating-container" id="question-rating">
-        <!-- Affichage des nombres de 3 à 8 -->
         <span class="rating-icon" data-value="3">3</span>
         <span class="rating-icon" data-value="4">4</span>
         <span class="rating-icon" data-value="5">5</span>
@@ -781,7 +741,6 @@
         Combien de minutes par question ?
       </div>
       <div class="rating-container" id="minutes-rating">
-        <!-- Affichage des nombres de 2 à 5 -->
         <span class="rating-icon" data-value="2">2</span>
         <span class="rating-icon" data-value="3">3</span>
         <span class="rating-icon" data-value="4">4</span>
@@ -817,11 +776,8 @@
             Aucun enregistrement n'est conservé par Letmotiv.
           </p>
         </div>
-        <!-- Overlay des questions fixé à top: 0 -->
         <div class="video-overlay" id="question-overlay"></div>
-        <!-- Élément pour l'image d'analyse pour Sciences Po -->
         <div id="analysis-image"></div>
-        <!-- Conteneur regroupant l'icône d'enregistrement et le compte à rebours -->
         <div class="recording-indicator" id="recording-indicator" style="display: none;">
           <i class="fas fa-circle"></i><span id="countdown"></span>
         </div>
@@ -856,23 +812,23 @@
       </div>
       <div class="download-section">
         <div class="download-section-accent">
-          <h2>Obtiens gratuitement ta prestation en vidéo et des éléments d'analyse Letmotiv</h2>
-          <p class="reassure">
-            N'hésite pas à t'entraîner et refaire des simulations pour progresser.
-          </p>
+          <h2>Félicitations pour ton entretien 🤩</h2>
         </div>
         <div class="call-to-action">
           <button id="validate-form-btn" aria-label="Télécharger ma vidéo">
             Télécharger ma vidéo
           </button>
+          <div id="download-error" class="error-message"></div>
         </div>
-        <div id="step4-extra">
+        <div class="extra-buttons">
           <button id="resources-btn">
-            Comment réussir son entretien ? <i class="fas fa-book-open"></i> 
+            Comment réussir son entretien ? <i class="fas fa-book-open"></i>
           </button>
+          <div id="resources-error" class="error-message"></div>
           <button id="redo-btn">
-            Refaire un entretien <i class="fas fa-redo"></i>
+            Recommencer mon entretien <i class="fas fa-redo"></i>
           </button>
+          <div id="redo-error" class="error-message"></div>
         </div>
       </div>
       <!-- Section Newsletter -->
@@ -950,6 +906,7 @@
       currentQuestionIndex: 1,
       improStarted: false,
       videoURL: "",
+      videoDownloaded: false
     };
 
     /* --- Classe StepManager --- */
@@ -994,7 +951,6 @@
         this.updateProgressBar(next);
         AppState.currentStep = next;
         this.removePulse();
-        // Affichage du bouton de partage global (masqué en STEP0)
         if(next > 0) {
           document.body.classList.remove('hide-share');
         }
@@ -1009,7 +965,6 @@
             AppState.currentStep = 1;
             this.updateProgressBar(1);
             this.removePulse();
-            // Afficher le bouton de partage dès le STEP1
             document.body.classList.remove('hide-share');
           }, 500);
         });
@@ -1286,7 +1241,7 @@
     AppState.selectedQuestionCount = 5;
     AppState.minutesPerQuestion = 2;
 
-    // Gestion de la sélection pour le nombre de questions
+    // Sélection pour le nombre de questions
     document.querySelectorAll('#question-rating .rating-icon').forEach(icon => {
       if (parseInt(icon.getAttribute('data-value')) <= AppState.selectedQuestionCount) {
         icon.classList.add('selected');
@@ -1307,7 +1262,7 @@
       });
     });
 
-    // Gestion de la sélection pour le nombre de minutes
+    // Sélection pour le nombre de minutes
     document.querySelectorAll('#minutes-rating .rating-icon').forEach(icon => {
       if (parseInt(icon.getAttribute('data-value')) <= AppState.minutesPerQuestion) {
         icon.classList.add('selected');
@@ -1362,6 +1317,7 @@
         document.getElementById('instruction-overlay').style.display = 'none';
         videoRecorder.startInitialCountdown();
       });
+      
       // Boutons du STEP3
       videoRecorder.stopBtn.addEventListener('click', () => {
         if (videoRecorder.mediaRecorder && videoRecorder.mediaRecorder.state === 'recording') {
@@ -1406,7 +1362,8 @@
           videoRecorder.startInitialCountdown();
         }
       });
-      // STEP4 : Analyse et téléchargement
+      
+      // STEP4 : Gestion des boutons et erreurs
       document.getElementById('validate-form-btn').addEventListener('click', () => {
         if (AppState.videoURL) {
           const link = document.createElement('a');
@@ -1415,12 +1372,31 @@
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
+          AppState.videoDownloaded = true;
+          // Effacer toute erreur éventuellement affichée
+          document.getElementById('download-error').textContent = "";
+          document.getElementById('resources-error').textContent = "";
+          document.getElementById('redo-error').textContent = "";
+        } else {
+          document.getElementById('download-error').textContent = "Aucune vidéo à télécharger.";
         }
-        document.querySelector('.call-to-action').style.display = 'none';
-        document.getElementById('step4-extra').style.display = 'block';
       });
-      document.getElementById('redo-btn').addEventListener('click', () => window.location.reload());
-      document.getElementById('resources-btn').addEventListener('click', () => window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/entretien-candidat");
+      
+      document.getElementById('resources-btn').addEventListener('click', () => {
+        if (!AppState.videoDownloaded) {
+          document.getElementById('resources-error').textContent = "Télécharge ta vidéo avant de quitter le simulateur.";
+        } else {
+          window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/entretien-candidat";
+        }
+      });
+      
+      document.getElementById('redo-btn').addEventListener('click', () => {
+        if (!AppState.videoDownloaded) {
+          document.getElementById('redo-error').textContent = "Télécharge ta vidéo avant de recommencer un entretien.";
+        } else {
+          window.location.reload();
+        }
+      });
 
       // Gestion de la newsletter
       document.getElementById('newsletter-form').addEventListener('submit', (e) => {
@@ -1450,12 +1426,9 @@
         }
         if (!valid) return;
 
-        // Envoi vers Google Forms (les champs cachés sont mis à jour)
         document.getElementById('hidden-prenom').value = prenomInput.value.trim();
         document.getElementById('hidden-email').value = emailInput.value.trim();
         document.getElementById('hidden-google-form').submit();
-
-        // Afficher message de succès
         document.getElementById('newsletter-success').style.display = 'block';
       });
     });
