@@ -130,13 +130,15 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      z-index: 10000; /* z-index élevé pour être au-dessus */
+      z-index: 10000;
       box-shadow: 0 2px 8px rgba(0,0,0,0.3);
       transition: background-color 0.3s;
     }
     #global-share-btn:hover {
       background-color: #00a48a;
     }
+    /* Cacher le bouton sur STEP0 */
+    .hide-share #global-share-btn { display: none; }
 
     /* --- MAIN CONTAINER --- */
     .main-container {
@@ -511,7 +513,7 @@
       font-size: 1.5rem;
       margin: 0 0 10px;
     }
-    /* Nouveaux styles pour les boutons STEP4 */
+    /* Styles améliorés pour les boutons STEP4 */
     .btn-step4 {
       background: linear-gradient(135deg, #ffcb2d, #fbb034);
       border: none;
@@ -530,7 +532,6 @@
       box-shadow: 0 4px 6px rgba(0,0,0,0.3);
     }
     .extra-buttons { text-align: center; }
-    /* Messages d'erreur STEP4 */
     .step4-error { color: red; font-size: 0.9rem; margin-top: 5px; }
 
     /* --- STEP4 - Newsletter CSS --- */
@@ -556,6 +557,7 @@
       gap: 10px;
     }
     .newsletter-form input::placeholder { color: #fff; }
+    /* Changement de type d'input pour l'email afin d'éviter la validation native */
     .newsletter-form input {
       background-color: #4a5568;
       color: #fff;
@@ -571,22 +573,6 @@
     }
     .newsletter-error { color: red; font-size: 0.8rem; text-align: left; }
     .newsletter-success { color: green; font-size: 0.9rem; margin-top: 10px; }
-
-    .btn-newsletter {
-      background: linear-gradient(135deg, #182d84, #00a48a);
-      color: #fff;
-      font-weight: bold;
-      padding: 12px 30px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: transform 0.3s, box-shadow 0.3s;
-      margin: 10px 0;
-    }
-    .btn-newsletter:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-    }
     
     /* ------------------- MEDIA QUERIES POUR MOBILE ------------------- */
     @media (max-width: 600px) {
@@ -846,7 +832,8 @@
         <form id="newsletter-form" class="newsletter-form">
           <input type="text" id="newsletter-prenom" placeholder="Prénom" aria-label="Prénom">
           <div id="newsletter-prenom-error" class="newsletter-error"></div>
-          <input type="email" id="newsletter-email" placeholder="Votre email" aria-label="Email">
+          <!-- Changement du type de l'input de "email" à "text" -->
+          <input type="text" id="newsletter-email" placeholder="Votre email" aria-label="Email">
           <div id="newsletter-email-error" class="newsletter-error"></div>
           <button type="submit" id="newsletter-submit-btn" class="btn-newsletter">S'abonner</button>
         </form>
@@ -864,7 +851,6 @@
 
   <!-- SCRIPT -->
   <script>
-    // Fonction getRandomImageUrl() avec un tableau de catégories historiques/politiques
     async function getRandomImageUrl() {
       const categories = [
         "French and Indian War", "American Revolution", "French Revolution", "Napoleonic Wars", "War of 1812",
@@ -903,7 +889,6 @@
       }
     }
 
-    /* --- Global State Manager --- */
     const AppState = {
       currentStep: 0,
       currentCategory: null,
@@ -916,7 +901,6 @@
       videoDownloaded: false
     };
 
-    /* --- Classe StepManager --- */
     class StepManager {
       constructor() {
         this.boxes = {
@@ -939,7 +923,6 @@
         this.introBox = document.getElementById('intro-box');
         this.startIntroBtn = document.getElementById('start-intro-btn');
         this.bindEvents();
-        // Initialiser le state en fonction du hash (pour navigation avec le bouton "Précédent")
         this.handleHashChange();
         window.addEventListener('popstate', () => this.handleHashChange());
       }
@@ -961,8 +944,12 @@
         this.updateProgressBar(next);
         AppState.currentStep = next;
         this.removePulse();
-        document.body.classList.remove('hide-share');
-        // Pousser dans l'historique avec le hash
+        // Masquer le bouton de partage si on est au STEP0 (l'introduction)
+        if (next === 0) {
+          document.body.classList.add('hide-share');
+        } else {
+          document.body.classList.remove('hide-share');
+        }
         if (pushState) {
           history.pushState({step: next}, "", "#step" + next);
         }
@@ -971,12 +958,13 @@
       handleHashChange() {
         const hash = window.location.hash;
         const step = hash ? parseInt(hash.replace("#step", "")) : 1;
-        // Masquer toutes les boxes puis afficher celle correspondante
         Object.values(this.boxes).forEach(box => box.classList.remove('active'));
         if (this.boxes[step]) {
           this.boxes[step].classList.add('active');
           AppState.currentStep = step;
           this.updateProgressBar(step);
+          if (step === 0) document.body.classList.add('hide-share');
+          else document.body.classList.remove('hide-share');
         }
       }
       
@@ -1020,7 +1008,6 @@
       }
     }
 
-    /* --- Classe QuestionLoader --- */
     class QuestionLoader {
       static async loadSubjects(category) {
         const files = {
@@ -1045,7 +1032,6 @@
       }
     }
 
-    /* --- Classe VideoRecorder --- */
     class VideoRecorder {
       constructor() {
         this.preview = document.getElementById('preview');
@@ -1219,7 +1205,6 @@
       }
     }
 
-    /* --- Classe ShareManager --- */
     class ShareManager {
       constructor() {
         this.shareData = {
@@ -1248,7 +1233,6 @@
       }
     }
 
-    /* --- Mettre à jour la durée affichée dans le STEP2 --- */
     function updateDurationInfo() {
       if (AppState.selectedQuestionCount && AppState.minutesPerQuestion) {
         const baseMinutes = AppState.selectedQuestionCount * AppState.minutesPerQuestion;
@@ -1257,7 +1241,6 @@
       }
     }
 
-    /* --- Gestion des interactions pour le STEP2 --- */
     AppState.selectedQuestionCount = 5;
     AppState.minutesPerQuestion = 2;
 
@@ -1313,7 +1296,6 @@
       const shareManager = new ShareManager();
       const popSound = document.getElementById('pop-sound');
       
-      // Gestion des cartes du STEP1
       const objectivesCards = document.querySelectorAll('.objectives-container .objective-item');
       objectivesCards.forEach(card => {
         card.addEventListener('click', async () => {
@@ -1330,13 +1312,11 @@
 
       updateDurationInfo();
 
-      // Démarrage de l'enregistrement vidéo
       document.getElementById('start-btn').addEventListener('click', () => {
         document.getElementById('instruction-overlay').style.display = 'none';
         videoRecorder.startInitialCountdown();
       });
       
-      // Boutons du STEP3
       videoRecorder.stopBtn.addEventListener('click', () => {
         if (videoRecorder.mediaRecorder && videoRecorder.mediaRecorder.state === 'recording') {
           videoRecorder.mediaRecorder.stop();
@@ -1431,12 +1411,12 @@
           prenomErrorEl.style.display = 'block';
           valid = false;
         }
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        // Validation manuelle de l'email
         if (emailInput.value.trim() === "") {
           emailErrorEl.textContent = "L'email est requis.";
           emailErrorEl.style.display = 'block';
           valid = false;
-        } else if (!emailRegex.test(emailInput.value.trim())) {
+        } else if (!emailInput.value.includes("@")) {
           emailErrorEl.textContent = "L'email n'est pas valide.";
           emailErrorEl.style.display = 'block';
           valid = false;
