@@ -72,6 +72,8 @@
       padding-bottom: 20px;
     }
     .error-message { color: red; font-weight: bold; }
+    /* Masquer le bouton de partage dans le STEP0 */
+    .hide-share #global-share-btn { display: none; }
 
     /* --- HEADER --- */
     .header {
@@ -137,8 +139,6 @@
     #global-share-btn:hover {
       background-color: #00a48a;
     }
-    /* Cacher le bouton sur STEP0 */
-    .hide-share #global-share-btn { display: none; }
 
     /* --- MAIN CONTAINER --- */
     .main-container {
@@ -497,7 +497,7 @@
     .impro-actions { display: flex; flex-wrap: wrap; gap: 5px; justify-content: space-around; margin-top: 10px; }
     .hidden-btn { display: none; }
 
-    /* --- STEP4 : C'est l'heure du bilan ! --- */
+    /* --- STEP4 : Analyse ton entretien --- */
     .download-section { margin-top: 20px; }
     .download-section-accent {
       background: linear-gradient(135deg, #2E22AC, #00a48a);
@@ -513,7 +513,7 @@
       font-size: 1.5rem;
       margin: 0 0 10px;
     }
-    /* --- STEP4 - Boutons --- */
+    /* Boutons STEP4 améliorés */
     .btn-step4 {
       background: linear-gradient(135deg, #ffcb2d, #fbb034);
       border: none;
@@ -534,7 +534,7 @@
     .extra-buttons { text-align: center; }
     .step4-error { color: red; font-size: 0.9rem; margin-top: 5px; }
 
-    /* --- STEP4 - Newsletter --- */
+    /* --- STEP4 - Newsletter CSS --- */
     .newsletter-container {
       width: 100%;
       max-width: 600px;
@@ -557,7 +557,6 @@
       gap: 10px;
     }
     .newsletter-form input::placeholder { color: #fff; }
-    /* Changement de type d'input pour l'email afin d'éviter la validation native */
     .newsletter-form input {
       background-color: #4a5568;
       color: #fff;
@@ -573,22 +572,6 @@
     }
     .newsletter-error { color: red; font-size: 0.8rem; text-align: left; }
     .newsletter-success { color: green; font-size: 0.9rem; margin-top: 10px; }
-
-    .btn-newsletter {
-      background: linear-gradient(135deg, #182d84, #00a48a);
-      color: #fff;
-      font-weight: bold;
-      padding: 12px 30px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: transform 0.3s, box-shadow 0.3s;
-      margin: 10px 0;
-    }
-    .btn-newsletter:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-    }
     
     /* ------------------- MEDIA QUERIES POUR MOBILE ------------------- */
     @media (max-width: 600px) {
@@ -629,7 +612,7 @@
   <!-- Élément audio pour le feedback sonore -->
   <audio id="pop-sound" src="https://www.soundjay.com/button/sounds/button-30.mp3" preload="auto"></audio>
 
-  <!-- Bouton global de partage (fixé en bas à droite) -->
+  <!-- Bouton global de partage (fixé en bas à droite, masqué au STEP0) -->
   <div id="global-share-btn" aria-label="Partager">
     <i class="fas fa-share-alt"></i>
   </div>
@@ -681,42 +664,36 @@
         <div class="box-title">Quel entretien souhaites-tu préparer ?</div>
       </div>
       <div class="objectives-container">
-        <!-- INSP -->
         <div class="flip-card objective-item" data-category="insp">
           <div class="flip-card-front">
             <i class="fas fa-user-tie"></i>
             <span>Ecole de la Haute Administration</span>
           </div>
         </div>
-        <!-- Ecole d'ingénieur généraliste -->
         <div class="flip-card objective-item" data-category="ingenieur-generaliste">
           <div class="flip-card-front">
             <i class="fas fa-cogs"></i>
             <span>Ecole d'ingénieur généraliste</span>
           </div>
         </div>
-        <!-- Ecole d'ingénieur aéro -->
         <div class="flip-card objective-item" data-category="ingenieur-aero">
           <div class="flip-card-front">
             <i class="fas fa-rocket"></i>
             <span>Ecole d'ingénieur aéro</span>
           </div>
         </div>
-        <!-- Ecole de commerce -->
         <div class="flip-card objective-item" data-category="commerce">
           <div class="flip-card-front">
             <i class="fas fa-handshake"></i>
             <span>Ecole de commerce</span>
           </div>
         </div>
-        <!-- Ecole de Sciences Politiques -->
         <div class="flip-card objective-item" data-category="sciences-politiques">
           <div class="flip-card-front">
             <i class="fas fa-university"></i>
             <span>Ecole de Sciences Politiques</span>
           </div>
         </div>
-        <!-- Entretien d'embauche -->
         <div class="flip-card objective-item" data-category="embauche">
           <div class="flip-card-front">
             <i class="fas fa-briefcase"></i>
@@ -813,13 +790,13 @@
       </button>
     </div>
 
-    <!-- STEP4 : C'est l'heure du bilan ! -->
+    <!-- STEP4 : Analyse ton entretien -->
     <div class="box" id="step4">
       <div class="box-header">
         <button class="back-btn" id="back-btn5" aria-label="Retour à l'étape précédente">
           <i class="fas fa-arrow-up"></i>
         </button>
-        <div class="box-title">C'est l'heure du bilan !</div>
+        <div class="box-title">Analyse ton entretien</div>
       </div>
       <div class="download-section">
         <div class="download-section-accent">
@@ -845,11 +822,10 @@
       <!-- Section Newsletter -->
       <div class="newsletter-container">
         <h2 class="newsletter-title">Inscris-toi à la newsletter Letmotiv <br>pour progresser et prendre la parole avec impact :</h2>
-        <form id="newsletter-form" class="newsletter-form">
+        <form id="newsletter-form" class="newsletter-form" novalidate>
           <input type="text" id="newsletter-prenom" placeholder="Prénom" aria-label="Prénom">
           <div id="newsletter-prenom-error" class="newsletter-error"></div>
-          <!-- Changement du type de l'input de "email" à "text" -->
-          <input type="text" id="newsletter-email" placeholder="Votre email" aria-label="Email">
+          <input type="email" id="newsletter-email" placeholder="Votre email" aria-label="Email">
           <div id="newsletter-email-error" class="newsletter-error"></div>
           <button type="submit" id="newsletter-submit-btn" class="btn-newsletter">S'abonner</button>
         </form>
@@ -867,7 +843,8 @@
 
   <!-- SCRIPT -->
   <script>
-    async function getRandomImageUrl() {
+    // Fonction getValidImageUrl() : itère sur les catégories jusqu'à obtenir une image valide
+    async function getValidImageUrl() {
       const categories = [
         "French and Indian War", "American Revolution", "French Revolution", "Napoleonic Wars", "War of 1812",
         "Latin American Wars of Independence", "Greek War of Independence", "Belgian Revolution", "Revolutions of 1848", "Crimean War",
@@ -875,36 +852,37 @@
         "Russian Revolution of 1905", "Russian Revolution", "World War I", "Treaty of Versailles", "Great Depression",
         "World War II", "Holocaust", "Partition of India", "Chinese Civil War", "Cuban Revolution",
         "Korean War", "Vietnam War", "Cultural Revolution", "Six-Day War", "Yom Kippur War",
-        "Iranian Revolution", "Soviet-Afghan War", "Fall of Saigon", "Solidarity Movement", "Carnation Revolution",
-        "Iran-Iraq War", "Falklands War", "Rwandan Genocide", "Gulf War", "Fall of the Berlin Wall",
-        "Collapse of the Soviet Union", "Balkan Wars", "Kosovo War", "9/11 Attacks", "War in Afghanistan",
-        "Iraq War", "Arab Spring", "Syrian Civil War", "Ukrainian Revolution 2014", "Brexit Referendum",
-        "Hong Kong Protests", "George Floyd Protests", "Tiananmen Square Protests", "May 1968 Events in France", "Spanish Transition to Democracy",
-        "End of Apartheid", "Rwandan Civil War", "First Gulf War", "Second Congo War", "First Intifada",
-        "Second Intifada", "Suez Crisis", "Yugoslav Wars", "Dot-com Bubble", "Icelandic Financial Crisis",
-        "Global Financial Crisis 2008", "Occupy Wall Street", "Libyan Civil War", "Egyptian Revolution 2011", "Syrian Refugee Crisis",
-        "Crimea Annexation", "Russian Annexation of Crimea", "North Korean Nuclear Crisis", "Malaysian Political Crisis", "Colombian Peace Agreement",
-        "Boko Haram Insurgency", "Darfur Conflict", "Nepalese Civil War", "Mali War", "Hong Kong Anti-Extradition Protests",
-        "Myanmar Protests", "Catalan Independence Referendum", "Soviet Invasion of Afghanistan", "U.S. Civil Rights Movement", "Stonewall Riots",
-        "Anti-Vietnam War Protests", "March on Washington", "Feminist Movement", "LGBT Rights Movement", "MeToo Movement",
-        "Environmental Movement", "Global Climate Strikes", "Russian Constitutional Crisis 1993", "Czechoslovak Velvet Revolution", "Prague Spring",
-        "Iran Hostage Crisis", "Indonesian National Revolution", "Fall of the Ottoman Empire", "Balfour Declaration", "Italian Unification"
+        "Iranian Revolution", "Soviet-Afghan War", "Fall of Saigon", "Solidarity Movement", "Carnation Revolution"
       ];
-      const category = categories[Math.floor(Math.random() * categories.length)];
-      const endpoint = `https://commons.wikimedia.org/w/api.php?action=query&list=categorymembers&cmtitle=Category:${encodeURIComponent(category)}&cmtype=file&format=json&origin=*`;
-      try {
-        const response = await fetch(endpoint);
-        const data = await response.json();
-        if (!data.query) throw new Error("Aucun résultat pour la catégorie " + category);
-        const pages = Object.values(data.query.pages);
-        const randomPage = pages[Math.floor(Math.random() * pages.length)];
-        return randomPage.imageinfo[0].url;
-      } catch (error) {
-        console.error("Erreur lors de la récupération de l'image :", error);
-        return "Erreur lors de la récupération de l'image";
+      const fallbackImage = "chemin/vers/fallback-image.png"; // Remplacez par le chemin vers votre image de secours
+      for (const category of categories) {
+        const endpoint = `https://commons.wikimedia.org/w/api.php?action=query&list=categorymembers&cmtitle=Category:${encodeURIComponent(category)}&cmtype=file&format=json&origin=*`;
+        try {
+          const response = await fetch(endpoint);
+          const data = await response.json();
+          if (!data.query) {
+            console.warn("Aucun résultat pour la catégorie", category);
+            continue;
+          }
+          const pages = Object.values(data.query.pages);
+          if (!pages.length) {
+            console.warn("Aucune page trouvée pour la catégorie", category);
+            continue;
+          }
+          const randomPage = pages[Math.floor(Math.random() * pages.length)];
+          if (randomPage.imageinfo && randomPage.imageinfo[0].url) {
+            return randomPage.imageinfo[0].url;
+          } else {
+            console.warn("Pas d'image info pour la catégorie", category);
+          }
+        } catch (error) {
+          console.error("Erreur pour la catégorie", category, error);
+        }
       }
+      return fallbackImage;
     }
 
+    /* --- Global State Manager --- */
     const AppState = {
       currentStep: 0,
       currentCategory: null,
@@ -917,6 +895,7 @@
       videoDownloaded: false
     };
 
+    /* --- Classe StepManager --- */
     class StepManager {
       constructor() {
         this.boxes = {
@@ -960,11 +939,10 @@
         this.updateProgressBar(next);
         AppState.currentStep = next;
         this.removePulse();
-        // Masquer le bouton de partage si on est au STEP0 (l'introduction)
-        if (next === 0) {
-          document.body.classList.add('hide-share');
-        } else {
+        if(next > 0) {
           document.body.classList.remove('hide-share');
+        } else {
+          document.body.classList.add('hide-share');
         }
         if (pushState) {
           history.pushState({step: next}, "", "#step" + next);
@@ -979,8 +957,11 @@
           this.boxes[step].classList.add('active');
           AppState.currentStep = step;
           this.updateProgressBar(step);
-          if (step === 0) document.body.classList.add('hide-share');
-          else document.body.classList.remove('hide-share');
+          if (step === 0) {
+            document.body.classList.add('hide-share');
+          } else {
+            document.body.classList.remove('hide-share');
+          }
         }
       }
       
@@ -1024,6 +1005,7 @@
       }
     }
 
+    /* --- Classe QuestionLoader --- */
     class QuestionLoader {
       static async loadSubjects(category) {
         const files = {
@@ -1048,6 +1030,7 @@
       }
     }
 
+    /* --- Classe VideoRecorder --- */
     class VideoRecorder {
       constructor() {
         this.preview = document.getElementById('preview');
@@ -1108,7 +1091,9 @@
           else if (imageIndex === 2) questionText = "Pouvez-vous contextualiser cette image ?";
           else if (imageIndex === 3) questionText = "Comment interprétez-vous cette image au regard du contexte ?";
           this.questionOverlay.innerHTML = `<p style="font-size:16px; text-align:center;">Question ${current}/${total} : ${questionText}</p>`;
-          document.getElementById('analysis-image').innerHTML = `<img src="${this.analysisImageUrl}" alt="Analyse d'image" />`;
+          // Récupération de l'image valide via la nouvelle fonction
+          this.analysisImageUrl = await getValidImageUrl();
+          document.getElementById('analysis-image').innerHTML = `<img src="${this.analysisImageUrl}" alt="Analyse d'image" onerror="this.onerror=null; this.src='chemin/vers/fallback-image.png';">`;
           document.getElementById('analysis-image').style.display = 'block';
         } else {
           document.getElementById('analysis-image').style.display = 'none';
@@ -1161,7 +1146,8 @@
         }
         if (AppState.currentCategory === "sciences-politiques") {
           AppState.totalQuestions = AppState.selectedQuestionCount + 3;
-          this.analysisImageUrl = await getRandomImageUrl();
+          // Affichage d'une image valide dès le début
+          this.analysisImageUrl = await getValidImageUrl();
         } else {
           AppState.totalQuestions = AppState.selectedQuestionCount;
         }
@@ -1221,6 +1207,7 @@
       }
     }
 
+    /* --- Classe ShareManager --- */
     class ShareManager {
       constructor() {
         this.shareData = {
@@ -1249,6 +1236,7 @@
       }
     }
 
+    /* --- Mettre à jour la durée affichée dans le STEP2 --- */
     function updateDurationInfo() {
       if (AppState.selectedQuestionCount && AppState.minutesPerQuestion) {
         const baseMinutes = AppState.selectedQuestionCount * AppState.minutesPerQuestion;
@@ -1257,6 +1245,7 @@
       }
     }
 
+    /* --- Gestion des interactions pour le STEP2 --- */
     AppState.selectedQuestionCount = 5;
     AppState.minutesPerQuestion = 2;
 
@@ -1312,6 +1301,7 @@
       const shareManager = new ShareManager();
       const popSound = document.getElementById('pop-sound');
       
+      // Gestion des cartes du STEP1
       const objectivesCards = document.querySelectorAll('.objectives-container .objective-item');
       objectivesCards.forEach(card => {
         card.addEventListener('click', async () => {
@@ -1328,11 +1318,13 @@
 
       updateDurationInfo();
 
+      // Démarrage de l'enregistrement vidéo
       document.getElementById('start-btn').addEventListener('click', () => {
         document.getElementById('instruction-overlay').style.display = 'none';
         videoRecorder.startInitialCountdown();
       });
       
+      // Boutons du STEP3
       videoRecorder.stopBtn.addEventListener('click', () => {
         if (videoRecorder.mediaRecorder && videoRecorder.mediaRecorder.state === 'recording') {
           videoRecorder.mediaRecorder.stop();
@@ -1427,15 +1419,22 @@
           prenomErrorEl.style.display = 'block';
           valid = false;
         }
-        // Validation manuelle de l'email
-        if (emailInput.value.trim() === "") {
+        const emailVal = emailInput.value.trim();
+        if (emailVal === "") {
           emailErrorEl.textContent = "L'email est requis.";
           emailErrorEl.style.display = 'block';
           valid = false;
-        } else if (!emailInput.value.includes("@")) {
-          emailErrorEl.textContent = "L'email n'est pas valide.";
+        } else if (emailVal.indexOf('@') === -1) {
+          emailErrorEl.textContent = "L'email doit contenir un @.";
           emailErrorEl.style.display = 'block';
           valid = false;
+        } else {
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailRegex.test(emailVal)) {
+            emailErrorEl.textContent = "L'email n'est pas valide.";
+            emailErrorEl.style.display = 'block';
+            valid = false;
+          }
         }
         if (!valid) return;
 
