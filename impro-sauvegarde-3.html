@@ -35,6 +35,9 @@
   <!-- Icônes Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
+  <!-- Calendly widget CSS -->
+  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+
   <!-- JSON-LD pour le SEO -->
   <script type="application/ld+json">
     {
@@ -584,7 +587,7 @@
     }
     
     /* --- STEP4 : Analyse ta prestation & Téléchargements --- */
-    #step5 .download-section-accent {
+    #step4 .download-section-accent {
       background: linear-gradient(135deg, #182d84, #00a48a);
       padding: 15px 30px;
       border-radius: 12px;
@@ -593,14 +596,13 @@
       box-shadow: 0 4px 8px rgba(0,0,0,0.15);
       font-size: 1.0rem;
     }
-
     @media (max-width: 600px) {
-       #step5 .download-section-accent {
+       #step4 .download-section-accent {
         font-size: 0.8rem;
       }
     }
     
-    /* --- STEP4 - Nouveau conteneur d'actions avec 3 boutons carrés --- */
+    /* Conteneur d'actions (3 boutons carrés) */
     .action-container {
       display: flex;
       justify-content: space-around;
@@ -621,6 +623,7 @@
       border-radius: 10px;
       transition: transform 0.3s, background-color 0.3s, color 0.3s;
       box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      cursor: pointer;
     }
     .action-square:hover {
       transform: scale(1.05);
@@ -700,6 +703,19 @@
       color: green;
       font-size: 0.9rem;
       margin-top: 10px;
+    }
+    
+    /* --- Calendly (STEP5 : Prise de contact) --- */
+    .calendy {
+      text-align: center;
+    }
+    .calendy .container {
+      padding: 60px 0;
+    }
+    .calendy h2 {
+      margin-bottom: 40px;
+      font-size: 36px;
+      color: #182d84;
     }
   </style>
 </head>
@@ -871,10 +887,10 @@
       </button>
     </div>
 
-    <!-- STEP4 : Analyse ta prestation & Téléchargements -->
-    <div class="box" id="step5">
+    <!-- STEP4 : Bilan - Téléchargement, Analyse & Prise de rendez-vous -->
+    <div class="box" id="step4">
       <div class="box-header">
-        <button class="back-btn" id="back-btn5" aria-label="Retour à l'étape précédente">
+        <button class="back-btn" id="back-btn4" aria-label="Retour à l'étape précédente">
           <i class="fas fa-arrow-up"></i>
         </button>
         <div class="box-title">C'est l'heure du bilan !</div>
@@ -885,7 +901,7 @@
           <h2 style="font-weight: bold;">Félicitations pour avoir réalisé ton improvisation ! <span>🤩</span></h2>
         </div>
 
-        <!-- Nouveau conteneur d'actions avec 3 boutons carrés -->
+        <!-- Conteneur d'actions avec 3 boutons carrés -->
         <div class="action-container">
           <a id="download-video-btn" class="action-square" aria-label="Télécharge ta vidéo">
             <i class="fas fa-download"></i>
@@ -895,7 +911,7 @@
             <i class="fas fa-chart-line"></i>
             <span>Analyse ta prestation</span>
           </a>
-          <a id="contact-btn" class="action-square" href="https://letmotiv-simulateur.fr/contact" aria-label="Prendre rdv avec un expert">
+          <a id="contact-btn" class="action-square" aria-label="Prendre rdv avec un expert">
             <i class="fas fa-user-tie"></i>
             <span>Prendre rdv avec un expert</span>
           </a>
@@ -914,6 +930,27 @@
           <div id="newsletter-success" class="newsletter-success" style="display: none;">Tu es maintenant abonné à la newsletter Letmotiv.</div>
         </div>
       </div>
+      <!-- Zone d'affichage d'erreur spécifique pour STEP4 -->
+      <div id="action-error" class="error-message" style="display:none;"></div>
+    </div>
+
+    <!-- STEP5 : Prise de contact (Calendly) -->
+    <div class="box" id="step5">
+      <div class="box-header">
+        <button class="back-btn" id="back-btn5" aria-label="Retour à l'étape précédente">
+          <i class="fas fa-arrow-up"></i>
+        </button>
+        <div class="box-title">Planifiez un appel avec nous</div>
+      </div>
+      <main>
+        <section id="calendy" class="section calendy">
+          <div class="container">
+            <h2>Planifiez un appel avec nous</h2>
+            <!-- Calendly inline widget -->
+            <div class="calendly-inline-widget" data-url="https://calendly.com/letmotiv/premier-contact?hide_event_type_details=1" style="min-width:320px;height:1000px;"></div>
+          </div>
+        </section>
+      </main>
     </div>
   </div>
 
@@ -921,6 +958,9 @@
   <button class="linkedin-share-btn" id="linkedin-share-btn" aria-label="Partager sur LinkedIn">
     <i class="fab fa-linkedin-in"></i>
   </button>
+
+  <!-- Calendly widget script -->
+  <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
 
   <!-- SCRIPT JavaScript -->
   <script>
@@ -931,7 +971,8 @@
       1: document.getElementById('step1'),
       2: document.getElementById('step2'),
       3: document.getElementById('step3'),
-      4: document.getElementById('step5')
+      4: document.getElementById('step4'),
+      5: document.getElementById('step5')
     };
 
     const nextBtns = {
@@ -940,10 +981,12 @@
       3: document.getElementById('next-btn3')
     };
 
+    // Pour les boutons de retour, on gère maintenant step2, step3, step4, et step5
     const backBtns = {
       2: document.getElementById('back-btn2'),
       3: document.getElementById('back-btn3'),
-      4: document.getElementById('back-btn5')
+      4: document.getElementById('back-btn4'),
+      5: document.getElementById('back-btn5')
     };
 
     const introBox = document.getElementById('intro-box');
@@ -997,7 +1040,7 @@
      * FONCTIONS UTILITAIRES
      ***********************/
     function updateProgressBar(step) {
-      const progress = (step / 4) * 100;
+      const progress = (step / 5) * 100;
       topProgressBar.style.width = `${progress}%`;
     }
 
@@ -1044,7 +1087,6 @@
           displayError('subject-error', "Tu dois générer un sujet avant de continuer.");
           return;
         }
-        // Mise à jour explicite avant de passer au STEP3
         document.getElementById('current-subject-display').textContent = currentSubject;
         showBox(2, 3);
       });
@@ -1060,6 +1102,7 @@
       backBtns[2].addEventListener('click', () => { showBox(2, 1); });
       backBtns[3].addEventListener('click', () => { showBox(3, 2); });
       backBtns[4].addEventListener('click', () => { showBox(4, 3); });
+      backBtns[5].addEventListener('click', () => { showBox(5, 4); });
     }
 
     function removePulseFromAll() {
@@ -1384,7 +1427,7 @@
     /***********************
      * TÉLÉCHARGEMENT & NEWSLETTER (STEP4)
      ***********************/
-    // Gestion du téléchargement de la vidéo (confirmation par popup)
+    // Gestion du téléchargement de la vidéo
     document.getElementById('download-video-btn').addEventListener('click', () => {
       if (confirm("Une vidéo va être téléchargée. Voulez-vous continuer ?")) {
         if (videoURL) {
@@ -1395,7 +1438,9 @@
           link.click();
           document.body.removeChild(link);
           videoDownloaded = true;  // Indique que la vidéo a été téléchargée
-          // Ajoute l'animation sur le bouton "Analyse ta prestation"
+          // On efface le message d'erreur si présent
+          document.getElementById('action-error').style.display = 'none';
+          // Ajoute l'animation sur le bouton "Analyse de la prestation"
           const feedbackBtn = document.getElementById('feedback-btn');
           feedbackBtn.classList.add('pulse');
         } else {
@@ -1404,15 +1449,28 @@
       }
     });
 
-    // Gestion du bouton "Apprends à analyser ta prestation"
+    // Gestion du bouton "Analyse de la prestation"
     document.getElementById('feedback-btn').addEventListener('click', () => {
-      const feedbackErrorEl = document.getElementById('feedback-error');
-      feedbackErrorEl.style.display = 'none';
+      const errorEl = document.getElementById('action-error');
+      errorEl.style.display = 'none';
       if (!videoDownloaded) {
-        feedbackErrorEl.textContent = "Télécharge ta vidéo avant de quitter le simulateur.";
-        feedbackErrorEl.style.display = 'block';
+        errorEl.textContent = "Télécharge ta vidéo avant de continuer.";
+        errorEl.style.display = 'block';
       } else {
         window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro";
+      }
+    });
+
+    // Gestion du bouton "Prendre rdv avec un expert"
+    document.getElementById('contact-btn').addEventListener('click', () => {
+      const errorEl = document.getElementById('action-error');
+      errorEl.style.display = 'none';
+      if (!videoDownloaded) {
+        errorEl.textContent = "Télécharge ta vidéo avant de continuer.";
+        errorEl.style.display = 'block';
+      } else {
+        // Navigue vers le STEP5 (Prise de contact Calendly)
+        showBox(4, 5);
       }
     });
 
