@@ -443,12 +443,11 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(128,128,128,0.6);
+      background-color: rgba(0,0,0,0.9);
       display: none;
       align-items: center;
       justify-content: center;
       z-index: 5;
-      border-radius: 6px;
     }
     .initial-countdown {
       font-size: 48px;
@@ -586,7 +585,10 @@
       .objective-item:hover span { color: #fff; }
     }
     
-    /* --- STEP4 : Analyse ta prestation & Téléchargements --- */
+    /* --- STEP3 : Enregistrement vidéo --- */
+    /* (aucun changement ici) */
+
+    /* --- STEP4 : Bilan - Téléchargement, Analyse & Prise de rendez-vous --- */
     #step4 .download-section-accent {
       background: linear-gradient(135deg, #182d84, #00a48a);
       padding: 15px 30px;
@@ -602,7 +604,7 @@
       }
     }
     
-    /* Conteneur d'actions (3 call-to-actions) */
+    /* Conteneur d'actions (3 boutons carrés) */
     .action-container {
       display: flex;
       justify-content: space-around;
@@ -639,6 +641,10 @@
       text-align: center;
       display: block;
       padding: 0 5px;
+    }
+    /* Message d'erreur pour STEP4, placé sous les boutons */
+    #action-error {
+      margin-top: 10px;
     }
     
     /* --- STEP4 - Newsletter --- */
@@ -705,12 +711,15 @@
       margin-top: 10px;
     }
     
-    /* --- STEP5 : Prise de contact (via Calendly) --- */
+    /* --- STEP5 : Prise de contact (Calendly) --- */
     .calendy {
       text-align: center;
     }
     .calendy .container {
-      padding: 10px 0;
+      padding: 20px 0; /* marge réduite */
+    }
+    .calendy h2 {
+      display: none; /* le titre est retiré */
     }
   </style>
 </head>
@@ -853,7 +862,7 @@
       <div id="current-subject-display" class="subject-bubble"></div>
       <div class="video-box">
         <video id="preview" autoplay muted playsinline webkit-playsinline></video>
-        <div class="video-overlay">
+        <div class="video-overlay" id="video-overlay">
           <p>Ta vidéo va s'enregistrer ici.</p>
           <button id="start-btn" aria-label="Démarrer l'improvisation">
             Démarrer ton impro <i class="fas fa-video"></i>
@@ -865,7 +874,7 @@
         </div>
         <div class="countdown" id="countdown">1:59</div>
         <div class="initial-countdown-overlay" id="initial-countdown-overlay">
-          <div class="initial-countdown" id="initial-countdown">3</div>
+          <div class="initial-countdown" id="initial-countdown">5</div>
         </div>
       </div>
       <div class="impro-actions">
@@ -891,12 +900,9 @@
         <div class="box-title">C'est l'heure du bilan !</div>
       </div>
       <div class="download-section">
-        <!-- Box dégradée "Félicitations..." -->
         <div class="download-section-accent">
           <h2 style="font-weight: bold;">Félicitations pour avoir réalisé ton improvisation ! <span>🤩</span></h2>
         </div>
-
-        <!-- Conteneur d'actions avec 3 boutons carrés -->
         <div class="action-container">
           <a id="download-video-btn" class="action-square" aria-label="Télécharge ta vidéo">
             <i class="fas fa-download"></i>
@@ -911,11 +917,8 @@
             <span>Prendre rdv avec un expert</span>
           </a>
         </div>
-
-         <!-- Zone d'affichage d'erreur spécifique pour STEP4 -->
-          <div id="action-error" class="error-message" style="display:none;"></div>
-        
-        <!-- Section Newsletter -->
+        <!-- Message d'erreur sous les CTA -->
+        <div id="action-error" class="error-message" style="display:none;"></div>
         <div class="newsletter-container">
           <h2 class="newsletter-title">Inscris-toi à la newsletter Letmotiv <br>pour progresser et prendre la parole avec impact :</h2>
           <form id="newsletter-form" class="newsletter-form">
@@ -941,7 +944,7 @@
       <main>
         <section id="calendy" class="section calendy">
           <div class="container">
-            <!-- Calendly inline widget -->
+            <!-- Le titre Calendly est retiré pour éviter la redondance -->
             <div class="calendly-inline-widget" data-url="https://calendly.com/letmotiv/premier-contact?hide_event_type_details=1" style="min-width:320px;height:1000px;"></div>
           </div>
         </section>
@@ -976,7 +979,6 @@
       3: document.getElementById('next-btn3')
     };
 
-    // Pour les boutons de retour, on gère maintenant step2, step3, step4, et step5
     const backBtns = {
       2: document.getElementById('back-btn2'),
       3: document.getElementById('back-btn3'),
@@ -1013,18 +1015,14 @@
     window.addEventListener('popstate', (event) => {
       if (event.state && event.state.step) {
         const stepToShow = event.state.step;
-        // Masquer toutes les boxes
         Object.values(boxes).forEach(box => box.classList.remove('active'));
-        // Afficher la box correspondante
         boxes[stepToShow].classList.add('active');
         currentStep = stepToShow;
         updateProgressBar(stepToShow);
-        // Si on revient au STEP3, afficher le sujet généré
         if (stepToShow == 3) {
           document.getElementById('current-subject-display').textContent = currentSubject;
         }
       } else {
-        // Par défaut, afficher l'intro si aucun state n'est défini
         Object.values(boxes).forEach(box => box.classList.remove('active'));
         introBox.style.display = 'block';
         currentStep = 0;
@@ -1062,7 +1060,6 @@
       updateShareButtonVisibility();
       pushStepState(next);
       removePulseFromAll();
-      // Si on passe au STEP3, mettre à jour le sujet
       if(next == 3) {
         document.getElementById('current-subject-display').textContent = currentSubject;
       }
@@ -1289,7 +1286,7 @@
           const videoBox = document.querySelector('.video-box');
           videoBox.style.height = "450px";
       }
-      document.querySelector('.video-overlay').style.display = 'none';
+      document.getElementById('video-overlay').style.display = 'none';
       startInitialCountdown();
     }
 
@@ -1327,7 +1324,7 @@
         const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
         videoURL = URL.createObjectURL(videoBlob);
         stream.getTracks().forEach(t => t.stop());
-        const overlay = document.querySelector('.video-overlay');
+        const overlay = document.getElementById('video-overlay');
         overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Improvisation terminée. <br>Passe à l'étape suivante !</p>";
         overlay.style.display = 'flex';
         document.getElementById('impro-error').style.display = 'none';
@@ -1404,25 +1401,46 @@
         document.getElementById('recording-indicator').style.display = 'none';
       }
     });
+
     document.getElementById('restart-btn').addEventListener('click', () => {
-      document.getElementById('restart-btn').classList.add('hidden-btn');
-      document.querySelector('.video-overlay').innerHTML = `
-        <p>Ton improvisation vidéo va s'enregistrer ici.</p>
-        <button id="start-btn" aria-label="Démarrer l'improvisation">
-          Démarrer ton impro <i class="fas fa-video"></i>
-        </button>
-        <p>NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
-      `;
-      document.querySelector('.video-overlay').style.display = 'flex';
-      isImproRecordingStarted = false;
-      bindStartButton();
+      if (!confirm("Es-tu sûr de vouloir recommencer ton improvisation ? Tu peux télécharger ton improvisation actuelle à l'étape suivante.")) {
+        return;
+      }
+      // Affiche un overlay noir avec le compte à rebours
+      const overlay = document.getElementById('video-overlay');
+      overlay.innerHTML = ""; // efface le contenu précédent
+      overlay.style.backgroundColor = "rgba(0,0,0,1)";
+      overlay.style.display = 'flex';
+      let count = 5;
+      const countdownElem = document.createElement('div');
+      countdownElem.className = "initial-countdown";
+      countdownElem.textContent = count;
+      overlay.appendChild(countdownElem);
+      const countdownInterval = setInterval(() => {
+        count--;
+        if (count > 0) {
+          countdownElem.textContent = count;
+        } else {
+          clearInterval(countdownInterval);
+          // Réinitialise l'interface de démarrage
+          overlay.innerHTML = `
+            <p>Ton improvisation vidéo va s'enregistrer ici.</p>
+            <button id="start-btn" aria-label="Démarrer l'improvisation">
+              Démarrer ton impro <i class="fas fa-video"></i>
+            </button>
+            <p>NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
+          `;
+          overlay.style.backgroundColor = "rgba(255,255,255,0.6)";
+          isImproRecordingStarted = false;
+          bindStartButton();
+        }
+      }, 1000);
     });
     bindStartButton();
 
     /***********************
      * TÉLÉCHARGEMENT & NEWSLETTER (STEP4)
      ***********************/
-    // Gestion du téléchargement de la vidéo
     document.getElementById('download-video-btn').addEventListener('click', () => {
       if (confirm("Une vidéo va être téléchargée. Voulez-vous continuer ?")) {
         if (videoURL) {
@@ -1432,10 +1450,8 @@
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
-          videoDownloaded = true;  // Indique que la vidéo a été téléchargée
-          // On efface le message d'erreur si présent
+          videoDownloaded = true;
           document.getElementById('action-error').style.display = 'none';
-          // Ajoute l'animation sur le bouton "Analyse de la prestation"
           const feedbackBtn = document.getElementById('feedback-btn');
           feedbackBtn.classList.add('pulse');
         } else {
@@ -1444,7 +1460,6 @@
       }
     });
 
-    // Gestion du bouton "Analyse de la prestation"
     document.getElementById('feedback-btn').addEventListener('click', () => {
       const errorEl = document.getElementById('action-error');
       errorEl.style.display = 'none';
@@ -1456,7 +1471,6 @@
       }
     });
 
-    // Gestion du bouton "Prendre rdv avec un expert"
     document.getElementById('contact-btn').addEventListener('click', () => {
       const errorEl = document.getElementById('action-error');
       errorEl.style.display = 'none';
@@ -1464,12 +1478,10 @@
         errorEl.textContent = "Télécharge ta vidéo avant de continuer.";
         errorEl.style.display = 'block';
       } else {
-        // Navigue vers le STEP5 (Prise de contact Calendly)
         showBox(4, 5);
       }
     });
 
-    // Gestion de la newsletter
     document.getElementById('newsletter-form').addEventListener('submit', (e) => {
       e.preventDefault();
       let valid = true;
@@ -1497,12 +1509,10 @@
       }
       if (!valid) return;
 
-      // Envoi vers Google Forms (les champs cachés sont mis à jour)
       document.getElementById('hidden-prenom').value = prenomInput.value.trim();
       document.getElementById('hidden-email').value = emailInput.value.trim();
       document.getElementById('hidden-google-form').submit();
 
-      // Affichage du message de succès sans popup
       const successEl = document.getElementById('newsletter-success');
       successEl.style.display = 'block';
       setTimeout(() => { successEl.style.display = 'none'; }, 5000);
@@ -1528,7 +1538,6 @@
       Object.values(backBtns).forEach(btn => btn.disabled = false);
     }
 
-    // Au chargement, vérifie le hash pour afficher l'étape correspondante
     document.addEventListener('DOMContentLoaded', () => {
       if (window.location.hash) {
         const stepFromHash = window.location.hash.replace('#step', '');
