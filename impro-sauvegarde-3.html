@@ -582,8 +582,8 @@
       .objective-item:hover i { color: #fff; }
       .objective-item:hover span { color: #fff; }
     }
- 
-    /* STE4 - Box dégradée pour le message de félicitations */
+    
+    /* --- STEP4 : Analyse ta prestation & Téléchargements --- */
     #step5 .download-section-accent {
       background: linear-gradient(135deg, #182d84, #00a48a);
       padding: 15px 30px;
@@ -600,25 +600,45 @@
       }
     }
     
-    /* STE4 - Boutons d'actions "Télécharge ta vidéo" & "Apprends à analyser ta prestation" */
-    .btn-action {
+    /* --- STEP4 - Nouveau conteneur d'actions avec 3 boutons carrés --- */
+    .action-container {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin: 20px 0;
+      gap: 10px;
+    }
+    .action-square {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 150px;
+      height: 150px;
       background-color: #FF5722;
       color: #fff;
-      font-weight: bold;
-      padding: 12px 30px;
-      border: none;
-      border-radius: 16px;
-      cursor: pointer;
-      transition: transform 0.3s, box-shadow 0.3s;
-      margin: 10px 0;
+      text-decoration: none;
+      border-radius: 10px;
+      transition: transform 0.3s, background-color 0.3s, color 0.3s;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
     }
-    .btn-action:hover {
+    .action-square:hover {
+      transform: scale(1.05);
       background-color: #FBC638;
-      color: #000000;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+      color: #000;
     }
-    /* STE4 - Bouton Newsletter */
+    .action-square i {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+    .action-square span {
+      font-size: 1rem;
+      text-align: center;
+      display: block;
+      padding: 0 5px;
+    }
+    
+    /* --- STEP4 - Newsletter --- */
     .btn-newsletter {
       background: linear-gradient(135deg, #182d84, #00a48a);
       color: #fff;
@@ -634,7 +654,6 @@
       transform: translateY(-2px);
       box-shadow: 0 4px 6px rgba(0,0,0,0.2);
     }
-    /* STE4 - Newsletter container */
     .newsletter-container {
       width: 100%;
       max-width: 600px;
@@ -866,18 +885,20 @@
           <h2 style="font-weight: bold;">Félicitations pour avoir réalisé ton improvisation ! <span>🤩</span></h2>
         </div>
 
-        <!-- Boutons d'action (couleur punchy) -->
-        <div class="call-to-action">
-          <button id="download-video-btn" class="btn-action" aria-label="Télécharge ta vidéo">
-            Télécharge ta vidéo  <i class="fas fa-download"></i>
-          </button>
-        </div>
-        <div class="call-to-action">
-          <button id="feedback-btn" class="btn-action" aria-label="Analyse ta prestation">
-            Apprends à analyser ta prestation
-          </button>
-          <!-- Message d'erreur ajouté sous le bouton -->
-          <div id="feedback-error" class="error-message" style="display: none;"></div>
+        <!-- Nouveau conteneur d'actions avec 3 boutons carrés -->
+        <div class="action-container">
+          <a id="download-video-btn" class="action-square" aria-label="Télécharge ta vidéo">
+            <i class="fas fa-download"></i>
+            <span>Télécharge ta vidéo</span>
+          </a>
+          <a id="feedback-btn" class="action-square" aria-label="Analyse ta prestation">
+            <i class="fas fa-chart-line"></i>
+            <span>Analyse ta prestation</span>
+          </a>
+          <a id="contact-btn" class="action-square" href="https://letmotiv-simulateur.fr/contact" aria-label="Prendre rdv avec un expert">
+            <i class="fas fa-user-tie"></i>
+            <span>Prendre rdv avec un expert</span>
+          </a>
         </div>
 
         <!-- Section Newsletter -->
