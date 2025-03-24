@@ -449,7 +449,7 @@
       justify-content: center;
       z-index: 5;
     }
-    /* La classe initial-countdown est surchargée pour ne plus être en italique */
+    /* La classe initial-countdown est surchargée pour n'être plus en italique */
     .initial-countdown {
       font-size: 48px;
       color: #ffffff;
@@ -1267,7 +1267,7 @@
       }
     }
 
-    // Modification de startImpro pour accepter un paramètre "auto" (par défaut false)
+    // La fonction startImpro accepte un paramètre auto (false par défaut)
     async function startImpro(auto = false) {
       if (!currentSubject) {
         displayError('impro-error', "Tu dois générer un sujet avant de démarrer l'improvisation.");
@@ -1277,16 +1277,13 @@
         displayError('impro-error', "Désolé, l'enregistrement vidéo n'est pas supporté par votre navigateur.");
         return;
       }
-      if (!auto) {
-        if (!confirm("Votre webcam va se lancer pour démarrer l'improvisation. Voulez-vous continuer ?")) {
-          return;
-        }
+      if (!auto && !confirm("Votre webcam va se lancer pour démarrer l'improvisation. Voulez-vous continuer ?")) {
+        return;
       }
       if (window.innerWidth <= 600) {
-          const videoBox = document.querySelector('.video-box');
-          videoBox.style.height = "450px";
+          document.querySelector('.video-box').style.height = "450px";
       }
-      // On masque directement l'overlay (pas de bouton à cliquer)
+      // Masquer l'overlay et lancer le compte à rebours initial
       document.getElementById('video-overlay').style.display = 'none';
       startInitialCountdown();
     }
@@ -1407,7 +1404,7 @@
       if (!confirm("Es-tu sûr de vouloir recommencer ton improvisation ? Tu peux télécharger ton improvisation actuelle à l'étape suivante.")) {
         return;
       }
-      // Masquer indicateur et compteur de 2 minutes
+      // Masquer l'indicateur et le compteur de 2 minutes
       document.getElementById('recording-indicator').style.display = 'none';
       document.getElementById('countdown').style.display = 'none';
       // Afficher un overlay noir avec un compte à rebours de 5 secondes (non italique)
@@ -1428,8 +1425,8 @@
           clearInterval(countdownInterval);
           overlay.style.display = 'none';
           isImproRecordingStarted = false;
-          // Relancer automatiquement l'impro en mode auto (sans confirmation)
-          startImpro(true);
+          // Relancer automatiquement l'impro sans lancer un nouveau décompte
+          initiateRecording();
         }
       }, 1000);
     });
