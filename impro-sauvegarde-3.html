@@ -1510,7 +1510,9 @@
       setTimeout(() => { successEl.style.display = 'none'; }, 5000);
     });
 
-    /*** Partage sur Linkedin ***/
+    /***********************
+     * PARTAGE SUR LINKEDIN
+     ***********************/
     document.getElementById("linkedin-share-btn").addEventListener("click", () => {
       const shareURL = encodeURIComponent(window.location.href);
       const linkedInURL = "https://www.linkedin.com/sharing/share-offsite/?url=" + shareURL;
