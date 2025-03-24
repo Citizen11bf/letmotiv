@@ -449,10 +449,12 @@
       justify-content: center;
       z-index: 5;
     }
+    /* La classe initial-countdown est surchargée pour ne plus être en italique */
     .initial-countdown {
       font-size: 48px;
       color: #ffffff;
       font-weight: bold;
+      font-style: normal;
     }
     .impro-actions {
       display: flex;
@@ -912,7 +914,7 @@
             <span>Prendre rdv avec un expert</span>
           </a>
         </div>
-        <!-- Message d'erreur sous les boutons -->
+        <!-- Message d'erreur sous les CTA -->
         <div id="action-error" class="error-message" style="display:none;"></div>
         <div class="newsletter-container">
           <h2 class="newsletter-title">Inscris-toi à la newsletter Letmotiv <br>pour progresser et prendre la parole avec impact :</h2>
@@ -1261,11 +1263,12 @@
     function bindStartButton() {
       const startBtn = document.getElementById('start-btn');
       if(startBtn){
-        startBtn.addEventListener('click', startImpro);
+        startBtn.addEventListener('click', () => startImpro());
       }
     }
 
-    async function startImpro() {
+    // Modification de startImpro pour accepter un paramètre "auto" (par défaut false)
+    async function startImpro(auto = false) {
       if (!currentSubject) {
         displayError('impro-error', "Tu dois générer un sujet avant de démarrer l'improvisation.");
         return;
@@ -1274,13 +1277,16 @@
         displayError('impro-error', "Désolé, l'enregistrement vidéo n'est pas supporté par votre navigateur.");
         return;
       }
-      if (!confirm("Votre webcam va se lancer pour démarrer l'improvisation. Voulez-vous continuer ?")) {
-        return;
+      if (!auto) {
+        if (!confirm("Votre webcam va se lancer pour démarrer l'improvisation. Voulez-vous continuer ?")) {
+          return;
+        }
       }
       if (window.innerWidth <= 600) {
           const videoBox = document.querySelector('.video-box');
           videoBox.style.height = "450px";
       }
+      // On masque directement l'overlay (pas de bouton à cliquer)
       document.getElementById('video-overlay').style.display = 'none';
       startInitialCountdown();
     }
@@ -1401,10 +1407,10 @@
       if (!confirm("Es-tu sûr de vouloir recommencer ton improvisation ? Tu peux télécharger ton improvisation actuelle à l'étape suivante.")) {
         return;
       }
-      // Masquer l'indicateur d'enregistrement et le compteur de 2 minutes
+      // Masquer indicateur et compteur de 2 minutes
       document.getElementById('recording-indicator').style.display = 'none';
       document.getElementById('countdown').style.display = 'none';
-      // Afficher un overlay noir avec un compte à rebours de 5 secondes
+      // Afficher un overlay noir avec un compte à rebours de 5 secondes (non italique)
       const overlay = document.getElementById('video-overlay');
       overlay.innerHTML = "";
       overlay.style.backgroundColor = "rgba(0,0,0,1)";
@@ -1420,11 +1426,10 @@
           countdownElem.textContent = count;
         } else {
           clearInterval(countdownInterval);
-          // Masquer l'overlay pour relancer l'impro
           overlay.style.display = 'none';
           isImproRecordingStarted = false;
-          // Lancer automatiquement la nouvelle improvisation
-          startImpro();
+          // Relancer automatiquement l'impro en mode auto (sans confirmation)
+          startImpro(true);
         }
       }, 1000);
     });
