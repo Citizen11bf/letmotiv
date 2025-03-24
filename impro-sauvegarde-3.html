@@ -602,7 +602,7 @@
       }
     }
     
-    /* Conteneur d'actions (3 boutons carrés) */
+    /* Conteneur d'actions (3 call-to-actions) */
     .action-container {
       display: flex;
       justify-content: space-around;
@@ -705,17 +705,12 @@
       margin-top: 10px;
     }
     
-    /* --- Calendly (STEP5 : Prise de contact) --- */
+    /* --- STEP5 : Prise de contact (via Calendly) --- */
     .calendy {
       text-align: center;
     }
     .calendy .container {
-      padding: 60px 0;
-    }
-    .calendy h2 {
-      margin-bottom: 40px;
-      font-size: 36px;
-      color: #182d84;
+      padding: 10px 0;
     }
   </style>
 </head>
@@ -915,6 +910,8 @@
             <i class="fas fa-user-tie"></i>
             <span>Prendre rdv avec un expert</span>
           </a>
+          <!-- Zone d'affichage d'erreur spécifique pour STEP4 -->
+          <div id="action-error" class="error-message" style="display:none;"></div>
         </div>
 
         <!-- Section Newsletter -->
@@ -930,8 +927,6 @@
           <div id="newsletter-success" class="newsletter-success" style="display: none;">Tu es maintenant abonné à la newsletter Letmotiv.</div>
         </div>
       </div>
-      <!-- Zone d'affichage d'erreur spécifique pour STEP4 -->
-      <div id="action-error" class="error-message" style="display:none;"></div>
     </div>
 
     <!-- STEP5 : Prise de contact (Calendly) -->
@@ -945,7 +940,6 @@
       <main>
         <section id="calendy" class="section calendy">
           <div class="container">
-            <h2>Planifiez un appel avec nous</h2>
             <!-- Calendly inline widget -->
             <div class="calendly-inline-widget" data-url="https://calendly.com/letmotiv/premier-contact?hide_event_type_details=1" style="min-width:320px;height:1000px;"></div>
           </div>
