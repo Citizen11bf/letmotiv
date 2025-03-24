@@ -585,9 +585,6 @@
       .objective-item:hover span { color: #fff; }
     }
     
-    /* --- STEP3 : Enregistrement vidéo --- */
-    /* (aucun changement ici) */
-
     /* --- STEP4 : Bilan - Téléchargement, Analyse & Prise de rendez-vous --- */
     #step4 .download-section-accent {
       background: linear-gradient(135deg, #182d84, #00a48a);
@@ -604,7 +601,6 @@
       }
     }
     
-    /* Conteneur d'actions (3 boutons carrés) */
     .action-container {
       display: flex;
       justify-content: space-around;
@@ -642,12 +638,11 @@
       display: block;
       padding: 0 5px;
     }
-    /* Message d'erreur pour STEP4, placé sous les boutons */
+    /* Message d'erreur sous les CTA */
     #action-error {
       margin-top: 10px;
     }
     
-    /* --- STEP4 - Newsletter --- */
     .btn-newsletter {
       background: linear-gradient(135deg, #182d84, #00a48a);
       color: #fff;
@@ -716,10 +711,10 @@
       text-align: center;
     }
     .calendy .container {
-      padding: 20px 0; /* marge réduite */
+      padding: 20px 0;
     }
     .calendy h2 {
-      display: none; /* le titre est retiré */
+      display: none;
     }
   </style>
 </head>
@@ -917,7 +912,7 @@
             <span>Prendre rdv avec un expert</span>
           </a>
         </div>
-        <!-- Message d'erreur sous les CTA -->
+        <!-- Message d'erreur sous les boutons -->
         <div id="action-error" class="error-message" style="display:none;"></div>
         <div class="newsletter-container">
           <h2 class="newsletter-title">Inscris-toi à la newsletter Letmotiv <br>pour progresser et prendre la parole avec impact :</h2>
@@ -944,7 +939,7 @@
       <main>
         <section id="calendy" class="section calendy">
           <div class="container">
-            <!-- Le titre Calendly est retiré pour éviter la redondance -->
+            <!-- Le titre Calendly est retiré -->
             <div class="calendly-inline-widget" data-url="https://calendly.com/letmotiv/premier-contact?hide_event_type_details=1" style="min-width:320px;height:1000px;"></div>
           </div>
         </section>
@@ -1406,9 +1401,12 @@
       if (!confirm("Es-tu sûr de vouloir recommencer ton improvisation ? Tu peux télécharger ton improvisation actuelle à l'étape suivante.")) {
         return;
       }
-      // Affiche un overlay noir avec le compte à rebours
+      // Masquer l'indicateur d'enregistrement et le compteur de 2 minutes
+      document.getElementById('recording-indicator').style.display = 'none';
+      document.getElementById('countdown').style.display = 'none';
+      // Afficher un overlay noir avec un compte à rebours de 5 secondes
       const overlay = document.getElementById('video-overlay');
-      overlay.innerHTML = ""; // efface le contenu précédent
+      overlay.innerHTML = "";
       overlay.style.backgroundColor = "rgba(0,0,0,1)";
       overlay.style.display = 'flex';
       let count = 5;
@@ -1422,17 +1420,11 @@
           countdownElem.textContent = count;
         } else {
           clearInterval(countdownInterval);
-          // Réinitialise l'interface de démarrage
-          overlay.innerHTML = `
-            <p>Ton improvisation vidéo va s'enregistrer ici.</p>
-            <button id="start-btn" aria-label="Démarrer l'improvisation">
-              Démarrer ton impro <i class="fas fa-video"></i>
-            </button>
-            <p>NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
-          `;
-          overlay.style.backgroundColor = "rgba(255,255,255,0.6)";
+          // Masquer l'overlay pour relancer l'impro
+          overlay.style.display = 'none';
           isImproRecordingStarted = false;
-          bindStartButton();
+          // Lancer automatiquement la nouvelle improvisation
+          startImpro();
         }
       }, 1000);
     });
@@ -1518,9 +1510,7 @@
       setTimeout(() => { successEl.style.display = 'none'; }, 5000);
     });
 
-    /***********************
-     * PARTAGE SUR LINKEDIN
-     ***********************/
+    /*** Partage sur Linkedin ***/
     document.getElementById("linkedin-share-btn").addEventListener("click", () => {
       const shareURL = encodeURIComponent(window.location.href);
       const linkedInURL = "https://www.linkedin.com/sharing/share-offsite/?url=" + shareURL;
