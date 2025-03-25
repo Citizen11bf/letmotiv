@@ -301,6 +301,7 @@
         margin: 10px auto;
         box-sizing: border-box;
       }
+      /* Réduction de la hauteur via un padding moindre */
       .objective-item {
         position: relative;
         display: flex;
@@ -309,7 +310,7 @@
         align-items: center;
         background-color: #f0f1f5;
         border-radius: 10px;
-        padding: 14px 20px 14px 14px; 
+        padding: 8px 15px;
         width: 100%;
         box-sizing: border-box;
         font-size: 1rem;
@@ -932,6 +933,33 @@
     /***********************
      * VARIABLES ET CONSTANTES
      ***********************/
+    // Variables pour la gestion des sujets (STEP2)
+    const subjectsCache = {};
+    const txtFilesByCategory = {
+      diction: "diction.txt",
+      repartie: "repartie.txt",
+      convaincre: "convaincre.txt",
+      conflit: "conflit.txt",
+      inspirer: "inspirer.txt",
+      "lacher-prise": "lacher-prise.txt",
+      toast: "toast.txt",
+      entretien: "entretien.txt",
+      vendre: "vendre.txt"
+    };
+
+    // Explications pour chaque objectif (STEP1)
+    const explanations = {
+      diction: "Améliore ta diction en articulant mieux.",
+      repartie: "Sois plus réactif dans tes réponses.",
+      convaincre: "Apprends à persuader et convaincre ton audience.",
+      conflit: "Gère les conflits avec diplomatie.",
+      inspirer: "Inspire ton public avec passion.",
+      "lacher-prise": "Apprends à te détendre et à lâcher prise.",
+      toast: "Prépare un toast mémorable.",
+      entretien: "Prépare-toi pour réussir ton entretien.",
+      vendre: "Optimise tes techniques de vente."
+    };
+
     const boxes = {
       1: document.getElementById('step1'),
       2: document.getElementById('step2'),
@@ -1127,18 +1155,14 @@
         item.style.transform = "scale(1.1)";
         item.style.backgroundColor = "rgba(0, 164, 138, 0.2)";
         setTimeout(() => { item.style.transform = ""; }, 300);
-        if(window.innerWidth > 600) {
-          const exp = explanations[currentCategory] || "";
-          document.getElementById('explanation-box').textContent = exp;
-        } else {
-          const existingExp = document.querySelector('.mobile-explanation');
-          if(existingExp) { existingExp.remove(); }
-          const exp = explanations[currentCategory] || "";
-          if(exp) {
-            item.insertAdjacentHTML('afterend', `<div class="mobile-explanation">${exp}</div>`);
-          }
+        // Affichage de l'explication sous le bouton sélectionné
+        const existingExp = document.querySelector('.mobile-explanation');
+        if(existingExp) { existingExp.remove(); }
+        const exp = explanations[currentCategory] || "";
+        if(exp) {
+          item.insertAdjacentHTML('afterend', `<div class="mobile-explanation">${exp}</div>`);
         }
-        if (subjectsCache[currentCategory] === null) {
+        if (subjectsCache[currentCategory] === undefined) {
           await loadSubjects(currentCategory);
         }
         document.getElementById('objective-error').style.display = 'none';
