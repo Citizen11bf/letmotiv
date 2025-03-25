@@ -430,7 +430,7 @@
       right: 10px;
       font-size: 24px;
       color: #ffffff;
-      display: none;
+      display: block;
       z-index: 4;
       background-color: rgba(0,0,0,0.5);
       padding: 5px 10px;
@@ -546,15 +546,13 @@
         border: none;
       }
       .objective-item i {
-        position: absolute;
-        bottom: 0px;
-        right: 10px;
-        font-size: 2.0rem;
-        color: #444;
+        position: relative;
+        transition: transform 0.3s ease;
+        /* On stocke la classe originale dans data-original */
       }
       .objective-item span { flex: 1; text-align: left; }
-      .objective-item:nth-child(odd) i { transform: rotate(-10deg); }
-      .objective-item:nth-child(even) i { transform: rotate(10deg); }
+      .objective-item:nth-child(odd) i { transform: none; }
+      .objective-item:nth-child(even) i { transform: none; }
       .objective-item:hover { background-color: #e5e7eb; transform: translateY(-1px); }
       .objective-item:active { transform: translateY(0); background-color: #dcdfe3; }
       .mobile-explanation { font-size: 0.8rem; color: #555; font-weight: bold; margin: 4px 10px 8px; text-align: left; }
@@ -718,6 +716,14 @@
     .calendy h2 {
       display: none;
     }
+    
+    /* Nouveau style pour l'animation mobile sur STEP1 */
+    @media (max-width: 600px) {
+      .mobile-selected i {
+        transform: translateX(-10px);
+        transition: transform 0.3s ease;
+      }
+    }
   </style>
 </head>
 <body>
@@ -777,39 +783,39 @@
       </div>
       <div class="objectives-container">
         <div class="objective-item" data-category="diction">
-          <i class="fas fa-grin-tongue"></i>
+          <i class="fas fa-grin-tongue" data-original="fas fa-grin-tongue"></i>
           <span>Améliorer sa diction</span>
         </div>
         <div class="objective-item" data-category="repartie">
-          <i class="fas fa-comments"></i>
+          <i class="fas fa-comments" data-original="fas fa-comments"></i>
           <span>Avoir de la répartie</span>
         </div>
         <div class="objective-item" data-category="convaincre">
-          <i class="fas fa-handshake"></i>
+          <i class="fas fa-handshake" data-original="fas fa-handshake"></i>
           <span>Convaincre</span>
         </div>
         <div class="objective-item" data-category="conflit">
-          <i class="fas fa-exclamation-triangle"></i>
+          <i class="fas fa-exclamation-triangle" data-original="fas fa-exclamation-triangle"></i>
           <span>Gérer un conflit</span>
         </div>
         <div class="objective-item" data-category="inspirer">
-          <i class="fas fa-lightbulb"></i>
+          <i class="fas fa-lightbulb" data-original="fas fa-lightbulb"></i>
           <span>Inspirer</span>
         </div>
         <div class="objective-item" data-category="lacher-prise">
-          <i class="fas fa-smile"></i>
+          <i class="fas fa-smile" data-original="fas fa-smile"></i>
           <span>Lâcher prise</span>
         </div>
         <div class="objective-item" data-category="toast">
-          <i class="fas fa-glass-cheers"></i>
+          <i class="fas fa-glass-cheers" data-original="fas fa-glass-cheers"></i>
           <span>Porter un toast</span>
         </div>
         <div class="objective-item" data-category="entretien">
-          <i class="fas fa-briefcase"></i>
+          <i class="fas fa-briefcase" data-original="fas fa-briefcase"></i>
           <span>Réussir son entretien</span>
         </div>
         <div class="objective-item" data-category="vendre">
-          <i class="fas fa-money-bill-wave"></i>
+          <i class="fas fa-money-bill-wave" data-original="fas fa-money-bill-wave"></i>
           <span>Vendre</span>
         </div>
       </div>
@@ -1115,49 +1121,43 @@
     });
 
     /***********************
-     * GESTION DES OBJECTIFS (STEP1)
+     * GESTION DES OBJECTIFS (STEP1) - MODIFICATION MOBILE
      ***********************/
-    const explanations = {
-      convaincre:   "Tu as 2 minutes pour convaincre ton auditoire sur un sujet délicat",
-      inspirer:     "Tu as 2 minutes pour inspirer ton auditoire",
-      toast:        "Tu as 2 minutes pour porter un toast marquant lors d'un événement",
-      repartie:     "Savoir répondre avec justesse et rapidité à une remarque désagréable au travail",
-      vendre:       "Tu as 2 minutes pour vendre un objet insolite",
-      conflit:      "Gère un désaccord ou une tension avec diplomatie",
-      diction:      "Répète une phrase complexe plusieurs fois de suite sans te tromper",
-      entretien:    "Convaincs ton futur employeur que tu es la pépite qu'il recherche",
-      'lacher-prise': "Oublie la censure et exprime ton grain de folie"
-    };
-
-    const txtFilesByCategory = {
-      convaincre:   "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/convaincre.txt",
-      inspirer:     "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/inspirer.txt",
-      'lacher-prise': "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/lacher_prise.txt",
-      toast:        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/toast.txt",
-      repartie:     "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/repartie.txt",
-      vendre:       "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/vendre.txt",
-      conflit:      "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/gerer_un_conflit.txt",
-      diction:      "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/diction.txt",
-      entretien:    "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/entretien.txt"
-    };
-
-    let subjectsCache = {
-      convaincre: null,
-      inspirer: null,
-      'lacher-prise': null,
-      toast: null,
-      repartie: null,
-      vendre: null,
-      conflit: null,
-      diction: null,
-      entretien: null
-    };
-
     const objectivesButtons = document.querySelectorAll('.objectives-container .objective-item');
-    const explanationBox = document.getElementById('explanation-box');
+    // Pour chaque objectif, on stocke la classe de l'icône originale dans un data attribute.
+    objectivesButtons.forEach(item => {
+      const icon = item.querySelector("i");
+      if (icon) {
+        item.dataset.originalIcon = icon.className;
+      }
+    });
 
     objectivesButtons.forEach(item => {
       item.addEventListener('click', async () => {
+        // Sur mobile, gérer la double action
+        if (window.innerWidth <= 600) {
+          if (item.dataset.selected === "true") {
+            // Si déjà sélectionné, passer au STEP2
+            showBox(1, 2);
+            return;
+          } else {
+            // Réinitialiser les autres
+            objectivesButtons.forEach(el => {
+              el.dataset.selected = "false";
+              const icon = el.querySelector("i");
+              if (el.dataset.originalIcon) {
+                icon.className = el.dataset.originalIcon;
+                icon.style.transform = "";
+              }
+            });
+            item.dataset.selected = "true";
+            const icon = item.querySelector("i");
+            // Modifier l'icône pour afficher une flèche droite et la déplacer vers la gauche
+            icon.className = "fas fa-arrow-right";
+            icon.style.transform = "translateX(-10px)";
+          }
+        }
+        // La partie commune : animation du bouton et affichage du message d'objectif
         objectivesButtons.forEach(el => {
           el.classList.remove('selected-objective');
           el.style.transform = "";
@@ -1170,18 +1170,18 @@
         item.style.transform = "scale(1.1)";
         item.style.backgroundColor = "rgba(0, 164, 138, 0.2)";
         setTimeout(() => { item.style.transform = ""; }, 300);
-
-        if(window.innerWidth <= 600) {
+        if(window.innerWidth > 600) {
+          // Sur desktop, afficher le message à côté
+          const exp = explanations[currentCategory] || "";
+          document.getElementById('explanation-box').textContent = exp;
+        } else {
+          // Sur mobile, afficher une explication sous le bouton
           const existingExp = document.querySelector('.mobile-explanation');
           if(existingExp) { existingExp.remove(); }
           const exp = explanations[currentCategory] || "";
           if(exp) {
             item.insertAdjacentHTML('afterend', `<div class="mobile-explanation">${exp}</div>`);
           }
-        } else {
-          const exp = explanations[currentCategory] || "";
-          explanationBox.textContent = exp;
-          explanationBox.classList.add('show');
         }
         if (subjectsCache[currentCategory] === null) {
           await loadSubjects(currentCategory);
@@ -1283,7 +1283,7 @@
       if (window.innerWidth <= 600) {
           document.querySelector('.video-box').style.height = "450px";
       }
-      // Masquer l'overlay et lancer le compte à rebours initial
+      // Masquer l'overlay pour démarrer le compte à rebours
       document.getElementById('video-overlay').style.display = 'none';
       startInitialCountdown();
     }
@@ -1404,10 +1404,10 @@
       if (!confirm("Es-tu sûr de vouloir recommencer ton improvisation ? Tu peux télécharger ton improvisation actuelle à l'étape suivante.")) {
         return;
       }
-      // Masquer l'indicateur et le compteur de 2 minutes
+      // Masquer les indicateurs de l'enregistrement en cours et le compteur de 2 minutes
       document.getElementById('recording-indicator').style.display = 'none';
       document.getElementById('countdown').style.display = 'none';
-      // Afficher un overlay noir avec un compte à rebours de 5 secondes (non italique)
+      // Afficher un overlay noir avec un compte à rebours de 5 secondes
       const overlay = document.getElementById('video-overlay');
       overlay.innerHTML = "";
       overlay.style.backgroundColor = "rgba(0,0,0,1)";
@@ -1425,7 +1425,7 @@
           clearInterval(countdownInterval);
           overlay.style.display = 'none';
           isImproRecordingStarted = false;
-          // Relancer automatiquement l'impro sans lancer un nouveau décompte
+          // Relancer directement l'enregistrement sans redemander confirmation
           initiateRecording();
         }
       }, 1000);
