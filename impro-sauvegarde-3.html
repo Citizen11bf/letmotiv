@@ -272,6 +272,10 @@
       margin-bottom: 8px;
       display: block;
     }
+    /* Règle pour que l'icône de la flèche droite ne soit pas inclinée */
+    .objective-item i.fa-arrow-right {
+      transform: none !important;
+    }
     .objective-item:hover { border-color: #00a48a; background-color: rgba(0, 164, 138, 0.1); }
     .objective-item.selected-objective {
       transform: scale(1.1);
@@ -511,80 +515,6 @@
       transform: scale(1.1);
     }
     .linkedin-share-btn i { font-size: 18px; }
-    @media (max-width: 600px) {
-      h1 .line { display: block; }
-      .intro-box h1 { font-size: 1.8rem; }
-      .cta { padding: 8px 30px !important; font-size: 30px !important; }
-      .cta svg { width: 40px !important; height: auto !important; }
-      .cta span:nth-child(2) { margin-left: 20px !important; width: 15px !important; top: 10% !important; }
-    }
-    @media (max-width: 600px) {
-      .objectives-container {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        padding: 0 5px;
-        margin: 10px auto;
-        box-sizing: border-box;
-      }
-      .objective-item {
-        position: relative;
-        display: flex;
-        justify-content: space-between;
-        align-items: center; 
-        background-color: #f0f1f5;
-        border-radius: 10px;
-        padding: 14px 20px 14px 14px; 
-        width: 100%;
-        box-sizing: border-box;
-        font-size: 1rem;
-        font-family: 'DM Sans', sans-serif;
-        color: #333;
-        cursor: pointer;
-        transition: background-color 0.3s, transform 0.2s;
-        border: none;
-      }
-      .objective-item i {
-        position: absolute;
-        bottom: 0px;
-        right: 10px;
-        font-size: 2.0rem;
-        color: #444;
-      }
-      .objective-item span { flex: 1; text-align: left; }
-      .objective-item:nth-child(odd) i { transform: rotate(-10deg); }
-      .objective-item:nth-child(even) i { transform: rotate(10deg); }
-      .objective-item:hover { background-color: #e5e7eb; transform: translateY(-1px); }
-      .objective-item:active { transform: translateY(0); background-color: #dcdfe3; }
-      .mobile-explanation { font-size: 0.8rem; color: #555; font-weight: bold; margin: 4px 10px 8px; text-align: left; }
-    }
-    @media (min-width: 601px) {
-      .main-container { display: flex; justify-content: center; align-items: center; min-height: calc(100vh - 60px); }
-      .box { position: relative; margin: 0 auto; }
-      .objectives-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 20px;
-        margin: 20px 0;
-        padding: 0 10px;
-        max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
-      }
-      .objective-item {
-        background-color: #f7f9fc;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        border-radius: 8px;
-        transition: transform 0.3s, background-color 0.3s, color 0.3s;
-        flex: 1 1 150px;
-        text-align: center;
-      }
-      .objective-item i { color: #777; transition: color 0.3s; }
-      .objective-item:hover { transform: scale(1.03); background-color: #00a48a; }
-      .objective-item:hover i { color: #fff; }
-      .objective-item:hover span { color: #fff; }
-    }
     
     /* --- STEP4 : Bilan - Téléchargement, Analyse & Prise de rendez-vous --- */
     #step4 .download-section-accent {
@@ -601,8 +531,7 @@
         font-size: 0.8rem;
       }
     }
-    
-    /* Conteneur d'actions (3 call-to-actions) */
+    /* Style pour les boutons d'action */
     .action-container {
       display: flex;
       justify-content: space-around;
@@ -639,6 +568,17 @@
       text-align: center;
       display: block;
       padding: 0 5px;
+    }
+    /* Classe pour désactiver temporairement les boutons */
+    .action-square.disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    /* Conteneur de la question pour la prise de contact */
+    #contact-question {
+      display: none;
+      text-align: center;
+      margin-top: 20px;
     }
     
     /* --- STEP4 - Newsletter --- */
@@ -711,6 +651,75 @@
     }
     .calendy .container {
       padding: 10px 0;
+    }
+    
+    /* Responsive modifications for mobile */
+    @media (max-width: 600px) {
+      .objectives-container {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 0 5px;
+        margin: 10px auto;
+        box-sizing: border-box;
+      }
+      .objective-item {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center; 
+        background-color: #f0f1f5;
+        border-radius: 10px;
+        padding: 14px 20px 14px 14px; 
+        width: 100%;
+        box-sizing: border-box;
+        font-size: 1rem;
+        font-family: 'DM Sans', sans-serif;
+        color: #333;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+        border: none;
+      }
+      .objective-item i {
+        position: absolute;
+        bottom: 0px;
+        right: 10px;
+        font-size: 2.0rem;
+        color: #444;
+      }
+      .objective-item span { flex: 1; text-align: left; }
+      .objective-item:nth-child(odd) i { transform: rotate(-10deg); }
+      .objective-item:nth-child(even) i { transform: rotate(10deg); }
+      .objective-item:hover { background-color: #e5e7eb; transform: translateY(-1px); }
+      .objective-item:active { transform: translateY(0); background-color: #dcdfe3; }
+      .mobile-explanation { font-size: 0.8rem; color: #555; font-weight: bold; margin: 4px 10px 8px; text-align: left; }
+    }
+    @media (min-width: 601px) {
+      .main-container { display: flex; justify-content: center; align-items: center; min-height: calc(100vh - 60px); }
+      .box { position: relative; margin: 0 auto; }
+      .objectives-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        margin: 20px 0;
+        padding: 0 10px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .objective-item {
+        background-color: #f7f9fc;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        border-radius: 8px;
+        transition: transform 0.3s, background-color 0.3s, color 0.3s;
+        flex: 1 1 150px;
+        text-align: center;
+      }
+      .objective-item i { color: #777; transition: color 0.3s; }
+      .objective-item:hover { transform: scale(1.03); background-color: #00a48a; }
+      .objective-item:hover i { color: #fff; }
+      .objective-item:hover span { color: #fff; }
     }
   </style>
 </head>
@@ -902,18 +911,24 @@
             <i class="fas fa-download"></i>
             <span>Télécharge ta vidéo</span>
           </a>
-          <a id="feedback-btn" class="action-square" aria-label="Analyse ta prestation">
-            <i class="fas fa-chart-line"></i>
-            <span>Analyse ta prestation</span>
-          </a>
-          <a id="contact-btn" class="action-square" aria-label="Prendre rdv avec un expert">
+          <a id="contact-btn" class="action-square disabled" aria-label="Prendre rdv avec un expert">
             <i class="fas fa-user-tie"></i>
             <span>Prendre rdv avec un expert</span>
           </a>
+          <a id="feedback-btn" class="action-square disabled" aria-label="Analyse ta prestation">
+            <i class="fas fa-chart-line"></i>
+            <span>Analyse ta prestation</span>
+          </a>
         </div>
-
-         <!-- Zone d'affichage d'erreur spécifique pour STEP4 -->
-          <div id="action-error" class="error-message" style="display:none;"></div>
+        <!-- Zone d'affichage d'erreur spécifique pour STEP4 -->
+        <div id="action-error" class="error-message" style="display:none;"></div>
+        
+        <!-- Conteneur de la question pour la prise de contact -->
+        <div id="contact-question">
+          <p>Veux-tu prendre rdv avec un expert ?</p>
+          <button id="contact-yes" class="btn-impro" style="margin-right: 10px;">Oui</button>
+          <button id="contact-no" class="btn-impro">Non</button>
+        </div>
         
         <!-- Section Newsletter -->
         <div class="newsletter-container">
@@ -1177,8 +1192,7 @@
 
     objectivesButtons.forEach(item => {
       item.addEventListener('click', async () => {
-        // Pour mobile, si l'item est déjà sélectionné et que l'icône est une flèche vers la droite,
-        // passer directement au STEP2.
+        // Pour mobile : si l'item est déjà sélectionné et son icône est la flèche droite, passe directement au STEP2.
         if (window.innerWidth <= 600) {
           const icon = item.querySelector('i');
           if (item.classList.contains('selected-objective') && icon.classList.contains('fa-arrow-right')) {
@@ -1186,7 +1200,6 @@
             return;
           }
         }
-
         // Réinitialiser la sélection sur tous les objectifs
         objectivesButtons.forEach(el => {
           el.classList.remove('selected-objective');
@@ -1208,15 +1221,15 @@
         item.style.backgroundColor = "rgba(0, 164, 138, 0.2)";
         setTimeout(() => { item.style.transform = ""; }, 300);
 
-        // Affichage de l'explication et modification de l'icône sur mobile
+        // Affichage de l'explication et changement d'icône pour mobile
         if (window.innerWidth <= 600) {
           const existingExp = document.querySelector('.mobile-explanation');
-          if (existingExp) { existingExp.remove(); }
+          if(existingExp) { existingExp.remove(); }
           const exp = explanations[currentCategory] || "";
-          if (exp) {
+          if(exp) {
             item.insertAdjacentHTML('afterend', `<div class="mobile-explanation">${exp}</div>`);
           }
-          // Modifier l'icône en flèche vers la droite
+          // Modifier l'icône en flèche vers la droite, sans rotation
           const icon = item.querySelector('i');
           icon.className = "fas fa-arrow-right";
         } else {
@@ -1468,40 +1481,29 @@
           link.click();
           document.body.removeChild(link);
           videoDownloaded = true;  // Indique que la vidéo a été téléchargée
-          // On efface le message d'erreur si présent
           document.getElementById('action-error').style.display = 'none';
-          // Ajoute l'animation sur le bouton "Analyse de la prestation"
-          const feedbackBtn = document.getElementById('feedback-btn');
-          feedbackBtn.classList.add('pulse');
+          // Afficher la question pour la prise de contact
+          document.getElementById('contact-question').style.display = 'block';
         } else {
           alert("Aucune vidéo n'est disponible pour le moment.");
         }
       }
     });
 
-    // Gestion du bouton "Analyse de la prestation"
+    // Gestion du bouton "Analyse ta prestation"
     document.getElementById('feedback-btn').addEventListener('click', () => {
-      const errorEl = document.getElementById('action-error');
-      errorEl.style.display = 'none';
-      if (!videoDownloaded) {
-        errorEl.textContent = "Télécharge ta vidéo avant de continuer.";
-        errorEl.style.display = 'block';
-      } else {
-        window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro";
-      }
+      if (document.getElementById('feedback-btn').classList.contains('disabled')) return;
+      window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro";
     });
 
-    // Gestion du bouton "Prendre rdv avec un expert"
-    document.getElementById('contact-btn').addEventListener('click', () => {
-      const errorEl = document.getElementById('action-error');
-      errorEl.style.display = 'none';
-      if (!videoDownloaded) {
-        errorEl.textContent = "Télécharge ta vidéo avant de continuer.";
-        errorEl.style.display = 'block';
-      } else {
-        // Navigue vers le STEP5 (Prise de contact Calendly)
-        showBox(4, 5);
-      }
+    // Gestion du bouton "Prendre rdv avec un expert" via la question affichée
+    document.getElementById('contact-yes').addEventListener('click', () => {
+      showBox(4, 5);
+    });
+    document.getElementById('contact-no').addEventListener('click', () => {
+      document.getElementById('contact-question').style.display = 'none';
+      const feedbackBtn = document.getElementById('feedback-btn');
+      feedbackBtn.classList.remove('disabled');
     });
 
     // Gestion de la newsletter
