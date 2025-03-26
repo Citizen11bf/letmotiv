@@ -291,47 +291,6 @@
     .objective-item[data-category="entretien"] i { color: #795548; }
     .objective-item[data-category="lacher-prise"] i { color: #FF5722; }
     
-    /* --- Médias queries pour mobile (max-width:600px) --- */
-    @media (max-width: 600px) {
-      .objectives-container {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        padding: 0 5px;
-        margin: 10px auto;
-        box-sizing: border-box;
-      }
-      /* Réduction de la hauteur via un padding moindre */
-      .objective-item {
-        position: relative;
-        display: flex;
-        flex-direction: row-reverse;
-        justify-content: space-between;
-        align-items: center;
-        background-color: #f0f1f5;
-        border-radius: 10px;
-        padding: 8px 15px;
-        width: 100%;
-        box-sizing: border-box;
-        font-size: 1rem;
-        font-family: 'DM Sans', sans-serif;
-        color: #333;
-        cursor: pointer;
-        transition: background-color 0.3s, transform 0.2s;
-        border: none;
-      }
-      .objective-item i {
-        position: relative;
-        transition: transform 0.3s ease;
-      }
-      .objective-item span { flex: 1; text-align: left; }
-      .objective-item:nth-child(odd) i { transform: none; }
-      .objective-item:nth-child(even) i { transform: none; }
-      .objective-item:hover { background-color: #e5e7eb; transform: translateY(-1px); }
-      .objective-item:active { transform: translateY(0); background-color: #dcdfe3; }
-      .mobile-explanation { font-size: 0.8rem; color: #555; font-weight: bold; margin: 4px 10px 8px; text-align: left; }
-    }
-    
     /* --- STEP2 : Génération du sujet --- */
     #objective-reminder { color: grey; font-size: 0.8rem; margin-bottom: 10px; }
     #current-objective { text-transform: lowercase; }
@@ -372,7 +331,6 @@
     }
     .mobile-break { display: none; }
     @media (max-width: 600px) { .mobile-break { display: inline; } }
-    
     /* --- STEP3 : Enregistrement vidéo --- */
     .subject-bubble {
       display: inline-block;
@@ -472,7 +430,7 @@
       right: 10px;
       font-size: 24px;
       color: #ffffff;
-      display: block;
+      display: none;
       z-index: 4;
       background-color: rgba(0,0,0,0.5);
       padding: 5px 10px;
@@ -485,17 +443,17 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0,0,0,0.9);
+      background-color: rgba(128,128,128,0.6);
       display: none;
       align-items: center;
       justify-content: center;
       z-index: 5;
+      border-radius: 6px;
     }
     .initial-countdown {
       font-size: 48px;
       color: #ffffff;
       font-weight: bold;
-      font-style: normal;
     }
     .impro-actions {
       display: flex;
@@ -560,6 +518,73 @@
       .cta svg { width: 40px !important; height: auto !important; }
       .cta span:nth-child(2) { margin-left: 20px !important; width: 15px !important; top: 10% !important; }
     }
+    @media (max-width: 600px) {
+      .objectives-container {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 0 5px;
+        margin: 10px auto;
+        box-sizing: border-box;
+      }
+      .objective-item {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center; 
+        background-color: #f0f1f5;
+        border-radius: 10px;
+        padding: 14px 20px 14px 14px; 
+        width: 100%;
+        box-sizing: border-box;
+        font-size: 1rem;
+        font-family: 'DM Sans', sans-serif;
+        color: #333;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+        border: none;
+      }
+      .objective-item i {
+        position: absolute;
+        bottom: 0px;
+        right: 10px;
+        font-size: 2.0rem;
+        color: #444;
+      }
+      .objective-item span { flex: 1; text-align: left; }
+      .objective-item:nth-child(odd) i { transform: rotate(-10deg); }
+      .objective-item:nth-child(even) i { transform: rotate(10deg); }
+      .objective-item:hover { background-color: #e5e7eb; transform: translateY(-1px); }
+      .objective-item:active { transform: translateY(0); background-color: #dcdfe3; }
+      .mobile-explanation { font-size: 0.8rem; color: #555; font-weight: bold; margin: 4px 10px 8px; text-align: left; }
+    }
+    @media (min-width: 601px) {
+      .main-container { display: flex; justify-content: center; align-items: center; min-height: calc(100vh - 60px); }
+      .box { position: relative; margin: 0 auto; }
+      .objectives-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        margin: 20px 0;
+        padding: 0 10px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .objective-item {
+        background-color: #f7f9fc;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        border-radius: 8px;
+        transition: transform 0.3s, background-color 0.3s, color 0.3s;
+        flex: 1 1 150px;
+        text-align: center;
+      }
+      .objective-item i { color: #777; transition: color 0.3s; }
+      .objective-item:hover { transform: scale(1.03); background-color: #00a48a; }
+      .objective-item:hover i { color: #fff; }
+      .objective-item:hover span { color: #fff; }
+    }
     
     /* --- STEP4 : Bilan - Téléchargement, Analyse & Prise de rendez-vous --- */
     #step4 .download-section-accent {
@@ -577,6 +602,7 @@
       }
     }
     
+    /* Conteneur d'actions (3 call-to-actions) */
     .action-container {
       display: flex;
       justify-content: space-around;
@@ -614,10 +640,8 @@
       display: block;
       padding: 0 5px;
     }
-    #action-error {
-      margin-top: 10px;
-    }
     
+    /* --- STEP4 - Newsletter --- */
     .btn-newsletter {
       background: linear-gradient(135deg, #182d84, #00a48a);
       color: #fff;
@@ -681,15 +705,12 @@
       margin-top: 10px;
     }
     
-    /* --- STEP5 : Prise de contact (Calendly) --- */
+    /* --- STEP5 : Prise de contact (via Calendly) --- */
     .calendy {
       text-align: center;
     }
     .calendy .container {
-      padding: 20px 0;
-    }
-    .calendy h2 {
-      display: none;
+      padding: 10px 0;
     }
   </style>
 </head>
@@ -750,39 +771,39 @@
       </div>
       <div class="objectives-container">
         <div class="objective-item" data-category="diction">
-          <i class="fas fa-grin-tongue" data-original="fas fa-grin-tongue"></i>
+          <i class="fas fa-grin-tongue"></i>
           <span>Améliorer sa diction</span>
         </div>
         <div class="objective-item" data-category="repartie">
-          <i class="fas fa-comments" data-original="fas fa-comments"></i>
+          <i class="fas fa-comments"></i>
           <span>Avoir de la répartie</span>
         </div>
         <div class="objective-item" data-category="convaincre">
-          <i class="fas fa-handshake" data-original="fas fa-handshake"></i>
+          <i class="fas fa-handshake"></i>
           <span>Convaincre</span>
         </div>
         <div class="objective-item" data-category="conflit">
-          <i class="fas fa-exclamation-triangle" data-original="fas fa-exclamation-triangle"></i>
+          <i class="fas fa-exclamation-triangle"></i>
           <span>Gérer un conflit</span>
         </div>
         <div class="objective-item" data-category="inspirer">
-          <i class="fas fa-lightbulb" data-original="fas fa-lightbulb"></i>
+          <i class="fas fa-lightbulb"></i>
           <span>Inspirer</span>
         </div>
         <div class="objective-item" data-category="lacher-prise">
-          <i class="fas fa-smile" data-original="fas fa-smile"></i>
+          <i class="fas fa-smile"></i>
           <span>Lâcher prise</span>
         </div>
         <div class="objective-item" data-category="toast">
-          <i class="fas fa-glass-cheers" data-original="fas fa-glass-cheers"></i>
+          <i class="fas fa-glass-cheers"></i>
           <span>Porter un toast</span>
         </div>
         <div class="objective-item" data-category="entretien">
-          <i class="fas fa-briefcase" data-original="fas fa-briefcase"></i>
+          <i class="fas fa-briefcase"></i>
           <span>Réussir son entretien</span>
         </div>
         <div class="objective-item" data-category="vendre">
-          <i class="fas fa-money-bill-wave" data-original="fas fa-money-bill-wave"></i>
+          <i class="fas fa-money-bill-wave"></i>
           <span>Vendre</span>
         </div>
       </div>
@@ -832,7 +853,7 @@
       <div id="current-subject-display" class="subject-bubble"></div>
       <div class="video-box">
         <video id="preview" autoplay muted playsinline webkit-playsinline></video>
-        <div class="video-overlay" id="video-overlay">
+        <div class="video-overlay">
           <p>Ta vidéo va s'enregistrer ici.</p>
           <button id="start-btn" aria-label="Démarrer l'improvisation">
             Démarrer ton impro <i class="fas fa-video"></i>
@@ -844,7 +865,7 @@
         </div>
         <div class="countdown" id="countdown">1:59</div>
         <div class="initial-countdown-overlay" id="initial-countdown-overlay">
-          <div class="initial-countdown" id="initial-countdown">5</div>
+          <div class="initial-countdown" id="initial-countdown">3</div>
         </div>
       </div>
       <div class="impro-actions">
@@ -870,9 +891,12 @@
         <div class="box-title">C'est l'heure du bilan !</div>
       </div>
       <div class="download-section">
+        <!-- Box dégradée "Félicitations..." -->
         <div class="download-section-accent">
           <h2 style="font-weight: bold;">Félicitations pour avoir réalisé ton improvisation ! <span>🤩</span></h2>
         </div>
+
+        <!-- Conteneur d'actions avec 3 boutons carrés -->
         <div class="action-container">
           <a id="download-video-btn" class="action-square" aria-label="Télécharge ta vidéo">
             <i class="fas fa-download"></i>
@@ -887,7 +911,11 @@
             <span>Prendre rdv avec un expert</span>
           </a>
         </div>
-        <div id="action-error" class="error-message" style="display:none;"></div>
+
+         <!-- Zone d'affichage d'erreur spécifique pour STEP4 -->
+          <div id="action-error" class="error-message" style="display:none;"></div>
+        
+        <!-- Section Newsletter -->
         <div class="newsletter-container">
           <h2 class="newsletter-title">Inscris-toi à la newsletter Letmotiv <br>pour progresser et prendre la parole avec impact :</h2>
           <form id="newsletter-form" class="newsletter-form">
@@ -913,6 +941,7 @@
       <main>
         <section id="calendy" class="section calendy">
           <div class="container">
+            <!-- Calendly inline widget -->
             <div class="calendly-inline-widget" data-url="https://calendly.com/letmotiv/premier-contact?hide_event_type_details=1" style="min-width:320px;height:1000px;"></div>
           </div>
         </section>
@@ -933,32 +962,6 @@
     /***********************
      * VARIABLES ET CONSTANTES
      ***********************/
-    // Variables pour la gestion des sujets (STEP2)
-    const subjectsCache = {};
-    const txtFilesByCategory = {
-      convaincre:   "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/convaincre.txt",
-      inspirer:     "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/inspirer.txt",
-      'lacher-prise': "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/lacher_prise.txt",
-      toast:        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/toast.txt",
-      repartie:     "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/repartie.txt",
-      vendre:       "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/vendre.txt",
-      conflit:      "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/gerer_un_conflit.txt",
-      diction:      "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/diction.txt",
-      entretien:    "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/entretien.txt"
-
-    // Explications pour chaque objectif (STEP1)
-    const explanations = {
-      diction: "Améliore ta diction en articulant mieux.",
-      repartie: "Sois plus réactif dans tes réponses.",
-      convaincre: "Apprends à persuader et convaincre ton audience.",
-      conflit: "Gère les conflits avec diplomatie.",
-      inspirer: "Inspire ton public avec passion.",
-      "lacher-prise": "Apprends à te détendre et à lâcher prise.",
-      toast: "Prépare un toast mémorable.",
-      entretien: "Prépare-toi pour réussir ton entretien.",
-      vendre: "Optimise tes techniques de vente."
-    };
-
     const boxes = {
       1: document.getElementById('step1'),
       2: document.getElementById('step2'),
@@ -973,6 +976,7 @@
       3: document.getElementById('next-btn3')
     };
 
+    // Pour les boutons de retour, on gère maintenant step2, step3, step4, et step5
     const backBtns = {
       2: document.getElementById('back-btn2'),
       3: document.getElementById('back-btn3'),
@@ -996,6 +1000,7 @@
     let timerInterval;
     let timeRemaining = 120;
     let countdown;
+    // Variable pour vérifier le téléchargement de la vidéo
     let videoDownloaded = false;
 
     /***********************
@@ -1008,14 +1013,18 @@
     window.addEventListener('popstate', (event) => {
       if (event.state && event.state.step) {
         const stepToShow = event.state.step;
+        // Masquer toutes les boxes
         Object.values(boxes).forEach(box => box.classList.remove('active'));
+        // Afficher la box correspondante
         boxes[stepToShow].classList.add('active');
         currentStep = stepToShow;
         updateProgressBar(stepToShow);
+        // Si on revient au STEP3, afficher le sujet généré
         if (stepToShow == 3) {
           document.getElementById('current-subject-display').textContent = currentSubject;
         }
       } else {
+        // Par défaut, afficher l'intro si aucun state n'est défini
         Object.values(boxes).forEach(box => box.classList.remove('active'));
         introBox.style.display = 'block';
         currentStep = 0;
@@ -1053,6 +1062,7 @@
       updateShareButtonVisibility();
       pushStepState(next);
       removePulseFromAll();
+      // Si on passe au STEP3, mettre à jour le sujet
       if(next == 3) {
         document.getElementById('current-subject-display').textContent = currentSubject;
       }
@@ -1111,42 +1121,85 @@
     });
 
     /***********************
-     * GESTION DES OBJECTIFS (STEP1) - MODIFICATION MOBILE
+     * GESTION DES OBJECTIFS (STEP1)
      ***********************/
+    const explanations = {
+      convaincre:   "Tu as 2 minutes pour convaincre ton auditoire sur un sujet délicat",
+      inspirer:     "Tu as 2 minutes pour inspirer ton auditoire",
+      toast:        "Tu as 2 minutes pour porter un toast marquant lors d'un événement",
+      repartie:     "Savoir répondre avec justesse et rapidité à une remarque désagréable au travail",
+      vendre:       "Tu as 2 minutes pour vendre un objet insolite",
+      conflit:      "Gère un désaccord ou une tension avec diplomatie",
+      diction:      "Répète une phrase complexe plusieurs fois de suite sans te tromper",
+      entretien:    "Convaincs ton futur employeur que tu es la pépite qu'il recherche",
+      'lacher-prise': "Oublie la censure et exprime ton grain de folie"
+    };
+
+    const txtFilesByCategory = {
+      convaincre:   "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/convaincre.txt",
+      inspirer:     "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/inspirer.txt",
+      'lacher-prise': "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/lacher_prise.txt",
+      toast:        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/toast.txt",
+      repartie:     "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/repartie.txt",
+      vendre:       "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/vendre.txt",
+      conflit:      "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/gerer_un_conflit.txt",
+      diction:      "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/diction.txt",
+      entretien:    "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/entretien.txt"
+    };
+
+    let subjectsCache = {
+      convaincre: null,
+      inspirer: null,
+      'lacher-prise': null,
+      toast: null,
+      repartie: null,
+      vendre: null,
+      conflit: null,
+      diction: null,
+      entretien: null
+    };
+
+    // Tableau associant chaque catégorie à son icône par défaut
+    const defaultIcons = {
+      convaincre: "fas fa-handshake",
+      inspirer: "fas fa-lightbulb",
+      "lacher-prise": "fas fa-smile",
+      toast: "fas fa-glass-cheers",
+      repartie: "fas fa-comments",
+      vendre: "fas fa-money-bill-wave",
+      conflit: "fas fa-exclamation-triangle",
+      diction: "fas fa-grin-tongue",
+      entretien: "fas fa-briefcase"
+    };
+
     const objectivesButtons = document.querySelectorAll('.objectives-container .objective-item');
-    objectivesButtons.forEach(item => {
-      const icon = item.querySelector("i");
-      if (icon) {
-        item.dataset.originalIcon = icon.className;
-      }
-    });
+    const explanationBox = document.getElementById('explanation-box');
 
     objectivesButtons.forEach(item => {
       item.addEventListener('click', async () => {
+        // Pour mobile, si l'item est déjà sélectionné et que l'icône est une flèche vers la droite,
+        // passer directement au STEP2.
         if (window.innerWidth <= 600) {
-          if (item.dataset.selected === "true") {
+          const icon = item.querySelector('i');
+          if (item.classList.contains('selected-objective') && icon.classList.contains('fa-arrow-right')) {
             showBox(1, 2);
             return;
-          } else {
-            objectivesButtons.forEach(el => {
-              el.dataset.selected = "false";
-              const icon = el.querySelector("i");
-              if (el.dataset.originalIcon) {
-                icon.className = el.dataset.originalIcon;
-                icon.style.transform = "";
-              }
-            });
-            item.dataset.selected = "true";
-            const icon = item.querySelector("i");
-            icon.className = "fas fa-arrow-right";
-            icon.style.transform = "translateX(-10px)";
           }
         }
+
+        // Réinitialiser la sélection sur tous les objectifs
         objectivesButtons.forEach(el => {
           el.classList.remove('selected-objective');
+          const elIcon = el.querySelector('i');
+          const cat = el.dataset.category;
+          if (defaultIcons[cat]) {
+            elIcon.className = defaultIcons[cat];
+          }
           el.style.transform = "";
           el.style.backgroundColor = "";
         });
+
+        // Marquer l’item cliqué comme sélectionné
         item.classList.add('selected-objective');
         currentCategory = item.dataset.category;
         currentObjective = item.innerText;
@@ -1154,14 +1207,24 @@
         item.style.transform = "scale(1.1)";
         item.style.backgroundColor = "rgba(0, 164, 138, 0.2)";
         setTimeout(() => { item.style.transform = ""; }, 300);
-        // Affichage de l'explication sous le bouton sélectionné
-        const existingExp = document.querySelector('.mobile-explanation');
-        if(existingExp) { existingExp.remove(); }
-        const exp = explanations[currentCategory] || "";
-        if(exp) {
-          item.insertAdjacentHTML('afterend', `<div class="mobile-explanation">${exp}</div>`);
+
+        // Affichage de l'explication et modification de l'icône sur mobile
+        if (window.innerWidth <= 600) {
+          const existingExp = document.querySelector('.mobile-explanation');
+          if (existingExp) { existingExp.remove(); }
+          const exp = explanations[currentCategory] || "";
+          if (exp) {
+            item.insertAdjacentHTML('afterend', `<div class="mobile-explanation">${exp}</div>`);
+          }
+          // Modifier l'icône en flèche vers la droite
+          const icon = item.querySelector('i');
+          icon.className = "fas fa-arrow-right";
+        } else {
+          const exp = explanations[currentCategory] || "";
+          explanationBox.textContent = exp;
+          explanationBox.classList.add('show');
         }
-        if (subjectsCache[currentCategory] === undefined) {
+        if (subjectsCache[currentCategory] === null) {
           await loadSubjects(currentCategory);
         }
         document.getElementById('objective-error').style.display = 'none';
@@ -1241,11 +1304,11 @@
     function bindStartButton() {
       const startBtn = document.getElementById('start-btn');
       if(startBtn){
-        startBtn.addEventListener('click', () => startImpro());
+        startBtn.addEventListener('click', startImpro);
       }
     }
 
-    async function startImpro(auto = false) {
+    async function startImpro() {
       if (!currentSubject) {
         displayError('impro-error', "Tu dois générer un sujet avant de démarrer l'improvisation.");
         return;
@@ -1254,13 +1317,14 @@
         displayError('impro-error', "Désolé, l'enregistrement vidéo n'est pas supporté par votre navigateur.");
         return;
       }
-      if (!auto && !confirm("Votre webcam va se lancer pour démarrer l'improvisation. Voulez-vous continuer ?")) {
+      if (!confirm("Votre webcam va se lancer pour démarrer l'improvisation. Voulez-vous continuer ?")) {
         return;
       }
       if (window.innerWidth <= 600) {
-          document.querySelector('.video-box').style.height = "450px";
+          const videoBox = document.querySelector('.video-box');
+          videoBox.style.height = "450px";
       }
-      document.getElementById('video-overlay').style.display = 'none';
+      document.querySelector('.video-overlay').style.display = 'none';
       startInitialCountdown();
     }
 
@@ -1298,7 +1362,7 @@
         const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
         videoURL = URL.createObjectURL(videoBlob);
         stream.getTracks().forEach(t => t.stop());
-        const overlay = document.getElementById('video-overlay');
+        const overlay = document.querySelector('.video-overlay');
         overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Improvisation terminée. <br>Passe à l'étape suivante !</p>";
         overlay.style.display = 'flex';
         document.getElementById('impro-error').style.display = 'none';
@@ -1375,39 +1439,25 @@
         document.getElementById('recording-indicator').style.display = 'none';
       }
     });
-
     document.getElementById('restart-btn').addEventListener('click', () => {
-      if (!confirm("Es-tu sûr de vouloir recommencer ton improvisation ? Tu peux télécharger ton improvisation actuelle à l'étape suivante.")) {
-        return;
-      }
-      document.getElementById('recording-indicator').style.display = 'none';
-      document.getElementById('countdown').style.display = 'none';
-      const overlay = document.getElementById('video-overlay');
-      overlay.innerHTML = "";
-      overlay.style.backgroundColor = "rgba(0,0,0,1)";
-      overlay.style.display = 'flex';
-      let count = 5;
-      const countdownElem = document.createElement('div');
-      countdownElem.className = "initial-countdown";
-      countdownElem.textContent = count;
-      overlay.appendChild(countdownElem);
-      const countdownInterval = setInterval(() => {
-        count--;
-        if (count > 0) {
-          countdownElem.textContent = count;
-        } else {
-          clearInterval(countdownInterval);
-          overlay.style.display = 'none';
-          isImproRecordingStarted = false;
-          initiateRecording();
-        }
-      }, 1000);
+      document.getElementById('restart-btn').classList.add('hidden-btn');
+      document.querySelector('.video-overlay').innerHTML = `
+        <p>Ton improvisation vidéo va s'enregistrer ici.</p>
+        <button id="start-btn" aria-label="Démarrer l'improvisation">
+          Démarrer ton impro <i class="fas fa-video"></i>
+        </button>
+        <p>NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
+      `;
+      document.querySelector('.video-overlay').style.display = 'flex';
+      isImproRecordingStarted = false;
+      bindStartButton();
     });
     bindStartButton();
 
     /***********************
      * TÉLÉCHARGEMENT & NEWSLETTER (STEP4)
      ***********************/
+    // Gestion du téléchargement de la vidéo
     document.getElementById('download-video-btn').addEventListener('click', () => {
       if (confirm("Une vidéo va être téléchargée. Voulez-vous continuer ?")) {
         if (videoURL) {
@@ -1417,8 +1467,10 @@
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
-          videoDownloaded = true;
+          videoDownloaded = true;  // Indique que la vidéo a été téléchargée
+          // On efface le message d'erreur si présent
           document.getElementById('action-error').style.display = 'none';
+          // Ajoute l'animation sur le bouton "Analyse de la prestation"
           const feedbackBtn = document.getElementById('feedback-btn');
           feedbackBtn.classList.add('pulse');
         } else {
@@ -1427,6 +1479,7 @@
       }
     });
 
+    // Gestion du bouton "Analyse de la prestation"
     document.getElementById('feedback-btn').addEventListener('click', () => {
       const errorEl = document.getElementById('action-error');
       errorEl.style.display = 'none';
@@ -1438,6 +1491,7 @@
       }
     });
 
+    // Gestion du bouton "Prendre rdv avec un expert"
     document.getElementById('contact-btn').addEventListener('click', () => {
       const errorEl = document.getElementById('action-error');
       errorEl.style.display = 'none';
@@ -1445,10 +1499,12 @@
         errorEl.textContent = "Télécharge ta vidéo avant de continuer.";
         errorEl.style.display = 'block';
       } else {
+        // Navigue vers le STEP5 (Prise de contact Calendly)
         showBox(4, 5);
       }
     });
 
+    // Gestion de la newsletter
     document.getElementById('newsletter-form').addEventListener('submit', (e) => {
       e.preventDefault();
       let valid = true;
@@ -1476,10 +1532,12 @@
       }
       if (!valid) return;
 
+      // Envoi vers Google Forms (les champs cachés sont mis à jour)
       document.getElementById('hidden-prenom').value = prenomInput.value.trim();
       document.getElementById('hidden-email').value = emailInput.value.trim();
       document.getElementById('hidden-google-form').submit();
 
+      // Affichage du message de succès sans popup
       const successEl = document.getElementById('newsletter-success');
       successEl.style.display = 'block';
       setTimeout(() => { successEl.style.display = 'none'; }, 5000);
@@ -1505,6 +1563,7 @@
       Object.values(backBtns).forEach(btn => btn.disabled = false);
     }
 
+    // Au chargement, vérifie le hash pour afficher l'étape correspondante
     document.addEventListener('DOMContentLoaded', () => {
       if (window.location.hash) {
         const stepFromHash = window.location.hash.replace('#step', '');
