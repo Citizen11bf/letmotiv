@@ -490,31 +490,28 @@
       transition: border-color 0.3s;
     }
     .input-group input:focus { border-color: #00a48a; outline: none; }
-    .linkedin-share-btn {
+    
+    /* --- Bouton de partage global --- */
+    #global-share-btn {
       position: fixed;
-      bottom: 15px;
-      right: 15px;
-      background-color: #0077B5;
+      bottom: 20px;
+      right: 20px;
+      background-color: #2E22AC;
       color: #fff;
-      font-size: 14px;
-      border: none;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
-      width: 45px;
-      height: 45px;
-      display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-      transition: background-color 0.3s, transform 0.2s;
-      z-index: 100;
-      display: none;
+      z-index: 10000;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      transition: background-color 0.3s;
+      display: flex;
     }
-    .linkedin-share-btn:hover {
-      background-color: #005582;
-      transform: scale(1.1);
+    #global-share-btn:hover {
+      background-color: #00a48a;
     }
-    .linkedin-share-btn i { font-size: 18px; }
     
     /* --- STEP4 : Bilan - Téléchargement, Analyse & Prise de rendez-vous --- */
     #step4 .download-section-accent {
@@ -949,10 +946,10 @@
     </div>
   </div>
 
-  <!-- Bouton de partage LinkedIn -->
-  <button class="linkedin-share-btn" id="linkedin-share-btn" aria-label="Partager sur LinkedIn">
-    <i class="fab fa-linkedin-in"></i>
-  </button>
+  <!-- Bouton de partage global -->
+  <div id="global-share-btn">
+    <i class="fas fa-share-alt"></i>
+  </div>
 
   <!-- Calendly widget script -->
   <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
@@ -987,7 +984,6 @@
     const introBox = document.getElementById('intro-box');
     const startIntroBtn = document.getElementById('start-intro-btn');
     const topProgressBar = document.getElementById('top-progress-bar');
-    const linkedinShareBtn = document.getElementById('linkedin-share-btn');
 
     let currentStep = 0;
     let currentCategory = null;
@@ -1045,10 +1041,6 @@
       el.style.display = 'block';
     }
 
-    function updateShareButtonVisibility() {
-      linkedinShareBtn.style.display = currentStep === 0 ? 'none' : 'flex';
-    }
-
     /***********************
      * GESTION DE LA NAVIGATION ENTRE LES ÉTAPES
      ***********************/
@@ -1059,9 +1051,7 @@
       boxes[next].classList.add(next > current ? 'slide-from-bottom' : 'slide-from-top');
       updateProgressBar(next);
       currentStep = next;
-      updateShareButtonVisibility();
       pushStepState(next);
-      removePulseFromAll();
       // Si on passe au STEP3, mettre à jour le sujet
       if(next == 3) {
         document.getElementById('current-subject-display').textContent = currentSubject;
@@ -1100,10 +1090,6 @@
       backBtns[5].addEventListener('click', () => { showBox(5, 4); });
     }
 
-    function removePulseFromAll() {
-      Object.values(nextBtns).forEach(btn => btn.classList.remove('pulse'));
-    }
-
     /***********************
      * INITIALISATION DE L'INTRODUCTION
      ***********************/
@@ -1114,8 +1100,6 @@
         boxes[1].classList.add('active', 'slide-from-bottom');
         currentStep = 1;
         updateProgressBar(1);
-        removePulseFromAll();
-        updateShareButtonVisibility();
         pushStepState(1);
       }, 500);
     });
@@ -1227,7 +1211,6 @@
         }
         document.getElementById('objective-error').style.display = 'none';
         document.getElementById('impro-error').style.display = 'none';
-        removePulseFromAll();
         nextBtns[1].classList.add('pulse');
       });
     });
@@ -1276,7 +1259,6 @@
       subjectWrapper.style.display = 'block';
       generateSubjectBtn.classList.add('subject-generated');
       document.getElementById('subject-error').style.display = 'none';
-      removePulseFromAll();
       nextBtns[2].classList.add('pulse');
     });
 
@@ -1367,7 +1349,6 @@
         document.getElementById('recording-indicator').style.display = 'none';
         clearInterval(timerInterval);
         isImproRecordingStarted = true;
-        removePulseFromAll();
         nextBtns[3].classList.add('pulse');
         enableNavigationButtons();
         if (window.innerWidth <= 600) {
@@ -1466,7 +1447,6 @@
           link.click();
           document.body.removeChild(link);
           videoDownloaded = true;  // Indique que la vidéo a été téléchargée
-          document.getElementById('action-error').style.display = 'none';
           // Rendre actif le bouton "Prendre rdv avec un expert"
           document.getElementById('contact-btn').classList.remove('disabled');
         } else {
@@ -1481,13 +1461,14 @@
       window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro";
     });
 
-    // Gestion du bouton "Prendre rdv avec un expert" intégré avec la question Oui/Non
+    // Gestion du bouton "Prendre rdv avec un expert" avec intégration de la question Oui/Non
     const contactBtn = document.getElementById('contact-btn');
-    contactBtn.addEventListener('click', () => {
+    contactBtn.addEventListener('click', (e) => {
+      e.preventDefault();
       if (!videoDownloaded) return;
-      // Si le bouton n'est pas déjà en mode question, on change son contenu pour afficher le choix
-      if (!contactBtn.dataset.questionMode) {
-        contactBtn.dataset.questionMode = "true";
+      // Si le bouton n'est pas déjà en mode question, on change son contenu pour afficher la question Oui/Non.
+      if (contactBtn.getAttribute('data-question-mode') !== 'true') {
+        contactBtn.setAttribute('data-question-mode', 'true');
         contactBtn.innerHTML = `<span>Veux-tu prendre rdv avec un expert ?</span><br>
           <button id="contact-yes" class="btn-impro" style="margin-right: 10px;">Oui</button>
           <button id="contact-no" class="btn-impro">Non</button>`;
@@ -1495,7 +1476,7 @@
           showBox(4, 5);
         });
         document.getElementById('contact-no').addEventListener('click', () => {
-          contactBtn.dataset.questionMode = "";
+          contactBtn.removeAttribute('data-question-mode');
           contactBtn.innerHTML = `<i class="fas fa-user-tie"></i><span>Prendre rdv avec un expert</span>`;
           // Dégriser le bouton "Analyse ta prestation"
           document.getElementById('feedback-btn').classList.remove('disabled');
@@ -1543,12 +1524,33 @@
     });
 
     /***********************
-     * PARTAGE SUR LINKEDIN
+     * PARTAGE
      ***********************/
-    document.getElementById("linkedin-share-btn").addEventListener("click", () => {
-      const shareURL = encodeURIComponent(window.location.href);
-      const linkedInURL = "https://www.linkedin.com/sharing/share-offsite/?url=" + shareURL;
-      window.open(linkedInURL, '_blank');
+    class ShareManager {
+      constructor() {
+        this.shareData = {
+          title: "Letmotiv - Simulateur d'entretien",
+          text: "Prépare-toi aux entretiens d'embauche et d'admission grâce au simulateur d'entretien Letmotiv.",
+          url: window.location.href,
+          image: "https://i.postimg.cc/qvxsxJR3/Simulateur-interview.png"
+        };
+        this.bindShareEvents();
+      }
+      bindShareEvents() {
+        const shareBtn = document.getElementById('global-share-btn');
+        shareBtn.addEventListener('click', () => {
+          if (navigator.share) {
+            navigator.share(this.shareData)
+              .then(() => console.log('Shared successfully'))
+              .catch((error) => console.log('Error sharing', error));
+          } else {
+            alert("Le partage n'est pas supporté sur ce navigateur.");
+          }
+        });
+      }
+    }
+    window.addEventListener('DOMContentLoaded', () => {
+      new ShareManager();
     });
 
     initNavigationButtons();
