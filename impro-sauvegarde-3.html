@@ -574,12 +574,6 @@
       opacity: 0.5;
       pointer-events: none;
     }
-    /* Conteneur de la question pour la prise de contact */
-    #contact-question {
-      display: none;
-      text-align: center;
-      margin-top: 20px;
-    }
     
     /* --- STEP4 - Newsletter --- */
     .btn-newsletter {
@@ -919,15 +913,6 @@
             <i class="fas fa-chart-line"></i>
             <span>Analyse ta prestation</span>
           </a>
-        </div>
-        <!-- Zone d'affichage d'erreur spécifique pour STEP4 -->
-        <div id="action-error" class="error-message" style="display:none;"></div>
-        
-        <!-- Conteneur de la question pour la prise de contact -->
-        <div id="contact-question">
-          <p>Veux-tu prendre rdv avec un expert ?</p>
-          <button id="contact-yes" class="btn-impro" style="margin-right: 10px;">Oui</button>
-          <button id="contact-no" class="btn-impro">Non</button>
         </div>
         
         <!-- Section Newsletter -->
@@ -1482,8 +1467,8 @@
           document.body.removeChild(link);
           videoDownloaded = true;  // Indique que la vidéo a été téléchargée
           document.getElementById('action-error').style.display = 'none';
-          // Afficher la question pour la prise de contact
-          document.getElementById('contact-question').style.display = 'block';
+          // Rendre actif le bouton "Prendre rdv avec un expert"
+          document.getElementById('contact-btn').classList.remove('disabled');
         } else {
           alert("Aucune vidéo n'est disponible pour le moment.");
         }
@@ -1496,14 +1481,26 @@
       window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro";
     });
 
-    // Gestion du bouton "Prendre rdv avec un expert" via la question affichée
-    document.getElementById('contact-yes').addEventListener('click', () => {
-      showBox(4, 5);
-    });
-    document.getElementById('contact-no').addEventListener('click', () => {
-      document.getElementById('contact-question').style.display = 'none';
-      const feedbackBtn = document.getElementById('feedback-btn');
-      feedbackBtn.classList.remove('disabled');
+    // Gestion du bouton "Prendre rdv avec un expert" intégré avec la question Oui/Non
+    const contactBtn = document.getElementById('contact-btn');
+    contactBtn.addEventListener('click', () => {
+      if (!videoDownloaded) return;
+      // Si le bouton n'est pas déjà en mode question, on change son contenu pour afficher le choix
+      if (!contactBtn.dataset.questionMode) {
+        contactBtn.dataset.questionMode = "true";
+        contactBtn.innerHTML = `<span>Veux-tu prendre rdv avec un expert ?</span><br>
+          <button id="contact-yes" class="btn-impro" style="margin-right: 10px;">Oui</button>
+          <button id="contact-no" class="btn-impro">Non</button>`;
+        document.getElementById('contact-yes').addEventListener('click', () => {
+          showBox(4, 5);
+        });
+        document.getElementById('contact-no').addEventListener('click', () => {
+          contactBtn.dataset.questionMode = "";
+          contactBtn.innerHTML = `<i class="fas fa-user-tie"></i><span>Prendre rdv avec un expert</span>`;
+          // Dégriser le bouton "Analyse ta prestation"
+          document.getElementById('feedback-btn').classList.remove('disabled');
+        });
+      }
     });
 
     // Gestion de la newsletter
