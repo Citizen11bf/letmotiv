@@ -404,8 +404,7 @@
       transition: background-color 0.3s;
     }
     .video-overlay button:hover { background-color: #00a48a; }
-    /* Indicateur d'enregistrement : le point rouge et le countdown intégrés ensemble sur un fond grisé.
-       Ils sont masqués par défaut et ne s'affichent qu'après avoir cliqué sur "Démarrer l'impro". */
+    /* Indicateur d'enregistrement */
     .recording-indicator {
       display: none;
       flex-direction: row;
@@ -429,7 +428,7 @@
       display: inline-block;
       animation: blink 1s infinite;
     }
-    /* Le timer n'a plus de fond ni de padding pour s'intégrer dans le conteneur parent */
+    /* Le timer */
     .countdown {
       font-size: 16px;
       color: #ffffff;
@@ -487,7 +486,6 @@
     .input-group input:focus { border-color: #00a48a; outline: none; }
     
     /* --- Bouton de partage global --- */
-    /* Masqué par défaut et affiché seulement à partir du STEP1 */
     #global-share-btn {
       position: fixed;
       bottom: 20px;
@@ -525,49 +523,68 @@
         font-size: 0.6rem;
       }
     }
-    /* Boutons d'action du STEP4 en colonne verticale et en largeur étendue */
+    /* Boutons d'action du STEP4 */
     #step4 .action-container {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      margin: 20px 0;
+      gap: 8px;
+      margin: 15px 0;
     }
     #step4 .action-container .action-square {
       width: 90%;
-      margin: 10px auto;
+      margin: 5px auto;
     }
-    /* --- Nouveaux styles pour les boutons oranges (STEP4) --- */
+    /* --- Nouveaux styles pour les boutons STEP4 (action-square.horizontal) --- */
     .action-square.horizontal {
       display: flex;
       flex-direction: row;
       align-items: center;
-      justify-content: center;
-      padding: 10px 20px;
-      height: auto;
+      justify-content: space-between;
+      padding: 8px 12px;
+      margin: 5px auto;
+      gap: 5px;
     }
     .action-square.horizontal i {
       margin-right: 10px;
-      font-size: 1.8rem;
+      font-size: 1.6rem;
     }
     .action-square.horizontal span {
       display: inline-block;
       font-size: 1rem;
     }
-    /* Pour le bouton de contact, aligner le texte et les boutons Oui/Non sur la même ligne */
+    /* Pour le bouton de contact : alignement sur une seule ligne */
     .action-square.horizontal .contact-options {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 5px;
     }
     .action-square.horizontal .contact-question {
       margin-right: 10px;
       font-size: 1rem;
     }
-    /* Nouvelle structure pour le bouton de prise de rendez-vous */
-    #contact-btn {
-      padding: 10px;
+    /* Styles pour les boutons Oui/Non : texte en plus petit avec icône à droite */
+    .contact-options button {
+      font-size: 0.75rem;
+      padding: 4px 8px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin: 0;
+      border: none;
+      border-radius: 4px;
+      background-color: #182d84;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s;
     }
-    /* Classe pour désactiver temporairement les boutons */
+    .contact-options button:hover {
+      background-color: #00a48a;
+    }
+    .contact-options button i {
+      order: 2;
+      margin-left: 4px;
+    }
+    /* Désactivation temporaire */
     .action-square.disabled {
       opacity: 0.5;
       pointer-events: none;
@@ -904,12 +921,12 @@
             <i class="fas fa-download"></i>
             <span>1) Télécharge ta vidéo</span>
           </a>
-          <!-- Bouton contact modifié : affichage direct de la question avec options Oui/Non sur une seule ligne -->
+          <!-- Bouton contact avec textes et icônes ajustés -->
           <a id="contact-btn" class="action-square horizontal disabled" aria-label="Prendre rdv avec un expert">
             <span class="contact-question">2) Tu veux prendre rdv avec un expert ?</span>
             <div class="contact-options">
-              <button id="contact-yes" class="btn-impro inline-btn">Oui <i class="fas fa-check"></i></button>
-              <button id="contact-no" class="btn-impro inline-btn">Non <i class="fas fa-times"></i></button>
+              <button id="contact-yes">Oui <i class="fas fa-check"></i></button>
+              <button id="contact-no">Non <i class="fas fa-times"></i></button>
             </div>
           </a>
           <a id="feedback-btn" class="action-square horizontal disabled" aria-label="Analyse ta prestation">
@@ -952,7 +969,7 @@
     </div>
   </div>
 
-  <!-- Bouton de partage global (sera affiché seulement à partir du STEP1) -->
+  <!-- Bouton de partage global -->
   <div id="global-share-btn">
     <i class="fas fa-share-alt"></i>
   </div>
@@ -979,7 +996,7 @@
       3: document.getElementById('next-btn3')
     };
 
-    // Pour les boutons de retour, on gère maintenant step2, step3, step4, et step5
+    // Boutons de retour pour les étapes
     const backBtns = {
       2: document.getElementById('back-btn2'),
       3: document.getElementById('back-btn3'),
@@ -1002,23 +1019,18 @@
     let timerInterval;
     let timeRemaining = 120;
     let countdown;
-    // Variable pour vérifier le téléchargement de la vidéo
     let videoDownloaded = false;
 
     /***********************
-     * FONCTION POUR METTRE À JOUR LA VISIBILITÉ DU BOUTON "PARTAGER"
+     * Mise à jour de la visibilité du bouton de partage
      ***********************/
     function updateShareButtonVisibility() {
       const shareBtn = document.getElementById('global-share-btn');
-      if (currentStep >= 1) {
-        shareBtn.style.display = 'flex';
-      } else {
-        shareBtn.style.display = 'none';
-      }
+      shareBtn.style.display = currentStep >= 1 ? 'flex' : 'none';
     }
 
     /***********************
-     * GESTION DE L'HISTORIQUE (pushState/popstate)
+     * Gestion de l'historique (pushState/popstate)
      ***********************/
     function pushStepState(step) {
       history.pushState({ step }, null, `#step${step}`);
@@ -1027,19 +1039,15 @@
     window.addEventListener('popstate', (event) => {
       if (event.state && event.state.step) {
         const stepToShow = event.state.step;
-        // Masquer toutes les boxes
         Object.values(boxes).forEach(box => box.classList.remove('active'));
-        // Afficher la box correspondante
         boxes[stepToShow].classList.add('active');
         currentStep = stepToShow;
         updateProgressBar(stepToShow);
         updateShareButtonVisibility();
-        // Si on revient au STEP3, afficher le sujet généré
         if (stepToShow == 3) {
           document.getElementById('current-subject-display').textContent = currentSubject;
         }
       } else {
-        // Par défaut, afficher l'intro si aucun state n'est défini
         Object.values(boxes).forEach(box => box.classList.remove('active'));
         introBox.style.display = 'block';
         currentStep = 0;
@@ -1048,11 +1056,10 @@
     });
 
     /***********************
-     * FONCTIONS UTILITAIRES
+     * Fonctions utilitaires
      ***********************/
     function updateProgressBar(step) {
-      const progress = (step / 5) * 100;
-      topProgressBar.style.width = `${progress}%`;
+      topProgressBar.style.width = `${(step / 5) * 100}%`;
     }
 
     function displayError(elementId, message) {
@@ -1062,7 +1069,7 @@
     }
 
     /***********************
-     * GESTION DE LA NAVIGATION ENTRE LES ÉTAPES
+     * Navigation entre les étapes
      ***********************/
     function showBox(current, next) {
       if (!boxes[current] || !boxes[next]) return;
@@ -1073,7 +1080,6 @@
       currentStep = next;
       pushStepState(next);
       updateShareButtonVisibility();
-      // Si on passe au STEP3, mettre à jour le sujet
       if(next == 3) {
         document.getElementById('current-subject-display').textContent = currentSubject;
       }
@@ -1112,7 +1118,7 @@
     }
 
     /***********************
-     * INITIALISATION DE L'INTRODUCTION
+     * Initialisation de l'introduction
      ***********************/
     startIntroBtn.addEventListener('click', () => {
       introBox.style.animation = 'fadeOut 0.5s ease forwards';
@@ -1127,7 +1133,7 @@
     });
 
     /***********************
-     * GESTION DES OBJECTIFS (STEP1)
+     * Gestion des objectifs (STEP1)
      ***********************/
     const explanations = {
       convaincre:   "Tu as 2 minutes pour convaincre ton auditoire sur un sujet délicat",
@@ -1165,7 +1171,6 @@
       entretien: null
     };
 
-    // Tableau associant chaque catégorie à son icône par défaut
     const defaultIcons = {
       convaincre: "fas fa-handshake",
       inspirer: "fas fa-lightbulb",
@@ -1183,7 +1188,6 @@
 
     objectivesButtons.forEach(item => {
       item.addEventListener('click', async () => {
-        // Pour mobile : si l'item est déjà sélectionné et son icône est la flèche droite, passe directement au STEP2.
         if (window.innerWidth <= 600) {
           const icon = item.querySelector('i');
           if (item.classList.contains('selected-objective') && icon.classList.contains('fa-arrow-right')) {
@@ -1191,7 +1195,6 @@
             return;
           }
         }
-        // Réinitialiser la sélection sur tous les objectifs
         objectivesButtons.forEach(el => {
           el.classList.remove('selected-objective');
           const elIcon = el.querySelector('i');
@@ -1202,8 +1205,6 @@
           el.style.transform = "";
           el.style.backgroundColor = "";
         });
-
-        // Marquer l’item cliqué comme sélectionné
         item.classList.add('selected-objective');
         currentCategory = item.dataset.category;
         currentObjective = item.innerText;
@@ -1211,8 +1212,6 @@
         item.style.transform = "scale(1.1)";
         item.style.backgroundColor = "rgba(0, 164, 138, 0.2)";
         setTimeout(() => { item.style.transform = ""; }, 300);
-
-        // Affichage de l'explication et changement d'icône pour mobile
         if (window.innerWidth <= 600) {
           const existingExp = document.querySelector('.mobile-explanation');
           if(existingExp) { existingExp.remove(); }
@@ -1220,7 +1219,6 @@
           if(exp) {
             item.insertAdjacentHTML('afterend', `<div class="mobile-explanation">${exp}</div>`);
           }
-          // Modifier l'icône en flèche vers la droite, sans rotation
           const icon = item.querySelector('i');
           icon.className = "fas fa-arrow-right";
         } else {
@@ -1257,7 +1255,7 @@
     }
 
     /***********************
-     * GESTION DU SUJET D'IMPRO (STEP2)
+     * Gestion du sujet d'impro (STEP2)
      ***********************/
     const generateSubjectBtn = document.getElementById('generate-subject-btn');
     const subjectWrapper = document.getElementById('subject-wrapper');
@@ -1301,7 +1299,7 @@
     });
 
     /***********************
-     * ENREGISTREMENT VIDÉO (STEP3)
+     * Enregistrement vidéo (STEP3)
      ***********************/
     function bindStartButton() {
       const startBtn = document.getElementById('start-btn');
@@ -1379,7 +1377,6 @@
         }
       };
       mediaRecorderInstance.start();
-      // Afficher l'indicateur d'enregistrement une fois l'enregistrement lancé
       document.getElementById('recording-indicator').style.display = 'flex';
       document.getElementById('stop-btn').classList.remove('hidden-btn');
       document.getElementById('stop-btn').disabled = false;
@@ -1456,9 +1453,8 @@
     bindStartButton();
 
     /***********************
-     * TÉLÉCHARGEMENT & NEWSLETTER (STEP4)
+     * Téléchargement & Newsletter (STEP4)
      ***********************/
-    // Gestion du téléchargement de la vidéo
     document.getElementById('download-video-btn').addEventListener('click', () => {
       if (confirm("Une vidéo va être téléchargée. Voulez-vous continuer ?")) {
         if (videoURL) {
@@ -1468,8 +1464,7 @@
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
-          videoDownloaded = true;  // Indique que la vidéo a été téléchargée
-          // Rendre actif le bouton "Prendre rdv avec un expert"
+          videoDownloaded = true;
           document.getElementById('contact-btn').classList.remove('disabled');
         } else {
           alert("Aucune vidéo n'est disponible pour le moment.");
@@ -1477,24 +1472,20 @@
       }
     });
 
-    // Gestion du bouton "Analyse ta prestation"
     document.getElementById('feedback-btn').addEventListener('click', () => {
       if (document.getElementById('feedback-btn').classList.contains('disabled')) return;
       window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro";
     });
 
-    // Gestion des boutons Oui/Non pour le rendez-vous
     document.getElementById('contact-yes').addEventListener('click', (e) => {
       e.preventDefault();
       showBox(4, 5);
     });
     document.getElementById('contact-no').addEventListener('click', (e) => {
       e.preventDefault();
-      // Si on clique sur Non, on réactive le bouton Feedback
       document.getElementById('feedback-btn').classList.remove('disabled');
     });
 
-    // Gestion de la newsletter
     document.getElementById('newsletter-form').addEventListener('submit', (e) => {
       e.preventDefault();
       let valid = true;
@@ -1522,19 +1513,17 @@
       }
       if (!valid) return;
 
-      // Envoi vers Google Forms (les champs cachés sont mis à jour)
       document.getElementById('hidden-prenom').value = prenomInput.value.trim();
       document.getElementById('hidden-email').value = emailInput.value.trim();
       document.getElementById('hidden-google-form').submit();
 
-      // Affichage du message de succès sans popup
       const successEl = document.getElementById('newsletter-success');
       successEl.style.display = 'block';
       setTimeout(() => { successEl.style.display = 'none'; }, 5000);
     });
 
     /***********************
-     * PARTAGE
+     * Partage
      ***********************/
     class ShareManager {
       constructor() {
@@ -1574,7 +1563,6 @@
       Object.values(backBtns).forEach(btn => btn.disabled = false);
     }
 
-    // Au chargement, vérifie le hash pour afficher l'étape correspondante
     document.addEventListener('DOMContentLoaded', () => {
       if (window.location.hash) {
         const stepFromHash = window.location.hash.replace('#step', '');
