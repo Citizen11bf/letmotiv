@@ -536,58 +536,36 @@
       width: 90%;
       margin: 10px auto;
     }
-    .action-square {
+    /* --- Nouveaux styles pour les boutons oranges (STEP4) --- */
+    .action-square.horizontal {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       align-items: center;
       justify-content: center;
-      width: 150px;
-      height: 150px;
-      background-color: #FF5722;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 10px;
-      transition: transform 0.3s, background-color 0.3s, color 0.3s;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-      cursor: pointer;
+      padding: 10px 20px;
+      height: auto;
     }
-    .action-square:hover {
-      transform: scale(1.05);
-      background-color: #FBC638;
-      color: #000;
+    .action-square.horizontal i {
+      margin-right: 10px;
+      font-size: 1.8rem;
     }
-    .action-square i {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-    }
-    .action-square span {
+    .action-square.horizontal span {
+      display: inline-block;
       font-size: 1rem;
-      text-align: center;
-      display: block;
-      padding: 0 5px;
+    }
+    /* Pour le bouton de contact, aligner le texte et les boutons Oui/Non sur la même ligne */
+    .action-square.horizontal .contact-options {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .action-square.horizontal .contact-question {
+      margin-right: 10px;
+      font-size: 1rem;
     }
     /* Nouvelle structure pour le bouton de prise de rendez-vous */
     #contact-btn {
       padding: 10px;
-    }
-    #contact-btn .contact-question {
-      display: block;
-      font-size: 16px;
-      text-align: center;
-      margin-bottom: 5px;
-    }
-    #contact-btn .contact-options {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      gap: 10px;
-    }
-    .inline-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 5px 10px;
-      font-size: 14px;
     }
     /* Classe pour désactiver temporairement les boutons */
     .action-square.disabled {
@@ -922,19 +900,19 @@
 
         <!-- Conteneur d'actions avec 3 boutons en colonne verticale -->
         <div class="action-container">
-          <a id="download-video-btn" class="action-square" aria-label="Télécharge ta vidéo">
+          <a id="download-video-btn" class="action-square horizontal" aria-label="Télécharge ta vidéo">
             <i class="fas fa-download"></i>
             <span>1) Télécharge ta vidéo</span>
           </a>
           <!-- Bouton contact modifié : affichage direct de la question avec options Oui/Non sur une seule ligne -->
-          <a id="contact-btn" class="action-square disabled" aria-label="Prendre rdv avec un expert">
+          <a id="contact-btn" class="action-square horizontal disabled" aria-label="Prendre rdv avec un expert">
             <span class="contact-question">2) Tu veux prendre rdv avec un expert ?</span>
             <div class="contact-options">
               <button id="contact-yes" class="btn-impro inline-btn">Oui <i class="fas fa-check"></i></button>
               <button id="contact-no" class="btn-impro inline-btn">Non <i class="fas fa-times"></i></button>
             </div>
           </a>
-          <a id="feedback-btn" class="action-square disabled" aria-label="Analyse ta prestation">
+          <a id="feedback-btn" class="action-square horizontal disabled" aria-label="Analyse ta prestation">
             <i class="fas fa-chart-line"></i>
             <span>3) Analyse efficacement ta prestation</span> 
           </a>
@@ -1391,6 +1369,8 @@
         overlay.style.display = 'flex';
         document.getElementById('impro-error').style.display = 'none';
         clearInterval(timerInterval);
+        // Masquer le point rouge et le compte à rebours
+        document.getElementById('recording-indicator').style.display = 'none';
         isImproRecordingStarted = true;
         nextBtns[3].classList.add('pulse');
         enableNavigationButtons();
