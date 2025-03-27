@@ -432,7 +432,7 @@
       position: absolute;
       bottom: 10px;
       right: 10px;
-      font-size: 24px;
+      font-size: 16px; /* Taille réduite par rapport à 24px */
       color: #ffffff;
       display: none;
       z-index: 4;
@@ -492,6 +492,7 @@
     .input-group input:focus { border-color: #00a48a; outline: none; }
     
     /* --- Bouton de partage global --- */
+    /* Masqué par défaut et affiché seulement à partir du STEP1 */
     #global-share-btn {
       position: fixed;
       bottom: 20px;
@@ -507,7 +508,8 @@
       z-index: 10000;
       box-shadow: 0 2px 8px rgba(0,0,0,0.3);
       transition: background-color 0.3s;
-      display: flex;
+      display: none; /* Masqué initialement */
+      flex-direction: column;
     }
     #global-share-btn:hover {
       background-color: #00a48a;
@@ -528,13 +530,16 @@
         font-size: 0.8rem;
       }
     }
-    /* Style pour les boutons d'action */
-    .action-container {
+    /* Style pour les boutons d'action dans le STEP4 en colonne verticale */
+    #step4 .action-container {
       display: flex;
-      justify-content: space-around;
-      align-items: center;
-      margin: 20px 0;
+      flex-direction: column;
       gap: 10px;
+      margin: 20px 0;
+    }
+    #step4 .action-container .action-square {
+      width: 90%;
+      margin: 10px auto;
     }
     .action-square {
       display: flex;
@@ -636,7 +641,7 @@
       margin-top: 10px;
     }
     
-    /* --- STEP5 : Prise de contact (via Calendly) --- */
+    /* --- STEP5 : Prise de contact (Calendly) --- */
     .calendy {
       text-align: center;
     }
@@ -896,7 +901,7 @@
           <h2 style="font-weight: bold;">Félicitations pour avoir réalisé ton improvisation ! <span>🤩</span></h2>
         </div>
 
-        <!-- Conteneur d'actions avec 3 boutons carrés -->
+        <!-- Conteneur d'actions avec 3 boutons en colonne verticale -->
         <div class="action-container">
           <a id="download-video-btn" class="action-square" aria-label="Télécharge ta vidéo">
             <i class="fas fa-download"></i>
@@ -946,7 +951,7 @@
     </div>
   </div>
 
-  <!-- Bouton de partage global -->
+  <!-- Bouton de partage global (sera affiché seulement à partir du STEP1) -->
   <div id="global-share-btn">
     <i class="fas fa-share-alt"></i>
   </div>
@@ -1000,6 +1005,18 @@
     let videoDownloaded = false;
 
     /***********************
+     * FONCTION POUR METTRE À JOUR LA VISIBILITÉ DU BOUTON "PARTAGER"
+     ***********************/
+    function updateShareButtonVisibility() {
+      const shareBtn = document.getElementById('global-share-btn');
+      if (currentStep >= 1) {
+        shareBtn.style.display = 'flex';
+      } else {
+        shareBtn.style.display = 'none';
+      }
+    }
+
+    /***********************
      * GESTION DE L'HISTORIQUE (pushState/popstate)
      ***********************/
     function pushStepState(step) {
@@ -1015,6 +1032,7 @@
         boxes[stepToShow].classList.add('active');
         currentStep = stepToShow;
         updateProgressBar(stepToShow);
+        updateShareButtonVisibility();
         // Si on revient au STEP3, afficher le sujet généré
         if (stepToShow == 3) {
           document.getElementById('current-subject-display').textContent = currentSubject;
@@ -1024,6 +1042,7 @@
         Object.values(boxes).forEach(box => box.classList.remove('active'));
         introBox.style.display = 'block';
         currentStep = 0;
+        updateShareButtonVisibility();
       }
     });
 
@@ -1052,6 +1071,7 @@
       updateProgressBar(next);
       currentStep = next;
       pushStepState(next);
+      updateShareButtonVisibility();
       // Si on passe au STEP3, mettre à jour le sujet
       if(next == 3) {
         document.getElementById('current-subject-display').textContent = currentSubject;
@@ -1101,6 +1121,7 @@
         currentStep = 1;
         updateProgressBar(1);
         pushStepState(1);
+        updateShareButtonVisibility();
       }, 500);
     });
 
