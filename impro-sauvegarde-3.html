@@ -163,7 +163,7 @@
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
     @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-    /* --- CONTENEUR PRINCIPAL --- */
+    /* --- CONTAINER PRINCIPAL --- */
     .main-container { position: relative; padding: 20px; }
     /* --- BOXES (étapes) --- */
     .box {
@@ -488,10 +488,13 @@
       border: none;
       border-radius: 8px;
       padding: 12px;
-      text-align: left;
       font-size: 16px;
-      cursor: pointer;
       width: 100%;
+      /* Hauteur unifiée et centrage vertical du contenu */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 60px;
     }
     .action-square.disabled {
       opacity: 0.5;
@@ -501,51 +504,35 @@
     .btn-action {
       display: inline-block;
       width: 100%;
+      cursor: pointer; /* curseur survolable */
     }
-    /* Spécificités pour le conteneur "rdv expert" (qui n'est pas un bouton entier) */
+    /* Spécificités pour le conteneur "rdv expert" (non cliquable) */
     .contact-square {
-      position: relative;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
+      pointer-events: none; /* rend le container non cliquable */
     }
     .contact-square span {
-      font-size: 16px;
+      pointer-events: none; /* le texte n'est pas cliquable non plus */
     }
     .contact-options {
+      pointer-events: auto; /* seuls les boutons Oui/Non sont cliquables */
       display: flex;
       gap: 8px;
-      flex-shrink: 0; /* évite que les boutons rapetissent sur mobile */
+      flex-shrink: 0;
     }
-    .contact-options button {
-      background-color: #FF5722;
-      color: #fff;
-      border: 1px solid #fff;
-      border-radius: 4px;
-      padding: 4px 8px;
-      font-size: 0.8rem;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      cursor: pointer;
-    }
-    .contact-options button:hover {
-      background-color: #fff;
-      color: #FF5722;
-    }
-    /* Layout desktop: tout sur une seule ligne */
+    /* Layout desktop: tout sur une seule ligne (texte + boutons) */
     @media (min-width: 600px) {
       .contact-square {
         flex-direction: row;
+        justify-content: space-between;
       }
     }
-    /* Layout mobile: "2) Tu veux prendre rdv..." sur une ligne, puis boutons en dessous */
+    /* Layout mobile: texte + boutons centrés, l'un en dessous de l'autre */
     @media (max-width: 599px) {
       .contact-square {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
         gap: 8px;
+        text-align: center;
       }
     }
 
@@ -688,6 +675,24 @@
       .objective-item:hover { transform: scale(1.03); background-color: #00a48a; }
       .objective-item:hover i { color: #fff; }
       .objective-item:hover span { color: #fff; }
+    }
+
+    /* --- BOUTON DE PARTAGE (en bas à droite) --- */
+    #global-share-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #182d84;
+      color: #fff;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 999; /* par-dessus tout */
+      font-size: 20px;
     }
   </style>
 </head>
@@ -930,7 +935,7 @@
     </div>
   </div>
 
-  <!-- Bouton de partage global -->
+  <!-- Bouton de partage global (en bas à droite) -->
   <div id="global-share-btn">
     <i class="fas fa-share-alt"></i>
   </div>
@@ -986,6 +991,7 @@
      ***********************/
     function updateShareButtonVisibility() {
       const shareBtn = document.getElementById('global-share-btn');
+      // On l'affiche si on est au moins à l'étape 1
       shareBtn.style.display = currentStep >= 1 ? 'flex' : 'none';
     }
 
