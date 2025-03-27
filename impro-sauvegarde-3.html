@@ -56,6 +56,9 @@
   
   <!-- Styles CSS Global -->
   <style>
+    /* Empêcher le débordement horizontal sur desktop */
+    html { overflow-x: hidden; }
+    
     /* --- GLOBAL --- */
     * { box-sizing: border-box; }
     body {
@@ -507,7 +510,7 @@
       z-index: 10000;
       box-shadow: 0 2px 8px rgba(0,0,0,0.3);
       transition: background-color 0.3s;
-      display: flex;
+      display: none; /* masqué par défaut */
     }
     #global-share-btn:hover {
       background-color: #00a48a;
@@ -528,13 +531,19 @@
         font-size: 0.8rem;
       }
     }
-    /* Style pour les boutons d'action */
+    /* Style pour les boutons d'action, disposés verticalement sur mobile */
     .action-container {
       display: flex;
-      justify-content: space-around;
+      justify-content: center;
       align-items: center;
       margin: 20px 0;
-      gap: 10px;
+      gap: 20px;
+    }
+    /* Par défaut (desktop) les boutons restent côte à côte */
+    @media (max-width: 600px) {
+      .action-container {
+        flex-direction: column;
+      }
     }
     .action-square {
       display: flex;
@@ -896,7 +905,7 @@
           <h2 style="font-weight: bold;">Félicitations pour avoir réalisé ton improvisation ! <span>🤩</span></h2>
         </div>
 
-        <!-- Conteneur d'actions avec 3 boutons carrés -->
+        <!-- Conteneur d'actions avec 3 boutons disposés verticalement -->
         <div class="action-container">
           <a id="download-video-btn" class="action-square" aria-label="Télécharge ta vidéo">
             <i class="fas fa-download"></i>
@@ -904,7 +913,10 @@
           </a>
           <a id="contact-btn" class="action-square disabled" aria-label="Prendre rdv avec un expert">
             <i class="fas fa-user-tie"></i>
-            <span>Prendre rdv avec un expert</span>
+            <span>Veux-tu prendre rdv avec un expert ?<br>
+              <button id="contact-yes" class="btn-impro" style="margin:5px 0;">Oui</button>
+              <button id="contact-no" class="btn-impro" style="margin:5px 0;">Non</button>
+            </span>
           </a>
           <a id="feedback-btn" class="action-square disabled" aria-label="Analyse ta prestation">
             <i class="fas fa-chart-line"></i>
@@ -946,7 +958,7 @@
     </div>
   </div>
 
-  <!-- Bouton de partage global -->
+  <!-- Bouton de partage global (affiché à partir du STEP1) -->
   <div id="global-share-btn">
     <i class="fas fa-share-alt"></i>
   </div>
@@ -973,7 +985,7 @@
       3: document.getElementById('next-btn3')
     };
 
-    // Pour les boutons de retour, on gère maintenant step2, step3, step4, et step5
+    // Boutons de retour
     const backBtns = {
       2: document.getElementById('back-btn2'),
       3: document.getElementById('back-btn3'),
@@ -984,6 +996,7 @@
     const introBox = document.getElementById('intro-box');
     const startIntroBtn = document.getElementById('start-intro-btn');
     const topProgressBar = document.getElementById('top-progress-bar');
+    const globalShareBtn = document.getElementById('global-share-btn');
 
     let currentStep = 0;
     let currentCategory = null;
@@ -1009,21 +1022,23 @@
     window.addEventListener('popstate', (event) => {
       if (event.state && event.state.step) {
         const stepToShow = event.state.step;
-        // Masquer toutes les boxes
         Object.values(boxes).forEach(box => box.classList.remove('active'));
-        // Afficher la box correspondante
         boxes[stepToShow].classList.add('active');
         currentStep = stepToShow;
         updateProgressBar(stepToShow);
-        // Si on revient au STEP3, afficher le sujet généré
+        if (stepToShow >= 1) {
+          globalShareBtn.style.display = 'flex';
+        } else {
+          globalShareBtn.style.display = 'none';
+        }
         if (stepToShow == 3) {
           document.getElementById('current-subject-display').textContent = currentSubject;
         }
       } else {
-        // Par défaut, afficher l'intro si aucun state n'est défini
         Object.values(boxes).forEach(box => box.classList.remove('active'));
         introBox.style.display = 'block';
         currentStep = 0;
+        globalShareBtn.style.display = 'none';
       }
     });
 
@@ -1052,8 +1067,13 @@
       updateProgressBar(next);
       currentStep = next;
       pushStepState(next);
-      // Si on passe au STEP3, mettre à jour le sujet
-      if(next == 3) {
+      // Dès que l'on est au STEP1 ou plus, on affiche le bouton de partage
+      if (next >= 1) {
+        globalShareBtn.style.display = 'flex';
+      } else {
+        globalShareBtn.style.display = 'none';
+      }
+      if (next == 3) {
         document.getElementById('current-subject-display').textContent = currentSubject;
       }
     }
@@ -1101,6 +1121,7 @@
         currentStep = 1;
         updateProgressBar(1);
         pushStepState(1);
+        globalShareBtn.style.display = 'flex';
       }, 500);
     });
 
@@ -1446,7 +1467,7 @@
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
-          videoDownloaded = true;  // Indique que la vidéo a été téléchargée
+          videoDownloaded = true;  // La vidéo est téléchargée
           // Rendre actif le bouton "Prendre rdv avec un expert"
           document.getElementById('contact-btn').classList.remove('disabled');
         } else {
@@ -1461,27 +1482,16 @@
       window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro";
     });
 
-    // Gestion du bouton "Prendre rdv avec un expert" avec intégration de la question Oui/Non
-    const contactBtn = document.getElementById('contact-btn');
-    contactBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      if (!videoDownloaded) return;
-      // Si le bouton n'est pas déjà en mode question, on change son contenu pour afficher la question Oui/Non.
-      if (contactBtn.getAttribute('data-question-mode') !== 'true') {
-        contactBtn.setAttribute('data-question-mode', 'true');
-        contactBtn.innerHTML = `<span>Veux-tu prendre rdv avec un expert ?</span><br>
-          <button id="contact-yes" class="btn-impro" style="margin-right: 10px;">Oui</button>
-          <button id="contact-no" class="btn-impro">Non</button>`;
-        document.getElementById('contact-yes').addEventListener('click', () => {
-          showBox(4, 5);
-        });
-        document.getElementById('contact-no').addEventListener('click', () => {
-          contactBtn.removeAttribute('data-question-mode');
-          contactBtn.innerHTML = `<i class="fas fa-user-tie"></i><span>Prendre rdv avec un expert</span>`;
-          // Dégriser le bouton "Analyse ta prestation"
-          document.getElementById('feedback-btn').classList.remove('disabled');
-        });
-      }
+    // Gestion du bouton "Prendre rdv avec un expert" avec le message statique "Veux-tu prendre rdv avec un expert ? Oui / Non"
+    const contactYesBtn = document.getElementById('contact-yes');
+    const contactNoBtn = document.getElementById('contact-no');
+
+    contactYesBtn.addEventListener('click', () => {
+      showBox(4, 5);
+    });
+    contactNoBtn.addEventListener('click', () => {
+      // Rien à faire de spécial, on laisse le bouton tel quel et on dégrise "Analyse ta prestation"
+      document.getElementById('feedback-btn').classList.remove('disabled');
     });
 
     // Gestion de la newsletter
@@ -1541,8 +1551,8 @@
         shareBtn.addEventListener('click', () => {
           if (navigator.share) {
             navigator.share(this.shareData)
-              .then(() => console.log('Shared successfully'))
-              .catch((error) => console.log('Error sharing', error));
+              .then(() => console.log('Partage réussi'))
+              .catch((error) => console.log('Erreur lors du partage', error));
           } else {
             alert("Le partage n'est pas supporté sur ce navigateur.");
           }
