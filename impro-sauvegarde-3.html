@@ -10,7 +10,7 @@
   <link rel="icon" href="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Letmotiv_favicon.webp" type="image/png">
   <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Letmotiv_favicon.webp">
   
-  <!-- Balises Open Graph -->
+  <!-- Balises Open Graph pour LinkedIn -->
   <meta property="og:title" content="Simulateur d'improvisation Letmotiv" />
   <meta property="og:description" content="Évaluer et développer sa prise de parole en public avec le simulateur d'improvisation Letmotiv." />
   <meta property="og:type" content="website" />
@@ -26,7 +26,7 @@
   <meta name="twitter:description" content="Évaluer et développer sa prise de parole en public avec le simulateur d'improvisation Letmotiv.">
   <meta name="twitter:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png">
 
-  <!-- Google Fonts -->
+  <!-- Import de la police DM Sans et Montserrat depuis Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans&family=Montserrat:wght@700&display=swap" rel="stylesheet" />
@@ -460,7 +460,6 @@
       margin-top: 10px;
     }
     .hidden-btn { display: none; }
-
     /* --- STEP4 : Bilan - Téléchargement, Analyse & Prise de rendez-vous --- */
     #step4 .download-section-accent {
       background: linear-gradient(135deg, #182d84, #00a48a);
@@ -482,7 +481,7 @@
       gap: 10px;
       margin: 20px 0;
     }
-    /* Gros boutons orange (desktop et mobile) */
+    /* --- style des "gros" boutons orange (desktop et mobile) --- */
     .action-square {
       background-color: #FF5722;
       color: #fff;
@@ -498,12 +497,12 @@
       opacity: 0.5;
       pointer-events: none;
     }
-    /* Pour en faire un vrai bouton cliquable : */
+    /* Pour que "Télécharge ta vidéo" et "Analyse ta prestation" soient de vrais boutons */
     .btn-action {
       display: inline-block;
       width: 100%;
     }
-    /* Conteneur "rdv expert" (texte + 2 petits boutons) */
+    /* Spécificités pour le conteneur "rdv expert" (qui n'est pas un bouton entier) */
     .contact-square {
       position: relative;
       display: flex;
@@ -535,13 +534,13 @@
       background-color: #fff;
       color: #FF5722;
     }
-    /* Layout desktop: sur une seule ligne */
+    /* Layout desktop: tout sur une seule ligne */
     @media (min-width: 600px) {
       .contact-square {
         flex-direction: row;
       }
     }
-    /* Layout mobile: question sur une ligne, boutons en dessous */
+    /* Layout mobile: "2) Tu veux prendre rdv..." sur une ligne, puis boutons en dessous */
     @media (max-width: 599px) {
       .contact-square {
         flex-direction: column;
@@ -622,7 +621,7 @@
       padding: 10px 0;
     }
     
-    /* Responsive modifications pour STEP1 (objectifs) */
+    /* Responsive modifications for objectives (STEP1) */
     @media (max-width: 600px) {
       .objectives-container {
         display: flex;
@@ -748,7 +747,42 @@
         <div class="box-title">Quel est ton objectif ?</div>
       </div>
       <div class="objectives-container">
-        <!-- Vos objectifs... -->
+        <div class="objective-item" data-category="diction">
+          <i class="fas fa-grin-tongue"></i>
+          <span>Améliorer sa diction</span>
+        </div>
+        <div class="objective-item" data-category="repartie">
+          <i class="fas fa-comments"></i>
+          <span>Avoir de la répartie</span>
+        </div>
+        <div class="objective-item" data-category="convaincre">
+          <i class="fas fa-handshake"></i>
+          <span>Convaincre</span>
+        </div>
+        <div class="objective-item" data-category="conflit">
+          <i class="fas fa-exclamation-triangle"></i>
+          <span>Gérer un conflit</span>
+        </div>
+        <div class="objective-item" data-category="inspirer">
+          <i class="fas fa-lightbulb"></i>
+          <span>Inspirer</span>
+        </div>
+        <div class="objective-item" data-category="lacher-prise">
+          <i class="fas fa-smile"></i>
+          <span>Lâcher prise</span>
+        </div>
+        <div class="objective-item" data-category="toast">
+          <i class="fas fa-glass-cheers"></i>
+          <span>Porter un toast</span>
+        </div>
+        <div class="objective-item" data-category="entretien">
+          <i class="fas fa-briefcase"></i>
+          <span>Réussir son entretien</span>
+        </div>
+        <div class="objective-item" data-category="vendre">
+          <i class="fas fa-money-bill-wave"></i>
+          <span>Vendre</span>
+        </div>
       </div>
       <div id="explanation-box" class="explanation-box"></div>
       <div id="objective-error" class="error-message"></div>
@@ -773,7 +807,11 @@
         Des conseils avant de démarrer<span class="mobile-break"><br></span> ta simulation ? <i id="advice-icon" class="fas fa-chevron-down"></i>
       </div>
       <div id="advice-text">
-        <!-- Vos conseils... -->
+        1) Positionne tes yeux à hauteur de la caméra. <br><br>
+        2) Choisis un fond neutre pour éviter toute distraction.<br><br>
+        3) Assure-toi que l'éclairage te met en valeur. <br><br>
+        4) Vérifie que le son et la vidéo fonctionnent.<br><br>
+        5) Reste concentré et prends du plaisir. 
       </div>
       <div id="subject-error" class="error-message"></div>
       <button class="next-btn" id="next-btn2" aria-label="Étape suivante">
@@ -793,7 +831,11 @@
       <div class="video-box">
         <video id="preview" autoplay muted playsinline webkit-playsinline></video>
         <div class="video-overlay">
-          <!-- Overlay avant lancement... -->
+          <p>Ta vidéo va s'enregistrer ici.</p>
+          <button id="start-btn" aria-label="Démarrer l'improvisation">
+            Démarrer ton impro <i class="fas fa-video"></i>
+          </button>
+          <p>NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
         </div>
         <!-- Indicateur d'enregistrement (masqué initialement) -->
         <div class="recording-indicator" id="recording-indicator">
@@ -834,7 +876,7 @@
 
         <!-- Conteneur d'actions : 3 "blocs" -->
         <div class="action-container">
-          <!-- 1) Télécharge ta vidéo (bouton) -->
+          <!-- 1) Télécharge ta vidéo (gros bouton cliquable) -->
           <button id="download-video-btn" class="action-square btn-action" aria-label="Télécharge ta vidéo">
             1) Télécharge ta vidéo
           </button>
@@ -848,7 +890,7 @@
             </div>
           </div>
 
-          <!-- 3) Analyse ta prestation (bouton) -->
+          <!-- 3) Analyse ta prestation (gros bouton cliquable) -->
           <button id="feedback-btn" class="action-square btn-action disabled" aria-label="Analyse ta prestation">
             3) Analyse ta prestation
           </button>
@@ -880,13 +922,26 @@
       <main>
         <section id="calendy" class="section calendy">
           <div class="container">
-            
-  <!-- Calendly widget script -->
-  <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+            <!-- Calendly inline widget -->
+            <div class="calendly-inline-widget" data-url="https://calendly.com/letmotiv/premier-contact?hide_event_type_details=1" style="min-width:320px;height:1000px;"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
 
+  <!-- Bouton de partage global -->
+  <div id="global-share-btn">
+    <i class="fas fa-share-alt"></i>
+  </div>
+
+  <!-- Calendly widget script -->
+  <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+
+  <!-- SCRIPT JavaScript -->
   <script>
     /***********************
-     * VARIABLES GLOBALES
+     * VARIABLES ET CONSTANTES
      ***********************/
     const boxes = {
       1: document.getElementById('step1'),
@@ -895,17 +950,21 @@
       4: document.getElementById('step4'),
       5: document.getElementById('step5')
     };
+
     const nextBtns = {
       1: document.getElementById('next-btn1'),
       2: document.getElementById('next-btn2'),
       3: document.getElementById('next-btn3')
     };
+
+    // Boutons de retour pour les étapes
     const backBtns = {
       2: document.getElementById('back-btn2'),
       3: document.getElementById('back-btn3'),
       4: document.getElementById('back-btn4'),
       5: document.getElementById('back-btn5')
     };
+
     const introBox = document.getElementById('intro-box');
     const startIntroBtn = document.getElementById('start-intro-btn');
     const topProgressBar = document.getElementById('top-progress-bar');
@@ -923,11 +982,20 @@
     let videoDownloaded = false;
 
     /***********************
-     * HISTORIQUE NAVIGATION
+     * Mise à jour du bouton de partage
+     ***********************/
+    function updateShareButtonVisibility() {
+      const shareBtn = document.getElementById('global-share-btn');
+      shareBtn.style.display = currentStep >= 1 ? 'flex' : 'none';
+    }
+
+    /***********************
+     * Gestion de l'historique (pushState/popstate)
      ***********************/
     function pushStepState(step) {
       history.pushState({ step }, null, `#step${step}`);
     }
+
     window.addEventListener('popstate', (event) => {
       if (event.state && event.state.step) {
         const stepToShow = event.state.step;
@@ -936,7 +1004,7 @@
         currentStep = stepToShow;
         updateProgressBar(stepToShow);
         updateShareButtonVisibility();
-        if (stepToShow === 3) {
+        if (stepToShow == 3) {
           document.getElementById('current-subject-display').textContent = currentSubject;
         }
       } else {
@@ -948,32 +1016,69 @@
     });
 
     /***********************
-     * FONCTIONS UTILES
+     * Fonctions utilitaires
      ***********************/
     function updateProgressBar(step) {
-      const progress = (step / 5) * 100;
-      topProgressBar.style.width = `${progress}%`;
+      topProgressBar.style.width = `${(step / 5) * 100}%`;
     }
+
     function displayError(elementId, message) {
       const el = document.getElementById(elementId);
       el.textContent = message;
       el.style.display = 'block';
     }
-    function updateShareButtonVisibility() {
-      const shareBtn = document.getElementById('global-share-btn');
-      shareBtn.style.display = (currentStep >= 1) ? 'flex' : 'none';
+
+    /***********************
+     * Navigation entre les étapes
+     ***********************/
+    function showBox(current, next) {
+      if (!boxes[current] || !boxes[next]) return;
+      boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
+      boxes[next].classList.add('active');
+      boxes[next].classList.add(next > current ? 'slide-from-bottom' : 'slide-from-top');
+      updateProgressBar(next);
+      currentStep = next;
+      pushStepState(next);
+      updateShareButtonVisibility();
+      if(next == 3) {
+        document.getElementById('current-subject-display').textContent = currentSubject;
+      }
     }
-    function disableNavigationButtons() {
-      Object.values(nextBtns).forEach(btn => btn.disabled = true);
-      Object.values(backBtns).forEach(btn => btn.disabled = true);
-    }
-    function enableNavigationButtons() {
-      Object.values(nextBtns).forEach(btn => btn.disabled = false);
-      Object.values(backBtns).forEach(btn => btn.disabled = false);
+
+    function initNavigationButtons() {
+      nextBtns[1].addEventListener('click', () => {
+        const selected = document.querySelector('.objectives-container .selected-objective');
+        if (!selected) {
+          displayError('objective-error', "Sélectionne un objectif avant de continuer.");
+          return;
+        }
+        showBox(1, 2);
+      });
+      nextBtns[2].addEventListener('click', () => {
+        if (!currentSubject) {
+          displayError('subject-error', "Tu dois générer un sujet avant de continuer.");
+          return;
+        }
+        document.getElementById('current-subject-display').textContent = currentSubject;
+        showBox(2, 3);
+      });
+      nextBtns[3].addEventListener('click', () => {
+        const improErrorDiv = document.getElementById('impro-error');
+        improErrorDiv.style.display = 'none';
+        if (!currentSubject || !isImproRecordingStarted) {
+          displayError('impro-error', "Tu dois lancer ton improvisation avant de continuer.");
+          return;
+        }
+        showBox(3, 4);
+      });
+      backBtns[2].addEventListener('click', () => { showBox(2, 1); });
+      backBtns[3].addEventListener('click', () => { showBox(3, 2); });
+      backBtns[4].addEventListener('click', () => { showBox(4, 3); });
+      backBtns[5].addEventListener('click', () => { showBox(5, 4); });
     }
 
     /***********************
-     * INTRO
+     * Initialisation de l'introduction
      ***********************/
     startIntroBtn.addEventListener('click', () => {
       introBox.style.animation = 'fadeOut 0.5s ease forwards';
@@ -988,7 +1093,7 @@
     });
 
     /***********************
-     * STEP1 : Objectifs
+     * Gestion des objectifs (STEP1)
      ***********************/
     const explanations = {
       convaincre:   "Tu as 2 minutes pour convaincre ton auditoire sur un sujet délicat",
@@ -1001,21 +1106,41 @@
       entretien:    "Convaincs ton futur employeur que tu es la pépite qu'il recherche",
       'lacher-prise': "Oublie la censure et exprime ton grain de folie"
     };
+
     const txtFilesByCategory = {
-      convaincre:    "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/convaincre.txt",
-      inspirer:      "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/inspirer.txt",
-      'lacher-prise':"https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/lacher_prise.txt",
-      toast:         "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/toast.txt",
-      repartie:      "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/repartie.txt",
-      vendre:        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/vendre.txt",
-      conflit:       "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/gerer_un_conflit.txt",
-      diction:       "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/diction.txt",
-      entretien:     "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/entretien.txt"
+      convaincre:   "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/convaincre.txt",
+      inspirer:     "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/inspirer.txt",
+      'lacher-prise': "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/lacher_prise.txt",
+      toast:        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/toast.txt",
+      repartie:     "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/repartie.txt",
+      vendre:       "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/vendre.txt",
+      conflit:      "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/gerer_un_conflit.txt",
+      diction:      "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/diction.txt",
+      entretien:    "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/entretien.txt"
     };
+
     let subjectsCache = {
-      convaincre: null, inspirer: null, 'lacher-prise': null,
-      toast: null, repartie: null, vendre: null,
-      conflit: null, diction: null, entretien: null
+      convaincre: null,
+      inspirer: null,
+      'lacher-prise': null,
+      toast: null,
+      repartie: null,
+      vendre: null,
+      conflit: null,
+      diction: null,
+      entretien: null
+    };
+
+    const defaultIcons = {
+      convaincre: "fas fa-handshake",
+      inspirer: "fas fa-lightbulb",
+      "lacher-prise": "fas fa-smile",
+      toast: "fas fa-glass-cheers",
+      repartie: "fas fa-comments",
+      vendre: "fas fa-money-bill-wave",
+      conflit: "fas fa-exclamation-triangle",
+      diction: "fas fa-grin-tongue",
+      entretien: "fas fa-briefcase"
     };
 
     const objectivesButtons = document.querySelectorAll('.objectives-container .objective-item');
@@ -1023,31 +1148,35 @@
 
     objectivesButtons.forEach(item => {
       item.addEventListener('click', async () => {
-        // Sur mobile : si déjà sélectionné, on passe direct au step2
         if (window.innerWidth <= 600) {
           const icon = item.querySelector('i');
+          // Si on reclique sur l'item déjà sélectionné (avec icône flèche droite), on passe à l'étape suivante
           if (item.classList.contains('selected-objective') && icon.classList.contains('fa-arrow-right')) {
             showBox(1, 2);
             return;
           }
         }
-        // Réinitialiser
         objectivesButtons.forEach(el => {
           el.classList.remove('selected-objective');
+          const elIcon = el.querySelector('i');
+          const cat = el.dataset.category;
+          if (defaultIcons[cat]) {
+            elIcon.className = defaultIcons[cat];
+          }
           el.style.transform = "";
           el.style.backgroundColor = "";
         });
         item.classList.add('selected-objective');
         const cat = item.dataset.category;
-        currentCategory = cat;
-
-        // Animation simple
         item.style.transition = "transform 0.3s, background-color 0.3s";
         item.style.transform = "scale(1.1)";
         item.style.backgroundColor = "rgba(0, 164, 138, 0.2)";
         setTimeout(() => { item.style.transform = ""; }, 300);
 
-        // Explication
+        currentCategory = cat;
+        currentSubject = ""; // on réinitialise le sujet si on change d'objectif
+
+        // Version mobile : explication sous l'item + icône flèche
         if (window.innerWidth <= 600) {
           const existingExp = document.querySelector('.mobile-explanation');
           if(existingExp) { existingExp.remove(); }
@@ -1058,9 +1187,13 @@
           const icon = item.querySelector('i');
           icon.className = "fas fa-arrow-right";
         } else {
-          explanationBox.textContent = explanations[cat] || "";
+          // Version desktop : affichage dans la box
+          const exp = explanations[cat] || "";
+          explanationBox.textContent = exp;
           explanationBox.classList.add('show');
         }
+
+        // Chargement du fichier txt si pas déjà fait
         if (subjectsCache[cat] === null) {
           await loadSubjects(cat);
         }
@@ -1090,7 +1223,7 @@
     }
 
     /***********************
-     * STEP2 : Génération du sujet
+     * Gestion du sujet d'impro (STEP2)
      ***********************/
     const generateSubjectBtn = document.getElementById('generate-subject-btn');
     const subjectWrapper = document.getElementById('subject-wrapper');
@@ -1103,7 +1236,7 @@
       }
       const subjects = subjectsCache[currentCategory];
       if (!subjects || subjects.length === 0) {
-        subjectDisplay.textContent = "Désolé, aucun sujet n'est disponible pour le moment. Réessaie plus tard.";
+        subjectDisplay.textContent = "Désolé, aucun sujet n'est disponible pour le moment. Veuillez réessayer plus tard.";
         subjectWrapper.style.display = 'block';
         currentSubject = "";
         return;
@@ -1124,40 +1257,46 @@
         adviceText.style.display = 'block';
         adviceIcon.classList.remove('fa-chevron-down');
         adviceIcon.classList.add('fa-chevron-up');
+        adviceIcon.style.transform = 'rotate(0deg)';
       } else {
         adviceText.style.display = 'none';
         adviceIcon.classList.remove('fa-chevron-up');
         adviceIcon.classList.add('fa-chevron-down');
+        adviceIcon.style.transform = 'rotate(0deg)';
       }
     });
 
     /***********************
-     * STEP3 : Enregistrement vidéo
+     * Enregistrement vidéo (STEP3)
      ***********************/
     function bindStartButton() {
       const startBtn = document.getElementById('start-btn');
-      if(startBtn) {
+      if(startBtn){
         startBtn.addEventListener('click', startImpro);
       }
     }
+
     async function startImpro() {
       if (!currentSubject) {
         displayError('impro-error', "Tu dois générer un sujet avant de démarrer l'improvisation.");
         return;
       }
       if (typeof MediaRecorder === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
-        displayError('impro-error', "L'enregistrement vidéo n'est pas supporté par votre navigateur.");
+        displayError('impro-error', "Désolé, l'enregistrement vidéo n'est pas supporté par votre navigateur.");
         return;
       }
-      if (!confirm("Votre webcam va se lancer pour démarrer l'improvisation. Continuer ?")) {
+      if (!confirm("Votre webcam va se lancer pour démarrer l'improvisation. Voulez-vous continuer ?")) {
         return;
       }
+      // Sur mobile, on ajuste la hauteur de la .video-box
       if (window.innerWidth <= 600) {
-        document.querySelector('.video-box').style.height = "450px";
+          const videoBox = document.querySelector('.video-box');
+          videoBox.style.height = "450px";
       }
       document.querySelector('.video-overlay').style.display = 'none';
       startInitialCountdown();
     }
+
     function startInitialCountdown() {
       let count = 5;
       document.getElementById('initial-countdown').textContent = count;
@@ -1173,11 +1312,12 @@
         }
       }, 1000);
     }
+
     async function initiateRecording() {
       const stream = await setupCamera();
       if (!stream) return;
       if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
-        displayError('impro-error', "Ton navigateur ne supporte pas l'enregistrement vidéo.");
+        displayError('impro-error', "Ton navigateur ne supporte pas l'enregistrement vidéo. Essaye avec Chrome, Edge ou Firefox.");
         return;
       }
       mediaRecorderInstance = new MediaRecorder(stream);
@@ -1192,17 +1332,16 @@
         videoURL = URL.createObjectURL(videoBlob);
         stream.getTracks().forEach(t => t.stop());
         const overlay = document.querySelector('.video-overlay');
-        overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Improvisation terminée.<br>Passe à l'étape suivante !</p>";
+        overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Improvisation terminée. <br>Passe à l'étape suivante !</p>";
         overlay.style.display = 'flex';
         document.getElementById('impro-error').style.display = 'none';
         clearInterval(timerInterval);
-        // Masquer l'indicateur d'enregistrement
-        document.getElementById('recording-indicator').style.display = 'none';
+        document.getElementById('recording-indicator').style.display = 'none'; // masquer point rouge + countdown
         isImproRecordingStarted = true;
         nextBtns[3].classList.add('pulse');
         enableNavigationButtons();
         if (window.innerWidth <= 600) {
-          document.querySelector('.video-box').style.height = "300px";
+            document.querySelector('.video-box').style.height = "300px";
         }
       };
       mediaRecorderInstance.start();
@@ -1213,6 +1352,7 @@
       disableNavigationButtons();
       startTimer();
     }
+
     async function setupCamera() {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
@@ -1220,7 +1360,7 @@
         return stream;
       } catch (error) {
         if (error.name === 'NotAllowedError') {
-          displayError('impro-error', "Accès à la webcam refusé.");
+          displayError('impro-error', "Vous avez refusé l'accès à la webcam. Veuillez autoriser l'accès.");
         } else if (error.name === 'NotFoundError') {
           displayError('impro-error', "Aucune caméra/micro détectés.");
         } else {
@@ -1230,6 +1370,7 @@
         return null;
       }
     }
+
     function startTimer() {
       timeRemaining = 120;
       updateCountdownDisplay();
@@ -1250,8 +1391,10 @@
     function updateCountdownDisplay() {
       const minutes = Math.floor(timeRemaining / 60);
       const seconds = timeRemaining % 60;
-      document.getElementById('countdown').textContent = `${minutes}:${(seconds < 10 ? '0' : '') + seconds}`;
+      const countdownEl = document.getElementById('countdown');
+      countdownEl.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
     }
+
     document.getElementById('stop-btn').addEventListener('click', () => {
       if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
         mediaRecorderInstance.stop();
@@ -1278,57 +1421,10 @@
     bindStartButton();
 
     /***********************
-     * NAVIGATION (étapes)
-     ***********************/
-    function showBox(current, next) {
-      if (!boxes[current] || !boxes[next]) return;
-      boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
-      boxes[next].classList.add('active');
-      boxes[next].classList.add(next > current ? 'slide-from-bottom' : 'slide-from-top');
-      updateProgressBar(next);
-      currentStep = next;
-      pushStepState(next);
-      updateShareButtonVisibility();
-      if(next === 3) {
-        document.getElementById('current-subject-display').textContent = currentSubject;
-      }
-    }
-    function initNavigationButtons() {
-      nextBtns[1].addEventListener('click', () => {
-        const selected = document.querySelector('.objectives-container .selected-objective');
-        if (!selected) {
-          displayError('objective-error', "Sélectionne un objectif avant de continuer.");
-          return;
-        }
-        showBox(1, 2);
-      });
-      nextBtns[2].addEventListener('click', () => {
-        if (!currentSubject) {
-          displayError('subject-error', "Tu dois générer un sujet avant de continuer.");
-          return;
-        }
-        document.getElementById('current-subject-display').textContent = currentSubject;
-        showBox(2, 3);
-      });
-      nextBtns[3].addEventListener('click', () => {
-        if (!currentSubject || !isImproRecordingStarted) {
-          displayError('impro-error', "Tu dois lancer ton improvisation avant de continuer.");
-          return;
-        }
-        showBox(3, 4);
-      });
-      backBtns[2].addEventListener('click', () => showBox(2, 1));
-      backBtns[3].addEventListener('click', () => showBox(3, 2));
-      backBtns[4].addEventListener('click', () => showBox(4, 3));
-      backBtns[5].addEventListener('click', () => showBox(5, 4));
-    }
-    initNavigationButtons();
-
-    /***********************
-     * STEP4 : Téléchargement, Feedback, Contact
+     * Téléchargement & Newsletter (STEP4)
      ***********************/
     document.getElementById('download-video-btn').addEventListener('click', () => {
-      if (confirm("Une vidéo va être téléchargée. Continuer ?")) {
+      if (confirm("Une vidéo va être téléchargée. Voulez-vous continuer ?")) {
         if (videoURL) {
           const link = document.createElement('a');
           link.href = videoURL;
@@ -1337,10 +1433,9 @@
           link.click();
           document.body.removeChild(link);
           videoDownloaded = true;
-          // Rendre le bouton contact actif
           document.getElementById('contact-btn').classList.remove('disabled');
         } else {
-          alert("Aucune vidéo disponible.");
+          alert("Aucune vidéo n'est disponible pour le moment.");
         }
       }
     });
@@ -1356,22 +1451,18 @@
     });
     document.getElementById('contact-no').addEventListener('click', (e) => {
       e.preventDefault();
-      // Rendre le bouton "Analyse ta prestation" actif
       document.getElementById('feedback-btn').classList.remove('disabled');
     });
 
-    /***********************
-     * NEWSLETTER
-     ***********************/
     document.getElementById('newsletter-form').addEventListener('submit', (e) => {
       e.preventDefault();
       let valid = true;
       const prenomInput = document.getElementById('newsletter-prenom');
-      const emailInput  = document.getElementById('newsletter-email');
+      const emailInput = document.getElementById('newsletter-email');
       const prenomErrorEl = document.getElementById('newsletter-prenom-error');
-      const emailErrorEl  = document.getElementById('newsletter-email-error');
+      const emailErrorEl = document.getElementById('newsletter-email-error');
       prenomErrorEl.style.display = 'none';
-      emailErrorEl.style.display   = 'none';
+      emailErrorEl.style.display = 'none';
 
       if (prenomInput.value.trim() === "") {
         prenomErrorEl.textContent = "Le prénom est requis.";
@@ -1396,20 +1487,19 @@
 
       const successEl = document.getElementById('newsletter-success');
       successEl.style.display = 'block';
-      setTimeout(() => {
-        successEl.style.display = 'none';
-      }, 5000);
+      setTimeout(() => { successEl.style.display = 'none'; }, 5000);
     });
 
     /***********************
-     * PARTAGE
+     * Partage
      ***********************/
     class ShareManager {
       constructor() {
         this.shareData = {
           title: "Letmotiv - Simulateur d'entretien",
           text: "Prépare-toi aux entretiens d'embauche et d'admission grâce au simulateur d'entretien Letmotiv.",
-          url: window.location.href
+          url: window.location.href,
+          image: "https://i.postimg.cc/qvxsxJR3/Simulateur-interview.png"
         };
         this.bindShareEvents();
       }
@@ -1430,9 +1520,17 @@
       new ShareManager();
     });
 
-    /***********************
-     * CHARGEMENT INITIAL
-     ***********************/
+    initNavigationButtons();
+
+    function disableNavigationButtons() {
+      Object.values(nextBtns).forEach(btn => btn.disabled = true);
+      Object.values(backBtns).forEach(btn => btn.disabled = true);
+    }
+    function enableNavigationButtons() {
+      Object.values(nextBtns).forEach(btn => btn.disabled = false);
+      Object.values(backBtns).forEach(btn => btn.disabled = false);
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       if (window.location.hash) {
         const stepFromHash = window.location.hash.replace('#step', '');
