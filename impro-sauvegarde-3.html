@@ -404,18 +404,19 @@
       transition: background-color 0.3s;
     }
     .video-overlay button:hover { background-color: #00a48a; }
+    /* Indicateur d'enregistrement : affichera uniquement le point rouge et le timer */
     .recording-indicator {
+      display: flex;
+      align-items: center;
+      gap: 5px;
       position: absolute;
       top: 10px;
       right: 10px;
-      display: flex;
-      align-items: center;
       background-color: rgba(255,255,255,0.8);
       padding: 5px 10px;
       border-radius: 20px;
       font-size: 14px;
       color: #ff0000;
-      display: none;
       z-index: 3;
     }
     .recording-indicator .dot {
@@ -424,18 +425,13 @@
       background-color: #ff0000;
       border-radius: 50%;
       display: inline-block;
-      margin-right: 5px;
       animation: blink 1s infinite;
     }
     @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
+    /* La classe .countdown est maintenant intégrée dans .recording-indicator */
     .countdown {
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
-      font-size: 16px; /* Taille réduite par rapport à 24px */
+      font-size: 16px; /* Taille réduite */
       color: #ffffff;
-      display: none;
-      z-index: 4;
       background-color: rgba(0,0,0,0.5);
       padding: 5px 10px;
       border-radius: 5px;
@@ -530,7 +526,7 @@
         font-size: 0.8rem;
       }
     }
-    /* Style pour les boutons d'action dans le STEP4 en colonne verticale */
+    /* Boutons d'action du STEP4 en colonne verticale et en largeur étendue */
     #step4 .action-container {
       display: flex;
       flex-direction: column;
@@ -570,6 +566,29 @@
       text-align: center;
       display: block;
       padding: 0 5px;
+    }
+    /* Nouvelle structure pour le bouton de prise de rendez-vous */
+    #contact-btn {
+      padding: 10px;
+    }
+    #contact-btn .contact-question {
+      display: block;
+      font-size: 16px;
+      text-align: center;
+      margin-bottom: 5px;
+    }
+    #contact-btn .contact-options {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      gap: 10px;
+    }
+    .inline-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 10px;
+      font-size: 14px;
     }
     /* Classe pour désactiver temporairement les boutons */
     .action-square.disabled {
@@ -865,10 +884,11 @@
           </button>
           <p>NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
         </div>
+        <!-- Indicateur d'enregistrement avec le point rouge et le timer -->
         <div class="recording-indicator" id="recording-indicator">
-          <span class="dot"></span> Enregistrement en cours
+          <span class="dot"></span>
+          <div class="countdown" id="countdown">1:59</div>
         </div>
-        <div class="countdown" id="countdown">1:59</div>
         <div class="initial-countdown-overlay" id="initial-countdown-overlay">
           <div class="initial-countdown" id="initial-countdown">3</div>
         </div>
@@ -907,9 +927,13 @@
             <i class="fas fa-download"></i>
             <span>Télécharge ta vidéo</span>
           </a>
+          <!-- Bouton contact modifié : affichage direct de la question avec options Oui/Non sur une seule ligne -->
           <a id="contact-btn" class="action-square disabled" aria-label="Prendre rdv avec un expert">
-            <i class="fas fa-user-tie"></i>
-            <span>Prendre rdv avec un expert</span>
+            <span class="contact-question">Tu veux prendre rdv avec un expert ?</span>
+            <div class="contact-options">
+              <button id="contact-yes" class="btn-impro inline-btn">Oui <i class="fas fa-check"></i></button>
+              <button id="contact-no" class="btn-impro inline-btn">Non <i class="fas fa-times"></i></button>
+            </div>
           </a>
           <a id="feedback-btn" class="action-square disabled" aria-label="Analyse ta prestation">
             <i class="fas fa-chart-line"></i>
@@ -1367,7 +1391,6 @@
         overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Improvisation terminée. <br>Passe à l'étape suivante !</p>";
         overlay.style.display = 'flex';
         document.getElementById('impro-error').style.display = 'none';
-        document.getElementById('recording-indicator').style.display = 'none';
         clearInterval(timerInterval);
         isImproRecordingStarted = true;
         nextBtns[3].classList.add('pulse');
@@ -1425,7 +1448,6 @@
       const seconds = timeRemaining % 60;
       const countdownEl = document.getElementById('countdown');
       countdownEl.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
-      countdownEl.style.display = 'block';
     }
 
     document.getElementById('stop-btn').addEventListener('click', () => {
@@ -1436,7 +1458,6 @@
         document.getElementById('stop-btn').classList.add('hidden-btn');
         document.getElementById('stop-btn').disabled = true;
         document.getElementById('restart-btn').classList.remove('hidden-btn');
-        document.getElementById('recording-indicator').style.display = 'none';
       }
     });
     document.getElementById('restart-btn').addEventListener('click', () => {
@@ -1482,27 +1503,15 @@
       window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro";
     });
 
-    // Gestion du bouton "Prendre rdv avec un expert" avec intégration de la question Oui/Non
-    const contactBtn = document.getElementById('contact-btn');
-    contactBtn.addEventListener('click', (e) => {
+    // Gestion du bouton "Prendre rdv avec un expert" : les boutons Oui/Non sont désormais affichés directement
+    document.getElementById('contact-yes').addEventListener('click', (e) => {
       e.preventDefault();
-      if (!videoDownloaded) return;
-      // Si le bouton n'est pas déjà en mode question, on change son contenu pour afficher la question Oui/Non.
-      if (contactBtn.getAttribute('data-question-mode') !== 'true') {
-        contactBtn.setAttribute('data-question-mode', 'true');
-        contactBtn.innerHTML = `<span>Veux-tu prendre rdv avec un expert ?</span><br>
-          <button id="contact-yes" class="btn-impro" style="margin-right: 10px;">Oui</button>
-          <button id="contact-no" class="btn-impro">Non</button>`;
-        document.getElementById('contact-yes').addEventListener('click', () => {
-          showBox(4, 5);
-        });
-        document.getElementById('contact-no').addEventListener('click', () => {
-          contactBtn.removeAttribute('data-question-mode');
-          contactBtn.innerHTML = `<i class="fas fa-user-tie"></i><span>Prendre rdv avec un expert</span>`;
-          // Dégriser le bouton "Analyse ta prestation"
-          document.getElementById('feedback-btn').classList.remove('disabled');
-        });
-      }
+      showBox(4, 5);
+    });
+    document.getElementById('contact-no').addEventListener('click', (e) => {
+      e.preventDefault();
+      // Si on clique sur Non, on réactive le bouton Feedback (par exemple)
+      document.getElementById('feedback-btn').classList.remove('disabled');
     });
 
     // Gestion de la newsletter
