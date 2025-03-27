@@ -1016,7 +1016,7 @@
      * GESTION DE L'HISTORIQUE (pushState/popstate)
      ***********************/
     function pushStepState(step) {
-      history.pushState({ step }, null, #step${step});
+      history.pushState({ step }, null, `#step${step}`);
     }
 
     window.addEventListener('popstate', (event) => {
@@ -1047,7 +1047,7 @@
      ***********************/
     function updateProgressBar(step) {
       const progress = (step / 5) * 100;
-      topProgressBar.style.width = ${progress}%;
+      topProgressBar.style.width = `${progress}%`;
     }
 
     function displayError(elementId, message) {
@@ -1217,7 +1217,7 @@
           if(existingExp) { existingExp.remove(); }
           const exp = explanations[currentCategory] || "";
           if(exp) {
-            item.insertAdjacentHTML('afterend', <div class="mobile-explanation">${exp}</div>);
+            item.insertAdjacentHTML('afterend', `<div class="mobile-explanation">${exp}</div>`);
           }
           // Modifier l'icône en flèche vers la droite, sans rotation
           const icon = item.querySelector('i');
@@ -1424,7 +1424,7 @@
       const minutes = Math.floor(timeRemaining / 60);
       const seconds = timeRemaining % 60;
       const countdownEl = document.getElementById('countdown');
-      countdownEl.textContent = ${minutes}:${seconds < 10 ? '0' + seconds : seconds};
+      countdownEl.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
       countdownEl.style.display = 'block';
     }
 
@@ -1441,13 +1441,13 @@
     });
     document.getElementById('restart-btn').addEventListener('click', () => {
       document.getElementById('restart-btn').classList.add('hidden-btn');
-      document.querySelector('.video-overlay').innerHTML = 
+      document.querySelector('.video-overlay').innerHTML = `
         <p>Ton improvisation vidéo va s'enregistrer ici.</p>
         <button id="start-btn" aria-label="Démarrer l'improvisation">
           Démarrer ton impro <i class="fas fa-video"></i>
         </button>
         <p>NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
-      ;
+      `;
       document.querySelector('.video-overlay').style.display = 'flex';
       isImproRecordingStarted = false;
       bindStartButton();
