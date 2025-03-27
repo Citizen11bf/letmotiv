@@ -404,15 +404,17 @@
       transition: background-color 0.3s;
     }
     .video-overlay button:hover { background-color: #00a48a; }
-    /* Indicateur d'enregistrement : affichera uniquement le point rouge et le timer */
+    /* Indicateur d'enregistrement : le point rouge et le countdown intégrés ensemble sur un fond grisé.
+       Ils sont masqués par défaut et ne s'affichent qu'après avoir cliqué sur "Démarrer l'impro". */
     .recording-indicator {
-      display: flex;
+      display: none;
+      flex-direction: row;
       align-items: center;
       gap: 5px;
       position: absolute;
       top: 10px;
       right: 10px;
-      background-color: rgba(255,255,255,0.8);
+      background-color: rgba(128,128,128,0.6);
       padding: 5px 10px;
       border-radius: 20px;
       font-size: 14px;
@@ -427,15 +429,12 @@
       display: inline-block;
       animation: blink 1s infinite;
     }
-    @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
-    /* La classe .countdown est maintenant intégrée dans .recording-indicator */
+    /* Le timer n'a plus de fond ni de padding pour s'intégrer dans le conteneur parent */
     .countdown {
-      font-size: 16px; /* Taille réduite */
+      font-size: 16px;
       color: #ffffff;
-      background-color: rgba(0,0,0,0.5);
-      padding: 5px 10px;
-      border-radius: 5px;
-      text-align: center;
+      background: none;
+      margin-left: 5px;
     }
     .initial-countdown-overlay {
       position: absolute;
@@ -504,7 +503,7 @@
       z-index: 10000;
       box-shadow: 0 2px 8px rgba(0,0,0,0.3);
       transition: background-color 0.3s;
-      display: none; /* Masqué initialement */
+      display: none;
       flex-direction: column;
     }
     #global-share-btn:hover {
@@ -884,7 +883,7 @@
           </button>
           <p>NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
         </div>
-        <!-- Indicateur d'enregistrement avec le point rouge et le timer -->
+        <!-- Indicateur d'enregistrement (masqué initialement) -->
         <div class="recording-indicator" id="recording-indicator">
           <span class="dot"></span>
           <div class="countdown" id="countdown">1:59</div>
@@ -1400,6 +1399,7 @@
         }
       };
       mediaRecorderInstance.start();
+      // Afficher l'indicateur d'enregistrement une fois l'enregistrement lancé
       document.getElementById('recording-indicator').style.display = 'flex';
       document.getElementById('stop-btn').classList.remove('hidden-btn');
       document.getElementById('stop-btn').disabled = false;
@@ -1503,14 +1503,14 @@
       window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro";
     });
 
-    // Gestion du bouton "Prendre rdv avec un expert" : les boutons Oui/Non sont désormais affichés directement
+    // Gestion des boutons Oui/Non pour le rendez-vous
     document.getElementById('contact-yes').addEventListener('click', (e) => {
       e.preventDefault();
       showBox(4, 5);
     });
     document.getElementById('contact-no').addEventListener('click', (e) => {
       e.preventDefault();
-      // Si on clique sur Non, on réactive le bouton Feedback (par exemple)
+      // Si on clique sur Non, on réactive le bouton Feedback
       document.getElementById('feedback-btn').classList.remove('disabled');
     });
 
