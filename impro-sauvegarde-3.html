@@ -1119,27 +1119,29 @@
      * Initialisation de l'introduction
      ***********************/
     startIntroBtn.addEventListener('click', () => {
-    // Réinitialise les animations des éléments internes de l'intro-box
-    const introTitle = document.querySelector('.intro-box h1');
-    const introWrapper = document.querySelector('.intro-box .wrapper');
-    if (introTitle) {
-      introTitle.style.animation = 'none';
-    }
-    if (introWrapper) {
-      introWrapper.style.animation = 'none';
-    }
+  // Désactive les animations et réinitialise les transformations
+  const introTitle = document.querySelector('.intro-box h1');
+  const introWrapper = document.querySelector('.intro-box .wrapper');
+  if (introTitle) {
+    introTitle.style.animation = 'none';
+    introTitle.style.transform = 'none';
+  }
+  if (introWrapper) {
+    introWrapper.style.animation = 'none';
+  }
 
-    // Lance l'animation de disparition de l'intro-box
-    introBox.style.animation = 'fadeOut 0.5s ease forwards';
-    setTimeout(() => {
-      introBox.style.display = 'none';
-      boxes[1].classList.add('active', 'slide-from-bottom');
-      currentStep = 1;
-      updateProgressBar(1);
-      pushStepState(1);
-      updateShareButtonVisibility();
-    }, 500);
-    });
+  // Lance l'animation fadeOut sur l'intro-box
+  introBox.style.animation = 'fadeOut 0.5s ease forwards';
+  setTimeout(() => {
+    introBox.style.display = 'none';
+    boxes[1].classList.add('active', 'slide-from-bottom');
+    currentStep = 1;
+    updateProgressBar(1);
+    pushStepState(1);
+    updateShareButtonVisibility();
+  }, 500);
+});
+
 
     /***********************
      * Gestion des objectifs (STEP1)
