@@ -272,7 +272,6 @@
       margin-bottom: 8px;
       display: block;
     }
-    /* Règle pour que l'icône de la flèche droite ne soit pas inclinée */
     .objective-item i.fa-arrow-right {
       transform: none !important;
     }
@@ -495,6 +494,8 @@
       align-items: center;
       justify-content: center;
       min-height: 60px;
+      position: relative;
+      overflow: hidden;
     }
     .action-square.disabled {
       opacity: 0.5;
@@ -505,7 +506,7 @@
       width: 100%;
       cursor: pointer;
     }
-    /* Conteneur contact : agencement mobile appliqué en desktop */
+    /* Conteneur contact : alignement en mode row pour les boutons Oui/Non */
     #contact-btn {
       display: flex;
       flex-direction: column;
@@ -516,10 +517,11 @@
     #contact-btn .contact-options {
       margin-top: 10px;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       gap: 8px;
+      justify-content: center;
     }
-    /* Boutons Oui/Non plus sexy */
+    /* Boutons Oui/Non améliorés */
     #contact-btn .contact-options button {
       padding: 8px 16px;
       border: none;
@@ -693,27 +695,26 @@
       font-size: 20px;
     }
     
-    /* --- ANIMATION ELECTRIQUE --- */
+    /* --- ANIMATION ELECTRIQUE AVEC CONIC-GRADIENT --- */
     .electric-border {
       position: relative;
-      overflow: hidden;
+      z-index: 1;
     }
     .electric-border::before {
       content: "";
       position: absolute;
-      top: -2px;
-      left: -2px;
-      width: calc(100% + 4px);
-      height: calc(100% + 4px);
-      border: 2px solid transparent;
+      top: -4px;
+      left: -4px;
+      right: -4px;
+      bottom: -4px;
       border-radius: inherit;
-      pointer-events: none;
-      animation: electricCurrent 2s linear infinite;
+      background: conic-gradient(from 0deg, transparent 10%, #ff5722 30%, transparent 50%);
+      z-index: -1;
+      animation: spin 2s linear infinite;
     }
-    @keyframes electricCurrent {
-      0% { border-color: #00a48a; transform: translateX(-100%); }
-      50% { border-color: #ff5722; transform: translateX(100%); }
-      100% { border-color: #00a48a; transform: translateX(-100%); }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
   </style>
 </head>
@@ -863,7 +864,6 @@
           </button>
           <p>NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
         </div>
-        <!-- Indicateur d'enregistrement (masqué initialement) -->
         <div class="recording-indicator" id="recording-indicator">
           <span class="dot"></span>
           <div class="countdown" id="countdown">1:59</div>
@@ -895,19 +895,15 @@
         <div class="box-title">C'est l'heure du bilan !</div>
       </div>
       <div class="download-section">
-        <!-- Box dégradée "Félicitations..." -->
         <div class="download-section-accent">
           <h2 style="font-weight: bold;">Félicitations pour ton improvisation ! <span>🤩</span></h2>
         </div>
-
-        <!-- Conteneur d'actions : 3 blocs disposés en colonne -->
         <div class="action-container">
-          <!-- 1) Télécharge ta vidéo (gros bouton cliquable) -->
+          <!-- Bouton 1 : Télécharge ta vidéo -->
           <button id="download-video-btn" class="action-square btn-action electric-border" aria-label="Télécharge ta vidéo">
             1) Télécharge ta vidéo
           </button>
-
-          <!-- 2) Rendez-vous avec un expert (texte centré avec boutons Oui/Non en dessous) -->
+          <!-- Bouton 2 : Rendez-vous avec un expert -->
           <div id="contact-btn" class="action-square contact-square disabled" aria-label="Prendre rdv avec un expert">
             <span>2) Tu veux prendre rdv avec un expert ?</span>
             <div class="contact-options">
@@ -915,13 +911,11 @@
               <button id="contact-no">Non <span>✗</span></button>
             </div>
           </div>
-
-          <!-- 3) Analyse ta prestation (gros bouton cliquable) -->
+          <!-- Bouton 3 : Analyse ta prestation -->
           <button id="feedback-btn" class="action-square btn-action disabled" aria-label="Analyse ta prestation">
             3) Analyse ta prestation
           </button>
         </div>
-        
         <!-- Section Newsletter -->
         <div class="newsletter-container">
           <h2 class="newsletter-title">Inscris-toi à la newsletter Letmotiv <br>pour progresser et prendre la parole avec impact :</h2>
@@ -948,7 +942,6 @@
       <main>
         <section id="calendy" class="section calendy">
           <div class="container">
-            <!-- Calendly inline widget -->
             <div class="calendly-inline-widget" data-url="https://calendly.com/letmotiv/premier-contact?hide_event_type_details=1" style="min-width:320px;height:1000px;"></div>
           </div>
         </section>
@@ -983,7 +976,6 @@
       3: document.getElementById('next-btn3')
     };
 
-    // Boutons de retour pour les étapes
     const backBtns = {
       2: document.getElementById('back-btn2'),
       3: document.getElementById('back-btn3'),
@@ -1012,7 +1004,6 @@
      ***********************/
     function updateShareButtonVisibility() {
       const shareBtn = document.getElementById('global-share-btn');
-      // On l'affiche si on est au moins à l'étape 1
       shareBtn.style.display = currentStep >= 1 ? 'flex' : 'none';
     }
 
@@ -1068,7 +1059,6 @@
       pushStepState(next);
       updateShareButtonVisibility();
 
-      // Lorsqu'on arrive sur le STEP4, on initialise l'animation sur le bouton 1
       if(next == 4) {
         document.getElementById('download-video-btn').classList.add('electric-border');
         document.getElementById('contact-btn').classList.remove('electric-border');
@@ -1462,7 +1452,6 @@
           link.click();
           document.body.removeChild(link);
           videoDownloaded = true;
-          // Déplacement de l'animation sur le conteneur contact (bouton 2)
           document.getElementById('download-video-btn').classList.remove('electric-border');
           document.getElementById('contact-btn').classList.add('electric-border');
           document.getElementById('contact-btn').classList.remove('disabled');
@@ -1483,7 +1472,6 @@
     });
     document.getElementById('contact-no').addEventListener('click', (e) => {
       e.preventDefault();
-      // Déplacement de l'animation sur le bouton 3
       document.getElementById('feedback-btn').classList.add('electric-border');
       document.getElementById('contact-btn').classList.remove('electric-border');
       document.getElementById('feedback-btn').classList.remove('disabled');
