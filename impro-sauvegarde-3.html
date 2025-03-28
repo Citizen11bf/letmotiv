@@ -303,6 +303,7 @@
     .objective-item[data-category="lacher-prise"] i { color: #FF5722; }
     
     /* --- STEP2 : Génération du sujet --- */
+  
     #objective-reminder { color: grey; font-size: 0.8rem; margin-bottom: 10px; }
     #current-objective { text-transform: lowercase; }
     #subject-wrapper {
@@ -412,6 +413,7 @@
       transition: background-color 0.3s;
     }
     .video-overlay button:hover { background-color: #00a48a; }
+   
     /* Indicateur d'enregistrement */
     .recording-indicator {
       display: none;
@@ -507,6 +509,7 @@
       cursor: pointer;
     }
     /* Conteneur contact : boutons Oui/Non côte à côte */
+    
     #contact-btn {
       display: flex;
       flex-direction: column;
@@ -521,7 +524,8 @@
       gap: 8px;
       justify-content: center;
     }
-    /* Boutons Oui/Non améliorés */
+    /* Boutons Oui/Non pour pour prendre contact avec un expert */
+  
     #contact-btn .contact-options button {
       padding: 8px 16px;
       border: none;
@@ -536,7 +540,8 @@
       transform: scale(1.05);
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
-    /* --- STEP4 - Newsletter --- */
+    /* --- STEP4 - Abonnement à la newsletter --- */
+  
     .btn-newsletter {
       background: linear-gradient(135deg, #182d84, #00a48a);
       color: #fff;
@@ -601,13 +606,14 @@
     }
 
      /* --- Animation Animated Border via Conic Gradient --- */
+    
     .animated-border {
       --border-angle: 0turn;
       border: solid 5px transparent;
       border-radius: 8px !important;
       --main-bg: conic-gradient(from var(--border-angle), #213, #112 5%, #112 60%, #213 95%);
       --gradient-border: conic-gradient(from var(--border-angle), transparent 25%, #08f, #f03 99%, transparent);
-      background-color: FF5722; 
+      background-color: #FF5722; 
       background: 
         var(--main-bg) padding-box,
         var(--gradient-border) border-box,
