@@ -1577,13 +1577,16 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      if (window.location.hash) {
-        const stepFromHash = window.location.hash.replace('#step', '');
-        if (boxes[stepFromHash]) {
-          showBox(currentStep, stepFromHash);
-        }
+    if (window.location.hash) {
+      const stepFromHash = window.location.hash.replace('#step', '');
+      if (boxes[stepFromHash]) {
+        showBox(currentStep, stepFromHash);
       }
+    }
+    // Assurer que le bouton de partage est mis à jour (caché en STEP0)
+    updateShareButtonVisibility();
     });
+
   </script>
 </body>
 </html>
