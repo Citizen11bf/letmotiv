@@ -1012,14 +1012,6 @@
     let videoDownloaded = false;
 
     /***********************
-     * Mise à jour du bouton de partage
-     ***********************/
-    function updateShareButtonVisibility() {
-      const shareBtn = document.getElementById('global-share-btn');
-      shareBtn.style.display = currentStep >= 1 ? 'flex' : 'none';
-    }
-
-    /***********************
      * Gestion de l'historique (pushState/popstate)
      ***********************/
     function pushStepState(step) {
@@ -1563,6 +1555,12 @@
       new ShareManager();
     });
 
+    /*** Mise à jour du bouton de partage ***/
+    function updateShareButtonVisibility() {
+      const shareBtn = document.getElementById('global-share-btn');
+      shareBtn.style.display = currentStep >= 1 ? 'flex' : 'none';
+    }
+    
     initNavigationButtons();
 
     function disableNavigationButtons() {
