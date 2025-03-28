@@ -482,8 +482,7 @@
     }
     .hidden-btn { display: none; }
     
-    /* --- STEP4 : Téléchargement de la vidéo, prise de rendez-vous & analyse --- */
-    
+    /* --- STEP4 : Bilan - Téléchargement, Analyse & Prise de rendez-vous --- */
     .action-container {
       display: flex;
       flex-direction: column;
@@ -508,15 +507,13 @@
       transition: filter 0.3s;
     }
     .action-square.disabled {
-
-    background-color: #cccccc;
-    color: #777777;
-    pointer-events: none;
-    border: none;
-    border-radius: 8px;
-    opacity: 0.6;
+      background-color: #cccccc;
+      color: #777777;
+      pointer-events: none;
+      border: none;
+      border-radius: 8px;
+      opacity: 0.6;
     }
-
     .btn-action {
       display: inline-block;
       width: 100%;
@@ -524,7 +521,6 @@
     }
     
     /* Conteneur Prise de contact avec un expert */
-    
     #contact-btn {
       display: flex;
       flex-direction: column;
@@ -540,7 +536,6 @@
       justify-content: center;
     }
     /* Boutons Oui/Non pour pour prendre contact avec un expert */
-  
     #contact-btn .contact-options button {
       padding: 8px 16px;
       border-width: 2px;
@@ -557,7 +552,6 @@
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
     /* --- STEP4 - Abonnement à la newsletter --- */
-  
     .btn-newsletter {
       background: linear-gradient(135deg, #182d84, #00a48a);
       color: #fff;
@@ -893,7 +887,7 @@
           <button id="start-btn" aria-label="Démarrer l'improvisation">
             Démarrer ton impro <i class="fas fa-video"></i>
           </button>
-          <p>NB : ta vidéo est stockée sur ton appareil. <br>Aucun enregistrement n'est conservé par Letmotiv.</p>
+          <p>NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé par Letmotiv.</p>
         </div>
         <div class="recording-indicator" id="recording-indicator">
           <span class="dot"></span>
@@ -1032,6 +1026,8 @@
      ***********************/
     function pushStepState(step) {
       history.pushState({ step }, null, `#step${step}`);
+      // Enregistrer l'état dans le sessionStorage
+      sessionStorage.setItem('currentStep', step);
     }
 
     window.addEventListener('popstate', (event) => {
@@ -1458,7 +1454,7 @@
         document.getElementById('restart-btn').classList.remove('hidden-btn');
       }
     });
-       document.getElementById('restart-btn').addEventListener('click', () => {
+    document.getElementById('restart-btn').addEventListener('click', () => {
       if (!confirm("Attention, tu vas recommencer ton impro et lancer un nouvel enregistrement. Tu es sûr ?")) {
         return; // L'utilisateur a annulé, on arrête l'action.
       }
@@ -1599,17 +1595,27 @@
       Object.values(backBtns).forEach(btn => btn.disabled = false);
     }
 
+    // Restauration de l'état à partir du sessionStorage lors du chargement
     document.addEventListener('DOMContentLoaded', () => {
-    if (window.location.hash) {
-      const stepFromHash = window.location.hash.replace('#step', '');
-      if (boxes[stepFromHash]) {
-        showBox(currentStep, stepFromHash);
+      let savedStep = sessionStorage.getItem('currentStep');
+      if (savedStep && boxes[savedStep]) {
+        // On affiche directement la boîte enregistrée et on masque l'introduction
+        Object.values(boxes).forEach(box => box.classList.remove('active'));
+        boxes[savedStep].classList.add('active');
+        currentStep = parseInt(savedStep);
+        updateProgressBar(currentStep);
+        updateShareButtonVisibility();
+      } else if (window.location.hash) {
+        const stepFromHash = window.location.hash.replace('#step', '');
+        if (boxes[stepFromHash]) {
+          showBox(currentStep, stepFromHash);
+        }
+      } else {
+        introBox.style.display = 'block';
+        currentStep = 0;
+        updateShareButtonVisibility();
       }
-    }
-    // Assurer que le bouton de partage est mis à jour (caché en STEP0)
-    updateShareButtonVisibility();
     });
-
   </script>
 </body>
 </html>
