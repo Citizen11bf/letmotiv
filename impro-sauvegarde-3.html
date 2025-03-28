@@ -700,21 +700,23 @@
       font-size: 20px;
     }
     
-    /* --- Animation Animated Border via Conic Gradient --- */
+    /* --- Animation Animated Border pour les squares du STEP4 --- */
     .animated-border {
-      --border-angle: 0turn;
-      border: solid 5px transparent;
-      border-radius: 2em;
-      --main-bg: conic-gradient(from var(--border-angle), #213, #112 5%, #112 60%, #213 95%);
-      --gradient-border: conic-gradient(from var(--border-angle), transparent 25%, #08f, #f03 99%, transparent);
-      background: 
-        var(--main-bg) padding-box,
-        var(--gradient-border) border-box,
-        var(--main-bg) border-box;
-      background-position: center center;
-      animation: bg-spin 3s linear infinite;
+      position: relative;
     }
-    @keyframes bg-spin {
+    .animated-border::before {
+      content: "";
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      right: -5px;
+      bottom: -5px;
+      border-radius: inherit;
+      background: conic-gradient(from var(--border-angle, 0turn), transparent 25%, #FF5722, #FF5722 99%, transparent);
+      z-index: -1;
+      animation: border-spin 3s linear infinite;
+    }
+    @keyframes border-spin {
       to {
         --border-angle: 1turn;
       }
@@ -1073,7 +1075,7 @@
       updateShareButtonVisibility();
 
       if(next == 4) {
-        // Au passage au STEP4, on applique l'animation sur le bouton 1
+        // Appliquer l'animation sur le bouton 1 du STEP4
         document.getElementById('download-video-btn').classList.add('animated-border');
         document.getElementById('contact-btn').classList.remove('animated-border');
         document.getElementById('feedback-btn').classList.remove('animated-border');
