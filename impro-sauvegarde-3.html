@@ -171,8 +171,10 @@
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
     @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+   
     /* --- CONTAINER PRINCIPAL --- */
     .main-container { position: relative; padding: 20px; }
+    
     /* --- BOXES (étapes) --- */
     .box {
       position: relative;
@@ -190,11 +192,13 @@
     }
     .box.active { display: block; opacity: 1; }
     .box.hidden { opacity: 0; }
+    
     /* --- ANIMATIONS VERTICALES --- */
     .slide-from-bottom { animation: fromBottom 1.5s ease forwards; }
     @keyframes fromBottom { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
     .slide-from-top { animation: fromTop 1.5s ease forwards; }
     @keyframes fromTop { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
+   
     /* --- HEADER INTERNE DES BOXES --- */
     .box-header {
       display: flex;
@@ -257,6 +261,12 @@
       transition: background-color 0.3s;
     }
     .btn-impro:hover { background-color: #00a48a; }
+
+    .stop-animation {
+      animation: none !important;
+      transform: none !important;
+    }
+    
     /* --- STEP1 : Choix d’objectif --- */
     .objectives-container {
       display: grid;
@@ -1119,29 +1129,24 @@
      * Initialisation de l'introduction
      ***********************/
     startIntroBtn.addEventListener('click', () => {
-  // Désactive les animations et réinitialise les transformations
-  const introTitle = document.querySelector('.intro-box h1');
-  const introWrapper = document.querySelector('.intro-box .wrapper');
-  if (introTitle) {
-    introTitle.style.animation = 'none';
-    introTitle.style.transform = 'none';
-  }
-  if (introWrapper) {
-    introWrapper.style.animation = 'none';
-  }
-
-  // Lance l'animation fadeOut sur l'intro-box
-  introBox.style.animation = 'fadeOut 0.5s ease forwards';
-  setTimeout(() => {
-    introBox.style.display = 'none';
-    boxes[1].classList.add('active', 'slide-from-bottom');
-    currentStep = 1;
-    updateProgressBar(1);
-    pushStepState(1);
-    updateShareButtonVisibility();
-  }, 500);
-});
-
+      const introTitle = document.querySelector('.intro-box h1');
+      const introWrapper = document.querySelector('.intro-box .wrapper');
+      if (introTitle) {
+        introTitle.classList.add('stop-animation');
+      }
+      if (introWrapper) {
+        introWrapper.classList.add('stop-animation');
+      }
+      introBox.style.animation = 'fadeOut 0.5s ease forwards';
+      setTimeout(() => {
+        introBox.style.display = 'none';
+        boxes[1].classList.add('active', 'slide-from-bottom');
+        currentStep = 1;
+        updateProgressBar(1);
+        pushStepState(1);
+        updateShareButtonVisibility();
+      }, 500);
+    });
 
     /***********************
      * Gestion des objectifs (STEP1)
