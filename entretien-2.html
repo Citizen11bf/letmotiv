@@ -71,12 +71,6 @@
       padding-top: 60px;
       padding-bottom: 20px;
     }
-    /* Bouton de partage masqué par défaut */
-    #global-share-btn { display: none; }
-    /* Affiché uniquement si body ne possède PAS la classe hide-share */
-    body:not(.hide-share) #global-share-btn {
-      display: flex;
-    }
     .error-message { color: red; font-weight: bold; }
     
     /* --- HEADER --- */
@@ -1272,24 +1266,18 @@
         };
         this.bindShareEvents();
       }
-      
-      bindShareEvents() {
-        document.getElementById('global-share-btn').addEventListener('click', (e) => {
-          e.preventDefault();
-          if (navigator.share) {
-            navigator.share({
-              title: this.shareData.title,
-              text: this.shareData.text,
-              url: this.shareData.url
-            }).catch(err => console.error("Erreur partage :", err));
-            return;
-          }
-          const shareUrl = "whatsapp://send?text=" + encodeURIComponent(this.shareData.title + "\n" + this.shareData.text + "\n" + this.shareData.url);
-          window.location.href = shareUrl;
-        });
+
+  document.addEventListener('DOMContentLoaded', () => {
+      if (window.location.hash) {
+      const stepFromHash = window.location.hash.replace('#step', '');
+      if (boxes[stepFromHash]) {
+        showBox(currentStep, stepFromHash);
       }
     }
-
+    // Assurer que le bouton de partage est mis à jour (caché en STEP0)
+    updateShareButtonVisibility();
+    });
+    
     /* --- Mettre à jour la durée affichée dans le STEP2 --- */
     function updateDurationInfo() {
       if (AppState.selectedQuestionCount && AppState.minutesPerQuestion) {
