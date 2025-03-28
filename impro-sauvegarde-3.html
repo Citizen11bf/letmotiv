@@ -496,17 +496,19 @@
       min-height: 60px;
       position: relative;
       overflow: hidden;
+      transition: filter 0.3s;
     }
     .action-square.disabled {
       opacity: 0.5;
       pointer-events: none;
+      filter: grayscale(70%);
     }
     .btn-action {
       display: inline-block;
       width: 100%;
       cursor: pointer;
     }
-    /* Conteneur contact : alignement en mode row pour les boutons Oui/Non */
+    /* Conteneur contact : boutons Oui/Non côte à côte */
     #contact-btn {
       display: flex;
       flex-direction: column;
@@ -648,6 +650,9 @@
       .objective-item:hover { background-color: #e5e7eb; transform: translateY(-1px); }
       .objective-item:active { transform: translateY(0); background-color: #dcdfe3; }
       .mobile-explanation { font-size: 0.8rem; color: #555; font-weight: bold; margin: 4px 10px 8px; text-align: left; }
+      /* Réduction de la taille du titre et du bouton dans l'intro */
+      .intro-box h1 { font-size: 2rem; margin-bottom: 30px; }
+      .cta { font-size: 28px; padding: 8px 30px; }
     }
     @media (min-width: 601px) {
       .main-container { display: flex; justify-content: center; align-items: center; min-height: calc(100vh - 60px); }
@@ -695,26 +700,29 @@
       font-size: 20px;
     }
     
-    /* --- ANIMATION ELECTRIQUE AVEC CONIC-GRADIENT --- */
-    .electric-border {
-      position: relative;
-      z-index: 1;
+    /* --- Animation Animated Border via Conic Gradient --- */
+    .animated-border {
+      --border-angle: 0turn;
+      border: solid 5px transparent;
+      border-radius: 2em;
+      --main-bg: conic-gradient(from var(--border-angle), #213, #112 5%, #112 60%, #213 95%);
+      --gradient-border: conic-gradient(from var(--border-angle), transparent 25%, #08f, #f03 99%, transparent);
+      background: 
+        var(--main-bg) padding-box,
+        var(--gradient-border) border-box,
+        var(--main-bg) border-box;
+      background-position: center center;
+      animation: bg-spin 3s linear infinite;
     }
-    .electric-border::before {
-      content: "";
-      position: absolute;
-      top: -4px;
-      left: -4px;
-      right: -4px;
-      bottom: -4px;
-      border-radius: inherit;
-      background: conic-gradient(from 0deg, transparent 10%, #FFFF00 30%, transparent 50%);
-      z-index: -1;
-      animation: spin 2s linear infinite;
+    @keyframes bg-spin {
+      to {
+        --border-angle: 1turn;
+      }
     }
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
+    @property --border-angle {
+      syntax: "<angle>";
+      inherits: true;
+      initial-value: 0turn;
     }
   </style>
 </head>
@@ -900,7 +908,7 @@
         </div>
         <div class="action-container">
           <!-- Bouton 1 : Télécharge ta vidéo -->
-          <button id="download-video-btn" class="action-square btn-action electric-border" aria-label="Télécharge ta vidéo">
+          <button id="download-video-btn" class="action-square btn-action animated-border" aria-label="Télécharge ta vidéo">
             1) Télécharge ta vidéo
           </button>
           <!-- Bouton 2 : Rendez-vous avec un expert -->
@@ -1037,7 +1045,12 @@
      * Fonctions utilitaires
      ***********************/
     function updateProgressBar(step) {
-      topProgressBar.style.width = `${(step / 5) * 100}%`;
+      // Pour STEP4 et STEP5, on affiche 100%
+      if (step >= 4) {
+        topProgressBar.style.width = "100%";
+      } else {
+        topProgressBar.style.width = `${(step / 5) * 100}%`;
+      }
     }
 
     function displayError(elementId, message) {
@@ -1060,9 +1073,10 @@
       updateShareButtonVisibility();
 
       if(next == 4) {
-        document.getElementById('download-video-btn').classList.add('electric-border');
-        document.getElementById('contact-btn').classList.remove('electric-border');
-        document.getElementById('feedback-btn').classList.remove('electric-border');
+        // Au passage au STEP4, on applique l'animation sur le bouton 1
+        document.getElementById('download-video-btn').classList.add('animated-border');
+        document.getElementById('contact-btn').classList.remove('animated-border');
+        document.getElementById('feedback-btn').classList.remove('animated-border');
       }
       if(next == 3) {
         document.getElementById('current-subject-display').textContent = currentSubject;
@@ -1452,8 +1466,9 @@
           link.click();
           document.body.removeChild(link);
           videoDownloaded = true;
-          document.getElementById('download-video-btn').classList.remove('electric-border');
-          document.getElementById('contact-btn').classList.add('electric-border');
+          // Déplacer l'animation vers le conteneur contact
+          document.getElementById('download-video-btn').classList.remove('animated-border');
+          document.getElementById('contact-btn').classList.add('animated-border');
           document.getElementById('contact-btn').classList.remove('disabled');
         } else {
           alert("Aucune vidéo n'est disponible pour le moment.");
@@ -1472,8 +1487,9 @@
     });
     document.getElementById('contact-no').addEventListener('click', (e) => {
       e.preventDefault();
-      document.getElementById('feedback-btn').classList.add('electric-border');
-      document.getElementById('contact-btn').classList.remove('electric-border');
+      // Déplacer l'animation vers le bouton 3
+      document.getElementById('feedback-btn').classList.add('animated-border');
+      document.getElementById('contact-btn').classList.remove('animated-border');
       document.getElementById('feedback-btn').classList.remove('disabled');
     });
 
