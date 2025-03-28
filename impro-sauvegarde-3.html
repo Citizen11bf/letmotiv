@@ -1458,7 +1458,10 @@
         document.getElementById('restart-btn').classList.remove('hidden-btn');
       }
     });
-    document.getElementById('restart-btn').addEventListener('click', () => {
+       document.getElementById('restart-btn').addEventListener('click', () => {
+      if (!confirm("Attention, tu vas recommencer ton impro et lancer un nouvel enregistrement. Tu es sûr ?")) {
+        return; // L'utilisateur a annulé, on arrête l'action.
+      }
       document.getElementById('restart-btn').classList.add('hidden-btn');
       document.querySelector('.video-overlay').innerHTML = `
         <p>Ton improvisation vidéo va s'enregistrer ici.</p>
@@ -1470,6 +1473,8 @@
       document.querySelector('.video-overlay').style.display = 'flex';
       isImproRecordingStarted = false;
       bindStartButton();
+    });
+
     });
     bindStartButton();
 
