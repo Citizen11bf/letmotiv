@@ -496,17 +496,19 @@
       min-height: 60px;
       position: relative;
       overflow: hidden;
+      transition: filter 0.3s;
     }
     .action-square.disabled {
       opacity: 0.5;
       pointer-events: none;
+      filter: grayscale(70%);
     }
     .btn-action {
       display: inline-block;
       width: 100%;
       cursor: pointer;
     }
-    /* Conteneur contact : alignement en mode row pour les boutons Oui/Non */
+    /* Conteneur contact : boutons Oui/Non côte à côte */
     #contact-btn {
       display: flex;
       flex-direction: column;
@@ -648,6 +650,9 @@
       .objective-item:hover { background-color: #e5e7eb; transform: translateY(-1px); }
       .objective-item:active { transform: translateY(0); background-color: #dcdfe3; }
       .mobile-explanation { font-size: 0.8rem; color: #555; font-weight: bold; margin: 4px 10px 8px; text-align: left; }
+      /* Réduction de la taille du titre et du bouton dans l'intro */
+      .intro-box h1 { font-size: 2rem; margin-bottom: 30px; }
+      .cta { font-size: 28px; padding: 8px 30px; }
     }
     @media (min-width: 601px) {
       .main-container { display: flex; justify-content: center; align-items: center; min-height: calc(100vh - 60px); }
@@ -695,26 +700,14 @@
       font-size: 20px;
     }
     
-    /* --- ANIMATION ELECTRIQUE AVEC CONIC-GRADIENT --- */
+    /* --- Animation Border Pulse sur STEP4 --- */
     .electric-border {
-      position: relative;
-      z-index: 1;
+      animation: borderPulse 2s infinite;
     }
-    .electric-border::before {
-      content: "";
-      position: absolute;
-      top: -4px;
-      left: -4px;
-      right: -4px;
-      bottom: -4px;
-      border-radius: inherit;
-      background: conic-gradient(from 0deg, transparent 10%, #ff5722 30%, transparent 50%);
-      z-index: -1;
-      animation: spin 2s linear infinite;
-    }
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
+    @keyframes borderPulse {
+      0% { box-shadow: 0 0 0 0 rgba(255,87,34,0.8); }
+      50% { box-shadow: 0 0 0 4px rgba(255,87,34,0); }
+      100% { box-shadow: 0 0 0 0 rgba(255,87,34,0); }
     }
   </style>
 </head>
@@ -1037,7 +1030,12 @@
      * Fonctions utilitaires
      ***********************/
     function updateProgressBar(step) {
-      topProgressBar.style.width = `${(step / 5) * 100}%`;
+      // On veut 100% dès le STEP4 (et STEP5)
+      if (step >= 4) {
+        topProgressBar.style.width = "100%";
+      } else {
+        topProgressBar.style.width = `${(step / 5) * 100}%`;
+      }
     }
 
     function displayError(elementId, message) {
@@ -1060,6 +1058,7 @@
       updateShareButtonVisibility();
 
       if(next == 4) {
+        // Au passage au STEP4, on met l'animation sur le bouton 1
         document.getElementById('download-video-btn').classList.add('electric-border');
         document.getElementById('contact-btn').classList.remove('electric-border');
         document.getElementById('feedback-btn').classList.remove('electric-border');
@@ -1452,6 +1451,7 @@
           link.click();
           document.body.removeChild(link);
           videoDownloaded = true;
+          // Déplacer l'animation vers le conteneur contact
           document.getElementById('download-video-btn').classList.remove('electric-border');
           document.getElementById('contact-btn').classList.add('electric-border');
           document.getElementById('contact-btn').classList.remove('disabled');
