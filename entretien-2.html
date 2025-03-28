@@ -254,6 +254,15 @@
       top: 12%;
     }
 
+    /* Réduction de la taille du SVG dans le bouton "Commencer" sur mobile */
+    @media (max-width: 600px) {
+      .cta svg {
+        width: 40px;
+        height: 30px;
+      }
+      .mobile-break { display: inline; }
+    }
+    
     /* --- BOXES (étapes) --- */
     .box {
       position: relative;
