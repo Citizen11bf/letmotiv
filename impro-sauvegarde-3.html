@@ -467,12 +467,9 @@
       margin-top: 10px;
     }
     .hidden-btn { display: none; }
+    
     /* --- STEP4 : Bilan - Téléchargement, Analyse & Prise de rendez-vous --- */
-    /* STEP4 modifications :
-       - Titre modifié
-       - Espace vertical entre les boutons via un gap augmenté
-       - Les boutons (actifs ou désactivés) ont désormais un fond orange (#FF5722)
-       - Homogénéisation du border-radius dans tous les états (8px) */
+    
     .action-container {
       display: flex;
       flex-direction: column;
@@ -650,7 +647,6 @@
       .objective-item:hover { background-color: #e5e7eb; transform: translateY(-1px); }
       .objective-item:active { transform: translateY(0); background-color: #dcdfe3; }
       .mobile-explanation { font-size: 0.8rem; color: #555; font-weight: bold; margin: 4px 10px 8px; text-align: left; }
-      /* Réduction de la taille du titre et du bouton dans l'intro */
       .intro-box h1 { font-size: 2rem; margin-bottom: 30px; }
       .cta { font-size: 28px; padding: 8px 30px; }
     }
@@ -682,7 +678,35 @@
       .objective-item:hover span { color: #fff; }
     }
     
-    /* --- BOUTON DE PARTAGE (en bas à droite) --- */
+    /* --- Animation Animated Border via Conic Gradient --- */
+    .animated-border {
+      --border-angle: 0turn;
+      border: solid 5px transparent;
+      border-radius: 8px !important;
+      --main-bg: conic-gradient(from var(--border-angle), #213, #112 5%, #112 60%, #213 95%);
+      --gradient-border: conic-gradient(from var(--border-angle), transparent 25%, #08f, #f03 99%, transparent);
+      background-color: FF5722; 
+      background: 
+        var(--main-bg) padding-box,
+        var(--gradient-border) border-box,
+        var(--main-bg) border-box;
+      background-position: center center;
+      animation: bg-spin 3s linear infinite;
+    }
+    
+    @keyframes bg-spin {
+      to {
+        --border-angle: 1turn;
+      }
+    }
+    
+    @property --border-angle {
+      syntax: "<angle>";
+      inherits: true;
+      initial-value: 0turn;
+    }
+
+    /* --- BOUTON DE PARTAGE (EN BAS A DROITE) --- */
     #global-share-btn {
       position: fixed;
       bottom: 20px;
@@ -700,31 +724,6 @@
       font-size: 20px;
     }
     
-    /* --- Animation Animated Border via Conic Gradient --- */
-    .animated-border {
-      --border-angle: 0turn;
-      border: solid 5px transparent;
-      /* On force le même border-radius que les autres boutons */
-      border-radius: 8px !important;
-      --main-bg: conic-gradient(from var(--border-angle), #213, #112 5%, #112 60%, #213 95%);
-      --gradient-border: conic-gradient(from var(--border-angle), transparent 25%, #08f, #f03 99%, transparent);
-      background: 
-        var(--main-bg) padding-box,
-        var(--gradient-border) border-box,
-        var(--main-bg) border-box;
-      background-position: center center;
-      animation: bg-spin 3s linear infinite;
-    }
-    @keyframes bg-spin {
-      to {
-        --border-angle: 1turn;
-      }
-    }
-    @property --border-angle {
-      syntax: "<angle>";
-      inherits: true;
-      initial-value: 0turn;
-    }
   </style>
 </head>
 <body>
