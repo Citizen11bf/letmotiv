@@ -342,6 +342,7 @@
     }
     .mobile-break { display: none; }
     @media (max-width: 600px) { .mobile-break { display: inline; } }
+   
     /* --- STEP3 : Enregistrement vidéo --- */
     .subject-bubble {
       display: inline-block;
@@ -598,6 +599,34 @@
       font-size: 0.9rem;
       margin-top: 10px;
     }
+
+     /* --- Animation Animated Border via Conic Gradient --- */
+    .animated-border {
+      --border-angle: 0turn;
+      border: solid 5px transparent;
+      border-radius: 8px !important;
+      --main-bg: conic-gradient(from var(--border-angle), #213, #112 5%, #112 60%, #213 95%);
+      --gradient-border: conic-gradient(from var(--border-angle), transparent 25%, #08f, #f03 99%, transparent);
+      background-color: FF5722; 
+      background: 
+        var(--main-bg) padding-box,
+        var(--gradient-border) border-box,
+        var(--main-bg) border-box;
+      background-position: center center;
+      animation: bg-spin 3s linear infinite;
+    }
+    
+    @keyframes bg-spin {
+      to {
+        --border-angle: 1turn;
+      }
+    }
+    
+    @property --border-angle {
+      syntax: "<angle>";
+      inherits: true;
+      initial-value: 0turn;
+    }
     
     /* --- STEP5 : Prise de contact (Calendly) --- */
     .calendy {
@@ -676,34 +705,6 @@
       .objective-item:hover { transform: scale(1.03); background-color: #00a48a; }
       .objective-item:hover i { color: #fff; }
       .objective-item:hover span { color: #fff; }
-    }
-    
-    /* --- Animation Animated Border via Conic Gradient --- */
-    .animated-border {
-      --border-angle: 0turn;
-      border: solid 5px transparent;
-      border-radius: 8px !important;
-      --main-bg: conic-gradient(from var(--border-angle), #213, #112 5%, #112 60%, #213 95%);
-      --gradient-border: conic-gradient(from var(--border-angle), transparent 25%, #08f, #f03 99%, transparent);
-      background-color: FF5722; 
-      background: 
-        var(--main-bg) padding-box,
-        var(--gradient-border) border-box,
-        var(--main-bg) border-box;
-      background-position: center center;
-      animation: bg-spin 3s linear infinite;
-    }
-    
-    @keyframes bg-spin {
-      to {
-        --border-angle: 1turn;
-      }
-    }
-    
-    @property --border-angle {
-      syntax: "<angle>";
-      inherits: true;
-      initial-value: 0turn;
     }
 
     /* --- BOUTON DE PARTAGE (EN BAS A DROITE) --- */
