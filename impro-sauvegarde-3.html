@@ -368,8 +368,15 @@
       color: #333;
       text-align: center;
       margin: 0 auto;
-      max-width: 100%;
+      max-width: 90%;
     }
+    
+    @media (max-width: 600px) {
+      .subject-bubble {
+        max-width: 90%;
+        }
+    }
+    
     .video-box {
       margin: 10px auto;
       border: 3px solid #182d84;
@@ -540,6 +547,7 @@
     }
 
     /* Boutons Oui/Non pour prendre contact avec un expert */
+    
     #contact-btn .contact-options button#contact-yes {
       background-color: #a8d5ba; /* Pastel green */
       border-width: 2px;
@@ -663,6 +671,7 @@
     }
     
     /* --- STEP5 : Prise de contact (Calendly) --- */
+    
     .calendy {
       text-align: center;
     }
@@ -671,6 +680,7 @@
     }
     
     /* Responsive modifications for objectives (STEP1) */
+    
     @media (max-width: 600px) {
       .objectives-container {
         display: flex;
