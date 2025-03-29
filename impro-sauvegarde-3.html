@@ -56,7 +56,6 @@
   
   <!-- Styles CSS Global -->
   <style>
-    
     /* --- GLOBAL --- */
     * { box-sizing: border-box; }
     body {
@@ -67,8 +66,6 @@
       padding-top: 60px;
       padding-bottom: 20px;
     }
-
-    /* --- ERROR MESSAGES --- */
     .error-message {
       color: red;
       font-size: 14px;
@@ -173,10 +170,8 @@
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
     @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-   
     /* --- CONTAINER PRINCIPAL --- */
     .main-container { position: relative; padding: 20px; }
-    
     /* --- BOXES (étapes) --- */
     .box {
       position: relative;
@@ -194,13 +189,11 @@
     }
     .box.active { display: block; opacity: 1; }
     .box.hidden { opacity: 0; }
-    
     /* --- ANIMATIONS VERTICALES --- */
     .slide-from-bottom { animation: fromBottom 1.5s ease forwards; }
     @keyframes fromBottom { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
     .slide-from-top { animation: fromTop 1.5s ease forwards; }
     @keyframes fromTop { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
-   
     /* --- HEADER INTERNE DES BOXES --- */
     .box-header {
       display: flex;
@@ -263,12 +256,10 @@
       transition: background-color 0.3s;
     }
     .btn-impro:hover { background-color: #00a48a; }
-
     .stop-animation {
       animation: none !important;
       transform: none !important;
     }
-    
     /* --- STEP1 : Choix d’objectif --- */
     .objectives-container {
       display: grid;
@@ -313,9 +304,7 @@
     .objective-item[data-category="diction"] i { color: #00BCD4; }
     .objective-item[data-category="entretien"] i { color: #795548; }
     .objective-item[data-category="lacher-prise"] i { color: #FF5722; }
-    
     /* --- STEP2 : Génération du sujet --- */
-  
     #objective-reminder { color: grey; font-size: 0.8rem; margin-bottom: 10px; }
     #current-objective { text-transform: lowercase; }
     #subject-wrapper {
@@ -354,8 +343,14 @@
       text-align: left;
     }
     .mobile-break { display: none; }
-    @media (max-width: 600px) { .mobile-break { display: inline; } }
-   
+    @media (max-width: 600px) {
+      .mobile-break { display: inline; }
+      .video-box,
+      .subject-bubble {
+        width: 100%;
+        max-width: 100%;
+      }
+    }
     /* --- STEP3 : Enregistrement vidéo --- */
     .subject-bubble {
       display: inline-block;
@@ -370,15 +365,6 @@
       margin: 0 auto;
       max-width: 90%;
     }
-    
-    @media (max-width: 600px) {
-      .video-box,
-      .subject-bubble {
-        width: 100%;
-        max-width: 100%;
-        }
-    }
-
     .video-box {
       margin: 10px auto;
       border: 3px solid #182d84;
@@ -433,7 +419,6 @@
       transition: background-color 0.3s;
     }
     .video-overlay button:hover { background-color: #00a48a; }
-   
     /* Indicateur d'enregistrement */
     .recording-indicator {
       display: none;
@@ -490,9 +475,7 @@
       margin-top: 10px;
     }
     .hidden-btn { display: none; }
-    
     /* --- STEP4 : Téléchargement de la vidéo, prise de rendez-vous & analyse --- */
-    
     .action-container {
       display: flex;
       flex-direction: column;
@@ -524,15 +507,12 @@
       border-radius: 8px;
       opacity: 0.6;
     }
-
     .btn-action {
       display: inline-block;
       width: 100%;
       cursor: pointer;
     }
-    
     /* Conteneur Prise de contact avec un expert */
-    
     #contact-btn {
       display: flex;
       flex-direction: column;
@@ -547,9 +527,7 @@
       gap: 8px;
       justify-content: center;
     }
-
     /* Boutons Oui/Non pour prendre contact avec un expert */
-    
     #contact-btn .contact-options button#contact-yes {
       background-color: #a8d5ba; /* Pastel green */
       border-width: 2px;
@@ -572,14 +550,11 @@
       cursor: pointer;
       transition: transform 0.3s, box-shadow 0.3s;
     }
-    /* Griser les boutons Oui/Non lorsque le conteneur est désactivé */
     .action-square.disabled .contact-options button {
       opacity: 0.5;
       pointer-events: none;
     }
-    
     /* --- STEP4 - Abonnement à la newsletter --- */
-  
     .btn-newsletter {
       background: linear-gradient(135deg, #182d84, #00a48a);
       color: #fff;
@@ -642,9 +617,7 @@
       font-size: 0.9rem;
       margin-top: 10px;
     }
-
-     /* --- Animation Animated Border via Conic Gradient --- */
-    
+    /* --- Animation Animated Border via Conic Gradient --- */
     .animated-border {
       --border-angle: 0turn;
       border: solid 5px transparent;
@@ -659,30 +632,24 @@
       background-position: center center;
       animation: bg-spin 3s linear infinite;
     }
-    
     @keyframes bg-spin {
       to {
         --border-angle: 1turn;
       }
     }
-    
     @property --border-angle {
       syntax: "<angle>";
       inherits: true;
       initial-value: 0turn;
     }
-    
     /* --- STEP5 : Prise de contact (Calendly) --- */
-    
     .calendy {
       text-align: center;
     }
     .calendy .container {
       padding: 10px 0;
     }
-    
     /* Responsive modifications for objectives (STEP1) */
-    
     @media (max-width: 600px) {
       .objectives-container {
         display: flex;
@@ -696,10 +663,10 @@
         position: relative;
         display: flex;
         justify-content: space-between;
-        align-items: center; 
+        align-items: center;
         background-color: #f0f1f5;
         border-radius: 10px;
-        padding: 14px 20px 14px 14px; 
+        padding: 14px 20px 14px 14px;
         width: 100%;
         box-sizing: border-box;
         font-size: 1rem;
@@ -752,7 +719,6 @@
       .objective-item:hover i { color: #fff; }
       .objective-item:hover span { color: #fff; }
     }
-
     /* --- BOUTON DE PARTAGE (EN BAS A DROITE) --- */
     #global-share-btn {
       position: fixed;
@@ -771,6 +737,11 @@
       font-size: 20px;
     }
     
+    /* --- Classe fade-out pour l'intro --- */
+    .fade-out {
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
   </style>
 </head>
 <body>
@@ -1081,7 +1052,6 @@
      * Fonctions utilitaires
      ***********************/
     function updateProgressBar(step) {
-      // Pour STEP4 et STEP5, on affiche 100%
       if (step >= 4) {
         topProgressBar.style.width = "100%";
       } else {
@@ -1109,7 +1079,6 @@
       updateShareButtonVisibility();
 
       if(next == 4) {
-        // Au passage au STEP4, on applique l'animation sur le bouton 1
         document.getElementById('download-video-btn').classList.add('animated-border');
         document.getElementById('contact-btn').classList.remove('animated-border');
         document.getElementById('feedback-btn').classList.remove('animated-border');
@@ -1163,8 +1132,9 @@
       if (introWrapper) {
         introWrapper.classList.add('stop-animation');
       }
-      introBox.style.transition = 'opacity 0.5s ease';
-      introBox.style.opacity = '0';
+      // Annuler toute transformation et appliquer la classe fade-out
+      introBox.style.transform = 'none';
+      introBox.classList.add('fade-out');
       setTimeout(() => {
         introBox.style.display = 'none';
         boxes[1].classList.add('active', 'slide-from-bottom');
@@ -1466,6 +1436,7 @@
         }
       }, 1000);
     }
+
     function updateCountdownDisplay() {
       const minutes = Math.floor(timeRemaining / 60);
       const seconds = timeRemaining % 60;
@@ -1484,14 +1455,13 @@
       }
     });
     
-    // Modification : Lorsqu'on clique sur "Recommencer ton impro", après confirmation,
-    // on réinitialise l'interface pour lancer immédiatement le compte à rebours comme au premier démarrage.
+    // Lorsqu'on clique sur "Recommencer ton impro", on réinitialise l'interface et on lance immédiatement le compte à rebours
     document.getElementById('restart-btn').addEventListener('click', () => {
       if (!confirm("Attention, tu vas recommencer ton impro et lancer un nouvel enregistrement. Tu es sûr ?")) {
         return;
       }
-      // Masquer la zone d'enregistrement et réinitialiser son contenu
       const overlay = document.querySelector('.video-overlay');
+      // Masquer l'overlay et réinitialiser son contenu au format initial
       overlay.style.display = 'none';
       overlay.innerHTML = `
         <p>Ta vidéo va s'enregistrer ici.</p>
@@ -1501,11 +1471,10 @@
         <p>NB : ta vidéo est stockée sur ton appareil. <br>Aucun enregistrement n'est conservé par Letmotiv.</p>
       `;
       isImproRecordingStarted = false;
-      // Pour mobile, réinitialiser la hauteur de la vidéo
       if (window.innerWidth <= 600) {
           document.querySelector('.video-box').style.height = "450px";
       }
-      // Lancer immédiatement le compte à rebours (qui masquera à nouveau l'overlay et lancera l'enregistrement)
+      // Lancer directement le compte à rebours pour démarrer l'enregistrement comme au premier lancement
       startInitialCountdown();
     });
     bindStartButton();
@@ -1523,7 +1492,6 @@
           link.click();
           document.body.removeChild(link);
           videoDownloaded = true;
-          // Déplacer l'animation vers le conteneur contact
           document.getElementById('download-video-btn').classList.remove('animated-border');
           document.getElementById('contact-btn').classList.add('animated-border');
           document.getElementById('contact-btn').classList.remove('disabled');
@@ -1544,7 +1512,6 @@
     });
     document.getElementById('contact-no').addEventListener('click', (e) => {
       e.preventDefault();
-      // Déplacer l'animation vers le bouton 3
       document.getElementById('feedback-btn').classList.add('animated-border');
       document.getElementById('contact-btn').classList.remove('animated-border');
       document.getElementById('feedback-btn').classList.remove('disabled');
@@ -1640,10 +1607,8 @@
           showBox(currentStep, stepFromHash);
         }
       }
-      // Assurer que le bouton de partage est mis à jour (caché en STEP0)
       updateShareButtonVisibility();
     });
-
   </script>
 </body>
 </html>
