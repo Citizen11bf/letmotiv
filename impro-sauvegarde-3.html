@@ -1486,21 +1486,16 @@
         document.getElementById('restart-btn').classList.remove('hidden-btn');
       }
     });
-       document.getElementById('restart-btn').addEventListener('click', () => {
+    
+    // Modification : Lancement automatique du compte à rebours et de l'enregistrement après confirmation
+    document.getElementById('restart-btn').addEventListener('click', () => {
       if (!confirm("Attention, tu vas recommencer ton impro et lancer un nouvel enregistrement. Tu es sûr ?")) {
         return; // L'utilisateur a annulé, on arrête l'action.
       }
       document.getElementById('restart-btn').classList.add('hidden-btn');
-      document.querySelector('.video-overlay').innerHTML = `
-        <p>Ton improvisation vidéo va s'enregistrer ici.</p>
-        <button id="start-btn" aria-label="Démarrer l'improvisation">
-          Démarrer ton impro <i class="fas fa-video"></i>
-        </button>
-        <p>NB : ta vidéo est stockée sur ton appareil. <br>Aucun enregistrement n'est conservé par Letmotiv.</p>
-      `;
-      document.querySelector('.video-overlay').style.display = 'flex';
+      // On peut réinitialiser l'affichage si nécessaire, ici on lance directement le compte à rebours
       isImproRecordingStarted = false;
-      bindStartButton();
+      startInitialCountdown();
     });
     bindStartButton();
 
