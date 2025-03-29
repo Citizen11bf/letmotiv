@@ -1163,7 +1163,8 @@
       if (introWrapper) {
         introWrapper.classList.add('stop-animation');
       }
-      introBox.style.animation = 'fadeOut 0.5s ease forwards';
+      introBox.style.transition = 'opacity 0.5s ease';
+      introBox.style.opacity = '0';
       setTimeout(() => {
         introBox.style.display = 'none';
         boxes[1].classList.add('active', 'slide-from-bottom');
