@@ -56,6 +56,7 @@
   
   <!-- Styles CSS Global -->
   <style>
+    
     /* --- GLOBAL --- */
     * { box-sizing: border-box; }
     body {
@@ -66,6 +67,8 @@
       padding-top: 60px;
       padding-bottom: 20px;
     }
+
+    /* --- ERROR MESSAGES --- */
     .error-message {
       color: red;
       font-size: 14px;
@@ -170,8 +173,10 @@
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
     @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+   
     /* --- CONTAINER PRINCIPAL --- */
     .main-container { position: relative; padding: 20px; }
+    
     /* --- BOXES (étapes) --- */
     .box {
       position: relative;
@@ -189,11 +194,13 @@
     }
     .box.active { display: block; opacity: 1; }
     .box.hidden { opacity: 0; }
+    
     /* --- ANIMATIONS VERTICALES --- */
     .slide-from-bottom { animation: fromBottom 1.5s ease forwards; }
     @keyframes fromBottom { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
     .slide-from-top { animation: fromTop 1.5s ease forwards; }
     @keyframes fromTop { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
+   
     /* --- HEADER INTERNE DES BOXES --- */
     .box-header {
       display: flex;
@@ -256,10 +263,12 @@
       transition: background-color 0.3s;
     }
     .btn-impro:hover { background-color: #00a48a; }
+
     .stop-animation {
       animation: none !important;
       transform: none !important;
     }
+    
     /* --- STEP1 : Choix d’objectif --- */
     .objectives-container {
       display: grid;
@@ -304,7 +313,9 @@
     .objective-item[data-category="diction"] i { color: #00BCD4; }
     .objective-item[data-category="entretien"] i { color: #795548; }
     .objective-item[data-category="lacher-prise"] i { color: #FF5722; }
+    
     /* --- STEP2 : Génération du sujet --- */
+  
     #objective-reminder { color: grey; font-size: 0.8rem; margin-bottom: 10px; }
     #current-objective { text-transform: lowercase; }
     #subject-wrapper {
@@ -343,14 +354,8 @@
       text-align: left;
     }
     .mobile-break { display: none; }
-    @media (max-width: 600px) {
-      .mobile-break { display: inline; }
-      .video-box,
-      .subject-bubble {
-        width: 100%;
-        max-width: 100%;
-      }
-    }
+    @media (max-width: 600px) { .mobile-break { display: inline; } }
+   
     /* --- STEP3 : Enregistrement vidéo --- */
     .subject-bubble {
       display: inline-block;
@@ -419,6 +424,7 @@
       transition: background-color 0.3s;
     }
     .video-overlay button:hover { background-color: #00a48a; }
+   
     /* Indicateur d'enregistrement */
     .recording-indicator {
       display: none;
@@ -475,7 +481,17 @@
       margin-top: 10px;
     }
     .hidden-btn { display: none; }
+
+    @media (max-width: 600px) {
+      .video-box,
+      .subject-bubble {
+        width: 90%;
+        max-width: 90%;
+      }
+    }
+    
     /* --- STEP4 : Téléchargement de la vidéo, prise de rendez-vous & analyse --- */
+    
     .action-container {
       display: flex;
       flex-direction: column;
@@ -507,12 +523,15 @@
       border-radius: 8px;
       opacity: 0.6;
     }
+
     .btn-action {
       display: inline-block;
       width: 100%;
       cursor: pointer;
     }
+    
     /* Conteneur Prise de contact avec un expert */
+    
     #contact-btn {
       display: flex;
       flex-direction: column;
@@ -528,33 +547,38 @@
       justify-content: center;
     }
     /* Boutons Oui/Non pour prendre contact avec un expert */
+  
+    /* Bouton Oui pour prendre contact avec un expert */
     #contact-btn .contact-options button#contact-yes {
       background-color: #a8d5ba; /* Pastel green */
-      border-width: 2px;
-      border-color: #FFFFFF;
-      color: #FFFFF;
+      border: 2px solid #a8d5ba;
+      color: #182d84;
       border-radius: 20px;
       padding: 8px 16px;
       font-size: 16px;
       cursor: pointer;
       transition: transform 0.3s, box-shadow 0.3s;
     }
+    
+    /* Bouton Non pour ne prendre pas contact avec un expert */
     #contact-btn .contact-options button#contact-no {
       background-color: #f5a8a8; /* Pastel red */
-      border-width: 2px;
-      border-color: #FFFFFF;
-      color: #FFFFF;
+      border: 2px solid #f5a8a8;
+      color: #182d84;
       border-radius: 20px;
       padding: 8px 16px;
       font-size: 16px;
       cursor: pointer;
       transition: transform 0.3s, box-shadow 0.3s;
     }
+    /* Griser les boutons Oui/Non lorsque le conteneur est désactivé */
     .action-square.disabled .contact-options button {
       opacity: 0.5;
       pointer-events: none;
     }
+    
     /* --- STEP4 - Abonnement à la newsletter --- */
+  
     .btn-newsletter {
       background: linear-gradient(135deg, #182d84, #00a48a);
       color: #fff;
@@ -617,7 +641,9 @@
       font-size: 0.9rem;
       margin-top: 10px;
     }
-    /* --- Animation Animated Border via Conic Gradient --- */
+
+     /* --- Animation Animated Border via Conic Gradient --- */
+    
     .animated-border {
       --border-angle: 0turn;
       border: solid 5px transparent;
@@ -632,16 +658,19 @@
       background-position: center center;
       animation: bg-spin 3s linear infinite;
     }
+    
     @keyframes bg-spin {
       to {
         --border-angle: 1turn;
       }
     }
+    
     @property --border-angle {
       syntax: "<angle>";
       inherits: true;
       initial-value: 0turn;
     }
+    
     /* --- STEP5 : Prise de contact (Calendly) --- */
     .calendy {
       text-align: center;
@@ -649,11 +678,96 @@
     .calendy .container {
       padding: 10px 0;
     }
-    /* --- Classe fade-out pour l'intro --- */
-    .fade-out {
-      opacity: 0;
-      transition: opacity 0.5s ease;
+    
+    /* Responsive modifications for objectives (STEP1) */
+    @media (max-width: 600px) {
+      .objectives-container {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 0 5px;
+        margin: 10px auto;
+        box-sizing: border-box;
+      }
+      .objective-item {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center; 
+        background-color: #f0f1f5;
+        border-radius: 10px;
+        padding: 14px 20px 14px 14px; 
+        width: 100%;
+        box-sizing: border-box;
+        font-size: 1rem;
+        font-family: 'DM Sans', sans-serif;
+        color: #333;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+        border: none;
+      }
+      .objective-item i {
+        position: absolute;
+        bottom: 0px;
+        right: 10px;
+        font-size: 2.0rem;
+        color: #444;
+      }
+      .objective-item span { flex: 1; text-align: left; }
+      .objective-item:nth-child(odd) i { transform: rotate(-10deg); }
+      .objective-item:nth-child(even) i { transform: rotate(10deg); }
+      .objective-item:hover { background-color: #e5e7eb; transform: translateY(-1px); }
+      .objective-item:active { transform: translateY(0); background-color: #dcdfe3; }
+      .mobile-explanation { font-size: 0.8rem; color: #555; font-weight: bold; margin: 4px 10px 8px; text-align: left; }
+      .intro-box h1 { font-size: 2rem; margin-bottom: 30px; }
+      .cta { font-size: 28px; padding: 8px 30px; }
     }
+    @media (min-width: 601px) {
+      .main-container { display: flex; justify-content: center; align-items: center; min-height: calc(100vh - 60px); }
+      .box { position: relative; margin: 0 auto; }
+      .objectives-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        margin: 20px 0;
+        padding: 0 10px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .objective-item {
+        background-color: #f7f9fc;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        border-radius: 8px;
+        transition: transform 0.3s, background-color 0.3s, color 0.3s;
+        flex: 1 1 150px;
+        text-align: center;
+      }
+      .objective-item i { color: #777; transition: color 0.3s; }
+      .objective-item:hover { transform: scale(1.03); background-color: #00a48a; }
+      .objective-item:hover i { color: #fff; }
+      .objective-item:hover span { color: #fff; }
+    }
+
+    /* --- BOUTON DE PARTAGE (EN BAS A DROITE) --- */
+    #global-share-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #182d84;
+      color: #fff;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 999;
+      font-size: 20px;
+    }
+    
   </style>
 </head>
 <body>
@@ -964,6 +1078,7 @@
      * Fonctions utilitaires
      ***********************/
     function updateProgressBar(step) {
+      // Pour STEP4 et STEP5, on affiche 100%
       if (step >= 4) {
         topProgressBar.style.width = "100%";
       } else {
@@ -991,6 +1106,7 @@
       updateShareButtonVisibility();
 
       if(next == 4) {
+        // Au passage au STEP4, on applique l'animation sur le bouton 1
         document.getElementById('download-video-btn').classList.add('animated-border');
         document.getElementById('contact-btn').classList.remove('animated-border');
         document.getElementById('feedback-btn').classList.remove('animated-border');
@@ -1039,22 +1155,12 @@
       const introTitle = document.querySelector('.intro-box h1');
       const introWrapper = document.querySelector('.intro-box .wrapper');
       if (introTitle) {
-        // Récupérer la valeur calculée de la transformation pour figer la position
-        const computedTransform = window.getComputedStyle(introTitle).transform;
-        introTitle.style.transform = computedTransform;
-        // Désactiver l'animation du titre
-        introTitle.style.animation = 'none';
+        introTitle.classList.add('stop-animation');
       }
       if (introWrapper) {
-        const computedTransform = window.getComputedStyle(introWrapper).transform;
-        introWrapper.style.transform = computedTransform;
-        introWrapper.style.animation = 'none';
+        introWrapper.classList.add('stop-animation');
       }
-      // Assurer que l'intro-box garde sa position finale
-      introBox.style.transform = 'none';
-      // Appliquer une transition sur l'opacité pour un fondu
-      introBox.style.transition = 'opacity 0.5s ease';
-      introBox.style.opacity = '0';
+      introBox.style.animation = 'fadeOut 0.5s ease forwards';
       setTimeout(() => {
         introBox.style.display = 'none';
         boxes[1].classList.add('active', 'slide-from-bottom');
@@ -1356,7 +1462,6 @@
         }
       }, 1000);
     }
-
     function updateCountdownDisplay() {
       const minutes = Math.floor(timeRemaining / 60);
       const seconds = timeRemaining % 60;
@@ -1375,13 +1480,14 @@
       }
     });
     
-    // Lorsqu'on clique sur "Recommencer ton impro", on réinitialise l'interface et on lance immédiatement le compte à rebours
+    // Modification : Lorsqu'on clique sur "Recommencer ton impro", après confirmation,
+    // on réinitialise l'interface pour lancer immédiatement le compte à rebours comme au premier démarrage.
     document.getElementById('restart-btn').addEventListener('click', () => {
       if (!confirm("Attention, tu vas recommencer ton impro et lancer un nouvel enregistrement. Tu es sûr ?")) {
         return;
       }
+      // Masquer la zone d'enregistrement et réinitialiser son contenu
       const overlay = document.querySelector('.video-overlay');
-      // Masquer l'overlay et réinitialiser son contenu au format initial
       overlay.style.display = 'none';
       overlay.innerHTML = `
         <p>Ta vidéo va s'enregistrer ici.</p>
@@ -1391,10 +1497,11 @@
         <p>NB : ta vidéo est stockée sur ton appareil. <br>Aucun enregistrement n'est conservé par Letmotiv.</p>
       `;
       isImproRecordingStarted = false;
+      // Pour mobile, réinitialiser la hauteur de la vidéo
       if (window.innerWidth <= 600) {
           document.querySelector('.video-box').style.height = "450px";
       }
-      // Lancer directement le compte à rebours pour démarrer l'enregistrement comme au premier lancement
+      // Lancer immédiatement le compte à rebours (qui masquera à nouveau l'overlay et lancera l'enregistrement)
       startInitialCountdown();
     });
     bindStartButton();
@@ -1412,6 +1519,7 @@
           link.click();
           document.body.removeChild(link);
           videoDownloaded = true;
+          // Déplacer l'animation vers le conteneur contact
           document.getElementById('download-video-btn').classList.remove('animated-border');
           document.getElementById('contact-btn').classList.add('animated-border');
           document.getElementById('contact-btn').classList.remove('disabled');
@@ -1432,6 +1540,7 @@
     });
     document.getElementById('contact-no').addEventListener('click', (e) => {
       e.preventDefault();
+      // Déplacer l'animation vers le bouton 3
       document.getElementById('feedback-btn').classList.add('animated-border');
       document.getElementById('contact-btn').classList.remove('animated-border');
       document.getElementById('feedback-btn').classList.remove('disabled');
@@ -1527,8 +1636,10 @@
           showBox(currentStep, stepFromHash);
         }
       }
+      // Assurer que le bouton de partage est mis à jour (caché en STEP0)
       updateShareButtonVisibility();
     });
+
   </script>
 </body>
 </html>
