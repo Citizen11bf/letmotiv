@@ -1,1645 +1,1081 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Simulateur d'improvisation</title>
-  <meta name="description" content="Évaluer et développer sa prise de parole en public avec le simulateur d'improvisation Letmotiv. Entreprise spécialisée dans le coaching en prise de parole.">
-
-  <!-- Icône de la page (favicon) -->
-  <link rel="icon" href="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Letmotiv_favicon.webp" type="image/png">
-  <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Letmotiv_favicon.webp">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Letmotiv - Coaching et formation</title>
   
-  <!-- Balises Open Graph pour LinkedIn -->
-  <meta property="og:title" content="Simulateur d'improvisation Letmotiv" />
-  <meta property="og:description" content="Évaluer et développer sa prise de parole en public avec le simulateur d'improvisation Letmotiv." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://letmotiv-simulateur.fr" />
-  <meta property="og:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png" />
-  <meta property="og:image:alt" content="Illustration d'une improvisation en public avec un orateur sur scène." />
-  <meta name="author" content="Simulateur d'improvisation Letmotiv" />
-  <meta property="article:published_time" content="2025-01-26" />
-
-  <!-- Balises Twitter (optionnel) -->
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="https://img.icons8.com/fluency/48/000000/microphone.png">
+  
+  <!-- Meta SEO et réseaux sociaux -->
+  <meta name="description" content="Letmotiv - Coaching et formation pour la prise de parole en public. Libérez votre potentiel grâce à nos formations et coachings professionnels.">
+  <meta property="og:title" content="Letmotiv - Coaching et formation">
+  <meta property="og:description" content="Letmotiv vous accompagne pour développer vos compétences en prise de parole en public.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/Citizen11bf/letmotiv/0c649ee1f00846cb361781b0f851ff25df78672c/formation%20prise%20de%20parole%20en%20public%20professionnelle.webp">
+  <meta property="og:url" content="https://www.letmotiv.com">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Simulateur d'improvisation Letmotiv">
-  <meta name="twitter:description" content="Évaluer et développer sa prise de parole en public avec le simulateur d'improvisation Letmotiv.">
-  <meta name="twitter:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png">
-
-  <!-- Import de la police DM Sans et Montserrat depuis Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans&family=Montserrat:wght@700&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css?family=Poppins:900i" rel="stylesheet">
   
-  <!-- Icônes Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-
-  <!-- Calendly widget CSS -->
-  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
-
-  <!-- JSON-LD pour le SEO -->
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Simulateur d'improvisation Letmotiv",
-      "url": "https://letmotiv-simulateur.fr",
-      "description": "Évaluer et développer sa prise de parole en public avec le simulateur d'improvisation Letmotiv.",
-      "publisher": {
-        "@type": "Organization",
-        "name": "Letmotiv",
-        "logo": "https://letmotiv-simulateur.fr/logo.png"
-      }
-    }
-  </script>
+  <!-- Import des polices -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&display=swap" rel="stylesheet">
   
-  <!-- Styles CSS Global -->
+  <!-- Bibliothèques GSAP, ScrollTrigger et ScrollToPlugin -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollToPlugin.min.js"></script>
+  
   <style>
+    /* Défilement fluide natif */
+    html {
+      scroll-behavior: smooth;
+    }
     
-    /* --- GLOBAL --- */
-    * { box-sizing: border-box; }
-    body {
+    /* --- Styles Globaux --- */
+    * {
       margin: 0;
-      font-family: 'DM Sans', sans-serif;
-      background-color: #ffffff;
-      color: #333333;
-      padding-top: 60px;
-      padding-bottom: 20px;
+      padding: 0;
+      box-sizing: border-box;
     }
-
-    /* --- ERROR MESSAGES --- */
-    .error-message {
-      color: red;
-      font-size: 14px;
-      margin-top: 5px;
-    }
-    /* --- HEADER --- */
-    .header {
-      background-color: #182d84;
-      color: #FFFFFF;
-      font-size: 16px;
-      font-weight: bold;
-      text-align: center;
-      padding: 10px;
-      width: 100%;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 10;
-    }
-    .header-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      max-width: 100%;
-      overflow-wrap: break-word;
-    }
-    .header-l2 { font-size: 14px; font-weight: normal; }
-    /* --- BARRE DE PROGRESSION --- */
-    .progress-container {
-      position: fixed;
-      top: 60px;
-      left: 0;
-      width: 100%;
-      height: 10px;
-      background-color: rgba(24, 45, 132, 0.1);
-      z-index: 9;
-    }
-    .progress-bar {
-      width: 0%;
-      height: 100%;
-      background-color: #00a48a;
-      transition: width 0.5s ease;
-    }
-    /* --- BOÎTE D'INTRODUCTION --- */
-    .intro-box {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: linear-gradient(135deg, #182d84, #00a48a);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: #ffffff;
-      z-index: 20;
-      animation: fadeIn 1s ease forwards;
-    }
-    .intro-box h1 {
+    body {
       font-family: 'Montserrat', sans-serif;
-      font-size: 2.8rem;
-      margin-bottom: 50px;
-      animation: slideDown 1s ease forwards;
-      text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
-    }
-    .intro-box h1 span { display: block; }
-    .wrapper { display: flex; justify-content: center; }
-    .cta {
-      display: flex;
-      padding: 10px 45px;
-      text-decoration: none;
-      font-family: 'Poppins', sans-serif;
-      font-size: 40px;
-      color: white;
-      background: #FF5722;
-      transition: 0.5s;
-      box-shadow: 6px 6px 0 black;
-      transform: skewX(-15deg);
-      border-radius: 8px;
-    }
-    .cta:focus { outline: none; }
-    .cta:hover { transition: 0.3s; box-shadow: 10px 10px 0 #FBC638; }
-    .cta span:nth-child(2) { transition: 0.3s; margin-right: 0px; }
-    .cta:hover span:nth-child(2) { transition: 0.3s; margin-right: 45px; }
-    .cta span { transform: skewX(15deg); }
-    .cta span:nth-child(2) {
-      width: 20px;
-      margin-left: 30px;
-      position: relative;
-      top: 12%;
-    }
-    /* Réduction de la taille du SVG dans le bouton "Commencer" sur mobile */
-    @media (max-width: 600px) {
-      .cta svg {
-        width: 40px;
-        height: 30px;
-      }
-      .mobile-break { display: inline; }
-    }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
-    @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-   
-    /* --- CONTAINER PRINCIPAL --- */
-    .main-container { position: relative; padding: 20px; }
-    
-    /* --- BOXES (étapes) --- */
-    .box {
-      position: relative;
-      width: 100%;
-      max-width: 600px;
-      margin: 20px auto;
-      padding: 20px;
-      border-radius: 15px;
-      background: linear-gradient(135deg, #ffffff, #f9f9f9);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      font-size: 14px;
-      display: none;
-      transition: opacity 0.5s ease;
-    }
-    .box.active { display: block; opacity: 1; }
-    .box.hidden { opacity: 0; }
-    
-    /* --- ANIMATIONS VERTICALES --- */
-    .slide-from-bottom { animation: fromBottom 1.5s ease forwards; }
-    @keyframes fromBottom { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
-    .slide-from-top { animation: fromTop 1.5s ease forwards; }
-    @keyframes fromTop { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
-   
-    /* --- HEADER INTERNE DES BOXES --- */
-    .box-header {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 20px;
-      position: relative;
-    }
-    .back-btn {
-      border: none;
-      background-color: #808080;
-      color: #FFFFFF;
-      font-size: 16px;
-      cursor: pointer;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background-color 0.3s, transform 0.3s;
-      margin: 0 auto 10px;
-    }
-    .back-btn:hover { background-color: #505050; transform: scale(1.1); }
-    .back-btn:active { background-color: #303030; }
-    #step1 .back-btn.hidden-visibility { display: none; }
-    .box-title { font-size: 16px; font-weight: bold; color: #182d84; text-align: center; }
-    /* --- FLECHES HAUT/BAS --- */
-    .next-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 2px solid #182d84;
-      background-color: transparent;
-      color: #182d84;
-      cursor: pointer;
-      transition: background-color 0.3s, color 0.3s, transform 0.3s;
-      margin: 10px auto;
-    }
-    .next-btn:hover { background-color: #00a48a; color: #ffffff; transform: scale(1.05); }
-    .next-btn.pulse { animation: electricPulse 1.5s infinite; }
-    @keyframes electricPulse {
-      0% { box-shadow: 0 0 0 0 rgba(0,164,138,0.7); }
-      70% { box-shadow: 0 0 0 10px rgba(0,164,138,0); }
-      100% { box-shadow: 0 0 0 0 rgba(0,164,138,0); }
-    }
-    .btn-impro {
-      margin: 15px 0;
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #182d84;
-      color: #fff;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    .btn-impro:hover { background-color: #00a48a; }
-
-    .stop-animation {
-      animation: none !important;
-      transform: none !important;
-    }
-    
-    /* --- STEP1 : Choix d’objectif --- */
-    .objectives-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-      gap: 10px;
-      justify-items: center;
-      margin: 10px 0;
-    }
-    .objective-item {
-      text-align: center;
-      color: #444;
-      font-size: 0.9rem;
-      cursor: pointer;
-      padding: 12px;
-      border: 1px solid transparent;
-      border-radius: 10px;
-      transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
-    }
-    .objective-item i {
-      font-size: 1.8rem;
-      margin-bottom: 8px;
-      display: block;
-    }
-    .objective-item i.fa-arrow-right {
-      transform: none !important;
-    }
-    .objective-item:hover { border-color: #00a48a; background-color: rgba(0, 164, 138, 0.1); }
-    .objective-item.selected-objective {
-      transform: scale(1.1);
-      background-color: rgba(0, 164, 138, 0.2);
-      color: #00a48a;
-      border-color: #00a48a;
-      transition: all 0.3s ease-in-out;
-    }
-    .objective-item.selected-objective i { color: #00a48a; }
-    .objective-item[data-category="convaincre"] i { color: #007BFF; }
-    .objective-item[data-category="inspirer"] i { color: #FFC107; }
-    .objective-item[data-category="toast"] i { color: #E91E63; }
-    .objective-item[data-category="repartie"] i { color: #9C27B0; }
-    .objective-item[data-category="vendre"] i { color: #4CAF50; }
-    .objective-item[data-category="conflit"] i { color: #F44336; }
-    .objective-item[data-category="diction"] i { color: #00BCD4; }
-    .objective-item[data-category="entretien"] i { color: #795548; }
-    .objective-item[data-category="lacher-prise"] i { color: #FF5722; }
-    
-    /* --- STEP2 : Génération du sujet --- */
-  
-    #objective-reminder { color: grey; font-size: 0.8rem; margin-bottom: 10px; }
-    #current-objective { text-transform: lowercase; }
-    #subject-wrapper {
-      margin-top: 10px;
-      background: linear-gradient(135deg, #00a48a, #182d84);
-      border-radius: 8px;
-      padding: 15px;
-      text-align: center;
-      font-size: 16px;
-      font-weight: normal;
-      color: #ffffff;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      display: none;
-    }
-    #advice-toggle {
-      cursor: pointer;
-      margin-top: 20px;
-      margin-bottom: 20px;
-      text-align: center;
-      font-weight: normal;
-      color: #182d84;
-    }
-    #advice-toggle i {
-      margin-left: 5px;
-      transition: transform 0.3s ease;
-    }
-    #advice-text {
-      display: none;
-      margin-top: 10px;
-      padding: 10px;
-      background-color: #fefefe;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 14px;
-      line-height: 1.5;
-      text-align: left;
-    }
-    .mobile-break { display: none; }
-    @media (max-width: 600px) { .mobile-break { display: inline; } }
-   
-    /* --- STEP3 : Enregistrement vidéo --- */
-    .subject-bubble {
-      display: inline-block;
-      position: relative;
-      background: #fefefe;
-      border: 2px solid #ccc;
-      border-radius: 16px;
-      padding: 10px 10px;
-      font-size: 14px;
+      line-height: 1.6;
       color: #333;
-      text-align: center;
+      background: #fff;
+    }
+    .container {
+      width: 90%;
+      max-width: 1200px;
       margin: 0 auto;
-      max-width: 90%;
     }
-    .video-box {
-      margin: 10px auto;
-      border: 3px solid #182d84;
-      border-radius: 6px;
-      max-width: 500px;
-      background-color: #fefefe;
-      height: 300px;
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      transition: height 0.5s ease-in-out;
+    :root {
+      --primary: #182d84;
+      --secondary: #00a48a;
+      --white: #fff;
+      --green: #00a48a;
     }
-    .video-box video {
+    
+    /* Titres en majuscules avec Oswald */
+    h2, h3 {
+      font-family: 'Oswald', sans-serif;
+      text-transform: uppercase;
+    }
+    
+    /* --- HEADER --- */
+    header {
+      background: var(--primary);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: fixed;
       width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 4px;
-      position: absolute;
       top: 0;
-      left: 0;
-      z-index: 1;
-      transform: scaleX(-1);
-      -webkit-transform: scaleX(-1);
+      z-index: 1000;
+      transition: box-shadow 0.3s ease;
     }
-    .video-overlay {
-      position: absolute;
-      z-index: 2;
-      width: 100%;
-      height: 100%;
+    .header-container {
       display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+    }
+    .logo a {
+      text-decoration: none;
+      color: var(--white);
+      font-size: 16px;
+      line-height: 1.2;
+    }
+    .logo a .logo-line {
+      display: block;
+      font-weight: 600;
+    }
+    nav.desktop-nav ul {
+      list-style: none;
+      display: flex;
+      align-items: center;
+    }
+    nav.desktop-nav ul li {
+      margin-left: 20px;
+    }
+    nav.desktop-nav ul li a {
+      text-decoration: none;
+      color: var(--white);
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+    nav.desktop-nav ul li a:hover {
+      color: var(--secondary);
+    }
+    .menu-toggle {
+      display: none;
       flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      color: #555;
-      font-size: 14px;
-      padding: 20px;
-      background: rgba(255,255,255,0.6);
-    }
-    .video-overlay p { margin: 10px 0; }
-    .video-overlay button {
-      margin: 15px 0;
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #182d84;
-      color: #fff;
-      border: none;
-      border-radius: 25px;
       cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    .video-overlay button:hover { background-color: #00a48a; }
-   
-    /* Indicateur d'enregistrement */
-    .recording-indicator {
-      display: none;
-      flex-direction: row;
-      align-items: center;
-      gap: 5px;
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background-color: rgba(128,128,128,0.6);
-      padding: 5px 10px;
-      border-radius: 20px;
-      font-size: 14px;
-      color: #ff0000;
-      z-index: 3;
-    }
-    .recording-indicator .dot {
-      height: 10px;
-      width: 10px;
-      background-color: #ff0000;
-      border-radius: 50%;
-      display: inline-block;
-      animation: blink 1s infinite;
-    }
-    .countdown {
-      font-size: 16px;
-      color: #ffffff;
       background: none;
-      margin-left: 5px;
+      border: none;
     }
-    .initial-countdown-overlay {
-      position: absolute;
-      top: 0;
+    .menu-toggle span {
+      width: 25px;
+      height: 3px;
+      background: var(--white);
+      margin-bottom: 4px;
+      border-radius: 3px;
+      transition: background 0.3s;
+    }
+    
+    /* --- Mobile Nav Overlay --- */
+    .mobile-nav-overlay {
+      position: fixed;
+      top: -100%;
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(128,128,128,0.6);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 5;
-      border-radius: 6px;
+      background: var(--primary);
+      padding: 40px 20px;
+      transition: top 0.5s ease-in-out;
+      z-index: 2000;
+      text-align: center;
     }
-    .initial-countdown {
-      font-size: 48px;
-      color: #ffffff;
-      font-weight: bold;
+    .mobile-nav-overlay.active {
+      top: 0;
     }
-    .impro-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: center;
-      margin-top: 10px;
+    .close-nav {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 36px;
+      color: var(--white);
+      background: none;
+      border: none;
+      cursor: pointer;
     }
-    .hidden-btn { display: none; }
-
-    @media (max-width: 600px) {
-      .video-box,
-      .subject-bubble {
-        width: 90%;
-        max-width: 90%;
-      }
-    }
-    
-    /* --- STEP4 : Téléchargement de la vidéo, prise de rendez-vous & analyse --- */
-    
-    .action-container {
+    .mobile-nav-overlay ul {
+      list-style: none;
+      margin-top: 80px;
       display: flex;
       flex-direction: column;
       gap: 20px;
-      margin: 20px 0;
     }
-    .action-square {
-      background-color: #FF5722;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      padding: 12px;
-      font-size: 16px;
-      width: 100%;
+    .mobile-nav-overlay ul li a {
+      color: var(--white);
+      font-size: 24px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .mobile-nav-extra {
+      margin-top: 40px;
       display: flex;
       flex-direction: column;
-      align-items: center;
+      gap: 15px;
       justify-content: center;
-      min-height: 60px;
-      position: relative;
-      overflow: hidden;
-      transition: filter 0.3s;
     }
-    .action-square.disabled {
-      background-color: #cccccc;
-      color: #777777;
-      pointer-events: none;
-      border: none;
-      border-radius: 8px;
-      opacity: 0.6;
-    }
-
-    .btn-action {
+    .mobile-nav-extra a {
       display: inline-block;
-      width: 100%;
-      cursor: pointer;
+      background: var(--secondary);
+      color: var(--white);
+      padding: 12px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background 0.3s ease;
+    }
+    .mobile-nav-extra a:hover {
+      background: var(--primary);
     }
     
-    /* Conteneur Prise de contact avec un expert */
-    
-    #contact-btn {
+    /* --- HERO --- */
+    .hero {
+      height: 100vh;
+      background: url('https://raw.githubusercontent.com/Citizen11bf/letmotiv/0c649ee1f00846cb361781b0f851ff25df78672c/formation%20prise%20de%20parole%20en%20public%20professionnelle.webp') center center/cover no-repeat;
+      position: relative;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
+      padding-top: 60px;
+      overflow: hidden;
     }
-    #contact-btn .contact-options {
-      margin-top: 10px;
-      display: flex;
-      flex-direction: row;
-      gap: 8px;
-      justify-content: center;
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.4);
     }
-    /* Boutons Oui/Non pour prendre contact avec un expert */
-  
-    /* Bouton Oui pour prendre contact avec un expert */
-    #contact-btn .contact-options button#contact-yes {
-      background-color: #a8d5ba; /* Pastel green */
-      border: 2px solid #a8d5ba;
-      color: #182d84;
-      border-radius: 20px;
-      padding: 8px 16px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: transform 0.3s, box-shadow 0.3s;
+    .hero-content {
+      position: relative;
+      color: var(--white);
+      z-index: 1;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
     }
-    
-    /* Bouton Non pour ne prendre pas contact avec un expert */
-    #contact-btn .contact-options button#contact-no {
-      background-color: #f5a8a8; /* Pastel red */
-      border: 2px solid #f5a8a8;
-      color: #182d84;
-      border-radius: 20px;
-      padding: 8px 16px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: transform 0.3s, box-shadow 0.3s;
+    .hero-content.animate {
+      opacity: 1;
+      transform: translateY(0);
     }
-    /* Griser les boutons Oui/Non lorsque le conteneur est désactivé */
-    .action-square.disabled .contact-options button {
-      opacity: 0.5;
-      pointer-events: none;
-    }
-    
-    /* --- STEP4 - Abonnement à la newsletter --- */
-  
-    .btn-newsletter {
-      background: linear-gradient(135deg, #182d84, #00a48a);
-      color: #fff;
-      font-weight: bold;
-      padding: 12px 30px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: transform 0.3s, box-shadow 0.3s;
-      margin: 10px 0;
-    }
-    .btn-newsletter:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-    }
-    .newsletter-container {
-      width: 100%;
-      max-width: 600px;
-      background-color: #2d3748;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-      padding: 20px;
-      margin: 30px auto;
-      color: #e2e8f0;
-      text-align: center;
-    }
-    .newsletter-title {
-      font-size: 1.0rem;
-      font-weight: normal;
+    .hero-content h1 {
+      font-size: 48px;
       margin-bottom: 20px;
     }
-    .newsletter-form {
+    .hero-content p {
+      font-size: 24px;
+      margin-bottom: 30px;
+    }
+    .hero-content .btn {
+      display: inline-block;
+      background: var(--secondary);
+      color: var(--white);
+      padding: 12px 30px;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .hero-content .btn:hover {
+      transform: scale(1.05);
+      background: var(--primary);
+    }
+    
+    /* --- Alternance des couleurs (hors HERO) --- */
+    main section:not(.hero):nth-of-type(3n+1) {
+      background-color: var(--primary);
+      color: var(--white);
+    }
+    main section:not(.hero):nth-of-type(3n+2) {
+      background-color: var(--white);
+      color: var(--primary);
+    }
+    main section:not(.hero):nth-of-type(3n) {
+      background-color: var(--green);
+      color: var(--white);
+    }
+    
+    /* --- Sections Générales --- */
+    .section {
+      padding: 100px 0;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .section.animate {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .section h2 {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 36px;
+    }
+    
+    /* --- Section À Propos : Nouvelle version (3 boxes) --- */
+    .about-boxes {
+      display: flex;
+      gap: 20px;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    .about-box {
+      flex: 1;
+      background: #f7f7f7;
+      padding: 20px;
+      border-radius: 5px;
+      position: relative;
+      transition: filter 0.3s ease;
+    }
+    .about-box h3 {
+      margin-bottom: 10px;
+      font-size: 24px;
+      color: var(--primary);
+      text-align: center;
+    }
+    .about-box p {
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    .about-box.about-box-1 {
+      position: relative;
+      overflow: hidden;
+    }
+    .about-box.about-box-1 .hover-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #007BFF;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .about-box.about-box-1:hover .hover-overlay {
+      opacity: 1;
+    }
+    .about-box.about-box-2 .values-boxes {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    .about-box.about-box-2 .value-box {
+      padding: 10px;
+      border-radius: 10px;
+      color: #fff;
+      text-align: center;
+    }
+    .about-box.about-box-2 .value-box .value-title {
+      font-weight: bold;
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+    .about-box.about-box-2 .value-box .value-desc {
+      font-size: 14px;
+    }
+    .value-box.bienveillance { background: #FFC107; }
+    .value-box.mise { background: #8BC34A; }
+    .value-box.technicite { background: #03A9F4; }
+    @media (max-width: 768px) {
+      .about-boxes {
+        flex-direction: column;
+      }
+    }
+    
+    /* --- Section Nos Offres --- */
+    .services .services-categories {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      gap: 20px;
+    }
+    .service-category {
+      background: var(--white);
+      padding: 20px;
+      border-radius: 5px;
+      flex: 1;
+      min-width: 280px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+    .service-category:hover {
+      transform: translateY(-5px);
+    }
+    .service-category h3 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: var(--primary);
+    }
+    .service-buttons {
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
-    .newsletter-form input::placeholder {
-      color: #fff;
+    .service-btn {
+      display: inline-block;
+      background: var(--secondary);
+      color: var(--white);
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: transform 0.3s ease, background 0.3s ease;
     }
-    .newsletter-form input {
-      background-color: #4a5568;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      padding: 10px;
-      outline: none;
-      transition: background-color 0.3s, box-shadow 0.3s;
+    .service-btn:hover {
+      transform: scale(1.05);
+      background: var(--primary);
     }
-    .newsletter-form input:focus {
-      background-color: #2d3748;
-      box-shadow: 0 0 0 1px #3182ce;
+    
+    /* --- Section Nos Ressources --- */
+    .resources {
+      padding: 100px 0;
     }
-    .newsletter-error {
-      color: red;
-      font-size: 0.8rem;
+    .resources .container h2 {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 36px;
+    }
+    .resources-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: space-around;
+    }
+    .resource-box {
+      background: var(--white);
+      padding: 20px;
+      border-radius: 5px;
+      flex: 1;
+      min-width: 280px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+      color: var(--primary);
+    }
+    .resource-box:hover {
+      transform: translateY(-5px);
+    }
+    .resource-box img {
+      max-width: 100%;
+      border-radius: 5px;
+      margin-bottom: 15px;
+    }
+    .resource-box h3 {
+      margin-bottom: 10px;
+      font-size: 24px;
+      color: var(--primary);
+    }
+    .resource-box p {
+      font-size: 16px;
+      margin-bottom: 15px;
       text-align: left;
     }
-    .newsletter-success {
-      color: green;
-      font-size: 0.9rem;
+    .resource-box .btn {
+      background: var(--secondary);
+      color: var(--white);
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .resource-box .btn:hover {
+      transform: scale(1.05);
+      background: var(--primary);
+    }
+    
+    /* --- Section Témoignages --- */
+    .testimonials .testimonials-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      align-items: center;
+    }
+    .testimonial-item {
+      background: var(--white);
+      padding: 20px;
+      border-radius: 5px;
+      width: 100%;
+      max-width: 800px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .testimonial-item img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 15px;
+      border: 3px solid var(--secondary);
+    }
+    .testimonial-item h4 {
+      font-size: 20px;
+      margin-bottom: 5px;
+      color: var(--primary);
+    }
+    .testimonial-fonction {
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--secondary);
+    }
+    .testimonial-item p {
+      font-style: italic;
+      font-size: 14px;
+      line-height: 1.4;
       margin-top: 10px;
     }
-
-     /* --- Animation Animated Border via Conic Gradient --- */
     
-    .animated-border {
-      --border-angle: 0turn;
-      border: solid 5px transparent;
-      border-radius: 8px !important;
-      --main-bg: conic-gradient(from var(--border-angle), #FF5722, #e65c00 50%, #FF5722);
-      --gradient-border: conic-gradient(from var(--border-angle), transparent 25%, #08f, #f03 99%, transparent);
-      background-color: #FF5722; 
-      background: 
-        var(--main-bg) padding-box,
-        var(--gradient-border) border-box,
-        var(--main-bg) border-box;
-      background-position: center center;
-      animation: bg-spin 3s linear infinite;
+    /* --- Section Letmotiv en chiffres --- */
+    .chiffres .chiffres-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 40px;
+    }
+    .chiffre-box {
+      background: var(--primary);
+      color: var(--white);
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      flex: 1;
+      min-width: 150px;
+      max-width: 200px;
+      transition: transform 0.3s ease;
+      cursor: default;
+    }
+    .chiffre-box:hover {
+      transform: scale(1.05);
+    }
+    .chiffre-box img {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 10px;
+    }
+    .chiffre-box h3 {
+      font-size: 24px;
+      margin-bottom: 5px;
+    }
+    .chiffre-box p {
+      font-size: 16px;
+      margin: 0;
     }
     
-    @keyframes bg-spin {
-      to {
-        --border-angle: 1turn;
-      }
+    /* --- Section Nos Clients --- */
+    .clients {
+      background-color: var(--white) !important;
+      color: var(--primary) !important;
     }
-    
-    @property --border-angle {
-      syntax: "<angle>";
-      inherits: true;
-      initial-value: 0turn;
+    .clients .clients-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      align-items: center;
     }
-    
-    /* --- STEP5 : Prise de contact (Calendly) --- */
-    .calendy {
+    .client-item {
+      flex: 0 0 150px;
       text-align: center;
     }
-    .calendy .container {
-      padding: 10px 0;
+    .client-item img {
+      width: 100%;
+      max-width: 150px;
+      object-fit: contain;
+      filter: grayscale(100%);
+      transition: filter 0.3s ease;
+    }
+    .client-item img:hover {
+      filter: grayscale(0%);
     }
     
-    /* Responsive modifications for objectives (STEP1) */
-    @media (max-width: 600px) {
-      .objectives-container {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        padding: 0 5px;
-        margin: 10px auto;
-        box-sizing: border-box;
-      }
-      .objective-item {
-        position: relative;
-        display: flex;
-        justify-content: space-between;
-        align-items: center; 
-        background-color: #f0f1f5;
-        border-radius: 10px;
-        padding: 14px 20px 14px 14px; 
-        width: 100%;
-        box-sizing: border-box;
-        font-size: 1rem;
-        font-family: 'DM Sans', sans-serif;
-        color: #333;
-        cursor: pointer;
-        transition: background-color 0.3s, transform 0.2s;
-        border: none;
-      }
-      .objective-item i {
-        position: absolute;
-        bottom: 0px;
-        right: 10px;
-        font-size: 2.0rem;
-        color: #444;
-      }
-      .objective-item span { flex: 1; text-align: left; }
-      .objective-item:nth-child(odd) i { transform: rotate(-10deg); }
-      .objective-item:nth-child(even) i { transform: rotate(10deg); }
-      .objective-item:hover { background-color: #e5e7eb; transform: translateY(-1px); }
-      .objective-item:active { transform: translateY(0); background-color: #dcdfe3; }
-      .mobile-explanation { font-size: 0.8rem; color: #555; font-weight: bold; margin: 4px 10px 8px; text-align: left; }
-      .intro-box h1 { font-size: 2rem; margin-bottom: 30px; }
-      .cta { font-size: 28px; padding: 8px 30px; }
+    /* --- Section Contact --- */
+    #contact-form {
+      max-width: 600px;
+      margin: 0 auto;
     }
-    @media (min-width: 601px) {
-      .main-container { display: flex; justify-content: center; align-items: center; min-height: calc(100vh - 60px); }
-      .box { position: relative; margin: 0 auto; }
-      .objectives-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 20px;
-        margin: 20px 0;
-        padding: 0 10px;
-        max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
-      }
-      .objective-item {
-        background-color: #f7f9fc;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        border-radius: 8px;
-        transition: transform 0.3s, background-color 0.3s, color 0.3s;
-        flex: 1 1 150px;
-        text-align: center;
-      }
-      .objective-item i { color: #777; transition: color 0.3s; }
-      .objective-item:hover { transform: scale(1.03); background-color: #00a48a; }
-      .objective-item:hover i { color: #fff; }
-      .objective-item:hover span { color: #fff; }
+    #contact-form .form-group {
+      margin-bottom: 20px;
     }
-
-    /* --- BOUTON DE PARTAGE (EN BAS A DROITE) --- */
-    #global-share-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #182d84;
-      color: #fff;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    #contact-form label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+    #contact-form input,
+    #contact-form textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      font-size: 16px;
+    }
+    #contact-form .btn {
+      background: var(--secondary);
+      color: var(--white);
+      padding: 12px 30px;
+      border: none;
+      border-radius: 5px;
       cursor: pointer;
-      z-index: 999;
-      font-size: 20px;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    #contact-form .btn:hover {
+      transform: scale(1.05);
+      background: var(--primary);
     }
     
+    /* --- Footer --- */
+    footer {
+      background: var(--primary);
+      color: var(--white);
+      padding: 20px 0;
+      text-align: center;
+    }
+    footer p {
+      margin-bottom: 10px;
+    }
+    .footer-links a {
+      color: var(--secondary);
+      text-decoration: none;
+      margin: 0 10px;
+      transition: color 0.3s ease;
+    }
+    .footer-links a:hover {
+      color: var(--white);
+      text-decoration: underline;
+    }
+    
+    /* --- Responsive --- */
+    @media (max-width: 768px) {
+      .header-container {
+        padding: 15px 10px;
+      }
+      .logo a {
+        font-size: 16px;
+      }
+      nav.desktop-nav {
+        display: none;
+      }
+      .menu-toggle {
+        display: flex;
+      }
+      .hero {
+        background: url('https://raw.githubusercontent.com/Citizen11bf/letmotiv/0c649ee1f00846cb361781b0f851ff25df78672c/formation%20prise%20de%20parole%20en%20public%20Paris.webp') center center/cover no-repeat;
+      }
+      .clients .clients-grid {
+        justify-content: space-between;
+      }
+      .client-item {
+        flex: 0 0 calc(33.33% - 20px);
+      }
+    }
+    @media (max-width: 480px) {
+      .hero-content h1 {
+        font-size: 32px;
+      }
+      .hero-content p {
+        font-size: 18px;
+      }
+    }
+    /* En mode paysage sur mobile, on cache entièrement l'overlay du menu */
+    @media (max-width: 768px) and (orientation: landscape) {
+      .header-container {
+        padding: 10px;
+      }
+      .logo a {
+        font-size: 16px;
+      }
+      .menu-toggle span {
+        width: 20px;
+        height: 2px;
+      }
+      .mobile-nav-overlay {
+        display: none !important;
+      }
+    }
+    @media (max-width: 1024px) and (orientation: landscape) {
+      .logo a {
+        font-size: 14px;
+      }
+    }
   </style>
 </head>
 <body>
-  
-  <!-- BOÎTE D'INTRODUCTION -->
-  <div class="intro-box" id="intro-box">
-    <h1>
-      <span class="line">ENTRAINE-TOI</span>
-      <span class="line">A LA PRISE DE PAROLE</span>
-      <span class="line">EN PUBLIC</span>
-    </h1> 
-    <div class="wrapper">
-      <a id="start-intro-btn" class="cta" href="#">
-        <span>COMMENCER</span>
-        <span>
-          <svg width="66px" height="43px" viewBox="0 0 66 43" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-            <g id="arrow" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-              <path class="one" d="M40.1543933,3.89485454 L43.9763149,0.139296592 C44.1708311,-0.0518420739 44.4826329,-0.0518571125 44.6771675,0.139262789 L65.6916134,20.7848311 C66.0855801,21.1718824 66.0911863,21.8050225 65.704135,22.1989893 C65.7000188,22.2031791 65.6958657,22.2073326 65.6916762,22.2114492 L44.677098,42.8607841 C44.4825957,43.0519059 44.1708242,43.0519358 43.9762853,42.8608513 L40.1545186,39.1069479 C39.9575152,38.9134427 39.9546793,38.5968729 40.1481845,38.3998695 C40.1502893,38.3977268 40.1524132,38.395603 40.1545562,38.3934985 L56.9937789,21.8567812 C57.1908028,21.6632968 57.193672,21.3467273 57.0001876,21.1497035 C56.9980647,21.1475418 56.9959223,21.1453995 56.9937605,21.1432767 L40.1545208,4.60825197 C39.9574869,4.41477773 39.9546013,4.09820839 40.1480756,3.90117456 C40.1501626,3.89904911 40.1522686,3.89694235 40.1543933,3.89485454 Z" fill="#FFFFFF"></path>
-              <path class="two" d="M20.1543933,3.89485454 L23.9763149,0.139296592 C24.1708311,-0.0518420739 24.4826329,-0.0518571125 24.6771675,0.139262789 L45.6916134,20.7848311 C46.0855801,21.1718824 46.0911863,21.8050225 45.704135,22.1989893 C45.7000188,22.2031791 45.6958657,22.2073326 45.6916762,22.2114492 L24.677098,42.8607841 C24.4825957,43.0519059 24.1708242,43.0519358 23.9762853,42.8608513 L20.1545186,39.1069479 C19.9575152,38.9134427 19.9546793,38.5968729 20.1481845,38.3998695 C20.1502893,38.3977268 20.1524132,38.395603 20.1545562,38.3934985 L36.9937789,21.8567812 C37.1908028,21.6632968 37.193672,21.3467273 37.0001876,21.1497035 C36.9980647,21.1475418 36.9959223,21.1453995 36.9937605,21.1432767 L20.1545208,4.60825197 C19.9574869,4.41477773 19.9546013,4.09820839 20.1480756,3.90117456 C20.1501626,3.89904911 20.1522686,3.89694235 20.1543933,3.89485454 Z" fill="#FFFFFF"></path>
-              <path class="three" d="M0.154393339,3.89485454 L3.97631488,0.139296592 C4.17083111,-0.0518420739 4.48263286,-0.0518571125 4.67716753,0.139262789 L25.6916134,20.7848311 C26.0855801,21.1718824 26.0911863,21.8050225 25.704135,22.1989893 C25.7000188,22.2031791 25.6958657,22.2073326 25.6916762,22.2114492 L4.67709797,42.8607841 C4.48259567,43.0519059 4.17082418,43.0519358 3.97628526,42.8608513 L0.154518591,39.1069479 C-0.0424848215,38.9134427 -0.0453206733,38.5968729 0.148184538,38.3998695 C0.150289256,38.3977268 0.152413239,38.395603 0.154556228,38.3934985 L16.9937789,21.8567812 C17.1908028,21.6632968 17.193672,21.3467273 17.0001876,21.1497035 C16.9980647,21.1475418 16.9959223,21.1453995 16.9937605,21.1432767 L0.15452076,4.60825197 C-0.0425130651,4.41477773 -0.0453986756,4.09820839 0.148075568,3.90117456 C0.150162624,3.89904911 0.152268631,3.89694235 0.154393339,3.89485454 Z" fill="#FFFFFF"></path>
-            </g>
-          </svg>
-        </span>
-      </a>
-    </div>
-  </div>
-
-  <!-- FORMULAIRE CACHÉ POUR GOOGLE FORMS -->
-  <form id="hidden-google-form" action="https://docs.google.com/forms/d/e/1FAIpQLSfGAcKp0cV5AeVJCJBPbtKLKCLhbYySZf_FkiMg85WKVFUn6A/formResponse" method="POST" target="hidden_iframe" style="display:none;">
-    <input type="text" name="entry.1119647353" id="hidden-prenom">
-    <input type="email" name="entry.638831312" id="hidden-email">
-  </form>
-  <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
-
   <!-- HEADER -->
-  <div class="header">
-    <div class="header-content">
-      <div class="header-l1">Coaching en prise de parole</div>
-      <div class="header-l2">Simulateur d'improvisation Letmotiv</div>
-    </div>
-  </div>
-
-  <!-- BARRE DE PROGRESSION -->
-  <div class="progress-container">
-    <div class="progress-bar" id="top-progress-bar"></div>
-  </div>
-
-  <!-- CONTAINER PRINCIPAL -->
-  <div class="main-container">
-    <!-- STEP1 : Choix d'objectif -->
-    <div class="box" id="step1">
-      <div class="box-header">
-        <button class="back-btn hidden-visibility" id="back-btn1" aria-label="Retour">
-          <i class="fas fa-arrow-up"></i>
-        </button>
-        <div class="box-title">Quel est ton objectif ?</div>
+  <header>
+    <div class="container header-container">
+      <div class="logo">
+        <a href="#">
+          <span class="logo-line">Prise de parole en public</span>
+          <span class="logo-line">Letmotiv - Coaching et formation</span>
+        </a>
       </div>
-      <div class="objectives-container">
-        <div class="objective-item" data-category="diction">
-          <i class="fas fa-grin-tongue"></i>
-          <span>Améliorer sa diction</span>
-        </div>
-        <div class="objective-item" data-category="repartie">
-          <i class="fas fa-comments"></i>
-          <span>Avoir de la répartie</span>
-        </div>
-        <div class="objective-item" data-category="convaincre">
-          <i class="fas fa-handshake"></i>
-          <span>Convaincre</span>
-        </div>
-        <div class="objective-item" data-category="conflit">
-          <i class="fas fa-exclamation-triangle"></i>
-          <span>Gérer un conflit</span>
-        </div>
-        <div class="objective-item" data-category="inspirer">
-          <i class="fas fa-lightbulb"></i>
-          <span>Inspirer</span>
-        </div>
-        <div class="objective-item" data-category="lacher-prise">
-          <i class="fas fa-smile"></i>
-          <span>Lâcher prise</span>
-        </div>
-        <div class="objective-item" data-category="toast">
-          <i class="fas fa-glass-cheers"></i>
-          <span>Porter un toast</span>
-        </div>
-        <div class="objective-item" data-category="entretien">
-          <i class="fas fa-briefcase"></i>
-          <span>Réussir son entretien</span>
-        </div>
-        <div class="objective-item" data-category="vendre">
-          <i class="fas fa-money-bill-wave"></i>
-          <span>Vendre</span>
-        </div>
-      </div>
-      <div id="explanation-box" class="explanation-box"></div>
-      <div id="objective-error" class="error-message"></div>
-      <button class="next-btn" id="next-btn1" aria-label="Étape suivante">
-        <i class="fas fa-arrow-down"></i>
+      <nav class="desktop-nav">
+        <ul>
+          <li><a href="#accueil">Accueil</a></li>
+          <li><a href="#about">À propos</a></li>
+          <li><a href="#services">Nos offres</a></li>
+          <li><a href="#resources">Nos ressources</a></li>
+          <li><a href="#testimonials">Témoignages</a></li>
+          <li><a href="#clients">Nos clients</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <button class="menu-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
       </button>
     </div>
-
-    <!-- STEP2 : Génération du sujet -->
-    <div class="box" id="step2">
-      <div class="box-header">
-        <button class="back-btn" id="back-btn2" aria-label="Retour à l'étape précédente">
-          <i class="fas fa-arrow-up"></i>
-        </button>
-        <div class="box-title">Prêt à relever le défi ?</div>
-      </div>
-      <button id="generate-subject-btn" class="btn-impro">Générer un sujet  <i class="fas fa-random"></i></button>
-      <div id="subject-wrapper">
-        <span id="subject-display"></span>
-      </div>
-      <div id="advice-toggle">
-        Des conseils avant de démarrer<span class="mobile-break"><br></span> ta simulation ? <i id="advice-icon" class="fas fa-chevron-down"></i>
-      </div>
-      <div id="advice-text">
-        1) Positionne tes yeux à hauteur de la caméra. <br><br>
-        2) Choisis un fond neutre pour éviter toute distraction.<br><br>
-        3) Assure-toi que l'éclairage te met en valeur. <br><br>
-        4) Vérifie que le son et la vidéo fonctionnent.<br><br>
-        5) Reste concentré et prends du plaisir. 
-      </div>
-      <div id="subject-error" class="error-message"></div>
-      <button class="next-btn" id="next-btn2" aria-label="Étape suivante">
-        <i class="fas fa-arrow-down"></i>
-      </button>
+  </header>
+  
+  <!-- Mobile Nav Overlay -->
+  <nav class="mobile-nav-overlay" id="mobileNav" aria-hidden="true">
+    <button class="close-nav" id="closeNav" aria-label="Fermer le menu">&times;</button>
+    <ul>
+      <li><a href="#accueil">Accueil</a></li>
+      <li><a href="#about">À propos</a></li>
+      <li><a href="#services">Nos offres</a></li>
+      <li><a href="#resources">Nos ressources</a></li>
+      <li><a href="#testimonials">Témoignages</a></li>
+      <li><a href="#clients">Nos clients</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="mobile-nav-extra">
+      <a href="mailto:contact@letmotiv.fr">Ecrivons-nous</a>
+      <a href="https://www.letmotiv-simulateur.fr/contact.html">Appelons-nous</a>
     </div>
-
-    <!-- STEP3 : Enregistrement vidéo -->
-    <div class="box" id="step3">
-      <div class="box-header">
-        <button class="back-btn" id="back-btn3" aria-label="Retour à l'étape précédente">
-          <i class="fas fa-arrow-up"></i>
-        </button>
-        <div class="box-title">C'est parti, lance ton improvisation !</div>
+  </nav>
+  
+  <!-- MAIN CONTENT -->
+  <main>
+    <!-- HERO -->
+    <section id="accueil" class="hero">
+      <div class="hero-content">
+        <h1>Coaching et formation en prise de parole en public</h1>
+        <p>Prenez du plaisir à vous exprimer en public !</p>
+        <a href="#services" class="btn">Nos offres</a>
       </div>
-      <div id="current-subject-display" class="subject-bubble"></div>
-      <div class="video-box">
-        <video id="preview" autoplay muted playsinline webkit-playsinline></video>
-        <div class="video-overlay">
-          <p>Ta vidéo va s'enregistrer ici.</p>
-          <button id="start-btn" aria-label="Démarrer l'improvisation">
-            Démarrer ton impro <i class="fas fa-video"></i>
-          </button>
-          <p>NB : ta vidéo est stockée sur ton appareil. <br>Aucun enregistrement n'est conservé par Letmotiv.</p>
-        </div>
-        <div class="recording-indicator" id="recording-indicator">
-          <span class="dot"></span>
-          <div class="countdown" id="countdown">1:59</div>
-        </div>
-        <div class="initial-countdown-overlay" id="initial-countdown-overlay">
-          <div class="initial-countdown" id="initial-countdown">3</div>
-        </div>
-      </div>
-      <div class="impro-actions">
-        <button id="stop-btn" class="hidden-btn btn-impro" aria-label="Arrêter l'improvisation">
-          Arrêter ton impro <i class="fas fa-stop"></i>
-        </button>
-        <button id="restart-btn" class="hidden-btn btn-impro" aria-label="Recommencer l'improvisation">
-          Recommencer ton impro <i class="fas fa-redo"></i>
-        </button>
-      </div>
-      <div id="impro-error" class="error-message"></div>
-      <button class="next-btn" id="next-btn3" aria-label="Étape suivante">
-        <i class="fas fa-arrow-down"></i>
-      </button>
-    </div>
-
-    <!-- STEP4 : Bilan - Téléchargement, Analyse & Prise de rendez-vous -->
-    <div class="box" id="step4">
-      <div class="box-header">
-        <button class="back-btn" id="back-btn4" aria-label="Retour à l'étape précédente">
-          <i class="fas fa-arrow-up"></i>
-        </button>
-        <div class="box-title">Félicitations pour ton improvisation ! 🤩</div>
-      </div>
-      <div class="download-section">
-        <div class="action-container">
-          <!-- Bouton 1 : Télécharge ta vidéo -->
-          <button id="download-video-btn" class="action-square btn-action animated-border" aria-label="Télécharge ta vidéo">
-            1) Je télécharge ma vidéo
-          </button>
-          <!-- Bouton 2 : Rendez-vous avec un expert -->
-          <div id="contact-btn" class="action-square contact-square disabled" aria-label="Prendre rdv avec un expert">
-            <span>2) Je veux me former avec un expert</span>
-            <div class="contact-options">
-              <button id="contact-yes">Oui <span>✓</span></button>
-              <button id="contact-no">Non <span>✗</span></button>
+    </section>
+    
+    <!-- SECTION À PROPOS : 3 boxes -->
+    <section id="about" class="section about">
+      <div class="container">
+        <h2>À propos</h2>
+        <div class="about-boxes">
+          <!-- Box 1 -->
+          <div class="about-box about-box-1">
+            <div class="default-content">
+              <h3><strong>L'origine de Letmotiv</strong></h3>
+              <p>Docteur en astrophysique (PhD), formateur professionnel et coach certifié, Pierre s’est formé au théâtre au Cours Florent et à l’éloquence avec Toastmasters International pour créer le centre de formation Letmotiv.</p>
+            </div>
+            <div class="hover-overlay">
+              <p>Pierre Li Cavoli</p>
+              <p>Fondateur de Letmotiv</p>
+              <a href="https://www.linkedin.com/in/pierre-li-cavoli-formation-prise-de-parole/?originalSubdomain=fr" target="_blank">
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/linkedin.png" alt="LinkedIn">
+              </a>
             </div>
           </div>
-          <!-- Bouton 3 : Analyse ta prestation -->
-          <button id="feedback-btn" class="action-square btn-action disabled" aria-label="Analyse ta prestation">
-            3) J'analyse mon improvisation
-          </button>
-        </div>
-        <!-- Section Newsletter -->
-        <div class="newsletter-container">
-          <h2 class="newsletter-title">Inscris-toi à la newsletter Letmotiv <br>pour prendre la parole avec impact :</h2>
-          <form id="newsletter-form" class="newsletter-form">
-            <input type="text" id="newsletter-prenom" placeholder="Prénom" aria-label="Prénom">
-            <div id="newsletter-prenom-error" class="newsletter-error"></div>
-            <input type="email" id="newsletter-email" placeholder="Email" aria-label="Email">
-            <div id="newsletter-email-error" class="newsletter-error"></div>
-            <button type="submit" id="newsletter-submit-btn" class="btn-newsletter">S'abonner</button>
-          </form>
-          <div id="newsletter-success" class="newsletter-success" style="display: none;">Tu es maintenant abonné à la newsletter Letmotiv.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- STEP5 : Prise de contact (Calendly) -->
-    <div class="box" id="step5">
-      <div class="box-header">
-        <button class="back-btn" id="back-btn5" aria-label="Retour à l'étape précédente">
-          <i class="fas fa-arrow-up"></i>
-        </button>
-        <div class="box-title">Planifiez un appel avec nous</div>
-      </div>
-      <main>
-        <section id="calendy" class="section calendy">
-          <div class="container">
-            <div class="calendly-inline-widget" data-url="https://calendly.com/letmotiv/premier-contact?hide_event_type_details=1" style="min-width:320px;height:1000px;"></div>
+          <!-- Box 2 -->
+          <div class="about-box about-box-2">
+            <h3><strong>Nos valeurs</strong></h3>
+            <div class="values-boxes">
+              <div class="value-box bienveillance">
+                <p class="value-title">BIENVEILLANCE</p>
+                <p class="value-desc">Tous nos feedbacks sont faits dans une réelle bienveillance, dans le but de progresser.</p>
+              </div>
+              <div class="value-box mise">
+                <p class="value-title">MISE EN PRATIQUE</p>
+                <p class="value-desc">80% du temps de nos formations est dédiée à la mise en pratique.</p>
+              </div>
+              <div class="value-box technicite">
+                <p class="value-title">TECHNICITÉ</p>
+                <p class="value-desc">Nous allions expertise technique et pédagogie pour un apprentissage optimal.</p>
+              </div>
+            </div>
           </div>
-        </section>
-      </main>
+          <!-- Box 3 -->
+          <div class="about-box about-box-3">
+            <h3><strong>Les mots du fondateur</strong></h3>
+            <p>"Notre approche personnalisée et nos méthodes innovantes permettent à nos clients de libérer leur potentiel en matière de prise de parole en public. Nous croyons que les leaders capables de prendre la parole en public pour partager leurs idées peuvent avoir un impact positif sur la société comme sur leur entourage. Parce que prendre la parole en public est une compétence qui peut littéralement transformer des vies, nous nous engageons à fournir des formations de la plus haute qualité."</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- SECTION NOS OFFRES -->
+    <section id="services" class="section services">
+      <div class="container">
+        <h2>Nos offres</h2>
+        <div class="services-categories">
+          <div class="service-category">
+            <h3>Entreprise</h3>
+            <div class="service-buttons">
+              <a href="#" class="btn service-btn">Coaching</a>
+              <a href="#" class="btn service-btn">Formations</a>
+            </div>
+          </div>
+          <div class="service-category">
+            <h3>Particuliers</h3>
+            <div class="service-buttons">
+              <a href="#" class="btn service-btn">Coaching personnalisé</a>
+              <a href="#" class="btn service-btn">Formations en ligne</a>
+              <a href="#" class="btn service-btn">Formations CPF</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- SECTION NOS RESSOURCES -->
+    <section id="resources" class="section resources">
+      <div class="container">
+        <h2>Nos ressources</h2>
+        <div class="resources-grid">
+          <!-- Box 1 : Simulateur -->
+          <div class="resource-box">
+            <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Simulateur_Letmotiv.webp" alt="Simulateur">
+            <h3>Simulateur</h3>
+            <p style="text-align: left; color: var(--primary);">
+              Vous voulez vous entrainer gratuitement à la prise de parole en public ? Découvrez le simulateur Letmotiv : de nombreux exercices selon votre objectif : réussir un entretien, améliorer sa diction, développer son charisme et son leadership, accroitre sa force de persuasion, inspirer votre auditoire...
+            </p>
+            <a href="http://www.letmotiv-simulateur.fr" class="btn" target="_blank">Accéder au simulateur</a>
+          </div>
+          <!-- Box 2 : Formation en ligne -->
+          <div class="resource-box">
+            <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/f36e294da9c9499ee0d4d08f2fbdaba73d818aa7/formation%20prise%20de%20parole%20en%20ligne.webp" alt="Formation en ligne">
+            <h3>Formation en ligne</h3>
+            <p style="text-align: left; color: var(--primary);">
+              Cette formation en ligne créée par deux experts de la prise de parole en public, Pierre et Alex, est composée de 4 grands modules pour apprendre à : <br><br>
+              1) Gérer son stress avant/pendant votre prise de parole<br>
+              2) Utiliser une gestuelle adaptée<br>
+              3) Développer sa puissance vocale<br>
+              4) Créer une connexion authentique avec son audience<br><br>
+              Bref, c'est court et efficace, ça se binge comme une série Netflix avec de nouvelles méthodes et compétences acquises à l'arrivée.
+            </p>
+            <a href="#" class="btn">Découvrir la formation</a>
+          </div>
+          <!-- Box 3 : Articles & Vidéos -->
+          <div class="resource-box">
+            <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Contenu_video.jpg" alt="Articles et vidéos">
+            <h3>Articles & Vidéos</h3>
+            <p style="text-align: left; color: var(--primary);">
+              Plongez dans notre bibliothèque de contenus, une source d'inspiration riche et variée conçue pour tous les apprenants. Que vous préfériez écouter, regarder ou lire, nos articles, vidéos et podcasts vous offrent des conseils pratiques et des perspectives nouvelles pour améliorer votre prise de parole en public.
+            </p>
+            <a href="#" class="btn">Explorer nos contenus</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- SECTION TÉMOIGNAGES -->
+    <section id="testimonials" class="section testimonials">
+      <div class="container">
+        <h2>Témoignages</h2>
+        <div class="testimonials-grid">
+          <div class="testimonial-item">
+            <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/7203305c1c95e211ff6bd903cbd58113e1f58a65/Vincent.png" alt="Vincent Recrosio">
+            <h4>
+              Vincent Recrosio<br>
+              <span class="testimonial-fonction">Senior Tech Recruiter chez Meetic</span>
+            </h4>
+            <p>
+              "Je vous invite à contacter Pierre pour tout besoin de formation en communication ! 
+              J'ai suivi sa formation « Prise de parole en public ». 
+              Pierre est passionné et partage sa bonne énergie, dans la bienveillance, ses méthodes rapidement applicables. Ses ateliers, issus du théâtre, sont méticuleusement adaptés à chaque public. 
+              Une attitude très professionnelle."
+            </p>
+          </div>
+          <div class="testimonial-item">
+            <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/7203305c1c95e211ff6bd903cbd58113e1f58a65/Julia.png" alt="Julia Galvez">
+            <h4>
+              Julia Galvez<br>
+              <span class="testimonial-fonction">Team Lead Contract Manager chez Hubspot</span>
+            </h4>
+            <p>
+              "Pierre est un vrai “Master” de la prise de parole en public. J’ai eu le plaisir de participer à ses cours le semestre dernier. 
+              Sa bienveillance, son courage et son audace ont été très contagieux ! Merci encore pour tes enseignements et tes méthodes qui me sont aujourd’hui très utiles au quotidien. 
+              Jamais le mot “Galaxie” n’aura eu autant de sens. Pouvoir captiver son public, c’est une compétence qui se travaille et Pierre nous partage son savoir de façon ludique et maîtrisée. 
+              Encore un GRAND MERCI."
+            </p>
+          </div>
+          <div class="testimonial-item">
+            <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/7203305c1c95e211ff6bd903cbd58113e1f58a65/Cedric.png" alt="Cédric Rémy">
+            <h4>
+              Cédric Rémy<br>
+              <span class="testimonial-fonction">Account Manager chez Orange</span>
+            </h4>
+            <p>
+              "Apres 3 jours de formation sur la prise de parole en public, je peux affirmer que Pierre est soucieux de son travail, bienveillant et très compétant. 
+              J’ai réellement adoré sa formation qui se veut dynamique, ciblée et au contenu passionnant. Ses talents et son énergie sont transmis de la première à la dernière minute.
+              Je recommande très fortement Pierre et ses compétences."
+            </p>
+          </div>
+          <div class="testimonial-item">
+            <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/7203305c1c95e211ff6bd903cbd58113e1f58a65/Crazy%20Nouss.png" alt="Crazy Nouss">
+            <h4>
+              Crazy Nouss<br>
+              <span class="testimonial-fonction">Facilitatrice graphique & illustratrice</span>
+            </h4>
+            <p>
+              "On apprend à se dépasser, le tout dans un cadre dynamique, bienveillant et ludique. 
+              On en ressort avec l'envie de toute de suite réaliser un discours. Pierre un grand patient, à l'écoute et plein d'énergie. 
+              Il saura vous faire travailler rapidement sur vos points faibles et parallèlement mettre en avant vos points forts.
+              N'oubliez pas : Pierre ne recule devant aucun défi. Mieux que ça, il pousse à donner le meilleur de vous-même !"
+            </p>
+          </div>
+          <div class="testimonial-item">
+            <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/7203305c1c95e211ff6bd903cbd58113e1f58a65/Gabrielle.png" alt="Gabrielle Rosner-Bloch">
+            <h4>
+              Gabrielle Rosner-Bloch<br>
+              <span class="testimonial-fonction">Conseillère Régionale du Grand Est</span>
+            </h4>
+            <p>
+              "Pierre Li Cavoli est un excellent professeur de prise de parole en public et un excellent coach.
+              Pas étonnant quand on sait qu'il a été Docteur dans une autre vie.
+              Professionnel, rigoureux, très à l'écoute, j'ai appris en deux jours autant sur la théorie de la prise de parole, de l'art de convaincre et d'argumenter, que sur la mise en pratique...et sur moi-même.
+              Une formation et un formateur que je recommande sans hésiter !"
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- SECTION LETMOTIV EN CHIFFRES -->
+    <section id="chiffres" class="section chiffres">
+      <div class="container">
+        <h2>Letmotiv en chiffres</h2>
+        <div class="chiffres-grid">
+          <div class="chiffre-box">
+            <img src="https://img.icons8.com/fluency/48/000000/calendar.png" alt="Calendrier">
+            <h3>2020</h3>
+            <p>Créé en 2020</p>
+          </div>
+          <div class="chiffre-box">
+            <img src="https://img.icons8.com/fluency/48/000000/graduation-cap.png" alt="Apprenants">
+            <h3>+1200</h3>
+            <p>Apprenants</p>
+          </div>
+          <div class="chiffre-box">
+            <img src="https://img.icons8.com/fluency/48/000000/star.png" alt="Avis">
+            <h3>5/5</h3>
+            <p>sur 30 avis</p>
+          </div>
+          <div class="chiffre-box">
+            <img src="https://img.icons8.com/fluency/48/000000/teacher.png" alt="Formateurs">
+            <h3>7</h3>
+            <p>Formateurs</p>
+          </div>
+          <div class="chiffre-box">
+            <img src="https://img.icons8.com/fluency/48/000000/open-book.png" alt="Modules">
+            <h3>28</h3>
+            <p>Modules</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- SECTION NOS CLIENTS -->
+    <section id="clients" class="section clients">
+      <div class="container">
+        <h2>Nos clients</h2>
+        <div class="clients-grid" id="clients-logos">
+          <p id="logos-loading">Chargement des logos...</p>
+        </div>
+      </div>
+    </section>
+    
+    <!-- SECTION CONTACT -->
+    <section id="contact" class="section contact">
+      <div class="container">
+        <h2>Contact</h2>
+        <form id="contact-form">
+          <div class="form-group">
+            <label for="name">Nom</label>
+            <input type="text" id="name" name="name" required aria-label="Nom">
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required aria-label="Email">
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" required aria-label="Message"></textarea>
+          </div>
+          <button type="submit" class="btn">Envoyer</button>
+        </form>
+      </div>
+    </section>
+  </main>
+  
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Letmotiv. Tous droits réservés.</p>
+      <div class="footer-links">
+        <a href="mentions-legales.html">Mentions Légales</a>
+        <a href="cvg.html">CVG</a>
+      </div>
     </div>
-  </div>
-
-  <!-- Bouton de partage global (en bas à droite) -->
-  <div id="global-share-btn">
-    <i class="fas fa-share-alt"></i>
-  </div>
-
-  <!-- Calendly widget script -->
-  <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
-
-  <!-- SCRIPT JavaScript -->
+  </footer>
+  
+  <!-- Scripts -->
   <script>
-    /***********************
-     * VARIABLES ET CONSTANTES
-     ***********************/
-    const boxes = {
-      1: document.getElementById('step1'),
-      2: document.getElementById('step2'),
-      3: document.getElementById('step3'),
-      4: document.getElementById('step4'),
-      5: document.getElementById('step5')
-    };
-
-    const nextBtns = {
-      1: document.getElementById('next-btn1'),
-      2: document.getElementById('next-btn2'),
-      3: document.getElementById('next-btn3')
-    };
-
-    const backBtns = {
-      2: document.getElementById('back-btn2'),
-      3: document.getElementById('back-btn3'),
-      4: document.getElementById('back-btn4'),
-      5: document.getElementById('back-btn5')
-    };
-
-    const introBox = document.getElementById('intro-box');
-    const startIntroBtn = document.getElementById('start-intro-btn');
-    const topProgressBar = document.getElementById('top-progress-bar');
-
-    let currentStep = 0;
-    let currentCategory = null;
-    let currentSubject = "";
-    let isImproRecordingStarted = false;
-    let mediaRecorderInstance;
-    let recordedChunks = [];
-    let videoURL = "";
-    let timerInterval;
-    let timeRemaining = 120;
-    let countdown;
-    let videoDownloaded = false;
-
-    /***********************
-     * Gestion de l'historique (pushState/popstate)
-     ***********************/
-    function pushStepState(step) {
-      history.pushState({ step }, null, `#step${step}`);
-    }
-
-    window.addEventListener('popstate', (event) => {
-      if (event.state && event.state.step) {
-        const stepToShow = event.state.step;
-        Object.values(boxes).forEach(box => box.classList.remove('active'));
-        boxes[stepToShow].classList.add('active');
-        currentStep = stepToShow;
-        updateProgressBar(stepToShow);
-        updateShareButtonVisibility();
-        if (stepToShow == 3) {
-          document.getElementById('current-subject-display').textContent = currentSubject;
+    document.addEventListener('DOMContentLoaded', function () {
+      function handleNavLinkClick(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        const targetSection = document.getElementById(targetId);
+        if (targetSection) {
+          gsap.to(window, {
+            duration: 2,
+            scrollTo: { y: targetSection.offsetTop - 60 },
+            ease: "power2.out"
+          });
         }
-      } else {
-        Object.values(boxes).forEach(box => box.classList.remove('active'));
-        introBox.style.display = 'block';
-        currentStep = 0;
-        updateShareButtonVisibility();
-      }
-    });
-
-    /***********************
-     * Fonctions utilitaires
-     ***********************/
-    function updateProgressBar(step) {
-      // Pour STEP4 et STEP5, on affiche 100%
-      if (step >= 4) {
-        topProgressBar.style.width = "100%";
-      } else {
-        topProgressBar.style.width = `${(step / 5) * 100}%`;
-      }
-    }
-
-    function displayError(elementId, message) {
-      const el = document.getElementById(elementId);
-      el.textContent = message;
-      el.style.display = 'block';
-    }
-
-    /***********************
-     * Navigation entre les étapes
-     ***********************/
-    function showBox(current, next) {
-      if (!boxes[current] || !boxes[next]) return;
-      boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
-      boxes[next].classList.add('active');
-      boxes[next].classList.add(next > current ? 'slide-from-bottom' : 'slide-from-top');
-      updateProgressBar(next);
-      currentStep = next;
-      pushStepState(next);
-      updateShareButtonVisibility();
-
-      if(next == 4) {
-        // Au passage au STEP4, on applique l'animation sur le bouton 1
-        document.getElementById('download-video-btn').classList.add('animated-border');
-        document.getElementById('contact-btn').classList.remove('animated-border');
-        document.getElementById('feedback-btn').classList.remove('animated-border');
-      }
-      if(next == 3) {
-        document.getElementById('current-subject-display').textContent = currentSubject;
-      }
-    }
-
-    function initNavigationButtons() {
-      nextBtns[1].addEventListener('click', () => {
-        const selected = document.querySelector('.objectives-container .selected-objective');
-        if (!selected) {
-          displayError('objective-error', "Sélectionne un objectif avant de continuer.");
-          return;
+        if (mobileNav.classList.contains('active')) {
+          toggleMobileNav(false);
         }
-        showBox(1, 2);
+      }
+      
+      const menuToggle = document.querySelector('.menu-toggle');
+      const mobileNav = document.getElementById('mobileNav');
+      const closeNav = document.getElementById('closeNav');
+      
+      function toggleMobileNav(open) {
+        if (open) {
+          mobileNav.classList.add('active');
+          menuToggle.setAttribute('aria-expanded', 'true');
+          mobileNav.setAttribute('aria-hidden', 'false');
+        } else {
+          mobileNav.classList.remove('active');
+          menuToggle.setAttribute('aria-expanded', 'false');
+          mobileNav.setAttribute('aria-hidden', 'true');
+        }
+      }
+      
+      menuToggle.addEventListener('click', function () {
+        toggleMobileNav(!mobileNav.classList.contains('active'));
       });
-      nextBtns[2].addEventListener('click', () => {
-        if (!currentSubject) {
-          displayError('subject-error', "Tu dois générer un sujet avant de continuer.");
-          return;
-        }
-        document.getElementById('current-subject-display').textContent = currentSubject;
-        showBox(2, 3);
+      
+      closeNav.addEventListener('click', function () {
+        toggleMobileNav(false);
       });
-      nextBtns[3].addEventListener('click', () => {
-        const improErrorDiv = document.getElementById('impro-error');
-        improErrorDiv.style.display = 'none';
-        if (!currentSubject || !isImproRecordingStarted) {
-          displayError('impro-error', "Tu dois lancer ton improvisation avant de continuer.");
-          return;
+      
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && mobileNav.classList.contains('active')) {
+          toggleMobileNav(false);
         }
-        showBox(3, 4);
       });
-      backBtns[2].addEventListener('click', () => { showBox(2, 1); });
-      backBtns[3].addEventListener('click', () => { showBox(3, 2); });
-      backBtns[4].addEventListener('click', () => { showBox(4, 3); });
-      backBtns[5].addEventListener('click', () => { showBox(5, 4); });
-    }
-
-    /***********************
-     * Initialisation de l'introduction
-     ***********************/
-    startIntroBtn.addEventListener('click', () => {
-      const introTitle = document.querySelector('.intro-box h1');
-      const introWrapper = document.querySelector('.intro-box .wrapper');
-      if (introTitle) {
-        introTitle.classList.add('stop-animation');
-      }
-      if (introWrapper) {
-        introWrapper.classList.add('stop-animation');
-      }
-      introBox.style.animation = 'fadeOut 0.5s ease forwards';
-      setTimeout(() => {
-        introBox.style.display = 'none';
-        boxes[1].classList.add('active', 'slide-from-bottom');
-        currentStep = 1;
-        updateProgressBar(1);
-        pushStepState(1);
-        updateShareButtonVisibility();
-      }, 500);
-    });
-
-    /***********************
-     * Gestion des objectifs (STEP1)
-     ***********************/
-    const explanations = {
-      convaincre:   "Tu as 2 minutes pour convaincre ton auditoire sur un sujet délicat",
-      inspirer:     "Tu as 2 minutes pour inspirer ton auditoire",
-      toast:        "Tu as 2 minutes pour porter un toast marquant lors d'un événement",
-      repartie:     "Savoir répondre avec justesse et rapidité à une remarque désagréable au travail",
-      vendre:       "Tu as 2 minutes pour vendre un objet insolite",
-      conflit:      "Gère un désaccord ou une tension avec diplomatie",
-      diction:      "Répète une phrase complexe plusieurs fois de suite sans te tromper",
-      entretien:    "Convaincs ton futur employeur que tu es la pépite qu'il recherche",
-      'lacher-prise': "Oublie la censure et exprime ton grain de folie"
-    };
-
-    const txtFilesByCategory = {
-      convaincre:   "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/convaincre.txt",
-      inspirer:     "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/inspirer.txt",
-      'lacher-prise': "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/lacher_prise.txt",
-      toast:        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/toast.txt",
-      repartie:     "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/repartie.txt",
-      vendre:       "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/vendre.txt",
-      conflit:      "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/gerer_un_conflit.txt",
-      diction:      "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/diction.txt",
-      entretien:    "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/entretien.txt"
-    };
-
-    let subjectsCache = {
-      convaincre: null,
-      inspirer: null,
-      'lacher-prise': null,
-      toast: null,
-      repartie: null,
-      vendre: null,
-      conflit: null,
-      diction: null,
-      entretien: null
-    };
-
-    const defaultIcons = {
-      convaincre: "fas fa-handshake",
-      inspirer: "fas fa-lightbulb",
-      "lacher-prise": "fas fa-smile",
-      toast: "fas fa-glass-cheers",
-      repartie: "fas fa-comments",
-      vendre: "fas fa-money-bill-wave",
-      conflit: "fas fa-exclamation-triangle",
-      diction: "fas fa-grin-tongue",
-      entretien: "fas fa-briefcase"
-    };
-
-    const objectivesButtons = document.querySelectorAll('.objectives-container .objective-item');
-    const explanationBox = document.getElementById('explanation-box');
-
-    objectivesButtons.forEach(item => {
-      item.addEventListener('click', async () => {
-        if (window.innerWidth <= 600) {
-          const icon = item.querySelector('i');
-          if (item.classList.contains('selected-objective') && icon.classList.contains('fa-arrow-right')) {
-            showBox(1, 2);
-            return;
+      
+      const navLinks = document.querySelectorAll('nav ul li a');
+      navLinks.forEach(link => {
+        link.addEventListener('click', handleNavLinkClick);
+      });
+      
+      const animatedElements = document.querySelectorAll('.section, .hero-content');
+      const observerOptions = { threshold: 0.1 };
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate');
+            observer.unobserve(entry.target);
           }
-        }
-        objectivesButtons.forEach(el => {
-          el.classList.remove('selected-objective');
-          const elIcon = el.querySelector('i');
-          const cat = el.dataset.category;
-          if (defaultIcons[cat]) {
-            elIcon.className = defaultIcons[cat];
-          }
-          el.style.transform = "";
-          el.style.backgroundColor = "";
         });
-        item.classList.add('selected-objective');
-        const cat = item.dataset.category;
-        item.style.transition = "transform 0.3s, background-color 0.3s";
-        item.style.transform = "scale(1.1)";
-        item.style.backgroundColor = "rgba(0, 164, 138, 0.2)";
-        setTimeout(() => { item.style.transform = ""; }, 300);
-
-        currentCategory = cat;
-        currentSubject = "";
-
-        if (window.innerWidth <= 600) {
-          const existingExp = document.querySelector('.mobile-explanation');
-          if(existingExp) { existingExp.remove(); }
-          const exp = explanations[cat] || "";
-          if(exp) {
-            item.insertAdjacentHTML('afterend', `<div class="mobile-explanation">${exp}</div>`);
-          }
-          const icon = item.querySelector('i');
-          icon.className = "fas fa-arrow-right";
-        } else {
-          const exp = explanations[cat] || "";
-          explanationBox.textContent = exp;
-          explanationBox.classList.add('show');
+      }, observerOptions);
+      animatedElements.forEach(el => observer.observe(el));
+      
+      // Fermer le menu mobile lors d'un changement d'orientation (pour écrans ≤768px)
+      window.addEventListener('orientationchange', function() {
+        if (window.innerWidth <= 768) {
+          toggleMobileNav(false);
         }
-
-        if (subjectsCache[cat] === null) {
-          await loadSubjects(cat);
-        }
-        document.getElementById('objective-error').style.display = 'none';
-        document.getElementById('impro-error').style.display = 'none';
-        nextBtns[1].classList.add('pulse');
       });
-    });
-
-    async function loadSubjects(category) {
-      const filePath = txtFilesByCategory[category];
-      if (!filePath) return [];
-      try {
-        const response = await fetch(filePath);
-        if (!response.ok) {
-          console.error("Erreur fetch:", filePath);
-          return [];
-        }
-        const text = await response.text();
-        const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-        subjectsCache[category] = lines;
-        return lines;
-      } catch (err) {
-        console.error("Erreur fetch: ", err);
-        return [];
-      }
-    }
-
-    /***********************
-     * Gestion du sujet d'impro (STEP2)
-     ***********************/
-    const generateSubjectBtn = document.getElementById('generate-subject-btn');
-    const subjectWrapper = document.getElementById('subject-wrapper');
-    const subjectDisplay = document.getElementById('subject-display');
-
-    generateSubjectBtn.addEventListener('click', () => {
-      if (!currentCategory) {
-        displayError('objective-error', "Merci de sélectionner un objectif avant de générer un sujet.");
-        return;
-      }
-      const subjects = subjectsCache[currentCategory];
-      if (!subjects || subjects.length === 0) {
-        subjectDisplay.textContent = "Désolé, aucun sujet n'est disponible pour le moment. Veuillez réessayer plus tard.";
-        subjectWrapper.style.display = 'block';
-        currentSubject = "";
-        return;
-      }
-      const randomIndex = Math.floor(Math.random() * subjects.length);
-      currentSubject = subjects[randomIndex];
-      subjectDisplay.textContent = currentSubject;
-      subjectWrapper.style.display = 'block';
-      generateSubjectBtn.classList.add('subject-generated');
-      document.getElementById('subject-error').style.display = 'none';
-      nextBtns[2].classList.add('pulse');
-    });
-
-    document.getElementById('advice-toggle').addEventListener('click', () => {
-      const adviceText = document.getElementById('advice-text');
-      const adviceIcon = document.getElementById('advice-icon');
-      if (adviceText.style.display === 'none' || adviceText.style.display === '') {
-        adviceText.style.display = 'block';
-        adviceIcon.classList.remove('fa-chevron-down');
-        adviceIcon.classList.add('fa-chevron-up');
-        adviceIcon.style.transform = 'rotate(0deg)';
-      } else {
-        adviceText.style.display = 'none';
-        adviceIcon.classList.remove('fa-chevron-up');
-        adviceIcon.classList.add('fa-chevron-down');
-        adviceIcon.style.transform = 'rotate(0deg)';
-      }
-    });
-
-    /***********************
-     * Enregistrement vidéo (STEP3)
-     ***********************/
-    function bindStartButton() {
-      const startBtn = document.getElementById('start-btn');
-      if(startBtn){
-        startBtn.addEventListener('click', startImpro);
-      }
-    }
-
-    async function startImpro() {
-      if (!currentSubject) {
-        displayError('impro-error', "Tu dois générer un sujet avant de démarrer l'improvisation.");
-        return;
-      }
-      if (typeof MediaRecorder === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
-        displayError('impro-error', "Désolé, l'enregistrement vidéo n'est pas supporté par votre navigateur.");
-        return;
-      }
-      if (!confirm("Votre webcam va se lancer pour démarrer l'improvisation. Voulez-vous continuer ?")) {
-        return;
-      }
-      if (window.innerWidth <= 600) {
-          const videoBox = document.querySelector('.video-box');
-          videoBox.style.height = "450px";
-      }
-      document.querySelector('.video-overlay').style.display = 'none';
-      startInitialCountdown();
-    }
-
-    function startInitialCountdown() {
-      let count = 5;
-      document.getElementById('initial-countdown').textContent = count;
-      document.getElementById('initial-countdown-overlay').style.display = 'flex';
-      countdown = setInterval(() => {
-        count--;
-        if (count > 0) {
-          document.getElementById('initial-countdown').textContent = count;
-        } else {
-          clearInterval(countdown);
-          document.getElementById('initial-countdown-overlay').style.display = 'none';
-          initiateRecording();
-        }
-      }, 1000);
-    }
-
-    async function initiateRecording() {
-      const stream = await setupCamera();
-      if (!stream) return;
-      if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
-        displayError('impro-error', "Ton navigateur ne supporte pas l'enregistrement vidéo. Essaye avec Chrome, Edge ou Firefox.");
-        return;
-      }
-      mediaRecorderInstance = new MediaRecorder(stream);
-      recordedChunks = [];
-      mediaRecorderInstance.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          recordedChunks.push(event.data);
-        }
-      };
-      mediaRecorderInstance.onstop = () => {
-        const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
-        videoURL = URL.createObjectURL(videoBlob);
-        stream.getTracks().forEach(t => t.stop());
-        const overlay = document.querySelector('.video-overlay');
-        overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Improvisation terminée. <br>Passe à l'étape suivante !</p>";
-        overlay.style.display = 'flex';
-        document.getElementById('impro-error').style.display = 'none';
-        clearInterval(timerInterval);
-        document.getElementById('recording-indicator').style.display = 'none';
-        isImproRecordingStarted = true;
-        nextBtns[3].classList.add('pulse');
-        enableNavigationButtons();
-        if (window.innerWidth <= 600) {
-            document.querySelector('.video-box').style.height = "300px";
-        }
-      };
-      mediaRecorderInstance.start();
-      document.getElementById('recording-indicator').style.display = 'flex';
-      document.getElementById('stop-btn').classList.remove('hidden-btn');
-      document.getElementById('stop-btn').disabled = false;
-      document.getElementById('restart-btn').classList.add('hidden-btn');
-      disableNavigationButtons();
-      startTimer();
-    }
-
-    async function setupCamera() {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-        document.getElementById('preview').srcObject = stream;
-        return stream;
-      } catch (error) {
-        if (error.name === 'NotAllowedError') {
-          displayError('impro-error', "Vous avez refusé l'accès à la webcam. Veuillez autoriser l'accès.");
-        } else if (error.name === 'NotFoundError') {
-          displayError('impro-error', "Aucune caméra/micro détectés.");
-        } else {
-          displayError('impro-error', "Erreur : Impossible d'accéder à la webcam.");
-        }
-        console.error(error);
-        return null;
-      }
-    }
-
-    function startTimer() {
-      timeRemaining = 120;
-      updateCountdownDisplay();
-      timerInterval = setInterval(() => {
-        timeRemaining--;
-        if (timeRemaining >= 0) {
-          updateCountdownDisplay();
-        }
-        if (timeRemaining < 0) {
-          clearInterval(timerInterval);
-          if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
-            mediaRecorderInstance.stop();
-            document.getElementById('restart-btn').classList.remove('hidden-btn');
-          }
-        }
-      }, 1000);
-    }
-    function updateCountdownDisplay() {
-      const minutes = Math.floor(timeRemaining / 60);
-      const seconds = timeRemaining % 60;
-      const countdownEl = document.getElementById('countdown');
-      countdownEl.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
-    }
-
-    document.getElementById('stop-btn').addEventListener('click', () => {
-      if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
-        mediaRecorderInstance.stop();
-        clearInterval(countdown);
-        clearInterval(timerInterval);
-        document.getElementById('stop-btn').classList.add('hidden-btn');
-        document.getElementById('stop-btn').disabled = true;
-        document.getElementById('restart-btn').classList.remove('hidden-btn');
-      }
-    });
-    
-    // Modification : Lorsqu'on clique sur "Recommencer ton impro", après confirmation,
-    // on réinitialise l'interface pour lancer immédiatement le compte à rebours comme au premier démarrage.
-    document.getElementById('restart-btn').addEventListener('click', () => {
-      if (!confirm("Attention, tu vas recommencer ton impro et lancer un nouvel enregistrement. Tu es sûr ?")) {
-        return;
-      }
-      // Masquer la zone d'enregistrement et réinitialiser son contenu
-      const overlay = document.querySelector('.video-overlay');
-      overlay.style.display = 'none';
-      overlay.innerHTML = `
-        <p>Ta vidéo va s'enregistrer ici.</p>
-        <button id="start-btn" aria-label="Démarrer l'improvisation">
-          Démarrer ton impro <i class="fas fa-video"></i>
-        </button>
-        <p>NB : ta vidéo est stockée sur ton appareil. <br>Aucun enregistrement n'est conservé par Letmotiv.</p>
-      `;
-      isImproRecordingStarted = false;
-      // Pour mobile, réinitialiser la hauteur de la vidéo
-      if (window.innerWidth <= 600) {
-          document.querySelector('.video-box').style.height = "450px";
-      }
-      // Lancer immédiatement le compte à rebours (qui masquera à nouveau l'overlay et lancera l'enregistrement)
-      startInitialCountdown();
-    });
-    bindStartButton();
-
-    /***********************
-     * Téléchargement & Newsletter (STEP4)
-     ***********************/
-    document.getElementById('download-video-btn').addEventListener('click', () => {
-      if (confirm("Une vidéo va être téléchargée. Voulez-vous continuer ?")) {
-        if (videoURL) {
-          const link = document.createElement('a');
-          link.href = videoURL;
-          link.download = 'Letmotiv_Improvisation.mp4';
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-          videoDownloaded = true;
-          // Déplacer l'animation vers le conteneur contact
-          document.getElementById('download-video-btn').classList.remove('animated-border');
-          document.getElementById('contact-btn').classList.add('animated-border');
-          document.getElementById('contact-btn').classList.remove('disabled');
-        } else {
-          alert("Aucune vidéo n'est disponible pour le moment.");
-        }
-      }
-    });
-
-    document.getElementById('feedback-btn').addEventListener('click', () => {
-      if (document.getElementById('feedback-btn').classList.contains('disabled')) return;
-      window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro";
-    });
-
-    document.getElementById('contact-yes').addEventListener('click', (e) => {
-      e.preventDefault();
-      showBox(4, 5);
-    });
-    document.getElementById('contact-no').addEventListener('click', (e) => {
-      e.preventDefault();
-      // Déplacer l'animation vers le bouton 3
-      document.getElementById('feedback-btn').classList.add('animated-border');
-      document.getElementById('contact-btn').classList.remove('animated-border');
-      document.getElementById('feedback-btn').classList.remove('disabled');
-    });
-
-    document.getElementById('newsletter-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      let valid = true;
-      const prenomInput = document.getElementById('newsletter-prenom');
-      const emailInput = document.getElementById('newsletter-email');
-      const prenomErrorEl = document.getElementById('newsletter-prenom-error');
-      const emailErrorEl = document.getElementById('newsletter-email-error');
-      prenomErrorEl.style.display = 'none';
-      emailErrorEl.style.display = 'none';
-
-      if (prenomInput.value.trim() === "") {
-        prenomErrorEl.textContent = "Le prénom est requis.";
-        prenomErrorEl.style.display = 'block';
-        valid = false;
-      }
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (emailInput.value.trim() === "") {
-        emailErrorEl.textContent = "L'email est requis.";
-        emailErrorEl.style.display = 'block';
-        valid = false;
-      } else if (!emailRegex.test(emailInput.value.trim())) {
-        emailErrorEl.textContent = "L'email n'est pas valide.";
-        emailErrorEl.style.display = 'block';
-        valid = false;
-      }
-      if (!valid) return;
-
-      document.getElementById('hidden-prenom').value = prenomInput.value.trim();
-      document.getElementById('hidden-email').value = emailInput.value.trim();
-      document.getElementById('hidden-google-form').submit();
-
-      const successEl = document.getElementById('newsletter-success');
-      successEl.style.display = 'block';
-      setTimeout(() => { successEl.style.display = 'none'; }, 5000);
-    });
-
-    /***********************
-     * Bouton de partage du simulateur
-     ***********************/
-    class ShareManager {
-      constructor() {
-        this.shareData = {
-          title: "Letmotiv - Simulateur d'entretien",
-          text: "Développe et évalue ta prise de parole en public avec le simulateur d'improvisation Letmotiv.",
-          url: window.location.href,
-          image: "https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png"
-        };
-        this.bindShareEvents();
-      }
-      bindShareEvents() {
-        const shareBtn = document.getElementById('global-share-btn');
-        shareBtn.addEventListener('click', () => {
-          if (navigator.share) {
-            navigator.share(this.shareData)
-              .then(() => console.log('Shared successfully'))
-              .catch((error) => console.log('Error sharing', error));
+      
+      const logosContainer = document.getElementById('clients-logos');
+      const logosLoading = document.getElementById('logos-loading');
+      fetch('https://api.github.com/repos/Citizen11bf/letmotiv/contents?ref=images')
+        .then(response => response.json())
+        .then(data => {
+          const logoFiles = data.filter(item => item.name.startsWith('Logo_'));
+          logosLoading.style.display = 'none';
+          if (logoFiles.length === 0) {
+            logosContainer.innerHTML = '<p>Aucun logo trouvé.</p>';
           } else {
-            alert("Le partage n'est pas supporté sur ce navigateur.");
+            logoFiles.forEach(file => {
+              const clientDiv = document.createElement('div');
+              clientDiv.classList.add('client-item');
+              const img = document.createElement('img');
+              img.src = file.download_url;
+              img.alt = file.name;
+              clientDiv.appendChild(img);
+              logosContainer.appendChild(clientDiv);
+            });
           }
+        })
+        .catch(error => {
+          console.error('Erreur lors du chargement des logos :', error);
+          logosLoading.textContent = "Erreur lors du chargement des logos.";
         });
-      }
-    }
-    window.addEventListener('DOMContentLoaded', () => {
-      new ShareManager();
     });
-
-    /*** Mise à jour du bouton de partage ***/
-    function updateShareButtonVisibility() {
-      const shareBtn = document.getElementById('global-share-btn');
-      shareBtn.style.display = currentStep >= 1 ? 'flex' : 'none';
-    }
-    
-    initNavigationButtons();
-
-    function disableNavigationButtons() {
-      Object.values(nextBtns).forEach(btn => btn.disabled = true);
-      Object.values(backBtns).forEach(btn => btn.disabled = true);
-    }
-    function enableNavigationButtons() {
-      Object.values(nextBtns).forEach(btn => btn.disabled = false);
-      Object.values(backBtns).forEach(btn => btn.disabled = false);
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      if (window.location.hash) {
-        const stepFromHash = window.location.hash.replace('#step', '');
-        if (boxes[stepFromHash]) {
-          showBox(currentStep, stepFromHash);
-        }
-      }
-      // Assurer que le bouton de partage est mis à jour (caché en STEP0)
-      updateShareButtonVisibility();
-    });
-
   </script>
 </body>
 </html>
