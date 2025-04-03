@@ -785,7 +785,7 @@
       <div class="video-box">
         <video id="preview" autoplay muted playsinline webkit-playsinline></video>
         <div class="video-overlay" id="instruction-overlay">
-          <p style="font-size:16px; text-align:center;">
+          <p style="font-size:14px; text-align:center;">
             Ton entretien vidéo va s'enregistrer ici.
           </p>
           <button id="start-btn" aria-label="Démarrer ta simulation">
@@ -1409,12 +1409,12 @@
           document.getElementById('download-error').textContent = "Aucune vidéo à télécharger.";
         }
       });
-      
+  
       document.getElementById('resources-btn').addEventListener('click', () => {
         if (!AppState.videoDownloaded) {
           document.getElementById('resources-error').textContent = "Télécharge ta vidéo avant de quitter le simulateur.";
         } else {
-          window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/entretien-candidat";
+          window.open("https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/entretien-candidat", '_blank');
         }
       });
       
