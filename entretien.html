@@ -71,8 +71,14 @@
       padding-top: 60px;
       padding-bottom: 20px;
     }
+    /* Bouton de partage masqué par défaut */
+    #global-share-btn { display: none; }
+    /* Affiché uniquement si body ne possède PAS la classe hide-share */
+    body:not(.hide-share) #global-share-btn {
+      display: flex;
+    }
     .error-message { color: red; font-weight: bold; }
-
+    
     /* --- HEADER --- */
     .header {
       background: linear-gradient(135deg, #2E22AC, #E34C9D);
@@ -105,7 +111,7 @@
       top: 60px;
       left: 0;
       width: 100%;
-      height: 8px;
+      height: 10px;
       background-color: rgba(46,34,172,0.1);
       z-index: 9;
     }
@@ -114,6 +120,27 @@
       height: 100%;
       background-color: #00a48a;
       transition: width 0.5s ease;
+    }
+
+    /* --- Bouton de partage --- */
+    #global-share-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #2E22AC;
+      color: #fff;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10000;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      transition: background-color 0.3s;
+    }
+    #global-share-btn:hover {
+      background-color: #00a48a;
     }
 
     /* --- MAIN CONTAINER --- */
@@ -127,47 +154,56 @@
       padding: 20px;
     }
 
-    /* --- MEDIA QUERIES pour mobile --- */
-    @media (max-width: 600px) {
-      h1 .line { display: block; }
-      .main-container { justify-content: flex-start; }
-      .box {
-        width: 100vw;
-        margin-top: 10px;
-        margin-bottom: 20px;
-        padding: 20px;
-        height: auto;
-      }
-      .impro-actions {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-      .impro-actions button {
-        width: 100%;
-        height: 50px;
-        margin: 5px 0;
-        flex: 1;
-      }
-      .objectives-container { grid-template-columns: repeat(2, 1fr); }
-      .flip-card { width: 90px; height: 100px; }
-      .flip-card-front i { font-size: 1.8rem; }
-      .flip-card-front span { font-size: 0.9rem; }
-      
-      .cta {
-        padding: 8px 30px !important;
-        font-size: 30px !important;
-      }
-      .cta svg {
-        width: 40px !important;
-        height: auto !important;
-      }
-      .cta span:nth-child(2) {
-        margin-left: 20px !important;
-        width: 15px !important;
-        top: 10% !important;
-      }
+    /* --- STEP1 : Choix d’objectif --- */
+    .objectives-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      justify-items: center;
+      margin: 10px 0;
     }
+    .flip-card {
+      background-color: #f7f7f7;
+      border: 2px solid #2E22AC;
+      border-radius: 8px;
+      padding: 20px;
+      width: 150px;
+      height: 150px;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 10px;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s;
+    }
+    .flip-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .flip-card.selected {
+      background-color: #00a48a;
+      color: #fff;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    }
+    .flip-card.selected i,
+    .flip-card.selected span {
+      color: #fff;
+    }
+    .flip-card-front {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .flip-card-front i { font-size: 2rem; margin-bottom: 8px; }
+    .flip-card-front span { font-size: 1rem; }
+    .flip-card[data-category="insp"] .flip-card-front i { color: #B37E7E; }
+    .flip-card[data-category="ingenieur-generaliste"] .flip-card-front i { color: #7EB37E; }
+    .flip-card[data-category="ingenieur-aero"] .flip-card-front i { color: #7E89B3; }
+    .flip-card[data-category="commerce"] .flip-card-front i { color: #B37EB3; }
+    .flip-card[data-category="sciences-politiques"] .flip-card-front i { color: #B3A77E; }
+    .flip-card[data-category="embauche"] .flip-card-front i { color: #7EB3B3; }
 
     /* --- BOÎTE D'INTRODUCTION (STEP0) --- */
     .intro-box {
@@ -219,6 +255,15 @@
       top: 12%;
     }
 
+    /* Réduction de la taille du SVG dans le bouton "Commencer" sur mobile */
+    @media (max-width: 600px) {
+      .cta svg {
+        width: 40px;
+        height: 30px;
+      }
+      .mobile-break { display: inline; }
+    }
+    
     /* --- BOXES (étapes) --- */
     .box {
       position: relative;
@@ -228,7 +273,7 @@
       padding: 20px;
       border-radius: 15px;
       background: #fff;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       text-align: center;
       font-size: 14px;
       display: none;
@@ -237,7 +282,7 @@
     .box.active { display: block; }
     .box:hover {
       transform: translateY(-5px);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
     }
     .slide-from-bottom { animation: fromBottom 1.5s ease forwards; }
     @keyframes fromBottom { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
@@ -298,7 +343,37 @@
       100% { box-shadow: 0 0 0 0 rgba(0,164,138,0); }
     }
 
-    /* --- Boutons d'action (STEP3) --- */
+    /* --- STEP2 : Configuration de la simulation --- */
+    .rating-container {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin: 10px 0;
+    }
+    .rating-icon {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      border: 2px solid #2E22AC;
+      border-radius: 50%;
+      background-color: #f7f7f7;
+      font-weight: bold;
+      color: #2E22AC;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s, color 0.3s;
+    }
+    .rating-icon:hover {
+      transform: scale(1.1);
+    }
+    .rating-icon.selected {
+      background-color: #2E22AC;
+      color: #fff;
+    }
+    #duration-info { margin-bottom: 20px; }
+
+    /* --- Boutons d'action en STEP3 --- */
     .btn-impro {
       pointer-events: auto;
       margin: 15px 0;
@@ -312,149 +387,6 @@
       transition: background-color 0.3s;
     }
     .btn-impro:hover { background-color: #E34C9D; }
-
-    /* --- STEP1 : Choix d’objectif avec effet "Carte Flip" --- */
-    .objectives-container {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-      justify-items: center;
-      margin: 10px 0;
-    }
-    @media (max-width: 600px) {
-      .objectives-container { grid-template-columns: repeat(2, 1fr); }
-      .flip-card { width: 90px; height: 100px; }
-      .flip-card-front i { font-size: 1.8rem; }
-      .flip-card-front span { font-size: 0.9rem; }
-    }
-    @media (max-width: 550px) {
-      .flip-card { max-width: 120px; height: 90px; }
-      .flip-card-front i { font-size: 1.5rem; }
-      .flip-card-front span { font-size: 0.7rem; }
-    }
-    .flip-card {
-      background-color: transparent;
-      width: 100%;
-      max-width: 150px;
-      height: 120px;
-      perspective: 1000px;
-      cursor: pointer;
-    }
-    .flip-card-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transition: transform 0.6s;
-      transform-style: preserve-3d;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      border-radius: 8px;
-      background-color: #fff;
-    }
-    .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
-    .flip-card-front,
-    .flip-card-back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      border-radius: 8px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 10px;
-      transition: background-color 0.3s, color 0.3s;
-    }
-    .flip-card-front {
-      background: #fff;
-      color: #808080;
-      border: 1px solid #ccc;
-    }
-    .flip-card-front i { font-size: 1.8rem; margin-bottom: 8px; }
-    .flip-card-front span { font-size: 0.9rem; }
-    .flip-card-back {
-      background: #f0f0f0;
-      color: #00a48a;
-      transform: rotateY(180deg);
-      font-size: 0.8rem;
-      padding: 8px;
-      text-align: center;
-      border: 1px solid #ccc;
-    }
-
-    /* --- STEP2 : Configuration de la simulation --- */
-    .simulation-instructions {
-      padding: 20px;
-      font-size: 16px;
-      text-align: center;
-      margin-bottom: 5px;
-    }
-    .simulation-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 5px;
-    }
-    .simulation-buttons button:hover { transform: scale(1.05); }
-    .simulation-buttons button:active { transform: scale(0.95); }
-    .simulation-buttons button {
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #2E22AC;
-      color: #fff;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    /* --- Bouton question (STEP2) --- */
-    .btn-question {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: #fff;
-      background-color: #2E22AC;
-      border: 2px solid currentColor;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      transition: 0.2s transform ease-in-out;
-    }
-    /* Utilisation du dégradé STEP0 pour l'effet de slide */
-    .btn-question::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #2E22AC, #E34C9D);
-      border-radius: 50%;
-      transform: translate(-100%, 0) rotate(10deg);
-      transform-origin: top left;
-      transition: 0.2s transform ease-out;
-      z-index: -1;
-    }
-    .btn-question:not(.selected):hover::after {
-      transform: translate(0, 0);
-    }
-    .btn-question.selected {
-      background-color: transparent;
-    }
-    .btn-question.selected::after {
-      transform: translate(0, 0);
-    }
-    .btn-impro.btn-question:hover { background-color: #2E22AC !important; }
-    #duration-info {
-      margin-top: 5px;
-      font-style: italic;
-    }
 
     /* --- STEP3 : Enregistrement vidéo --- */
     .video-box {
@@ -475,13 +407,24 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      border-radius: 4px;
+      border-radius: 6px;
       position: absolute;
       top: 0;
       left: 0;
       z-index: 1;
       transform: scaleX(-1);
       -webkit-transform: scaleX(-1);
+    }
+    /* Message final affiché au centre de l'encart vidéo */
+    .final-message {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 18px;
+      text-align: center;
+      z-index: 2;
     }
     #instruction-overlay {
       position: absolute;
@@ -496,7 +439,7 @@
       justify-content: center;
       text-align: center;
       z-index: 2;
-      padding: 20px;
+      padding: 10px 20px;
     }
     #instruction-overlay button {
       pointer-events: auto;
@@ -511,6 +454,8 @@
       transition: background-color 0.3s;
     }
     #instruction-overlay button:hover { background-color: #E34C9D; }
+    
+    /* Overlay des questions */
     #question-overlay {
       position: absolute;
       top: 0;
@@ -518,39 +463,46 @@
       width: 100%;
       padding: 5px;
       background: rgba(255,255,255,0.6);
-      font-style: italic;
-      font-size: 13px;
+      font-style: normal;
+      font-size: 12px;
       text-align: center;
       z-index: 3;
       display: none;
+    }
+    #analysis-image {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      display: none;
+      z-index: 3;
+    }
+    #analysis-image img {
+      transition: transform 0.3s ease;
+      cursor: pointer;
+      max-width: 150px;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      transform-origin: bottom right;
+    }
+    #analysis-image img.enlarged {
+      transform: scale(2);
     }
     .recording-indicator {
       position: absolute;
       bottom: 10px;
       left: 10px;
-      display: flex;
-      align-items: center;
+      display: none;
+      z-index: 4;
+      font-size: 12px;
       background-color: rgba(255,255,255,0.8);
       padding: 5px 10px;
       border-radius: 20px;
-      font-size: 14px;
-      color: #ff0000;
-      display: none;
-      z-index: 4;
+      display: flex;
+      align-items: center;
     }
-    .recording-indicator i { margin-right: 5px; }
-    .countdown {
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
-      font-size: 18px;
-      color: #ffffff;
-      display: none;
-      z-index: 5;
-      background-color: rgba(0,0,0,0.5);
-      padding: 5px 10px;
-      border-radius: 5px;
-      text-align: center;
+    .recording-indicator i {
+      color: red;
+      margin-right: 5px;
     }
     .initial-countdown-overlay {
       position: absolute;
@@ -569,152 +521,140 @@
     .impro-actions { display: flex; flex-wrap: wrap; gap: 5px; justify-content: space-around; margin-top: 10px; }
     .hidden-btn { display: none; }
 
-    /* --- STEP4 : Analyse ton entretien --- */
+    /* --- STEP4 : Bilan / Félicitations --- */
     .download-section { margin-top: 20px; }
-    .download-section-accent {
-      background: linear-gradient(135deg, #2E22AC, #00a48a);
-      border-radius: 10px;
-      padding: 20px;
-      text-align: center;
-      color: #fff;
-      margin-bottom: 20px;
-      animation: fadeInDown 0.6s ease forwards;
-    }
-    .download-section-accent h2 {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.5rem;
-      margin: 0 0 10px;
-    }
-    .download-section-accent .subtitle { font-style: italic; margin-bottom: 10px; }
-    .download-section-accent .reassure { font-size: 0.9rem; opacity: 0.9; }
-    .call-to-action { text-align: center; }
-    .call-to-action button {
-      background-color: #ffcb2d;
+    /* La box dégradée de félicitations a été supprimée */
+    .btn-step4 {
+      background: linear-gradient(135deg, #ffcb2d, #fbb034);
+      border: none;
       color: #000;
-      border-radius: 30px;
+      border-radius: 25px;
       padding: 12px 24px;
       font-weight: bold;
       font-size: 1rem;
-      transition: transform 0.2s, box-shadow 0.2s;
-      margin: 10px auto;
-    }
-    .call-to-action button:hover { transform: translateY(-3px); box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
-    #step4-extra { display: none; margin-top: 20px; }
-    /* Boutons renommés dans STEP4 */
-    #resources-btn {
-      background-color: #2E22AC;
-      color: #fff;
-      border: none;
-      border-radius: 25px;
-      padding: 10px 20px;
-      font-size: 16px;
+      margin: 10px;
       cursor: pointer;
-      margin: 5px;
-      transition: background-color 0.3s;
+      transition: background 0.4s, transform 0.3s, box-shadow 0.3s;
     }
-    #resources-btn:hover { background-color: #E34C9D; }
-    #redo-btn {
-      background-color: #2E22AC;
-      color: #fff;
-      border: none;
-      border-radius: 25px;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      margin: 5px;
-      transition: background-color 0.3s;
+    .btn-step4:hover {
+      background: linear-gradient(135deg, #fbb034, #ffcb2d);
+      transform: translateY(-3px);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
     }
-    #redo-btn:hover { background-color: #E34C9D; }
-    @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-    
-    /* --- Animation pour changement de question --- */
-    .question-change {
-      animation: questionBlitz 0.8s ease-out;
-    }
-    @keyframes questionBlitz {
-      0% { opacity: 0; transform: scale(0.8) rotateX(-90deg); filter: blur(5px); }
-      50% { opacity: 0.5; transform: scale(1.05) rotateX(20deg); filter: blur(2px); }
-      100% { opacity: 1; transform: scale(1) rotateX(0deg); filter: blur(0); }
-    }
-    
-    /* --- Icônes sociales (partage) --- */
-    .share-icons {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top: 20px;
-    }
-    .share-icons .icon-content { margin: 0 10px; position: relative; }
-    .share-icons .icon-content a {
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      color: #fff;
-      background-color: #2E22AC;
-      transition: all 0.3s ease-in-out;
-      text-decoration: none;
-    }
-    /* Couleurs spécifiques lors du hover */
-    .share-icons .icon-content a[data-social="whatsapp"]:hover {
-      background-color: #25D366;
-    }
-    .share-icons .icon-content a[data-social="discord"]:hover {
-      background-color: #7289da;
-    }
-    .share-icons .icon-content a[data-social="linkedin"]:hover {
-      background-color: #0077B5;
-    }
-    .share-icons .icon-content a[data-social="instagram"]:hover {
-      background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
-    }
-    .share-icons .icon-content a .filled {
-      position: absolute;
-      bottom: 0;
-      left: 0;
+    .extra-buttons { text-align: center; }
+    .step4-error { color: red; font-size: 0.9rem; margin-top: 5px; }
+
+    /* --- STEP4 - Newsletter CSS --- */
+    .newsletter-container {
       width: 100%;
-      height: 0;
-      transition: all 0.3s ease-in-out;
-      border-radius: 50%;
+      max-width: 600px;
+      background-color: #2d3748;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      padding: 20px;
+      margin: 30px auto;
+      color: #e2e8f0;
+      text-align: center;
     }
-    .share-icons .icon-content a[data-social="whatsapp"]:hover .filled {
-      background-color: #25D366;
-      height: 100%;
+    .newsletter-title {
+      font-size: 1.0rem;
+      font-weight: normal;
+      margin-bottom: 20px;
     }
-    .share-icons .icon-content a[data-social="discord"]:hover .filled {
-      background-color: #7289da;
-      height: 100%;
+    .newsletter-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
-    .share-icons .icon-content a[data-social="linkedin"]:hover .filled {
-      background-color: #0077B5;
-      height: 100%;
+    .newsletter-form input::placeholder { color: #fff; }
+    .newsletter-form input {
+      background-color: #4a5568;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px;
+      outline: none;
+      transition: background-color 0.3s, box-shadow 0.3s;
     }
-    .share-icons .icon-content a[data-social="instagram"]:hover .filled {
-      background: radial-gradient(circle at 30% 107%, rgba(253,244,151,0.7) 0%, rgba(253,244,151,0.7) 5%, rgba(253,89,73,0.7) 45%, rgba(214,36,159,0.7) 60%, rgba(40,90,235,0.7) 90%);
-      height: 100%;
+    .newsletter-form input:focus {
+      background-color: #2d3748;
+      box-shadow: 0 0 0 1px #3182ce;
+    }
+    .newsletter-error { color: red; font-size: 0.8rem; text-align: left; }
+    .newsletter-success { color: green; font-size: 0.9rem; margin-top: 10px; }
+
+    .btn-newsletter {
+      background: linear-gradient(135deg, #182d84, #00a48a);
+      color: #fff;
+      font-weight: bold;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      margin: 10px 0;
+    }
+    .btn-newsletter:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+    
+    /* ------------------- MEDIA QUERIES POUR MOBILE ------------------- */
+    @media (max-width: 600px) {
+      h1 .line { display: block; }
+      .main-container { justify-content: flex-start; }
+      .box {
+        width: 100vw;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        padding: 20px;
+        height: auto;
+      }
+      .impro-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .impro-actions button {
+        width: 100%;
+        height: 50px;
+        margin: 5px 0;
+        flex: 1;
+      }
+      .objectives-container { grid-template-columns: repeat(2, 1fr); }
+      .simulation-buttons button {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
     }
   </style>
 </head>
-<body>
+<body class="hide-share">
   <!-- Élément audio pour le feedback sonore -->
   <audio id="pop-sound" src="https://www.soundjay.com/button/sounds/button-30.mp3" preload="auto"></audio>
+
+  <!-- Bouton global de partage (fixé en bas à droite) -->
+  <div id="global-share-btn" aria-label="Partager">
+    <i class="fas fa-share-alt"></i>
+  </div>
 
   <!-- BOÎTE D'INTRODUCTION (STEP0) -->
   <div class="intro-box" id="intro-box">
     <h1>
-      <span class="line">Entraîne-toi</span>
-      <span class="line">pour réussir</span>
-      <span class="line">ton entretien</span>
+      <span class="line">ENTRAINE-TOI</span>
+      <span class="line">POUR REUSSIR</span>
+      <span class="line">TON ENTRETIEN</span>
     </h1>
     <div class="wrapper">
       <a id="start-intro-btn" class="cta" href="#">
         <span>COMMENCER</span>
         <span>
-          <svg width="66px" height="43px" viewBox="0 0 66 43" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <svg width="66px" height="43px" viewBox="0 0 66 43" version="1.1" xmlns="http://www.w3.org/2000/svg">
             <g id="arrow" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
               <path class="one" d="M40.1543933,3.89485454 L43.9763149,0.139296592 C44.1708311,-0.0518420739 44.4826329,-0.0518571125 44.6771675,0.139262789 L65.6916134,20.7848311 C66.0855801,21.1718824 66.0911863,21.8050225 65.704135,22.1989893 C65.7000188,22.2031791 65.6958657,22.2073326 65.6916762,22.2114492 L44.677098,42.8607841 C44.4825957,43.0519059 44.1708242,43.0519358 43.9762853,42.8608513 L40.1545186,39.1069479 C39.9575152,38.9134427 39.9546793,38.5968729 40.1481845,38.3998695 C40.1502893,38.3977268 40.1524132,38.395603 40.1545562,38.3934985 L56.9937789,21.8567812 C57.1908028,21.6632968 57.193672,21.3467273 57.0001876,21.1497035 C56.9980647,21.1475418 56.9959223,21.1453995 56.9937605,21.1432767 L40.1545208,4.60825197 C39.9574869,4.41477773 39.9546013,4.09820839 40.1480756,3.90117456 C40.1501626,3.89904911 40.1522686,3.89694235 40.1543933,3.89485454 Z" fill="#FFFFFF"></path>
               <path class="two" d="M20.1543933,3.89485454 L23.9763149,0.139296592 C24.1708311,-0.0518420739 24.4826329,-0.0518571125 24.6771675,0.139262789 L45.6916134,20.7848311 C46.0855801,21.1718824 46.0911863,21.8050225 45.704135,22.1989893 C45.7000188,22.2031791 45.6958657,22.2073326 45.6916762,22.2114492 L24.677098,42.8607841 C24.4825957,43.0519059 24.1708242,43.0519358 23.9762853,42.8608513 L20.1545186,39.1069479 C19.9575152,38.9134427 19.9546793,38.5968729 20.1481845,38.3998695 C20.1502893,38.3977268 20.1524132,38.395603 20.1545562,38.3934985 L36.9937789,21.8567812 C37.1908028,21.6632968 37.193672,21.3467273 37.0001876,21.1497035 C36.9980647,21.1475418 36.9959223,21.1453995 36.9937605,21.1432767 L20.1545208,4.60825197 C19.9574869,4.41477773 19.9546013,4.09820839 20.1480756,3.90117456 C20.1501626,3.89904911 20.1522686,3.89694235 20.1543933,3.89485454 Z" fill="#FFFFFF"></path>
@@ -750,76 +690,46 @@
         <div class="box-title">Quel entretien souhaites-tu préparer ?</div>
       </div>
       <div class="objectives-container">
-        <!-- Grand Oral -->
-        <div class="flip-card objective-item" data-category="grand-oral">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <i class="fas fa-microphone"></i>
-              <span>Grand Oral</span>
-            </div>
-            <div class="flip-card-back">
-              Prépare-toi pour le Grand Oral.
-            </div>
+        <!-- INSP -->
+        <div class="flip-card objective-item" data-category="insp">
+          <div class="flip-card-front">
+            <i class="fas fa-user-tie"></i>
+            <span>École de la Haute Administration</span>
           </div>
         </div>
-        <!-- Ecole d'ingénieur généraliste -->
+        <!-- École d'ingénieur généraliste -->
         <div class="flip-card objective-item" data-category="ingenieur-generaliste">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <i class="fas fa-cogs"></i>
-              <span>Ecole d'ingénieur généraliste</span>
-            </div>
-            <div class="flip-card-back">
-              Prépare ton entretien pour une école d'ingénieur généraliste.
-            </div>
+          <div class="flip-card-front">
+            <i class="fas fa-cogs"></i>
+            <span>École d'ingénieur généraliste</span>
           </div>
         </div>
-        <!-- Ecole d'ingénieur aéro -->
+        <!-- École d'ingénieur aéro -->
         <div class="flip-card objective-item" data-category="ingenieur-aero">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <i class="fas fa-rocket"></i>
-              <span>Ecole d'ingénieur aéro</span>
-            </div>
-            <div class="flip-card-back">
-              Prépare ton entretien pour une école d'ingénieur spécialisée en aéronautique.
-            </div>
+          <div class="flip-card-front">
+            <i class="fas fa-rocket"></i>
+            <span>École d'ingénieur aéro</span>
           </div>
         </div>
-        <!-- Ecole de commerce -->
+        <!-- École de commerce -->
         <div class="flip-card objective-item" data-category="commerce">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <i class="fas fa-handshake"></i>
-              <span>Ecole de commerce</span>
-            </div>
-            <div class="flip-card-back">
-              Prépare ton entretien pour une école de commerce.
-            </div>
+          <div class="flip-card-front">
+            <i class="fas fa-handshake"></i>
+            <span>École de commerce</span>
           </div>
         </div>
-        <!-- Ecole de Sciences Politiques -->
+        <!-- École de Sciences Politiques -->
         <div class="flip-card objective-item" data-category="sciences-politiques">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <i class="fas fa-university"></i>
-              <span>Ecole de Sciences Politiques</span>
-            </div>
-            <div class="flip-card-back">
-              Prépare ton entretien pour une école de Sciences Politiques.
-            </div>
+          <div class="flip-card-front">
+            <i class="fas fa-university"></i>
+            <span>École de Sciences Politiques</span>
           </div>
         </div>
         <!-- Entretien d'embauche -->
         <div class="flip-card objective-item" data-category="embauche">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <i class="fas fa-briefcase"></i>
-              <span>Entretien d'embauche</span>
-            </div>
-            <div class="flip-card-back">
-              Prépare-toi pour ton entretien d'embauche.
-            </div>
+          <div class="flip-card-front">
+            <i class="fas fa-briefcase"></i>
+            <span>Entretien d'embauche</span>
           </div>
         </div>
       </div>
@@ -838,17 +748,24 @@
         <div class="box-title">Configuration de la simulation</div>
       </div>
       <div class="simulation-instructions">
-        Tu vas bientôt démarrer ton entretien.<br> 
-        Tu as 2 minutes par question.<br><br>
         Choisis le nombre de questions que tu souhaites simuler :
       </div>
-      <div class="simulation-buttons">
-        <button class="btn-impro btn-question" data-question-count="3">3</button>
-        <button class="btn-impro btn-question" data-question-count="4">4</button>
-        <button class="btn-impro btn-question" data-question-count="5">5</button>
-        <button class="btn-impro btn-question" data-question-count="6">6</button>
-        <button class="btn-impro btn-question" data-question-count="7">7</button>
-        <button class="btn-impro btn-question" data-question-count="8">8</button>
+      <div class="rating-container" id="question-rating">
+        <span class="rating-icon" data-value="3">3</span>
+        <span class="rating-icon" data-value="4">4</span>
+        <span class="rating-icon" data-value="5">5</span>
+        <span class="rating-icon" data-value="6">6</span>
+        <span class="rating-icon" data-value="7">7</span>
+        <span class="rating-icon" data-value="8">8</span>
+      </div>
+      <div class="simulation-instructions" style="margin-top:20px;">
+        Combien de minutes par question ?
+      </div>
+      <div class="rating-container" id="minutes-rating">
+        <span class="rating-icon" data-value="2">2</span>
+        <span class="rating-icon" data-value="3">3</span>
+        <span class="rating-icon" data-value="4">4</span>
+        <span class="rating-icon" data-value="5">5</span>
       </div>
       <div id="duration-info"></div>
       <div id="subject-error" class="error-message"></div>
@@ -863,28 +780,27 @@
         <button class="back-btn" id="back-btn3" aria-label="Retour à l'étape précédente">
           <i class="fas fa-arrow-up"></i>
         </button>
-        <div class="box-title">Lance ton entretien</div>
+        <div class="box-title">C'est parti, lance ton entretien !</div>
       </div>
       <div class="video-box">
         <video id="preview" autoplay muted playsinline webkit-playsinline></video>
         <div class="video-overlay" id="instruction-overlay">
-          <p style="font-size:16px; text-align:center;">
-            Ici va s'enregistrer ton entretien vidéo.<br>
-            Lorsque tu es prêt, clique sur le bouton ci-dessous.
+          <p style="font-size:14px; text-align:center;">
+            Ton entretien vidéo va s'enregistrer ici.
           </p>
           <button id="start-btn" aria-label="Démarrer ta simulation">
             Démarrer ta simulation <i class="fas fa-video"></i>
           </button>
-          <p style="font-size:12px;">
+          <p style="font-size:14px;">
             NB : ta vidéo est stockée sur ton appareil.<br>
             Aucun enregistrement n'est conservé par Letmotiv.
           </p>
         </div>
         <div class="video-overlay" id="question-overlay"></div>
-        <div class="recording-indicator" id="recording-indicator">
-          <i class="fas fa-record-vinyl"></i> Enregistrement en cours
+        <div id="analysis-image"></div>
+        <div class="recording-indicator" id="recording-indicator" style="display: none;">
+          <i class="fas fa-circle"></i><span id="countdown"></span>
         </div>
-        <div class="countdown" id="countdown">2:00</div>
         <div class="initial-countdown-overlay" id="initial-countdown-overlay">
           <div class="initial-countdown" id="initial-countdown">5</div>
         </div>
@@ -906,90 +822,140 @@
       </button>
     </div>
 
-    <!-- STEP4 : Analyse ton entretien -->
+    <!-- STEP4 : Bilan / Félicitations -->
     <div class="box" id="step4">
       <div class="box-header">
         <button class="back-btn" id="back-btn5" aria-label="Retour à l'étape précédente">
           <i class="fas fa-arrow-up"></i>
         </button>
-        <div class="box-title">Analyse ton entretien</div>
+        <div class="box-title">Félicitations pour ton entretien 🤩</div>
       </div>
       <div class="download-section">
-        <div class="download-section-accent">
-          <h2>Obtiens gratuitement ta prestation en vidéo et des éléments d'analyse Letmotiv</h2>
-          <p class="reassure">
-            N'hésite pas à t'entraîner et refaire des simulations pour progresser.
-          </p>
-        </div>
         <div class="call-to-action">
-          <button id="validate-form-btn" aria-label="Télécharger ma vidéo">
-            Télécharger ma vidéo
+          <button id="validate-form-btn" class="btn-step4" aria-label="Je télécharge ma vidéo">
+            1) Je télécharge ma vidéo  <i class="fas fa-download"></i>
           </button>
+          <div id="download-error" class="step4-error"></div>
         </div>
-        <div id="step4-extra">
-          <button id="resources-btn">
-            Comment réussir son entretien ? <i class="fas fa-book-open"></i> 
+        <div class="extra-buttons">
+          <button id="resources-btn" class="btn-step4">
+            2) Je lis les conseils pour résussir mon entretien <i class="fas fa-book-open"></i>
           </button>
-          <button id="redo-btn">
-            Refaire un entretien <i class="fas fa-redo"></i>
+          <div id="resources-error" class="step4-error"></div>
+          <button id="redo-btn" class="btn-step4">
+            3) Je recommence mon entretien <i class="fas fa-redo"></i>
           </button>
+          <div id="redo-error" class="step4-error"></div>
         </div>
-        <p style="margin-top: 20px; font-weight: bold;">Partage ton expérience sur tes réseaux :</p>
-        <ul class="share-icons">
-          <li class="icon-content">
-            <a data-social="whatsapp">
-              <div class="filled"></div>
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-whatsapp" viewBox="0 0 16 16">
-                <path d="M13.601 2.326A7.952 7.952 0 008 0C3.582 0 0 3.582 0 8c0 1.41.37 2.726 1.075 3.892L0 16l4.329-1.136A7.965 7.965 0 008 16c4.418 0 8-3.582 8-8 0-1.976-.726-3.793-2.399-5.674zM8 14.118c-1.444 0-2.813-.396-4.01-1.142l-.285-.17L1.422 14l.771-2.63-.182-.304A6.103 6.103 0 012 8c0-3.312 2.688-6 6-6s6 2.688 6 6-2.688 6-6 6zm3.058-4.663c-.153-.076-.902-.444-1.042-.494-.14-.05-.242-.076-.344.076-.101.153-.395.494-.484.594-.09.101-.18.114-.333.038-.153-.076-.645-.237-1.227-.756-.453-.402-.759-.897-.847-1.05-.09-.153-.009-.236.068-.312.07-.068.153-.176.23-.264.076-.088.101-.153.152-.256.051-.102.026-.191-.013-.268-.04-.076-.344-.832-.47-1.138-.124-.299-.25-.258-.344-.263l-.293-.005c-.101 0-.265.038-.404.191-.14.153-.535.522-.535 1.27 0 .748.547 1.472.623 1.574.076.101 1.094 1.671 2.654 2.342.37.16.658.255.883.325.37.117.708.101.976.061.297-.043.902-.367 1.03-.723.127-.354.127-.658.089-.723z"/>
-              </svg>
-            </a>
-          </li>
-          <li class="icon-content">
-            <a data-social="discord">
-              <div class="filled"></div>
-              <svg viewBox="0 0 16 16" class="bi bi-discord" fill="currentColor" height="16" width="16" xmlns="http://www.w3.org/2000/svg">
-                <path d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612"></path>
-              </svg>
-            </a>
-          </li>
-          <li class="icon-content">
-            <a data-social="linkedin">
-              <div class="filled"></div>
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 448 512">
-                <path d="M100.28 448H7.4V148.9h92.88zm-46.44-341C24.09 107 0 82.6 0 53.5S24.09 0 53.84 0s53.84 24.41 53.84 53.5-24.1 53.5-53.84 53.5zM447.9 448h-92.68V302.4c0-34.7-.7-79.3-48.4-79.3-48.4 0-55.8 37.7-55.8 76.7V448h-92.68V148.9h88.92v40.8h1.3c12.4-23.4 42.6-48.4 87.7-48.4 93.8 0 111.2 61.8 111.2 142.3V448z"/>
-              </svg>
-            </a>
-          </li>
-          <li class="icon-content">
-            <a data-social="instagram">
-              <div class="filled"></div>
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16" xml:space="preserve">
-                <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"/>
-                </path>
-              </svg>
-            </a>
-          </li>
-        </ul>
+      </div>
+      <!-- Section Newsletter -->
+      <div class="newsletter-container">
+        <h2 class="newsletter-title">Inscris-toi à la newsletter Letmotiv <br>pour progresser et prendre la parole avec impact :</h2>
+        <!-- Ajout de l'attribut novalidate pour éviter la validation native -->
+        <form id="newsletter-form" class="newsletter-form" novalidate>
+          <input type="text" id="newsletter-prenom" placeholder="Prénom" aria-label="Prénom">
+          <div id="newsletter-prenom-error" class="newsletter-error"></div>
+          <input type="email" id="newsletter-email" placeholder="Votre email" aria-label="Email">
+          <div id="newsletter-email-error" class="newsletter-error"></div>
+          <button type="submit" id="newsletter-submit-btn" class="btn-newsletter">S'abonner</button>
+        </form>
+        <div id="newsletter-success" class="newsletter-success" style="display: none;">Tu es maintenant abonné à la newsletter Letmotiv.</div>
       </div>
     </div>
   </div>
   
+  <!-- FORMULAIRE CACHÉ POUR GOOGLE FORMS -->
+  <form id="hidden-google-form" action="https://docs.google.com/forms/d/e/1FAIpQLSfGAcKp0cV5AeVJCJBPbtKLKCLhbYySZf_FkiMg85WKVFUn6A/formResponse" method="POST" target="hidden_iframe" style="display:none;">
+    <input type="text" name="entry.1119647353" id="hidden-prenom">
+    <input type="email" name="entry.638831312" id="hidden-email">
+  </form>
+  <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
   <!-- SCRIPT -->
   <script>
+    // Fonction getRandomImageUrl() modifiée pour Sciences Po : utilise directement un tableau d'URLs
+    async function getRandomImageUrl() {
+      const images = [
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image1.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image2.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image3.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image4.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image5.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image6.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image7.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image8.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image9.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image10.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image11.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image12.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image13.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image14.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image15.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image16.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image17.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image18.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image19.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image20.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image21.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image22.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image23.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image24.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image25.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image26.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image27.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image28.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image29.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image30.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image31.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image32.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image33.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image34.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image35.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image36.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image37.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image38.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image39.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image40.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image41.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image42.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image43.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image44.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image45.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image46.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image47.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image48.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image49.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image50.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image51.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image52.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image53.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image54.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image55.webp",
+        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/SciencesPo_Images/Image56.webp",
+      ];
+      const randomIndex = Math.floor(Math.random() * images.length);
+      return images[randomIndex];
+    }
+
     /* --- Global State Manager --- */
     const AppState = {
       currentStep: 0,
       currentCategory: null,
-      selectedQuestionCount: 0,
+      selectedQuestionCount: 5,
+      minutesPerQuestion: 2,
+      totalQuestions: 0,
       currentQuestionIndex: 1,
       improStarted: false,
       videoURL: "",
+      videoDownloaded: false
     };
 
-    /* --- Classe StepManager : Gestion de la navigation entre étapes --- */
+    /* --- Classe StepManager --- */
     class StepManager {
       constructor() {
+        // Ajout de l'intro (étape 0) dans les boxes
         this.boxes = {
+          0: document.getElementById('intro-box'),
           1: document.getElementById('step1'),
           2: document.getElementById('step2'),
           3: document.getElementById('step3'),
@@ -1009,6 +975,9 @@
         this.introBox = document.getElementById('intro-box');
         this.startIntroBtn = document.getElementById('start-intro-btn');
         this.bindEvents();
+        // Par défaut, si aucun hash n'est présent, on part du STEP 0 (l'intro)
+        this.handleHashChange();
+        window.addEventListener('popstate', () => this.handleHashChange());
       }
       
       updateProgressBar(step) {
@@ -1020,14 +989,43 @@
         Object.values(this.nextBtns).forEach(btn => btn.classList.remove('pulse'));
       }
       
-      showBox(current, next) {
-        if (!this.boxes[current] || !this.boxes[next]) return;
-        this.boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
-        this.boxes[next].classList.add('active');
-        this.boxes[next].classList.add(next > current ? 'slide-from-bottom' : 'slide-from-top');
+      showBox(current, next, pushState = true) {
+        if (this.boxes[current]) this.boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
+        if (this.boxes[next]) {
+          this.boxes[next].classList.add('active');
+          this.boxes[next].classList.add(next > current ? 'slide-from-bottom' : 'slide-from-top');
+        }
         this.updateProgressBar(next);
         AppState.currentStep = next;
         this.removePulse();
+        
+        if (next === 0) {
+          document.body.classList.add('hide-share');
+        } else {
+          document.body.classList.remove('hide-share');
+        }
+        
+        if (pushState) {
+          history.pushState({ step: next }, "", "#step" + next);
+        }
+      }
+      
+      handleHashChange() {
+        const hash = window.location.hash;
+        // Par défaut, on part du STEP 0 (intro)
+        const step = hash ? parseInt(hash.replace("#step", "")) : 0;
+        // Masquer toutes les boxes gérées par StepManager
+        Object.values(this.boxes).forEach(box => box.classList.remove('active'));
+        if (this.boxes[step]) {
+          this.boxes[step].classList.add('active');
+          AppState.currentStep = step;
+          this.updateProgressBar(step);
+          if (step === 0) {
+            document.body.classList.add('hide-share');
+          } else {
+            document.body.classList.remove('hide-share');
+          }
+        }
       }
       
       bindEvents() {
@@ -1035,24 +1033,23 @@
           this.introBox.style.animation = 'fadeOut 0.5s ease forwards';
           setTimeout(() => {
             this.introBox.style.display = 'none';
-            this.boxes[1].classList.add('active', 'slide-from-bottom');
-            AppState.currentStep = 1;
-            this.updateProgressBar(1);
-            this.removePulse();
+            // Lorsque l'intro est terminée, passer au STEP1
+            this.showBox(0, 1);
           }, 500);
         });
         this.nextBtns[1].addEventListener('click', () => {
-          const selected = document.querySelector('.objectives-container .flip-card.flipped');
+          const selected = document.querySelector('.objectives-container .objective-item.selected');
           if (!selected) {
             document.getElementById('objective-error').textContent = "Sélectionne un objectif avant de continuer.";
             document.getElementById('objective-error').style.display = 'block';
             return;
           }
           this.showBox(1, 2);
+          updateDurationInfo();
         });
         this.nextBtns[2].addEventListener('click', () => {
-          if (AppState.selectedQuestionCount === 0) {
-            document.getElementById('subject-error').textContent = "Choisis le nombre de questions avant de continuer.";
+          if (AppState.selectedQuestionCount === 0 || !AppState.minutesPerQuestion) {
+            document.getElementById('subject-error').textContent = "Choisis le nombre de questions et le temps par question avant de continuer.";
             document.getElementById('subject-error').style.display = 'block';
             return;
           }
@@ -1072,11 +1069,11 @@
       }
     }
 
-    /* --- Classe QuestionLoader : Chargement des questions selon la catégorie --- */
+    /* --- Classe QuestionLoader --- */
     class QuestionLoader {
       static async loadSubjects(category) {
         const files = {
-          "grand-oral": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Grand_Oral.txt",
+          "insp": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_INSP.txt",
           "ingenieur-generaliste": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_Les_Mines.txt",
           "ingenieur-aero": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_SUPAERO.txt",
           "commerce": "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/Entretien_HEC.txt",
@@ -1097,7 +1094,7 @@
       }
     }
 
-    /* --- Classe VideoRecorder : Gestion de l'enregistrement vidéo et des questions --- */
+    /* --- Classe VideoRecorder --- */
     class VideoRecorder {
       constructor() {
         this.preview = document.getElementById('preview');
@@ -1105,7 +1102,6 @@
         this.restartBtn = document.getElementById('restart-btn');
         this.nextQuestionBtn = document.getElementById('next-question-btn');
         this.recordingIndicator = document.getElementById('recording-indicator');
-        this.countdownElement = document.getElementById('countdown');
         this.initialCountdownOverlay = document.getElementById('initial-countdown-overlay');
         this.initialCountdown = document.getElementById('initial-countdown');
         this.questionOverlay = document.getElementById('question-overlay');
@@ -1113,6 +1109,7 @@
         this.mediaRecorder = null;
         this.recordedChunks = [];
         this.questions = [];
+        this.analysisImageUrl = "";
       }
       
       async setupCamera() {
@@ -1131,7 +1128,8 @@
       }
       
       startInitialCountdown() {
-        // Sur mobile, agrandir l'encart vidéo pour mieux prendre en compte le mode selfie
+        document.getElementById('countdown').textContent = "";
+        this.recordingIndicator.style.display = 'none';
         if (window.innerWidth <= 600) {
           document.querySelector('.video-box').style.height = "450px";
         }
@@ -1149,9 +1147,21 @@
         }, 1000);
       }
       
-      displayQuestion(current, total, text) {
+      async displayQuestion(current, total, text) {
+        if (AppState.currentCategory === "sciences-politiques" && current > AppState.selectedQuestionCount) {
+          let imageIndex = current - AppState.selectedQuestionCount;
+          let questionText = "";
+          if (imageIndex === 1) questionText = "Décrivez l'image que vous voyez.";
+          else if (imageIndex === 2) questionText = "Pouvez-vous contextualiser cette image ?";
+          else if (imageIndex === 3) questionText = "Comment interprétez-vous cette image au regard du contexte ?";
+          this.questionOverlay.innerHTML = `<p style="font-size:16px; text-align:center;">Question ${current}/${total} : ${questionText}</p>`;
+          document.getElementById('analysis-image').innerHTML = `<img src="${this.analysisImageUrl}" alt="Analyse d'image" />`;
+          document.getElementById('analysis-image').style.display = 'block';
+        } else {
+          document.getElementById('analysis-image').style.display = 'none';
+          this.questionOverlay.innerHTML = `<p style="font-size:16px; text-align:center;">Question ${current}/${total} : ${text}</p>`;
+        }
         this.questionOverlay.classList.remove('question-change');
-        this.questionOverlay.innerHTML = `<p style="font-size:16px; text-align:center;">Question ${current}/${total} : ${text}</p>`;
         this.questionOverlay.style.display = 'block';
         this.questionOverlay.classList.add('question-change');
         setTimeout(() => this.questionOverlay.classList.remove('question-change'), 800);
@@ -1174,19 +1184,25 @@
           const blob = new Blob(this.recordedChunks, { type: 'video/mp4' });
           AppState.videoURL = URL.createObjectURL(blob);
           stream.getTracks().forEach(track => track.stop());
-          this.questionOverlay.style.display = 'block';
-          this.questionOverlay.innerHTML = `<p style="color: white; font-size: 18px; text-align: center;">Entretien terminé. Passe à l'étape suivante !</p>`;
-          document.getElementById('impro-error').style.display = 'none';
+          document.getElementById('analysis-image').style.display = 'none';
           this.recordingIndicator.style.display = 'none';
+          this.questionOverlay.style.display = 'none';
+          const videoBox = document.querySelector('.video-box');
+          const finalMessage = document.createElement('div');
+          finalMessage.classList.add('final-message');
+          finalMessage.innerHTML = 'Entretien terminé.<br>Passe à l\'étape suivante !';
+          videoBox.appendChild(finalMessage);
+          document.getElementById('impro-error').style.display = 'none';
+          this.mediaRecorder = null;
           clearInterval(this.timerInterval);
           AppState.improStarted = true;
           document.getElementById('next-btn3').classList.add('pulse');
-          // Sur mobile, rétablir la hauteur normale après l'enregistrement
           if (window.innerWidth <= 600) {
             document.querySelector('.video-box').style.height = "300px";
           }
           this.restartBtn.classList.remove('hidden-btn');
           this.nextQuestionBtn.classList.add('hidden-btn');
+          document.getElementById('countdown').textContent = "";
         };
         this.questions = await QuestionLoader.loadSubjects(AppState.currentCategory);
         if (!this.questions || this.questions.length === 0) {
@@ -1194,36 +1210,45 @@
           document.getElementById('impro-error').style.display = 'block';
           return;
         }
+        if (AppState.currentCategory === "sciences-politiques") {
+          AppState.totalQuestions = AppState.selectedQuestionCount + 3;
+          this.analysisImageUrl = await getRandomImageUrl();
+        } else {
+          AppState.totalQuestions = AppState.selectedQuestionCount;
+        }
         AppState.currentQuestionIndex = 1;
-        this.displayQuestion(AppState.currentQuestionIndex, AppState.selectedQuestionCount, this.questions[0]);
+        await this.displayQuestion(AppState.currentQuestionIndex, AppState.totalQuestions, this.questions[0]);
         this.mediaRecorder.start();
         this.recordingIndicator.style.display = 'flex';
-        this.countdownElement.style.display = 'block';
+        this.updateCountdown(AppState.minutesPerQuestion * 60);
         this.stopBtn.classList.remove('hidden-btn');
         this.stopBtn.disabled = false;
-        if (AppState.selectedQuestionCount > 1) this.nextQuestionBtn.classList.remove('hidden-btn');
+        if (AppState.totalQuestions > 1) this.nextQuestionBtn.classList.remove('hidden-btn');
         this.restartBtn.classList.add('hidden-btn');
-        this.startTwoMinutesCycle();
+        this.startQuestionCycle();
       }
       
-      startTwoMinutesCycle() {
-        let timeRemaining = 120;
-        if (AppState.currentQuestionIndex === AppState.selectedQuestionCount) {
+      startQuestionCycle() {
+        let timeRemaining = AppState.minutesPerQuestion * 60;
+        if (AppState.currentQuestionIndex === AppState.totalQuestions) {
           this.nextQuestionBtn.classList.add('hidden-btn');
         } else {
           this.nextQuestionBtn.classList.remove('hidden-btn');
         }
         this.updateCountdown(timeRemaining);
-        this.timerInterval = setInterval(() => {
+        this.timerInterval = setInterval(async () => {
           timeRemaining--;
           if (timeRemaining >= 0) this.updateCountdown(timeRemaining);
           if (timeRemaining <= 0) {
-            if (AppState.currentQuestionIndex < AppState.selectedQuestionCount) {
+            if (AppState.currentQuestionIndex < AppState.totalQuestions) {
               AppState.currentQuestionIndex++;
-              let qText = AppState.currentQuestionIndex === 1 ? this.questions[0] : this.questions.slice(1)[Math.floor(Math.random() * (this.questions.length - 1))];
-              this.displayQuestion(AppState.currentQuestionIndex, AppState.selectedQuestionCount, qText);
-              timeRemaining = 120;
-              if (AppState.currentQuestionIndex === AppState.selectedQuestionCount) {
+              let qText = "";
+              if (AppState.currentQuestionIndex <= AppState.selectedQuestionCount) {
+                qText = AppState.currentQuestionIndex === 1 ? this.questions[0] : this.questions[Math.floor(Math.random() * (this.questions.length - 1)) + 1];
+              }
+              await this.displayQuestion(AppState.currentQuestionIndex, AppState.totalQuestions, qText);
+              timeRemaining = AppState.minutesPerQuestion * 60;
+              if (AppState.currentQuestionIndex === AppState.totalQuestions) {
                 this.nextQuestionBtn.classList.add('hidden-btn');
               }
             } else {
@@ -1231,6 +1256,7 @@
               clearInterval(this.timerInterval);
               this.stopBtn.classList.add('hidden-btn');
               this.stopBtn.disabled = true;
+              document.getElementById('countdown').textContent = "";
             }
           }
         }, 1000);
@@ -1238,12 +1264,15 @@
       
       updateCountdown(seconds) {
         const minutes = Math.floor(seconds / 60);
-        const sec = seconds % 60;
-        this.countdownElement.textContent = `${minutes}:${sec < 10 ? '0' + sec : sec}`;
+        const sec = seconds % 60 < 10 ? '0' + seconds % 60 : seconds % 60;
+        const countdownSpan = document.getElementById('countdown');
+        if(countdownSpan) {
+          countdownSpan.textContent = `${minutes}:${sec}`;
+        }
       }
     }
 
-    /* --- Classe ShareManager : Gestion du partage sur réseaux sociaux --- */
+    /* --- Classe ShareManager --- */
     class ShareManager {
       constructor() {
         this.shareData = {
@@ -1256,74 +1285,111 @@
       }
       
       bindShareEvents() {
-        document.querySelectorAll('.share-icons .icon-content a').forEach(link => {
-          link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const social = link.getAttribute('data-social');
-            if (navigator.share) {
-              navigator.share({
-                title: this.shareData.title,
-                text: this.shareData.text,
-                url: this.shareData.url
-              }).catch(err => console.error("Erreur partage :", err));
-              return;
-            }
-            let shareUrl = "";
-            if (social === "whatsapp") {
-              shareUrl = "whatsapp://send?text=" + encodeURIComponent(this.shareData.title + "\n" + this.shareData.text + "\n" + this.shareData.url);
-              window.location.href = shareUrl;
-            } else if (social === "linkedin") {
-              shareUrl = "linkedin://shareArticle?mini=true&url=" 
-                + encodeURIComponent(this.shareData.url) 
-                + "&title=" + encodeURIComponent(this.shareData.title) 
-                + "&summary=" + encodeURIComponent(this.shareData.text) 
-                + "&source=Letmotiv";
-              window.location.href = shareUrl;
-            } else if (social === "discord") {
-              alert("Le partage direct vers Discord n'est pas supporté. Veuillez copier le lien : " + this.shareData.url);
-            } else if (social === "instagram") {
-              alert("Instagram ne permet pas le partage via URL. Veuillez copier le lien : " + this.shareData.url);
-            }
-          });
+        document.getElementById('global-share-btn').addEventListener('click', (e) => {
+          e.preventDefault();
+          if (navigator.share) {
+            navigator.share({
+              title: this.shareData.title,
+              text: this.shareData.text,
+              url: this.shareData.url
+            }).catch(err => console.error("Erreur partage :", err));
+            return;
+          }
+          const shareUrl = "whatsapp://send?text=" + encodeURIComponent(this.shareData.title + "\n" + this.shareData.text + "\n" + this.shareData.url);
+          window.location.href = shareUrl;
         });
       }
     }
 
-    /* --- Global Event Bindings pour objectifs et simulation --- */
-    document.addEventListener('DOMContentLoaded', () => {
+    /* --- Mettre à jour la durée affichée dans le STEP2 --- */
+    function updateDurationInfo() {
+      if (AppState.selectedQuestionCount && AppState.minutesPerQuestion) {
+        const baseMinutes = AppState.selectedQuestionCount * AppState.minutesPerQuestion;
+        let infoText = `Ton entretien durera au maximum <strong>${baseMinutes} minutes</strong>.<br><br>NB : compte <strong>${3 * AppState.minutesPerQuestion} minutes</strong> de plus pour la séquence d'analyse d'une image.`;
+        document.getElementById('duration-info').innerHTML = infoText;
+      }
+    }
+
+    /* --- Gestion des interactions pour le STEP2 --- */
+    AppState.selectedQuestionCount = 5;
+    AppState.minutesPerQuestion = 2;
+
+    document.querySelectorAll('#question-rating .rating-icon').forEach(icon => {
+      if (parseInt(icon.getAttribute('data-value')) <= AppState.selectedQuestionCount) {
+        icon.classList.add('selected');
+      }
+      icon.addEventListener('click', () => {
+        const value = parseInt(icon.getAttribute('data-value'));
+        AppState.selectedQuestionCount = value;
+        document.querySelectorAll('#question-rating .rating-icon').forEach(el => {
+          if (parseInt(el.getAttribute('data-value')) <= value) {
+            el.classList.add('selected');
+          } else {
+            el.classList.remove('selected');
+          }
+        });
+        document.getElementById('subject-error').style.display = 'none';
+        updateDurationInfo();
+        document.getElementById('next-btn2').classList.add('pulse');
+      });
+    });
+
+    document.querySelectorAll('#minutes-rating .rating-icon').forEach(icon => {
+      if (parseInt(icon.getAttribute('data-value')) <= AppState.minutesPerQuestion) {
+        icon.classList.add('selected');
+      }
+      icon.addEventListener('click', () => {
+        const value = parseInt(icon.getAttribute('data-value'));
+        AppState.minutesPerQuestion = value;
+        document.querySelectorAll('#minutes-rating .rating-icon').forEach(el => {
+          if (parseInt(el.getAttribute('data-value')) <= value) {
+            el.classList.add('selected');
+          } else {
+            el.classList.remove('selected');
+          }
+        });
+        document.getElementById('subject-error').style.display = 'none';
+        updateDurationInfo();
+        document.getElementById('next-btn2').classList.add('pulse');
+      });
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("analysis-image").addEventListener("click", function(e) {
+        if(e.target && e.target.tagName.toLowerCase() === "img") {
+          e.target.classList.toggle("enlarged");
+        }
+      });
+
       const stepManager = new StepManager();
       const videoRecorder = new VideoRecorder();
       const shareManager = new ShareManager();
       const popSound = document.getElementById('pop-sound');
+      
+      // Gestion des cartes du STEP1
       const objectivesCards = document.querySelectorAll('.objectives-container .objective-item');
       objectivesCards.forEach(card => {
         card.addEventListener('click', async () => {
           popSound.currentTime = 0;
           popSound.play().catch(err => console.error("Erreur lors de la lecture du son :", err));
-          objectivesCards.forEach(c => c.classList.remove('flipped'));
-          card.classList.add('flipped');
+          objectivesCards.forEach(c => c.classList.remove('selected'));
+          card.classList.add('selected');
           AppState.currentCategory = card.dataset.category;
           document.getElementById('objective-error').style.display = 'none';
           stepManager.nextBtns[1].classList.add('pulse');
+          updateDurationInfo();
         });
       });
-      document.querySelectorAll('.simulation-buttons button').forEach(btn => {
-        btn.addEventListener('click', () => {
-          AppState.selectedQuestionCount = parseInt(btn.getAttribute('data-question-count'));
-          document.querySelectorAll('.simulation-buttons button').forEach(b => b.classList.remove('selected'));
-          btn.classList.add('selected');
-          document.getElementById('subject-error').style.display = 'none';
-          const totalMinutes = AppState.selectedQuestionCount * 2;
-          document.getElementById('duration-info').textContent = "Ton entretien durera au maximum " + totalMinutes + " minutes.";
-          stepManager.nextBtns[2].classList.add('pulse');
-        });
-      });
-      // Bouton de démarrage du recording
+
+      updateDurationInfo();
+
+      // Démarrage de l'enregistrement vidéo
       document.getElementById('start-btn').addEventListener('click', () => {
         document.getElementById('instruction-overlay').style.display = 'none';
         videoRecorder.startInitialCountdown();
       });
-      // Gestion des boutons du STEP3
+      
+      // Boutons du STEP3
       videoRecorder.stopBtn.addEventListener('click', () => {
         if (videoRecorder.mediaRecorder && videoRecorder.mediaRecorder.state === 'recording') {
           videoRecorder.mediaRecorder.stop();
@@ -1333,6 +1399,7 @@
           videoRecorder.nextQuestionBtn.classList.add('hidden-btn');
           videoRecorder.restartBtn.classList.remove('hidden-btn');
           videoRecorder.recordingIndicator.style.display = 'none';
+          document.getElementById('countdown').textContent = "";
         }
       });
       videoRecorder.nextQuestionBtn.addEventListener('click', () => {
@@ -1342,32 +1409,36 @@
           return;
         }
         clearInterval(videoRecorder.timerInterval);
-        let timeRemaining = 120;
+        let timeRemaining = AppState.minutesPerQuestion * 60;
         QuestionLoader.loadSubjects(AppState.currentCategory).then(questions => {
-          if (AppState.currentQuestionIndex < AppState.selectedQuestionCount - 1) {
+          if (AppState.currentQuestionIndex < AppState.totalQuestions) {
             AppState.currentQuestionIndex++;
-            let qText = AppState.currentQuestionIndex === 1 ? questions[0] : questions.slice(1)[Math.floor(Math.random() * (questions.length - 1))];
-            videoRecorder.displayQuestion(AppState.currentQuestionIndex, AppState.selectedQuestionCount, qText);
+            let qText = "";
+            if (AppState.currentQuestionIndex <= AppState.selectedQuestionCount) {
+              qText = AppState.currentQuestionIndex === 1 ? questions[0] : questions[Math.floor(Math.random() * (questions.length - 1)) + 1];
+            }
+            videoRecorder.displayQuestion(AppState.currentQuestionIndex, AppState.totalQuestions, qText);
             videoRecorder.updateCountdown(timeRemaining);
-            videoRecorder.startTwoMinutesCycle();
-          } else if (AppState.currentQuestionIndex === AppState.selectedQuestionCount - 1) {
-            AppState.currentQuestionIndex++;
-            let qText = questions.slice(1)[Math.floor(Math.random() * (questions.length - 1))];
-            videoRecorder.displayQuestion(AppState.currentQuestionIndex, AppState.selectedQuestionCount, qText);
-            videoRecorder.updateCountdown(timeRemaining);
-            videoRecorder.nextQuestionBtn.classList.add('hidden-btn');
-            videoRecorder.startTwoMinutesCycle();
+            videoRecorder.startQuestionCycle();
           }
         });
       });
       videoRecorder.restartBtn.addEventListener('click', () => {
-        videoRecorder.restartBtn.classList.add('hidden-btn');
-        videoRecorder.questionOverlay.style.display = 'none';
-        AppState.improStarted = false;
-        AppState.currentQuestionIndex = 1;
-        videoRecorder.startInitialCountdown();
+        if(confirm("Es-tu sûr de vouloir recommencer ? Tu perdras ta simulation actuelle (tu pourras la télécharger à l'étape suivante).")) {
+          const finalMsg = document.querySelector('.final-message');
+          if(finalMsg) {
+            finalMsg.remove();
+          }
+          videoRecorder.restartBtn.classList.add('hidden-btn');
+          videoRecorder.questionOverlay.style.display = 'none';
+          AppState.improStarted = false;
+          AppState.currentQuestionIndex = 1;
+          document.getElementById('countdown').textContent = "";
+          videoRecorder.startInitialCountdown();
+        }
       });
-      // STEP4 : Analyse et téléchargement
+      
+      // STEP4 : Gestion des boutons et erreurs
       document.getElementById('validate-form-btn').addEventListener('click', () => {
         if (AppState.videoURL) {
           const link = document.createElement('a');
@@ -1376,12 +1447,71 @@
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
+          AppState.videoDownloaded = true;
+          document.getElementById('download-error').textContent = "";
+          document.getElementById('resources-error').textContent = "";
+          document.getElementById('redo-error').textContent = "";
+        } else {
+          document.getElementById('download-error').textContent = "Aucune vidéo à télécharger.";
         }
-        document.querySelector('.call-to-action').style.display = 'none';
-        document.getElementById('step4-extra').style.display = 'block';
       });
-      document.getElementById('redo-btn').addEventListener('click', () => window.location.reload());
-      document.getElementById('resources-btn').addEventListener('click', () => window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/entretien-candidat");
+  
+      document.getElementById('resources-btn').addEventListener('click', () => {
+        if (!AppState.videoDownloaded) {
+          document.getElementById('resources-error').textContent = "Télécharge ta vidéo avant de quitter le simulateur.";
+        } else {
+          window.open("https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/entretien-candidat", '_blank');
+        }
+      });
+      
+      document.getElementById('redo-btn').addEventListener('click', () => {
+        if (!AppState.videoDownloaded) {
+          document.getElementById('redo-error').textContent = "Télécharge ta vidéo avant de recommencer un entretien.";
+        } else {
+          window.location.reload();
+        }
+      });
+
+      // Gestion de la newsletter
+      document.getElementById('newsletter-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        let valid = true;
+        const prenomInput = document.getElementById('newsletter-prenom');
+        const emailInput = document.getElementById('newsletter-email');
+        const prenomErrorEl = document.getElementById('newsletter-prenom-error');
+        const emailErrorEl = document.getElementById('newsletter-email-error');
+        prenomErrorEl.style.display = 'none';
+        emailErrorEl.style.display = 'none';
+
+        if (prenomInput.value.trim() === "") {
+          prenomErrorEl.textContent = "Le prénom est requis.";
+          prenomErrorEl.style.display = 'block';
+          valid = false;
+        }
+        const emailVal = emailInput.value.trim();
+        if (emailVal === "") {
+          emailErrorEl.textContent = "L'email est requis.";
+          emailErrorEl.style.display = 'block';
+          valid = false;
+        } else if (emailVal.indexOf('@') === -1) {
+          emailErrorEl.textContent = "L'email n'est pas au bon format.";
+          emailErrorEl.style.display = 'block';
+          valid = false;
+        } else {
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailRegex.test(emailVal)) {
+            emailErrorEl.textContent = "L'email n'est pas valide.";
+            emailErrorEl.style.display = 'block';
+            valid = false;
+          }
+        }
+        if (!valid) return;
+
+        document.getElementById('hidden-prenom').value = prenomInput.value.trim();
+        document.getElementById('hidden-email').value = emailInput.value.trim();
+        document.getElementById('hidden-google-form').submit();
+        document.getElementById('newsletter-success').style.display = 'block';
+      });
     });
   </script>
 </body>
