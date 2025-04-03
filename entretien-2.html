@@ -523,7 +523,21 @@
 
     /* --- STEP4 : Bilan / Félicitations --- */
     .download-section { margin-top: 20px; }
-    /* La box dégradée de félicitations a été supprimée */
+    .download-section-accent {
+      background: linear-gradient(135deg, #2E22AC, #00a48a);
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      color: #fff;
+      margin-bottom: 20px;
+      animation: fadeInDown 0.6s ease forwards;
+    }
+    .download-section-accent h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.5rem;
+      margin: 0 0 10px;
+    }
+    /* Boutons STEP4 améliorés */
     .btn-step4 {
       background: linear-gradient(135deg, #ffcb2d, #fbb034);
       border: none;
@@ -822,15 +836,18 @@
       </button>
     </div>
 
-    <!-- STEP4 : Bilan / Félicitations -->
+    <!-- STEP4 : C'est l'heure du bilan ! -->
     <div class="box" id="step4">
       <div class="box-header">
         <button class="back-btn" id="back-btn5" aria-label="Retour à l'étape précédente">
           <i class="fas fa-arrow-up"></i>
         </button>
-        <div class="box-title">Félicitations pour ton entretien 🤩</div>
+        <div class="box-title">C'est l'heure du bilan !</div>
       </div>
       <div class="download-section">
+        <div class="download-section-accent">
+          <h2>Félicitations pour ton entretien 🤩</h2>
+        </div>
         <div class="call-to-action">
           <button id="validate-form-btn" class="btn-step4" aria-label="Télécharger ma vidéo">
             Télécharger ma vidéo
@@ -873,20 +890,42 @@
 
   <!-- SCRIPT -->
   <script>
-    // Fonction getRandomImageUrl() pour Sciences Po : récupérer aléatoirement une image du dossier SciencesPo_Images via l'API GitHub
+    // Fonction getRandomImageUrl() avec un tableau de catégories
     async function getRandomImageUrl() {
-      const folderUrl = "https://api.github.com/repos/Citizen11bf/letmotiv/contents/SciencesPo_Images?ref=SciencePo_Images";
+      const categories = [
+        "French and Indian War", "American Revolution", "French Revolution", "Napoleonic Wars", "War of 1812",
+        "Latin American Wars of Independence", "Greek War of Independence", "Belgian Revolution", "Revolutions of 1848", "Crimean War",
+        "American Civil War", "Franco-Prussian War", "German Unification", "Scramble for Africa", "Boxer Rebellion",
+        "Russian Revolution of 1905", "Russian Revolution", "World War I", "Treaty of Versailles", "Great Depression",
+        "World War II", "Holocaust", "Partition of India", "Chinese Civil War", "Cuban Revolution",
+        "Korean War", "Vietnam War", "Cultural Revolution", "Six-Day War", "Yom Kippur War",
+        "Iranian Revolution", "Soviet-Afghan War", "Fall of Saigon", "Solidarity Movement", "Carnation Revolution",
+        "Iran-Iraq War", "Falklands War", "Rwandan Genocide", "Gulf War", "Fall of the Berlin Wall",
+        "Collapse of the Soviet Union", "Balkan Wars", "Kosovo War", "9/11 Attacks", "War in Afghanistan",
+        "Iraq War", "Arab Spring", "Syrian Civil War", "Ukrainian Revolution 2014", "Brexit Referendum",
+        "Hong Kong Protests", "George Floyd Protests", "Tiananmen Square Protests", "May 1968 Events in France", "Spanish Transition to Democracy",
+        "End of Apartheid", "Rwandan Civil War", "First Gulf War", "Second Congo War", "First Intifada",
+        "Second Intifada", "Suez Crisis", "Yugoslav Wars", "Dot-com Bubble", "Icelandic Financial Crisis",
+        "Global Financial Crisis 2008", "Occupy Wall Street", "Libyan Civil War", "Egyptian Revolution 2011", "Syrian Refugee Crisis",
+        "Crimea Annexation", "Russian Annexation of Crimea", "North Korean Nuclear Crisis", "Malaysian Political Crisis", "Colombian Peace Agreement",
+        "Boko Haram Insurgency", "Darfur Conflict", "Nepalese Civil War", "Mali War", "Hong Kong Anti-Extradition Protests",
+        "Myanmar Protests", "Catalan Independence Referendum", "Soviet Invasion of Afghanistan", "U.S. Civil Rights Movement", "Stonewall Riots",
+        "Anti-Vietnam War Protests", "March on Washington", "Feminist Movement", "LGBT Rights Movement", "MeToo Movement",
+        "Environmental Movement", "Global Climate Strikes", "Russian Constitutional Crisis 1993", "Czechoslovak Velvet Revolution", "Prague Spring",
+        "Iran Hostage Crisis", "Indonesian National Revolution", "Fall of the Ottoman Empire", "Balfour Declaration", "Italian Unification"
+      ];
+      const category = categories[Math.floor(Math.random() * categories.length)];
+      const endpoint = `https://commons.wikimedia.org/w/api.php?action=query&list=categorymembers&cmtitle=Category:${encodeURIComponent(category)}&cmtype=file&format=json&origin=*`;
       try {
-        const response = await fetch(folderUrl);
-        if (!response.ok) throw new Error("Erreur lors de la récupération des images");
-        const files = await response.json();
-        const imageFiles = files.filter(file => file.type === "file" && /\.(webp|jpg|jpeg|png)$/i.test(file.name));
-        if (imageFiles.length === 0) throw new Error("Aucune image trouvée");
-        const randomImage = imageFiles[Math.floor(Math.random() * imageFiles.length)];
-        return randomImage.download_url;
+        const response = await fetch(endpoint);
+        const data = await response.json();
+        if (!data.query) throw new Error("Aucun résultat pour la catégorie " + category);
+        const pages = Object.values(data.query.pages);
+        const randomPage = pages[Math.floor(Math.random() * pages.length)];
+        return randomPage.imageinfo[0].url;
       } catch (error) {
         console.error("Erreur lors de la récupération de l'image :", error);
-        return "";
+        return "Erreur lors de la récupération de l'image";
       }
     }
 
@@ -906,9 +945,7 @@
     /* --- Classe StepManager --- */
     class StepManager {
       constructor() {
-        // Ajout de l'intro (étape 0) dans les boxes
         this.boxes = {
-          0: document.getElementById('intro-box'),
           1: document.getElementById('step1'),
           2: document.getElementById('step2'),
           3: document.getElementById('step3'),
@@ -928,7 +965,6 @@
         this.introBox = document.getElementById('intro-box');
         this.startIntroBtn = document.getElementById('start-intro-btn');
         this.bindEvents();
-        // Par défaut, si aucun hash n'est présent, on part du STEP 0 (l'intro)
         this.handleHashChange();
         window.addEventListener('popstate', () => this.handleHashChange());
       }
@@ -943,15 +979,15 @@
       }
       
       showBox(current, next, pushState = true) {
-        if (this.boxes[current]) this.boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
-        if (this.boxes[next]) {
-          this.boxes[next].classList.add('active');
-          this.boxes[next].classList.add(next > current ? 'slide-from-bottom' : 'slide-from-top');
-        }
+        if (!this.boxes[current] || !this.boxes[next]) return;
+        this.boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
+        this.boxes[next].classList.add('active');
+        this.boxes[next].classList.add(next > current ? 'slide-from-bottom' : 'slide-from-top');
         this.updateProgressBar(next);
         AppState.currentStep = next;
         this.removePulse();
         
+        // Utiliser le numéro d'étape pour gérer la classe hide-share
         if (next === 0) {
           document.body.classList.add('hide-share');
         } else {
@@ -965,9 +1001,7 @@
       
       handleHashChange() {
         const hash = window.location.hash;
-        // Par défaut, on part du STEP 0 (intro)
-        const step = hash ? parseInt(hash.replace("#step", "")) : 0;
-        // Masquer toutes les boxes gérées par StepManager
+        const step = hash ? parseInt(hash.replace("#step", "")) : 1;
         Object.values(this.boxes).forEach(box => box.classList.remove('active'));
         if (this.boxes[step]) {
           this.boxes[step].classList.add('active');
@@ -986,7 +1020,7 @@
           this.introBox.style.animation = 'fadeOut 0.5s ease forwards';
           setTimeout(() => {
             this.introBox.style.display = 'none';
-            // Lorsque l'intro est terminée, passer au STEP1
+            // Lorsque l'intro est terminée, passer à l'étape 1
             this.showBox(0, 1);
           }, 500);
         });
@@ -1139,7 +1173,9 @@
           stream.getTracks().forEach(track => track.stop());
           document.getElementById('analysis-image').style.display = 'none';
           this.recordingIndicator.style.display = 'none';
+          // Masquer l'overlay des questions
           this.questionOverlay.style.display = 'none';
+          // Afficher le message final dans l'encart vidéo
           const videoBox = document.querySelector('.video-box');
           const finalMessage = document.createElement('div');
           finalMessage.classList.add('final-message');
@@ -1378,6 +1414,7 @@
       });
       videoRecorder.restartBtn.addEventListener('click', () => {
         if(confirm("Es-tu sûr de vouloir recommencer ? Tu perdras ta simulation actuelle (tu pourras la télécharger à l'étape suivante).")) {
+          // Supprimer le message final s'il existe
           const finalMsg = document.querySelector('.final-message');
           if(finalMsg) {
             finalMsg.remove();
