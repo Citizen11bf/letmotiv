@@ -875,7 +875,7 @@
   <script>
     // Fonction getRandomImageUrl() pour Sciences Po : récupérer aléatoirement une image du dossier SciencesPo_Images via l'API GitHub
     async function getRandomImageUrl() {
-      const folderUrl = "https://api.github.com/repos/Citizen11bf/letmotiv/contents/SciencesPo_Images";
+      const folderUrl = "https://api.github.com/repos/Citizen11bf/letmotiv/contents/SciencesPo_Images?ref=SciencePo_Images";
       try {
         const response = await fetch(folderUrl);
         if (!response.ok) throw new Error("Erreur lors de la récupération des images");
@@ -906,7 +906,9 @@
     /* --- Classe StepManager --- */
     class StepManager {
       constructor() {
+        // Ajout de l'intro (étape 0) dans les boxes
         this.boxes = {
+          0: document.getElementById('intro-box'),
           1: document.getElementById('step1'),
           2: document.getElementById('step2'),
           3: document.getElementById('step3'),
@@ -926,6 +928,7 @@
         this.introBox = document.getElementById('intro-box');
         this.startIntroBtn = document.getElementById('start-intro-btn');
         this.bindEvents();
+        // Par défaut, si aucun hash n'est présent, on part du STEP 0 (l'intro)
         this.handleHashChange();
         window.addEventListener('popstate', () => this.handleHashChange());
       }
@@ -940,10 +943,11 @@
       }
       
       showBox(current, next, pushState = true) {
-        if (!this.boxes[current] || !this.boxes[next]) return;
-        this.boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
-        this.boxes[next].classList.add('active');
-        this.boxes[next].classList.add(next > current ? 'slide-from-bottom' : 'slide-from-top');
+        if (this.boxes[current]) this.boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
+        if (this.boxes[next]) {
+          this.boxes[next].classList.add('active');
+          this.boxes[next].classList.add(next > current ? 'slide-from-bottom' : 'slide-from-top');
+        }
         this.updateProgressBar(next);
         AppState.currentStep = next;
         this.removePulse();
@@ -961,7 +965,9 @@
       
       handleHashChange() {
         const hash = window.location.hash;
-        const step = hash ? parseInt(hash.replace("#step", "")) : 1;
+        // Par défaut, on part du STEP 0 (intro)
+        const step = hash ? parseInt(hash.replace("#step", "")) : 0;
+        // Masquer toutes les boxes gérées par StepManager
         Object.values(this.boxes).forEach(box => box.classList.remove('active'));
         if (this.boxes[step]) {
           this.boxes[step].classList.add('active');
@@ -980,6 +986,7 @@
           this.introBox.style.animation = 'fadeOut 0.5s ease forwards';
           setTimeout(() => {
             this.introBox.style.display = 'none';
+            // Lorsque l'intro est terminée, passer au STEP1
             this.showBox(0, 1);
           }, 500);
         });
