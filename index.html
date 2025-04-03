@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Convertisseur d'images en WebP</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+    input, button { margin: 10px; padding: 10px; font-size: 16px; }
+  </style>
+</head>
+<body>
+  <h1>Convertisseur d'images en WebP</h1>
+  <!-- Bouton de sélection de fichiers -->
+  <input type="file" id="file-input" accept=".jpg, .jpeg, .png" multiple>
+  <br>
+  <!-- Bouton de conversion -->
+  <button id="convert-btn">Convertir</button>
+  <!-- Bouton de téléchargement du ZIP -->
+  <button id="download-btn" disabled>Télécharger ZIP</button>
+
+  <!-- Inclusion de JSZip et FileSaver depuis un CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <script>
+    const fileInput = document.getElementById('file-input');
+    const convertBtn = document.getElementById('convert-btn');
+    const downloadBtn = document.getElementById('download-btn');
+    let zip = new JSZip();
+    let convertedFiles = [];
+
+    // Fonction de conversion d'un fichier image en WebP via un canvas
+    function convertFile(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          const img = new Image();
+          img.onload = function() {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            // Conversion vers le format WebP
+            canvas.toBlob(function(blob) {
+              if (blob) {
+                // Remplacement de l'extension par .webp
+                const newName = file.name.replace(/\.(jpg|jpeg|png)$/i, '.webp');
+                resolve({ name: newName, blob: blob });
+              } else {
+                reject(new Error('La conversion a échoué pour ' + file.name));
+              }
+            }, 'image/webp');
+          };
+          img.onerror = function() {
+            reject(new Error('Erreur lors du chargement de l\'image ' + file.name));
+          };
+          img.src = event.target.result;
+        };
+        reader.onerror = function() {
+          reject(new Error('Erreur de lecture du fichier ' + file.name));
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // Événement sur le bouton "Convertir"
+    convertBtn.addEventListener('click', async () => {
+      const files = fileInput.files;
+      if (files.length === 0) {
+        alert("Veuillez sélectionner au moins un fichier.");
+        return;
+      }
+      // Réinitialisation du zip et de la liste des fichiers convertis
+      zip = new JSZip();
+      convertedFiles = [];
+      for (const file of files) {
+        try {
+          const converted = await convertFile(file);
+          zip.file(converted.name, converted.blob);
+          convertedFiles.push(converted);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+      downloadBtn.disabled = false;
+      alert("Conversion terminée !");
+    });
+
+    // Événement sur le bouton "Télécharger ZIP"
+    downloadBtn.addEventListener('click', async () => {
+      if (convertedFiles.length === 0) {
+        alert("Aucun fichier converti à télécharger.");
+        return;
+      }
+      const content = await zip.generateAsync({ type: "blob" });
+      saveAs(content, "images_webp.zip");
+    });
+  </script>
+</body>
+</html>
