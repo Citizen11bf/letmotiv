@@ -2,10 +2,12 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Convertisseur webP en ligne et 100 % gratuit <br> Optimisez vos images</title>
+  <title>Convertisseur WebP en Ligne - Optimisez vos Images</title>
   <meta name="description" content="Le meilleur convertisseur WebP en ligne. Convertissez vos images (.jpg, .jpeg, .png, .gif, .bmp, .tiff) en WebP pour améliorer les performances de votre site et booster votre SEO.">
   <meta name="keywords" content="convertisseur webp, conversion image, outil webp, optimisation image, SEO">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Inclusion de Font Awesome pour les icônes -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
   <style>
     /* Réinitialisation */
     * {
@@ -108,7 +110,7 @@
     }
     /* Barre de progression */
     .loader {
-      display: none; /* Par défaut, le loader est masqué */
+      display: none; /* Par défaut masqué */
       align-items: center;
       justify-content: center;
       flex-direction: column;
@@ -116,7 +118,7 @@
       margin: 10px 0;
     }
     .loading-text {
-      color: #212121; /* Couleur modifiée pour être visible */
+      color: #212121; /* Texte visible */
       font-size: 14pt;
       font-weight: 600;
       margin-left: 10px;
@@ -179,7 +181,7 @@
       display: none;
       text-align: center;
     }
-    /* Section SEO */
+    /* Section SEO et features */
     section {
       margin-top: 30px;
       padding: 15px;
@@ -189,12 +191,40 @@
       font-size: 1.8rem;
       margin-bottom: 10px;
       color: #222;
+      text-align: center;
     }
     section p {
       margin-bottom: 10px;
       font-size: 1rem;
       color: #555;
       text-align: justify;
+    }
+    /* Grid des 6 fonctionnalités */
+    .features-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .feature-item {
+      flex: 1 1 45%;
+      text-align: center;
+      padding: 10px;
+    }
+    .feature-item i {
+      font-size: 2rem;
+      color: #28a745;
+    }
+    .feature-item p {
+      margin-top: 10px;
+      font-size: 0.95rem;
+      color: #555;
+    }
+    @media (min-width: 768px) {
+      .feature-item {
+        flex: 1 1 30%;
+      }
     }
     /* Animations */
     @keyframes fadeIn {
@@ -239,7 +269,7 @@
       
       <button id="convert-btn">Convertir mes images</button>
       
-      <!-- Barre de progression (initialement masquée) -->
+      <!-- Barre de progression (affichée après 5 secondes si besoin) -->
       <div id="loader" class="loader">
         <div class="loading-bar-background">
           <div id="progress-bar" class="loading-bar"></div>
@@ -258,18 +288,43 @@
     <!-- Conteneur des erreurs -->
     <div id="error-container"></div>
     
-    <!-- Contenu SEO optimisé -->
+    <!-- Section SEO et avantages -->
     <section>
       <h2>Pourquoi choisir notre Convertisseur WebP ?</h2>
       <p>
         Notre convertisseur WebP en ligne est l'outil incontournable pour transformer vos images (.jpg, .jpeg, .png, .gif, .bmp, .tiff) en format WebP. En optimisant vos images, vous améliorez non seulement la vitesse de chargement de votre site, mais vous boostez également votre référencement naturel (SEO).
       </p>
       <p>
-        Idéal pour les développeurs, webmasters et designers, notre service propose une conversion rapide, fiable et 100% en ligne, compatible avec tous les appareils – desktop comme mobile.
+        Conçu pour répondre aux besoins des développeurs, webmasters et designers, notre service de conversion est rapide, fiable et 100 % en ligne, accessible sur tous vos appareils.
       </p>
-      <p>
-        Pas d'abonnement payant. Pas de chichi. Adoptez dès maintenant notre convertisseur WebP et profitez d’un outil performant qui vous permettra de gagner en efficacité tout en offrant une expérience utilisateur améliorée.
-      </p>
+      
+      <!-- Grille des 6 fonctionnalités -->
+      <div class="features-grid">
+        <div class="feature-item">
+          <i class="fas fa-dollar-sign"></i>
+          <p>Pas d'abonnement payant.<br>100 % gratuit</p>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-mobile-alt"></i>
+          <p>Compatible avec tous les appareils,<br>desktop et mobile</p>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-bolt"></i>
+          <p>Conversion rapide et fiable</p>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-user-friends"></i>
+          <p>Interface intuitive et facile à utiliser</p>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-lock"></i>
+          <p>Sécurité et confidentialité assurées</p>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-search"></i>
+          <p>Optimisé pour le SEO afin de booster votre visibilité</p>
+        </div>
+      </div>
     </section>
   </div>
 
