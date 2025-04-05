@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Convertisseur d'images en WebP <br> - Optimisez vos images en ligne et 100 % gratuit </title>
+  <title>Convertisseur WebP en Ligne - Optimisez vos Images</title>
   <meta name="description" content="Le meilleur convertisseur WebP en ligne. Convertissez vos images (.jpg, .jpeg, .png, .gif, .bmp, .tiff) en WebP pour améliorer les performances de votre site et booster votre SEO.">
   <meta name="keywords" content="convertisseur webp, conversion image, outil webp, optimisation image, SEO">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -86,7 +86,7 @@
       justify-content: center;
       flex-direction: column;
       gap: 5px;
-      margin-top: 20px;
+      margin: 10px 0;
     }
     .loading-text {
       color: #fff;
@@ -126,7 +126,8 @@
       width: 0%;
       height: var(--height);
       overflow: hidden;
-      background: linear-gradient(0deg, rgba(222, 74, 15, 1) 0%, rgba(249, 199, 79, 1) 100%);
+      /* Dégradé vert */
+      background: linear-gradient(0deg, #28a745 0%, #4dc07d 100%);
       border-radius: calc(var(--height) / 2);
     }
     .white-bars-container {
@@ -152,6 +153,18 @@
       color: #e74c3c;
       display: none;
       text-align: center;
+    }
+    /* Conteneur des messages */
+    #message-container {
+      margin: 10px 0;
+      padding: 10px;
+      border: 1px solid #28a745;
+      border-radius: 5px;
+      background: #eafbea;
+      color: #28a745;
+      display: none;
+      text-align: center;
+      font-weight: bold;
     }
     /* Section SEO */
     section {
@@ -204,17 +217,21 @@
       <!-- Prise en charge des formats supplémentaires -->
       <input type="file" id="file-input" accept=".jpg, .jpeg, .png, .gif, .bmp, .tiff" multiple>
       <button id="convert-btn">Convertir mes images</button>
+      
+      <!-- Barre de progression placée ici -->
+      <div id="loader" class="loader" style="display: none;">
+        <div class="loading-bar-background">
+          <div id="progress-bar" class="loading-bar"></div>
+        </div>
+        <div class="loading-text">
+          Conversion en cours<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span>
+        </div>
+      </div>
+      
+      <!-- Conteneur des messages de confirmation -->
+      <div id="message-container"></div>
+      
       <button id="download-btn" disabled>Télécharger</button>
-    </div>
-    
-    <!-- Barre de progression -->
-    <div id="loader" class="loader" style="display: none;">
-      <div class="loading-bar-background">
-        <div id="progress-bar" class="loading-bar"></div>
-      </div>
-      <div class="loading-text">
-        Conversion en cours<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span>
-      </div>
     </div>
     
     <!-- Conteneur des erreurs -->
@@ -222,15 +239,15 @@
     
     <!-- Contenu SEO optimisé -->
     <section>
-      <h2>Pourquoi choisir notre convertisseur d'images en .webP ?</h2>
+      <h2>Pourquoi choisir notre Convertisseur WebP ?</h2>
       <p>
-        Notre convertisseur webP en ligne est l'outil incontournable pour transformer vos principaux formats d'image (.jpg, .jpeg, .png, .gif, .bmp, .tiff) en format WebP. En optimisant vos images, vous améliorez non seulement la vitesse de chargement de votre site, mais vous boostez également votre référencement naturel (SEO).
+        Notre convertisseur WebP en ligne est l'outil incontournable pour transformer vos images (.jpg, .jpeg, .png, .gif, .bmp, .tiff) en format WebP. En optimisant vos images, vous améliorez non seulement la vitesse de chargement de votre site, mais vous boostez également votre référencement naturel (SEO).
       </p>
       <p>
         Idéal pour les développeurs, webmasters et designers, notre service propose une conversion rapide, fiable et 100% en ligne, compatible avec tous les appareils – desktop comme mobile.
       </p>
       <p>
-        Pas de compte. Pas d'abonnement. Pas d'argent. Adoptez dès maintenant notre convertisseur webP et profitez d’un outil performant qui vous permettra de gagner en efficacité tout en offrant une expérience utilisateur améliorée.
+        Adoptez dès maintenant notre convertisseur WebP et profitez d’un outil performant qui vous permettra de gagner en efficacité tout en offrant une expérience utilisateur améliorée.
       </p>
     </section>
   </div>
@@ -244,7 +261,8 @@
     const downloadBtn = document.getElementById('download-btn');
     const loader      = document.getElementById('loader');
     const progressBar = document.getElementById('progress-bar');
-    const errorContainer = document.getElementById('error-container');
+    const errorContainer   = document.getElementById('error-container');
+    const messageContainer = document.getElementById('message-container');
     let zip = new JSZip();
     let convertedFiles = [];
     
@@ -288,9 +306,12 @@
       const files = fileInput.files;
       errorContainer.style.display = "none";
       errorContainer.innerHTML = "";
+      messageContainer.style.display = "none";
+      messageContainer.innerHTML = "";
       
       if (files.length === 0) {
-        alert("Veuillez sélectionner au moins un fichier.");
+        messageContainer.innerHTML = "Veuillez sélectionner au moins un fichier.";
+        messageContainer.style.display = "block";
         return;
       }
       
@@ -334,7 +355,10 @@
       fileInput.disabled  = false;
       downloadBtn.disabled = false;
       
-      alert("Conversion terminée !");
+      // Affichage d'un message de confirmation
+      messageContainer.innerHTML = "Votre conversion est terminée !";
+      messageContainer.style.display = "block";
+      
       // Masquer la barre de progression après un court délai
       setTimeout(() => {
         loader.style.display = "none";
@@ -344,7 +368,8 @@
     // Gestion de l'événement "Télécharger"
     downloadBtn.addEventListener('click', async () => {
       if (convertedFiles.length === 0) {
-        alert("Aucun fichier converti à télécharger.");
+        messageContainer.innerHTML = "Aucun fichier converti à télécharger.";
+        messageContainer.style.display = "block";
         return;
       }
       try {
@@ -359,7 +384,8 @@
         }
       } catch (error) {
         console.error(error);
-        alert("Une erreur est survenue lors du téléchargement : " + error.message);
+        messageContainer.innerHTML = "Erreur lors du téléchargement : " + error.message;
+        messageContainer.style.display = "block";
       }
     });
   </script>
