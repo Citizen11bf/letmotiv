@@ -79,6 +79,33 @@
       transform: translateY(-3px);
       box-shadow: 0 5px 10px rgba(0,0,0,0.2);
     }
+    /* Container de la sélection de fichiers */
+    .file-input-container {
+      width: 100%;
+      max-width: 300px;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    #selected-files-summary {
+      display: none;
+      cursor: pointer;
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: #555;
+    }
+    #selected-files-list {
+      display: none;
+      margin-top: 5px;
+      text-align: left;
+      width: 100%;
+      max-width: 300px;
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      padding: 5px;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      color: #333;
+    }
     /* Barre de progression */
     .loader {
       display: flex;
@@ -126,33 +153,8 @@
       width: 0%;
       height: var(--height);
       overflow: hidden;
-      /* Dégradé vert */
       background: linear-gradient(0deg, #28a745 0%, #4dc07d 100%);
       border-radius: calc(var(--height) / 2);
-    }
-    .white-bars-container {
-      position: absolute;
-      display: flex;
-      align-items: center;
-      gap: 18px;
-    }
-    .white-bar {
-      background: linear-gradient(-45deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 70%);
-      width: 10px;
-      height: 45px;
-      opacity: 0.3;
-      transform: rotate(45deg);
-    }
-    /* Affichage des erreurs */
-    #error-container {
-      margin-top: 15px;
-      padding: 10px;
-      border: 1px solid #e74c3c;
-      border-radius: 5px;
-      background: #fdecea;
-      color: #e74c3c;
-      display: none;
-      text-align: center;
     }
     /* Conteneur des messages */
     #message-container {
@@ -165,6 +167,17 @@
       display: none;
       text-align: center;
       font-weight: bold;
+    }
+    /* Affichage des erreurs */
+    #error-container {
+      margin-top: 15px;
+      padding: 10px;
+      border: 1px solid #e74c3c;
+      border-radius: 5px;
+      background: #fdecea;
+      color: #e74c3c;
+      display: none;
+      text-align: center;
     }
     /* Section SEO */
     section {
@@ -214,8 +227,16 @@
   
   <div class="container">
     <div class="button-container">
-      <!-- Prise en charge des formats supplémentaires -->
-      <input type="file" id="file-input" accept=".jpg, .jpeg, .png, .gif, .bmp, .tiff" multiple>
+      <!-- Container de sélection de fichiers -->
+      <div class="file-input-container">
+        <input type="file" id="file-input" accept=".jpg, .jpeg, .png, .gif, .bmp, .tiff" multiple>
+        <div id="selected-files-summary">
+          <span id="selected-files-label"></span>
+          <span id="toggle-arrow" style="margin-left:5px;">▼</span>
+        </div>
+        <div id="selected-files-list"></div>
+      </div>
+      
       <button id="convert-btn">Convertir mes images</button>
       
       <!-- Barre de progression placée ici -->
@@ -265,6 +286,44 @@
     const messageContainer = document.getElementById('message-container');
     let zip = new JSZip();
     let convertedFiles = [];
+    
+    // Gestion de la sélection de fichiers et mise à jour du container associé
+    fileInput.addEventListener("change", function() {
+      const files = fileInput.files;
+      const summary = document.getElementById("selected-files-summary");
+      const label = document.getElementById("selected-files-label");
+      const fileListContainer = document.getElementById("selected-files-list");
+      if (files.length > 0) {
+        label.textContent = files.length + (files.length > 1 ? " fichiers sélectionnés" : " fichier sélectionné");
+        summary.style.display = "block";
+        // Afficher la flèche uniquement s'il y a plusieurs fichiers
+        document.getElementById("toggle-arrow").style.display = files.length > 1 ? "inline" : "none";
+        // Construire la liste des fichiers
+        let listHTML = "<ul style='list-style: none; padding-left: 0; margin: 0;'>";
+        for (let i = 0; i < files.length; i++) {
+          listHTML += "<li>" + files[i].name + "</li>";
+        }
+        listHTML += "</ul>";
+        fileListContainer.innerHTML = listHTML;
+        fileListContainer.style.display = "none"; // initialement masquée
+      } else {
+        summary.style.display = "none";
+        fileListContainer.style.display = "none";
+      }
+    });
+    
+    // Toggle pour afficher/masquer la liste des fichiers sélectionnés
+    document.getElementById("selected-files-summary").addEventListener("click", function() {
+      const fileListContainer = document.getElementById("selected-files-list");
+      const toggleArrow = document.getElementById("toggle-arrow");
+      if (fileListContainer.style.display === "none") {
+        fileListContainer.style.display = "block";
+        toggleArrow.textContent = "▲";
+      } else {
+        fileListContainer.style.display = "none";
+        toggleArrow.textContent = "▼";
+      }
+    });
     
     // Fonction de conversion d'un fichier image en WebP via canvas
     function convertFile(file) {
@@ -344,7 +403,7 @@
         progressBar.style.width = progress + "%";
       }
       
-      // Affichage des erreurs s'il y en a eu
+      // Affichage des erreurs éventuelles
       if (errorMessages.length > 0) {
         errorContainer.innerHTML = errorMessages.join("<br>");
         errorContainer.style.display = "block";
@@ -355,14 +414,11 @@
       fileInput.disabled  = false;
       downloadBtn.disabled = false;
       
-      // Affichage d'un message de confirmation
-      messageContainer.innerHTML = "Votre conversion est terminée !";
+      // Affichage d'un message de confirmation avec icône fusée
+      messageContainer.innerHTML = "Votre conversion est terminée ! 🚀";
       messageContainer.style.display = "block";
       
-      // Masquer la barre de progression après un court délai
-      setTimeout(() => {
-        loader.style.display = "none";
-      }, 1000);
+      // La barre de progression reste affichée après conversion
     });
     
     // Gestion de l'événement "Télécharger"
