@@ -2,8 +2,8 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Convertisseur WebP en Ligne - Optimisez vos Images</title>
-  <meta name="description" content="Le meilleur convertisseur WebP en ligne. Convertissez vos images (.jpg, .jpeg, .png) en WebP pour améliorer les performances de votre site et booster votre SEO.">
+  <title>Convertisseur d'images en WebP <br> - Optimisez vos images en ligne et 100 % gratuit </title>
+  <meta name="description" content="Le meilleur convertisseur WebP en ligne. Convertissez vos images (.jpg, .jpeg, .png, .gif, .bmp, .tiff) en WebP pour améliorer les performances de votre site et booster votre SEO.">
   <meta name="keywords" content="convertisseur webp, conversion image, outil webp, optimisation image, SEO">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
@@ -142,6 +142,17 @@
       opacity: 0.3;
       transform: rotate(45deg);
     }
+    /* Affichage des erreurs */
+    #error-container {
+      margin-top: 15px;
+      padding: 10px;
+      border: 1px solid #e74c3c;
+      border-radius: 5px;
+      background: #fdecea;
+      color: #e74c3c;
+      display: none;
+      text-align: center;
+    }
     /* Section SEO */
     section {
       margin-top: 30px;
@@ -190,9 +201,10 @@
   
   <div class="container">
     <div class="button-container">
-      <input type="file" id="file-input" accept=".jpg, .jpeg, .png" multiple>
+      <!-- Prise en charge des formats supplémentaires -->
+      <input type="file" id="file-input" accept=".jpg, .jpeg, .png, .gif, .bmp, .tiff" multiple>
       <button id="convert-btn">Convertir mes images</button>
-      <button id="download-btn" disabled>Télécharger le ZIP</button>
+      <button id="download-btn" disabled>Télécharger</button>
     </div>
     
     <!-- Barre de progression -->
@@ -205,17 +217,20 @@
       </div>
     </div>
     
+    <!-- Conteneur des erreurs -->
+    <div id="error-container"></div>
+    
     <!-- Contenu SEO optimisé -->
     <section>
-      <h2>Pourquoi choisir notre Convertisseur WebP ?</h2>
+      <h2>Pourquoi choisir notre convertisseur d'images en .webP ?</h2>
       <p>
-        Notre convertisseur WebP en ligne est l'outil incontournable pour transformer vos images (.jpg, .jpeg, .png) en format WebP. En optimisant vos images, vous améliorez non seulement la vitesse de chargement de votre site, mais vous boostez également votre référencement naturel (SEO).
+        Notre convertisseur webP en ligne est l'outil incontournable pour transformer vos principaux formats d'image (.jpg, .jpeg, .png, .gif, .bmp, .tiff) en format WebP. En optimisant vos images, vous améliorez non seulement la vitesse de chargement de votre site, mais vous boostez également votre référencement naturel (SEO).
       </p>
       <p>
         Idéal pour les développeurs, webmasters et designers, notre service propose une conversion rapide, fiable et 100% en ligne, compatible avec tous les appareils – desktop comme mobile.
       </p>
       <p>
-        Adoptez dès maintenant notre convertisseur WebP et profitez d’un outil performant qui vous permettra de gagner en efficacité tout en offrant une expérience utilisateur améliorée.
+        Pas de compte. Pas d'abonnement. Pas d'argent. Adoptez dès maintenant notre convertisseur webP et profitez d’un outil performant qui vous permettra de gagner en efficacité tout en offrant une expérience utilisateur améliorée.
       </p>
     </section>
   </div>
@@ -224,15 +239,16 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
   <script>
-    const fileInput = document.getElementById('file-input');
-    const convertBtn = document.getElementById('convert-btn');
+    const fileInput   = document.getElementById('file-input');
+    const convertBtn  = document.getElementById('convert-btn');
     const downloadBtn = document.getElementById('download-btn');
-    const loader = document.getElementById('loader');
+    const loader      = document.getElementById('loader');
     const progressBar = document.getElementById('progress-bar');
+    const errorContainer = document.getElementById('error-container');
     let zip = new JSZip();
     let convertedFiles = [];
-
-    // Fonction de conversion d'un fichier image en WebP via un canvas
+    
+    // Fonction de conversion d'un fichier image en WebP via canvas
     function convertFile(file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -247,7 +263,8 @@
             // Conversion vers le format WebP
             canvas.toBlob(function(blob) {
               if (blob) {
-                const newName = file.name.replace(/\.(jpg|jpeg|png)$/i, '.webp');
+                // Remplacement de l'extension par .webp
+                const newName = file.name.replace(/\.(jpg|jpeg|png|gif|bmp|tiff)$/i, '.webp');
                 resolve({ name: newName, blob: blob });
               } else {
                 reject(new Error('La conversion a échoué pour ' + file.name));
@@ -265,10 +282,13 @@
         reader.readAsDataURL(file);
       });
     }
-
+    
     // Gestion de l'événement "Convertir"
     convertBtn.addEventListener('click', async () => {
       const files = fileInput.files;
+      errorContainer.style.display = "none";
+      errorContainer.innerHTML = "";
+      
       if (files.length === 0) {
         alert("Veuillez sélectionner au moins un fichier.");
         return;
@@ -282,27 +302,36 @@
       zip = new JSZip();
       convertedFiles = [];
       
-      // Désactivation des boutons durant la conversion
+      // Désactivation des boutons pendant la conversion
       convertBtn.disabled = true;
-      fileInput.disabled = true;
+      fileInput.disabled  = true;
       downloadBtn.disabled = true;
+      
+      let errorMessages = [];
       
       for (let i = 0; i < files.length; i++) {
         try {
           const converted = await convertFile(files[i]);
           zip.file(converted.name, converted.blob);
           convertedFiles.push(converted);
-          // Mise à jour de la barre de progression
-          const progress = ((i + 1) / files.length) * 100;
-          progressBar.style.width = progress + "%";
         } catch (error) {
           console.error(error);
+          errorMessages.push(error.message);
         }
+        // Mise à jour de la barre de progression
+        const progress = ((i + 1) / files.length) * 100;
+        progressBar.style.width = progress + "%";
       }
       
-      // Réactivation des boutons une fois la conversion terminée
+      // Affichage des erreurs s'il y en a eu
+      if (errorMessages.length > 0) {
+        errorContainer.innerHTML = errorMessages.join("<br>");
+        errorContainer.style.display = "block";
+      }
+      
+      // Réactivation des boutons après conversion
       convertBtn.disabled = false;
-      fileInput.disabled = false;
+      fileInput.disabled  = false;
       downloadBtn.disabled = false;
       
       alert("Conversion terminée !");
@@ -311,15 +340,27 @@
         loader.style.display = "none";
       }, 1000);
     });
-
-    // Gestion de l'événement "Télécharger ZIP"
+    
+    // Gestion de l'événement "Télécharger"
     downloadBtn.addEventListener('click', async () => {
       if (convertedFiles.length === 0) {
         alert("Aucun fichier converti à télécharger.");
         return;
       }
-      const content = await zip.generateAsync({ type: "blob" });
-      saveAs(content, "images_webp.zip");
+      try {
+        // Si une seule image convertie, téléchargement direct
+        if (convertedFiles.length === 1) {
+          const file = convertedFiles[0];
+          saveAs(file.blob, file.name);
+        } else {
+          // Sinon, création et téléchargement d'un zip
+          const content = await zip.generateAsync({ type: "blob" });
+          saveAs(content, "images_webp.zip");
+        }
+      } catch (error) {
+        console.error(error);
+        alert("Une erreur est survenue lors du téléchargement : " + error.message);
+      }
     });
   </script>
 </body>
