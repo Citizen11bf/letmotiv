@@ -2,26 +2,84 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Convertisseur d'images en WebP</title>
+  <title>Convertisseur WebP en Ligne - Optimisez vos Images</title>
+  <meta name="description" content="Le meilleur convertisseur WebP en ligne. Convertissez vos images (.jpg, .jpeg, .png) en WebP pour améliorer les performances de votre site et booster votre SEO.">
+  <meta name="keywords" content="convertisseur webp, conversion image, outil webp, optimisation image, SEO">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body { 
-      font-family: Arial, sans-serif; 
-      text-align: center; 
-      margin-top: 50px; 
+    /* Réinitialisation */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
+    /* Style global */
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
+      color: #333;
+      line-height: 1.6;
+      padding: 20px;
+      animation: fadeIn 1s ease-in-out;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    header h1 {
+      font-size: 2.5rem;
+      color: #222;
+      margin-bottom: 10px;
+    }
+    header p {
+      font-size: 1.2rem;
+      color: #555;
+    }
+    /* Conteneur principal */
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    /* Boutons et input */
     .button-container {
       display: flex;
       flex-direction: column;
       align-items: center;
+      margin-bottom: 20px;
     }
     .button-container input,
     .button-container button {
-      margin: 10px;
-      padding: 10px;
-      font-size: 16px;
-      width: 200px;
+      margin: 10px 0;
+      padding: 12px;
+      font-size: 1rem;
+      width: 100%;
+      max-width: 300px;
+      border: none;
+      border-radius: 5px;
+      transition: all 0.3s ease;
     }
-    /* Styles pour la barre de progression */
+    .button-container input {
+      background-color: #f1f1f1;
+      cursor: pointer;
+    }
+    .button-container button {
+      background: linear-gradient(45deg, #ff7a18, #af002d 70%);
+      color: #fff;
+      cursor: pointer;
+    }
+    .button-container button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    .button-container button:hover:not(:disabled) {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    }
+    /* Barre de progression */
     .loader {
       display: flex;
       align-items: center;
@@ -31,7 +89,7 @@
       margin-top: 20px;
     }
     .loading-text {
-      color: white;
+      color: #fff;
       font-size: 14pt;
       font-weight: 600;
       margin-left: 10px;
@@ -52,7 +110,8 @@
       align-items: center;
       box-sizing: border-box;
       padding: 5px;
-      width: 200px;
+      width: 100%;
+      max-width: 300px;
       height: var(--height);
       background-color: #212121;
       box-shadow: #0c0c0c -2px 2px 4px 0px inset;
@@ -67,14 +126,8 @@
       width: 0%;
       height: var(--height);
       overflow: hidden;
-      background: linear-gradient(
-        0deg,
-        rgba(222, 74, 15, 1) 0%,
-        rgba(249, 199, 79, 1) 100%
-      );
+      background: linear-gradient(0deg, rgba(222, 74, 15, 1) 0%, rgba(249, 199, 79, 1) 100%);
       border-radius: calc(var(--height) / 2);
-      /* Suppression de l'animation automatique pour une mise à jour manuelle */
-      /* animation: loading 4s ease-out infinite; */
     }
     .white-bars-container {
       position: absolute;
@@ -83,43 +136,88 @@
       gap: 18px;
     }
     .white-bar {
-      background: linear-gradient(
-        -45deg,
-        rgba(255, 255, 255, 1) 0%,
-        rgba(255, 255, 255, 0) 70%
-      );
+      background: linear-gradient(-45deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 70%);
       width: 10px;
       height: 45px;
       opacity: 0.3;
       transform: rotate(45deg);
     }
-    @keyframes loading {
-      0% { width: 0; }
-      80% { width: 100%; }
-      100% { width: 100%; }
+    /* Section SEO */
+    section {
+      margin-top: 30px;
+      padding: 15px;
+      border-top: 1px solid #e0e0e0;
+    }
+    section h2 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+      color: #222;
+    }
+    section p {
+      margin-bottom: 10px;
+      font-size: 1rem;
+      color: #555;
+      text-align: justify;
+    }
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     @keyframes blink {
       0%, 100% { opacity: 0; }
       50% { opacity: 1; }
     }
+    /* Responsive */
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2rem;
+      }
+      header p {
+        font-size: 1rem;
+      }
+      .container {
+        padding: 15px;
+      }
+    }
   </style>
 </head>
 <body>
-  <h1>Convertisseur d'images en WebP</h1>
-  <div class="button-container">
-    <input type="file" id="file-input" accept=".jpg, .jpeg, .png" multiple>
-    <button id="convert-btn">Convertir</button>
-    <button id="download-btn" disabled>Télécharger ZIP</button>
-  </div>
+  <header>
+    <h1>Convertisseur WebP en Ligne</h1>
+    <p>Optimisez vos images pour des performances web exceptionnelles et un SEO renforcé.</p>
+  </header>
   
-  <!-- Barre de progression -->
-  <div id="loader" class="loader" style="display: none;">
-    <div class="loading-bar-background">
-      <div id="progress-bar" class="loading-bar"></div>
+  <div class="container">
+    <div class="button-container">
+      <input type="file" id="file-input" accept=".jpg, .jpeg, .png" multiple>
+      <button id="convert-btn">Convertir mes images</button>
+      <button id="download-btn" disabled>Télécharger le ZIP</button>
     </div>
-    <div class="loading-text">
-      Conversion en cours<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span>
+    
+    <!-- Barre de progression -->
+    <div id="loader" class="loader" style="display: none;">
+      <div class="loading-bar-background">
+        <div id="progress-bar" class="loading-bar"></div>
+      </div>
+      <div class="loading-text">
+        Conversion en cours<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span>
+      </div>
     </div>
+    
+    <!-- Contenu SEO optimisé -->
+    <section>
+      <h2>Pourquoi choisir notre Convertisseur WebP ?</h2>
+      <p>
+        Notre convertisseur WebP en ligne est l'outil incontournable pour transformer vos images (.jpg, .jpeg, .png) en format WebP. En optimisant vos images, vous améliorez non seulement la vitesse de chargement de votre site, mais vous boostez également votre référencement naturel (SEO).
+      </p>
+      <p>
+        Idéal pour les développeurs, webmasters et designers, notre service propose une conversion rapide, fiable et 100% en ligne, compatible avec tous les appareils – desktop comme mobile.
+      </p>
+      <p>
+        Adoptez dès maintenant notre convertisseur WebP et profitez d’un outil performant qui vous permettra de gagner en efficacité tout en offrant une expérience utilisateur améliorée.
+      </p>
+    </section>
   </div>
 
   <!-- Inclusion de JSZip et FileSaver depuis un CDN -->
@@ -149,7 +247,6 @@
             // Conversion vers le format WebP
             canvas.toBlob(function(blob) {
               if (blob) {
-                // Remplacement de l'extension par .webp
                 const newName = file.name.replace(/\.(jpg|jpeg|png)$/i, '.webp');
                 resolve({ name: newName, blob: blob });
               } else {
@@ -169,7 +266,7 @@
       });
     }
 
-    // Événement sur le bouton "Convertir"
+    // Gestion de l'événement "Convertir"
     convertBtn.addEventListener('click', async () => {
       const files = fileInput.files;
       if (files.length === 0) {
@@ -177,7 +274,7 @@
         return;
       }
       
-      // Préparation de la barre de progression
+      // Affichage de la barre de progression
       loader.style.display = "flex";
       progressBar.style.width = "0%";
       
@@ -185,7 +282,7 @@
       zip = new JSZip();
       convertedFiles = [];
       
-      // Désactivation des boutons pendant la conversion
+      // Désactivation des boutons durant la conversion
       convertBtn.disabled = true;
       fileInput.disabled = true;
       downloadBtn.disabled = true;
@@ -203,7 +300,7 @@
         }
       }
       
-      // Réactivation des boutons après la conversion
+      // Réactivation des boutons une fois la conversion terminée
       convertBtn.disabled = false;
       fileInput.disabled = false;
       downloadBtn.disabled = false;
@@ -215,7 +312,7 @@
       }, 1000);
     });
 
-    // Événement sur le bouton "Télécharger ZIP"
+    // Gestion de l'événement "Télécharger ZIP"
     downloadBtn.addEventListener('click', async () => {
       if (convertedFiles.length === 0) {
         alert("Aucun fichier converti à télécharger.");
