@@ -27,7 +27,7 @@
       justify-content: center;
       gap: 20px;
     }
-    /* Chaque box avec une largeur de 33.33% pour afficher 3 éléments par ligne */
+    /* Chaque box avec une largeur de 33.33% pour afficher 3 éléments par ligne sur grand écran */
     .employee {
       position: relative;
       flex: 0 1 calc(33.33% - 20px);
@@ -102,16 +102,17 @@
       }
     }
     
-    /* Responsive : sur petit écran, adapation de la largeur */
+    /* Responsive : sur mobile, 2 boxes par ligne */
     @media screen and (max-width: 600px) {
       .employee {
-        flex: 0 1 100%;
-        max-width: 300px;
+        flex: 0 1 calc(50% - 20px);
+        max-width: calc(50% - 20px);
       }
     }
   </style>
 </head>
 <body>
+  <h1>L'équipe de Letmotiv</h1>
    <div class="equipe">
     <!-- 1. Pierre Li Cavoli - Spécialiste scientifique -->
     <div class="employee">
