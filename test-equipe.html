@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notre Équipe</title>
+  <style>
+    /* Réinitialisation et style global */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: sans-serif;
+      background-color: #f0f0f0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    /* Conteneur de l'équipe */
+    .equipe {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+    /* Style de chaque box de salarié */
+    .employee {
+      position: relative;
+      width: 200px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      background-color: #fff;
+    }
+    /* L'image prend toute la largeur disponible */
+    .employee img {
+      width: 100%;
+      display: block;
+    }
+    /* Zone d'info : nom et métier */
+    .info {
+      text-align: center;
+      padding: 10px;
+      background-color: #fff;
+    }
+    .info h2 {
+      font-size: 1.1em;
+      margin-bottom: 5px;
+    }
+    .info p {
+      font-size: 0.9em;
+      color: #666;
+    }
+    /* Overlay caché par défaut, qui affiche la biographie */
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255,255,255,0.95);
+      color: #333;
+      display: none;
+      padding: 10px;
+      overflow-y: auto;
+      font-size: 0.85em;
+    }
+    /* Affichage de l'overlay quand la box est activée */
+    .employee.active .overlay {
+      display: block;
+    }
+    /* Responsive : sur petit écran, adapter la largeur */
+    @media screen and (max-width: 600px) {
+      .employee {
+        width: 100%;
+        max-width: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Notre Équipe</h1>
+  <div class="equipe">
+    <!-- 1. Pierre Li Cavoli - Spécialiste scientifique -->
+    <div class="employee">
+      <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Pierre%Li%Cavoli.png" alt="Pierre Li Cavoli">
+      <div class="info">
+        <h2>Pierre Li Cavoli</h2>
+        <p>Spécialiste scientifique</p>
+      </div>
+      <div class="overlay">
+        <ul>
+          <li>🎓 Enseigne la communication & l'économie du spatial – Université PSL</li>
+          <li>👔 Formateur & coach professionnel certifié – Haute École de Coaching</li>
+          <li>📜 Formé à l’art dramatique – Cours Florent</li>
+          <li>📚 Docteur en astrophysique</li>
+          <li>🗣️ français · anglais · espagnol</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 2. Jeanne - Spécialiste de la voix -->
+    <div class="employee">
+      <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Jeanne%Chereze.png" alt="Jeanne Chereze">
+      <div class="info">
+        <h2>Jeanne Chereze</h2>
+        <p>Spécialiste de la voix</p>
+      </div>
+      <div class="overlay">
+        <ul>
+          <li>🎓 Enseigne la prise de parole en public – Groupe GEMA</li>
+          <li>👔 Formatrice & coach de la voix</li>
+          <li>📜 15 ans d'expérience professionnelle sur scène</li>
+          <li>📚 Comédienne de formation – École Claude Matthieu</li>
+          <li>🗣️ français · anglais</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 3. Alexandre Sebagh - Spécialiste de la vidéo -->
+    <div class="employee">
+      <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Alexandre%Sebagh.png" alt="Alexandre Sebagh">
+      <div class="info">
+        <h2>Alexandre Sebagh</h2>
+        <p>Spécialiste de la vidéo</p>
+      </div>
+      <div class="overlay">
+        <ul>
+          <li>🎓 Enseigne la prise de parole en public – Rocket School</li>
+          <li>👔 Coach professionnel certifié (individuel & équipe)</li>
+          <li>📜 Formé à l'éloquence – Toastmasters</li>
+          <li>🎤 19 ans d'expérience dans l'événementiel</li>
+          <li>🗣️ français</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 4. Abdallah Hassani - Spécialiste du discours -->
+    <div class="employee">
+      <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Abdallah%Hassani.png" alt="Abdallah Hassani">
+      <div class="info">
+        <h2>Abdallah Hassani</h2>
+        <p>Spécialiste du discours</p>
+      </div>
+      <div class="overlay">
+        <ul>
+          <li>🎓 Enseigne la prise de parole en public – Neoma Business School</li>
+          <li>👔 Formateur & coach en prise de parole</li>
+          <li>🏆 Champion européen d'éloquence – Toastmasters International</li>
+          <li>🏃‍♂️ Athlète du discours</li>
+          <li>🗣️ français · anglais · arabe</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 5. Ambre Blanes - Spécialiste de l'écriture -->
+    <div class="employee">
+      <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Ambre%Blanes.png" alt="Ambre Blanes">
+      <div class="info">
+        <h2>Ambre Blanes</h2>
+        <p>Spécialiste de l'écriture</p>
+      </div>
+      <div class="overlay">
+        <ul>
+          <li>🎓 Enseigne la prise de parole en public – Kedge Business School</li>
+          <li>👔 Formatrice & coach en prise de parole</li>
+          <li>📜 15 ans d'expérience professionnelle</li>
+          <li>📚 Master en Communication et Management</li>
+          <li>🗣️ français · anglais</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 6. Peter Barrett - Spécialiste débat et négociation -->
+    <div class="employee">
+      <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Peter%Barrett.png" alt="Peter Barrett">
+      <div class="info">
+        <h2>Peter Barrett</h2>
+        <p>Spécialiste débat et négociation</p>
+      </div>
+      <div class="overlay">
+        <ul>
+          <li>🎓 Enseigne le débat – ESSEC Business School</li>
+          <li>👔 Formateur & coach en prise de parole et esprit critique</li>
+          <li>🏆 Coach de débat – Université Panthéon Sorbonne</li>
+          <li>📚 Master Relations internationales</li>
+          <li>🗣️ français · anglais</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 7. Solène - Spécialiste du pitch (image manquante, placeholder utilisé) -->
+    <div class="employee">
+      <img src="https://via.placeholder.com/200?text=Sol%C3%A8ne" alt="Solène">
+      <div class="info">
+        <h2>Solène</h2>
+        <p>Spécialiste du pitch</p>
+      </div>
+      <div class="overlay">
+        <ul>
+          <li>🎓 Enseigne le pitch – Incubateur HEC Paris</li>
+          <li>👔 Formateur & coach en prise de parole</li>
+          <li>🏆 Vice-championne international de débat francophone</li>
+          <li>📚 Juriste d'affaires de formation</li>
+          <li>🗣️ français · anglais · arabe</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 8. Corentin Eveno - Spécialiste de la rhétorique -->
+    <div class="employee">
+      <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Corentin%Eveno.png" alt="Corentin Eveno">
+      <div class="info">
+        <h2>Corentin Eveno</h2>
+        <p>Spécialiste de la rhétorique</p>
+      </div>
+      <div class="overlay">
+        <ul>
+          <li>🎓 Enseigne la rhétorique – ESSEC Business School</li>
+          <li>👔 Formateur & coach en prise de parole</li>
+          <li>🏆 Double finaliste du championnat international de débat francophone</li>
+          <li>✍️ Auteur de L’art d’avoir toujours réponse à tout (Eyrolles)</li>
+          <li>🗣️ français · anglais</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 9. Philippe Berthier - Spécialiste du management -->
+    <div class="employee">
+      <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Philippe%Berthier.png" alt="Philippe Berthier">
+      <div class="info">
+        <h2>Philippe Berthier</h2>
+        <p>Spécialiste du management</p>
+      </div>
+      <div class="overlay">
+        <ul>
+          <li>🎓 Directeur des ressources humaines – ENSAD</li>
+          <li>👔 Formateur en management et conduite du changement</li>
+          <li>📜 30 ans d'expérience</li>
+          <li>📚 Master en droit public</li>
+          <li>🗣️ français</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Ajout d'un écouteur de clic sur chaque box pour activer/désactiver l'overlay
+    document.querySelectorAll('.employee').forEach(function(employee) {
+      employee.addEventListener('click', function() {
+        this.classList.toggle('active');
+      });
+    });
+  </script>
+</body>
+</html>
