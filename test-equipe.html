@@ -51,11 +51,11 @@
     .info h2 {
       font-size: 1.1em;
       margin-bottom: 5px;
-      color: #182d84; /* Nom en couleur */
+      color: #182d84; /* Nom */
     }
     .info p {
       font-size: 0.9em;
-      color: #00a48a; /* Métier en couleur */
+      color: #00a48a; /* Métier */
     }
     /* Overlay pour la biographie, caché par défaut */
     .overlay {
@@ -69,19 +69,18 @@
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.3s ease-in-out;
-      /* Centre le contenu de la biographie */
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
       padding: 20px;
     }
-    /* Animation d'apparition au survol */
+    /* Affichage de l'overlay au survol */
     .employee:hover .overlay {
       opacity: 1;
       pointer-events: auto;
     }
-    /* Style de la liste dans l'overlay pour mettre en avant la bio */
+    /* Style de la liste dans l'overlay (taille de police par défaut) */
     .overlay ul {
       list-style: none;
       line-height: 1.6;
@@ -90,7 +89,20 @@
     .overlay ul li {
       margin-bottom: 8px;
     }
-    /* Responsive : sur petit écran, adaption de la largeur */
+
+    /* Media queries pour ajuster le texte dans l'overlay */
+    @media screen and (max-width: 768px) {
+      .overlay ul {
+        font-size: 0.9em;
+      }
+    }
+    @media screen and (max-width: 480px) {
+      .overlay ul {
+        font-size: 0.8em;
+      }
+    }
+    
+    /* Responsive : sur petit écran, adapation de la largeur */
     @media screen and (max-width: 600px) {
       .employee {
         flex: 0 1 100%;
