@@ -20,17 +20,17 @@
       text-align: center;
       margin-bottom: 20px;
     }
-    /* Conteneur de l'équipe */
+    /* Conteneur de l'équipe avec flexbox et gap */
     .equipe {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 20px;
     }
-    /* Style de chaque box de salarié */
+    /* Chaque box utilise une largeur de 33.33% maximum (avec gap) pour afficher 3 par ligne */
     .employee {
       position: relative;
-      width: 200px;
+      flex: 0 1 calc(33.33% - 20px);
       border: 1px solid #ccc;
       border-radius: 8px;
       overflow: hidden;
@@ -38,12 +38,12 @@
       transition: background-color 0.3s;
       background-color: #fff;
     }
-    /* L'image prend toute la largeur disponible */
+    /* L'image occupe toute la largeur de la box */
     .employee img {
       width: 100%;
       display: block;
     }
-    /* Zone d'info : nom et métier */
+    /* Zone d'infos : nom et métier */
     .info {
       text-align: center;
       padding: 10px;
@@ -57,7 +57,7 @@
       font-size: 0.9em;
       color: #666;
     }
-    /* Overlay caché par défaut, qui affiche la biographie */
+    /* Overlay caché par défaut pour la biographie */
     .overlay {
       position: absolute;
       top: 0;
@@ -75,10 +75,10 @@
     .employee.active .overlay {
       display: block;
     }
-    /* Responsive : sur petit écran, adapter la largeur */
+    /* Responsive : sur petit écran, on passe à une seule colonne */
     @media screen and (max-width: 600px) {
       .employee {
-        width: 100%;
+        flex: 0 1 100%;
         max-width: 300px;
       }
     }
@@ -89,7 +89,7 @@
   <div class="equipe">
     <!-- 1. Pierre Li Cavoli - Spécialiste scientifique -->
     <div class="employee">
-      <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Pierre%Li%Cavoli.png" alt="Pierre Li Cavoli">
+      <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Pierre%20Li%20Cavoli.png" alt="Pierre Li Cavoli">
       <div class="info">
         <h2>Pierre Li Cavoli</h2>
         <p>Spécialiste scientifique</p>
@@ -107,7 +107,7 @@
 
     <!-- 2. Jeanne - Spécialiste de la voix -->
     <div class="employee">
-      <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Jeanne%Chereze.png" alt="Jeanne Chereze">
+      <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Jeanne%20Chereze.png" alt="Jeanne Chereze">
       <div class="info">
         <h2>Jeanne Chereze</h2>
         <p>Spécialiste de la voix</p>
@@ -125,7 +125,7 @@
 
     <!-- 3. Alexandre Sebagh - Spécialiste de la vidéo -->
     <div class="employee">
-      <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Alexandre%Sebagh.png" alt="Alexandre Sebagh">
+      <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Alexandre%20Sebagh.png" alt="Alexandre Sebagh">
       <div class="info">
         <h2>Alexandre Sebagh</h2>
         <p>Spécialiste de la vidéo</p>
@@ -143,7 +143,7 @@
 
     <!-- 4. Abdallah Hassani - Spécialiste du discours -->
     <div class="employee">
-      <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Abdallah%Hassani.png" alt="Abdallah Hassani">
+      <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Abdallah%20Hassani.png" alt="Abdallah Hassani">
       <div class="info">
         <h2>Abdallah Hassani</h2>
         <p>Spécialiste du discours</p>
@@ -161,7 +161,7 @@
 
     <!-- 5. Ambre Blanes - Spécialiste de l'écriture -->
     <div class="employee">
-      <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Ambre%Blanes.png" alt="Ambre Blanes">
+      <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Ambre%20Blanes.png" alt="Ambre Blanes">
       <div class="info">
         <h2>Ambre Blanes</h2>
         <p>Spécialiste de l'écriture</p>
@@ -179,7 +179,7 @@
 
     <!-- 6. Peter Barrett - Spécialiste débat et négociation -->
     <div class="employee">
-      <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Peter%Barrett.png" alt="Peter Barrett">
+      <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Peter%20Barrett.png" alt="Peter Barrett">
       <div class="info">
         <h2>Peter Barrett</h2>
         <p>Spécialiste débat et négociation</p>
@@ -197,7 +197,7 @@
 
     <!-- 7. Solène - Spécialiste du pitch (image manquante, placeholder utilisé) -->
     <div class="employee">
-      <img src="https://via.placeholder.com/200?text=Sol%C3%A8ne" alt="Solène">
+      <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Solene%20Abboud.png alt="Solène Abboud">
       <div class="info">
         <h2>Solène</h2>
         <p>Spécialiste du pitch</p>
@@ -215,7 +215,7 @@
 
     <!-- 8. Corentin Eveno - Spécialiste de la rhétorique -->
     <div class="employee">
-      <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Corentin%Eveno.png" alt="Corentin Eveno">
+      <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Corentin%20Eveno.png" alt="Corentin Eveno">
       <div class="info">
         <h2>Corentin Eveno</h2>
         <p>Spécialiste de la rhétorique</p>
@@ -233,7 +233,7 @@
 
     <!-- 9. Philippe Berthier - Spécialiste du management -->
     <div class="employee">
-      <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Philippe%Berthier.png" alt="Philippe Berthier">
+      <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Philippe%20Berthier.png" alt="Philippe Berthier">
       <div class="info">
         <h2>Philippe Berthier</h2>
         <p>Spécialiste du management</p>
@@ -251,7 +251,7 @@
   </div>
 
   <script>
-    // Ajout d'un écouteur de clic sur chaque box pour activer/désactiver l'overlay
+    // Ajoute un écouteur de clic sur chaque box pour afficher ou masquer l'overlay
     document.querySelectorAll('.employee').forEach(function(employee) {
       employee.addEventListener('click', function() {
         this.classList.toggle('active');
