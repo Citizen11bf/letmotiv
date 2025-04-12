@@ -2,8 +2,8 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Convertisseur webp en ligne - Optimisez vos images sur vos sites web</title>
-  <meta name="description" content="Le meilleur convertisseur webp en ligne. Convertissez vos images (.jpg, .jpeg, .png, .gif, .bmp, .tiff) en WebP pour améliorer les performances de votre site et booster votre SEO.">
+  <title>Convertisseur WebP en ligne - Optimisez vos images sur vos sites web</title>
+  <meta name="description" content="Le meilleur convertisseur WebP en ligne. Convertissez vos images (.jpg, .jpeg, .png, .gif, .bmp, .tiff) en WebP pour améliorer les performances de votre site et booster votre SEO.">
   <meta name="keywords" content="convertisseur webp, conversion image, outil webp, optimisation image, SEO">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Inclusion de Font Awesome pour les icônes -->
@@ -46,7 +46,6 @@
       border-radius: 10px;
       box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
-
     /* Bouton principal "Sélectionner des images" */
     .select-button {
       display: inline-flex;
@@ -56,7 +55,7 @@
       font-size: 1rem;
       font-weight: 500;
       color: #fff;
-      background-color: #3f8efc; /* Ajustez la couleur selon vos besoins */
+      background-color: #3f8efc; /* À ajuster selon votre design */
       border: none;
       border-radius: 6px;
       cursor: pointer;
@@ -66,10 +65,9 @@
       margin-right: 8px;
     }
     .select-button:hover {
-      background-color: #367cd9; /* Couleur au survol */
+      background-color: #367cd9;
     }
-
-    /* Bouton "Convertir" et "Télécharger mes images" */
+    /* Boutons d'action "Convertir" et "Télécharger mes images" */
     .action-button {
       margin: 10px 0;
       padding: 12px;
@@ -93,32 +91,47 @@
       box-shadow: none;
       transform: none;
     }
-
     /* Bouton "Recommencer" */
     .reset-btn {
       background: none;
       border: none;
       cursor: pointer;
-      margin-left: 10px;
       color: #666;
       font-size: 1.2rem;
     }
     .reset-btn:hover {
       color: #000;
     }
-
-    /* Container pour le listing et les boutons de conversion/téléchargement */
+    /* Conteneur des boutons de téléchargement et réinitialisation en ligne */
+    #download-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    /* Container pour le listing et les boutons d'actions */
     .button-container {
       display: flex;
       flex-direction: column;
       align-items: center;
       margin-bottom: 20px;
     }
-
-    /* Listing des fichiers sélectionnés */
+    /* Récapitulatif des fichiers sélectionnés (affiché par défaut de façon réduite) */
+    #selected-files-summary {
+      display: none;
+      cursor: pointer;
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: #555;
+    }
+    #toggle-arrow {
+      margin-left: 5px;
+    }
+    /* Liste complète des fichiers (masquée par défaut) */
     #selected-files-list {
       display: none;
-      margin-top: 10px;
+      margin-top: 5px;
       text-align: left;
       width: 100%;
       max-width: 400px;
@@ -129,10 +142,9 @@
       font-size: 0.9rem;
       color: #333;
     }
-
     /* Barre de progression */
     .loader {
-      display: none; /* Par défaut masqué */
+      display: none;
       align-items: center;
       justify-content: center;
       flex-direction: column;
@@ -203,7 +215,6 @@
       display: none;
       text-align: center;
     }
-
     /* Section SEO et avantages */
     section {
       margin-top: 30px;
@@ -238,7 +249,6 @@
     .feature-item i {
       font-size: 2rem;
       color: #28a745;
-      text-align: center;
     }
     .feature-item p {
       margin-top: 10px;
@@ -258,7 +268,7 @@
       border-top: 1px solid #e0e0e0;
     }
     .faq h2 {
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       margin-bottom: 20px;
       color: #222;
       text-align: center;
@@ -310,28 +320,32 @@
   </header>
   
   <div class="container">
-    
     <!-- Conteneur des erreurs et messages -->
     <div id="error-container"></div>
     <div id="message-container"></div>
     
     <!-- Container principal pour le bouton + listage de fichiers + actions -->
     <div class="button-container">
-      
-      <!-- Bouton de sélection (simule l'input type="file") -->
+      <!-- Bouton de sélection (simulateur d'input file) -->
       <label for="file-input" id="select-btn" class="select-button">
         <i class="fa fa-upload"></i> Sélectionner des images
       </label>
-      <!-- Input file réellement masqué -->
+      <!-- Input file masqué -->
       <input type="file" id="file-input" accept=".jpg, .jpeg, .png, .gif, .bmp, .tiff" multiple style="display:none;">
       
-      <!-- Listing des fichiers sélectionnés -->
+      <!-- Récapitulatif des fichiers sélectionnés -->
+      <div id="selected-files-summary">
+        <span id="selected-files-label"></span>
+        <span id="toggle-arrow">▼</span>
+      </div>
+      
+      <!-- Liste complète des fichiers (affichée après basculement) -->
       <div id="selected-files-list"></div>
 
-      <!-- Bouton de conversion (masqué par défaut, affiché après sélection) -->
+      <!-- Bouton de conversion (affiché après sélection) -->
       <button id="convert-btn" class="action-button" style="display:none;">Convertir</button>
 
-      <!-- Barre de progression (affichée lors de la conversion) -->
+      <!-- Barre de progression lors de la conversion -->
       <div id="loader" class="loader">
         <div class="loading-bar-background">
           <div id="progress-bar" class="loading-bar"></div>
@@ -341,7 +355,7 @@
         </div>
       </div>
 
-      <!-- Conteneur pour le bouton "Télécharger mes images" + icône "Recommencer" -->
+      <!-- Conteneur pour le bouton "Télécharger mes images" et l'icône "Recommencer" -->
       <div id="download-container" style="display:none;">
         <button id="download-btn" class="action-button">Télécharger mes images</button>
         <button id="reset-btn" class="reset-btn" title="Recommencer"><i class="fa fa-undo"></i></button>
@@ -423,77 +437,104 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
   <script>
-    const fileInput        = document.getElementById('file-input');
-    const selectBtn        = document.getElementById('select-btn');
-    const convertBtn       = document.getElementById('convert-btn');
-    const downloadBtn      = document.getElementById('download-btn');
-    const resetBtn         = document.getElementById('reset-btn');
-    const loader           = document.getElementById('loader');
-    const progressBar      = document.getElementById('progress-bar');
-    const downloadContainer= document.getElementById('download-container');
-    const errorContainer   = document.getElementById('error-container');
-    const messageContainer = document.getElementById('message-container');
-    const fileListContainer= document.getElementById('selected-files-list');
+    const fileInput         = document.getElementById('file-input');
+    const selectBtn         = document.getElementById('select-btn');
+    const convertBtn        = document.getElementById('convert-btn');
+    const downloadBtn       = document.getElementById('download-btn');
+    const resetBtn          = document.getElementById('reset-btn');
+    const loader            = document.getElementById('loader');
+    const progressBar       = document.getElementById('progress-bar');
+    const downloadContainer = document.getElementById('download-container');
+    const errorContainer    = document.getElementById('error-container');
+    const messageContainer  = document.getElementById('message-container');
+    const fileListContainer = document.getElementById('selected-files-list');
+    const summaryContainer  = document.getElementById('selected-files-summary');
+    const selectedLabel     = document.getElementById('selected-files-label');
+    const toggleArrow       = document.getElementById('toggle-arrow');
     
     let zip = new JSZip();
     let convertedFiles = [];
 
     /**
-     * Fonction de reset complet de l'interface
+     * Fonction de réinitialisation complète de l'interface.
+     * Elle remet à zéro tous les éléments et remonte l'écran en haut.
      */
     function resetAll() {
-      // Vider les messages et les erreurs
+      // Vider messages et erreurs
       errorContainer.style.display = "none";
       errorContainer.innerHTML = "";
       messageContainer.style.display = "none";
       messageContainer.innerHTML = "";
-
-      // Réinitialiser l'input file
+      
+      // Réinitialiser l'input file et masquer la liste et le résumé
       fileInput.value = "";
       fileListContainer.innerHTML = "";
       fileListContainer.style.display = "none";
-
+      summaryContainer.style.display = "none";
+      
       // Réinitialiser la barre de progression
       loader.style.display = "none";
       progressBar.style.width = "0%";
-
-      // Masquer les boutons "Convertir" et "Télécharger"
+      
+      // Réinitialiser les boutons d'actions
       convertBtn.style.display = "none";
       downloadContainer.style.display = "none";
       downloadBtn.disabled = true;
       convertBtn.disabled = false;
-      fileInput.disabled = false;
-
-      // Vider le contenu
+      fileInput.disabled  = false;
+      
+      // Vider le contenu du zip et la liste des fichiers convertis
       zip = new JSZip();
       convertedFiles = [];
+      
+      // Remonter en haut de la page
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-
+    
     // Au clic sur l'icône "Recommencer"
-    resetBtn.addEventListener('click', () => {
-      resetAll();
-    });
-
-    // Gestion de la sélection de fichiers et mise à jour du container associé
+    resetBtn.addEventListener('click', resetAll);
+    
+    // Gestion de la sélection des fichiers et mise à jour du récapitulatif
     fileInput.addEventListener("change", function() {
       const files = fileInput.files;
       if (files.length > 0) {
-        // Construire la liste des fichiers
+        // Créer le récapitulatif : afficher le premier fichier et indiquer le nombre total si plus d'un
+        let summaryText = files[0].name;
+        if (files.length > 1) {
+          summaryText += " et " + (files.length - 1) + " autre(s)";
+        }
+        selectedLabel.textContent = summaryText;
+        summaryContainer.style.display = "block";
+        toggleArrow.textContent = "▼";
+        
+        // Construire la liste complète des fichiers
         let listHTML = "<ul style='list-style: none; padding-left: 0; margin: 0;'>";
         for (let i = 0; i < files.length; i++) {
           listHTML += "<li>" + files[i].name + "</li>";
         }
         listHTML += "</ul>";
         fileListContainer.innerHTML = listHTML;
-        fileListContainer.style.display = "block";
-
+        // Par défaut, la liste complète reste masquée.
+        fileListContainer.style.display = "none";
+        
         // Afficher le bouton "Convertir"
         convertBtn.style.display = "inline-block";
       } else {
-        // Aucun fichier sélectionné
         fileListContainer.innerHTML = "";
         fileListContainer.style.display = "none";
+        summaryContainer.style.display = "none";
         convertBtn.style.display = "none";
+      }
+    });
+    
+    // Permet le toggle de l'affichage de la liste complète
+    summaryContainer.addEventListener("click", function() {
+      if (fileListContainer.style.display === "none") {
+        fileListContainer.style.display = "block";
+        toggleArrow.textContent = "▲";
+      } else {
+        fileListContainer.style.display = "none";
+        toggleArrow.textContent = "▼";
       }
     });
     
@@ -509,7 +550,7 @@
             canvas.height = img.height;
             const ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0);
-            // Conversion vers le format WebP
+            // Conversion en WebP
             canvas.toBlob(function(blob) {
               if (blob) {
                 const newName = file.name.replace(/\.(jpg|jpeg|png|gif|bmp|tiff)$/i, '.webp');
@@ -530,7 +571,7 @@
         reader.readAsDataURL(file);
       });
     }
-
+    
     // Gestion de l'événement "Convertir"
     convertBtn.addEventListener('click', async () => {
       const files = fileInput.files;
@@ -538,21 +579,21 @@
       errorContainer.innerHTML = "";
       messageContainer.style.display = "none";
       messageContainer.innerHTML = "";
-
+      
       if (files.length === 0) {
         messageContainer.innerHTML = "Veuillez sélectionner au moins un fichier.";
         messageContainer.style.display = "block";
         return;
       }
-
-      // Afficher la barre de progression dès le début
+      
+      // Afficher immédiatement la barre de progression
       loader.style.display = "flex";
       
-      // Réinitialisation du zip et de la liste des fichiers convertis
+      // Réinitialiser le zip et la liste des fichiers convertis
       zip = new JSZip();
       convertedFiles = [];
       
-      // Désactivation des boutons et input pendant la conversion
+      // Désactivation des boutons et de l'input pendant la conversion
       convertBtn.disabled = true;
       fileInput.disabled  = true;
       downloadBtn.disabled = true;
@@ -573,7 +614,7 @@
         progressBar.style.width = progress + "%";
       }
       
-      // Masquer le loader après la conversion
+      // Masquer la barre de progression à la fin
       loader.style.display = "none";
       
       // Affichage des erreurs éventuelles
@@ -582,11 +623,11 @@
         errorContainer.style.display = "block";
       }
       
-      // Activer le bouton de téléchargement
-      downloadContainer.style.display = "inline-block";
+      // Activer le bouton de téléchargement et l'icône "Recommencer"
+      downloadContainer.style.display = "flex";
       downloadBtn.disabled = false;
       
-      // Affichage d'un message de confirmation
+      // Afficher un message de confirmation
       messageContainer.innerHTML = "Votre conversion est terminée ! 🚀";
       messageContainer.style.display = "block";
     });
@@ -599,7 +640,6 @@
         return;
       }
       try {
-        // Si une seule image convertie, téléchargement direct
         if (convertedFiles.length === 1) {
           const file = convertedFiles[0];
           saveAs(file.blob, file.name);
