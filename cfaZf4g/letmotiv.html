@@ -385,13 +385,19 @@
     
     /* --- Section Nos Ressources --- */
     .resources-grid {
-      /* Au lieu d'un simple flex, on passe en grid pour faciliter 
-         l’alignement vertical et obtenir des hauteurs uniformes */
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: 20px;
       align-items: stretch;
     }
+    
+    /* Forcer 4 colonnes sur desktop */
+    @media (min-width: 992px) {
+      .resources-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+    
     .resource-box {
       display: flex;
       flex-direction: column;
