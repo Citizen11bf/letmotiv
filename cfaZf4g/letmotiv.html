@@ -19,7 +19,6 @@
   <!-- Import des polices -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&display=swap" rel="stylesheet">
-  <!-- Police manuscrite pour la box "Les mots du fondateur" -->
   <link href="https://fonts.googleapis.com/css2?family=Rouge+Script&display=swap" rel="stylesheet">
   
   <!-- Bibliothèques GSAP -->
@@ -157,7 +156,7 @@
     }
     .mobile-nav-overlay ul li a {
       color: var(--white);
-      font-size: 24px;
+      font-size: 18px; /* Texte réduit */
       text-decoration: none;
       font-weight: 600;
     }
@@ -179,6 +178,13 @@
     }
     .mobile-nav-extra a:hover {
       background: var(--primary);
+    }
+    /* Masquer le menu mobile sur desktop */
+    @media (min-width: 769px) {
+      .mobile-nav-overlay,
+      .mobile-nav-extra {
+        display: none;
+      }
     }
     
     /* --- HERO --- */
@@ -289,12 +295,10 @@
       font-size: 16px;
       line-height: 1.5;
     }
-    /* Box 1 : L'origine de Letmotiv (overlay supprimé) */
     .about-box.about-box-1 {
       position: relative;
       overflow: hidden;
     }
-    /* Box 2 : Nos valeurs */
     .about-box.about-box-2 .values-boxes {
       display: flex;
       flex-direction: column;
@@ -318,10 +322,9 @@
     .value-box.bienveillance { background: #FFC107; }
     .value-box.mise { background: #8BC34A; }
     .value-box.technicite { background: #03A9F4; }
-    /* Box 3 : Les mots du fondateur avec police manuscrite */
     .about-box.about-box-3 p {
       font-family: 'Rouge Script', cursive;
-      font-size: 18px;
+      font-size: 20px;
     }
     @media (max-width: 768px) {
       .about-boxes {
@@ -506,25 +509,39 @@
       margin: 0;
     }
     
-    /* --- Section L'équipe (intégration de votre code) --- */
-    /* Styles spécifiques à la partie "L'équipe" fourni en externe */
+    /* --- Section L'équipe --- */
     .equipe {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 20px;
     }
+    /* Par défaut, 100% sur mobile */
     .employee {
       position: relative;
-      flex: 0 1 calc(33.33% - 20px);
       border: 1px solid #ccc;
       border-radius: 8px;
       overflow: hidden;
       cursor: pointer;
       background-color: #fff;
+      flex: 0 1 calc(100% - 20px);
+    }
+    /* 2 colonnes à partir de 600px */
+    @media (min-width: 600px) {
+      .employee {
+        flex: 0 1 calc(50% - 20px);
+      }
+    }
+    /* 4 boîtes par ligne à partir de 1024px */
+    @media (min-width: 1024px) {
+      .employee {
+        flex: 0 1 calc(25% - 20px);
+      }
     }
     .employee img {
       width: 100%;
+      height: auto;
+      max-height: 200px; /* Réduit la dimension des photos */
       display: block;
     }
     .info {
@@ -790,7 +807,7 @@
       <div class="container">
         <h2>À propos</h2>
         <div class="about-boxes">
-          <!-- Box 1 : L'origine de Letmotiv (overlay LinkedIn retiré) -->
+          <!-- Box 1 : L'origine de Letmotiv -->
           <div class="about-box about-box-1">
             <div class="default-content">
               <h3><strong>L'origine de Letmotiv</strong></h3>
@@ -819,7 +836,7 @@
               </div>
             </div>
           </div>
-          <!-- Box 3 : Les mots du fondateur avec police manuscrite -->
+          <!-- Box 3 : Les mots du fondateur -->
           <div class="about-box about-box-3">
             <h3><strong>Les mots du fondateur</strong></h3>
             <p>"Notre approche personnalisée et nos méthodes innovantes permettent à nos clients de libérer leur potentiel en matière de prise de parole en public.<br><br>
