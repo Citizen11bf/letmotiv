@@ -22,7 +22,7 @@
   <!-- Police manuscrite pour la box "Les mots du fondateur" -->
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
   
-  <!-- Bibliothèques GSAP (inutile pour la navigation, mais toujours pour d’autres animations) -->
+  <!-- Bibliothèques GSAP -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollToPlugin.min.js"></script>
@@ -289,7 +289,7 @@
       font-size: 16px;
       line-height: 1.5;
     }
-    /* Box 1 : L'origine de Letmotiv, sans overlay LinkedIn */
+    /* Box 1 : L'origine de Letmotiv (overlay supprimé) */
     .about-box.about-box-1 {
       position: relative;
       overflow: hidden;
@@ -379,14 +379,11 @@
       gap: 20px;
       align-items: stretch;
     }
-    
-    /* Forcer 4 colonnes sur desktop */
     @media (min-width: 992px) {
       .resources-grid {
         grid-template-columns: repeat(4, 1fr);
       }
     }
-    
     .resource-box {
       display: flex;
       flex-direction: column;
@@ -415,11 +412,9 @@
       font-size: 16px;
       margin-bottom: 15px;
       text-align: left;
-      /* Permet d’étirer la zone de texte pour pousser le bouton en bas quand le texte est court */
       flex-grow: 1;
     }
     .resource-box .btn {
-      /* Le margin-top auto pousse le bouton CTA vers le bas pour que les hauteurs s’alignent */
       margin-top: auto;
       background: var(--secondary);
       color: var(--white);
@@ -510,36 +505,85 @@
       margin: 0;
     }
     
-    /* --- Section L'équipe --- */
-    .equipe .team-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    /* --- Section L'équipe (intégration de votre code) --- */
+    /* Styles spécifiques à la partie "L'équipe" fourni en externe */
+    .equipe {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
       gap: 20px;
-      align-items: stretch;
-      margin-top: 20px;
     }
-    .team-member {
-      background: var(--white);
-      padding: 20px;
-      border-radius: 5px;
+    .employee {
+      position: relative;
+      flex: 0 1 calc(33.33% - 20px);
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      background-color: #fff;
+    }
+    .employee img {
+      width: 100%;
+      display: block;
+    }
+    .info {
       text-align: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 10px;
+      background-color: #fff;
     }
-    .team-member img {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 15px;
+    .info h2 {
+      font-size: 1.1em;
+      margin-bottom: 5px;
+      color: #182d84;
     }
-    .team-member h3 {
-      font-size: 20px;
-      color: var(--primary);
-      margin-bottom: 10px;
+    .info p {
+      font-size: 0.9em;
+      color: #00a48a;
     }
-    .team-member p {
-      font-size: 16px;
-      color: var(--primary);
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255,255,255,0.95);
+      color: #333;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease-in-out;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 10px;
+    }
+    .employee:hover .overlay {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .overlay ul {
+      list-style: none;
+      line-height: 1.6;
+      font-size: 1em;
+    }
+    .overlay ul li {
+      margin-bottom: 8px;
+    }
+    @media screen and (max-width: 768px) {
+      .overlay ul {
+        font-size: 0.6em;
+      }
+    }
+    @media screen and (max-width: 480px) {
+      .overlay ul {
+        font-size: 0.6em;
+      }
+    }
+    @media screen and (max-width: 600px) {
+      .employee {
+        flex: 0 1 calc(50% - 20px);
+        max-width: calc(50% - 20px);
+      }
     }
     
     /* --- Section Nos Clients --- */
@@ -658,7 +702,6 @@
         font-size: 18px;
       }
     }
-    /* En mode paysage sur mobile, on cache entièrement l'overlay du menu */
     @media (max-width: 768px) and (orientation: landscape) {
       .header-container {
         padding: 10px;
@@ -746,13 +789,13 @@
       <div class="container">
         <h2>À propos</h2>
         <div class="about-boxes">
-          <!-- Box 1 : L'origine de Letmotiv (overlay supprimé) -->
+          <!-- Box 1 : L'origine de Letmotiv (overlay LinkedIn retiré) -->
           <div class="about-box about-box-1">
             <div class="default-content">
               <h3><strong>L'origine de Letmotiv</strong></h3>
               <p>
-                Pierre a grandi avec deux passions : l’art de raconter des histoires et les étoiles. Après des études scientifiques qui l’ont amené jusqu’à devenir docteur en astrophysique (PhD), Pierre commence une carrière professionnelle de cadre dans le milieu des hautes technologies.<br><br>  
-                A l’aube de ses 30 ans, Pierre décide – fort de ses expériences dans le milieu scientifique et tertiaire – de revenir à sa passion de l’art oratoire, convaincu d’apporter une aide et un réel besoin à de nombreux individus dont les compétences en la matière freinent leur réussite professionnelle.<br><br>
+                Pierre a grandi avec deux passions : l’art de raconter des histoires et les étoiles. Après des études scientifiques qui l’ont amené jusqu’à devenir docteur en astrophysique (PhD), Pierre débute une carrière de cadre dans le secteur des hautes technologies.<br><br>
+                À l’aube de ses 30 ans, fort de ses expériences dans le milieu scientifique et tertiaire, il décide de revenir à sa passion de l’art oratoire, convaincu de pouvoir aider ceux dont la prise de parole freine leur réussite professionnelle.<br><br>
                 Devenu formateur professionnel et coach certifié, Pierre s’est formé au théâtre au Cours Florent et à l’éloquence avec Toastmasters International pour créer le centre de formation Letmotiv.
               </p>
             </div>
@@ -775,12 +818,12 @@
               </div>
             </div>
           </div>
-          <!-- Box 3 : Les mots du fondateur avec style manuscrit -->
+          <!-- Box 3 : Les mots du fondateur avec police manuscrite -->
           <div class="about-box about-box-3">
             <h3><strong>Les mots du fondateur</strong></h3>
             <p>"Notre approche personnalisée et nos méthodes innovantes permettent à nos clients de libérer leur potentiel en matière de prise de parole en public.<br><br>
-              Nous croyons que les leaders capables de partager leurs idées ont un impact positif sur la société et leur entourage.<br><br>
-              Parce que la prise de parole est une compétence qui peut transformer des vies, nous nous engageons à fournir des formations de la plus haute qualité."
+              Nous croyons que les leaders qui partagent leurs idées ont un impact positif sur la société et leur entourage.<br><br>
+              Parce que la prise de parole peut transformer des vies, nous nous engageons à fournir des formations de la plus haute qualité."
             </p>
           </div>
         </div>
@@ -821,47 +864,37 @@
             <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Ressources_letmotiv_simulateur_improvisation.webp" alt="Simulateur d'improvisation">
             <h3>Simulateur d'impro</h3>
             <p style="text-align: left; color: var(--primary);">
-              Vous voulez vous entraîner gratuitement à la prise de parole en public ?<br><br>
-              Découvrez le simulateur Letmotiv qui propose de nombreux exercices pour améliorer votre diction, développer votre charisme, accroître votre pouvoir de persuasion et inspirer votre auditoire...
+              Vous souhaitez vous entraîner gratuitement à la prise de parole en public ?<br><br>
+              Découvrez le simulateur Letmotiv proposant de nombreux exercices pour améliorer votre diction, développer votre charisme et inspirer votre auditoire.
             </p>
             <a href="http://www.letmotiv-simulateur.fr" class="btn" target="_blank">Accéder au simulateur</a>
           </div>
-          
           <!-- Box 2 : Simulateur d'entretien -->
           <div class="resource-box">
             <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Ressources_letmotiv_simulateur_entretien.webp" alt="Simulateur d'entretien">
             <h3>Simulateur d'entretien</h3>
             <p style="text-align: left; color: var(--primary);">
-              Préparez vos entretiens pour les écoles post-bac ou pour un emploi grâce au simulateur Letmotiv en ligne interactif et 100 % gratuit.<br><br>
-              Entraînez-vous pour :<br>
-              - Réduire les imprévus<br>
-              - Affiner vos réponses<br>
-              - Booster votre confiance !
+              Préparez vos entretiens pour les écoles post-bac ou pour un emploi grâce au simulateur interactif et 100 % gratuit.<br><br>
+              Entraînez-vous pour réduire les imprévus, affiner vos réponses et booster votre confiance.
             </p>
             <a href="https://www.letmotiv-simulateur.fr/entretien.html" class="btn" target="_blank">Accéder au simulateur</a>
           </div>
-          
           <!-- Box 3 : Formation en ligne -->
           <div class="resource-box">
             <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Ressources_letmotiv_formation_en_ligne.webp" alt="Formation en ligne">
             <h3>Formation en ligne</h3>
             <p style="text-align: left; color: var(--primary);">
-              Cette formation en ligne, conçue par deux experts de la prise de parole, se compose de 4 modules pour vous apprendre à :<br><br>
-              1) Gérer votre stress<br>
-              2) Utiliser une gestuelle adaptée<br>
-              3) Développer votre puissance vocale<br>
-              4) Créer une véritable connexion avec votre audience<br><br>
-              Court, efficace et captivant, c’est comme binge-watcher une série avec de nouvelles méthodes à la clé.
+              Une formation en ligne conçue par deux experts de la prise de parole se décline en 4 modules pour vous apprendre à gérer le stress, adopter une gestuelle efficace, développer votre puissance vocale et créer une réelle connexion avec votre audience.<br><br>
+              Court, efficace et captivant, c'est comme binge-watcher une série avec de nouvelles compétences à la clé.
             </p>
             <a href="#" class="btn">Découvrir la formation</a>
           </div>
-          
           <!-- Box 4 : Articles & Vidéos -->
           <div class="resource-box">
             <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Ressources_letmotiv_contenus.webp" alt="Articles et vidéos">
             <h3>Articles & Vidéos</h3>
             <p style="text-align: left; color: var(--primary);">
-              Plongez dans notre bibliothèque de contenus – articles, vidéos et podcasts – pour obtenir conseils pratiques et perspectives nouvelles afin d’améliorer votre prise de parole.
+              Plongez dans notre bibliothèque de contenus – articles, vidéos et podcasts – pour obtenir des conseils pratiques et des perspectives nouvelles sur la prise de parole.
             </p>
             <a href="#" class="btn">Explorer nos contenus</a>
           </div>
@@ -905,8 +938,8 @@
               <span class="testimonial-fonction">Account Manager chez Orange</span>
             </h4>
             <p>
-              "Après 3 jours de formation sur la prise de parole en public, je peux affirmer que Pierre est soucieux de son travail, bienveillant et très compétent. 
-              Sa formation, dynamique et ciblée, est passionnante du début à la fin. Je recommande vivement Pierre et son expertise."
+              "Après 3 jours de formation sur la prise de parole en public, je peux affirmer que Pierre est soucieux, bienveillant et très compétent. 
+              Sa formation, dynamique et ciblée, est passionnante du début à la fin. Je recommande vivement son expertise."
             </p>
           </div>
           <div class="testimonial-item">
@@ -917,7 +950,7 @@
             </h4>
             <p>
               "On apprend à se dépasser dans un cadre dynamique, bienveillant et ludique. 
-              Pierre, patient et à l’écoute, vous aide à travailler rapidement sur vos points faibles tout en mettant en valeur vos atouts.
+              Pierre, patient et à l’écoute, vous aide à travailler sur vos points faibles tout en valorisant vos atouts.
               Il ne recule devant aucun défi et pousse à donner le meilleur de soi-même !"
             </p>
           </div>
@@ -928,9 +961,8 @@
               <span class="testimonial-fonction">Conseillère Régionale du Grand Est</span>
             </h4>
             <p>
-              "Pierre Li Cavoli est un excellent professeur et coach pour la prise de parole en public.
-              Son professionnalisme, sa rigueur et sa capacité d’écoute font de ses formations une expérience enrichissante. 
-              Une formation que je recommande vivement !"
+              "Pierre Li Cavoli est un excellent professeur et coach en prise de parole. Son professionnalisme et sa capacité d’écoute rendent ses formations particulièrement enrichissantes.
+              Une expérience que je recommande vivement !"
             </p>
           </div>
         </div>
@@ -972,33 +1004,224 @@
     </section>
     
     <!-- SECTION L'ÉQUIPE -->
-    <section id="equipe" class="section equipe">
+    <section id="equipe" class="section">
       <div class="container">
         <h2>L'équipe</h2>
-        <div class="team-grid">
-          <!-- Membre 1 -->
-          <div class="team-member">
-            <img src="https://via.placeholder.com/150" alt="Pierre Li Cavoli">
-            <h3>Pierre Li Cavoli</h3>
-            <p>Fondateur & Coach</p>
+        <div class="equipe">
+          <!-- 1. Pierre Li Cavoli - Spécialiste scientifique -->
+          <div class="employee">
+            <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Pierre%20Li%20Cavoli.webp" alt="Pierre Li Cavoli">
+            <div class="info">
+              <h2>Pierre Li Cavoli</h2>
+              <p>Spécialiste scientifique</p>
+            </div>
+            <div class="overlay">
+              <ul>
+                <li>🎓 Enseigne la communication & l'économie du spatial – Université PSL</li>
+                <li>👔 Formateur & coach professionnel certifié – Haute École de Coaching</li>
+                <li>📜 Formé à l’art dramatique – Cours Florent</li>
+                <li>📚 Docteur en astrophysique</li>
+                <li>🗣️ français · anglais · espagnol</li>
+              </ul>
+            </div>
           </div>
-          <!-- Membre 2 -->
-          <div class="team-member">
-            <img src="https://via.placeholder.com/150" alt="Alex Dupont">
-            <h3>Alex Dupont</h3>
-            <p>Coach en communication</p>
+
+          <!-- 2. Jeanne - Spécialiste de la voix -->
+          <div class="employee">
+            <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Jeanne%20Chereze.webp" alt="Jeanne Chereze">
+            <div class="info">
+              <h2>Jeanne Chereze</h2>
+              <p>Spécialiste de la voix</p>
+            </div>
+            <div class="overlay">
+              <ul>
+                <li>🎓 Enseigne la prise de parole en public – Groupe GEMA</li>
+                <li>👔 Formatrice & coach de la voix</li>
+                <li>📜 15 ans d'expérience professionnelle sur scène</li>
+                <li>📚 Comédienne de formation – École Claude Matthieu</li>
+                <li>🗣️ français · anglais</li>
+              </ul>
+            </div>
           </div>
-          <!-- Membre 3 -->
-          <div class="team-member">
-            <img src="https://via.placeholder.com/150" alt="Marie Curie">
-            <h3>Marie Curie</h3>
-            <p>Experte en formation</p>
+
+          <!-- 3. Alexandre Sebagh - Spécialiste de la vidéo -->
+          <div class="employee">
+            <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Alexandre%20Sebagh.webp" alt="Alexandre Sebagh">
+            <div class="info">
+              <h2>Alexandre Sebagh</h2>
+              <p>Spécialiste de la vidéo</p>
+            </div>
+            <div class="overlay">
+              <ul>
+                <li>🎓 Enseigne la prise de parole en public – Rocket School</li>
+                <li>👔 Coach professionnel certifié (individuel & équipe)</li>
+                <li>📜 Formé à l'éloquence – Toastmasters</li>
+                <li>🎤 19 ans d'expérience dans l'événementiel</li>
+                <li>🗣️ français</li>
+              </ul>
+            </div>
           </div>
-          <!-- Membre 4 -->
-          <div class="team-member">
-            <img src="https://via.placeholder.com/150" alt="Jean Martin">
-            <h3>Jean Martin</h3>
-            <p>Responsable pédagogique</p>
+
+          <!-- 4. Abdallah Hassani - Spécialiste du discours -->
+          <div class="employee">
+            <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Abdallah%20Hassani.webp" alt="Abdallah Hassani">
+            <div class="info">
+              <h2>Abdallah Hassani</h2>
+              <p>Spécialiste du discours</p>
+            </div>
+            <div class="overlay">
+              <ul>
+                <li>🎓 Enseigne la prise de parole en public – Neoma Business School</li>
+                <li>👔 Formateur & coach en prise de parole</li>
+                <li>🏆 Champion européen d'éloquence – Toastmasters International</li>
+                <li>🏃‍♂️ Athlète du discours</li>
+                <li>🗣️ français · anglais · arabe</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 5. Ambre Blanes - Spécialiste de l'écriture -->
+          <div class="employee">
+            <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Ambre%20Blanes.webp" alt="Ambre Blanes">
+            <div class="info">
+              <h2>Ambre Blanes</h2>
+              <p>Spécialiste de l'écriture</p>
+            </div>
+            <div class="overlay">
+              <ul>
+                <li>🎓 Enseigne la prise de parole en public – Kedge Business School</li>
+                <li>👔 Formatrice & coach en prise de parole</li>
+                <li>📜 15 ans d'expérience professionnelle</li>
+                <li>📚 Master en Communication et Management</li>
+                <li>🗣️ français · anglais</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 6. Peter Barrett - Spécialiste débat et négociation -->
+          <div class="employee">
+            <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Peter%20Barrett.webp" alt="Peter Barrett">
+            <div class="info">
+              <h2>Peter Barrett</h2>
+              <p>Spécialiste débat et négociation</p>
+            </div>
+            <div class="overlay">
+              <ul>
+                <li>🎓 Enseigne le débat – ESSEC Business School</li>
+                <li>👔 Formateur & coach en prise de parole et esprit critique</li>
+                <li>🏆 Coach de débat – Université Panthéon Sorbonne</li>
+                <li>📚 Master Relations internationales</li>
+                <li>🗣️ français · anglais</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 7. Solène - Spécialiste du pitch -->
+          <div class="employee">
+            <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Sol%C3%A8ne%20Abboud.webp" alt="Solène Abboud">
+            <div class="info">
+              <h2>Solène</h2>
+              <p>Spécialiste du pitch</p>
+            </div>
+            <div class="overlay">
+              <ul>
+                <li>🎓 Enseigne le pitch – Incubateur HEC Paris</li>
+                <li>👔 Formateur & coach en prise de parole</li>
+                <li>🏆 Vice-championne international de débat francophone</li>
+                <li>📚 Juriste d'affaires de formation</li>
+                <li>🗣️ français · anglais · arabe</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 8. Corentin Eveno - Spécialiste de la rhétorique -->
+          <div class="employee">
+            <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Corentin%20Eveno.webp" alt="Corentin Eveno">
+            <div class="info">
+              <h2>Corentin Eveno</h2>
+              <p>Spécialiste de la rhétorique</p>
+            </div>
+            <div class="overlay">
+              <ul>
+                <li>🎓 Enseigne la rhétorique – ESSEC Business School</li>
+                <li>👔 Formateur & coach en prise de parole</li>
+                <li>🏆 Double finaliste du championnat international de débat francophone</li>
+                <li>✍️ Auteur de L’art d’avoir toujours réponse à tout (Eyrolles)</li>
+                <li>🗣️ français · anglais</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 9. Philippe Berthier - Spécialiste du management -->
+          <div class="employee">
+            <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Philippe%20Berthier.webp" alt="Philippe Berthier">
+            <div class="info">
+              <h2>Philippe Berthier</h2>
+              <p>Spécialiste du management</p>
+            </div>
+            <div class="overlay">
+              <ul>
+                <li>🎓 Directeur des ressources humaines – ENSAD</li>
+                <li>👔 Formateur en management et conduite du changement</li>
+                <li>📜 30 ans d'expérience</li>
+                <li>📚 Master en droit public</li>
+                <li>🗣️ français</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 10. Chloé Lambert - Spécialiste de l'incarnation -->
+          <div class="employee">
+            <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Chloe%20Lambert.webp" alt="Chloé Lambert">
+            <div class="info">
+              <h2>Chloé Lambert</h2>
+              <p>Spécialiste de l'incarnation</p>
+            </div>
+            <div class="overlay">
+              <ul>
+                <li>🎬 Actrice de théâtre, cinéma et télé – 30 ans de carrière</li>
+                <li>👔 Formatrice & coach en prise de parole</li>
+                <li>🏆 Lauréate des prix Suzanne Bianchetti & Sophithéa</li>
+                <li>📚 Comédienne de formation</li>
+                <li>🗣️ français · anglais</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 11. Corinne Diemunsch - Spécialiste de l'engagement des équipes -->
+          <div class="employee">
+            <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Corinne%20Diemunsch.webp" alt="Corinne Diemunsch">
+            <div class="info">
+              <h2>Corinne Diemunsch</h2>
+              <p>Spécialiste de l'engagement des équipes</p>
+            </div>
+            <div class="overlay">
+              <ul>
+                <li>🎬 Actrice de théâtre, cinéma et télé – 30 ans de carrière</li>
+                <li>👔 Formatrice & coach en prise de parole</li>
+                <li>🏆 Lauréate des prix Suzanne Bianchetti & Sophithéa</li>
+                <li>📚 Comédienne de formation</li>
+                <li>🗣️ français · anglais</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 12. Rachel Nizet - Spécialiste du droit du travail -->
+          <div class="employee">
+            <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Rachel%20Nizet.webp" alt="Rachel Nizet">
+            <div class="info">
+              <h2>Rachel Nizet</h2>
+              <p>Spécialiste du droit du travail</p>
+            </div>
+            <div class="overlay">
+              <ul>
+                <li>🎓 Enseigne le droit – CELSA Sorbonne et ISG Paris</li>
+                <li>👔 Formatrice en droit social, harcèlement, rupture de contrat et CSE</li>
+                <li>📜 25 ans d'expérience</li>
+                <li>📚 Avocate en droit du travail</li>
+                <li>🗣️ français</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
