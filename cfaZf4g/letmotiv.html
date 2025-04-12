@@ -19,6 +19,8 @@
   <!-- Import des polices -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&display=swap" rel="stylesheet">
+  <!-- Police manuscrite pour la box "Les mots du fondateur" -->
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
   
   <!-- Bibliothèques GSAP (inutile pour la navigation, mais toujours pour d’autres animations) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
@@ -287,29 +289,12 @@
       font-size: 16px;
       line-height: 1.5;
     }
+    /* Box 1 : L'origine de Letmotiv, sans overlay LinkedIn */
     .about-box.about-box-1 {
       position: relative;
       overflow: hidden;
     }
-    .about-box.about-box-1 .hover-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: #007BFF;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    .about-box.about-box-1:hover .hover-overlay {
-      opacity: 1;
-    }
+    /* Box 2 : Nos valeurs */
     .about-box.about-box-2 .values-boxes {
       display: flex;
       flex-direction: column;
@@ -333,6 +318,10 @@
     .value-box.bienveillance { background: #FFC107; }
     .value-box.mise { background: #8BC34A; }
     .value-box.technicite { background: #03A9F4; }
+    /* Box 3 : Les mots du fondateur avec police manuscrite */
+    .about-box.about-box-3 p {
+      font-family: 'Great Vibes', cursive;
+    }
     @media (max-width: 768px) {
       .about-boxes {
         flex-direction: column;
@@ -426,13 +415,11 @@
       font-size: 16px;
       margin-bottom: 15px;
       text-align: left;
-      /* Permet d’étirer la zone de texte 
-         pour pousser le bouton en bas quand le texte est court */
+      /* Permet d’étirer la zone de texte pour pousser le bouton en bas quand le texte est court */
       flex-grow: 1;
     }
     .resource-box .btn {
-      /* Le margin-top auto pousse le bouton CTA vers le bas 
-         pour que les hauteurs s’alignent */
+      /* Le margin-top auto pousse le bouton CTA vers le bas pour que les hauteurs s’alignent */
       margin-top: auto;
       background: var(--secondary);
       color: var(--white);
@@ -521,6 +508,38 @@
     .chiffre-box p {
       font-size: 16px;
       margin: 0;
+    }
+    
+    /* --- Section L'équipe --- */
+    .equipe .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      align-items: stretch;
+      margin-top: 20px;
+    }
+    .team-member {
+      background: var(--white);
+      padding: 20px;
+      border-radius: 5px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .team-member img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 15px;
+    }
+    .team-member h3 {
+      font-size: 20px;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+    .team-member p {
+      font-size: 16px;
+      color: var(--primary);
     }
     
     /* --- Section Nos Clients --- */
@@ -679,6 +698,7 @@
           <li><a href="#services">Nos offres</a></li>
           <li><a href="#resources">Nos ressources</a></li>
           <li><a href="#testimonials">Témoignages</a></li>
+          <li><a href="#chiffres">Letmotiv en chiffres</a></li>
           <li><a href="#clients">Nos clients</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
@@ -700,6 +720,7 @@
       <li><a href="#services">Nos offres</a></li>
       <li><a href="#resources">Nos ressources</a></li>
       <li><a href="#testimonials">Témoignages</a></li>
+      <li><a href="#chiffres">Letmotiv en chiffres</a></li>
       <li><a href="#clients">Nos clients</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
@@ -725,23 +746,18 @@
       <div class="container">
         <h2>À propos</h2>
         <div class="about-boxes">
-          <!-- Box 1 -->
+          <!-- Box 1 : L'origine de Letmotiv (overlay supprimé) -->
           <div class="about-box about-box-1">
             <div class="default-content">
               <h3><strong>L'origine de Letmotiv</strong></h3>
-              <p>Pierre a grandi avec deux passions : l’art de raconter des histoires et les étoiles. Après des études scientifiques qui l’ont amené jusqu’à devenir docteur en astrophysique (PhD), Pierre commence une carrière professionnelle de cadre dans le milieu des hautes technologies.<br><br>  
-                A l’aune de ses 30 ans, Pierre décide – fort de ses expériences dans le milieu scientifique et tertiaire, de revenir à sa passion de l’art oratoire, convaincu d’apporter une aide et un réel besoin à de nombreux individus dont les compétences en la matière sont un réel frein dans le monde professionnel.<br><br>
-                Devenu formateur professionnel et coach certifié, Pierre s’est formé au théâtre au Cours Florent et à l’éloquence avec Toastmasters International pour créer le centre de formation Letmotiv.</p>
-            </div>
-            <div class="hover-overlay">
-              <p>Pierre Li Cavoli</p>
-              <p>Fondateur de Letmotiv</p>
-              <a href="https://www.linkedin.com/in/pierre-li-cavoli-formation-prise-de-parole/?originalSubdomain=fr" target="_blank">
-                <img src="https://img.icons8.com/ios-filled/50/ffffff/linkedin.png" alt="LinkedIn">
-              </a>
+              <p>
+                Pierre a grandi avec deux passions : l’art de raconter des histoires et les étoiles. Après des études scientifiques qui l’ont amené jusqu’à devenir docteur en astrophysique (PhD), Pierre commence une carrière professionnelle de cadre dans le milieu des hautes technologies.<br><br>  
+                A l’aube de ses 30 ans, Pierre décide – fort de ses expériences dans le milieu scientifique et tertiaire – de revenir à sa passion de l’art oratoire, convaincu d’apporter une aide et un réel besoin à de nombreux individus dont les compétences en la matière freinent leur réussite professionnelle.<br><br>
+                Devenu formateur professionnel et coach certifié, Pierre s’est formé au théâtre au Cours Florent et à l’éloquence avec Toastmasters International pour créer le centre de formation Letmotiv.
+              </p>
             </div>
           </div>
-          <!-- Box 2 -->
+          <!-- Box 2 : Nos valeurs -->
           <div class="about-box about-box-2">
             <h3><strong>Nos valeurs</strong></h3>
             <div class="values-boxes">
@@ -751,7 +767,7 @@
               </div>
               <div class="value-box mise">
                 <p class="value-title">MISE EN PRATIQUE</p>
-                <p class="value-desc">80% du temps de nos formations est dédiée à la mise en pratique.</p>
+                <p class="value-desc">80% du temps de nos formations est dédié à la mise en pratique.</p>
               </div>
               <div class="value-box technicite">
                 <p class="value-title">TECHNICITÉ</p>
@@ -759,10 +775,13 @@
               </div>
             </div>
           </div>
-          <!-- Box 3 -->
+          <!-- Box 3 : Les mots du fondateur avec style manuscrit -->
           <div class="about-box about-box-3">
             <h3><strong>Les mots du fondateur</strong></h3>
-            <p>"Notre approche personnalisée et nos méthodes innovantes permettent à nos clients de libérer leur potentiel en matière de prise de parole en public. <br><br>Nous croyons que les leaders capables de prendre la parole en public pour partager leurs idées peuvent avoir un impact positif sur la société comme sur leur entourage. <br><br>Parce que prendre la parole en public est une compétence qui peut littéralement transformer des vies, nous nous engageons à fournir des formations de la plus haute qualité."</p>
+            <p>"Notre approche personnalisée et nos méthodes innovantes permettent à nos clients de libérer leur potentiel en matière de prise de parole en public.<br><br>
+              Nous croyons que les leaders capables de partager leurs idées ont un impact positif sur la société et leur entourage.<br><br>
+              Parce que la prise de parole est une compétence qui peut transformer des vies, nous nous engageons à fournir des formations de la plus haute qualité."
+            </p>
           </div>
         </div>
       </div>
@@ -802,7 +821,8 @@
             <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Ressources_letmotiv_simulateur_improvisation.webp" alt="Simulateur d'improvisation">
             <h3>Simulateur d'impro</h3>
             <p style="text-align: left; color: var(--primary);">
-              Vous voulez vous entraîner gratuitement à la prise de parole en public ? <br><br>Découvrez le simulateur Letmotiv qui contient de nombreux exercices selon votre objectif : améliorer sa diction, développer son charisme et son leadership, accroître sa force de persuasion, inspirer votre auditoire...
+              Vous voulez vous entraîner gratuitement à la prise de parole en public ?<br><br>
+              Découvrez le simulateur Letmotiv qui propose de nombreux exercices pour améliorer votre diction, développer votre charisme, accroître votre pouvoir de persuasion et inspirer votre auditoire...
             </p>
             <a href="http://www.letmotiv-simulateur.fr" class="btn" target="_blank">Accéder au simulateur</a>
           </div>
@@ -812,10 +832,11 @@
             <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Ressources_letmotiv_simulateur_entretien.webp" alt="Simulateur d'entretien">
             <h3>Simulateur d'entretien</h3>
             <p style="text-align: left; color: var(--primary);">
-              Préparez vos entretiens pour les écoles post-bac ou pour un emploi grâce au simulateur Letmotiv en ligne interactif et 100 % gratuit. <br><br> Entrainez-vous plusieurs fois afin de : 
-              - Réduire les possibiltiés d'imprévus<br> 
-              - Affinez vos réponses pour vous démarquer<br>
-              - Boostez votre confiance !<br>
+              Préparez vos entretiens pour les écoles post-bac ou pour un emploi grâce au simulateur Letmotiv en ligne interactif et 100 % gratuit.<br><br>
+              Entraînez-vous pour :<br>
+              - Réduire les imprévus<br>
+              - Affiner vos réponses<br>
+              - Booster votre confiance !
             </p>
             <a href="https://www.letmotiv-simulateur.fr/entretien.html" class="btn" target="_blank">Accéder au simulateur</a>
           </div>
@@ -825,12 +846,12 @@
             <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Ressources_letmotiv_formation_en_ligne.webp" alt="Formation en ligne">
             <h3>Formation en ligne</h3>
             <p style="text-align: left; color: var(--primary);">
-              Cette formation en ligne créée par deux experts de la prise de parole en public, Pierre et Alex, est composée de 4 grands modules pour apprendre à :<br><br>
-              1) Gérer son stress avant/pendant votre prise de parole<br>
+              Cette formation en ligne, conçue par deux experts de la prise de parole, se compose de 4 modules pour vous apprendre à :<br><br>
+              1) Gérer votre stress<br>
               2) Utiliser une gestuelle adaptée<br>
-              3) Développer sa puissance vocale<br>
-              4) Créer une connexion authentique avec son audience<br><br>
-              Bref, c'est court et efficace, ça se binge comme une série Netflix avec de nouvelles méthodes et compétences acquises à l'arrivée.
+              3) Développer votre puissance vocale<br>
+              4) Créer une véritable connexion avec votre audience<br><br>
+              Court, efficace et captivant, c’est comme binge-watcher une série avec de nouvelles méthodes à la clé.
             </p>
             <a href="#" class="btn">Découvrir la formation</a>
           </div>
@@ -840,7 +861,7 @@
             <img src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Ressources_letmotiv_contenus.webp" alt="Articles et vidéos">
             <h3>Articles & Vidéos</h3>
             <p style="text-align: left; color: var(--primary);">
-              Plongez dans notre bibliothèque de contenus, une source d'inspiration riche et variée conçue pour tous les apprenants. Que vous préfériez écouter, regarder ou lire, nos articles, vidéos et podcasts vous offrent des conseils pratiques et des perspectives nouvelles pour améliorer votre prise de parole en public.
+              Plongez dans notre bibliothèque de contenus – articles, vidéos et podcasts – pour obtenir conseils pratiques et perspectives nouvelles afin d’améliorer votre prise de parole.
             </p>
             <a href="#" class="btn">Explorer nos contenus</a>
           </div>
@@ -862,8 +883,7 @@
             <p>
               "Je vous invite à contacter Pierre pour tout besoin de formation en communication ! 
               J'ai suivi sa formation « Prise de parole en public ». 
-              Pierre est passionné et partage sa bonne énergie, dans la bienveillance, ses méthodes rapidement applicables. Ses ateliers, issus du théâtre, sont méticuleusement adaptés à chaque public. 
-              Une attitude très professionnelle."
+              Pierre est passionné, bienveillant et ses méthodes, très applicables. Ses ateliers, inspirés du théâtre, s’adaptent à chaque public. Une attitude résolument professionnelle."
             </p>
           </div>
           <div class="testimonial-item">
@@ -873,10 +893,9 @@
               <span class="testimonial-fonction">Team Lead Contract Manager chez Hubspot</span>
             </h4>
             <p>
-              "Pierre est un vrai “Master” de la prise de parole en public. J’ai eu le plaisir de participer à ses cours le semestre dernier. 
-              Sa bienveillance, son courage et son audace ont été très contagieux ! Merci encore pour tes enseignements et tes méthodes qui me sont aujourd’hui très utiles au quotidien. 
-              Jamais le mot “Galaxie” n’aura eu autant de sens. Pouvoir captiver son public, c’est une compétence qui se travaille et Pierre nous partage son savoir de façon ludique et maîtrisée. 
-              Encore un GRAND MERCI."
+              "Pierre est un vrai ‘Master’ de la prise de parole en public. J’ai eu le plaisir de participer à ses cours le semestre dernier. 
+              Sa bienveillance, son courage et son audace sont contagieux ! Merci pour tes enseignements et méthodes qui me servent quotidiennement. 
+              Jamais ‘Galaxie’ n’aura eu autant de sens que depuis. Encore un GRAND MERCI."
             </p>
           </div>
           <div class="testimonial-item">
@@ -886,9 +905,8 @@
               <span class="testimonial-fonction">Account Manager chez Orange</span>
             </h4>
             <p>
-              "Apres 3 jours de formation sur la prise de parole en public, je peux affirmer que Pierre est soucieux de son travail, bienveillant et très compétant. 
-              J’ai réellement adoré sa formation qui se veut dynamique, ciblée et au contenu passionnant. Ses talents et son énergie sont transmis de la première à la dernière minute.
-              Je recommande très fortement Pierre et ses compétences."
+              "Après 3 jours de formation sur la prise de parole en public, je peux affirmer que Pierre est soucieux de son travail, bienveillant et très compétent. 
+              Sa formation, dynamique et ciblée, est passionnante du début à la fin. Je recommande vivement Pierre et son expertise."
             </p>
           </div>
           <div class="testimonial-item">
@@ -898,10 +916,9 @@
               <span class="testimonial-fonction">Facilitatrice graphique & illustratrice</span>
             </h4>
             <p>
-              "On apprend à se dépasser, le tout dans un cadre dynamique, bienveillant et ludique. 
-              On en ressort avec l'envie de toute de suite réaliser un discours. Pierre un grand patient, à l'écoute et plein d'énergie. 
-              Il saura vous faire travailler rapidement sur vos points faibles et parallèlement mettre en avant vos points forts.
-              N'oubliez pas : Pierre ne recule devant aucun défi. Mieux que ça, il pousse à donner le meilleur de vous-même !"
+              "On apprend à se dépasser dans un cadre dynamique, bienveillant et ludique. 
+              Pierre, patient et à l’écoute, vous aide à travailler rapidement sur vos points faibles tout en mettant en valeur vos atouts.
+              Il ne recule devant aucun défi et pousse à donner le meilleur de soi-même !"
             </p>
           </div>
           <div class="testimonial-item">
@@ -911,10 +928,9 @@
               <span class="testimonial-fonction">Conseillère Régionale du Grand Est</span>
             </h4>
             <p>
-              "Pierre Li Cavoli est un excellent professeur de prise de parole en public et un excellent coach.
-              Pas étonnant quand on sait qu'il a été Docteur dans une autre vie.
-              Professionnel, rigoureux, très à l'écoute, j'ai appris en deux jours autant sur la théorie de la prise de parole, de l'art de convaincre et d'argumenter, que sur la mise en pratique...et sur moi-même.
-              Une formation et un formateur que je recommande sans hésiter !"
+              "Pierre Li Cavoli est un excellent professeur et coach pour la prise de parole en public.
+              Son professionnalisme, sa rigueur et sa capacité d’écoute font de ses formations une expérience enrichissante. 
+              Une formation que je recommande vivement !"
             </p>
           </div>
         </div>
@@ -950,6 +966,39 @@
             <img src="https://img.icons8.com/fluency/48/000000/open-book.png" alt="Modules">
             <h3>28</h3>
             <p>Modules</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- SECTION L'ÉQUIPE -->
+    <section id="equipe" class="section equipe">
+      <div class="container">
+        <h2>L'équipe</h2>
+        <div class="team-grid">
+          <!-- Membre 1 -->
+          <div class="team-member">
+            <img src="https://via.placeholder.com/150" alt="Pierre Li Cavoli">
+            <h3>Pierre Li Cavoli</h3>
+            <p>Fondateur & Coach</p>
+          </div>
+          <!-- Membre 2 -->
+          <div class="team-member">
+            <img src="https://via.placeholder.com/150" alt="Alex Dupont">
+            <h3>Alex Dupont</h3>
+            <p>Coach en communication</p>
+          </div>
+          <!-- Membre 3 -->
+          <div class="team-member">
+            <img src="https://via.placeholder.com/150" alt="Marie Curie">
+            <h3>Marie Curie</h3>
+            <p>Experte en formation</p>
+          </div>
+          <!-- Membre 4 -->
+          <div class="team-member">
+            <img src="https://via.placeholder.com/150" alt="Jean Martin">
+            <h3>Jean Martin</h3>
+            <p>Responsable pédagogique</p>
           </div>
         </div>
       </div>
