@@ -228,6 +228,35 @@
         flex: 1 1 30%;
       }
     }
+    /* Section FAQ */
+    .faq {
+      margin-top: 30px;
+      padding: 15px;
+      border-top: 1px solid #e0e0e0;
+    }
+    .faq h2 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      color: #222;
+      text-align: center;
+    }
+    .faq details {
+      margin-bottom: 15px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background: #f9f9f9;
+    }
+    .faq summary {
+      font-weight: bold;
+      cursor: pointer;
+      list-style: none;
+    }
+    .faq p {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: #555;
+    }
     /* Animations */
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(-20px); }
@@ -271,7 +300,7 @@
       
       <button id="convert-btn">Convertir mes images</button>
       
-      <!-- Barre de progression (affichée dès le début de la conversion) -->
+      <!-- Barre de progression affichée dès le début de la conversion -->
       <div id="loader" class="loader">
         <div class="loading-bar-background">
           <div id="progress-bar" class="loading-bar"></div>
@@ -329,9 +358,35 @@
         Conçu pour répondre aux besoins des développeurs, webmasters et designers, notre service de conversion est rapide, fiable et 100 % en ligne, accessible sur tous vos appareils.
       </p>
       <p>
-        Comptabible sur tous les navigateurs (Chrome, Brave, Edge, Sarafi, Firefox...). Pensez à utiliser la dernière version de votre navigateur. 
+        Compatible sur tous les navigateurs (Chrome, Brave, Edge, Safari, Firefox...). Pensez à utiliser la dernière version de votre navigateur.
       </p>
       
+    </section>
+
+    <!-- Section FAQ -->
+    <section class="faq">
+      <h2>FAQ</h2>
+      
+      <details>
+        <summary>Pourquoi le format WebP est-il désormais utilisé ?</summary>
+        <p>
+          Le format WebP a été développé par Google pour offrir une meilleure compression des images tout en préservant la qualité. Cela permet de réduire la taille des fichiers, d'accélérer le chargement des pages et d'améliorer l'expérience utilisateur, des points essentiels pour l'optimisation SEO.
+        </p>
+      </details>
+      
+      <details>
+        <summary>Pourquoi le format WebP est-il privilégié par rapport aux autres formats ?</summary>
+        <p>
+          Le format WebP offre une compression supérieure par rapport aux formats traditionnels (comme JPEG ou PNG) sans perte significative de qualité. De plus, il prend en charge la transparence et l'animation, offrant ainsi une plus grande flexibilité pour les contenus web modernes.
+        </p>
+      </details>
+      
+      <details>
+        <summary>Que faire si la conversion ne fonctionne pas ?</summary>
+        <p>
+          Si la conversion échoue, assurez-vous d'utiliser l'un des navigateurs suivants : Chrome, Firefox, Safari ou Edge, et vérifiez que votre navigateur est à jour. Assurez-vous également que le fichier sélectionné est au format pris en charge (.jpg, .jpeg, .png, .gif, .bmp, .tiff). Si le problème persiste, essayez de recharger la page ou de réessayer ultérieurement.
+        </p>
+      </details>
     </section>
   </div>
 
@@ -435,7 +490,7 @@
         return;
       }
       
-      // Afficher la barre de progression immédiatement
+      // Afficher la barre de progression dès le début
       loader.style.display = "flex";
       
       // Réinitialisation du zip et de la liste des fichiers convertis
