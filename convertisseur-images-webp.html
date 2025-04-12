@@ -268,7 +268,7 @@
       border-top: 1px solid #e0e0e0;
     }
     .faq h2 {
-      font-size: 1.5rem;
+      font-size: 1.0rem;
       margin-bottom: 20px;
       color: #222;
       text-align: center;
@@ -287,7 +287,7 @@
     }
     .faq p {
       margin-top: 10px;
-      font-size: 0.9rem;
+      font-size: 1.0rem;
       color: #555;
     }
     /* Animations */
@@ -324,7 +324,7 @@
     <div id="error-container"></div>
     <div id="message-container"></div>
     
-    <!-- Container principal pour le bouton + listage de fichiers + actions -->
+    <!-- Container principal pour le bouton + listing de fichiers + actions -->
     <div class="button-container">
       <!-- Bouton de sélection (simulateur d'input file) -->
       <label for="file-input" id="select-btn" class="select-button">
@@ -428,6 +428,20 @@
         <summary>Que faire si la conversion ne fonctionne pas ?</summary>
         <p>
           Si la conversion échoue, assurez-vous d'utiliser l'un des navigateurs suivants : Chrome, Firefox, Safari ou Edge, et vérifiez que votre navigateur est à jour. Assurez-vous également que le fichier sélectionné est au format pris en charge (.jpg, .jpeg, .png, .gif, .bmp, .tiff). Si le problème persiste, essayez de recharger la page ou de réessayer ultérieurement.
+        </p>
+      </details>
+
+      <details>
+        <summary>Mes fichiers restent-ils confidentiels ?</summary>
+        <p>
+          Oui, vos fichiers restent totalement confidentiels. La conversion est effectuée directement dans votre navigateur à l'aide des API locales comme FileReader et canvas, et aucune donnée n'est envoyée à un serveur externe.
+        </p>
+      </details>
+      
+      <details>
+        <summary>Comment la conversion garantit-elle la confidentialité de mes fichiers ?</summary>
+        <p>
+          La conversion repose sur des outils intégrés au navigateur et s'exécute sur votre machine. Cela signifie que vos images sont traitées localement et ne quittent jamais votre environnement, assurant ainsi leur confidentialité et sécurité.
         </p>
       </details>
     </section>
