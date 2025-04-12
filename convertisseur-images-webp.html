@@ -118,7 +118,7 @@
       margin: 10px 0;
     }
     .loading-text {
-      color: #212121; /* Texte visible */
+      color: #212121;
       font-size: 14pt;
       font-weight: 600;
       margin-left: 10px;
@@ -271,7 +271,7 @@
       
       <button id="convert-btn">Convertir mes images</button>
       
-      <!-- Barre de progression (affichée après 5 secondes si besoin) -->
+      <!-- Barre de progression (affichée dès le début de la conversion) -->
       <div id="loader" class="loader">
         <div class="loading-bar-background">
           <div id="progress-bar" class="loading-bar"></div>
@@ -348,8 +348,6 @@
     const messageContainer = document.getElementById('message-container');
     let zip = new JSZip();
     let convertedFiles = [];
-    let progressBarShown = false;
-    let progressTimer;
     
     // Gestion de la sélection de fichiers et mise à jour du container associé
     fileInput.addEventListener("change", function() {
@@ -437,12 +435,8 @@
         return;
       }
       
-      // Démarrage d'un timer pour afficher la barre de progression après 5 secondes
-      progressBarShown = false;
-      progressTimer = setTimeout(() => {
-        loader.style.display = "flex";
-        progressBarShown = true;
-      }, 5000);
+      // Afficher la barre de progression immédiatement
+      loader.style.display = "flex";
       
       // Réinitialisation du zip et de la liste des fichiers convertis
       zip = new JSZip();
@@ -464,16 +458,12 @@
           console.error(error);
           errorMessages.push(error.message);
         }
-        // Mise à jour de la barre de progression si elle est visible
-        if (progressBarShown) {
-          const progress = ((i + 1) / files.length) * 100;
-          progressBar.style.width = progress + "%";
-        }
+        // Mise à jour de la barre de progression
+        const progress = ((i + 1) / files.length) * 100;
+        progressBar.style.width = progress + "%";
       }
       
-      // Annulation du timer si conversion terminée avant 5 sec
-      clearTimeout(progressTimer);
-      // Masquer le loader s'il était affiché
+      // Masquer le loader après la conversion
       loader.style.display = "none";
       
       // Affichage des erreurs éventuelles
