@@ -826,7 +826,7 @@
     </div>
   </div>
 
-  <footer id="app-footer">
+  <footer id="app-footer" style="display: none;">
     <button id="footer-next" class="btn-next" disabled>Suivant</button>
   </footer>
 
@@ -835,9 +835,7 @@
 
   <!-- SCRIPT JavaScript -->
   <script>
-    /***********************
-     * VARIABLES ET CONSTANTES
-     ***********************/
+    /*** VARIABLES ET CONSTANTES ***/
     const boxes = {
       1: document.getElementById('step1'),
       2: document.getElementById('step2'),
@@ -850,6 +848,7 @@
     const startIntroBtn = document.getElementById('start-intro-btn');
     const progressSteps = Array.from(document.querySelectorAll('#progress-steps .progress-step'));
     const footerNext = document.getElementById('footer-next');
+    const footer = document.getElementById('app-footer');
 
     let currentStep = 0;
     let currentCategory = null;
@@ -863,9 +862,7 @@
     let countdown;
     let videoDownloaded = false;
 
-    /***********************
-     * Gestion de l'historique (pushState/popstate)
-     ***********************/
+    /*** Gestion de l'historique (pushState/popstate) ***/
     function pushStepState(step) {
       history.pushState({ step }, null, `#step${step}`);
     }
@@ -877,6 +874,7 @@
         boxes[stepToShow].classList.add('active');
         currentStep = stepToShow;
         updateProgressBar(stepToShow);
+        updateFooterNext();
         if (stepToShow == 3) {
           document.getElementById('current-subject-display').textContent = currentSubject;
         }
@@ -906,21 +904,22 @@
 
     /*** Fonction qui active/désactie le bouton du footer ***/
     function updateFooterNext() {
+      if (currentStep >= 1) {
+        footer.style.display = 'flex';
+      } else {
+        footer.style.display = 'none';
+      }   
       switch (currentStep) {
         case 1:
-          // STEP1 : objectif sélectionné ?
           footerNext.disabled = !Boolean(currentCategory);
           break;
         case 2:
-          // STEP2 : sujet généré ?
           footerNext.disabled = !(currentSubject && currentSubject.length > 0);
           break;
         case 3:
-          // STEP3 : enregistrement démarré OU terminé ?
           footerNext.disabled = !isImproRecordingStarted;
           break;
         case 4:
-          // STEP4 : toujours activé pour télécharger / analyser
           footerNext.disabled = false;
           break;
         default:
@@ -936,9 +935,7 @@
       }
     });
     
-    /***********************
-     * Navigation entre les étapes
-     ***********************/
+    /*** Navigation entre les étapes ***/
     function showBox(current, next) {
       if (!boxes[current] || !boxes[next]) return;
       boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
@@ -960,9 +957,7 @@
       }
     }
   
-    /***********************
-     * Initialisation de l'introduction
-     ***********************/
+    /*** Initialisation de l'introduction ***/
     startIntroBtn.addEventListener('click', () => {
       const introTitle = document.querySelector('.intro-box h1');
       const introWrapper = document.querySelector('.intro-box .wrapper');
@@ -982,9 +977,7 @@
       }, 500);
     });
 
-    /***********************
-     * Gestion des objectifs (STEP1)
-     ***********************/
+    /*** Gestion des objectifs (STEP1) ***/
     const explanations = {
       convaincre:   "Tu as 2 minutes pour convaincre ton auditoire sur un sujet délicat",
       inspirer:     "Tu as 2 minutes pour inspirer ton auditoire",
