@@ -218,28 +218,43 @@
     .back-btn:active { background-color: #303030; }
     #step1 .back-btn.hidden-visibility { display: none; }
     .box-title { font-size: 16px; font-weight: bold; color: #182d84; text-align: center; }
-    /* --- FLECHES HAUT/BAS --- */
-    .next-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
+    
+    /* FOOTER FIXE */
+    #app-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 12px 20px;
+      background-color: #ffffff;
+      box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
       display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 2px solid #182d84;
-      background-color: transparent;
-      color: #182d84;
+      justify-content: flex-end;
+      z-index: 100;
+    }
+    
+    /* BOUTON SUIVANT */
+    .btn-next {
+      background-color: #00a48a;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 24px;
+      font-size: 16px;
       cursor: pointer;
-      transition: background-color 0.3s, color 0.3s, transform 0.3s;
-      margin: 10px auto;
+      transition: opacity 0.3s, transform 0.2s;
     }
-    .next-btn:hover { background-color: #00a48a; color: #ffffff; transform: scale(1.05); }
-    .next-btn.pulse { animation: electricPulse 1.5s infinite; }
-    @keyframes electricPulse {
-      0% { box-shadow: 0 0 0 0 rgba(0,164,138,0.7); }
-      70% { box-shadow: 0 0 0 10px rgba(0,164,138,0); }
-      100% { box-shadow: 0 0 0 0 rgba(0,164,138,0); }
+    .btn-next:disabled {
+      background-color: #cccccc;
+      color: #777777;
+      cursor: not-allowed;
+      opacity: 0.6;
     }
+    .btn-next:not(:disabled):hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,164,138,0.3);
+    }
+    
     .btn-impro {
       margin: 15px 0;
       padding: 10px 20px;
@@ -812,9 +827,6 @@
     <!-- STEP1 : Choix d'objectif -->
     <div class="box" id="step1">
       <div class="box-header">
-        <button class="back-btn hidden-visibility" id="back-btn1" aria-label="Retour">
-          <i class="fas fa-arrow-up"></i>
-        </button>
         <div class="box-title">Quel est ton objectif ?</div>
       </div>
       <div class="objectives-container">
@@ -857,17 +869,11 @@
       </div>
       <div id="explanation-box" class="explanation-box"></div>
       <div id="objective-error" class="error-message"></div>
-      <button class="next-btn" id="next-btn1" aria-label="Étape suivante">
-        <i class="fas fa-arrow-down"></i>
-      </button>
-    </div>
+      </div>
 
     <!-- STEP2 : Génération du sujet -->
     <div class="box" id="step2">
       <div class="box-header">
-        <button class="back-btn" id="back-btn2" aria-label="Retour à l'étape précédente">
-          <i class="fas fa-arrow-up"></i>
-        </button>
         <div class="box-title">Prêt à relever le défi ?</div>
       </div>
       <button id="generate-subject-btn" class="btn-impro">Générer un sujet  <i class="fas fa-random"></i></button>
@@ -885,17 +891,11 @@
         5) Reste concentré et prends du plaisir. 
       </div>
       <div id="subject-error" class="error-message"></div>
-      <button class="next-btn" id="next-btn2" aria-label="Étape suivante">
-        <i class="fas fa-arrow-down"></i>
-      </button>
-    </div>
+      </div>
 
     <!-- STEP3 : Enregistrement vidéo -->
     <div class="box" id="step3">
       <div class="box-header">
-        <button class="back-btn" id="back-btn3" aria-label="Retour à l'étape précédente">
-          <i class="fas fa-arrow-up"></i>
-        </button>
         <div class="box-title">C'est parti, lance ton improvisation !</div>
       </div>
       <div id="current-subject-display" class="subject-bubble"></div>
@@ -925,17 +925,11 @@
         </button>
       </div>
       <div id="impro-error" class="error-message"></div>
-      <button class="next-btn" id="next-btn3" aria-label="Étape suivante">
-        <i class="fas fa-arrow-down"></i>
-      </button>
-    </div>
+      </div>
 
     <!-- STEP4 : Bilan - Téléchargement, Analyse & Prise de rendez-vous -->
     <div class="box" id="step4">
       <div class="box-header">
-        <button class="back-btn" id="back-btn4" aria-label="Retour à l'étape précédente">
-          <i class="fas fa-arrow-up"></i>
-        </button>
         <div class="box-title">Félicitations pour ton improvisation ! 🤩</div>
       </div>
       <div class="download-section">
@@ -975,9 +969,6 @@
     <!-- STEP5 : Prise de contact (Calendly) -->
     <div class="box" id="step5">
       <div class="box-header">
-        <button class="back-btn" id="back-btn5" aria-label="Retour à l'étape précédente">
-          <i class="fas fa-arrow-up"></i>
-        </button>
         <div class="box-title">Planifiez un appel avec nous</div>
       </div>
       <main>
@@ -990,10 +981,9 @@
     </div>
   </div>
 
-  <!-- Bouton de partage global (en bas à droite) -->
-  <div id="global-share-btn">
-    <i class="fas fa-share-alt"></i>
-  </div>
+  <footer id="app-footer">
+    <button id="footer-next" class="btn-next" disabled>Suivant</button>
+  </footer>
 
   <!-- Calendly widget script -->
   <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
@@ -1011,22 +1001,10 @@
       5: document.getElementById('step5')
     };
     
-    const nextBtns = {
-      1: document.getElementById('next-btn1'),
-      2: document.getElementById('next-btn2'),
-      3: document.getElementById('next-btn3')
-    };
-
-    const backBtns = {
-      2: document.getElementById('back-btn2'),
-      3: document.getElementById('back-btn3'),
-      4: document.getElementById('back-btn4'),
-      5: document.getElementById('back-btn5')
-    };
-
     const introBox = document.getElementById('intro-box');
     const startIntroBtn = document.getElementById('start-intro-btn');
     const progressSteps = Array.from(document.querySelectorAll('#progress-steps .progress-step'));
+    const footerNext = document.getElementById('footer-next');
 
     let currentStep = 0;
     let currentCategory = null;
@@ -1054,7 +1032,6 @@
         boxes[stepToShow].classList.add('active');
         currentStep = stepToShow;
         updateProgressBar(stepToShow);
-        updateShareButtonVisibility();
         if (stepToShow == 3) {
           document.getElementById('current-subject-display').textContent = currentSubject;
         }
@@ -1062,13 +1039,10 @@
         Object.values(boxes).forEach(box => box.classList.remove('active'));
         introBox.style.display = 'block';
         currentStep = 0;
-        updateShareButtonVisibility();
       }
     });
 
-    /***********************
-     * Fonctions utilitaires
-     ***********************/
+    /*** Fonctions utilitaires ***/
     function updateProgressBar(step) {
       progressSteps.forEach((el, idx) => {
         if (step >= idx + 1 && step <= 4) {
@@ -1085,6 +1059,38 @@
       el.style.display = 'block';
     }
 
+    /*** Fonction qui active/désactie le bouton du footer ***/
+    function updateFooterNext() {
+      switch (currentStep) {
+        case 1:
+          // STEP1 : objectif sélectionné ?
+          footerNext.disabled = !Boolean(currentCategory);
+          break;
+        case 2:
+          // STEP2 : sujet généré ?
+          footerNext.disabled = !(currentSubject && currentSubject.length > 0);
+          break;
+        case 3:
+          // STEP3 : enregistrement démarré OU terminé ?
+          footerNext.disabled = !isImproRecordingStarted;
+          break;
+        case 4:
+          // STEP4 : toujours activé pour télécharger / analyser
+          footerNext.disabled = false;
+          break;
+        default:
+          footerNext.disabled = true;
+      }
+    }
+
+    footerNext.addEventListener('click', () => {
+      if (currentStep >= 1 && currentStep < 5) {
+        showBox(currentStep, currentStep + 1);
+        // Mettre à jour le footer après le changement
+        updateFooterNext();
+      }
+    });
+    
     /***********************
      * Navigation entre les étapes
      ***********************/
@@ -1096,7 +1102,7 @@
       updateProgressBar(next);
       currentStep = next;
       pushStepState(next);
-      updateShareButtonVisibility();
+      updateFooterNext();
 
       if(next == 4) {
         // Au passage au STEP4, on applique l'animation sur le bouton 1
@@ -1108,39 +1114,7 @@
         document.getElementById('current-subject-display').textContent = currentSubject;
       }
     }
-
-    function initNavigationButtons() {
-      nextBtns[1].addEventListener('click', () => {
-        const selected = document.querySelector('.objectives-container .selected-objective');
-        if (!selected) {
-          displayError('objective-error', "Sélectionne un objectif avant de continuer.");
-          return;
-        }
-        showBox(1, 2);
-      });
-      nextBtns[2].addEventListener('click', () => {
-        if (!currentSubject) {
-          displayError('subject-error', "Tu dois générer un sujet avant de continuer.");
-          return;
-        }
-        document.getElementById('current-subject-display').textContent = currentSubject;
-        showBox(2, 3);
-      });
-      nextBtns[3].addEventListener('click', () => {
-        const improErrorDiv = document.getElementById('impro-error');
-        improErrorDiv.style.display = 'none';
-        if (!currentSubject || !isImproRecordingStarted) {
-          displayError('impro-error', "Tu dois lancer ton improvisation avant de continuer.");
-          return;
-        }
-        showBox(3, 4);
-      });
-      backBtns[2].addEventListener('click', () => { showBox(2, 1); });
-      backBtns[3].addEventListener('click', () => { showBox(3, 2); });
-      backBtns[4].addEventListener('click', () => { showBox(4, 3); });
-      backBtns[5].addEventListener('click', () => { showBox(5, 4); });
-    }
-
+  
     /***********************
      * Initialisation de l'introduction
      ***********************/
@@ -1160,7 +1134,6 @@
         currentStep = 1;
         updateProgressBar(1);
         pushStepState(1);
-        updateShareButtonVisibility();
       }, 500);
     });
 
@@ -1267,7 +1240,7 @@
         }
         document.getElementById('objective-error').style.display = 'none';
         document.getElementById('impro-error').style.display = 'none';
-        nextBtns[1].classList.add('pulse');
+        updateFooterNext();
       });
     });
 
@@ -1315,7 +1288,7 @@
       subjectWrapper.style.display = 'block';
       generateSubjectBtn.classList.add('subject-generated');
       document.getElementById('subject-error').style.display = 'none';
-      nextBtns[2].classList.add('pulse');
+      updateFooterNext();
     });
 
     document.getElementById('advice-toggle').addEventListener('click', () => {
@@ -1405,8 +1378,7 @@
         clearInterval(timerInterval);
         document.getElementById('recording-indicator').style.display = 'none';
         isImproRecordingStarted = true;
-        nextBtns[3].classList.add('pulse');
-        enableNavigationButtons();
+        updateFooterNext();
         if (window.innerWidth <= 600) {
             document.querySelector('.video-box').style.height = "300px";
         }
@@ -1416,7 +1388,6 @@
       document.getElementById('stop-btn').classList.remove('hidden-btn');
       document.getElementById('stop-btn').disabled = false;
       document.getElementById('restart-btn').classList.add('hidden-btn');
-      disableNavigationButtons();
       startTimer();
     }
 
@@ -1604,24 +1575,7 @@
     window.addEventListener('DOMContentLoaded', () => {
       new ShareManager();
     });
-
-    /*** Mise à jour du bouton de partage ***/
-    function updateShareButtonVisibility() {
-      const shareBtn = document.getElementById('global-share-btn');
-      shareBtn.style.display = currentStep >= 1 ? 'flex' : 'none';
-    }
     
-    initNavigationButtons();
-
-    function disableNavigationButtons() {
-      Object.values(nextBtns).forEach(btn => btn.disabled = true);
-      Object.values(backBtns).forEach(btn => btn.disabled = true);
-    }
-    function enableNavigationButtons() {
-      Object.values(nextBtns).forEach(btn => btn.disabled = false);
-      Object.values(backBtns).forEach(btn => btn.disabled = false);
-    }
-
     !document.addEventListener('DOMContentLoaded', () => {
       if (window.location.hash) {
         const stepFromHash = window.location.hash.replace('#step', '');
@@ -1629,8 +1583,7 @@
           showBox(currentStep, stepFromHash);
         }
       }
-      // Assurer que le bouton de partage est mis à jour (caché en STEP0)
-      updateShareButtonVisibility();
+      updateFooterNext();
     });
 
   </script>
