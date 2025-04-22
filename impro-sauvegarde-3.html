@@ -98,22 +98,11 @@
       overflow-wrap: break-word;
     }
     .header-l2 { font-size: 14px; font-weight: normal; }
-    /* --- BARRE DE PROGRESSION --- */
-    .progress-container {
-      position: fixed;
-      top: 60px;
-      left: 0;
-      width: 100%;
-      height: 10px;
-      background-color: rgba(24, 45, 132, 0.1);
-      z-index: 9;
-    }
-    .progress-bar {
-      width: 0%;
-      height: 100%;
-      background-color: #00a48a;
-      transition: width 0.5s ease;
-    }
+
+    .progress-container {display: flex;gap: 8px; padding: 0 20px;position: fixed;top: 60px;left: 0;width: 100%;height: 10px;background-color: rgba(24,45,132,0.1);z-index: 9}
+    .progress-step { flex: 1; background-color: rgba(24,45,132,0.2); border-radius: 5px; transition: background-color 0.3s;}
+    .progress-step.active {background-color: #00a48a}
+    
     /* --- BOÎTE D'INTRODUCTION --- */
     .intro-box {
       position: fixed;
@@ -811,8 +800,11 @@
   </div>
 
   <!-- BARRE DE PROGRESSION -->
-  <div class="progress-container">
-    <div class="progress-bar" id="top-progress-bar"></div>
+  <div class="progress-container" id="progress-steps">
+    <div class="progress-step" data-step="1"></div>
+    <div class="progress-step" data-step="2"></div>
+    <div class="progress-step" data-step="3"></div>
+    <div class="progress-step" data-step="4"></div>
   </div>
 
   <!-- CONTAINER PRINCIPAL -->
@@ -1018,7 +1010,7 @@
       4: document.getElementById('step4'),
       5: document.getElementById('step5')
     };
-
+    
     const nextBtns = {
       1: document.getElementById('next-btn1'),
       2: document.getElementById('next-btn2'),
@@ -1034,7 +1026,7 @@
 
     const introBox = document.getElementById('intro-box');
     const startIntroBtn = document.getElementById('start-intro-btn');
-    const topProgressBar = document.getElementById('top-progress-bar');
+    const progressSteps = Array.from(document.querySelectorAll('#progress-steps .progress-step'));
 
     let currentStep = 0;
     let currentCategory = null;
@@ -1078,12 +1070,13 @@
      * Fonctions utilitaires
      ***********************/
     function updateProgressBar(step) {
-      // Pour STEP4 et STEP5, on affiche 100%
-      if (step >= 4) {
-        topProgressBar.style.width = "100%";
-      } else {
-        topProgressBar.style.width = `${(step / 5) * 100}%`;
-      }
+      progressSteps.forEach((el, idx) => {
+        if (step >= idx + 1 && step <= 4) {
+          el.classList.add('active');
+        } else {
+          el.classList.remove('active');
+        }
+      });
     }
 
     function displayError(elementId, message) {
@@ -1629,7 +1622,7 @@
       Object.values(backBtns).forEach(btn => btn.disabled = false);
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
+    !document.addEventListener('DOMContentLoaded', () => {
       if (window.location.hash) {
         const stepFromHash = window.location.hash.replace('#step', '');
         if (boxes[stepFromHash]) {
