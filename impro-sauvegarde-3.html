@@ -3,448 +3,136 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Simulateur d'improvisation Letmotiv</title>
+  <title>Simulateur d'improvisation</title>
+  <meta name="description" content="Évaluer et développer sa prise de parole en public avec le simulateur d'improvisation Letmotiv. Entreprise spécialisée dans le coaching en prise de parole.">
+
+  <!-- Icône de la page (favicon) -->
   <link rel="icon" href="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Letmotiv_favicon.webp" type="image/png">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Letmotiv_favicon.webp">
+  
+  <!-- Balises Open Graph pour LinkedIn -->
+  <meta property="og:title" content="Simulateur d'improvisation Letmotiv" />
+  <meta property="og:description" content="Évaluer et développer sa prise de parole en public avec le simulateur d'improvisation Letmotiv." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://letmotiv-simulateur.fr" />
+  <meta property="og:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png" />
+  <meta property="og:image:alt" content="Illustration d'une improvisation en public avec un orateur sur scène." />
+  <meta name="author" content="Simulateur d'improvisation Letmotiv" />
+  <meta property="article:published_time" content="2025-01-26" />
+
+  <!-- Balises Twitter (optionnel) -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Simulateur d'improvisation Letmotiv">
+  <meta name="twitter:description" content="Évaluer et développer sa prise de parole en public avec le simulateur d'improvisation Letmotiv.">
+  <meta name="twitter:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png">
+
+  <!-- Import Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans&family=Montserrat:wght@700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Poppins:900i" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+  <!-- Calendly widget CSS -->
+  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+
+  <!-- JSON-LD SEO -->
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebSite","name":"Simulateur d'improvisation Letmotiv","url":"https://letmotiv-simulateur.fr","description":"Évaluer et développer sa prise de parole en public avec le simulateur d'improvisation Letmotiv.","publisher":{"@type":"Organization","name":"Letmotiv","logo":"https://letmotiv-simulateur.fr/logo.png"}}
+  </script>
+
   <style>
-    html, body { margin:0; padding:0; height:100%; overflow-x:hidden; }
-    body { font-family:'DM Sans', sans-serif; background:#fff; padding-top:60px; padding-bottom:70px; }
-    /* HEADER */
-    .header {
-      position:fixed; top:0; left:0; width:100%; background:#182d84; color:#fff;
-      text-align:center; padding:10px; z-index:100;
-    }
-    .header-l1 { font-size:16px; font-weight:bold; }
-    .header-l2 { font-size:14px; }
-    /* PROGRESS BAR avec repères tous les 20% */
-    .progress-container {
-      position:fixed; top:60px; left:0; width:100%; height:10px;
-      background: rgba(24,45,132,0.1);
-      background-image:
-        repeating-linear-gradient(
-          to right,
-          transparent,
-          transparent calc(20% - 1px),
-          #ccc calc(20% - 1px),
-          #ccc 20%
-        );
-      z-index:90;
-    }
-    .progress-bar { height:100%; width:0; background:#00a48a; transition: width 0.5s ease; }
-    /* FOOTER fixe */
-    .footer-nav {
-      position:fixed; bottom:0; left:0; width:100%; background:#fff;
-      box-shadow:0 -2px 5px rgba(0,0,0,0.1); padding:10px; text-align:center; z-index:100;
-    }
-    .btn-next {
-      background:#00a48a; color:#fff; border:none; padding:12px 30px;
-      border-radius:8px; font-size:16px; cursor:pointer; transition:opacity .3s;
-    }
-    .btn-next:disabled {
-      background:#ccc; color:#777; cursor:not-allowed; opacity:.6;
-    }
-    /* BOXES */
-    .main-container { max-width:600px; margin:80px auto 0; }
-    .box {
-      display:none; background:#f9f9f9; border-radius:12px;
-      box-shadow:0 4px 12px rgba(0,0,0,0.1); padding:20px; margin-bottom:20px;
-      text-align:center;
-    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family:'DM Sans',sans-serif; background:#fff; color:#333; padding-top:60px; padding-bottom:80px; }
+    .header { background:#182d84; color:#fff; font-size:16px; font-weight:bold; text-align:center; padding:10px; position:fixed; top:0; left:0; width:100%; z-index:10; }
+    .header-l2 { font-size:14px; font-weight:normal; }
+    .progress-container { position:fixed; top:60px; left:0; width:100%; height:10px; background:rgba(24,45,132,0.1); z-index:9; }
+    .progress-bar { width:0; height:100%; background:#00a48a; transition:width .5s ease; }
+    .progress-container .separator { position:absolute; top:0; bottom:0; width:2px; background:rgba(255,255,255,0.6); }
+    .separator:nth-of-type(1){left:20%;}.separator:nth-of-type(2){left:40%;}.separator:nth-of-type(3){left:60%;}.separator:nth-of-type(4){left:80%;}
+    .main-container { position:relative; padding:20px; }
+    .box { display:none; max-width:600px; margin:20px auto; padding:20px; border-radius:15px; background:linear-gradient(135deg,#fff,#f9f9f9); box-shadow:0 4px 12px rgba(0,0,0,0.1); font-size:14px; text-align:center; }
     .box.active { display:block; }
-    h1, h2 { margin:0 0 15px; color:#182d84; }
-    /* INTRO */
-    .intro-box {
-      position:fixed; top:0; left:0; width:100%; height:100%;
-      background:linear-gradient(135deg,#182d84,#00a48a);
-      display:flex; flex-direction:column; align-items:center; justify-content:center;
-      text-align:center; color:#fff; z-index:200;
-      animation:fadeIn 1s ease forwards;
-    }
-    .intro-box h1 {
-      font-family:'Montserrat',sans-serif; font-size:2.8rem; margin-bottom:50px;
-      animation:slideDown 1s ease forwards; text-shadow:2px 2px 8px rgba(0,0,0,0.3);
-    }
-    .cta {
-      display:flex; padding:10px 45px; text-decoration:none;
-      font-family:'Poppins',sans-serif; font-size:40px;
-      color:#fff; background:#FF5722; transform:skewX(-15deg);
-      box-shadow:6px 6px 0 black; border-radius:8px; transition:.5s;
-    }
-    .cta span { transform:skewX(15deg); }
-    .cta:hover { box-shadow:10px 10px 0 #FBC638; }
-    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
-    @keyframes slideDown { from{transform:translateY(-50px);opacity:0} to{transform:translateY(0);opacity:1} }
-    /* STEP1 : objectifs */
-    .objectives-container {
-      display:grid; grid-template-columns:repeat(auto-fit,minmax(100px,1fr)); gap:10px;
-    }
-    .objective-item {
-      background:#f7f9fc; padding:12px; border-radius:8px;
-      cursor:pointer; transition:transform .3s, background .3s, border-color .3s;
-    }
-    .objective-item.selected {
-      background:rgba(0,164,138,0.2); transform:scale(1.1);
-      border:1px solid #00a48a; color:#00a48a;
-    }
-    .objective-item i { font-size:1.8rem; margin-bottom:8px; display:block; color:#777; }
-    /* STEP2 : génération sujet */
-    #generate-subject-btn {
-      background:#182d84; color:#fff; border:none; padding:10px 20px;
-      border-radius:25px; cursor:pointer; transition:background .3s;
-    }
-    #generate-subject-btn:disabled { background:#ccc; cursor:not-allowed; }
-    #subject-wrapper {
-      display:none; margin-top:15px; padding:15px; border-radius:8px;
-      background:linear-gradient(135deg,#00a48a,#182d84); color:#fff;
-    }
-    /* STEP3 : vidéo */
-    .subject-bubble {
-      display:inline-block; padding:10px 15px; border:2px solid #ccc;
-      border-radius:16px; background:#fefefe; margin-bottom:15px;
-    }
-    .video-box {
-      position:relative; width:100%; max-width:500px; height:300px;
-      margin:0 auto 15px; border:3px solid #182d84; border-radius:6px;
-      background:#fefefe; overflow:hidden;
-    }
-    .video-box video {
-      width:100%; height:100%; object-fit:cover; transform:scaleX(-1);
-    }
-    .video-overlay {
-      position:absolute; top:0; left:0; width:100%; height:100%;
-      background:rgba(255,255,255,0.7); display:flex;
-      flex-direction:column; justify-content:center; align-items:center;
-      text-align:center; padding:10px; z-index:2;
-    }
-    .video-overlay button {
-      background:#182d84; color:#fff; border:none; padding:10px 20px;
-      border-radius:25px; cursor:pointer; transition:background .3s;
-    }
-    .video-overlay button:hover { background:#00a48a; }
-    .recording-indicator {
-      position:absolute; top:10px; right:10px; display:flex;
-      align-items:center; gap:5px; background:rgba(128,128,128,0.6);
-      padding:5px 10px; border-radius:20px; color:#f00; z-index:3;
-    }
-    .recording-indicator .dot {
-      width:10px; height:10px; background:#f00; border-radius:50%;
-      animation:blink 1s infinite;
-    }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-    .hidden-btn { display:none!important; }
+    .slide-from-bottom { animation:fromBottom 1s ease forwards; } @keyframes fromBottom{from{opacity:0;transform:translateY(50px);}to{opacity:1;transform:translateY(0);}}
+    .box-header { margin-bottom:20px; }
+    .box-title { font-size:16px; font-weight:bold; color:#182d84; }
+    .objectives-container { display:grid; grid-template-columns:repeat(auto-fit,minmax(100px,1fr)); gap:10px; }
+    .objective-item { cursor:pointer; padding:12px; border:1px solid transparent; border-radius:10px; transition:.3s; }
+    .objective-item.selected-objective { background:rgba(0,164,138,0.2); border-color:#00a48a; color:#00a48a; transform:scale(1.1); }
+    .btn-impro { margin:15px 0; padding:10px 20px; font-size:16px; background:#182d84; color:#fff; border:none; border-radius:25px; cursor:pointer; transition:.3s; }
+    .btn-impro:hover { background:#00a48a; }
+    #subject-wrapper { display:none; margin-top:10px; background:linear-gradient(135deg,#00a48a,#182d84); color:#fff; padding:15px; border-radius:8px; }
+    #advice-text { display:none; margin-top:10px; background:#fefefe; border:1px solid #ccc; border-radius:8px; padding:10px; text-align:left; }
+    .subject-bubble { display:inline-block; background:#fefefe; border:2px solid #ccc; border-radius:16px; padding:10px; font-size:14px; margin:0 auto 10px; max-width:90%; }
+    .video-box { margin:10px auto; border:3px solid #182d84; border-radius:6px; max-width:500px; height:300px; position:relative; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+    .video-box video { width:100%; height:100%; object-fit:cover; transform:scaleX(-1); }
+    .video-overlay { position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.6); display:flex; flex-direction:column; align-items:center; justify-content:center; }
+    .recording-indicator { display:none; position:absolute; top:10px; right:10px; background:rgba(128,128,128,0.6); padding:5px 10px; border-radius:20px; color:#f00; font-size:14px; align-items:center; gap:5px; }
+    .recording-indicator .dot { width:10px; height:10px; background:#f00; border-radius:50%; animation:blink 1s infinite; } @keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+    .countdown { color:#fff; margin-left:5px; }
+    .initial-countdown-overlay { display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(128,128,128,0.6); align-items:center; justify-content:center; border-radius:6px; }
+    .initial-countdown { font-size:48px; color:#fff; font-weight:bold; }
+    .impro-actions button { margin:5px; padding:10px 20px; font-size:16px; background:#182d84; color:#fff; border:none; border-radius:25px; cursor:pointer; transition:.3s; }
+    .impro-actions button:hover { background:#00a48a; }
+    .hidden-btn { display:none; }
+    .action-container { display:flex; flex-direction:column; gap:20px; }
+    .action-square { background:#FF5722; color:#fff; border:none; border-radius:8px; padding:12px; font-size:16px; text-align:center; position:relative; overflow:hidden; }
+    .action-square.disabled { background:#ccc; color:#777; pointer-events:none; opacity:.6; }
+    .newsletter-container { max-width:600px; margin:30px auto; background:#2d3748; border-radius:12px; padding:20px; color:#e2e8f0; text-align:center; }
+    .newsletter-form input { width:100%; padding:10px; border:none; border-radius:8px; outline:none; background:#4a5568; color:#fff; }
+    .newsletter-error { color:red; font-size:14px; text-align:left; }
+    .newsletter-success { color:green; font-size:16px; margin-top:10px; }
+    footer.footer-nav { position:fixed; bottom:0; left:0; width:100%; background:#fff; box-shadow:0 -2px 8px rgba(0,0,0,0.1); padding:10px; text-align:center; z-index:20; }
+    .footer-next { background:#182d84; color:#fff; border:none; border-radius:8px; padding:12px 40px; font-size:16px; cursor:pointer; transition:.3s; }
+    .footer-next.disabled { background:#ccc; color:#777; pointer-events:none; }
   </style>
 </head>
 <body>
-
-  <!-- INTRO -->
   <div class="intro-box" id="intro-box">
-    <h1>
-      <span class="line">ENTRAINE-TOI</span>
-      <span class="line">A LA PRISE DE PAROLE</span>
-      <span class="line">EN PUBLIC</span>
-    </h1>
-    <a id="start-intro-btn" class="cta" href="#">
-      <span>COMMENCER</span>
-    </a>
+    <h1><span class="line">ENTRAINE-TOI</span><span class="line">A LA PRISE DE PAROLE</span><span class="line">EN PUBLIC</span></h1>
+    <div class="wrapper"><a id="start-intro-btn" class="cta" href="#"><span>COMMENCER</span><span><!-- svg --></span></a></div>
   </div>
-
-  <!-- HEADER -->
-  <div class="header">
-    <div class="header-l1">Coaching en prise de parole</div>
-    <div class="header-l2">Simulateur d'improvisation Letmotiv</div>
-  </div>
-
-  <!-- PROGRESS BAR -->
-  <div class="progress-container">
-    <div class="progress-bar" id="top-progress-bar"></div>
-  </div>
-
+  <div class="header"><div class="header-content"><div class="header-l1">Coaching en prise de parole</div><div class="header-l2">Simulateur d'improvisation Letmotiv</div></div></div>
+  <div class="progress-container"><div class="progress-bar" id="top-progress-bar"></div><div class="separator"></div><div class="separator"></div><div class="separator"></div><div class="separator"></div></div>
   <div class="main-container">
-    <!-- STEP1 -->
-    <div class="box" id="step1">
-      <h2>Quel est ton objectif ?</h2>
-      <div class="objectives-container">
-        <div class="objective-item" data-category="diction">
-          <i class="fas fa-grin-tongue"></i>
-          <span>Améliorer sa diction</span>
-        </div>
-        <div class="objective-item" data-category="repartie">
-          <i class="fas fa-comments"></i>
-          <span>Avoir de la répartie</span>
-        </div>
-        <div class="objective-item" data-category="convaincre">
-          <i class="fas fa-handshake"></i>
-          <span>Convaincre</span>
-        </div>
-        <div class="objective-item" data-category="conflit">
-          <i class="fas fa-exclamation-triangle"></i>
-          <span>Gérer un conflit</span>
-        </div>
-        <div class="objective-item" data-category="inspirer">
-          <i class="fas fa-lightbulb"></i>
-          <span>Inspirer</span>
-        </div>
-        <div class="objective-item" data-category="lacher-prise">
-          <i class="fas fa-smile"></i>
-          <span>Lâcher prise</span>
-        </div>
-        <div class="objective-item" data-category="toast">
-          <i class="fas fa-glass-cheers"></i>
-          <span>Porter un toast</span>
-        </div>
-        <div class="objective-item" data-category="entretien">
-          <i class="fas fa-briefcase"></i>
-          <span>Réussir son entretien</span>
-        </div>
-        <div class="objective-item" data-category="vendre">
-          <i class="fas fa-money-bill-wave"></i>
-          <span>Vendre</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- STEP2 -->
-    <div class="box" id="step2">
-      <h2>Prêt à relever le défi ?</h2>
-      <button id="generate-subject-btn">Générer un sujet <i class="fas fa-random"></i></button>
-      <div id="subject-wrapper">
-        <span id="subject-display"></span>
-      </div>
-    </div>
-
-        <!-- STEP3 -->
-    <div class="box" id="step3">
-      <h2>C'est parti, lance ton improvisation !</h2>
-      <div id="current-subject-display" class="subject-bubble"></div>
-      <div class="video-box">
-        <video id="preview" autoplay muted playsinline></video>
-        <div class="video-overlay">
-          <p>Ta vidéo va s'enregistrer ici.</p>
-          <button id="start-btn">Démarrer ton impro <i class="fas fa-video"></i></button>
-          <p>NB : ta vidéo est stockée sur ton appareil.</p>
-        </div>
-        <div class="recording-indicator" id="recording-indicator">
-          <span class="dot"></span>
-          <span id="countdown">2:00</span>
-        </div>
-        <button id="stop-btn" class="hidden-btn">Arrêter ton impro <i class="fas fa-stop"></i></button>
-        <button id="restart-btn" class="hidden-btn">Recommencer ton impro <i class="fas fa-redo"></i></button>
-      </div>
-    </div>
-
-    <!-- STEP4 -->
-    <div class="box" id="step4">
-      <h2>Félicitations pour ton improvisation ! 🤩</h2>
-      <div class="action-container">
-        <button id="download-video-btn" class="btn-action">1) Télécharger ta vidéo</button>
-        <div id="contact-btn" class="btn-action disabled">
-          <span>2) Prendre rdv avec un expert ?</span>
-          <div class="contact-options" style="margin-top:10px; display:flex; gap:8px; justify-content:center;">
-            <button id="contact-yes">Oui ✓</button>
-            <button id="contact-no">Non ✗</button>
-          </div>
-        </div>
-        <button id="feedback-btn" class="btn-action disabled">3) Analyser ma prestation</button>
-      </div>
-
-      <!-- Newsletter -->
-      <div class="newsletter-container" style="margin-top:30px; text-align:center;">
-        <h3>Inscris-toi à la newsletter Letmotiv pour progresser :</h3>
-        <form id="newsletter-form" style="display:flex; flex-direction:column; gap:10px; align-items:center; max-width:400px; margin:0 auto;">
-          <input type="text" id="newsletter-prenom" placeholder="Prénom" style="width:100%; padding:10px; border-radius:8px; border:none; background:#4a5568; color:#fff;" />
-          <div id="newsletter-prenom-error" class="error-message" style="display:none;"></div>
-          <input type="email" id="newsletter-email" placeholder="Email" style="width:100%; padding:10px; border-radius:8px; border:none; background:#4a5568; color:#fff;" />
-          <div id="newsletter-email-error" class="error-message" style="display:none;"></div>
-          <button type="submit" id="newsletter-submit-btn" class="btn-action" style="background:linear-gradient(135deg,#182d84,#00a48a);">S'abonner</button>
-          <div id="newsletter-success" class="newsletter-success" style="display:none; color:green; margin-top:10px;">Tu es maintenant abonné !</div>
-        </form>
-      </div>
-    </div>
-
-    <!-- STEP5 -->
-    <div class="box" id="step5">
-      <h2>Planifiez un appel avec nous</h2>
-      <div class="calendly-inline-widget"
-           data-url="https://calendly.com/letmotiv/premier-contact?hide_event_type_details=1"
-           style="min-width:320px;height:800px;"></div>
-    </div>
-
-  </div> <!-- fin main-container -->
-
-  <!-- FOOTER NAVIGATION -->
-  <div class="footer-nav">
-    <button id="footer-next-btn" class="btn-next" disabled>Suivant</button>
+    <div class="box" id="step1"><div class="box-header"><div class="box-title">Quel est ton objectif ?</div></div><div class="objectives-container"><!-- items dynamiques --></div><div id="objective-error" class="error-message"></div></div>
+    <div class="box" id="step2"><div class="box-header"><div class="box-title">Prêt à relever le défi ?</div></div><button id="generate-subject-btn" class="btn-impro">Générer un sujet <i class="fas fa-random"></i></button><div id="subject-wrapper"><span id="subject-display"></span></div><div id="advice-toggle">Des conseils avant de démarrer ta simulation ? <i id="advice-icon" class="fas fa-chevron-down"></i></div><div id="advice-text"><!-- conseils --></div><div id="subject-error" class="error-message"></div></div>
+    <div class="box" id="step3"><div class="box-header"><div class="box-title">C'est parti, lance ton improvisation !</div></div><div id="current-subject-display" class="subject-bubble"></div><div class="video-box"><video id="preview" autoplay muted playsinline webkit-playsinline></video><div class="video-overlay"><p>Ta vidéo va s'enregistrer ici.</p><button id="start-btn">Démarrer ton impro <i class="fas fa-video"></i></button><p>NB : ta vidéo est stockée sur ton appareil. Aucun enregistrement n'est conservé.</p></div><div class="recording-indicator" id="recording-indicator"><span class="dot"></span><div class="countdown" id="countdown">2:00</div></div><div class="initial-countdown-overlay" id="initial-countdown-overlay"><div class="initial-countdown" id="initial-countdown">3</div></div></div><div class="impro-actions"><button id="stop-btn" class="hidden-btn">Arrêter ton impro <i class="fas fa-stop"></i></button><button id="restart-btn" class="hidden-btn">Recommencer ton impro <i class="fas fa-redo"></i></button></div><div id="impro-error" class="error-message"></div></div>
+    <div class="box" id="step4"><div class="box-header"><div class="box-title">Félicitations pour ton improvisation ! 🤩</div></div><div class="download-section"><div class="action-container"><button id="download-video-btn" class="action-square" aria-label="Télécharge ta vidéo">1) Je télécharge ma vidéo</button><div id="contact-btn" class="action-square disabled"><span>2) Je veux me former avec un expert</span><div class="contact-options"><button id="contact-yes">Oui ✓</button><button id="contact-no">Non ✗</button></div></div><button id="feedback-btn" class="action-square disabled">3) J'analyse mon improvisation</button></div><div class="newsletter-container"><h2>Inscris-toi à la newsletter Letmotiv pour prendre la parole avec impact :</h2><form id="newsletter-form"><input type="text" id="newsletter-prenom" placeholder="Prénom"><div id="newsletter-prenom-error" class="newsletter-error"></div><input type="email" id="newsletter-email" placeholder="Email"><div id="newsletter-email-error" class="newsletter-error"></div><button type="submit" id="newsletter-submit-btn" class="btn-newsletter">S'abonner</button></form><div id="newsletter-success" class="newsletter-success" style="display:none;">Tu es maintenant abonné.</div></div></div>
+    <div class="box" id="step5"><div class="box-header"><div class="box-title">Planifiez un appel avec nous</div></div><div class="calendly-inline-widget" data-url="https://calendly.com/letmotiv/premier-contact?hide_event_type_details=1" style="min-width:320px;height:1000px;"></div></div>
   </div>
-
-  <!-- SCRIPT JS -->
-  <script>
-    // Intro -> première étape
-    const introBox = document.getElementById('intro-box');
-    const startIntroBtn = document.getElementById('start-intro-btn');
-    startIntroBtn.addEventListener('click', () => {
-      introBox.style.animation = 'fadeOut 0.5s ease forwards';
-      setTimeout(() => {
-        introBox.style.display = 'none';
-        showStep(0);
-      }, 500);
-    });
-
-    // Variables globales
-    const boxes = document.querySelectorAll('.box');
-    const footerNext = document.getElementById('footer-next-btn');
-    const progressBar = document.getElementById('top-progress-bar');
-    let currentStep = 0;
-    let mediaRecorder, recordedChunks = [];
-
-    // Affiche l'étape n et met à jour la barre
-    function showStep(n) {
-      boxes.forEach((b,i)=>b.classList.toggle('active', i===n));
-      currentStep = n;
-      progressBar.style.width = (n/(boxes.length-1)*100) + '%';
-      footerNext.disabled = true;
-      setupStepValidation(n);
-    }
-
-    // Configure les validations et callbacks pour chaque étape
-    function setupStepValidation(n) {
-      footerNext.onclick = null;
-
-      if (n === 0) {
-        // STEP1 : sélection d'objectif
-        document.querySelectorAll('.objective-item').forEach(el => {
-          el.onclick = () => {
-            document.querySelectorAll('.objective-item').forEach(x=>x.classList.remove('selected'));
-            el.classList.add('selected');
-            footerNext.disabled = false;
-            // ici on pourrait stocker la catégorie choisie
-          };
-        });
-        footerNext.onclick = () => showStep(1);
-      }
-
-      if (n === 1) {
-        // STEP2 : génération du sujet
-        const genBtn = document.getElementById('generate-subject-btn');
-        genBtn.disabled = false;
-        genBtn.onclick = async () => {
-          // Simule fetch + tirage
-          const subjects = ['Sujet A','Sujet B','Sujet C'];
-          const choix = subjects[Math.floor(Math.random()*subjects.length)];
-          document.getElementById('subject-display').textContent = choix;
-          document.getElementById('subject-wrapper').style.display = 'block';
-          footerNext.disabled = false;
-        };
-        footerNext.onclick = () => showStep(2);
-      }
-
-      if (n === 2) {
-        // STEP3 : enregistrement vidéo
-        const startBtn   = document.getElementById('start-btn');
-        const stopBtn    = document.getElementById('stop-btn');
-        const restartBtn = document.getElementById('restart-btn');
-        let recorded = false;
-
-        startBtn.onclick = async () => {
-          // accès caméra + start mediaRecorder...
-          const stream = await navigator.mediaDevices.getUserMedia({ video:true, audio:true });
-          document.getElementById('preview').srcObject = stream;
-          mediaRecorder = new MediaRecorder(stream);
-          recordedChunks = [];
-          mediaRecorder.ondataavailable = e => e.data.size && recordedChunks.push(e.data);
-          mediaRecorder.onstop = () => {
-            recorded = true;
-            footerNext.disabled = false;
-            restartBtn.classList.remove('hidden-btn');
-          };
-          mediaRecorder.start();
-          document.querySelector('.video-overlay').style.display = 'none';
-          stopBtn.classList.remove('hidden-btn');
-        };
-
-        stopBtn.onclick = () => {
-          if (mediaRecorder && mediaRecorder.state === 'recording') {
-            mediaRecorder.stop();
-            document.getElementById('stop-btn').classList.add('hidden-btn');
-          }
-        };
-
-        restartBtn.onclick = () => {
-          if (!confirm("Attention, tu vas recommencer ton impro et lancer un nouvel enregistrement. Tu es sûr ?")) return;
-          restartBtn.classList.add('hidden-btn');
-          document.querySelector('.video-overlay').style.display = 'flex';
-          footerNext.disabled = true;
-        };
-
-        footerNext.onclick = () => showStep(3);
-      }
-
-      if (n === 3) {
-        // STEP4 : téléchargement & rdv & analyse & newsletter
-        const dlBtn    = document.getElementById('download-video-btn');
-        const contact  = document.getElementById('contact-btn');
-        const fbBtn    = document.getElementById('feedback-btn');
-        const yesBtn   = document.getElementById('contact-yes');
-        const noBtn    = document.getElementById('contact-no');
-
-        dlBtn.onclick = () => {
-          footerNext.disabled = false;
-          // création du blob + download
-          const blob = new Blob(recordedChunks, { type:'video/mp4' });
-          const url  = URL.createObjectURL(blob);
-          const a    = document.createElement('a');
-          a.href     = url;
-          a.download = 'impro.mp4';
-          a.click();
-          URL.revokeObjectURL(url);
-          contact.classList.remove('disabled');
-        };
-
-        yesBtn.onclick = e => {
-          e.preventDefault();
-          showStep(4);
-        };
-        noBtn.onclick = e => {
-          e.preventDefault();
-          fbBtn.classList.remove('disabled');
-          footerNext.disabled = false;
-        };
-        footerNext.onclick = () => showStep(4);
-
-        // Newsletter
-        const form       = document.getElementById('newsletter-form');
-        const prError    = document.getElementById('newsletter-prenom-error');
-        const emError    = document.getElementById('newsletter-email-error');
-        const successEl  = document.getElementById('newsletter-success');
-        form.addEventListener('submit', e => {
-          e.preventDefault();
-          prError.style.display = emError.style.display = 'none';
-          let valid = true;
-          if (!form['newsletter-prenom'].value.trim()) {
-            prError.textContent = "Le prénom est requis."; prError.style.display = 'block'; valid = false;
-          }
-          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form['newsletter-email'].value.trim())) {
-            emError.textContent = "Email invalide."; emError.style.display = 'block'; valid = false;
-          }
-          if (!valid) return;
-          // envoi fictif
-          successEl.style.display = 'block';
-          setTimeout(() => successEl.style.display = 'none', 5000);
-        });
-      }
-
-      if (n === 4) {
-        // STEP5 : Calendly
-        footerNext.disabled = false;
-        footerNext.onclick = () => alert("Merci ! À bientôt.");
-      }
-    }
-
-    // Démarrer
-    showStep(0);
-  </script>
-
-  <!-- Calendly widget script -->
+  <footer class="footer-nav"><button id="footer-next" class="footer-next disabled">Suivant</button></footer>
   <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+  <script>
+    const boxes = {1:document.getElementById('step1'),2:document.getElementById('step2'),3:document.getElementById('step3'),4:document.getElementById('step4'),5:document.getElementById('step5')};
+    let currentStep=0,currentCategory=null,currentSubject='',isRecording=false,mediaRecorder,recordedChunks=[],videoURL='',timerInterval,timeRemaining=120;
+    const footerNext=document.getElementById('footer-next');
+    function enableFooter(){footerNext.classList.remove('disabled');}
+    function disableFooter(){footerNext.classList.add('disabled');}
+    function updateProgress(step){const w=step>=5?100:(step/5*100);document.getElementById('top-progress-bar').style.width=w+'%';}
+    function showBox(step){Object.values(boxes).forEach(b=>b.classList.remove('active','slide-from-bottom'));boxes[step].classList.add('active','slide-from-bottom');currentStep=step;updateProgress(step);disableFooter();if(step===3)document.getElementById('current-subject-display').textContent=currentSubject;}
+    document.getElementById('start-intro-btn').addEventListener('click',()=>{document.getElementById('intro-box').style.display='none';showBox(1);});
+    document.querySelectorAll('.objective-item').forEach(item=>item.addEventListener('click',()=>{document.querySelectorAll('.objective-item').forEach(el=>el.classList.remove('selected-objective'));item.classList.add('selected-objective');currentCategory=item.dataset.category;enableFooter();}));
+    footerNext.addEventListener('click',()=>{if(!footerNext.classList.contains('disabled')&&currentStep<5)showBox(currentStep+1);});
+    document.getElementById('generate-subject-btn').addEventListener('click',async()=>{if(!currentCategory)return;const urlMap={convaincre:'https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/convaincre.txt',inspirer:'https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/inspirer.txt',"lacher-prise":'https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/lacher_prise.txt',toast:'https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/toast.txt',repartie:'https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/repartie.txt',vendre:'https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/vendre.txt',conflit:'https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/gerer_un_conflit.txt',diction:'https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/diction.txt',entretien:'https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/entretien.txt'};
+      if(!window.subjectsCache)window.subjectsCache={};if(!subjectsCache[currentCategory]){const txt=await fetch(urlMap[currentCategory]).then(r=>r.ok?r.text():Promise.reject()).catch(()=>"");subjectsCache[currentCategory]=txt.split('\n').map(l=>l.trim()).filter(l=>l);}const list=subjectsCache[currentCategory];if(list.length){currentSubject=list[Math.floor(Math.random()*list.length)];document.getElementById('subject-display').textContent=currentSubject;document.getElementById('subject-wrapper').style.display='block';enableFooter();}});
+    document.getElementById('advice-toggle').addEventListener('click',()=>{const t=document.getElementById('advice-text'),i=document.getElementById('advice-icon');if(t.style.display==='block'){t.style.display='none';i.classList.replace('fa-chevron-up','fa-chevron-down');}else{t.style.display='block';i.classList.replace('fa-chevron-down','fa-chevron-up');}});
+    async function startCamera(){try{return await navigator.mediaDevices.getUserMedia({video:true,audio:true});}catch(e){alert('Erreur accès caméra');return null;}}
+    function startInitial(){let c=3;const ov=document.getElementById('initial-countdown-overlay'),ic=document.getElementById('initial-countdown');ov.style.display='flex';ic.textContent=c;const cnt=setInterval(()=>{c--,ic.textContent=c;if(c===0){clearInterval(cnt);ov.style.display='none';beginRecording();}},1000);}
+    function beginRecording(){startCamera().then(stream=>{if(!stream)return;document.getElementById('preview').srcObject=stream;mediaRecorder=new MediaRecorder(stream);recordedChunks=[];mediaRecorder.ondataavailable=e=>e.data.size&&recordedChunks.push(e.data);mediaRecorder.onstop=()=>{const blob=new Blob(recordedChunks,{type:'video/mp4'});videoURL=URL.createObjectURL(blob);stream.getTracks().forEach(t=>t.stop());document.querySelector('.video-overlay').innerHTML="<p>Improvisation terminée, passe à l'étape suivante!</p>";isRecording=true;enableFooter();clearInterval(timerInterval);document.getElementById('recording-indicator').style.display='none';};mediaRecorder.start();document.getElementById('recording-indicator').style.display='flex';timeRemaining=120;timerInterval=setInterval(()=>{timeRemaining--;document.getElementById('countdown').textContent=Math.floor(timeRemaining/60)+':'+(timeRemaining%60<10?'0':'')+(timeRemaining%60);if(timeRemaining<0){clearInterval(timerInterval);mediaRecorder.stop();}},1000);} );}
+    document.getElementById('start-btn').addEventListener('click',()=>{startInitial();});
+    document.getElementById('stop-btn').addEventListener('click',()=>{if(mediaRecorder&&mediaRecorder.state==='recording'){mediaRecorder.stop();clearInterval(timerInterval);}document.getElementById('restart-btn').classList.remove('hidden-btn');});
+    document.getElementById('restart-btn').addEventListener('click',()=>{document.querySelector('.video-overlay').innerHTML='<p>Ta vidéo va s'enregistrer ici.</p><button id="start-btn">Démarrer ton impro <i class="fas fa-video"></i></button><p>NB : ta vidéo est stockée...</p>';document.getElementById('restart-btn').classList.add('hidden-btn');bindEvents();startInitial();});
+    function bindEvents(){document.getElementById('start-btn').addEventListener('click',()=>startInitial());}
+    bindEvents();
+    document.getElementById('download-video-btn').addEventListener('click',()=>{if(videoURL){const a=document.createElement('a');a.href=videoURL;a.download='Letmotiv.mp4';document.body.appendChild(a);a.click();a.remove();document.getElementById('contact-btn').classList.remove('disabled');enableFooter();}});
+    document.getElementById('contact-yes').addEventListener('click',e=>{e.preventDefault();showBox(5);});
+    document.getElementById('contact-no').addEventListener('click',e=>{e.preventDefault();document.getElementById('feedback-btn').classList.remove('disabled');enableFooter();});
+    document.getElementById('feedback-btn').addEventListener('click',()=>{window.location.href='https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro';});
+    document.getElementById('newsletter-form').addEventListener('submit',e=>{e.preventDefault();const p=document.getElementById('newsletter-prenom'),m=document.getElementById('newsletter-email');let valid=true;if(!p.value){document.getElementById('newsletter-prenom-error').textContent='Requis';valid=false;}if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m.value)){document.getElementById('newsletter-email-error').textContent='Email invalide';valid=false;}if(!valid)return;document.getElementById('hidden-prenom').value=p.value;document.getElementById('hidden-email').value=m.value;document.getElementById('hidden-google-form').submit();document.getElementById('newsletter-success').style.display='block';setTimeout(()=>document.getElementById('newsletter-success').style.display='none',5000);});
+    document.addEventListener('DOMContentLoaded',()=>{updateProgress(0);disableFooter();});
+  </script>
 </body>
 </html>
