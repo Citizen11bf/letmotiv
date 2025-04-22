@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Simulateur d'improvisation</navigationalistyle>
+  <title>Simulateur d'improvisation</title>
   <meta name="description" content="Évaluer et développer sa prise de parole en public avec le simulateur d'improvisation Letmotiv. Entreprise spécialisée dans le coaching en prise de parole.">
 
   <!-- Icône de la page (favicon) -->
@@ -64,7 +64,7 @@
       background-color: #ffffff;
       color: #333333;
       padding-top: 60px;
-      padding-bottom: 20px;
+      padding-bottom: 80px; /* espace pour le footer fixe */
     }
 
     /* --- ERROR MESSAGES --- */
@@ -99,27 +99,56 @@
     }
     .header-l2 { font-size: 14px; font-weight: normal; }
 
-    /* --- BARRE DE PROGRESSION PAR ÉTAPES --- */
+    /* --- BARRE DE PROGRESSION --- */
     .progress-container {
       position: fixed;
       top: 60px;
       left: 0;
       width: 100%;
-      padding: 0 20px;
-      display: flex;
-      justify-content: space-between;
-      z-index: 9;
-    }
-    .progress-step {
-      flex: 1;
       height: 10px;
       background-color: rgba(24, 45, 132, 0.1);
-      margin: 0 5px;
-      border-radius: 5px;
-      transition: background-color 0.3s;
+      z-index: 9;
     }
-    .progress-step.active {
+    .progress-bar {
+      width: 0%;
+      height: 100%;
       background-color: #00a48a;
+      transition: width 0.5s ease;
+    }
+
+    /* --- FOOTER NAVIGATION --- */
+    .footer-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #182d84;
+      padding: 10px;
+      display: none; /* affiché à partir du step 1 */
+      justify-content: space-between;
+      align-items: center;
+      z-index: 15;
+    }
+    .footer-nav button {
+      flex: 1;
+      margin: 0 5px;
+      padding: 12px 0;
+      font-size: 16px;
+      font-weight: bold;
+      color: #ffffff;
+      background-color: #00a48a;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s, opacity 0.3s;
+    }
+    .footer-nav button:disabled {
+      background-color: #cccccc;
+      cursor: default;
+      opacity: 0.5;
+    }
+    .pulse {
+      animation: electricPulse 1.5s infinite;
     }
 
     /* --- BOÎTE D'INTRODUCTION --- */
@@ -159,23 +188,30 @@
       transform: skewX(-15deg);
       border-radius: 8px;
     }
-    .cta:hover span:nth-child(2) { margin-right: 45px; }
+    .cta:focus { outline: none; }
+    .cta:hover { transition: 0.3s; box-shadow: 10px 10px 0 #FBC638; }
+    .cta span:nth-child(2) { transition: 0.3s; margin-right: 0px; }
+    .cta:hover span:nth-child(2) { transition: 0.3s; margin-right: 45px; }
     .cta span { transform: skewX(15deg); }
-    .cta span:nth-child(2) { width: 20px; margin-left: 30px; position: relative; top: 12%; }
+    .cta span:nth-child(2) {
+      width: 20px;
+      margin-left: 30px;
+      position: relative;
+      top: 12%;
+    }
+    /* Réduction de la taille du SVG dans le bouton "Commencer" sur mobile */
     @media (max-width: 600px) {
       .cta svg { width: 40px; height: 30px; }
       .mobile-break { display: inline; }
-      .intro-box h1 { font-size: 2rem; margin-bottom: 30px; }
-      .cta { font-size: 28px; padding: 8px 30px; }
     }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
     @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
+   
     /* --- CONTAINER PRINCIPAL --- */
     .main-container { position: relative; padding: 20px; }
-
-    /* --- BOÎTES (étapes) --- */
+    
+    /* --- BOXES (étapes) --- */
     .box {
       position: relative;
       width: 100%;
@@ -192,45 +228,1122 @@
     }
     .box.active { display: block; opacity: 1; }
     .box.hidden { opacity: 0; }
-
-    /* --- SLIDE ANIMATIONS --- */
+    
+    /* --- ANIMATIONS VERTICALES --- */
     .slide-from-bottom { animation: fromBottom 1.5s ease forwards; }
     @keyframes fromBottom { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
     .slide-from-top { animation: fromTop 1.5s ease forwards; }
     @keyframes fromTop { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
+   
+    /* --- HEADER INTERNE DES BOXES --- */
+    .box-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      position: relative;
+    }
 
-    /* (Le reste du CSS reste inchangé...) */
+    /* --- STEP1 : Choix d’objectif --- */
+    .objectives-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 10px;
+      justify-items: center;
+      margin: 10px 0;
+    }
+    .objective-item {
+      text-align: center;
+      color: #444;
+      font-size: 0.9rem;
+      cursor: pointer;
+      padding: 12px;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+    }
+    .objective-item i {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .objective-item i.fa-arrow-right {
+      transform: none !important;
+    }
+    .objective-item:hover { border-color: #00a48a; background-color: rgba(0, 164, 138, 0.1); }
+    .objective-item.selected-objective {
+      transform: scale(1.1);
+      background-color: rgba(0, 164, 138, 0.2);
+      color: #00a48a;
+      border-color: #00a48a;
+      transition: all 0.3s ease-in-out;
+    }
+    .objective-item.selected-objective i { color: #00a48a; }
+    .objective-item[data-category="convaincre"] i { color: #007BFF; }
+    .objective-item[data-category="inspirer"] i { color: #FFC107; }
+    .objective-item[data-category="toast"] i { color: #E91E63; }
+    .objective-item[data-category="repartie"] i { color: #9C27B0; }
+    .objective-item[data-category="vendre"] i { color: #4CAF50; }
+    .objective-item[data-category="conflit"] i { color: #F44336; }
+    .objective-item[data-category="diction"] i { color: #00BCD4; }
+    .objective-item[data-category="entretien"] i { color: #795548; }
+    .objective-item[data-category="lacher-prise"] i { color: #FF5722; }
+    
+    /* --- STEP2 : Génération du sujet --- */
+  
+    #objective-reminder { color: grey; font-size: 0.8rem; margin-bottom: 10px; }
+    #current-objective { text-transform: lowercase; }
+    #subject-wrapper {
+      margin-top: 10px;
+      background: linear-gradient(135deg, #00a48a, #182d84);
+      border-radius: 8px;
+      padding: 15px;
+      text-align: center;
+      font-size: 16px;
+      font-weight: normal;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      display: none;
+    }
+    #advice-toggle {
+      cursor: pointer;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      text-align: center;
+      font-weight: normal;
+      color: #182d84;
+    }
+    #advice-toggle i {
+      margin-left: 5px;
+      transition: transform 0.3s ease;
+    }
+    #advice-text {
+      display: none;
+      margin-top: 10px;
+      padding: 10px;
+      background-color: #fefefe;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+      line-height: 1.5;
+      text-align: left;
+    }
+    .mobile-break { display: none; }
+    @media (max-width: 600px) { .mobile-break { display: inline; } }
+   
+    /* --- STEP3 : Enregistrement vidéo --- */
+    .subject-bubble {
+      display: inline-block;
+      position: relative;
+      background: #fefefe;
+      border: 2px solid #ccc;
+      border-radius: 16px;
+      padding: 10px 10px;
+      font-size: 14px;
+      color: #333;
+      text-align: center;
+      margin: 0 auto;
+      max-width: 90%;
+    }
+    .video-box {
+      margin: 10px auto;
+      border: 3px solid #182d84;
+      border-radius: 6px;
+      max-width: 500px;
+      background-color: #fefefe;
+      height: 300px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      transition: height 0.5s ease-in-out;
+    }
+    .video-box video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 4px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      transform: scaleX(-1);
+      -webkit-transform: scaleX(-1);
+    }
+    .video-overlay {
+      position: absolute;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #555;
+      font-size: 14px;
+      padding: 20px;
+      background: rgba(255,255,255,0.6);
+    }
+    .video-overlay p { margin: 10px 0; }
+    .video-overlay button {
+      margin: 15px 0;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #182d84;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .video-overlay button:hover { background-color: #00a48a; }
 
+    /* Indicateur d'enregistrement */
+    .recording-indicator {
+      display: none;
+      flex-direction: row;
+      align-items: center;
+      gap: 5px;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: rgba(128,128,128,0.6);
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 14px;
+      color: #ff0000;
+      z-index: 3;
+    }
+    .recording-indicator .dot {
+      height: 10px;
+      width: 10px;
+      background-color: #ff0000;
+      border-radius: 50%;
+      display: inline-block;
+      animation: blink 1s infinite;
+    }
+
+    /* --- Animation Animated Border via Conic Gradient --- */
+    .animated-border {
+      --border-angle: 0turn;
+      border: solid 5px transparent;
+      border-radius: 8px !important;
+      --main-bg: conic-gradient(from var(--border-angle), #FF5722, #e65c00 50%, #FF5722);
+      --gradient-border: conic-gradient(from var(--border-angle), transparent 25%, #08f, #f03 99%, transparent);
+      background-color: #FF5722; 
+      background: 
+        var(--main-bg) padding-box,
+        var(--gradient-border) border-box,
+        var(--main-bg) border-box;
+      background-position: center center;
+      animation: bg-spin 3s linear infinite;
+    }
+    @keyframes bg-spin { to { --border-angle: 1turn; } }
+    @property --border-angle { syntax: "<angle>"; inherits: true; initial-value: 0turn; }
+
+    /* --- BOUTON DE PARTAGE --- */
+    #global-share-btn {
+      position: fixed;
+      bottom: 90px; /* au-dessus du footer */
+      right: 20px;
+      background: #182d84;
+      color: #fff;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 999;
+      font-size: 20px;
+    }
   </style>
 </head>
 <body>
   <!-- BOÎTE D'INTRODUCTION -->
-  <div class="intro-box" id="intro-box"> ... </div>
+  <div class="intro-box" id="intro-box">
+    <h1>
+      <span class="line">ENTRAINE-TOI</span>
+      <span class="line">A LA PRISE DE PAROLE</span>
+      <span class="line">EN PUBLIC</span>
+    </h1> 
+    <div class="wrapper">
+      <a id="start-intro-btn" class="cta" href="#">
+        <span>COMMENCER</span>
+        <span>
+          <svg width="66px" height="43px" viewBox="0 0 66 43" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <g id="arrow" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+              <path class="one" d="M40.1543933,3.89485454 L43.9763149,0.139296592 C44.1708311,-0.0518420739 44.4826329,-0.0518571125 44.6771675,0.139262789 L65.6916134,20.7848311 C66.0855801,21.1718824 66.0911863,21.8050225 65.704135,22.1989893 C65.7000188,22.2031791 65.6958657,22.2073326 65.6916762,22.2114492 L44.677098,42.8607841 C44.4825957,43.0519059 44.1708242,43.0519358 43.9762853,42.8608513 L40.1545186,39.1069479 C39.9575152,38.9134427 39.9546793,38.5968729 40.1481845,38.3998695 C40.1502893,38.3977268 40.1524132,38.395603 40.1545562,38.3934985 L56.9937789,21.8567812 C57.1908028,21.6632968 57.193672,21.3467273 57.0001876,21.1497035 C56.9980647,21.1475418 56.9959223,21.1453995 56.9937605,21.1432767 L40.1545208,4.60825197 C39.9574869,4.41477773 39.9546013,4.09820839 40.1480756,3.90117456 C40.1501626,3.89904911 40.1522686,3.89694235 40.1543933,3.89485454 Z" fill="#FFFFFF"></path>
+              <path class="two" d="M20.1543933,3.89485454 L23.9763149,0.139296592 C24.1708311,-0.0518420739 24.4826329,-0.0518571125 24.6771675,0.139262789 L45.6916134,20.7848311 C46.0855801,21.1718824 46.0911863,21.8050225 45.704135,22.1989893 C45.7000188,22.2031791 45.6958657,22.2073326 45.6916762,22.2114492 L24.677098,42.8607841 C24.4825957,43.0519059 24.1708242,43.0519358 23.9762853,42.8608513 L20.1545186,39.1069479 C19.9575152,38.9134427 19.9546793,38.5968729 20.1481845,38.3998695 C20.1502893,38.3977268 20.1524132,38.395603 20.1545562,38.3934985 L36.9937789,21.8567812 C37.1908028,21.6632968 37.193672,21.3467273 37.0001876,21.1497035 C36.9980647,21.1475418 36.9959223,21.1453995 36.9937605,21.1432767 L20.1545208,4.60825197 C19.9574869,4.41477773 19.9546013,4.09820839 20.1480756,3.90117456 C20.1501626,3.89904911 20.1522686,3.89694235 20.1543933,3.89485454 Z" fill="#FFFFFF"></path>
+              <path class="three" d="M0.154393339,3.89485454 L3.97631488,0.139296592 C4.17083111,-0.0518420739 4.48263286,-0.0518571125 4.67716753,0.139262789 L25.6916134,20.7848311 C26.0855801,21.1718824 26.0911863,21.8050225 25.704135,22.1989893 C25.7000188,22.2031791 25.6958657,22.2073326 25.6916762,22.2114492 L4.67709797,42.8607841 C4.48259567,43.0519059 4.17082418,43.0519358 3.97628526,42.8608513 L0.154518591,39.1069479 C-0.0424848215,38.9134427 -0.0453206733,38.5968729 0.148184538,38.3998695 C0.150289256,38.3977268 0.152413239,38.395603 0.154556228,38.3934985 L16.9937789,21.8567812 C17.1908028,21.6632968 17.193672,21.3467273 17.0001876,21.1497035 C16.9980647,21.1475418 16.9959223,21.1453995 16.9937605,21.1432767 L0.15452076,4.60825197 C-0.0425130651,4.41477773 -0.0453986756,4.09820839 0.148075568,3.90117456 C0.150162624,3.89904911 0.152268631,3.89694235 0.154393339,3.89485454 Z" fill="#FFFFFF"></path>
+            </g>
+          </svg>
+        </span>
+      </a>
+    </div>
+  </div>
+
+  <!-- FORMULAIRE CACHÉ POUR GOOGLE FORMS -->
+  <form id="hidden-google-form" action="https://docs.google.com/forms/d/e/1FAIpQLSfGAcKp0cV5AeVJCJBPbtKLKCLhbYySZf_FkiMg85WKVFUn6A/formResponse" method="POST" target="hidden_iframe" style="display:none;">
+    <input type="text" name="entry.1119647353" id="hidden-prenom">
+    <input type="email" name="entry.638831312" id="hidden-email">
+  </form>
+  <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
 
   <!-- HEADER -->
-  <div class="header"> ... </div>
+  <div class="header">
+    <div class="header-content">
+      <div class="header-l1">Coaching en prise de parole</div>
+      <div class="header-l2">Simulateur d'improvisation Letmotiv</div>
+    </div>
+  </div>
 
-  <!-- BARRE DE PROGRESSION PAR ÉTAPES -->
-  <div class="progress-container" id="progress-container">
-    <div class="progress-step" data-step="1"></div>
-    <div class="progress-step" data-step="2"></div>
-    <div class="progress-step" data-step="3"></div>
-    <div class="progress-step" data-step="4"></div>
-    <div class="progress-step" data-step="5"></div>
+  <!-- BARRE DE PROGRESSION -->
+  <div class="progress-container">
+    <div class="progress-bar" id="top-progress-bar"></div>
   </div>
 
   <!-- CONTAINER PRINCIPAL -->
   <div class="main-container">
-    <!-- Les boîtes STEP1 à STEP5 inchangées -->
+    <!-- STEP1 : Choix d'objectif -->
+    <div class="box" id="step1">
+      <div class="box-header">
+        <button class="back-btn hidden-visibility" id="back-btn1" aria-label="Retour">
+          <i class="fas fa-arrow-up"></i>
+        </button>
+        <div class="box-title">Quel est ton objectif ?</div>
+      </div>
+      <div class="objectives-container">
+        <div class="objective-item" data-category="diction">
+          <i class="fas fa-grin-tongue"></i>
+          <span>Améliorer sa diction</span>
+        </div>
+        <div class="objective-item" data-category="repartie">
+          <i class="fas fa-comments"></i>
+          <span>Avoir de la répartie</span>
+        </div>
+        <div class="objective-item" data-category="convaincre">
+          <i class="fas fa-handshake"></i>
+          <span>Convaincre</span>
+        </div>
+        <div class="objective-item" data-category="conflit">
+          <i class="fas fa-exclamation-triangle"></i>
+          <span>Gérer un conflit</span>
+        </div>
+        <div class="objective-item" data-category="inspirer">
+          <i class="fas fa-lightbulb"></i>
+          <span>Inspirer</span>
+        </div>
+        <div class="objective-item" data-category="lacher-prise">
+          <i class="fas fa-smile"></i>
+          <span>Lâcher prise</span>
+        </div>
+        <div class="objective-item" data-category="toast">
+          <i class="fas fa-glass-cheers"></i>
+          <span>Porter un toast</span>
+        </div>
+        <div class="objective-item" data-category="entretien">
+          <i class="fas fa-briefcase"></i>
+          <span>Réussir son entretien</span>
+        </div>
+        <div class="objective-item" data-category="vendre">
+          <i class="fas fa-money-bill-wave"></i>
+          <span>Vendre</span>
+        </div>
+      </div>
+      <div id="explanation-box" class="explanation-box"></div>
+      <div id="objective-error" class="error-message"></div>
+        <i class="fas fa-arrow-down"></i>
+      </button>
+    </div>
+
+    <!-- STEP2 : Génération du sujet -->
+    <div class="box" id="step2">
+      <div class="box-header">
+          <i class="fas fa-arrow-up"></i>
+        </button>
+        <div class="box-title">Prêt à relever le défi ?</div>
+      </div>
+      <button id="generate-subject-btn" class="btn-impro">Générer un sujet  <i class="fas fa-random"></i></button>
+      <div id="subject-wrapper">
+        <span id="subject-display"></span>
+      </div>
+      <div id="advice-toggle">
+        Des conseils avant de démarrer<span class="mobile-break"><br></span> ta simulation ? <i id="advice-icon" class="fas fa-chevron-down"></i>
+      </div>
+      <div id="advice-text">
+        1) Positionne tes yeux à hauteur de la caméra. <br><br>
+        2) Choisis un fond neutre pour éviter toute distraction.<br><br>
+        3) Assure-toi que l'éclairage te met en valeur. <br><br>
+        4) Vérifie que le son et la vidéo fonctionnent.<br><br>
+        5) Reste concentré et prends du plaisir. 
+      </div>
+      <div id="subject-error" class="error-message"></div>
+        <i class="fas fa-arrow-down"></i>
+      </button>
+    </div>
+
+    <!-- STEP3 : Enregistrement vidéo -->
+    <div class="box" id="step3">
+      <div class="box-header">
+          <i class="fas fa-arrow-up"></i>
+        </button>
+        <div class="box-title">C'est parti, lance ton improvisation !</div>
+      </div>
+      <div id="current-subject-display" class="subject-bubble"></div>
+      <div class="video-box">
+        <video id="preview" autoplay muted playsinline webkit-playsinline></video>
+        <div class="video-overlay">
+          <p>Ta vidéo va s'enregistrer ici.</p>
+          <button id="start-btn" aria-label="Démarrer l'improvisation">
+            Démarrer ton impro <i class="fas fa-video"></i>
+          </button>
+          <p>NB : ta vidéo est stockée sur ton appareil. <br>Aucun enregistrement n'est conservé par Letmotiv.</p>
+        </div>
+        <div class="recording-indicator" id="recording-indicator">
+          <span class="dot"></span>
+          <div class="countdown" id="countdown">1:59</div>
+        </div>
+        <div class="initial-countdown-overlay" id="initial-countdown-overlay">
+          <div class="initial-countdown" id="initial-countdown">3</div>
+        </div>
+      </div>
+      <div class="impro-actions">
+        <button id="stop-btn" class="hidden-btn btn-impro" aria-label="Arrêter l'improvisation">
+          Arrêter ton impro <i class="fas fa-stop"></i>
+        </button>
+        <button id="restart-btn" class="hidden-btn btn-impro" aria-label="Recommencer l'improvisation">
+          Recommencer ton impro <i class="fas fa-redo"></i>
+        </button>
+      </div>
+      <div id="impro-error" class="error-message"></div>
+        <i class="fas fa-arrow-down"></i>
+      </button>
+    </div>
+
+    <!-- STEP4 : Bilan - Téléchargement, Analyse & Prise de rendez-vous -->
+    <div class="box" id="step4">
+      <div class="box-header">
+          <i class="fas fa-arrow-up"></i>
+        </button>
+        <div class="box-title">Félicitations pour ton improvisation ! 🤩</div>
+      </div>
+      <div class="download-section">
+        <div class="action-container">
+          <!-- Bouton 1 : Télécharge ta vidéo -->
+          <button id="download-video-btn" class="action-square btn-action animated-border" aria-label="Télécharge ta vidéo">
+            1) Je télécharge ma vidéo
+          </button>
+          <!-- Bouton 2 : Rendez-vous avec un expert -->
+          <div id="contact-btn" class="action-square contact-square disabled" aria-label="Prendre rdv avec un expert">
+            <span>2) Je veux me former avec un expert</span>
+            <div class="contact-options">
+              <button id="contact-yes">Oui <span>✓</span></button>
+              <button id="contact-no">Non <span>✗</span></button>
+            </div>
+          </div>
+          <!-- Bouton 3 : Analyse ta prestation -->
+          <button id="feedback-btn" class="action-square btn-action disabled" aria-label="Analyse ta prestation">
+            3) J'analyse mon improvisation
+          </button>
+        </div>
+        <!-- Section Newsletter -->
+        <div class="newsletter-container">
+          <h2 class="newsletter-title">Inscris-toi à la newsletter Letmotiv <br>pour prendre la parole avec impact :</h2>
+          <form id="newsletter-form" class="newsletter-form">
+            <input type="text" id="newsletter-prenom" placeholder="Prénom" aria-label="Prénom">
+            <div id="newsletter-prenom-error" class="newsletter-error"></div>
+            <input type="email" id="newsletter-email" placeholder="Email" aria-label="Email">
+            <div id="newsletter-email-error" class="newsletter-error"></div>
+            <button type="submit" id="newsletter-submit-btn" class="btn-newsletter">S'abonner</button>
+          </form>
+          <div id="newsletter-success" class="newsletter-success" style="display: none;">Tu es maintenant abonné à la newsletter Letmotiv.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP5 : Prise de contact (Calendly) -->
+    <div class="box" id="step5">
+      <div class="box-header">
+          <i class="fas fa-arrow-up"></i>
+        </button>
+        <div class="box-title">Planifiez un appel avec nous</div>
+      </div>
+      <main>
+        <section id="calendy" class="section calendy">
+          <div class="container">
+            <div class="calendly-inline-widget" data-url="https://calendly.com/letmotiv/premier-contact?hide_event_type_details=1" style="min-width:320px;height:1000px;"></div>
+          </div>
+        </section>
+      </main>
+    </div>
   </div>
+
+  <!-- FOOTER NAVIGATION -->
+  <footer class="footer-nav" id="footer-nav">
+    <button id="prev-btn" aria-label="Étape précédente">Précédent</button>
+    <button id="next-btn" aria-label="Étape suivante" disabled>Suivant</button>
+  </footer>
+
+  <!-- Bouton de partage global (mis à jour au-dessus du footer) -->
+  <div id="global-share-btn">
+    <i class="fas fa-share-alt"></i>
+  </div>
+
+  <!-- Calendly widget script -->
+  <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
 
   <!-- SCRIPT JavaScript -->
   <script>
-    // Remplacer updateProgressBar:
-    function updateProgressBar(step) {
-      const steps = document.querySelectorAll('.progress-step');
-      steps.forEach(el => {
-        const s = parseInt(el.dataset.step, 10);
-        el.classList.toggle('active', s <= step);
-      });
+    /***********************
+     * VARIABLES ET CONSTANTES
+     ***********************/
+    const boxes = {
+      1: document.getElementById('step1'),
+      2: document.getElementById('step2'),
+      3: document.getElementById('step3'),
+      4: document.getElementById('step4'),
+      5: document.getElementById('step5')
+    };
+
+    const nextBtn = document.getElementById('next-btn');
+    const prevBtn = document.getElementById('prev-btn');
+
+    const introBox = document.getElementById('intro-box');
+    const startIntroBtn = document.getElementById('start-intro-btn');
+    const topProgressBar = document.getElementById('top-progress-bar');
+
+    let currentStep = 0;
+    let currentCategory = null;
+    let currentSubject = "";
+    let isImproRecordingStarted = false;
+    let mediaRecorderInstance;
+    let recordedChunks = [];
+    let videoURL = "";
+    let timerInterval;
+    let countdown;
+    let timeRemaining = 120;
+    let videoDownloaded = false;
+
+    /***********************
+     * Gestion footer visibilité + état boutons
+     ***********************/
+    function updateFooterVisibility() {
+      const footer = document.getElementById('footer-nav');
+      footer.style.display = currentStep >= 1 ? 'flex' : 'none';
     }
+
+    function setNextEnabled(enabled) {
+      nextBtn.disabled = !enabled;
+      if (enabled) {
+        nextBtn.classList.add('pulse');
+      } else {
+        nextBtn.classList.remove('pulse');
+      }
+    }
+    function updatePrevEnabled() {
+      prevBtn.disabled = (currentStep === 1);
+    }
+
+    function checkValidity() {
+      let valid = false;
+      switch (currentStep) {
+        case 1: valid = !!currentCategory; break;
+        case 2: valid = !!currentSubject; break;
+        case 3: valid = isImproRecordingStarted; break;
+        default: valid = false; // step4 & 5 : nav se fait dans l'UI interne
+      }
+      setNextEnabled(valid);
+    }
+
+    function disableFooterNav() {
+      nextBtn.disabled = true;
+      prevBtn.disabled = true;
+      nextBtn.classList.remove('pulse');
+    }
+    function enableFooterNav() {
+      updatePrevEnabled();
+      checkValidity();
+    }
+
+    /***********************
+     * Gestion de l'historique (pushState/popstate)
+     ***********************/
+    function pushStepState(step) {
+      history.pushState({ step }, null, `#step${step}`);
+    }
+
+    window.addEventListener('popstate', (event) => {
+      if (event.state && event.state.step) {
+        const stepToShow = event.state.step;
+        Object.values(boxes).forEach(box => box.classList.remove('active'));
+        boxes[stepToShow].classList.add('active');
+        currentStep = stepToShow;
+        updateProgressBar(stepToShow);
+        updateShareButtonVisibility();
+        updateFooterVisibility();
+        updatePrevEnabled();
+        checkValidity();
+        if (stepToShow == 3) {
+          document.getElementById('current-subject-display').textContent = currentSubject;
+        }
+      } else {
+        Object.values(boxes).forEach(box => box.classList.remove('active'));
+        introBox.style.display = 'block';
+        currentStep = 0;
+        updateShareButtonVisibility();
+        updateFooterVisibility();
+      }
+    });
+
+    /***********************
+     * Fonctions utilitaires
+     ***********************/
+    function updateProgressBar(step) {
+      if (step >= 4) {
+        topProgressBar.style.width = "100%";
+      } else {
+        topProgressBar.style.width = `${(step / 5) * 100}%`;
+      }
+    }
+
+    function displayError(elementId, message) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      el.textContent = message;
+      el.style.display = 'block';
+    }
+
+    /***********************
+     * Navigation entre les étapes (nouveaux boutons footer)
+     ***********************/
+    const stepForwardActions = {
+      1: () => { showBox(1, 2); },
+      2: () => { document.getElementById('current-subject-display').textContent = currentSubject; showBox(2, 3); },
+      3: () => { showBox(3, 4); },
+      4: () => { showBox(4, 5); }
+    };
+
+    nextBtn.addEventListener('click', () => {
+      if (nextBtn.disabled) return;
+      if (stepForwardActions[currentStep]) {
+        stepForwardActions[currentStep]();
+      }
+    });
+
+    prevBtn.addEventListener('click', () => {
+      if (prevBtn.disabled) return;
+      if (currentStep > 1) {
+        showBox(currentStep, currentStep - 1);
+      }
+    });
+
+    function showBox(current, next) {
+      if (!boxes[current] || !boxes[next]) return;
+      boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
+      boxes[next].classList.add('active');
+      boxes[next].classList.add(next > current ? 'slide-from-bottom' : 'slide-from-top');
+      updateProgressBar(next);
+      currentStep = next;
+      pushStepState(next);
+      updateShareButtonVisibility();
+      updateFooterVisibility();
+      updatePrevEnabled();
+      checkValidity();
+
+      if (next == 4) {
+        document.getElementById('download-video-btn').classList.add('animated-border');
+        document.getElementById('contact-btn').classList.remove('animated-border');
+        document.getElementById('feedback-btn').classList.remove('animated-border');
+      }
+      if (next == 3) {
+        document.getElementById('current-subject-display').textContent = currentSubject;
+      }
+    }
+
+    /***********************
+     * Initialisation de l'introduction
+     ***********************/
+    startIntroBtn.addEventListener('click', () => {
+      const introTitle = document.querySelector('.intro-box h1');
+      const introWrapper = document.querySelector('.intro-box .wrapper');
+      if (introTitle) introTitle.classList.add('stop-animation');
+      if (introWrapper) introWrapper.classList.add('stop-animation');
+      introBox.style.animation = 'fadeOut 0.5s ease forwards';
+      setTimeout(() => {
+        introBox.style.display = 'none';
+        boxes[1].classList.add('active', 'slide-from-bottom');
+        currentStep = 1;
+        updateProgressBar(1);
+        pushStepState(1);
+        updateShareButtonVisibility();
+        updateFooterVisibility();
+        updatePrevEnabled();
+        checkValidity();
+      }, 500);
+    });
+
+   /***********************
+     * Gestion des objectifs (STEP1)
+     ***********************/
+    const explanations = {
+      convaincre:   "Tu as 2 minutes pour convaincre ton auditoire sur un sujet délicat",
+      inspirer:     "Tu as 2 minutes pour inspirer ton auditoire",
+      toast:        "Tu as 2 minutes pour porter un toast marquant lors d'un événement",
+      repartie:     "Savoir répondre avec justesse et rapidité à une remarque désagréable au travail",
+      vendre:       "Tu as 2 minutes pour vendre un objet insolite",
+      conflit:      "Gère un désaccord ou une tension avec diplomatie",
+      diction:      "Répète une phrase complexe plusieurs fois de suite sans te tromper",
+      entretien:    "Convaincs ton futur employeur que tu es la pépite qu'il recherche",
+      'lacher-prise': "Oublie la censure et exprime ton grain de folie"
+    };
+
+    const txtFilesByCategory = {
+      convaincre:   "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/convaincre.txt",
+      inspirer:     "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/inspirer.txt",
+      'lacher-prise': "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/lacher_prise.txt",
+      toast:        "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/toast.txt",
+      repartie:     "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/repartie.txt",
+      vendre:       "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/vendre.txt",
+      conflit:      "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/gerer_un_conflit.txt",
+      diction:      "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/diction.txt",
+      entretien:    "https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/entretien.txt"
+    };
+
+    let subjectsCache = {
+      convaincre: null,
+      inspirer: null,
+      'lacher-prise': null,
+      toast: null,
+      repartie: null,
+      vendre: null,
+      conflit: null,
+      diction: null,
+      entretien: null
+    };
+
+    const defaultIcons = {
+      convaincre: "fas fa-handshake",
+      inspirer: "fas fa-lightbulb",
+      "lacher-prise": "fas fa-smile",
+      toast: "fas fa-glass-cheers",
+      repartie: "fas fa-comments",
+      vendre: "fas fa-money-bill-wave",
+      conflit: "fas fa-exclamation-triangle",
+      diction: "fas fa-grin-tongue",
+      entretien: "fas fa-briefcase"
+    };
+
+    const objectivesButtons = document.querySelectorAll('.objectives-container .objective-item');
+    const explanationBox = document.getElementById('explanation-box');
+
+    objectivesButtons.forEach(item => {
+      item.addEventListener('click', async () => {
+        if (window.innerWidth <= 600) {
+          const icon = item.querySelector('i');
+          if (item.classList.contains('selected-objective') && icon.classList.contains('fa-arrow-right')) {
+            showBox(1, 2);
+            return;
+          }
+        }
+        objectivesButtons.forEach(el => {
+          el.classList.remove('selected-objective');
+          const elIcon = el.querySelector('i');
+          const cat = el.dataset.category;
+          if (defaultIcons[cat]) {
+            elIcon.className = defaultIcons[cat];
+          }
+          el.style.transform = "";
+          el.style.backgroundColor = "";
+        });
+        item.classList.add('selected-objective');
+        const cat = item.dataset.category;
+        item.style.transition = "transform 0.3s, background-color 0.3s";
+        item.style.transform = "scale(1.1)";
+        item.style.backgroundColor = "rgba(0, 164, 138, 0.2)";
+        setTimeout(() => { item.style.transform = ""; }, 300);
+
+        currentCategory = cat;
+        currentSubject = "";
+
+        if (window.innerWidth <= 600) {
+          const existingExp = document.querySelector('.mobile-explanation');
+          if(existingExp) { existingExp.remove(); }
+          const exp = explanations[cat] || "";
+          if(exp) {
+            item.insertAdjacentHTML('afterend', `<div class="mobile-explanation">${exp}</div>`);
+          }
+          const icon = item.querySelector('i');
+          icon.className = "fas fa-arrow-right";
+        } else {
+          const exp = explanations[cat] || "";
+          explanationBox.textContent = exp;
+          explanationBox.classList.add('show');
+        }
+
+        if (subjectsCache[cat] === null) {
+          await loadSubjects(cat);
+        }
+        document.getElementById('objective-error').style.display = 'none';
+        document.getElementById('impro-error').style.display = 'none';
+        nextBtns[1].classList.add('pulse');
+      });
+    });
+
+    async function loadSubjects(category) {
+      const filePath = txtFilesByCategory[category];
+      if (!filePath) return [];
+      try {
+        const response = await fetch(filePath);
+        if (!response.ok) {
+          console.error("Erreur fetch:", filePath);
+          return [];
+        }
+        const text = await response.text();
+        const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+        subjectsCache[category] = lines;
+        return lines;
+      } catch (err) {
+        console.error("Erreur fetch: ", err);
+        return [];
+      }
+    }
+
+    /***********************
+     * Gestion du sujet d'impro (STEP2)
+     ***********************/
+    const generateSubjectBtn = document.getElementById('generate-subject-btn');
+    const subjectWrapper = document.getElementById('subject-wrapper');
+    const subjectDisplay = document.getElementById('subject-display');
+
+    generateSubjectBtn.addEventListener('click', () => {
+      if (!currentCategory) {
+        displayError('objective-error', "Merci de sélectionner un objectif avant de générer un sujet.");
+        return;
+      }
+      const subjects = subjectsCache[currentCategory];
+      if (!subjects || subjects.length === 0) {
+        subjectDisplay.textContent = "Désolé, aucun sujet n'est disponible pour le moment. Veuillez réessayer plus tard.";
+        subjectWrapper.style.display = 'block';
+        currentSubject = "";
+        return;
+      }
+      const randomIndex = Math.floor(Math.random() * subjects.length);
+      currentSubject = subjects[randomIndex];
+      subjectDisplay.textContent = currentSubject;
+      subjectWrapper.style.display = 'block';
+      generateSubjectBtn.classList.add('subject-generated');
+      document.getElementById('subject-error').style.display = 'none';
+      nextBtns[2].classList.add('pulse');
+    });
+
+    document.getElementById('advice-toggle').addEventListener('click', () => {
+      const adviceText = document.getElementById('advice-text');
+      const adviceIcon = document.getElementById('advice-icon');
+      if (adviceText.style.display === 'none' || adviceText.style.display === '') {
+        adviceText.style.display = 'block';
+        adviceIcon.classList.remove('fa-chevron-down');
+        adviceIcon.classList.add('fa-chevron-up');
+        adviceIcon.style.transform = 'rotate(0deg)';
+      } else {
+        adviceText.style.display = 'none';
+        adviceIcon.classList.remove('fa-chevron-up');
+        adviceIcon.classList.add('fa-chevron-down');
+        adviceIcon.style.transform = 'rotate(0deg)';
+      }
+    });
+
+    /***********************
+     * Enregistrement vidéo (STEP3)
+     ***********************/
+    function bindStartButton() {
+      const startBtn = document.getElementById('start-btn');
+      if(startBtn){
+        startBtn.addEventListener('click', startImpro);
+      }
+    }
+
+    async function startImpro() {
+      if (!currentSubject) {
+        displayError('impro-error', "Tu dois générer un sujet avant de démarrer l'improvisation.");
+        return;
+      }
+      if (typeof MediaRecorder === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
+        displayError('impro-error', "Désolé, l'enregistrement vidéo n'est pas supporté par votre navigateur.");
+        return;
+      }
+      if (!confirm("Votre webcam va se lancer pour démarrer l'improvisation. Voulez-vous continuer ?")) {
+        return;
+      }
+      if (window.innerWidth <= 600) {
+          const videoBox = document.querySelector('.video-box');
+          videoBox.style.height = "450px";
+      }
+      document.querySelector('.video-overlay').style.display = 'none';
+      startInitialCountdown();
+    }
+
+    function startInitialCountdown() {
+      let count = 5;
+      document.getElementById('initial-countdown').textContent = count;
+      document.getElementById('initial-countdown-overlay').style.display = 'flex';
+      countdown = setInterval(() => {
+        count--;
+        if (count > 0) {
+          document.getElementById('initial-countdown').textContent = count;
+        } else {
+          clearInterval(countdown);
+          document.getElementById('initial-countdown-overlay').style.display = 'none';
+          initiateRecording();
+        }
+      }, 1000);
+    }
+
+    async function initiateRecording() {
+      const stream = await setupCamera();
+      if (!stream) return;
+      if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
+        displayError('impro-error', "Ton navigateur ne supporte pas l'enregistrement vidéo. Essaye avec Chrome, Edge ou Firefox.");
+        return;
+      }
+      mediaRecorderInstance = new MediaRecorder(stream);
+      recordedChunks = [];
+      mediaRecorderInstance.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          recordedChunks.push(event.data);
+        }
+      };
+      mediaRecorderInstance.onstop = () => {
+        const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
+        videoURL = URL.createObjectURL(videoBlob);
+        stream.getTracks().forEach(t => t.stop());
+        const overlay = document.querySelector('.video-overlay');
+        overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Improvisation terminée. <br>Passe à l'étape suivante !</p>";
+        overlay.style.display = 'flex';
+        document.getElementById('impro-error').style.display = 'none';
+        clearInterval(timerInterval);
+        document.getElementById('recording-indicator').style.display = 'none';
+        isImproRecordingStarted = true;
+        nextBtns[3].classList.add('pulse');
+        enableNavigationButtons();
+        if (window.innerWidth <= 600) {
+            document.querySelector('.video-box').style.height = "300px";
+        }
+      };
+      mediaRecorderInstance.start();
+      document.getElementById('recording-indicator').style.display = 'flex';
+      document.getElementById('stop-btn').classList.remove('hidden-btn');
+      document.getElementById('stop-btn').disabled = false;
+      document.getElementById('restart-btn').classList.add('hidden-btn');
+      disableNavigationButtons();
+      startTimer();
+    }
+
+    async function setupCamera() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        document.getElementById('preview').srcObject = stream;
+        return stream;
+      } catch (error) {
+        if (error.name === 'NotAllowedError') {
+          displayError('impro-error', "Vous avez refusé l'accès à la webcam. Veuillez autoriser l'accès.");
+        } else if (error.name === 'NotFoundError') {
+          displayError('impro-error', "Aucune caméra/micro détectés.");
+        } else {
+          displayError('impro-error', "Erreur : Impossible d'accéder à la webcam.");
+        }
+        console.error(error);
+        return null;
+      }
+    }
+
+    function startTimer() {
+      timeRemaining = 120;
+      updateCountdownDisplay();
+      timerInterval = setInterval(() => {
+        timeRemaining--;
+        if (timeRemaining >= 0) {
+          updateCountdownDisplay();
+        }
+        if (timeRemaining < 0) {
+          clearInterval(timerInterval);
+          if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
+            mediaRecorderInstance.stop();
+            document.getElementById('restart-btn').classList.remove('hidden-btn');
+          }
+        }
+      }, 1000);
+    }
+    function updateCountdownDisplay() {
+      const minutes = Math.floor(timeRemaining / 60);
+      const seconds = timeRemaining % 60;
+      const countdownEl = document.getElementById('countdown');
+      countdownEl.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+    }
+
+    document.getElementById('stop-btn').addEventListener('click', () => {
+      if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
+        mediaRecorderInstance.stop();
+        clearInterval(countdown);
+        clearInterval(timerInterval);
+        document.getElementById('stop-btn').classList.add('hidden-btn');
+        document.getElementById('stop-btn').disabled = true;
+        document.getElementById('restart-btn').classList.remove('hidden-btn');
+      }
+    });
+    
+    // Modification : Lorsqu'on clique sur "Recommencer ton impro", après confirmation,
+    // on réinitialise l'interface pour lancer immédiatement le compte à rebours comme au premier démarrage.
+    document.getElementById('restart-btn').addEventListener('click', () => {
+      if (!confirm("Attention, tu vas recommencer ton impro et lancer un nouvel enregistrement. Tu es sûr ?")) {
+        return;
+      }
+      // Masquer la zone d'enregistrement et réinitialiser son contenu
+      const overlay = document.querySelector('.video-overlay');
+      overlay.style.display = 'none';
+      overlay.innerHTML = `
+        <p>Ta vidéo va s'enregistrer ici.</p>
+        <button id="start-btn" aria-label="Démarrer l'improvisation">
+          Démarrer ton impro <i class="fas fa-video"></i>
+        </button>
+        <p>NB : ta vidéo est stockée sur ton appareil. <br>Aucun enregistrement n'est conservé par Letmotiv.</p>
+      `;
+      isImproRecordingStarted = false;
+      // Pour mobile, réinitialiser la hauteur de la vidéo
+      if (window.innerWidth <= 600) {
+          document.querySelector('.video-box').style.height = "450px";
+      }
+      // Lancer immédiatement le compte à rebours (qui masquera à nouveau l'overlay et lancera l'enregistrement)
+      startInitialCountdown();
+    });
+    bindStartButton();
+
+    /***********************
+     * Téléchargement & Newsletter (STEP4)
+     ***********************/
+    document.getElementById('download-video-btn').addEventListener('click', () => {
+      if (confirm("La vidéo de ton improvisation va être téléchargée. Veux-tu continuer ?")) {
+        if (videoURL) {
+          const link = document.createElement('a');
+          link.href = videoURL;
+          link.download = 'Letmotiv_Improvisation.mp4';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          videoDownloaded = true;
+          // Déplacer l'animation vers le conteneur contact
+          document.getElementById('download-video-btn').classList.remove('animated-border');
+          document.getElementById('contact-btn').classList.add('animated-border');
+          document.getElementById('contact-btn').classList.remove('disabled');
+        } else {
+          alert("Aucune vidéo n'est disponible pour le moment.");
+        }
+      }
+    });
+
+    document.getElementById('feedback-btn').addEventListener('click', () => {
+      if (document.getElementById('feedback-btn').classList.contains('disabled')) return;
+      window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro";
+    });
+
+    document.getElementById('contact-yes').addEventListener('click', (e) => {
+      e.preventDefault();
+      showBox(4, 5);
+    });
+    document.getElementById('contact-no').addEventListener('click', (e) => {
+      e.preventDefault();
+      // Déplacer l'animation vers le bouton 3
+      document.getElementById('feedback-btn').classList.add('animated-border');
+      document.getElementById('contact-btn').classList.remove('animated-border');
+      document.getElementById('feedback-btn').classList.remove('disabled');
+    });
+
+    document.getElementById('newsletter-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      let valid = true;
+      const prenomInput = document.getElementById('newsletter-prenom');
+      const emailInput = document.getElementById('newsletter-email');
+      const prenomErrorEl = document.getElementById('newsletter-prenom-error');
+      const emailErrorEl = document.getElementById('newsletter-email-error');
+      prenomErrorEl.style.display = 'none';
+      emailErrorEl.style.display = 'none';
+
+      if (prenomInput.value.trim() === "") {
+        prenomErrorEl.textContent = "Le prénom est requis.";
+        prenomErrorEl.style.display = 'block';
+        valid = false;
+      }
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (emailInput.value.trim() === "") {
+        emailErrorEl.textContent = "L'email est requis.";
+        emailErrorEl.style.display = 'block';
+        valid = false;
+      } else if (!emailRegex.test(emailInput.value.trim())) {
+        emailErrorEl.textContent = "L'email n'est pas valide.";
+        emailErrorEl.style.display = 'block';
+        valid = false;
+      }
+      if (!valid) return;
+
+      document.getElementById('hidden-prenom').value = prenomInput.value.trim();
+      document.getElementById('hidden-email').value = emailInput.value.trim();
+      document.getElementById('hidden-google-form').submit();
+
+      const successEl = document.getElementById('newsletter-success');
+      successEl.style.display = 'block';
+      setTimeout(() => { successEl.style.display = 'none'; }, 5000);
+    });
+
+    /***********************
+     * Bouton de partage
+     ***********************/
+    class ShareManager {
+      constructor() {
+        this.shareData = {
+          title: "Letmotiv - Simulateur d'entretien",
+          text: "Développe et évalue ta prise de parole en public avec le simulateur d'improvisation Letmotiv.",
+          url: window.location.href,
+          image: "https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png"
+        };
+        this.bindShareEvents();
+      }
+      bindShareEvents() {
+        const shareBtn = document.getElementById('global-share-btn');
+        shareBtn.addEventListener('click', () => {
+          if (navigator.share) {
+            navigator.share(this.shareData)
+              .then(() => console.log('Shared successfully'))
+              .catch((error) => console.log('Error sharing', error));
+          } else {
+            alert("Le partage n'est pas supporté sur ce navigateur.");
+          }
+        });
+      }
+    }
+    window.addEventListener('DOMContentLoaded', () => {
+      new ShareManager();
+    });
+
+    function updateShareButtonVisibility() {
+      const shareBtn = document.getElementById('global-share-btn');
+      shareBtn.style.display = currentStep >= 1 ? 'flex' : 'none';
+    }
+
+    // Démarrage : si URL avec hash
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.location.hash) {
+        const stepFromHash = window.location.hash.replace('#step', '');
+        if (boxes[stepFromHash]) {
+          showBox(currentStep, stepFromHash);
+        }
+      }
+      updateShareButtonVisibility();
+      updateFooterVisibility();
+    });
+  </script>
+</body>
+</html>
