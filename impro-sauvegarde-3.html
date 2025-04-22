@@ -1,214 +1,450 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Simulateur d'improvisation</title>
-  <meta name="description" content="Évaluer et entraîner sa prise de parole avec le simulateur d'improvisation Letmotiv.">
-  <!-- Favicon & réseaux sociaux – inchangé -->
-  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Letmotiv_favicon.webp"/>
-  <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Letmotiv_favicon.webp"/>
-  <meta property="og:title" content="Simulateur d'improvisation Letmotiv"/>
-  <meta property="og:description" content="Entraîne‑toi à la prise de parole en public."/>
-  <meta property="og:type" content="website"/>
-  <meta property="og:url" content="https://letmotiv-simulateur.fr"/>
-  <meta property="og:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png"/>
-  <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="Simulateur d'improvisation Letmotiv"/>
-  <meta name="twitter:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png"/>
-
-  <!-- Polices & icônes -->
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans&family=Montserrat:wght@700&display=swap" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css?family=Poppins:900i" rel="stylesheet"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
-  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet"/>
-
-  <!-- Styles principaux (identiques à la version précédente) -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simulateur d'improvisation Letmotiv</title>
+  <link rel="icon" href="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Letmotiv_favicon.webp" type="image/png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans&family=Montserrat:wght@700&display=swap" rel="stylesheet" />
   <style>
-    *{box-sizing:border-box}
-    body{margin:0;font-family:'DM Sans',sans-serif;color:#333;background:#fff;padding:60px 0 80px}
-    /* header, barre de progression, footer nav */
-    .header{position:fixed;top:0;left:0;width:100%;background:#182d84;color:#fff;text-align:center;padding:10px 5px;font-weight:700;z-index:10}
-    .header .header-l2{font-weight:400;font-size:14px}
-    .progress-container{position:fixed;top:60px;left:0;width:100%;height:10px;background:rgba(24,45,132,.1);z-index:9}
-    .progress-bar{width:0;height:100%;background:#00a48a;transition:width .4s}
-    .footer-nav{position:fixed;bottom:0;left:0;width:100%;background:#182d84;display:none;justify-content:space-between;align-items:center;gap:10px;padding:10px;z-index:15}
-    .footer-nav button{flex:1;padding:12px 0;font-size:16px;font-weight:700;border:none;border-radius:8px;color:#fff;background:#00a48a;cursor:pointer;transition:.3s}
-    .footer-nav button:disabled{background:#ccc;cursor:default;opacity:.55}
-    .pulse{animation:pulse 1.5s infinite}
-    @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(0,164,138,.7)}70%{box-shadow:0 0 0 12px rgba(0,164,138,0)}100%{box-shadow:0 0 0 0 rgba(0,164,138,0)}}
-
-    /* intro splash */
-    .intro-box{position:fixed;inset:0;background:linear-gradient(135deg,#182d84,#00a48a);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;z-index:20;animation:fadeIn 1s forwards}
-    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-    .intro-box h1{font-family:'Montserrat',sans-serif;text-align:center;font-size:2.8rem;margin:0 0 40px;text-shadow:2px 2px 6px rgba(0,0,0,.3)}
-    .intro-box .cta{display:flex;align-items:center;gap:15px;font-family:'Poppins',sans-serif;font-size:36px;color:#fff;text-decoration:none;background:#ff5722;padding:10px 40px;border-radius:8px;box-shadow:6px 6px 0 #000;transform:skewX(-15deg);transition:.3s}
-    .intro-box .cta span{transform:skewX(15deg)}
-    .intro-box .cta:hover{box-shadow:10px 10px 0 #fbc638}
-    @media(max-width:600px){.intro-box h1{font-size:2rem}.intro-box .cta{font-size:28px}}
-
-    /* conteneur principal & boxes */
-    .main-container{padding:20px}
-    .box{max-width:600px;margin:0 auto 20px;padding:20px;border-radius:15px;background:linear-gradient(135deg,#fff,#f7f7f7);box-shadow:0 4px 12px rgba(0,0,0,.1);display:none;opacity:0;transition:opacity .4s}
-    .box.active{display:block;opacity:1}
-    .slide-from-bottom{animation:fromBottom .6s}
-    @keyframes fromBottom{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
-    .box-title{font-weight:700;font-size:18px;color:#182d84;margin-bottom:15px}
-
-    /* objectives grid */
-    .objectives-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:12px}
-    .objective-item{padding:12px;border-radius:10px;text-align:center;cursor:pointer;transition:.25s}
-    .objective-item:hover{background:rgba(0,164,138,.1)}
-    .objective-item.selected-objective{background:rgba(0,164,138,.2);transform:scale(1.05);color:#00a48a;border:1px solid #00a48a}
-    .objective-item i{font-size:1.6rem;margin-bottom:6px}
-
-    /* sujet */
-    #subject-wrapper{margin-top:12px;padding:14px;border-radius:8px;background:linear-gradient(135deg,#00a48a,#182d84);color:#fff;display:none}
-
-    /* vidéo styles (identiques) */
-    .video-box{position:relative;margin:10px auto;border:3px solid #182d84;border-radius:6px;max-width:500px;height:300px;background:#fefefe;display:flex;justify-content:center;align-items:center;overflow:hidden}
-    .video-box video{width:100%;height:100%;object-fit:cover;transform:scaleX(-1)}
-    .video-overlay{position:absolute;inset:0;background:rgba(255,255,255,.6);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:15px;text-align:center}
-    .video-overlay button{padding:10px 22px;border:none;border-radius:25px;background:#182d84;color:#fff;font-size:16px;cursor:pointer;transition:.3s}
-    .video-overlay button:hover{background:#00a48a}
-    .recording-indicator{position:absolute;top:10px;right:10px;display:none;align-items:center;gap:6px;background:rgba(128,128,128,.6);padding:4px 10px;border-radius:20px;font-size:14px;color:#ff0000}
-    .recording-indicator .dot{width:10px;height:10px;border-radius:50%;background:#ff0000;animation:blink 1s infinite}
-    @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
-
-    /* bouton partage */
-    #global-share-btn{position:fixed;bottom:95px;right:20px;width:42px;height:42px;border-radius:50%;background:#182d84;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:20px;z-index:999}
+    html, body { margin:0; padding:0; height:100%; overflow-x:hidden; }
+    body { font-family:'DM Sans', sans-serif; background:#fff; padding-top:60px; padding-bottom:70px; }
+    /* HEADER */
+    .header {
+      position:fixed; top:0; left:0; width:100%; background:#182d84; color:#fff;
+      text-align:center; padding:10px; z-index:100;
+    }
+    .header-l1 { font-size:16px; font-weight:bold; }
+    .header-l2 { font-size:14px; }
+    /* PROGRESS BAR avec repères tous les 20% */
+    .progress-container {
+      position:fixed; top:60px; left:0; width:100%; height:10px;
+      background: rgba(24,45,132,0.1);
+      background-image:
+        repeating-linear-gradient(
+          to right,
+          transparent,
+          transparent calc(20% - 1px),
+          #ccc calc(20% - 1px),
+          #ccc 20%
+        );
+      z-index:90;
+    }
+    .progress-bar { height:100%; width:0; background:#00a48a; transition: width 0.5s ease; }
+    /* FOOTER fixe */
+    .footer-nav {
+      position:fixed; bottom:0; left:0; width:100%; background:#fff;
+      box-shadow:0 -2px 5px rgba(0,0,0,0.1); padding:10px; text-align:center; z-index:100;
+    }
+    .btn-next {
+      background:#00a48a; color:#fff; border:none; padding:12px 30px;
+      border-radius:8px; font-size:16px; cursor:pointer; transition:opacity .3s;
+    }
+    .btn-next:disabled {
+      background:#ccc; color:#777; cursor:not-allowed; opacity:.6;
+    }
+    /* BOXES */
+    .main-container { max-width:600px; margin:80px auto 0; }
+    .box {
+      display:none; background:#f9f9f9; border-radius:12px;
+      box-shadow:0 4px 12px rgba(0,0,0,0.1); padding:20px; margin-bottom:20px;
+      text-align:center;
+    }
+    .box.active { display:block; }
+    h1, h2 { margin:0 0 15px; color:#182d84; }
+    /* INTRO */
+    .intro-box {
+      position:fixed; top:0; left:0; width:100%; height:100%;
+      background:linear-gradient(135deg,#182d84,#00a48a);
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      text-align:center; color:#fff; z-index:200;
+      animation:fadeIn 1s ease forwards;
+    }
+    .intro-box h1 {
+      font-family:'Montserrat',sans-serif; font-size:2.8rem; margin-bottom:50px;
+      animation:slideDown 1s ease forwards; text-shadow:2px 2px 8px rgba(0,0,0,0.3);
+    }
+    .cta {
+      display:flex; padding:10px 45px; text-decoration:none;
+      font-family:'Poppins',sans-serif; font-size:40px;
+      color:#fff; background:#FF5722; transform:skewX(-15deg);
+      box-shadow:6px 6px 0 black; border-radius:8px; transition:.5s;
+    }
+    .cta span { transform:skewX(15deg); }
+    .cta:hover { box-shadow:10px 10px 0 #FBC638; }
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+    @keyframes slideDown { from{transform:translateY(-50px);opacity:0} to{transform:translateY(0);opacity:1} }
+    /* STEP1 : objectifs */
+    .objectives-container {
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(100px,1fr)); gap:10px;
+    }
+    .objective-item {
+      background:#f7f9fc; padding:12px; border-radius:8px;
+      cursor:pointer; transition:transform .3s, background .3s, border-color .3s;
+    }
+    .objective-item.selected {
+      background:rgba(0,164,138,0.2); transform:scale(1.1);
+      border:1px solid #00a48a; color:#00a48a;
+    }
+    .objective-item i { font-size:1.8rem; margin-bottom:8px; display:block; color:#777; }
+    /* STEP2 : génération sujet */
+    #generate-subject-btn {
+      background:#182d84; color:#fff; border:none; padding:10px 20px;
+      border-radius:25px; cursor:pointer; transition:background .3s;
+    }
+    #generate-subject-btn:disabled { background:#ccc; cursor:not-allowed; }
+    #subject-wrapper {
+      display:none; margin-top:15px; padding:15px; border-radius:8px;
+      background:linear-gradient(135deg,#00a48a,#182d84); color:#fff;
+    }
+    /* STEP3 : vidéo */
+    .subject-bubble {
+      display:inline-block; padding:10px 15px; border:2px solid #ccc;
+      border-radius:16px; background:#fefefe; margin-bottom:15px;
+    }
+    .video-box {
+      position:relative; width:100%; max-width:500px; height:300px;
+      margin:0 auto 15px; border:3px solid #182d84; border-radius:6px;
+      background:#fefefe; overflow:hidden;
+    }
+    .video-box video {
+      width:100%; height:100%; object-fit:cover; transform:scaleX(-1);
+    }
+    .video-overlay {
+      position:absolute; top:0; left:0; width:100%; height:100%;
+      background:rgba(255,255,255,0.7); display:flex;
+      flex-direction:column; justify-content:center; align-items:center;
+      text-align:center; padding:10px; z-index:2;
+    }
+    .video-overlay button {
+      background:#182d84; color:#fff; border:none; padding:10px 20px;
+      border-radius:25px; cursor:pointer; transition:background .3s;
+    }
+    .video-overlay button:hover { background:#00a48a; }
+    .recording-indicator {
+      position:absolute; top:10px; right:10px; display:flex;
+      align-items:center; gap:5px; background:rgba(128,128,128,0.6);
+      padding:5px 10px; border-radius:20px; color:#f00; z-index:3;
+    }
+    .recording-indicator .dot {
+      width:10px; height:10px; background:#f00; border-radius:50%;
+      animation:blink 1s infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .hidden-btn { display:none!important; }
   </style>
 </head>
 <body>
+
   <!-- INTRO -->
   <div class="intro-box" id="intro-box">
-    <h1><span>ENTRAINE‑TOI</span><span>À LA PRISE DE PAROLE</span><span>EN PUBLIC</span></h1>
-    <a id="start-intro-btn" class="cta" href="#"><span>COMMENCER</span></a>
+    <h1>
+      <span class="line">ENTRAINE-TOI</span>
+      <span class="line">A LA PRISE DE PAROLE</span>
+      <span class="line">EN PUBLIC</span>
+    </h1>
+    <a id="start-intro-btn" class="cta" href="#">
+      <span>COMMENCER</span>
+    </a>
   </div>
 
-  <!-- HEADER & PROGRESS -->
-  <div class="header"><div class="header-l1">Coaching en prise de parole</div><div class="header-l2">Simulateur d'improvisation Letmotiv</div></div>
-  <div class="progress-container"><div class="progress-bar" id="progress-bar"></div></div>
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-l1">Coaching en prise de parole</div>
+    <div class="header-l2">Simulateur d'improvisation Letmotiv</div>
+  </div>
 
-  <!-- MAIN -->
+  <!-- PROGRESS BAR -->
+  <div class="progress-container">
+    <div class="progress-bar" id="top-progress-bar"></div>
+  </div>
+
   <div class="main-container">
-    <!-- STEP 1 -->
-    <section class="box" id="step1">
-      <h2 class="box-title">Quel est ton objectif ?</h2>
-      <div class="objectives-container" id="objectives"></div>
-      <div id="objective-error" class="error-message"></div>
-    </section>
+    <!-- STEP1 -->
+    <div class="box" id="step1">
+      <h2>Quel est ton objectif ?</h2>
+      <div class="objectives-container">
+        <div class="objective-item" data-category="diction">
+          <i class="fas fa-grin-tongue"></i>
+          <span>Améliorer sa diction</span>
+        </div>
+        <div class="objective-item" data-category="repartie">
+          <i class="fas fa-comments"></i>
+          <span>Avoir de la répartie</span>
+        </div>
+        <div class="objective-item" data-category="convaincre">
+          <i class="fas fa-handshake"></i>
+          <span>Convaincre</span>
+        </div>
+        <div class="objective-item" data-category="conflit">
+          <i class="fas fa-exclamation-triangle"></i>
+          <span>Gérer un conflit</span>
+        </div>
+        <div class="objective-item" data-category="inspirer">
+          <i class="fas fa-lightbulb"></i>
+          <span>Inspirer</span>
+        </div>
+        <div class="objective-item" data-category="lacher-prise">
+          <i class="fas fa-smile"></i>
+          <span>Lâcher prise</span>
+        </div>
+        <div class="objective-item" data-category="toast">
+          <i class="fas fa-glass-cheers"></i>
+          <span>Porter un toast</span>
+        </div>
+        <div class="objective-item" data-category="entretien">
+          <i class="fas fa-briefcase"></i>
+          <span>Réussir son entretien</span>
+        </div>
+        <div class="objective-item" data-category="vendre">
+          <i class="fas fa-money-bill-wave"></i>
+          <span>Vendre</span>
+        </div>
+      </div>
+    </div>
 
-    <!-- STEP 2 -->
-    <section class="box" id="step2">
-      <h2 class="box-title">Prêt à relever le défi ?</h2>
-      <button id="generate-subject-btn" class="btn-impro">Générer un sujet <i class="fas fa-random"></i></button>
-      <div id="subject-wrapper"><span id="subject-display"></span></div>
-      <div id="subject-error" class="error-message"></div>
-    </section>
+    <!-- STEP2 -->
+    <div class="box" id="step2">
+      <h2>Prêt à relever le défi ?</h2>
+      <button id="generate-subject-btn">Générer un sujet <i class="fas fa-random"></i></button>
+      <div id="subject-wrapper">
+        <span id="subject-display"></span>
+      </div>
+    </div>
 
-    <!-- STEP 3 -->
-    <section class="box" id="step3">
-      <h2 class="box-title">C'est parti !</h2>
+        <!-- STEP3 -->
+    <div class="box" id="step3">
+      <h2>C'est parti, lance ton improvisation !</h2>
       <div id="current-subject-display" class="subject-bubble"></div>
       <div class="video-box">
         <video id="preview" autoplay muted playsinline></video>
-        <div class="video-overlay" id="video-overlay">
+        <div class="video-overlay">
           <p>Ta vidéo va s'enregistrer ici.</p>
-          <button id="start-btn">Démarrer <i class="fas fa-video"></i></button>
-          <p class="info">NB : la vidéo reste sur ton appareil.</p>
+          <button id="start-btn">Démarrer ton impro <i class="fas fa-video"></i></button>
+          <p>NB : ta vidéo est stockée sur ton appareil.</p>
         </div>
-        <div class="recording-indicator" id="recording-indicator"><span class="dot"></span><span id="countdown">2:00</span></div>
-        <div class="initial-countdown-overlay" id="initial-countdown-overlay"><span id="initial-countdown" style="font-size:48px;color:#fff;font-weight:700">3</span></div>
+        <div class="recording-indicator" id="recording-indicator">
+          <span class="dot"></span>
+          <span id="countdown">2:00</span>
+        </div>
+        <button id="stop-btn" class="hidden-btn">Arrêter ton impro <i class="fas fa-stop"></i></button>
+        <button id="restart-btn" class="hidden-btn">Recommencer ton impro <i class="fas fa-redo"></i></button>
       </div>
-      <div id="impro-error" class="error-message"></div>
-    </section>
+    </div>
 
-    <!-- STEP 4 -->
-    <section class="box" id="step4">
-      <h2 class="box-title">Bravo pour ton impro !</h2>
-      <button id="download-video-btn" class="action-square animated-border">1) Télécharger la vidéo</button>
-      <div id="contact-btn" class="action-square disabled">2) Se former avec un expert<br><div class="contact-options"><button id="contact-yes">Oui</button><button id="contact-no">Non</button></div></div>
-      <button id="feedback-btn" class="action-square disabled">3) Analyser ma prestation</button>
-    </section>
+    <!-- STEP4 -->
+    <div class="box" id="step4">
+      <h2>Félicitations pour ton improvisation ! 🤩</h2>
+      <div class="action-container">
+        <button id="download-video-btn" class="btn-action">1) Télécharger ta vidéo</button>
+        <div id="contact-btn" class="btn-action disabled">
+          <span>2) Prendre rdv avec un expert ?</span>
+          <div class="contact-options" style="margin-top:10px; display:flex; gap:8px; justify-content:center;">
+            <button id="contact-yes">Oui ✓</button>
+            <button id="contact-no">Non ✗</button>
+          </div>
+        </div>
+        <button id="feedback-btn" class="btn-action disabled">3) Analyser ma prestation</button>
+      </div>
 
-    <!-- STEP 5 -->
-    <section class="box" id="step5">
-      <h2 class="box-title">Réserve un appel avec nous</h2>
-      <div class="calendly-inline-widget" data-url="https://calendly.com/letmotiv/premier-contact?hide_event_type_details=1" style="min-width:320px;height:900px"></div>
-    </section>
-  </div>
+      <!-- Newsletter -->
+      <div class="newsletter-container" style="margin-top:30px; text-align:center;">
+        <h3>Inscris-toi à la newsletter Letmotiv pour progresser :</h3>
+        <form id="newsletter-form" style="display:flex; flex-direction:column; gap:10px; align-items:center; max-width:400px; margin:0 auto;">
+          <input type="text" id="newsletter-prenom" placeholder="Prénom" style="width:100%; padding:10px; border-radius:8px; border:none; background:#4a5568; color:#fff;" />
+          <div id="newsletter-prenom-error" class="error-message" style="display:none;"></div>
+          <input type="email" id="newsletter-email" placeholder="Email" style="width:100%; padding:10px; border-radius:8px; border:none; background:#4a5568; color:#fff;" />
+          <div id="newsletter-email-error" class="error-message" style="display:none;"></div>
+          <button type="submit" id="newsletter-submit-btn" class="btn-action" style="background:linear-gradient(135deg,#182d84,#00a48a);">S'abonner</button>
+          <div id="newsletter-success" class="newsletter-success" style="display:none; color:green; margin-top:10px;">Tu es maintenant abonné !</div>
+        </form>
+      </div>
+    </div>
+
+    <!-- STEP5 -->
+    <div class="box" id="step5">
+      <h2>Planifiez un appel avec nous</h2>
+      <div class="calendly-inline-widget"
+           data-url="https://calendly.com/letmotiv/premier-contact?hide_event_type_details=1"
+           style="min-width:320px;height:800px;"></div>
+    </div>
+
+  </div> <!-- fin main-container -->
 
   <!-- FOOTER NAVIGATION -->
-  <nav class="footer-nav" id="footer-nav"><button id="prev-btn">Précédent</button><button id="next-btn" disabled>Suivant</button></nav>
-  <div id="global-share-btn"><i class="fas fa-share-alt"></i></div>
+  <div class="footer-nav">
+    <button id="footer-next-btn" class="btn-next" disabled>Suivant</button>
+  </div>
 
-  <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+  <!-- SCRIPT JS -->
   <script>
-    /**** VARIABLES GLOBALES ****/
-    const steps=[null,step1,step2,step3,step4,step5];
-    const prevBtn=document.getElementById('prev-btn'),nextBtn=document.getElementById('next-btn');
-    let currentStep=0,currentCategory=null,currentSubject="",isRecordingFinished=false,timerInt;
-
-    /**** OUTILS UI ****/
-    const progressBar=document.getElementById('progress-bar');
-    const footerNav=document.getElementById('footer-nav');
-    const enableNext=()=>{nextBtn.disabled=false;nextBtn.classList.add('pulse')};
-    const disableNext=()=>{nextBtn.disabled=true;nextBtn.classList.remove('pulse')};
-    const updateFooter=()=>{footerNav.style.display=currentStep?"flex":"none";prevBtn.disabled=currentStep===1};
-    const goTo=idx=>{if(!steps[idx])return;steps[currentStep]?.classList.remove('active');steps[idx].classList.add('active','slide-from-bottom');currentStep=idx;progressBar.style.width=idx>=4?'100%':`${idx/5*100}%`;updateFooter();checkValid()};
-
-    /**** INTRO ****/
-    document.getElementById('start-intro-btn').onclick=()=>{document.getElementById('intro-box').style.display='none';goTo(1)};
-
-    /**** DONNÉES OBJECTIFS & SUJETS ****/
-    const objectives=[
-      {cat:'diction',icon:'fa-grin-tongue',label:'Améliorer sa diction'},
-      {cat:'repartie',icon:'fa-comments',label:'Avoir de la répartie'},
-      {cat:'convaincre',icon:'fa-handshake',label:'Convaincre'},
-      {cat:'conflit',icon:'fa-exclamation-triangle',label:'Gérer un conflit'},
-      {cat:'inspirer',icon:'fa-lightbulb',label:'Inspirer'},
-      {cat:'lacher-prise',icon:'fa-smile',label:'Lâcher prise'},
-      {cat:'toast',icon:'fa-glass-cheers',label:'Porter un toast'},
-      {cat:'entretien',icon:'fa-briefcase',label:'Réussir son entretien'},
-      {cat:'vendre',icon:'fa-money-bill-wave',label:'Vendre'}
-    ];
-    const objectivesDiv=document.getElementById('objectives');
-    objectives.forEach(o=>{
-      const div=document.createElement('div');div.className='objective-item';div.dataset.category=o.cat;div.innerHTML=`<i class="fas ${o.icon}"></i><span>${o.label}</span>`;
-      div.onclick=()=>{document.querySelectorAll('.objective-item').forEach(el=>el.classList.remove('selected-objective'));div.classList.add('selected-objective');currentCategory=o.cat;currentSubject="";document.getElementById('objective-error').textContent="";checkValid()};
-      objectivesDiv.appendChild(div);
+    // Intro -> première étape
+    const introBox = document.getElementById('intro-box');
+    const startIntroBtn = document.getElementById('start-intro-btn');
+    startIntroBtn.addEventListener('click', () => {
+      introBox.style.animation = 'fadeOut 0.5s ease forwards';
+      setTimeout(() => {
+        introBox.style.display = 'none';
+        showStep(0);
+      }, 500);
     });
 
-    const subjectsCache={};const txtBase='https://raw.githubusercontent.com/Citizen11bf/letmotiv/data/';
-    async function loadSubjects(cat){if(subjectsCache[cat])return subjectsCache[cat];const res=await fetch(txtBase+cat.replace('lacher-prise','lacher_prise')+'.txt');const txt=await res.text();subjectsCache[cat]=txt.split('\n').filter(l=>l.trim());return subjectsCache[cat];}
+    // Variables globales
+    const boxes = document.querySelectorAll('.box');
+    const footerNext = document.getElementById('footer-next-btn');
+    const progressBar = document.getElementById('top-progress-bar');
+    let currentStep = 0;
+    let mediaRecorder, recordedChunks = [];
 
-    /**** STEP 2 : génération sujet ****/
-    const subjectWrapper=document.getElementById('subject-wrapper'),subjectDisplay=document.getElementById('subject-display');
-    document.getElementById('generate-subject-btn').onclick=async()=>{
-      if(!currentCategory){document.getElementById('objective-error').textContent='Choisis un objectif';return;}
-      const list=await loadSubjects(currentCategory);currentSubject=list[Math.floor(Math.random()*list.length)];subjectDisplay.textContent=currentSubject;subjectWrapper.style.display='block';checkValid();};
+    // Affiche l'étape n et met à jour la barre
+    function showStep(n) {
+      boxes.forEach((b,i)=>b.classList.toggle('active', i===n));
+      currentStep = n;
+      progressBar.style.width = (n/(boxes.length-1)*100) + '%';
+      footerNext.disabled = true;
+      setupStepValidation(n);
+    }
 
-    /**** STEP 3 : enregistrement vidéo ****/
-    const preview=document.getElementById('preview');let mediaRec,recordedChunks=[];const countdownEl=document.getElementById('countdown');
-    document.getElementById('start-btn').onclick=startVideo;
-    async function startVideo(){if(!currentSubject){document.getElementById('subject-error').textContent='Génère un sujet avant';return;}
-      const stream=await navigator.mediaDevices.getUserMedia({video:true,audio:true});preview.srcObject=stream;mediaRec=new MediaRecorder(stream);mediaRec.ondataavailable=e=>e.data.size&&recordedChunks.push(e.data);mediaRec.onstop=finishVideo;recordedChunks=[];isRecordingFinished=false;document.getElementById('video-overlay').style.display='none';document.getElementById('recording-indicator').style.display='flex';let secs=120;countdownEl.textContent='2:00';timerInt=setInterval(()=>{secs--;countdownEl.textContent=`${Math.floor(secs/60)}:${('0'+secs%60).slice(-2)}`;if(secs<=0){clearInterval(timerInt);mediaRec.stop();}},1000);mediaRec.start();disableNext();}
-    function finishVideo(){clearInterval(timerInt);document.getElementById('recording-indicator').style.display='none';isRecordingFinished=true;checkValid();}
+    // Configure les validations et callbacks pour chaque étape
+    function setupStepValidation(n) {
+      footerNext.onclick = null;
 
-    /**** FOOTER NAV CLICK ****/
-    nextBtn.onclick=()=>{if(nextBtn.disabled)return;goTo(currentStep+1)};prevBtn.onclick=()=>{if(prevBtn.disabled)return;goTo(currentStep-1)};
+      if (n === 0) {
+        // STEP1 : sélection d'objectif
+        document.querySelectorAll('.objective-item').forEach(el => {
+          el.onclick = () => {
+            document.querySelectorAll('.objective-item').forEach(x=>x.classList.remove('selected'));
+            el.classList.add('selected');
+            footerNext.disabled = false;
+            // ici on pourrait stocker la catégorie choisie
+          };
+        });
+        footerNext.onclick = () => showStep(1);
+      }
 
-    function checkValid(){let ok=false;switch(currentStep){case 1:ok=!!currentCategory;break;case 2:ok=!!currentSubject;break;case 3:ok=isRecordingFinished;break;default:ok=false;}ok?enableNext():disableNext();}
-    const enableNext=()=>{nextBtn.disabled=false;nextBtn.classList.add('pulse')};const disableNext=()=>{nextBtn.disabled=true;nextBtn.classList.remove('pulse')};
+      if (n === 1) {
+        // STEP2 : génération du sujet
+        const genBtn = document.getElementById('generate-subject-btn');
+        genBtn.disabled = false;
+        genBtn.onclick = async () => {
+          // Simule fetch + tirage
+          const subjects = ['Sujet A','Sujet B','Sujet C'];
+          const choix = subjects[Math.floor(Math.random()*subjects.length)];
+          document.getElementById('subject-display').textContent = choix;
+          document.getElementById('subject-wrapper').style.display = 'block';
+          footerNext.disabled = false;
+        };
+        footerNext.onclick = () => showStep(2);
+      }
 
-    /**** SHARE ****/
-    document.getElementById('global-share-btn').onclick=()=>{if(navigator.share)navigator.share({title:'Simulateur Letmotiv',text:'Teste ton impro',url:location.href})};
+      if (n === 2) {
+        // STEP3 : enregistrement vidéo
+        const startBtn   = document.getElementById('start-btn');
+        const stopBtn    = document.getElementById('stop-btn');
+        const restartBtn = document.getElementById('restart-btn');
+        let recorded = false;
 
-    /* init */
-    const progressInit=()=>{if(location.hash){const n=parseInt(location.hash.replace('#step',''));if(n)goTo(n)}};window.onload=progressInit;
+        startBtn.onclick = async () => {
+          // accès caméra + start mediaRecorder...
+          const stream = await navigator.mediaDevices.getUserMedia({ video:true, audio:true });
+          document.getElementById('preview').srcObject = stream;
+          mediaRecorder = new MediaRecorder(stream);
+          recordedChunks = [];
+          mediaRecorder.ondataavailable = e => e.data.size && recordedChunks.push(e.data);
+          mediaRecorder.onstop = () => {
+            recorded = true;
+            footerNext.disabled = false;
+            restartBtn.classList.remove('hidden-btn');
+          };
+          mediaRecorder.start();
+          document.querySelector('.video-overlay').style.display = 'none';
+          stopBtn.classList.remove('hidden-btn');
+        };
+
+        stopBtn.onclick = () => {
+          if (mediaRecorder && mediaRecorder.state === 'recording') {
+            mediaRecorder.stop();
+            document.getElementById('stop-btn').classList.add('hidden-btn');
+          }
+        };
+
+        restartBtn.onclick = () => {
+          if (!confirm("Attention, tu vas recommencer ton impro et lancer un nouvel enregistrement. Tu es sûr ?")) return;
+          restartBtn.classList.add('hidden-btn');
+          document.querySelector('.video-overlay').style.display = 'flex';
+          footerNext.disabled = true;
+        };
+
+        footerNext.onclick = () => showStep(3);
+      }
+
+      if (n === 3) {
+        // STEP4 : téléchargement & rdv & analyse & newsletter
+        const dlBtn    = document.getElementById('download-video-btn');
+        const contact  = document.getElementById('contact-btn');
+        const fbBtn    = document.getElementById('feedback-btn');
+        const yesBtn   = document.getElementById('contact-yes');
+        const noBtn    = document.getElementById('contact-no');
+
+        dlBtn.onclick = () => {
+          footerNext.disabled = false;
+          // création du blob + download
+          const blob = new Blob(recordedChunks, { type:'video/mp4' });
+          const url  = URL.createObjectURL(blob);
+          const a    = document.createElement('a');
+          a.href     = url;
+          a.download = 'impro.mp4';
+          a.click();
+          URL.revokeObjectURL(url);
+          contact.classList.remove('disabled');
+        };
+
+        yesBtn.onclick = e => {
+          e.preventDefault();
+          showStep(4);
+        };
+        noBtn.onclick = e => {
+          e.preventDefault();
+          fbBtn.classList.remove('disabled');
+          footerNext.disabled = false;
+        };
+        footerNext.onclick = () => showStep(4);
+
+        // Newsletter
+        const form       = document.getElementById('newsletter-form');
+        const prError    = document.getElementById('newsletter-prenom-error');
+        const emError    = document.getElementById('newsletter-email-error');
+        const successEl  = document.getElementById('newsletter-success');
+        form.addEventListener('submit', e => {
+          e.preventDefault();
+          prError.style.display = emError.style.display = 'none';
+          let valid = true;
+          if (!form['newsletter-prenom'].value.trim()) {
+            prError.textContent = "Le prénom est requis."; prError.style.display = 'block'; valid = false;
+          }
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form['newsletter-email'].value.trim())) {
+            emError.textContent = "Email invalide."; emError.style.display = 'block'; valid = false;
+          }
+          if (!valid) return;
+          // envoi fictif
+          successEl.style.display = 'block';
+          setTimeout(() => successEl.style.display = 'none', 5000);
+        });
+      }
+
+      if (n === 4) {
+        // STEP5 : Calendly
+        footerNext.disabled = false;
+        footerNext.onclick = () => alert("Merci ! À bientôt.");
+      }
+    }
+
+    // Démarrer
+    showStep(0);
   </script>
+
+  <!-- Calendly widget script -->
+  <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
 </body>
 </html>
