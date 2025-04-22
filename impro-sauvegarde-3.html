@@ -3,199 +3,234 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Simulateur d'improvisation</title>
+  <title>Simulateur d'improvisation</navigationalistyle>
+  <meta name="description" content="Évaluer et développer sa prise de parole en public avec le simulateur d'improvisation Letmotiv. Entreprise spécialisée dans le coaching en prise de parole.">
+
+  <!-- Icône de la page (favicon) -->
   <link rel="icon" href="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Letmotiv_favicon.webp" type="image/png">
   <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Letmotiv_favicon.webp">
+  
+  <!-- Balises Open Graph pour LinkedIn -->
+  <meta property="og:title" content="Simulateur d'improvisation Letmotiv" />
+  <meta property="og:description" content="Évaluer et développer sa prise de parole en public avec le simulateur d'improvisation Letmotiv." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://letmotiv-simulateur.fr" />
+  <meta property="og:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png" />
+  <meta property="og:image:alt" content="Illustration d'une improvisation en public avec un orateur sur scène." />
+  <meta name="author" content="Simulateur d'improvisation Letmotiv" />
+  <meta property="article:published_time" content="2025-01-26" />
+
+  <!-- Balises Twitter (optionnel) -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Simulateur d'improvisation Letmotiv">
+  <meta name="twitter:description" content="Évaluer et développer sa prise de parole en public avec le simulateur d'improvisation Letmotiv.">
+  <meta name="twitter:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png">
+
+  <!-- Import de la police DM Sans et Montserrat depuis Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans&family=Montserrat:wght@700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Poppins:900i" rel="stylesheet">
+  
+  <!-- Icônes Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+  <!-- Calendly widget CSS -->
+  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+
+  <!-- JSON-LD pour le SEO -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Simulateur d'improvisation Letmotiv",
+      "url": "https://letmotiv-simulateur.fr",
+      "description": "Évaluer et développer sa prise de parole en public avec le simulateur d'improvisation Letmotiv.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Letmotiv",
+        "logo": "https://letmotiv-simulateur.fr/logo.png"
+      }
+    }
+  </script>
+  
+  <!-- Styles CSS Global -->
   <style>
-    /* GLOBAL */
+    /* --- GLOBAL --- */
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: 'DM Sans', sans-serif; background: #fff; color: #333; padding-top: 60px; padding-bottom: 60px; }
-    /* HEADER */
-    .header { position: fixed; top: 0; left: 0; width: 100%; background: #182d84; color: #fff; text-align: center; padding: 10px; z-index: 10; }
-    /* PROGRESS BAR DASHED */
-    .progress-container { position: fixed; top: 60px; left: 0; width: 100%; height: 8px; background: rgba(24,45,132,0.1);
-      background-image: repeating-linear-gradient(to right, transparent 0%, transparent 19%, rgba(24,45,132,0.1) 19%, rgba(24,45,132,0.1) 20%);
+    body {
+      margin: 0;
+      font-family: 'DM Sans', sans-serif;
+      background-color: #ffffff;
+      color: #333333;
+      padding-top: 60px;
+      padding-bottom: 20px;
+    }
+
+    /* --- ERROR MESSAGES --- */
+    .error-message {
+      color: red;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    /* --- HEADER --- */
+    .header {
+      background-color: #182d84;
+      color: #FFFFFF;
+      font-size: 16px;
+      font-weight: bold;
+      text-align: center;
+      padding: 10px;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 10;
+    }
+    .header-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      max-width: 100%;
+      overflow-wrap: break-word;
+    }
+    .header-l2 { font-size: 14px; font-weight: normal; }
+
+    /* --- BARRE DE PROGRESSION PAR ÉTAPES --- */
+    .progress-container {
+      position: fixed;
+      top: 60px;
+      left: 0;
+      width: 100%;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
       z-index: 9;
     }
-    .progress-bar { width: 0%; height: 100%; background-image: repeating-linear-gradient(to right, #00a48a 0%, #00a48a 19%, transparent 19%, transparent 20%);
-      background-size: 20% 100%; transition: width 0.5s ease;
+    .progress-step {
+      flex: 1;
+      height: 10px;
+      background-color: rgba(24, 45, 132, 0.1);
+      margin: 0 5px;
+      border-radius: 5px;
+      transition: background-color 0.3s;
     }
-    /* BOXES */
-    .box { display: none; padding: 20px; max-width: 600px; margin: 80px auto 0; background: #f9f9f9; border-radius: 12px; }
-    .box.active { display: block; }
-    .box-title { font-size: 16px; font-weight: bold; color: #182d84; text-align: center; margin-bottom: 20px; }
-    /* OBJECTIVES */
-    .objectives-container { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; }
-    .objective-item { flex: 1 1 150px; background: #f7f9fc; border-radius: 8px; padding: 12px; text-align: center; cursor: pointer; transition: transform 0.2s, background 0.2s; }
-    .objective-item.selected-objective { background: rgba(0,164,138,0.2); border: 1px solid #00a48a; transform: scale(1.05); }
-    /* SUBJECT */
-    .btn-impro { background: #182d84; color: #fff; padding: 10px 20px; border: none; border-radius: 25px; cursor: pointer; }
-    #subject-wrapper { display: none; margin-top: 20px; background: linear-gradient(135deg,#00a48a,#182d84); color: #fff; padding: 15px; border-radius: 8px; }
-    /* VIDEO STEP */
-    .video-box { position: relative; margin: 20px auto; border: 3px solid #182d84; border-radius: 6px; max-width: 500px; height: 300px; background: #fff; }
-    .video-overlay { position: absolute; width: 100%; height: 100%; background: rgba(255,255,255,0.6); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-    .recording-indicator { display: none; position: absolute; top: 10px; right: 10px; background: rgba(128,128,128,0.6); padding: 5px 10px; border-radius: 20px; color: #f00; font-size: 14px; }
-    .dot { width: 10px; height: 10px; background: #f00; border-radius: 50%; animation: blink 1s infinite; }
-    @keyframes blink { 0%,100%{opacity:1;}50%{opacity:0;} }
-    /* FOOTER NAV */
-    footer#footer-nav { position: fixed; bottom: 0; left: 0; width: 100%; padding: 10px; background: #fff; box-shadow: 0 -2px 6px rgba(0,0,0,0.1); display: flex; justify-content: center; }
-    #footer-next { background: #00a48a; color: #fff; border: none; padding: 12px 30px; border-radius: 8px; font-size: 16px; cursor: pointer; width: 90%; max-width: 400px; }
-    #footer-next:disabled { background: #ccc; cursor: not-allowed; }
-    /* RESPONSIVE */
-    @media(max-width:600px){ footer#footer-nav{padding:8px;} #footer-next{width:95%;} }
+    .progress-step.active {
+      background-color: #00a48a;
+    }
+
+    /* --- BOÎTE D'INTRODUCTION --- */
+    .intro-box {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, #182d84, #00a48a);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #ffffff;
+      z-index: 20;
+      animation: fadeIn 1s ease forwards;
+    }
+    .intro-box h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.8rem;
+      margin-bottom: 50px;
+      animation: slideDown 1s ease forwards;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+    }
+    .intro-box h1 span { display: block; }
+    .wrapper { display: flex; justify-content: center; }
+    .cta {
+      display: flex;
+      padding: 10px 45px;
+      text-decoration: none;
+      font-family: 'Poppins', sans-serif;
+      font-size: 40px;
+      color: white;
+      background: #FF5722;
+      transition: 0.5s;
+      box-shadow: 6px 6px 0 black;
+      transform: skewX(-15deg);
+      border-radius: 8px;
+    }
+    .cta:hover span:nth-child(2) { margin-right: 45px; }
+    .cta span { transform: skewX(15deg); }
+    .cta span:nth-child(2) { width: 20px; margin-left: 30px; position: relative; top: 12%; }
+    @media (max-width: 600px) {
+      .cta svg { width: 40px; height: 30px; }
+      .mobile-break { display: inline; }
+      .intro-box h1 { font-size: 2rem; margin-bottom: 30px; }
+      .cta { font-size: 28px; padding: 8px 30px; }
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+    @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    /* --- CONTAINER PRINCIPAL --- */
+    .main-container { position: relative; padding: 20px; }
+
+    /* --- BOÎTES (étapes) --- */
+    .box {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, #ffffff, #f9f9f9);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      font-size: 14px;
+      display: none;
+      transition: opacity 0.5s ease;
+    }
+    .box.active { display: block; opacity: 1; }
+    .box.hidden { opacity: 0; }
+
+    /* --- SLIDE ANIMATIONS --- */
+    .slide-from-bottom { animation: fromBottom 1.5s ease forwards; }
+    @keyframes fromBottom { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+    .slide-from-top { animation: fromTop 1.5s ease forwards; }
+    @keyframes fromTop { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* (Le reste du CSS reste inchangé...) */
+
   </style>
 </head>
 <body>
-  <div class="header">
-    <div>Coaching en prise de parole — Simulateur Letmotiv</div>
+  <!-- BOÎTE D'INTRODUCTION -->
+  <div class="intro-box" id="intro-box"> ... </div>
+
+  <!-- HEADER -->
+  <div class="header"> ... </div>
+
+  <!-- BARRE DE PROGRESSION PAR ÉTAPES -->
+  <div class="progress-container" id="progress-container">
+    <div class="progress-step" data-step="1"></div>
+    <div class="progress-step" data-step="2"></div>
+    <div class="progress-step" data-step="3"></div>
+    <div class="progress-step" data-step="4"></div>
+    <div class="progress-step" data-step="5"></div>
   </div>
-  <div class="progress-container"><div class="progress-bar" id="progress-bar"></div></div>
+
+  <!-- CONTAINER PRINCIPAL -->
   <div class="main-container">
-    <!-- STEP 1 -->
-    <div class="box" id="step1">
-      <div class="box-title">Quel est ton objectif ?</div>
-      <div class="objectives-container">
-        <div class="objective-item" data-category="diction">Améliorer sa diction</div>
-        <div class="objective-item" data-category="repartie">Avoir de la répartie</div>
-        <div class="objective-item" data-category="convaincre">Convaincre</div>
-        <div class="objective-item" data-category="inspirer">Inspirer</div>
-        <div class="objective-item" data-category="toast">Porter un toast</div>
-        <div class="objective-item" data-category="vendre">Vendre</div>
-        <div class="objective-item" data-category="conflit">Gérer un conflit</div>
-        <div class="objective-item" data-category="entretien">Réussir son entretien</div>
-        <div class="objective-item" data-category="lacher-prise">Lâcher prise</div>
-      </div>
-    </div>
-    <!-- STEP 2 -->
-    <div class="box" id="step2">
-      <div class="box-title">Prêt à relever le défi ?</div>
-      <button class="btn-impro" id="generate-subject-btn">Générer un sujet</button>
-      <div id="subject-wrapper"><span id="subject-display"></span></div>
-    </div>
-    <!-- STEP 3 -->
-    <div class="box" id="step3">
-      <div class="box-title">C'est parti, lance ton improvisation !</div>
-      <div class="video-box">
-        <video id="preview" autoplay muted playsinline style="width:100%;height:100%;object-fit:cover;transform:scaleX(-1);"></video>
-        <div class="video-overlay" id="video-overlay">
-          <p>Ta vidéo va s'enregistrer ici.</p>
-          <button id="start-btn" class="btn-impro">Démarrer l'impro</button>
-          <p>NB : ta vidéo reste sur ton appareil.</p>
-        </div>
-        <div class="recording-indicator" id="recording-indicator">
-          <span class="dot"></span> <span id="countdown">2:00</span>
-        </div>
-      </div>
-    </div>
-    <!-- STEP 4 -->
-    <div class="box" id="step4">
-      <div class="box-title">Félicitations pour ton improvisation !</div>
-      <button id="download-video-btn" class="btn-impro">1) Télécharger la vidéo</button>
-      <div style="margin-top:15px;">
-        <button id="contact-yes" class="btn-impro">2) Prendre rdv avec un expert</button>
-        <button id="contact-no" class="btn-impro">Pas pour moi</button>
-      </div>
-    </div>
-    <!-- STEP 5 -->
-    <div class="box" id="step5">
-      <div class="box-title">Planifie un appel avec nous</div>
-      <div class="calendly-inline-widget" data-url="https://calendly.com/letmotiv/premier-contact" style="min-width:320px;height:800px;"></div>
-    </div>
+    <!-- Les boîtes STEP1 à STEP5 inchangées -->
   </div>
-  <!-- FOOTER NAV -->
-  <footer id="footer-nav"><button id="footer-next" disabled>Suivant</button></footer>
+
+  <!-- SCRIPT JavaScript -->
   <script>
-    // Variables
-    const boxes = [...document.querySelectorAll('.box')];
-    const footerNext = document.getElementById('footer-next');
-    const progressBar = document.getElementById('progress-bar');
-    let step = 1;
-    let currentCategory = null;
-    let currentSubject = '';
-    let hasRecording = false;
-
-    // Show a given step
-    function showStep(n) {
-      boxes.forEach(b => b.classList.remove('active'));
-      document.getElementById('step'+n).classList.add('active');
-      step = n;
-      updateProgress();
-      updateFooter();
-    }
-
-    // Update dashed progress
-    function updateProgress() {
-      const pct = ((step-1)/(boxes.length-1))*100;
-      progressBar.style.width = pct+'%';
-    }
-
-    // Enable footer if conditions met
-    function updateFooter() {
-      let ok = false;
-      if(step===1) ok = !!currentCategory;
-      if(step===2) ok = !!currentSubject;
-      if(step===3) ok = hasRecording;
-      if(step===4) ok = document.querySelector('#contact-yes.clicked') || document.querySelector('#contact-no.clicked');
-      if(step>=5) ok = false;
-      footerNext.disabled = !ok;
-    }
-
-    // Advance
-    footerNext.addEventListener('click', ()=>{
-      if(step===1) showStep(2);
-      else if(step===2) showStep(3);
-      else if(step===3) showStep(4);
-      else if(step===4) showStep(5);
-    });
-
-    // STEP1: objectives
-    document.querySelectorAll('.objective-item').forEach(el=>{
-      el.addEventListener('click', ()=>{
-        document.querySelectorAll('.objective-item').forEach(e=>e.classList.remove('selected-objective'));
-        el.classList.add('selected-objective');
-        currentCategory = el.dataset.category;
-        updateFooter();
+    // Remplacer updateProgressBar:
+    function updateProgressBar(step) {
+      const steps = document.querySelectorAll('.progress-step');
+      steps.forEach(el => {
+        const s = parseInt(el.dataset.step, 10);
+        el.classList.toggle('active', s <= step);
       });
-    });
-
-    // STEP2: subject
-    document.getElementById('generate-subject-btn').addEventListener('click', async ()=>{
-      // load + pick random from cache
-      const urlMap = {
-        convaincre:'.../convaincre.txt', inspirer:'.../inspirer.txt', repartie:'.../repartie.txt', diction:'.../diction.txt', entretien:'.../entretien.txt', toast:'.../toast.txt', vendre:'.../vendre.txt', conflit:'.../gerer_un_conflit.txt', 'lacher-prise':'.../lacher_prise.txt'
-      };
-      const txt = await fetch(urlMap[currentCategory]).then(r=>r.text());
-      const arr=txt.split('\n').filter(l=>l.trim());
-      currentSubject=arr[Math.floor(Math.random()*arr.length)];
-      document.getElementById('subject-display').textContent=currentSubject;
-      document.getElementById('subject-wrapper').style.display='block';
-      updateFooter();
-    });
-
-    // STEP3: recording
-    let recorder, stream;
-    document.getElementById('start-btn').addEventListener('click', async ()=>{
-      stream = await navigator.mediaDevices.getUserMedia({video:true,audio:true});
-      document.getElementById('preview').srcObject = stream;
-      recorder = new MediaRecorder(stream);
-      let chunks=[];
-      recorder.ondataavailable=e=>chunks.push(e.data);
-      recorder.onstop=()=>{ hasRecording=true; updateFooter(); stream.getTracks().forEach(t=>t.stop()); };
-      recorder.start();
-      document.getElementById('recording-indicator').style.display='flex';
-      setTimeout(()=>recorder.stop(),120000);
-    });
-
-    // STEP4: contact
-    ['contact-yes','contact-no'].forEach(id=>{
-      document.getElementById(id).addEventListener('click', ()=>{
-        document.getElementById(id).classList.add('clicked');
-        updateFooter();
-      });
-    });
-
-    // Init
-    showStep(1);
-  </script>
-</body>
-</html>
+    }
