@@ -429,13 +429,18 @@
     let videoDownloaded = false;
 
     const stepTitles = {
-      1: "Quel est ton objectif ?",
-      2: "Prêt à relever le défi ?",
-      3: "C'est parti, lance ton improvisation !",
-      4: "Félicitations pour ton improvisation ! 🤩",
-      5: "Planifiez un appel avec nous"
+      1: "➀ Quel est ton objectif ?",
+      2: "➁ Prêt à relever le défi ?",
+      3: "➂ C'est parti, lance ton improvisation !",
+      4: "➃ Félicitations pour ton improvisation ! 🤩",
+      5: "➄ Planifiez un appel avec nous"
     }
-        
+
+    function updateHeaderTitle() {
+      document.getElementById('dynamic-header-title')
+         .textContent = stepTitles[currentStep] || "";
+    }
+    
     /*** Gestion de l'historique (pushState/popstate) ***/
     function pushStepState(step) {
       history.pushState({ step }, null, `#step${step}`);
@@ -553,6 +558,7 @@
         updateProgressBar(1);
         pushStepState(1);
         updateFooterNext()
+        updateHeaderTitle();   
       }, 500);
     });
 
