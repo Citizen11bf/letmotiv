@@ -546,8 +546,6 @@
       setTimeout(() => {
         introBox.style.display = 'none';
         boxes[1].classList.add('active');
-        void boxes[1].offsetWidth;
-        boxes[1].classList.add('slide-from-bottom');
         currentStep = 1;
         updateProgressBar(1);
         pushStepState(1);
