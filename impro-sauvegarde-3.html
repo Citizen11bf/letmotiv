@@ -433,7 +433,8 @@
       3: "C'est parti, lance ton improvisation !",
       4: "Félicitations pour ton improvisation ! 🤩",
       5: "Planifiez un appel avec nous"
-    
+    }
+        
     /*** Gestion de l'historique (pushState/popstate) ***/
     function pushStepState(step) {
       history.pushState({ step }, null, `#step${step}`);
@@ -991,7 +992,7 @@
       new ShareManager();
     });
     
-    !document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', () => {
       if (window.location.hash) {
         const stepFromHash = window.location.hash.replace('#step', '');
         if (boxes[stepFromHash]) {
