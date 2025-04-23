@@ -93,13 +93,13 @@
     .box.active { display: block; opacity: 1; }
     .box.hidden { opacity: 0; }
     
-    /* --- ANIMATIONS VERTICALES --- */
+    /* ANIMATIONS VERTICALES */
     .slide-from-bottom { animation: fromBottom 1.5s ease forwards; }
     @keyframes fromBottom { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
     .slide-from-top { animation: fromTop 1.5s ease forwards; }
     @keyframes fromTop { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
    
-    /* --- HEADER INTERNE DES BOXES --- */
+    /* HEADER INTERNE DES BOXES */
     .box-header {display: flex;flex-direction: column;align-items: center;justify-content: center;margin-bottom: 20px;position: relative;}
     
     /* FOOTER */
@@ -109,49 +109,20 @@
     .btn-next {background-color: #00a48a;color: #fff;border: none;border-radius: 6px;padding: 10px 24px;font-size: 16px;cursor: pointer;transition: opacity 0.3s, transform 0.2s;}
     .btn-next:disabled {background-color: #cccccc;color: #777777;cursor: not-allowed;opacity: 0.6;}
     .btn-next:not(:disabled):hover {transform: translateY(-2px);box-shadow: 0 4px 8px rgba(0,164,138,0.3);}
-    
     .btn-impro {margin: 15px 0;padding: 10px 20px;font-size: 16px;background-color: #182d84;color: #fff;border: none;border-radius: 25px;cursor: pointer;transition: background-color 0.3s;}
     .btn-impro:hover { background-color: #00a48a; }
-
     .stop-animation {
       animation: none !important;
       transform: none !important;
     }
     
-    /* --- STEP1 : Choix d’objectif --- */
-    .objectives-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-      gap: 10px;
-      justify-items: center;
-      margin: 10px 0;
-    }
-    .objective-item {
-      text-align: center;
-      color: #444;
-      font-size: 0.9rem;
-      cursor: pointer;
-      padding: 12px;
-      border: 1px solid transparent;
-      border-radius: 10px;
-      transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
-    }
-    .objective-item i {
-      font-size: 1.8rem;
-      margin-bottom: 8px;
-      display: block;
-    }
-    .objective-item i.fa-arrow-right {
-      transform: none !important;
-    }
+    /* STEP1 : Choix d’objectif */
+    .objectives-container {display: grid;grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));gap: 10px;justify-items: center;margin: 10px 0;}
+    .objective-item {text-align: center;color: #444;font-size: 0.9rem;cursor: pointer;padding: 12px;border: 1px solid transparent;border-radius: 10px;transition: background-color 0.3s, border-color 0.3s, transform 0.3s;}
+    .objective-item i {font-size: 1.8rem;margin-bottom: 8px;display: block;}
+    .objective-item i.fa-arrow-right {transform: none !important;}
     .objective-item:hover { border-color: #00a48a; background-color: rgba(0, 164, 138, 0.1); }
-    .objective-item.selected-objective {
-      transform: scale(1.1);
-      background-color: rgba(0, 164, 138, 0.2);
-      color: #00a48a;
-      border-color: #00a48a;
-      transition: all 0.3s ease-in-out;
-    }
+    .objective-item.selected-objective {transform: scale(1.1);background-color: rgba(0, 164, 138, 0.2);color: #00a48a;border-color: #00a48a;transition: all 0.3s ease-in-out;}
     .objective-item.selected-objective i { color: #00a48a; }
     .objective-item[data-category="convaincre"] i { color: #007BFF; }
     .objective-item[data-category="inspirer"] i { color: #FFC107; }
@@ -163,49 +134,17 @@
     .objective-item[data-category="entretien"] i { color: #795548; }
     .objective-item[data-category="lacher-prise"] i { color: #FF5722; }
     
-    /* --- STEP2 : Génération du sujet --- */
-  
+    /* STEP2 : Génération du sujet */
     #objective-reminder { color: grey; font-size: 0.8rem; margin-bottom: 10px; }
     #current-objective { text-transform: lowercase; }
-    #subject-wrapper {
-      margin-top: 10px;
-      background: linear-gradient(135deg, #00a48a, #182d84);
-      border-radius: 8px;
-      padding: 15px;
-      text-align: center;
-      font-size: 16px;
-      font-weight: normal;
-      color: #ffffff;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      display: none;
-    }
-    #advice-toggle {
-      cursor: pointer;
-      margin-top: 20px;
-      margin-bottom: 20px;
-      text-align: center;
-      font-weight: normal;
-      color: #182d84;
-    }
-    #advice-toggle i {
-      margin-left: 5px;
-      transition: transform 0.3s ease;
-    }
-    #advice-text {
-      display: none;
-      margin-top: 10px;
-      padding: 10px;
-      background-color: #fefefe;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 14px;
-      line-height: 1.5;
-      text-align: left;
-    }
-    .mobile-break { display: none; }
+    #subject-wrapper {margin-top: 10px;background: linear-gradient(135deg, #00a48a, #182d84);border-radius: 8px;padding: 15px;text-align: center;font-size: 16px;font-weight: normal;color: #ffffff;box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);display: none;}
+    #advice-toggle {cursor: pointer;margin-top: 20px;margin-bottom: 20px;text-align: center;font-weight: normal;color: #182d84;}
+    #advice-toggle i {margin-left: 5px;transition: transform 0.3s ease;}
+    #advice-text {display: none;margin-top: 10px;padding: 10px;background-color: #fefefe;border: 1px solid #ccc;border-radius: 8px;font-size: 14px;line-height: 1.5;text-align: left;}
+    .mobile-break {display: none;}
     @media (max-width: 600px) { .mobile-break { display: inline; } }
    
-    /* --- STEP3 : Enregistrement vidéo --- */
+    /* STEP3 : Enregistrement */
     .subject-bubble {
       display: inline-block;
       position: relative;
@@ -219,59 +158,11 @@
       margin: 0 auto;
       max-width: 90%;
     }
-    .video-box {
-      margin: 10px auto;
-      border: 3px solid #182d84;
-      border-radius: 6px;
-      max-width: 500px;
-      background-color: #fefefe;
-      height: 300px;
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      transition: height 0.5s ease-in-out;
-    }
-    .video-box video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 4px;
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 1;
-      transform: scaleX(-1);
-      -webkit-transform: scaleX(-1);
-    }
-    .video-overlay {
-      position: absolute;
-      z-index: 2;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      color: #555;
-      font-size: 14px;
-      padding: 20px;
-      background: rgba(255,255,255,0.6);
-    }
+    .video-box {margin: 10px auto;border: 3px solid #182d84;border-radius: 6px;max-width: 500px;background-color: #fefefe;height: 300px;position: relative;display: flex;justify-content: center;align-items: center;overflow: hidden;transition: height 0.5s ease-in-out;}
+    .video-box video {width: 100%;height: 100%;object-fit: cover;border-radius: 4px;position: absolute;top: 0;left: 0;z-index: 1;transform: scaleX(-1);-webkit-transform: scaleX(-1);}
+    .video-overlay {position: absolute;z-index: 2;width: 100%;height: 100%;display: flex;flex-direction: column;justify-content: center;align-items: center;text-align: center;color: #555;font-size: 14px;padding: 20px;background: rgba(255,255,255,0.6);}
     .video-overlay p { margin: 10px 0; }
-    .video-overlay button {
-      margin: 15px 0;
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #182d84;
-      color: #fff;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
+    .video-overlay button {margin: 15px 0;padding: 10px 20px;font-size: 16px;background-color: #182d84;color: #fff;border: none;border-radius: 25px;cursor: pointer;transition: background-color 0.3s;}
     .video-overlay button:hover { background-color: #00a48a; }
    
     /* Indicateur d'enregistrement */
@@ -290,209 +181,46 @@
       color: #ff0000;
       z-index: 3;
     }
-    .recording-indicator .dot {
-      height: 10px;
-      width: 10px;
-      background-color: #ff0000;
-      border-radius: 50%;
-      display: inline-block;
-      animation: blink 1s infinite;
-    }
-    .countdown {
-      font-size: 16px;
-      color: #ffffff;
-      background: none;
-      margin-left: 5px;
-    }
-    .initial-countdown-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(128,128,128,0.6);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 5;
-      border-radius: 6px;
-    }
-    .initial-countdown {
-      font-size: 48px;
-      color: #ffffff;
-      font-weight: bold;
-    }
-    .impro-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: center;
-      margin-top: 10px;
-    }
+    .recording-indicator .dot {height: 10px;width: 10px;background-color: #ff0000;border-radius: 50%;display: inline-block;animation: blink 1s infinite;}
+    .countdown {font-size: 16px;color: #ffffff;background: none;margin-left: 5px;}
+    .initial-countdown-overlay {position: absolute;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(128,128,128,0.6);display: none;align-items: center;justify-content: center;z-index: 5;border-radius: 6px;}
+    .initial-countdown {font-size: 48px;color: #ffffff;font-weight: bold;}
+    .impro-actions {display: flex;flex-wrap: wrap;gap: 10px;justify-content: center;margin-top: 10px;}
     .hidden-btn { display: none; }
-
     @media (max-width: 600px) {
-      .video-box,
-      .subject-bubble {
+      .video-box,.subject-bubble {
         width: 90%;
         max-width: 90%;
       }
     }
     
-    /* --- STEP4 : Téléchargement de la vidéo, prise de rendez-vous & analyse --- */
-    
-    .action-container {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      margin: 20px 0;
-    }
-    .action-square {
-      background-color: #FF5722;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      padding: 12px;
-      font-size: 16px;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 60px;
-      position: relative;
-      overflow: hidden;
-      transition: filter 0.3s;
-    }
-    .action-square.disabled {
-      background-color: #cccccc;
-      color: #777777;
-      pointer-events: none;
-      border: none;
-      border-radius: 8px;
-      opacity: 0.6;
-    }
-
-    .btn-action {
-      display: inline-block;
-      width: 100%;
-      cursor: pointer;
-    }
-    
+    /* STEP4 Téléchargement video, prise de rdv & analyse */
+    .action-container {display: flex;flex-direction: column;gap: 20px;margin: 20px 0;}
+    .action-square {background-color: #FF5722;color: #fff;border: none;border-radius: 8px;padding: 12px;font-size: 16px;width: 100%;display: flex;flex-direction: column;align-items: center;justify-content: center;min-height: 60px;position: relative;overflow: hidden;transition: filter 0.3s;}
+    .action-square.disabled {background-color: #cccccc;color: #777777;pointer-events: none;border: none;border-radius: 8px;opacity: 0.6;}
+    .btn-action {display: inline-block;width: 100%;cursor: pointer;}   
     /* Conteneur Prise de contact avec un expert */
-    
-    #contact-btn {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
-    #contact-btn .contact-options {
-      margin-top: 10px;
-      display: flex;
-      flex-direction: row;
-      gap: 8px;
-      justify-content: center;
-    }
-    /* Boutons Oui/Non pour prendre contact avec un expert */
-  
-    /* Bouton Oui pour prendre contact avec un expert */
-    #contact-btn .contact-options button#contact-yes {
-      background-color: #a8d5ba; /* Pastel green */
-      border: 2px solid #a8d5ba;
-      color: #182d84;
-      border-radius: 20px;
-      padding: 8px 16px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    
+    #contact-btn {display: flex;flex-direction: column;align-items: center;justify-content: center;text-align: center;}
+    #contact-btn .contact-options {margin-top: 10px;display: flex;flex-direction: row;gap: 8px;justify-content: center;}
+    /* Bouton Oui/Non prendre contact avec un expert */
+    #contact-btn .contact-options button#contact-yes {background-color: #a8d5ba; /* Pastel green */border: 2px solid #a8d5ba;color: #182d84;border-radius: 20px;padding: 8px 16px;font-size: 16px;cursor: pointer;transition: transform 0.3s, box-shadow 0.3s;}
     /* Bouton Non pour ne prendre pas contact avec un expert */
     #contact-btn .contact-options button#contact-no {
-      background-color: #f5a8a8; /* Pastel red */
-      border: 2px solid #f5a8a8;
-      color: #182d84;
-      border-radius: 20px;
-      padding: 8px 16px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
+      background-color: #f5a8a8; /* Pastel red */border: 2px solid #f5a8a8;color: #182d84;border-radius: 20px;padding: 8px 16px;font-size: 16px;cursor: pointer;transition: transform 0.3s, box-shadow 0.3s;}
     /* Griser les boutons Oui/Non lorsque le conteneur est désactivé */
-    .action-square.disabled .contact-options button {
-      opacity: 0.5;
-      pointer-events: none;
-    }
-    
-    /* --- STEP4 - Abonnement à la newsletter --- */
-  
-    .btn-newsletter {
-      background: linear-gradient(135deg, #182d84, #00a48a);
-      color: #fff;
-      font-weight: bold;
-      padding: 12px 30px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: transform 0.3s, box-shadow 0.3s;
-      margin: 10px 0;
-    }
-    .btn-newsletter:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-    }
-    .newsletter-container {
-      width: 100%;
-      max-width: 600px;
-      background-color: #2d3748;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-      padding: 20px;
-      margin: 30px auto;
-      color: #e2e8f0;
-      text-align: center;
-    }
-    .newsletter-title {
-      font-size: 1.0rem;
-      font-weight: normal;
-      margin-bottom: 20px;
-    }
-    .newsletter-form {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .newsletter-form input::placeholder {
-      color: #fff;
-    }
-    .newsletter-form input {
-      background-color: #4a5568;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      padding: 10px;
-      outline: none;
-      transition: background-color 0.3s, box-shadow 0.3s;
-    }
-    .newsletter-form input:focus {
-      background-color: #2d3748;
-      box-shadow: 0 0 0 1px #3182ce;
-    }
-    .newsletter-error {
-      color: red;
-      font-size: 0.8rem;
-      text-align: left;
-    }
-    .newsletter-success {
-      color: green;
-      font-size: 0.9rem;
-      margin-top: 10px;
-    }
-
-     /* --- Animation Animated Border via Conic Gradient --- */
-    
+    .action-square.disabled .contact-options button {opacity: 0.5;pointer-events: none;}   
+    /* STEP4 Abonnement à la newsletter */ 
+    .btn-newsletter {background: linear-gradient(135deg, #182d84, #00a48a);color: #fff;font-weight: bold;padding: 12px 30px;border: none;border-radius: 8px;cursor: pointer;transition: transform 0.3s, box-shadow 0.3s;margin: 10px 0;}
+    .btn-newsletter:hover {transform: translateY(-2px);box-shadow: 0 4px 6px rgba(0,0,0,0.2);}
+    .newsletter-container {width: 100%;max-width: 600px;background-color: #2d3748;border-radius: 12px;box-shadow: 0 4px 8px rgba(0,0,0,0.15);padding: 20px;margin: 30px auto;color: #e2e8f0;text-align: center;}
+    .newsletter-title {font-size: 1.0rem;font-weight: normal;margin-bottom: 20px;}
+    .newsletter-form {display: flex;flex-direction: column;gap: 10px;}
+    .newsletter-form input::placeholder {color: #fff;}
+    .newsletter-form input {background-color: #4a5568;color: #fff;border: none;border-radius: 8px;padding: 10px;outline: none;transition: background-color 0.3s, box-shadow 0.3s;}
+    .newsletter-form input:focus {background-color: #2d3748;box-shadow: 0 0 0 1px #3182ce;}
+    .newsletter-error {color: red;font-size: 0.8rem;text-align: left;}
+    .newsletter-success {color: green;font-size: 0.9rem;margin-top: 10px;}
+     /* Animation Animated Border via Conic Gradient */
     .animated-border {
       --border-angle: 0turn;
       border: solid 5px transparent;
@@ -507,61 +235,15 @@
       background-position: center center;
       animation: bg-spin 3s linear infinite;
     }
-    
-    @keyframes bg-spin {
-      to {
-        --border-angle: 1turn;
-      }
-    }
-    
-    @property --border-angle {
-      syntax: "<angle>";
-      inherits: true;
-      initial-value: 0turn;
-    }
-    
-    /* --- STEP5 : Prise de contact (Calendly) --- */
-    .calendy {
-      text-align: center;
-    }
-    .calendy .container {
-      padding: 10px 0;
-    }
-    
+    @keyframes bg-spin {to {--border-angle: 1turn;}}
+    @property --border-angle {syntax: "<angle>";inherits: true;initial-value: 0turn;} 
+    /* STEP5 : Prise de contact (Calendly) */
+    .calendy {text-align: center;}
+    .calendy .container {padding: 10px 0;}
     /* Responsive modifications for objectives (STEP1) */
-    @media (max-width: 600px) {
-      .objectives-container {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        padding: 0 5px;
-        margin: 10px auto;
-        box-sizing: border-box;
-      }
-      .objective-item {
-        position: relative;
-        display: flex;
-        justify-content: space-between;
-        align-items: center; 
-        background-color: #f0f1f5;
-        border-radius: 10px;
-        padding: 14px 20px 14px 14px; 
-        width: 100%;
-        box-sizing: border-box;
-        font-size: 1rem;
-        font-family: 'DM Sans', sans-serif;
-        color: #333;
-        cursor: pointer;
-        transition: background-color 0.3s, transform 0.2s;
-        border: none;
-      }
-      .objective-item i {
-        position: absolute;
-        bottom: 0px;
-        right: 10px;
-        font-size: 2.0rem;
-        color: #444;
-      }
+    @media (max-width: 600px) {.objectives-container {display: flex;flex-direction: column;gap: 12px;padding: 0 5px;margin: 10px auto;box-sizing: border-box;}
+      .objective-item {position: relative;display: flex;justify-content: space-between;align-items: center; background-color: #f0f1f5;border-radius: 10px;padding: 14px 20px 14px 14px; width: 100%;box-sizing: border-box;font-size: 1rem;font-family: 'DM Sans', sans-serif;color: #333;cursor: pointer;transition: background-color 0.3s, transform 0.2s;border: none;}
+      .objective-item i {position: absolute;bottom: 0px;right: 10px;font-size: 2.0rem;color: #444;}
       .objective-item span { flex: 1; text-align: left; }
       .objective-item:nth-child(odd) i { transform: rotate(-10deg); }
       .objective-item:nth-child(even) i { transform: rotate(10deg); }
@@ -569,54 +251,17 @@
       .objective-item:active { transform: translateY(0); background-color: #dcdfe3; }
       .mobile-explanation { font-size: 0.8rem; color: #555; font-weight: bold; margin: 4px 10px 8px; text-align: left; }
       .intro-box h1 { font-size: 2rem; margin-bottom: 30px; }
-      .cta { font-size: 28px; padding: 8px 30px; }
-    }
-    @media (min-width: 601px) {
-      .main-container { display: flex; justify-content: center; align-items: center; min-height: calc(100vh - 60px); }
+      .cta { font-size: 28px; padding: 8px 30px; }}
+    @media (min-width: 601px) {.main-container { display: flex; justify-content: center; align-items: center; min-height: calc(100vh - 60px); }
       .box { position: relative; margin: 0 auto; }
-      .objectives-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 20px;
-        margin: 20px 0;
-        padding: 0 10px;
-        max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
-      }
-      .objective-item {
-        background-color: #f7f9fc;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        border-radius: 8px;
-        transition: transform 0.3s, background-color 0.3s, color 0.3s;
-        flex: 1 1 150px;
-        text-align: center;
-      }
+      .objectives-container {display: flex;flex-wrap: wrap;justify-content: center;gap: 20px;margin: 20px 0;padding: 0 10px;max-width: 600px;margin-left: auto;margin-right: auto;}
+      .objective-item {background-color: #f7f9fc;box-shadow: 0 2px 4px rgba(0,0,0,0.1);border-radius: 8px;transition: transform 0.3s, background-color 0.3s, color 0.3s;flex: 1 1 150px;text-align: center;}
       .objective-item i { color: #777; transition: color 0.3s; }
       .objective-item:hover { transform: scale(1.03); background-color: #00a48a; }
       .objective-item:hover i { color: #fff; }
       .objective-item:hover span { color: #fff; }
     }
 
-    /* --- BOUTON DE PARTAGE (EN BAS A DROITE) --- */
-    #global-share-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #182d84;
-      color: #fff;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      z-index: 999;
-      font-size: 20px;
-    }
-    
   </style>
 </head>
 <body>
@@ -938,9 +583,9 @@
     /*** Navigation entre les étapes ***/
     function showBox(current, next) {
       if (!boxes[current] || !boxes[next]) return;
-      boxes[current].classList.remove('active', 'slide-from-bottom', 'slide-from-top');
+      boxes[current].classList.remove('active', 'slide-from-right', 'slide-from-left');
       boxes[next].classList.add('active');
-      boxes[next].classList.add(next > current ? 'slide-from-bottom' : 'slide-from-top');
+      boxes[next].classList.add(next > current ? 'slide-from-right' : 'slide-from-left');
       updateProgressBar(next);
       currentStep = next;
       pushStepState(next);
