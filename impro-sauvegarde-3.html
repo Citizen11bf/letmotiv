@@ -488,12 +488,17 @@
       el.style.display = 'block';
     }
 
-    /*** Fonction qui active/désactie le bouton du footer ***/
+    /*** Fonction qui active/désactive le bouton du footer ***/
     function updateFooterButtons() {
-      // Affichage global
+      // 1) Affichage global du footer
       footer.style.display = currentStep >= 1 ? 'flex' : 'none';
+      if (currentStep >= 1) {
+        footer.classList.remove('footer-disabled');
+      } else {
+        footer.classList.add('footer-disabled');
+      }
     
-      // Peut-on reculer ?
+      // 2) Peut-on reculer ?
       if (currentStep > 1) {
         prevBtn.classList.remove('footer-disabled');
         prevBtn.classList.add('footer-enabled', 'prev');
@@ -502,8 +507,8 @@
         prevBtn.classList.add('footer-disabled');
       }
     
-      // Peut-on avancer ?
-      let canAdvance =
+      // 3) Peut-on avancer ?
+      const canAdvance =
         (currentStep === 1 && Boolean(currentCategory)) ||
         (currentStep === 2 && currentSubject.length > 0) ||
         (currentStep === 3 && isImproRecordingStarted) ||
