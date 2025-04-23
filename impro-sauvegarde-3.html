@@ -234,14 +234,11 @@
   </form>
   <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
 
-  <!-- HEADER -->
-  <div class="header">
-    <div class="header-content">
-      <div class="header-l1">Coaching en prise de parole</div>
-      <div class="header-l2">Simulateur d'improvisation Letmotiv</div>
-    </div>
+  <--- Header avec titre dynamique--->
+  <div class="header-content">
+    <div id="dynamic-header-title" class="header-l2"></div>
   </div>
-
+  
   <!-- BARRE DE PROGRESSION -->
   <div class="progress-container" id="progress-steps">
     <div class="progress-step" data-step="1"></div>
@@ -254,9 +251,6 @@
   <div class="main-container">
     <!-- STEP1 : Choix d'objectif -->
     <div class="box" id="step1">
-      <div class="box-header">
-        <div class="box-title">Quel est ton objectif ?</div>
-      </div>
       <div class="objectives-container">
         <div class="objective-item" data-category="diction">
           <i class="fas fa-grin-tongue"></i>
@@ -301,9 +295,6 @@
 
     <!-- STEP2 : Génération du sujet -->
     <div class="box" id="step2">
-      <div class="box-header">
-        <div class="box-title">Prêt à relever le défi ?</div>
-      </div>
       <button id="generate-subject-btn" class="btn-impro">Générer un sujet  <i class="fas fa-random"></i></button>
       <div id="subject-wrapper">
         <span id="subject-display"></span>
@@ -323,9 +314,6 @@
 
     <!-- STEP3 : Enregistrement vidéo -->
     <div class="box" id="step3">
-      <div class="box-header">
-        <div class="box-title">C'est parti, lance ton improvisation !</div>
-      </div>
       <div id="current-subject-display" class="subject-bubble"></div>
       <div class="video-box">
         <video id="preview" autoplay muted playsinline webkit-playsinline></video>
@@ -357,9 +345,6 @@
 
     <!-- STEP4 : Bilan - Téléchargement, Analyse & Prise de rendez-vous -->
     <div class="box" id="step4">
-      <div class="box-header">
-        <div class="box-title">Félicitations pour ton improvisation ! 🤩</div>
-      </div>
       <div class="download-section">
         <div class="action-container">
           <!-- Bouton 1 : Télécharge ta vidéo -->
@@ -396,9 +381,6 @@
 
     <!-- STEP5 : Prise de contact (Calendly) -->
     <div class="box" id="step5">
-      <div class="box-header">
-        <div class="box-title">Planifiez un appel avec nous</div>
-      </div>
       <main>
         <section id="calendy" class="section calendy">
           <div class="container">
@@ -445,6 +427,13 @@
     let countdown;
     let videoDownloaded = false;
 
+    const stepTitles = {
+      1: "Quel est ton objectif ?",
+      2: "Prêt à relever le défi ?",
+      3: "C'est parti, lance ton improvisation !",
+      4: "Félicitations pour ton improvisation ! 🤩",
+      5: "Planifiez un appel avec nous"
+    
     /*** Gestion de l'historique (pushState/popstate) ***/
     function pushStepState(step) {
       history.pushState({ step }, null, `#step${step}`);
@@ -458,6 +447,7 @@
         currentStep = stepToShow;
         updateProgressBar(stepToShow);
         updateFooterNext();
+        document.getElementById('dynamic-header-title').textContent = stepTitles[currentStep] || "";
         if (stepToShow == 3) {
           document.getElementById('current-subject-display').textContent = currentSubject;
         }
@@ -527,7 +517,10 @@
       updateProgressBar(next);
       currentStep = next;
       pushStepState(next);
-      updateFooterNext();
+      updateFooterNext();  
+      
+      const headerTitleEl = document.getElementById('dynamic-header-title');
+      headerTitleEl.textContent = stepTitles[next] || "";
 
       if(next == 4) {
         // Au passage au STEP4, on applique l'animation sur le bouton 1
@@ -1006,6 +999,8 @@
         }
       }
       updateFooterNext();
+      document.getElementById('dynamic-header-title').textContent =
+      stepTitles[currentStep] || "";
     });
 
   </script>
