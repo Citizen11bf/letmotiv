@@ -348,43 +348,36 @@
       <div id="impro-error" class="error-message"></div>
       </div>
 
-    <!-- STEP4 : Bilan - Téléchargement, Analyse & Prise de rendez-vous -->
-    <div class="box" id="step4">
-      <div class="download-section">
-        <div class="action-container">
-          <!-- Bouton 1 : Télécharge ta vidéo -->
-          <button id="download-video-btn" class="action-square btn-action animated-border" aria-label="Télécharge ta vidéo">
-            1) Je télécharge ma vidéo
-          </button>
-          <!-- Bouton 2 : Rendez-vous avec un expert -->
-          <div id="contact-btn" class="action-square contact-square disabled" aria-label="Prendre rdv avec un expert">
-            <span>2) Je veux me former avec un expert</span>
-            <div class="contact-options">
-              <button id="contact-yes">Oui <span>✓</span></button>
-              <button id="contact-no">Non <span>✗</span></button>
-            </div>
-          </div>
-          <!-- Bouton 3 : Analyse ta prestation -->
-          <button id="feedback-btn" class="action-square btn-action disabled" aria-label="Analyse ta prestation">
-            3) J'analyse mon improvisation
-          </button>
-        </div>
-        <!-- Section Newsletter -->
+    <!-- STEP4 : Télécharger ma vidéo -->
+      <div class="box" id="step4">
+        <button id="download-video-btn" class="btn-action">Télécharger ma vidéo</button>
+        <div id="download-error" class="error-message"></div>
+      </div>
+      
+      <!-- STEP5 : Tu veux te former avec un expert ? -->
+      <div class="box" id="step5">
+        <p>Tu veux te former avec un expert ?</p>
+        <button id="expert-yes" class="btn-action">Oui</button>
+        <button id="expert-no" class="btn-action">Non</button>
+        <div id="expert-error" class="error-message"></div>
+      </div>
+      
+      <!-- STEP6 : J’analyse mon improvisation + newsletter -->
+      <div class="box" id="step6">
+        <button id="feedback-btn" class="btn-action">J’analyse mon improvisation</button>
+        <!-- récupérez ici votre bloc .newsletter-container existant -->
         <div class="newsletter-container">
-          <h2 class="newsletter-title">Inscris-toi à la newsletter Letmotiv <br>pour prendre la parole avec impact :</h2>
-          <form id="newsletter-form" class="newsletter-form">
-            <input type="text" id="newsletter-prenom" placeholder="Prénom" aria-label="Prénom">
-            <div id="newsletter-prenom-error" class="newsletter-error"></div>
-            <input type="email" id="newsletter-email" placeholder="Email" aria-label="Email">
-            <div id="newsletter-email-error" class="newsletter-error"></div>
-            <button type="submit" id="newsletter-submit-btn" class="btn-newsletter">S'abonner</button>
-          </form>
-          <div id="newsletter-success" class="newsletter-success" style="display: none;">Tu es maintenant abonné à la newsletter Letmotiv.</div>
+          …
         </div>
       </div>
-    </div>
+      
+      <!-- STEP7 : Contact Calendly -->
+      <div class="box" id="step7">
+        <!-- votre code Calendly actuel -->
+        <section id="calendy" class="calendy">…</section>
+      </div>
 
-    <!-- STEP5 : Prise de contact (Calendly) -->
+    <!-- STEP7 : Prise de contact (Calendly) -->
     <div class="box" id="step5">
       <main>
         <section id="calendy" class="section calendy">
@@ -407,12 +400,14 @@
   <!-- SCRIPT JavaScript -->
   <script>
     /*** VARIABLES ET CONSTANTES ***/
-    const boxes = {
+     const boxes = {
       1: document.getElementById('step1'),
       2: document.getElementById('step2'),
       3: document.getElementById('step3'),
       4: document.getElementById('step4'),
-      5: document.getElementById('step5')
+      5: document.getElementById('step5'),
+      6: document.getElementById('step6'),
+      7: document.getElementById('step7'),
     };
     
     const introBox = document.getElementById('intro-box');
@@ -434,12 +429,17 @@
     let countdown;
     let videoDownloaded = false;
 
+    let videoDownloaded = false;
+    let expertChoice = null;  // true ou false
+    
     const stepTitles = {
       1: `Étape <i class="material-icons" style="vertical-align:middle;">looks_one</i> : Quel est ton objectif ?`,
       2: `Étape <i class="material-icons" style="vertical-align:middle;">looks_two</i> : Pioche un sujet au hasard`,
       3: `Étape <i class="material-icons" style="vertical-align:middle;">looks_3</i> : Lance ton improvisation !`,
-      4: `Étape <i class="material-icons" style="vertical-align:middle;">looks_4</i> : Félicitations pour ton improvisation 🤩`,
-      5: `Étape <i class="material-icons" style="vertical-align:middle;">looks_5</i> : Planifiez un appel avec nous`
+      4: `Étape <i class="material-icons" style="vertical-align:middle;">looks_4</i> : Télécharge ta prestation`,
+      5: `Étape <i class="material-icons" style="vertical-align:middle;">looks_5</i> : Besoin de coaching avec un expert ?`
+      6: `Étape <i class="material-icons" style="vertical-align:middle;">looks_6</i> : Analyse ta prestation`
+      7: `Étape <i class="material-icons" style="vertical-align:middle;">looks_7</i> : Planifie un rendez-vous`
     };
 
     function updateHeaderTitle() {
@@ -490,45 +490,37 @@
 
     /*** Fonction qui active/désactive le bouton du footer ***/
     function updateFooterButtons() {
-      // 1) Affichage global du footer
+      // on n’affiche le footer qu’à partir du STEP1
       footer.style.display = currentStep >= 1 ? 'flex' : 'none';
-      if (currentStep >= 1) {
-        footer.classList.remove('footer-disabled');
-      } else {
-        footer.classList.add('footer-disabled');
-      }
     
-      // 2) Peut-on reculer ?
-      if (currentStep > 1) {
-        prevBtn.classList.remove('footer-disabled');
-        prevBtn.classList.add('footer-enabled', 'prev');
-      } else {
-        prevBtn.classList.remove('footer-enabled', 'prev');
-        prevBtn.classList.add('footer-disabled');
-      }
+      // bouton "Précédent"
+      prevBtn.disabled = currentStep <= 1;
+      prevBtn.className = prevBtn.disabled ? 'footer-button prev footer-disabled'
+                                           : 'footer-button prev footer-enabled';
     
-      // 3) Peut-on avancer ?
-      const canAdvance =
-        (currentStep === 1 && Boolean(currentCategory)) ||
-        (currentStep === 2 && currentSubject.length > 0) ||
-        (currentStep === 3 && isImproRecordingStarted) ||
-        (currentStep === 4);
-    
-      if (canAdvance) {
-        nextBtn.classList.remove('footer-disabled');
-        nextBtn.classList.add('footer-enabled', 'next');
-      } else {
-        nextBtn.classList.remove('footer-enabled', 'next');
-        nextBtn.classList.add('footer-disabled');
+      // bouton "Suivant"
+      let canAdvance = false;
+      switch (currentStep) {
+        case 1: canAdvance = Boolean(currentCategory); break;
+        case 2: canAdvance = currentSubject.length > 0; break;
+        case 3: canAdvance = isImproRecordingStarted; break;
+        case 4: canAdvance = videoDownloaded; break;
+        case 5: canAdvance = expertChoice !== null; break;
+        case 6: canAdvance = false; break;
+        case 7: canAdvance = false; break;
       }
+      nextBtn.disabled = !canAdvance;
+      nextBtn.className = canAdvance
+        ? 'footer-button next footer-enabled'
+        : 'footer-button next footer-disabled';
     }
-    
-    prevBtn.addEventListener('click', () => {
-        if (currentStep > 1) {
-        showBox(currentStep, currentStep - 1);
-        updateFooterButtons();
-        }
-    });
+        
+        prevBtn.addEventListener('click', () => {
+            if (currentStep > 1) {
+            showBox(currentStep, currentStep - 1);
+            updateFooterButtons();
+            }
+        });
 
     nextBtn.addEventListener('click', () => {
       if (nextBtn.classList.contains('footer-disabled')) return;
@@ -916,6 +908,30 @@
       startInitialCountdown();
     });
     bindStartButton();
+
+
+    // STEP4 — téléchargement
+    document.getElementById('download-video-btn').addEventListener('click', () => {
+      if (!videoURL) return alert("Pas de vidéo dispo.");
+      // lancer le téléchargement…
+      videoDownloaded = true;
+      updateFooterButtons();
+    });
+    
+    // STEP5 — expert oui/non
+    document.getElementById('expert-yes').addEventListener('click', () => {
+      expertChoice = true;
+      showBox(5, 7);          // on saute directement au Calendly
+    });
+    document.getElementById('expert-no').addEventListener('click', () => {
+      expertChoice = false;
+      updateFooterButtons();  // on autorise "Suivant" pour aller au STEP6
+    });
+    
+    // STEP6 — analyse
+    document.getElementById('feedback-btn').addEventListener('click', () => {
+      window.location.href = "https://…/feedback-impro";
+    });
 
     /***********************
      * Téléchargement & Newsletter (STEP4)
