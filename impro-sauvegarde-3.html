@@ -1008,36 +1008,6 @@
       successEl.style.display = 'block';
       setTimeout(() => { successEl.style.display = 'none'; }, 5000);
     });
-
-    /***********************
-     * Bouton de partage du simulateur
-     ***********************/
-    class ShareManager {
-      constructor() {
-        this.shareData = {
-          title: "Letmotiv - Simulateur d'entretien",
-          text: "Développe et évalue ta prise de parole en public avec le simulateur d'improvisation Letmotiv.",
-          url: window.location.href,
-          image: "https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png"
-        };
-        this.bindShareEvents();
-      }
-      bindShareEvents() {
-        const shareBtn = document.getElementById('global-share-btn');
-        shareBtn.addEventListener('click', () => {
-          if (navigator.share) {
-            navigator.share(this.shareData)
-              .then(() => console.log('Shared successfully'))
-              .catch((error) => console.log('Error sharing', error));
-          } else {
-            alert("Le partage n'est pas supporté sur ce navigateur.");
-          }
-        });
-      }
-    }
-    window.addEventListener('DOMContentLoaded', () => {
-      new ShareManager();
-    });
     
     document.addEventListener('DOMContentLoaded', () => {
       if (window.location.hash) {
