@@ -545,7 +545,9 @@
       introBox.style.animation = 'fadeOut 0.5s ease forwards';
       setTimeout(() => {
         introBox.style.display = 'none';
-        boxes[1].classList.add('active', 'slide-from-bottom');
+        boxes[1].classList.add('active');
+        void boxes[1].offsetWidth;
+        boxes[1].classList.add('slide-from-bottom');
         currentStep = 1;
         updateProgressBar(1);
         pushStepState(1);
