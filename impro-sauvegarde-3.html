@@ -29,6 +29,7 @@
   <link href="https://fonts.googleapis.com/css?family=Poppins:900i" rel="stylesheet">
   <!-- Icônes Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!-- Calendly widget CSS -->
   <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
   <!JSON-LD pour le SEO -->
@@ -429,16 +430,16 @@
     let videoDownloaded = false;
 
     const stepTitles = {
-      1: "➀ Quel est ton objectif ?",
-      2: "➁ Prêt à relever le défi ?",
-      3: "➂ C'est parti, lance ton improvisation !",
-      4: "➃ Félicitations pour ton improvisation ! 🤩",
-      5: "➄ Planifiez un appel avec nous"
-    }
+      1: `Étape <i class="material-icons" style="vertical-align:middle;">looks_one</i> : Quel est ton objectif ?`,
+      2: `Étape <i class="material-icons" style="vertical-align:middle;">looks_two</i> : Prêt à relever le défi ?`,
+      3: `Étape <i class="material-icons" style="vertical-align:middle;">looks_3</i> : C'est parti, lance ton improvisation !`,
+      4: `Étape <i class="material-icons" style="vertical-align:middle;">looks_4</i> : Félicitations pour ton improvisation ! 🤩`,
+      5: `Étape <i class="material-icons" style="vertical-align:middle;">looks_5</i> : Planifiez un appel avec nous`
+    };
 
     function updateHeaderTitle() {
       document.getElementById('dynamic-header-title')
-         .textContent = stepTitles[currentStep] || "";
+        .innerHTML = stepTitles[currentStep] || "";      
     }
     
     /*** Gestion de l'historique (pushState/popstate) ***/
@@ -454,7 +455,7 @@
         currentStep = stepToShow;
         updateProgressBar(stepToShow);
         updateFooterNext();
-        document.getElementById('dynamic-header-title').textContent = stepTitles[currentStep] || "";
+        document.getElementById('dynamic-header-title').innerHTML = stepTitles[currentStep] || "";
         if (stepToShow == 3) {
           document.getElementById('current-subject-display').textContent = currentSubject;
         }
@@ -527,7 +528,7 @@
       updateFooterNext();  
       
       const headerTitleEl = document.getElementById('dynamic-header-title');
-      headerTitleEl.textContent = stepTitles[next] || "";
+      headerTitleEl.innerHTML = stepTitles[next] || "";
 
       if(next == 4) {
         // Au passage au STEP4, on applique l'animation sur le bouton 1
