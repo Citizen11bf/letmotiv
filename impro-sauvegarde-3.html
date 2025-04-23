@@ -249,6 +249,9 @@
     <div class="progress-step" data-step="2"></div>
     <div class="progress-step" data-step="3"></div>
     <div class="progress-step" data-step="4"></div>
+    <div class="progress-step" data-step="5"></div>
+    <div class="progress-step" data-step="6"></div>
+    <div class="progress-step" data-step="7"></div>
   </div>
 
   <!-- CONTAINER PRINCIPAL -->
@@ -373,21 +376,12 @@
       
       <!-- STEP7 : Contact Calendly -->
       <div class="box" id="step7">
-        <!-- votre code Calendly actuel -->
-        <section id="calendy" class="calendy">…</section>
-      </div>
-
-    <!-- STEP7 : Prise de contact (Calendly) -->
-    <div class="box" id="step5">
-      <main>
-        <section id="calendy" class="section calendy">
+        <section id="calendy" class="calendy">
           <div class="container">
             <div class="calendly-inline-widget" data-url="https://calendly.com/letmotiv/premier-contact?hide_event_type_details=1" style="min-width:320px;height:1000px;"></div>
           </div>
         </section>
-      </main>
-    </div>
-  </div>
+      </div>
 
  <footer id="app-footer" class="footer-disabled" style="display:none;">
     <button id="footer-prev" class="footer-button prev footer-disabled"><i class="fas fa-arrow-left"></i> PRÉCÉDENT</button>
@@ -428,8 +422,6 @@
     let timeRemaining = 120;
     let countdown;
     let videoDownloaded = false;
-
-    let videoDownloaded = false;
     let expertChoice = null;  // true ou false
     
     const stepTitles = {
@@ -437,9 +429,9 @@
       2: `Étape <i class="material-icons" style="vertical-align:middle;">looks_two</i> : Pioche un sujet au hasard`,
       3: `Étape <i class="material-icons" style="vertical-align:middle;">looks_3</i> : Lance ton improvisation !`,
       4: `Étape <i class="material-icons" style="vertical-align:middle;">looks_4</i> : Télécharge ta prestation`,
-      5: `Étape <i class="material-icons" style="vertical-align:middle;">looks_5</i> : Besoin de coaching avec un expert ?`
-      6: `Étape <i class="material-icons" style="vertical-align:middle;">looks_6</i> : Analyse ta prestation`
-      7: `Étape <i class="material-icons" style="vertical-align:middle;">looks_7</i> : Planifie un rendez-vous`
+      5: `Étape <i class="material-icons" style="vertical-align:middle;">looks_5</i> : Besoin de coaching avec un expert ?`, 
+      6: `Étape <i class="material-icons" style="vertical-align:middle;">looks_6</i> : Analyse ta prestation`, 
+      7: `Étape <i class="material-icons" style="vertical-align:middle;">looks_7</i> : Planifie un rendez-vous`, 
     };
 
     function updateHeaderTitle() {
@@ -474,7 +466,7 @@
     /*** Fonctions utilitaires ***/
     function updateProgressBar(step) {
       progressSteps.forEach((el, idx) => {
-        if (step >= idx + 1 && step <= 4) {
+        if (step >= idx + 1 && step <= 7) {
           el.classList.add('active');
         } else {
           el.classList.remove('active');
@@ -524,7 +516,7 @@
 
     nextBtn.addEventListener('click', () => {
       if (nextBtn.classList.contains('footer-disabled')) return;
-      if (currentStep >= 1 && currentStep < 5) {
+      if (currentStep >= 1 && currentStep < 7) {
         showBox(currentStep, currentStep + 1);
         updateFooterButtons();
       }
@@ -909,15 +901,25 @@
     });
     bindStartButton();
 
-
     // STEP4 — téléchargement
     document.getElementById('download-video-btn').addEventListener('click', () => {
-      if (!videoURL) return alert("Erreur : Aucune vidéo n'est disponible au téléchargement.");
-      // Lancer le téléchargement
-      videoDownloaded = true;
-      updateFooterButtons();
+          if (confirm("La vidéo de ton improvisation va être téléchargée. Veux-tu continuer ?")) {
+        if (videoURL) {
+          const link = document.createElement('a');
+          link.href = videoURL;
+          link.download = 'Letmotiv_Improvisation.mp4';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          videoDownloaded = true;
+          updateFooterButtons();
+        } 
+        else {
+          alert("Aucune vidéo n'est disponible pour le moment.");
+        }
+      }
     });
-    
+
     // STEP5 — expert oui/non
     document.getElementById('expert-yes').addEventListener('click', () => {
       expertChoice = true;
@@ -936,25 +938,6 @@
     /***********************
      * Téléchargement & Newsletter (STEP4)
      ***********************/
-    document.getElementById('download-video-btn').addEventListener('click', () => {
-      if (confirm("La vidéo de ton improvisation va être téléchargée. Veux-tu continuer ?")) {
-        if (videoURL) {
-          const link = document.createElement('a');
-          link.href = videoURL;
-          link.download = 'Letmotiv_Improvisation.mp4';
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-          videoDownloaded = true;
-          // Déplacer l'animation vers le conteneur contact
-          document.getElementById('download-video-btn').classList.remove('animated-border');
-          document.getElementById('contact-btn').classList.add('animated-border');
-          document.getElementById('contact-btn').classList.remove('disabled');
-        } else {
-          alert("Aucune vidéo n'est disponible pour le moment.");
-        }
-      }
-    });
 
     document.getElementById('feedback-btn').addEventListener('click', () => {
       if (document.getElementById('feedback-btn').classList.contains('disabled')) return;
