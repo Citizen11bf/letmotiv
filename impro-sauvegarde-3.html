@@ -86,10 +86,14 @@
     /* HEADER INTERNE DES BOXES */
     .box-header {display: flex;flex-direction: column;align-items: center;justify-content: center;margin-bottom: 20px;position: relative;}
     /* Footer */
-    #app-footer {position: fixed;bottom: 0;left: 0;width: 100%;padding: 12px 20px;box-shadow: 0 -2px 6px rgba(0,0,0,0.1);display: flex;justify-content: center;align-items: center;z-index: 100;}
-    .footer-disabled {background-color: #cccccc;color: #777777;cursor: default;}
-    .footer-enabled {background-color: #182d84;color: #ffffff;cursor: pointer;font-weight: bold;}
-    .footer-enabled:hover {animation: none;transform: scale(1.04);box-shadow: 0 0 12px rgba(255,255,255,0.6);}
+    #app-footer {display: flex;position: fixed;bottom: 0; left: 0;width: 100%;height: 48px;box-shadow: 0 -2px 6px rgba(0,0,0,0.1);z-index: 100;}
+    .footer-button {flex: 1;border: none;background: none;font-size: 16px;font-weight: bold;color: inherit;cursor: pointer;transition: background-color 0.3s, filter 0.3s;}
+    .footer-button.prev {border-right: 1px solid rgba(255,255,255,0.2);}
+    .footer-button.next {display: flex;align-items: center;justify-content: center;}
+    .footer-disabled {background-color: #cccccc;color: #777777;cursor: default;filter: grayscale(100%);}
+    .footer-enabled.next {background-color: #182d84;color: #ffffff;filter: none;animation: footerPulse 1.5s ease-in-out infinite;}
+    .footer-enabled.prev {background-color: #005f99;color: #ffffff;filter: none;}
+    .footer-enabled.next:hover,.footer-enabled.prev:hover {animation: none;filter: brightness(1.1);}    
     .btn-impro {margin: 15px 0;padding: 10px 20px;font-size: 16px;background-color: #182d84;color: #fff;border: none;border-radius: 25px;cursor: pointer;transition: background-color 0.3s;}
     .btn-impro:hover { background-color: #00a48a; }
     .stop-animation {animation: none !important;transform: none !important;}
@@ -392,10 +396,11 @@
     </div>
   </div>
 
-  <footer id="app-footer" class="footer-disabled" style="display: none;">
-    <span class="electric">SUIVANT </span> <i class="fas fa-arrow-right"></i>
+ <footer id="app-footer" class="footer-disabled" style="display:none;">
+    <button id="footer-prev" class="footer-button prev footer-disabled"><i class="fas fa-arrow-left"></i> PRÉCÉDENT</button>
+    <button id="footer-next" class="footer-button next footer-disabled">SUIVANT <i class="fas fa-arrow-right"></i></button>
   </footer>
-  
+
   <!-- Calendly widget script -->
   <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
 
@@ -414,6 +419,8 @@
     const startIntroBtn = document.getElementById('start-intro-btn');
     const progressSteps = Array.from(document.querySelectorAll('#progress-steps .progress-step'));
     const footer = document.getElementById('app-footer');
+    const prevBtn = document.getElementById('footer-prev');
+    const nextBtn = document.getElementById('footer-next');
 
     let currentStep = 0;
     let currentCategory = null;
@@ -452,7 +459,7 @@
         boxes[stepToShow].classList.add('active');
         currentStep = stepToShow;
         updateProgressBar(stepToShow);
-        updateFooterNext();
+        updateFooterButtons();
         document.getElementById('dynamic-header-title').innerHTML = stepTitles[currentStep] || "";
         if (stepToShow == 3) {
           document.getElementById('current-subject-display').textContent = currentSubject;
@@ -482,30 +489,49 @@
     }
 
     /*** Fonction qui active/désactie le bouton du footer ***/
-    function updateFooterNext() {
-    footer.style.display = currentStep >= 1 ? 'flex' : 'none';
-      const canAdvance = (
+    function updateFooterButtons() {
+      // Affichage global
+      footer.style.display = currentStep >= 1 ? 'flex' : 'none';
+    
+      // Peut-on reculer ?
+      if (currentStep > 1) {
+        prevBtn.classList.remove('footer-disabled');
+        prevBtn.classList.add('footer-enabled', 'prev');
+      } else {
+        prevBtn.classList.remove('footer-enabled', 'prev');
+        prevBtn.classList.add('footer-disabled');
+      }
+    
+      // Peut-on avancer ?
+      let canAdvance =
         (currentStep === 1 && Boolean(currentCategory)) ||
         (currentStep === 2 && currentSubject.length > 0) ||
         (currentStep === 3 && isImproRecordingStarted) ||
-        (currentStep === 4)
-      );
+        (currentStep === 4);
+    
       if (canAdvance) {
-        footer.classList.remove('footer-disabled');
-        footer.classList.add('footer-enabled');
+        nextBtn.classList.remove('footer-disabled');
+        nextBtn.classList.add('footer-enabled', 'next');
       } else {
-        footer.classList.remove('footer-enabled');
-        footer.classList.add('footer-disabled');
+        nextBtn.classList.remove('footer-enabled', 'next');
+        nextBtn.classList.add('footer-disabled');
       }
     }
     
-    footer.addEventListener('click', () => {
-      if (footer.classList.contains('footer-enabled')
-          && currentStep >= 1
-          && currentStep < 5) {
-        showBox(currentStep, currentStep + 1);
-      }
+    prevBtn.addEventListener('click', () => {
+        if (currentStep > 1) {
+        showBox(currentStep, currentStep - 1);
+        updateFooterButtons();
+        }
     });
+
+    nextBtn.addEventListener('click', () => {
+      if (nextBtn.classList.contains('footer-disabled')) return;
+      if (currentStep >= 1 && currentStep < 5) {
+        showBox(currentStep, currentStep + 1);
+        updateFooterButtons();
+      }
+    }); 
     
     /*** Navigation entre les étapes ***/
     function showBox(current, next) {
@@ -516,7 +542,7 @@
       updateProgressBar(next);
       currentStep = next;
       pushStepState(next);
-      updateFooterNext();  
+      updateFooterButtons();  
       
       const headerTitleEl = document.getElementById('dynamic-header-title');
       headerTitleEl.innerHTML = stepTitles[next] || "";
@@ -549,7 +575,7 @@
         currentStep = 1;
         updateProgressBar(1);
         pushStepState(1);
-        updateFooterNext()
+        updateFooterButtons()
         updateHeaderTitle();   
       }, 500);
     });
@@ -655,7 +681,7 @@
         }
         document.getElementById('objective-error').style.display = 'none';
         document.getElementById('impro-error').style.display = 'none';
-        updateFooterNext();
+        updateFooterButtons();
       });
     });
 
@@ -703,7 +729,7 @@
       subjectWrapper.style.display = 'block';
       generateSubjectBtn.classList.add('subject-generated');
       document.getElementById('subject-error').style.display = 'none';
-      updateFooterNext();
+      updateFooterButtons();
     });
 
     document.getElementById('advice-toggle').addEventListener('click', () => {
@@ -795,7 +821,7 @@
         clearInterval(timerInterval);
         document.getElementById('recording-indicator').style.display = 'none';
         isImproRecordingStarted = true;
-        updateFooterNext();
+        updateFooterButtons();
         if (window.innerWidth <= 600) {
             document.querySelector('.video-box').style.height = "300px";
         }
@@ -999,7 +1025,7 @@
           showBox(currentStep, stepFromHash);
         }
       }
-      updateFooterNext();
+      updateFooterButtons();
       document.getElementById('dynamic-header-title').textContent =
       stepTitles[currentStep] || "";
     });
