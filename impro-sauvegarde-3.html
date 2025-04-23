@@ -251,7 +251,6 @@
     <div class="progress-step" data-step="4"></div>
     <div class="progress-step" data-step="5"></div>
     <div class="progress-step" data-step="6"></div>
-    <div class="progress-step" data-step="7"></div>
   </div>
 
   <!-- CONTAINER PRINCIPAL -->
@@ -357,30 +356,39 @@
         <div id="download-error" class="error-message"></div>
       </div>
       
-      <!-- STEP5 : Tu veux te former avec un expert ? -->
+     <!-- STEP5 : Coaching expert + Calendly -->
       <div class="box" id="step5">
-        <p>Tu veux te former avec un expert ?</p>
-        <button id="expert-yes" class="btn-action">Oui</button>
-        <button id="expert-no" class="btn-action">Non</button>
-        <div id="expert-error" class="error-message"></div>
-      </div>
-      
-      <!-- STEP6 : J’analyse mon improvisation + newsletter -->
-      <div class="box" id="step6">
-        <button id="feedback-btn" class="btn-action">J’analyse mon improvisation</button>
-        <!-- récupérez ici votre bloc .newsletter-container existant -->
-        <div class="newsletter-container">
-          …
+        <p style="margin-bottom:1em; font-size:1rem;">
+          Tu veux progresser rapidement ?  
+          <strong>Prends rendez-vous avec un de nos experts.</strong>
+        </p>
+        <!-- on colle ici le widget Calendly -->
+        <div class="calendly-inline-widget"
+             data-url="https://calendly.com/letmotiv/premier-contact?hide_event_type_details=1"
+             style="min-width:320px;height:600px;">
         </div>
       </div>
-      
-      <!-- STEP7 : Contact Calendly -->
-      <div class="box" id="step7">
-        <section id="calendy" class="calendy">
-          <div class="container">
-            <div class="calendly-inline-widget" data-url="https://calendly.com/letmotiv/premier-contact?hide_event_type_details=1" style="min-width:320px;height:1000px;"></div>
+   
+      <!-- STEP6 : Analyse & Newsletter -->
+      <div class="box" id="step6">
+        <button id="feedback-btn" class="btn-action">J’analyse mon improvisation</button>
+        <div class="newsletter-container">
+          <h2 class="newsletter-title">
+            Inscris-toi à la newsletter Letmotiv pour prendre la parole avec impact :
+          </h2>
+          <form id="newsletter-form" class="newsletter-form">
+            <input type="text" id="newsletter-prenom" placeholder="Prénom" aria-label="Prénom">
+            <div id="newsletter-prenom-error" class="newsletter-error"></div>
+            <input type="email" id="newsletter-email" placeholder="Email" aria-label="Email">
+            <div id="newsletter-email-error" class="newsletter-error"></div>
+            <button type="submit" id="newsletter-submit-btn" class="btn-newsletter">
+              S’abonner
+            </button>
+          </form>
+          <div id="newsletter-success" class="newsletter-success" style="display:none;">
+            Tu es maintenant abonné à la newsletter Letmotiv.
           </div>
-        </section>
+        </div>
       </div>
 
  <footer id="app-footer" class="footer-disabled" style="display:none;">
@@ -401,7 +409,6 @@
       4: document.getElementById('step4'),
       5: document.getElementById('step5'),
       6: document.getElementById('step6'),
-      7: document.getElementById('step7'),
     };
     
     const introBox = document.getElementById('intro-box');
@@ -430,8 +437,7 @@
       3: `Étape <i class="material-icons" style="vertical-align:middle;">looks_3</i> : Lance ton improvisation !`,
       4: `Étape <i class="material-icons" style="vertical-align:middle;">looks_4</i> : Télécharge ta prestation`,
       5: `Étape <i class="material-icons" style="vertical-align:middle;">looks_5</i> : Besoin de coaching avec un expert ?`, 
-      6: `Étape <i class="material-icons" style="vertical-align:middle;">looks_6</i> : Analyse ta prestation`, 
-      7: `Étape <i class="material-icons" style="vertical-align:middle;">looks_7</i> : Planifie un rendez-vous`, 
+      6: `Étape <i class="material-icons" style="vertical-align:middle;">looks_6</i> : Analyse ta prestation`,  
     };
 
     function updateHeaderTitle() {
@@ -497,9 +503,8 @@
         case 2: canAdvance = currentSubject.length > 0; break;
         case 3: canAdvance = isImproRecordingStarted; break;
         case 4: canAdvance = videoDownloaded; break;
-        case 5: canAdvance = expertChoice !== null; break;
+        case 5: canAdvance = true; break;
         case 6: canAdvance = false; break;
-        case 7: canAdvance = false; break;
       }
       nextBtn.disabled = !canAdvance;
       nextBtn.className = canAdvance
@@ -516,7 +521,7 @@
 
     nextBtn.addEventListener('click', () => {
       if (nextBtn.classList.contains('footer-disabled')) return;
-      if (currentStep >= 1 && currentStep < 7) {
+      if (currentStep >= 1 && currentStep < 6) {
         showBox(currentStep, currentStep + 1);
         updateFooterButtons();
       }
@@ -932,17 +937,13 @@
     
     // STEP6 — analyse
     document.getElementById('feedback-btn').addEventListener('click', () => {
-      window.location.href = "https://…/feedback-impro";
+      if (document.getElementById('feedback-btn').classList.contains('disabled')) return;
+      window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro";
     });
 
     /***********************
      * Téléchargement & Newsletter (STEP4)
      ***********************/
-
-    document.getElementById('feedback-btn').addEventListener('click', () => {
-      if (document.getElementById('feedback-btn').classList.contains('disabled')) return;
-      window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro";
-    });
 
     document.getElementById('contact-yes').addEventListener('click', (e) => {
       e.preventDefault();
@@ -950,10 +951,6 @@
     });
     document.getElementById('contact-no').addEventListener('click', (e) => {
       e.preventDefault();
-      // Déplacer l'animation vers le bouton 3
-      document.getElementById('feedback-btn').classList.add('animated-border');
-      document.getElementById('contact-btn').classList.remove('animated-border');
-      document.getElementById('feedback-btn').classList.remove('disabled');
     });
 
     document.getElementById('newsletter-form').addEventListener('submit', (e) => {
