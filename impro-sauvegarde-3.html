@@ -482,7 +482,8 @@
     }
 
     /*** Fonction qui active/désactie le bouton du footer ***/
-      footer.style.display = currentStep >= 1 ? 'flex' : 'none';
+    function updateFooterNext() {
+    footer.style.display = currentStep >= 1 ? 'flex' : 'none';
       const canAdvance = (
         (currentStep === 1 && Boolean(currentCategory)) ||
         (currentStep === 2 && currentSubject.length > 0) ||
@@ -497,7 +498,7 @@
         footer.classList.add('footer-disabled');
       }
     }
-
+    
     footer.addEventListener('click', () => {
       if (footer.classList.contains('footer-enabled')
           && currentStep >= 1
@@ -505,7 +506,6 @@
         showBox(currentStep, currentStep + 1);
       }
     });
-
     
     /*** Navigation entre les étapes ***/
     function showBox(current, next) {
