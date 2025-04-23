@@ -87,10 +87,9 @@
     .box-header {display: flex;flex-direction: column;align-items: center;justify-content: center;margin-bottom: 20px;position: relative;}
     /* Footer */
     #app-footer {position: fixed;bottom: 0;left: 0;width: 100%;padding: 12px 20px;background-color: #182d84;box-shadow: 0 -2px 6px rgba(0,0,0,0.1);display: flex;justify-content: center;align-items: center;z-index: 100;}
-    /* Bouton suivant du footer */
-    .btn-next {background-color: #00a48a;color: #fff;border: none;border-radius: 6px;padding: 10px 24px;font-size: 16px;cursor: pointer;transition: opacity 0.3s, transform 0.2s;}
-    .btn-next:disabled {background-color: #cccccc;color: #777777;cursor: not-allowed;opacity: 0.6;}
-    .btn-next:not(:disabled):hover {transform: translateY(-2px);box-shadow: 0 4px 8px rgba(0,164,138,0.3);}
+    .footer-disabled {background-color: #cccccc;color: #777777;cursor: default;}
+    .footer-enabled {background-color: #182d84;color: #ffffff;cursor: pointer;}
+    .footer-enabled:hover {filter: brightness(1.1);}
     .btn-impro {margin: 15px 0;padding: 10px 20px;font-size: 16px;background-color: #182d84;color: #fff;border: none;border-radius: 25px;cursor: pointer;transition: background-color 0.3s;}
     .btn-impro:hover { background-color: #00a48a; }
     .stop-animation {animation: none !important;transform: none !important;}
@@ -393,10 +392,10 @@
     </div>
   </div>
 
-  <footer id="app-footer" style="display: none;">
-    <button id="footer-next" class="btn-next" disabled>Suivant</button>
+  <footer id="app-footer" class="footer-disabled" style="display: none;">
+    Suivant <i class="fas fa-arrow-right"></i>
   </footer>
-
+  
   <!-- Calendly widget script -->
   <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
 
@@ -414,7 +413,6 @@
     const introBox = document.getElementById('intro-box');
     const startIntroBtn = document.getElementById('start-intro-btn');
     const progressSteps = Array.from(document.querySelectorAll('#progress-steps .progress-step'));
-    const footerNext = document.getElementById('footer-next');
     const footer = document.getElementById('app-footer');
 
     let currentStep = 0;
@@ -484,37 +482,30 @@
     }
 
     /*** Fonction qui active/désactie le bouton du footer ***/
-    function updateFooterNext() {
-      if (currentStep >= 1) {
-        footer.style.display = 'flex';
+      footer.style.display = currentStep >= 1 ? 'flex' : 'none';
+      const canAdvance = (
+        (currentStep === 1 && Boolean(currentCategory)) ||
+        (currentStep === 2 && currentSubject.length > 0) ||
+        (currentStep === 3 && isImproRecordingStarted) ||
+        (currentStep === 4)
+      );
+      if (canAdvance) {
+        footer.classList.remove('footer-disabled');
+        footer.classList.add('footer-enabled');
       } else {
-        footer.style.display = 'none';
-      }   
-      switch (currentStep) {
-        case 1:
-          footerNext.disabled = !Boolean(currentCategory);
-          break;
-        case 2:
-          footerNext.disabled = !(currentSubject && currentSubject.length > 0);
-          break;
-        case 3:
-          footerNext.disabled = !isImproRecordingStarted;
-          break;
-        case 4:
-          footerNext.disabled = false;
-          break;
-        default:
-          footerNext.disabled = true;
+        footer.classList.remove('footer-enabled');
+        footer.classList.add('footer-disabled');
       }
     }
 
-    footerNext.addEventListener('click', () => {
-      if (currentStep >= 1 && currentStep < 5) {
+    footer.addEventListener('click', () => {
+      if (footer.classList.contains('footer-enabled')
+          && currentStep >= 1
+          && currentStep < 5) {
         showBox(currentStep, currentStep + 1);
-        // Mettre à jour le footer après le changement
-        updateFooterNext();
       }
     });
+
     
     /*** Navigation entre les étapes ***/
     function showBox(current, next) {
