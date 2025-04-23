@@ -912,8 +912,8 @@
 
     // STEP4 — téléchargement
     document.getElementById('download-video-btn').addEventListener('click', () => {
-      if (!videoURL) return alert("Pas de vidéo dispo.");
-      // lancer le téléchargement…
+      if (!videoURL) return alert("Erreur : Aucune vidéo n'est disponible au téléchargement.");
+      // Lancer le téléchargement
       videoDownloaded = true;
       updateFooterButtons();
     });
