@@ -78,10 +78,10 @@
     .box.active { display: block; opacity: 1; }
     .box.hidden { opacity: 0; } 
     /* ANIMATIONS HORIZONTALES */
-    @keyframes fromRight {from { opacity: 0; transform: translateX(50px); } to   { opacity: 1; transform: translateX(0);     }}
-    @keyframes fromLeft {from { opacity: 0; transform: translateX(-50px); } to   { opacity: 1; transform: translateX(0);     }}
-    .slide-from-right {animation: fromRight 0.5s ease forwards;}
-    .slide-from-left {animation: fromLeft 0.5s ease forwards;}
+    @keyframes fromRight {from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0);}}
+    @keyframes fromLeft {from { opacity: 0; transform: translateX(-50px); } to { opacity: 1; transform: translateX(0);}}
+    .slide-from-right {animation: fromRight 1.0s ease forwards;}
+    .slide-from-left {animation: fromLeft 1.0s ease forwards;}
     /* HEADER INTERNE DES BOXES */
     .box-header {display: flex;flex-direction: column;align-items: center;justify-content: center;margin-bottom: 20px;position: relative;}
     /* Footer */
