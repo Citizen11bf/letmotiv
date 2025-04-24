@@ -148,73 +148,14 @@
     #step4 #playback-video {width: 100%;max-width: 400px;}
     @media (max-width: 600px) {#step4 #playback-video {max-width: 300px;}}
     /* STEP6 Accès aux articles de blog */ 
-
-    /* Container STEP6 */
-    #step6 .link-card {
-      max-width: 600px;
-      margin: 0 auto 1.5em;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;             /* mobile-first: colonne */
-      font-family: 'Montserrat', sans-serif;
+    @media (max-width: 600px) {
+      #step6 .link-card {max-width: 100%;margin: 0 auto 1.5em;border: 1px solid #ddd;border-radius: 8px;box-shadow: 0 2px 6px rgba(0,0,0,0.1);overflow: hidden;background: #fff;}
+      #step6 .link-card a {display: block;text-decoration: none;color: inherit;}
+      #step6 .link-card-img {width: 100%;height: auto;display: block;}
+      #step6 .link-card-content {padding: 16px;}
+      #step6 .link-card-content h3 {margin: 0 0 8px;font-size: 1.2rem;font-weight: 700;line-height: 1.3;}
+      #step6 .link-card-description {margin: 0;font-size: 0.9rem;line-height: 1.4;color: #555;}
     }
-    
-    /* Lien sans soulignement et héritant la couleur */
-    #step6 .link-card a {
-      display: flex;
-      flex-direction: column;
-      text-decoration: none;
-      color: inherit;
-    }
-    
-    /* Image pleine largeur et espacement sous-image */
-    #step6 .link-card-img {
-      width: 100%;
-      height: auto;
-      display: block;
-      margin-bottom: 16px;                /* <-- espace entre image et titre */
-    }
-    
-    /* Titre en Montserrat bold 1.2rem, sans soulignement */
-    #step6 .link-card-content h3 {
-      margin: 0 16px;
-      font-weight: 700;
-      font-size: 1.2rem;
-      text-decoration: none;
-    }
-    
-    /* Paragraphe en Montserrat normal 0.9rem */
-    #step6 .link-card-description {
-      margin: 0 16px 16px;
-      font-weight: 400;
-      font-size: 0.9rem;
-      line-height: 1.4;
-      text-decoration: none;
-    }
-    
-    /* === DESKTOP (ligne) === */
-    @media (min-width: 601px) {
-      #step6 .link-card {
-        flex-direction: row;               /* passage en ligne */
-        align-items: flex-start;
-      }
-      #step6 .link-card-img {
-        width: 200px;                      /* largeur fixe ou ajustable */
-        margin: 16px;                      /* espace tout autour */
-        margin-bottom: 0;                  /* annule le margin-bottom mobile */
-      }
-      #step6 .link-card-content {
-        margin: 16px;
-        flex: 1;
-      }
-      #step6 .link-card-description {
-        margin: 0 16px 16px;
-      }
-    }
-
     /* Responsive modifications for objectives STEP1 */
     @media (max-width: 600px) {.objectives-container {display: flex;flex-direction: column;gap: 12px;padding: 0 5px;margin: 10px auto;box-sizing: border-box;}
       .objective-item {position: relative;display: flex;justify-content: space-between;align-items: center; background-color: #f0f1f5;border-radius: 10px;padding: 14px 20px 14px 14px; width: 100%;box-sizing: border-box;font-size: 1rem;font-family: 'DM Sans', sans-serif;color: #333;cursor: pointer;transition: background-color 0.3s, transform 0.2s;border: none;}
