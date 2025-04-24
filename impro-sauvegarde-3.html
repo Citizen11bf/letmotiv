@@ -822,6 +822,7 @@
         videoURL = URL.createObjectURL(videoBlob);
         const playback = document.getElementById('playback-video');
         playback.src = videoURL;
+        playback.style.transform = 'scaleX(-1)';
         playback.load();
         stream.getTracks().forEach(t => t.stop());
         const overlay = document.querySelector('.video-overlay');
