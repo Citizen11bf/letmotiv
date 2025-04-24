@@ -549,23 +549,24 @@
     /*** Navigation entre les étapes ***/
     function showBox(current, next) {
       if (!boxes[current] || !boxes[next]) return;
-      boxes[current].classList.remove('active', 'slide-from-right', 'slide-from-left');
+      boxes[current].classList.remove('active','slide-from-right','slide-from-left');
       boxes[next].classList.add('active');
       boxes[next].classList.add(next > current ? 'slide-from-right' : 'slide-from-left');
       updateProgressBar(next);
       currentStep = next;
       pushStepState(next);
-      updateFooterButtons();  
-      
+      updateFooterButtons();
+    
+      // Mettre à jour le titre du header
       const headerTitleEl = document.getElementById('dynamic-header-title');
       headerTitleEl.innerHTML = stepTitles[next] || "";
-      
-      }
-      if(next == 3) {
+    
+      // Si on arrive au STEP3, on remet le sujet devant la vidéo
+      if (next === 3) {
         document.getElementById('impro-video-subject').textContent = currentSubject;
       }
     }
-  
+
     /*** Initialisation de l'introduction ***/
     startIntroBtn.addEventListener('click', () => {
       const introTitle = document.querySelector('.intro-box h1');
