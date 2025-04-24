@@ -155,11 +155,11 @@
     .link-card-content h3 {margin: 0 0 6px;font-size: 1.1rem;font-weight: bold;}
     .link-card-content p {margin: 0;font-size: 0.9rem;line-height: 1.3;color: #555;}
     @media (max-width: 600px) { 
-      .link-card a {display: flex;flex-wrap: wrap;align-items: center;/text-decoration: none;}
-      .link-card-img {flex: 0 0 50%;max-width: 50%;box-sizing: border-box;}
-      .link-card-content {flex: 0 0 50%;max-width: 50%;box-sizing: border-box;display: flex; flex-direction: column;justify-content: center;padding: 0.5em;}
+      .link-card a {display: flex;flex-wrap: wrap;align-items: center;}
+      .link-card-img {flex: 0 0 50%;max-width: 50%;height: auto;display: block;}
+      .link-card-content {flex: 0 0 50%;max-width: 50%;padding-left: 10px;box-sizing: border-box;}
       .link-card-content h3 {margin: 0;}
-      .link-card-content p {flex: 1 0 100%;margin-top: 0.75em;}
+      .link-card-description {flex: 0 0 100%;max-width: 100%;margin: 10px 0 0;padding-left: 0;}
     }
     .btn-newsletter {background: linear-gradient(135deg, #182d84, #00a48a);color: #fff;font-weight: bold;padding: 12px 30px;border: none;border-radius: 8px;cursor: pointer;transition: transform 0.3s, box-shadow 0.3s;margin: 10px 0;}
     .btn-newsletter:hover {transform: translateY(-2px);box-shadow: 0 4px 6px rgba(0,0,0,0.2);}
@@ -381,7 +381,7 @@
     </div>
     
       <!-- STEP6 : Analyse & Newsletter -->
-      <div class="box" id="step6">
+       <div class="box" id="step6">
         <div class="link-card">
           <a href="https://www.letmotiv.fr/post/comment-analyser-ton-impro-comme-un-pro"
              target="_blank" rel="noopener">
@@ -391,10 +391,14 @@
               class="link-card-img" />
             <div class="link-card-content">
               <h3>Comment analyser ton impro comme une pro ?</h3>
-              <p>Le guide ultime en 4 étapes clés pour analyser ta prestation et t’améliorer efficacement à chaque nouvelle prise de parole...</p>
             </div>
+            <!-- on sort le <p> en dehors de .link-card-content -->
+            <p class="link-card-description">
+              Le guide ultime en 4 étapes clés pour analyser ta prestation et t’améliorer efficacement à chaque nouvelle prise de parole...
+            </p>
           </a>
-        </div>        
+        </div>
+      </div>
         <div class="newsletter-container">
           <h2 class="newsletter-title">
             Inscris-toi à la newsletter Letmotiv pour prendre la parole avec impact :
