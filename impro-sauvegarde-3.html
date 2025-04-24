@@ -143,8 +143,15 @@
     @media (max-width: 600px) {
       .video-box {display:block;width:100%;max-width:600px;}
       .video-box .impro-video-subject {left: 5%;transform: none;text-align: left;}
-    }    
-    /* STEP6 Abonnement à la newsletter */ 
+    }  
+    /* STEP4 Téléchargement de la vidéo et notation */ 
+    #star-rating {font-size: 2rem;cursor: pointer;user-select: none;
+    #star-rating .star {color: #ccc;transition: color 0.2s;}
+    #star-rating .star.selected,#star-rating .star:hover,#star-rating .star:hover ~ .star {color: #FFC107; /* jaune */}
+    /* STEP5 Prise de contact via Calendly */
+    .calendy {text-align: center;}
+    .calendy .container {padding: 10px 0;}
+    /* STEP6 Artible de blog et abonnement à la newsletter */ 
     .link-card {max-width: 600px;margin: 0 auto 1.5em;border: 1px solid #ddd;border-radius: 8px;overflow: hidden;box-shadow: 0 2px 6px rgba(0,0,0,0.1);}
     .link-card a {display: flex;text-decoration: none;color: inherit;}
     .link-card-img {flex-shrink: 0;width: 140px;height: 100px;object-fit: cover;}
@@ -178,9 +185,6 @@
       background-position: center center;animation: bg-spin 3s linear infinite;}
     @keyframes bg-spin {to {--border-angle: 1turn;}}
     @property --border-angle {syntax: "<angle>";inherits: true;initial-value: 0turn;} 
-    /* STEP5 : Prise de contact via Calendly */
-    .calendy {text-align: center;}
-    .calendy .container {padding: 10px 0;}
     /* Responsive modifications for objectives STEP1 */
     @media (max-width: 600px) {.objectives-container {display: flex;flex-direction: column;gap: 12px;padding: 0 5px;margin: 10px auto;box-sizing: border-box;}
       .objective-item {position: relative;display: flex;justify-content: space-between;align-items: center; background-color: #f0f1f5;border-radius: 10px;padding: 14px 20px 14px 14px; width: 100%;box-sizing: border-box;font-size: 1rem;font-family: 'DM Sans', sans-serif;color: #333;cursor: pointer;transition: background-color 0.3s, transform 0.2s;border: none;}
@@ -348,12 +352,36 @@
       <div id="impro-error" class="error-message"></div>
       </div>
 
-    <!-- STEP4 : Télécharger ma vidéo -->
-      <div class="box" id="step4">
-        <button id="download-video-btn" class="btn-impro">Télécharger ma vidéo</button>
-        <div id="download-error" class="error-message"></div>
+    <!-- STEP6 : Relecture, téléchargement & notation -->
+    <div class="box" id="step6">
+      <!-- 1) Mini-lecteur vidéo inline -->
+      <video id="playback-video" 
+             controls 
+             style="width:100%; max-width:500px; border:3px solid #182d84; border-radius:6px; margin:0 auto 15px; display:block;"
+      ></video>
+    
+      <!-- 2) Bouton Télécharger la vidéo -->
+      <button id="download-video-btn" class="btn-impro" 
+              style="margin-bottom: 20px;">
+        Télécharger ma vidéo
+      </button>
+      <div id="download-error" class="error-message"></div>
+    
+      <!-- 3) Notation sur 5 étoiles -->
+      <div id="rating-container" style="text-align:center;">
+        <p>Note ta prestation :</p>
+        <div id="star-rating">
+          <!-- 5 étoiles interactives -->
+          <span class="star" data-value="1">☆</span>
+          <span class="star" data-value="2">☆</span>
+          <span class="star" data-value="3">☆</span>
+          <span class="star" data-value="4">☆</span>
+          <span class="star" data-value="5">☆</span>
+        </div>
+        <div id="rating-feedback" style="margin-top:8px; font-size:0.9rem; color:#005f99;"></div>
       </div>
-      
+    </div>
+    
      <!-- STEP5 : Coaching expert + Calendly -->
       <div class="box" id="step5">
         <p style="margin-bottom:1em; font-size:1rem;">
@@ -915,26 +943,53 @@
     });
     bindStartButton();
 
-    // STEP4 — téléchargement
-    document.getElementById('download-video-btn').addEventListener('click', () => {
-          if (confirm("La vidéo de ton improvisation va être téléchargée. Veux-tu continuer ?")) {
-        if (videoURL) {
-          const link = document.createElement('a');
-          link.href = videoURL;
-          link.download = 'Letmotiv_Improvisation.mp4';
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-          videoDownloaded = true;
-          updateFooterButtons();
-        } 
-        else {
-          alert("Aucune vidéo n'est disponible pour le moment.");
-        }
-      }
-    });
+        // STEP4 — Téléchargement de la vidéo et notation
+        const playback = document.getElementById('playback-video');
+        playback.src = videoURL;
 
-    // STEP5 — expert oui/non
+        // 2) Bouton Télécharger
+       document.getElementById('download-video-btn').addEventListener('click', () => {
+            if (confirm("La vidéo de ton improvisation va être téléchargée. Veux-tu continuer ?")) {
+          if (videoURL) {
+            const link = document.createElement('a');
+            link.href = videoURL;
+            link.download = 'Letmotiv_Improvisation.mp4';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            videoDownloaded = true;
+            updateFooterButtons();
+          } 
+          else {
+            alert("Aucune vidéo n'est disponible pour le moment.");
+          }
+        }
+      });
+
+      // 3) Gestion de la notation
+      const stars = document.querySelectorAll('#star-rating .star');
+      const feedback = document.getElementById('rating-feedback');
+      let currentRating = 0;
+      
+      stars.forEach(star => {
+        star.addEventListener('mouseenter', () => {
+          const val = +star.dataset.value;
+          // survole : colorer jusqu’à l’étoile survolée
+          stars.forEach(s => s.style.color = +s.dataset.value <= val ? '#FFC107' : '#ccc');
+        });
+        star.addEventListener('mouseleave', () => {
+          // restore à la note actuelle
+          stars.forEach(s => s.style.color = +s.dataset.value <= currentRating ? '#FFC107' : '#ccc');
+        });
+        star.addEventListener('click', () => {
+          currentRating = +star.dataset.value;
+          // lock la coloration
+          stars.forEach(s => s.style.color = +s.dataset.value <= currentRating ? '#FFC107' : '#ccc');
+          feedback.textContent = `Vous avez noté votre prestation ${currentRating}/5`;
+        });
+      });
+
+    // STEP5 — Prise de rendez-vous
     document.getElementById('expert-yes').addEventListener('click', () => {
       expertChoice = true;
       showBox(5, 7);          // on saute directement au Calendly
@@ -944,15 +999,11 @@
       updateFooterButtons();  // on autorise "Suivant" pour aller au STEP6
     });
     
-    // STEP6 — analyse
+    // STEP6 — Article de blog et newsletter
     document.getElementById('feedback-btn').addEventListener('click', () => {
       if (document.getElementById('feedback-btn').classList.contains('disabled')) return;
       window.location.href = "https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro";
     });
-
-    /***********************
-     * Téléchargement & Newsletter (STEP4)
-     ***********************/
 
     document.getElementById('contact-yes').addEventListener('click', (e) => {
       e.preventDefault();
