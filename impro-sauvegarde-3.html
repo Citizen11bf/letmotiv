@@ -147,13 +147,11 @@
     #star-rating .star.selected,#star-rating .star:hover,#star-rating .star:hover ~ .star {color: #FFC107;}
     #step4 #playback-video {width: 100%;max-width: 400px;}
     @media (max-width: 600px) {#step4 #playback-video {max-width: 300px;}}
-    /* STEP6 Artible de blog et abonnement à la newsletter */ 
-    .link-card {max-width: 600px;margin: 0 auto 1.5em;border: 1px solid #ddd;border-radius: 8px;overflow: hidden;box-shadow: 0 2px 6px rgba(0,0,0,0.1);}
-    .link-card a {display: flex;flex-direction: column;}
-    .link-card-img {width: 100%;height: auto; margin-bottom: 8px;border-radius: 4px;}
-    .link-card-content {padding: 0 8px 8px;}
-    .link-card-content h3 {margin: 0 0 6px;font-size: 1.1rem;font-weight: bold;}
-    .link-card-content p {text-align: justify;}
+    /* STEP6 Accès aux articles de blog */ 
+    .link-card a {display: flex;flex-direction: row-reverse;align-items: flex-start;gap: 20px;}
+    .link-card-img {order: 2;flex-shrink: 0;width: 200px;height: auto;border-radius: 4px;}
+    .link-card-content,.link-card-description {order: 1;flex: 1;}
+    .link-card-description {margin-top: 8px;font-size: 0.95rem;line-height: 1.4;text-align: justify;}
     @media (max-width: 600px) { 
       .link-card {padding: 8px;}
       .link-card a {display: flex;flex-direction: column;}
