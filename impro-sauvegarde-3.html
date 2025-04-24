@@ -144,6 +144,8 @@
     #star-rating {font-size: 2rem;cursor: pointer;user-select: none;}
     #star-rating .star {color: #ccc;transition: color 0.2s;}
     #star-rating .star.selected,#star-rating .star:hover,#star-rating .star:hover ~ .star {color: #FFC107; /* jaune */}
+    #step4 #playback-video {width: 100%;max-width: 400px;}
+    @media (max-width: 600px) {#step4 #playback-video {max-width: 300px;}}
     /* STEP6 Artible de blog et abonnement à la newsletter */ 
     .link-card {max-width: 600px;margin: 0 auto 1.5em;border: 1px solid #ddd;border-radius: 8px;overflow: hidden;box-shadow: 0 2px 6px rgba(0,0,0,0.1);}
     .link-card a {display: flex;text-decoration: none;color: inherit;}
@@ -349,7 +351,7 @@
     
       <!-- 3) Notation sur 5 étoiles -->
       <div id="rating-container" style="text-align:center;">
-        <p>Quelle note tu attriburais à ta prestation ?</p>
+        <p>Tu mets quelle note à ta prestation ?</p>
         <div id="star-rating">
           <!-- 5 étoiles interactives -->
           <span class="star" data-value="1">☆</span>
@@ -364,9 +366,7 @@
    <!-- STEP5 : Coaching expert + Calendly -->
     <div class="box" id="step5">
       <p style="margin-bottom:1em; font-size:1rem; color:#333333;">
-        <span id="rating-feedback" 
-            Vous avez noté votre prestation 4/5
-        </span>
+        <span id="rating-feedback"></span>
         Tu veux progresser rapidement ? <br>
         <strong>Prends rendez-vous avec un de nos experts :</strong>
       </p>
@@ -383,10 +383,10 @@
              target="_blank" rel="noopener">
             <img
               src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Analyse_Impro_Simu_Letmotiv.png"
-              alt="Comment analyser ton impro comme un.e pro"
+              alt="Comment analyser ton impro comme un pro"
               class="link-card-img" />
             <div class="link-card-content">
-              <h3>Comment analyser ton impro comme un pro</h3>
+              <h3>Comment analyser ton impro comme un.e pro ?</h3>
               <p>Le guide ultime en 4 étapes clés pour analyser ta prestation et t’améliorer efficacement à chaque nouvelle prise de parole...</p>
             </div>
           </a>
