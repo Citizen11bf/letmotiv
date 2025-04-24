@@ -999,21 +999,34 @@
     });
     
     document.addEventListener('DOMContentLoaded', () => {
-      // 1. Masquer l'intro si on a un #stepX
-      const match = window.location.hash.match(/^#step(\d)$/);
-      if (match) {
-        const step = Number(match[1]);
-        if (boxes[step]) {
-          introBox.style.display = 'none';
-          Object.values(boxes).forEach(b => b.classList.remove('active'));
-          boxes[step].classList.add('active');
-          currentStep = step;
+      // Si on vient d'un reload, on est déjà sur STEP0 car hash vidé
+      const navInfo = performance.getEntriesByType("navigation")[0];
+      const isReload = navInfo && navInfo.type === "reload";
+    
+      if (!isReload) {
+        // on gère l'ancre seulement si ce n'est pas un simple reload
+        const match = window.location.hash.match(/^#step(\d)$/);
+        if (match) {
+          const step = Number(match[1]);
+          if (boxes[step]) {
+            introBox.style.display = 'none';
+            Object.values(boxes).forEach(b => b.classList.remove('active'));
+            boxes[step].classList.add('active');
+            currentStep = step;
+          }
         }
       }
       // 2. Mettre à jour UI quel que soit le cas
       updateProgressBar(currentStep);
       updateFooterButtons();
       updateHeaderTitle();
+    });
+
+    // ⚠️ Avant le refresh, on demande validation de l'utilisateur et on efface le hash pour repartir à l'intro
+    window.addEventListener('beforeunload', function(e) {
+      e.preventDefault();
+      e.returnValue = "Attention, ta progression sera perdue si tu rafraîchis la page.";
+      history.replaceState(null, '', window.location.pathname);
     });
 
   </script>
