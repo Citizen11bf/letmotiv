@@ -839,6 +839,9 @@
       mediaRecorderInstance.onstop = () => {
         const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
         videoURL = URL.createObjectURL(videoBlob);
+        const playback = document.getElementById('playback-video');
+        playback.src = videoURL;
+        playback.load();
         stream.getTracks().forEach(t => t.stop());
         const overlay = document.querySelector('.video-overlay');
         overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Improvisation terminée. <br>Passe à l'étape suivante !</p>";
@@ -939,10 +942,7 @@
     bindStartButton();
 
         // STEP4 — Téléchargement de la vidéo et notation
-        const playback = document.getElementById('playback-video');
-        playback.src = videoURL;
-
-        // 2) Bouton Télécharger
+      
        document.getElementById('download-video-btn').addEventListener('click', () => {
             if (confirm("La vidéo de ton improvisation va être téléchargée. Veux-tu continuer ?")) {
           if (videoURL) {
