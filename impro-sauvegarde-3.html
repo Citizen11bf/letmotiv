@@ -148,17 +148,70 @@
     #step4 #playback-video {width: 100%;max-width: 400px;}
     @media (max-width: 600px) {#step4 #playback-video {max-width: 300px;}}
     /* STEP6 Accès aux articles de blog */ 
-    .link-card a {display: flex;flex-direction: row-reverse;align-items: flex-start;gap: 20px;}
-    .link-card-img {order: 2;flex-shrink: 0;width: 200px;height: auto;border-radius: 4px;}
-    .link-card-content,.link-card-description {order: 1;flex: 1;}
-    .link-card-description {margin-top: 8px;font-size: 0.95rem;line-height: 1.4;text-align: justify;}
-    @media (max-width: 600px) { 
-      .link-card {padding: 8px;}
-      .link-card a {display: flex;flex-direction: column;}
-      .link-card-img {width: 100%;height: auto; margin-bottom: 8px;border-radius: 4px;}
-      .link-card-content {padding: 0 8px 8px;}
-      .link-card-content p {text-align: justify;} 
+
+    /* STEP6 – Card container */
+    #step6 .link-card {
+      max-width: 600px;
+      margin: 0 auto 1.5em;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;       /* mobile par défaut : colonne */
+      font-family: 'Montserrat', sans-serif;
     }
+    
+    /* Lien sans soulignement, hérite des couleurs */
+    #step6 .link-card a {
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+    }
+    
+    /* Image pleine largeur en mobile */
+    #step6 .link-card-img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    
+    /* Contenu texte */
+    #step6 .link-card-content {
+      padding: 0 16px 8px;
+    }
+    #step6 .link-card-content h3 {
+      margin: 0;
+      font-weight: 700;    /* bold */
+      font-size: 1.2rem;
+      text-decoration: none;
+    }
+    #step6 .link-card-description {
+      margin: 0 16px 16px;
+      font-weight: 400;    /* normal */
+      font-size: 0.9rem;
+      line-height: 1.4;
+      text-decoration: none;
+    }
+    
+    /* Desktop (à partir de 601px) : ligne */
+    @media (min-width: 601px) {
+      #step6 .link-card {
+        flex-direction: row;       /* texte à gauche, image à droite */
+        align-items: flex-start;
+      }
+      #step6 .link-card-img {
+        flex-shrink: 0;
+        width: 200px;              /* fixe ou à ajuster */
+        margin: 16px;
+      }
+      #step6 .link-card-content,
+      #step6 .link-card-description {
+        margin: 16px;
+        text-align: left;
+      }
+    } 
     /* Responsive modifications for objectives STEP1 */
     @media (max-width: 600px) {.objectives-container {display: flex;flex-direction: column;gap: 12px;padding: 0 5px;margin: 10px auto;box-sizing: border-box;}
       .objective-item {position: relative;display: flex;justify-content: space-between;align-items: center; background-color: #f0f1f5;border-radius: 10px;padding: 14px 20px 14px 14px; width: 100%;box-sizing: border-box;font-size: 1rem;font-family: 'DM Sans', sans-serif;color: #333;cursor: pointer;transition: background-color 0.3s, transform 0.2s;border: none;}
