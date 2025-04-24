@@ -378,14 +378,13 @@
           <span class="star" data-value="4">☆</span>
           <span class="star" data-value="5">☆</span>
         </div>
-        <div id="rating-feedback" style="margin-top:8px; font-size:0.9rem; color:#005f99;"></div>
       </div>
     </div>
     
      <!-- STEP5 : Coaching expert + Calendly -->
       <div class="box" id="step5">
         <p style="margin-bottom:1em; font-size:1rem;">
-          Tu veux progresser rapidement ? <br>
+           <div id="rating-feedback" style="margin-top:8px; font-size:0.9rem; color:#005f99;"></div> Tu veux progresser rapidement ? <br>
           <strong>Prends rendez-vous avec un de nos experts.</strong>
         </p>
         <div class="calendly-inline-widget"
@@ -735,9 +734,7 @@
       }
     }
 
-    /***********************
-     * Gestion du sujet d'impro (STEP2)
-     ***********************/
+    /*** Gestion du sujet d'impro (STEP2) ***/
     const generateSubjectBtn = document.getElementById('generate-subject-btn');
     const subjectWrapper = document.getElementById('subject-wrapper');
     const subjectDisplay = document.getElementById('subject-display');
@@ -779,9 +776,7 @@
       }
     });
 
-    /***********************
-     * Enregistrement vidéo (STEP3)
-     ***********************/
+    /*** Enregistrement vidéo (STEP3) ***/
     function bindStartButton() {
       const startBtn = document.getElementById('start-btn');
       if(startBtn){
@@ -872,7 +867,7 @@
         return stream;
       } catch (error) {
         if (error.name === 'NotAllowedError') {
-          displayError('impro-error', "Vous avez refusé l'accès à la webcam. Veuillez autoriser l'accès.");
+          displayError('impro-error', "Tu as refusé l'accès à la webcam. Tu dois autoriser l'accès pour continuer.");
         } else if (error.name === 'NotFoundError') {
           displayError('impro-error', "Aucune caméra/micro détectés.");
         } else {
@@ -985,7 +980,7 @@
           currentRating = +star.dataset.value;
           // lock la coloration
           stars.forEach(s => s.style.color = +s.dataset.value <= currentRating ? '#FFC107' : '#ccc');
-          feedback.textContent = `Vous avez noté votre prestation ${currentRating}/5`;
+          feedback.textContent = `Tu as noté ta prestation ${currentRating}/5`;
         });
       });
 
