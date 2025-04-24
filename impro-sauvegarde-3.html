@@ -451,7 +451,7 @@
     let timeRemaining = 120;
     let countdown;
     let videoDownloaded = false;
-    let expertChoice = null;  // true ou false
+    let currentRating = 0;
     
     const stepTitles = {
       1: `Étape <i class="material-icons" style="vertical-align:middle;">looks_one</i> : Quel est ton objectif ?`,
@@ -524,7 +524,7 @@
         case 1: canAdvance = Boolean(currentCategory); break;
         case 2: canAdvance = currentSubject.length > 0; break;
         case 3: canAdvance = isImproRecordingStarted; break;
-        case 4: canAdvance = videoDownloaded; break;
+        case 4: canAdvance = currentRating > 0; break;
         case 5: canAdvance = true; break;
         case 6: canAdvance = false; break;
       }
@@ -767,15 +767,8 @@
     }
 
     async function startImpro() {
-      if (!currentSubject) {
-        displayError('impro-error', "Tu dois générer un sujet avant de démarrer l'improvisation.");
-        return;
-      }
       if (typeof MediaRecorder === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
         displayError('impro-error', "Désolé, l'enregistrement vidéo n'est pas supporté par votre navigateur.");
-        return;
-      }
-      if (!confirm("Votre webcam va se lancer pour démarrer l'improvisation. Voulez-vous continuer ?")) {
         return;
       }
       if (window.innerWidth <= 600) {
@@ -946,8 +939,7 @@
       // 3) Gestion de la notation
       const stars = document.querySelectorAll('#star-rating .star');
       const feedback = document.getElementById('rating-feedback');
-      let currentRating = 0;
-      
+
       stars.forEach(star => {
         star.addEventListener('mouseenter', () => {
           const val = +star.dataset.value;
@@ -960,9 +952,9 @@
         });
         star.addEventListener('click', () => {
           currentRating = +star.dataset.value;
-          // lock la coloration
           stars.forEach(s => s.style.color = +s.dataset.value <= currentRating ? '#FFC107' : '#ccc');
           feedback.textContent = `Tu as noté ta prestation ${currentRating}/5`;
+          updateFooterButtons(); // <— pour réactiver « Suivant »
         });
       });
 
@@ -1003,15 +995,21 @@
     });
     
     document.addEventListener('DOMContentLoaded', () => {
-      if (window.location.hash) {
-        const stepFromHash = window.location.hash.replace('#step', '');
-        if (boxes[stepFromHash]) {
-          showBox(currentStep, stepFromHash);
+      // 1. Masquer l'intro si on a un #stepX
+      const match = window.location.hash.match(/^#step(\d)$/);
+      if (match) {
+        const step = Number(match[1]);
+        if (boxes[step]) {
+          introBox.style.display = 'none';
+          Object.values(boxes).forEach(b => b.classList.remove('active'));
+          boxes[step].classList.add('active');
+          currentStep = step;
         }
       }
+      // 2. Mettre à jour UI quel que soit le cas
+      updateProgressBar(currentStep);
       updateFooterButtons();
-      document.getElementById('dynamic-header-title').textContent =
-      stepTitles[currentStep] || "";
+      updateHeaderTitle();
     });
 
   </script>
