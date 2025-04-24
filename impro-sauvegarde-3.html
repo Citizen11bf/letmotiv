@@ -123,10 +123,10 @@
     #advice-text {display: none;margin-top: 10px;padding: 10px;background-color: #fefefe;border: 1px solid #ccc;border-radius: 8px;font-size: 14px;line-height: 1.5;text-align: left;}
     .mobile-break {display: none;}
     @media (max-width: 600px) { .mobile-break { display: inline; } }
-    /* STEP3 Enregistrement */
+    /* STEP3 Lancement de l'impro */
     .video-box {box-sizing: border-box;margin: 10px auto;border: 3px solid #182d84;border-radius: 6px;max-width: 500px;background-color: #fefefe;height: 300px;position: relative;display: flex;justify-content: center;align-items: center;overflow: hidden;transition: height 0.5s ease-in-out;}
     .video-box video {width:100%;height:100%;object-fit:cover;border-radius:4px;position: absolute;top:0;left:0;bottom:0;right:0;z-index: 1;transform: scaleX(-1);-webkit-transform: scaleX(-1);border-radius:inherit;background:transparent;}
-    .video-box #current-subject-display {position: absolute;top: 10px;left: 50%;transform: translateX(-50%);z-index: 3;pointer-events: none;color: #ffffff;background-color: none !important;max-width: 90%;padding: 5px 5px;border-radius: 4px;font-size: 14px;font-weight: normal;text-align: center;white-space: normal;word-break: break-word;text-decoration-line: underline;text-decoration-color: #00a48a;text-decoration-thickness: 3px;text-underline-offset: 2px;text-decoration-skip-ink: auto;}
+    .video-box .impro-video-subject {position: absolute;top: 10px;left: 50%;transform: translateX(-50%);z-index: 3;font-family: 'DM Sans', sans-serif;font-size: 16px;font-weight: 500;white-space: normal;word-break: break-word;max-width: 90%;color: #ffffff;text-decoration-line: underline;text-decoration-color: #00a48a;text-decoration-thickness: 3px;text-underline-offset: 2px;text-decoration-skip-ink: auto;padding: 0 4px;text-align: center;}
     .video-note {margin: 8px auto;max-width: 500px;font-size: 13px;color: #555;text-align: center;}
     .video-overlay {position: absolute;z-index: 2;width: 100%;height: 100%;display: flex;flex-direction: column;justify-content: center;align-items: center;text-align: center;color: #555;font-size: 14px;padding: 20px;background: rgba(255,255,255,0.6);}
     .video-overlay p {margin: 10px 0;}
@@ -141,8 +141,8 @@
     .impro-actions {display: flex;flex-wrap: wrap;gap: 10px;justify-content: center;margin-top: 10px;}
     .hidden-btn { display: none; }
     @media (max-width: 600px) {
-        .video-box {display:block;width:100%;max-width:600px;}
-        .video-box #current-subject-display {left: 2% !important;transform: none !important;max-width: 90% !important;}
+      .video-box {display:block;width:100%;max-width:600px;}
+      .video-box .impro-video-subject {left: 5%;transform: none;text-align: left;}
     }    
     /* STEP6 Abonnement à la newsletter */ 
     .link-card {max-width: 600px;margin: 0 auto 1.5em;border: 1px solid #ddd;border-radius: 8px;overflow: hidden;box-shadow: 0 2px 6px rgba(0,0,0,0.1);}
@@ -319,7 +319,7 @@
     <!-- STEP3 : Enregistrement vidéo -->
     <div class="box" id="step3">
       <div class="video-box">
-        <div id="current-subject-display"></div>
+        <p class="impro-video-subject"></p>
         <video id="preview" autoplay muted playsinline webkit-playsinline></video>
         <div class="video-overlay">
           <button id="start-btn" aria-label="Démarrer l'improvisation">
@@ -469,7 +469,7 @@
         updateFooterButtons();
         document.getElementById('dynamic-header-title').innerHTML = stepTitles[currentStep] || "";
         if (stepToShow == 3) {
-          document.getElementById('current-subject-display').textContent = currentSubject;
+          document.getElementById('.impro-video-subject').textContent = currentSubject;
         }
       } else {
         Object.values(boxes).forEach(box => box.classList.remove('active'));
@@ -557,7 +557,7 @@
         document.getElementById('feedback-btn').classList.remove('animated-border');
       }
       if(next == 3) {
-        document.getElementById('current-subject-display').textContent = currentSubject;
+        document.getElementById('impro-video-subject').textContent = currentSubject;
       }
     }
   
