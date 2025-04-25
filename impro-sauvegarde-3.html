@@ -844,14 +844,18 @@
       };
     
       mediaRecorderInstance.onstop = () => {
-        // construction du blob vidéo
+        // 1) génère le blob + URL
         const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
         videoURL = URL.createObjectURL(videoBlob);
+      
+        // 2) passe cette URL au player de STEP 4
         const playback = document.getElementById('playback-video');
         playback.src = videoURL;
+        console.log('chunks capturés:', recordedChunks.length);
         playback.load();
-    
-        // arrêt des pistes caméra/micro et rest of UI
+        playback.play();          // ← obligatoire pour forcer l’affichage
+      
+        // 3) arrête la caméra / le timer / UI
         rawStream.getTracks().forEach(t => t.stop());
         clearInterval(timerInterval);
         document.getElementById('recording-indicator').style.display = 'none';
