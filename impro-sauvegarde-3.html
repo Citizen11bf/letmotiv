@@ -538,8 +538,39 @@
       nextBtn.className = canAdvance
         ? 'footer-button next footer-enabled'
         : 'footer-button next footer-disabled';
+
+      // ——— AJOUT pour la STEP6 : bouton "Recommencer" ———
+      if (currentStep === 6) {
+        // 1) Rendre le bouton actif
+        nextBtn.disabled = false;
+        nextBtn.className = 'footer-button next footer-enabled';
+        nextBtn.innerHTML = `Recommencer <i class="fas fa-redo" style="margin-left:8px;"></i>`;
+    
+        // 2) Clic “Recommencer” : reset complet et retour à l’intro
+        nextBtn.onclick = () => {
+          // masquer toutes les étapes
+          Object.values(boxes).forEach(box => box.classList.remove('active'));
+          // ré-afficher l'intro avec son animation
+          introBox.style.display = 'flex';
+          introBox.style.animation = 'fadeIn 0.5s ease forwards';
+          // réinitialiser l’état interne
+          currentStep = 0;
+          currentCategory = null;
+          currentSubject = "";
+          isImproRecordingStarted = false;
+          currentRating = 0;
+          videoURL = "";
+          recordedChunks = [];
+          // vider la barre de progression et le titre
+          progressSteps.forEach(el => el.classList.remove('active'));
+          document.getElementById('dynamic-header-title').innerHTML = '';
+        };
+    
+        // on sort pour ne pas exécuter le handler “Suivant”
+        return;
+      }   
     }
-        
+    
         prevBtn.addEventListener('click', () => {
             if (currentStep > 1) {
             showBox(currentStep, currentStep - 1);
@@ -554,7 +585,7 @@
         updateFooterButtons();
       }
     }); 
-    
+      
     /*** Navigation entre les étapes ***/
     function showBox(current, next) {
       if (!boxes[current] || !boxes[next]) return;
