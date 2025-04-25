@@ -148,12 +148,42 @@
     #step4 #playback-video {width: 100%;max-width: 400px;}
     @media (max-width: 600px) {#step4 #playback-video {max-width: 300px;}}
     /* STEP6 Accès aux articles de blog */ 
-    .link-card {max-width: 600px;margin: 0 auto 1.5em;border: 1px solid #ddd;border-radius: 8px;overflow: hidden;box-shadow: 0 2px 6px rgba(0,0,0,0.1);}
-    .link-card a {display: flex;text-decoration: none;color: inherit;}
-    .link-card-img {flex-shrink: 0;width: 140px;height: 100px;object-fit: cover;}
-    .link-card-content {padding: 12px;display: flex;flex-direction: column;justify-content: center;}
-    .link-card-content h3 {margin: 0 0 6px;font-size: 1.1rem;font-weight: bold;}
-    .link-card-content p {margin: 0;font-size: 0.9rem;line-height: 1.3;color: #555;}
+    .link-card {
+      max-width: 600px;
+      margin: 0 auto 1.5em;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .link-card a {
+      display: flex;
+      text-decoration: none;
+      color: inherit;
+    }
+    .link-card-img {
+      flex-shrink: 0;
+      width: 140px;
+      height: 100px;
+      object-fit: cover;
+    }
+    .link-card-content {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .link-card-content h3 {
+      margin: 0 0 6px;
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+    .link-card-content p {
+      margin: 0;
+      font-size: 0.9rem;
+      line-height: 1.3;
+      color: #555;
+    }
     @media (max-width: 600px) {
       #step6 .link-card {max-width: 100%;margin: 0 auto 1.5em;border: 1px solid #ddd;border-radius: 8px;box-shadow: 0 2px 6px rgba(0,0,0,0.1);overflow: hidden;background: #fff;}
       #step6 .link-card a {display: block;text-decoration: none;color: inherit;}
@@ -186,7 +216,7 @@
 </head>
 <body>
   
-  <!-- Boîte d'introduction -->
+  <!-- Boite d'introduction -->
   <div class="intro-box" id="intro-box">
     <h1>
       <span class="line">ENTRAINE-TOI</span>
@@ -194,20 +224,18 @@
       <span class="line">EN PUBLIC</span>
     </h1> 
     <div class="wrapper">
-      <button id="start-intro-btn" class="cta" type="button">
-        <!-- span 1 : le texte -->
+      <a id="start-intro-btn" class="cta" href="#">
         <span>COMMENCER</span>
-        <!-- span 2 : l’icône -->
         <span>
-          <svg width="66" height="43" viewBox="0 0 66 43" xmlns="http://www.w3.org/2000/svg">
+          <svg width="66px" height="43px" viewBox="0 0 66 43" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
             <g id="arrow" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-              <path class="one" d="M40.1543933,3.89485454 L43.9763149,0.139296592 C44.1708311,-0.0518420739 44.4826329,-0.0518571125 44.6771675,0.139262789 L65.6916134,20.7848311 C66.0855801,21.1718824 66.0911863,21.8050225 65.704135,22.1989893 C65.7000188,22.2031791 65.6958657,22.2073326 65.6916762,22.2114492 L44.677098,42.8607841 C44.4825957,43.0519059 44.1708242,43.0519358 43.9762853,42.8608513 L40.1545186,39.1069479 C39.9575152,38.9134427 39.9546793,38.5968729 40.1481845,38.3998695 C40.1502893,38.3977268 40.1524132,38.395603 40.1545562,38.3934985 L56.9937789,21.8567812 C57.1908028,21.6632968 57.193672,21.3467273 57.0001876,21.1497035 C56.9980647,21.1475418 56.9959223,21.1453995 56.9937605,21.1432767 L40.1545208,4.60825197 C39.9574869,4.41477773 39.9546013,4.09820839 40.1480756,3.90117456 C40.1501626,3.89904911 40.1522686,3.89694235 40.1543933,3.89485454 Z" fill="#FFFFFF"/>
-              <path class="two" d="M20.1543933,3.89485454 L23.9763149,0.139296592 C24.1708311,-0.0518420739 24.4826329,-0.0518571125 24.6771675,0.139262789 L45.6916134,20.7848311 C46.0855801,21.1718824 46.0911863,21.8050225 45.704135,22.1989893 C45.7000188,22.2031791 45.6958657,22.2073326 45.6916762,22.2114492 L24.677098,42.8607841 C24.4825957,43.0519059 24.1708242,43.0519358 23.9762853,42.8608513 L20.1545186,39.1069479 C19.9575152,38.9134427 19.9546793,38.5968729 20.1481845,38.3998695 C20.1502893,38.3977268 20.1524132,38.395603 20.1545562,38.3934985 L36.9937789,21.8567812 C37.1908028,21.6632968 37.193672,21.3467273 37.0001876,21.1497035 C36.9980647,21.1475418 36.9959223,21.1453995 36.9937605,21.1432767 L20.1545208,4.60825197 C19.9574869,4.41477773 19.9546013,4.09820839 20.1480756,3.90117456 C20.1501626,3.89904911 20.1522686,3.89694235 20.1543933,3.89485454 Z" fill="#FFFFFF"/>
-              <path class="three" d="M0.154393339,3.89485454 L3.97631488,0.139296592 C4.17083111,-0.0518420739 4.48263286,-0.0518571125 4.67716753,0.139262789 L25.6916134,20.7848311 C26.0855801,21.1718824 26.0911863,21.8050225 25.704135,22.1989893 C25.7000188,22.2031791 25.6958657,22.2073326 25.6916762,22.2114492 L4.67709797,42.8607841 C4.48259567,43.0519059 4.17082418,43.0519358 3.97628526,42.8608513 L0.154518591,39.1069479 C-0.0424848215,38.9134427 -0.0453206733,38.5968729 0.148184538,38.3998695 C0.150289256,38.3977268 0.152413239,38.395603 0.154556228,38.3934985 L16.9937789,21.8567812 C17.1908028,21.6632968 17.193672,21.3467273 17.0001876,21.1497035 C16.9980647,21.1475418 16.9959223,21.1453995 16.9937605,21.1432767 L0.15452076,4.60825197 C-0.0425130651,4.41477773 -0.0453986756,4.09820839 0.148075568,3.90117456 C0.150162624,3.89904911 0.152268631,3.89694235 0.154393339,3.89485454 Z" fill="#FFFFFF"/>
+              <path class="one" d="M40.1543933,3.89485454 L43.9763149,0.139296592 C44.1708311,-0.0518420739 44.4826329,-0.0518571125 44.6771675,0.139262789 L65.6916134,20.7848311 C66.0855801,21.1718824 66.0911863,21.8050225 65.704135,22.1989893 C65.7000188,22.2031791 65.6958657,22.2073326 65.6916762,22.2114492 L44.677098,42.8607841 C44.4825957,43.0519059 44.1708242,43.0519358 43.9762853,42.8608513 L40.1545186,39.1069479 C39.9575152,38.9134427 39.9546793,38.5968729 40.1481845,38.3998695 C40.1502893,38.3977268 40.1524132,38.395603 40.1545562,38.3934985 L56.9937789,21.8567812 C57.1908028,21.6632968 57.193672,21.3467273 57.0001876,21.1497035 C56.9980647,21.1475418 56.9959223,21.1453995 56.9937605,21.1432767 L40.1545208,4.60825197 C39.9574869,4.41477773 39.9546013,4.09820839 40.1480756,3.90117456 C40.1501626,3.89904911 40.1522686,3.89694235 40.1543933,3.89485454 Z" fill="#FFFFFF"></path>
+              <path class="two" d="M20.1543933,3.89485454 L23.9763149,0.139296592 C24.1708311,-0.0518420739 24.4826329,-0.0518571125 24.6771675,0.139262789 L45.6916134,20.7848311 C46.0855801,21.1718824 46.0911863,21.8050225 45.704135,22.1989893 C45.7000188,22.2031791 45.6958657,22.2073326 45.6916762,22.2114492 L24.677098,42.8607841 C24.4825957,43.0519059 24.1708242,43.0519358 23.9762853,42.8608513 L20.1545186,39.1069479 C19.9575152,38.9134427 19.9546793,38.5968729 20.1481845,38.3998695 C20.1502893,38.3977268 20.1524132,38.395603 20.1545562,38.3934985 L36.9937789,21.8567812 C37.1908028,21.6632968 37.193672,21.3467273 37.0001876,21.1497035 C36.9980647,21.1475418 36.9959223,21.1453995 36.9937605,21.1432767 L20.1545208,4.60825197 C19.9574869,4.41477773 19.9546013,4.09820839 20.1480756,3.90117456 C20.1501626,3.89904911 20.1522686,3.89694235 20.1543933,3.89485454 Z" fill="#FFFFFF"></path>
+              <path class="three" d="M0.154393339,3.89485454 L3.97631488,0.139296592 C4.17083111,-0.0518420739 4.48263286,-0.0518571125 4.67716753,0.139262789 L25.6916134,20.7848311 C26.0855801,21.1718824 26.0911863,21.8050225 25.704135,22.1989893 C25.7000188,22.2031791 25.6958657,22.2073326 25.6916762,22.2114492 L4.67709797,42.8607841 C4.48259567,43.0519059 4.17082418,43.0519358 3.97628526,42.8608513 L0.154518591,39.1069479 C-0.0424848215,38.9134427 -0.0453206733,38.5968729 0.148184538,38.3998695 C0.150289256,38.3977268 0.152413239,38.395603 0.154556228,38.3934985 L16.9937789,21.8567812 C17.1908028,21.6632968 17.193672,21.3467273 17.0001876,21.1497035 C16.9980647,21.1475418 16.9959223,21.1453995 16.9937605,21.1432767 L0.15452076,4.60825197 C-0.0425130651,4.41477773 -0.0453986756,4.09820839 0.148075568,3.90117456 C0.150162624,3.89904911 0.152268631,3.89694235 0.154393339,3.89485454 Z" fill="#FFFFFF"></path>
             </g>
           </svg>
         </span>
-      </button>
+      </a>
     </div>
   </div>
 
@@ -487,49 +515,16 @@
     }
 
     /*** Fonction qui active/désactive le bouton du footer ***/
-   function updateFooterButtons() {
-      // 1) Afficher / cacher le footer
+    function updateFooterButtons() {
+      // on n’affiche le footer qu’à partir du STEP1
       footer.style.display = currentStep >= 1 ? 'flex' : 'none';
     
-      // 2) Précédent
+      // bouton "Précédent"
       prevBtn.disabled = currentStep <= 1;
-      prevBtn.className = prevBtn.disabled
-        ? 'footer-button prev footer-disabled'
-        : 'footer-button prev footer-enabled';
+      prevBtn.className = prevBtn.disabled ? 'footer-button prev footer-disabled'
+                                           : 'footer-button prev footer-enabled';
     
-      // 3) CAS SPÉCIAL : STEP6 → bouton "Recommencer"
-      if (currentStep === 6) {
-        nextBtn.disabled = false;
-        nextBtn.className = 'footer-button next footer-enabled';
-        nextBtn.innerHTML = `Recommencer <i class="fas fa-redo" style="margin-left:8px;"></i>`;
-    
-        nextBtn.onclick = () => {
-          // a) Enlever #step6 de l'URL
-          history.replaceState(null, '', window.location.pathname);
-          // b) Cacher les steps et réafficher l'intro
-          Object.values(boxes).forEach(b => b.classList.remove('active'));
-          introBox.style.display = 'flex';
-          introBox.style.animation = 'fadeIn 0.5s ease forwards';
-          // c) Réinitialiser tout l'état interne
-          currentStep = 0;
-          currentCategory = null;
-          currentSubject = '';
-          isImproRecordingStarted = false;
-          currentRating = 0;
-          videoURL = '';
-          recordedChunks = [];
-          // d) Vider la barre de progression et le titre
-          progressSteps.forEach(el => el.classList.remove('active'));
-          document.getElementById('dynamic-header-title').innerHTML = '';
-          // e) Ré-appliquer les boutons et le header
-          updateFooterButtons();
-          updateHeaderTitle();
-        };
-    
-        return; // on sort, rien d'autre à faire pour STEP6
-      }
-    
-      // 4) Calcul normal du bouton "Suivant" pour STEP1→5
+      // bouton "Suivant"
       let canAdvance = false;
       switch (currentStep) {
         case 1: canAdvance = Boolean(currentCategory); break;
@@ -537,29 +532,29 @@
         case 3: canAdvance = isImproRecordingStarted; break;
         case 4: canAdvance = currentRating > 0; break;
         case 5: canAdvance = true; break;
+        case 6: canAdvance = false; break;
       }
       nextBtn.disabled = !canAdvance;
       nextBtn.className = canAdvance
         ? 'footer-button next footer-enabled'
         : 'footer-button next footer-disabled';
-    
-      // 5) Label et handler par défaut pour "Suivant"
-      nextBtn.innerHTML = `SUIVANT <i class="fas fa-arrow-right" style="margin-left:8px;"></i>`;
-      nextBtn.onclick = () => {
-        if (nextBtn.disabled) return;
-        showBox(currentStep, currentStep + 1);
-        updateFooterButtons();
-        updateHeaderTitle();
-      };
     }
-    
+        
         prevBtn.addEventListener('click', () => {
             if (currentStep > 1) {
             showBox(currentStep, currentStep - 1);
             updateFooterButtons();
             }
         });
-      
+
+    nextBtn.addEventListener('click', () => {
+      if (nextBtn.classList.contains('footer-disabled')) return;
+      if (currentStep >= 1 && currentStep < 6) {
+        showBox(currentStep, currentStep + 1);
+        updateFooterButtons();
+      }
+    }); 
+    
     /*** Navigation entre les étapes ***/
     function showBox(current, next) {
       if (!boxes[current] || !boxes[next]) return;
@@ -809,66 +804,44 @@
     }
 
     async function initiateRecording() {
-      // 1) on récupère d'abord le flux brut (vidéo + audio)
-      const rawStream = await setupCamera();
-      if (!rawStream) return;
-    
-      // 2) on récupère la balise preview pour connaître la taille
-      const videoEl = document.getElementById('preview');
-      const width  = videoEl.videoWidth;
-      const height = videoEl.videoHeight;
-    
-      // 3) on crée un canvas et on configure son contexte
-      const canvas = document.createElement('canvas');
-      canvas.width  = width;
-      canvas.height = height;
-      const ctx = canvas.getContext('2d');
-    
-      // 4) boucle de dessin miroir
-      (function drawMirror() {
-        ctx.save();
-        ctx.scale(-1, 1);
-        ctx.drawImage(videoEl, -width, 0, width, height);
-        ctx.restore();
-        requestAnimationFrame(drawMirror);
-      })();
-    
-      // 5) on capture le flux du canvas à 30fps + on y ajoute l'audio d'origine
-      const mirroredStream = canvas.captureStream(30);
-      rawStream.getAudioTracks().forEach(track => mirroredStream.addTrack(track));
-    
-      // 6) on crée MediaRecorder sur ce flux "miroir"
-      mediaRecorderInstance = new MediaRecorder(mirroredStream);
+      const stream = await setupCamera();
+      if (!stream) return;
+      if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
+        displayError('impro-error', "Ton navigateur ne supporte pas l'enregistrement vidéo. Essaye avec Chrome, Edge ou Firefox.");
+        return;
+      }
+      mediaRecorderInstance = new MediaRecorder(stream);
       recordedChunks = [];
-    
       mediaRecorderInstance.ondataavailable = (event) => {
-        if (event.data.size > 0) recordedChunks.push(event.data);
+        if (event.data.size > 0) {
+          recordedChunks.push(event.data);
+        }
       };
-    
       mediaRecorderInstance.onstop = () => {
-        // 1) génère le blob + URL
         const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
         videoURL = URL.createObjectURL(videoBlob);
-      
-        // 2) passe cette URL au player de STEP 4
         const playback = document.getElementById('playback-video');
         playback.src = videoURL;
-        console.log('chunks capturés:', recordedChunks.length);
+        playback.style.transform = 'scaleX(-1)';
         playback.load();
-        playback.play();          // ← obligatoire pour forcer l’affichage
-      
-        // 3) arrête la caméra / le timer / UI
-        rawStream.getTracks().forEach(t => t.stop());
+        stream.getTracks().forEach(t => t.stop());
+        const overlay = document.querySelector('.video-overlay');
+        overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Improvisation terminée. <br>Passe à l'étape suivante !</p>";
+        overlay.style.display = 'flex';
+        document.getElementById('impro-error').style.display = 'none';
         clearInterval(timerInterval);
         document.getElementById('recording-indicator').style.display = 'none';
         isImproRecordingStarted = true;
         updateFooterButtons();
+        if (window.innerWidth <= 600) {
+            document.querySelector('.video-box').style.height = "300px";
+        }
       };
-    
-      // 7) lancement de l'enregistrement + UI habituelle
       mediaRecorderInstance.start();
       document.getElementById('recording-indicator').style.display = 'flex';
       document.getElementById('stop-btn').classList.remove('hidden-btn');
+      document.getElementById('stop-btn').disabled = false;
+      document.getElementById('restart-btn').classList.add('hidden-btn');
       startTimer();
     }
 
@@ -925,30 +898,30 @@
       }
     });
     
+    // Modification : Lorsqu'on clique sur "Recommencer ton impro", après confirmation,
+    // on réinitialise l'interface pour lancer immédiatement le compte à rebours comme au premier démarrage.
     document.getElementById('restart-btn').addEventListener('click', () => {
       if (!confirm("Attention, tu vas recommencer ton impro et lancer un nouvel enregistrement. Tu es sûr ?")) {
         return;
       }
-       // 1) Masquer l'indicateur et le bouton Recommencer
-        document.getElementById('recording-indicator').style.display = 'none';
-        document.getElementById('restart-btn').classList.add('hidden-btn');
-      
-        // 2) Réinitialiser le bouton Stop (au cas où) et l'état
-        const stopBtn = document.getElementById('stop-btn');
-        stopBtn.disabled = false;
-        stopBtn.classList.add('hidden-btn');
-        isImproRecordingStarted = false;
-      
-        // 3) Afficher à nouveau l'overlay de démarrage,  
-        //    qui contient déjà ton bouton #start-btn avec son écouteur intact
-        const overlay = document.querySelector('.video-overlay');
-        overlay.style.display = 'flex';
-      
-        // 4) (optionnel) Pour mobile, remettre la hauteur par défaut
-        if (window.innerWidth <= 600) {
+      // Masquer la zone d'enregistrement et réinitialiser son contenu
+      const overlay = document.querySelector('.video-overlay');
+      overlay.style.display = 'none';
+      overlay.innerHTML = `
+        <button id="start-btn" aria-label="Démarrer l'improvisation">
+          Démarrer ton impro <i class="fas fa-video"></i>
+        </button>
+        <p>NB : ta vidéo est stockée sur ton appareil. <br>Aucun enregistrement n'est conservé par Letmotiv.</p>
+      `;
+      isImproRecordingStarted = false;
+      // Pour mobile, réinitialiser la hauteur de la vidéo
+      if (window.innerWidth <= 600) {
           document.querySelector('.video-box').style.height = "450px";
-        }
-      });
+      }
+      // Lancer immédiatement le compte à rebours (qui masquera à nouveau l'overlay et lancera l'enregistrement)
+      startInitialCountdown();
+    });
+    bindStartButton();
 
         // STEP4 — Téléchargement de la vidéo et notation
       
