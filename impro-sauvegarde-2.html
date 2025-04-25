@@ -56,7 +56,7 @@
     .header {font-family: 'Montserrat', sans-serif;background-color: #182d84;color: #FFFFFF;font-size: 16px;font-weight: bold;text-align: center;padding: 10px;width: 100%;position: fixed;top: 0;left: 0;z-index: 10;}
     .header-content {font-family: 'Montserrat', sans-serif;display: flex;flex-direction: column;align-items: center;justify-content: center;gap: 5px;max-width: 100%;overflow-wrap: break-word;}
     .header-l2 {font-family: 'Montserrat', sans-serif;font-size: 16px; font-weight: bold;}
-    .progress-container {display: flex;gap: 8px; padding: 0 20px;position: fixed;top: 60px;left: 0;width: 100%;height: 10px;background-color:transparent;z-index: 9}
+    .progress-container {display: flex;gap: 8px; padding: 0 20px;position: fixed;top: 55px;left: 0;width: 100%;height: 10px;background-color:transparent;z-index: 9}
     .progress-step { flex: 1; background-color: rgba(24,45,132,0.2); border-radius: 5px; transition: background-color 0.3s;}
     .progress-step.active {background-color: #00a48a} 
     .intro-box {position: fixed;top: 0; left: 0;width: 100%; height: 100%;background: linear-gradient(135deg, #182d84, #00a48a);display: flex;flex-direction: column;align-items: center;justify-content: center;text-align: center;color: #ffffff;z-index: 20;animation: fadeIn 1s ease forwards;}
@@ -142,35 +142,26 @@
     }  
     /* STEP4 Téléchargement de la vidéo et notation */ 
     #step4 #rating-container {margin-bottom: 40px;}
-    #star-rating {font-size: 2rem;cursor: pointer;user-select: none;}
+    #star-rating {font-size: 1.8rem;cursor: pointer;user-select: none;}
     #star-rating .star {color: #ccc;transition: color 0.2s;}
-    #star-rating .star.selected,#star-rating .star:hover,#star-rating .star:hover ~ .star {color: #FFC107; /* jaune */}
+    #star-rating .star.selected,#star-rating .star:hover,#star-rating .star:hover ~ .star {color: #FFC107;}
     #step4 #playback-video {width: 100%;max-width: 400px;}
     @media (max-width: 600px) {#step4 #playback-video {max-width: 300px;}}
-    /* STEP6 Artible de blog et abonnement à la newsletter */ 
+    /* STEP6 Accès aux articles de blog */ 
     .link-card {max-width: 600px;margin: 0 auto 1.5em;border: 1px solid #ddd;border-radius: 8px;overflow: hidden;box-shadow: 0 2px 6px rgba(0,0,0,0.1);}
     .link-card a {display: flex;text-decoration: none;color: inherit;}
     .link-card-img {flex-shrink: 0;width: 140px;height: 100px;object-fit: cover;}
     .link-card-content {padding: 12px;display: flex;flex-direction: column;justify-content: center;}
     .link-card-content h3 {margin: 0 0 6px;font-size: 1.1rem;font-weight: bold;}
     .link-card-content p {margin: 0;font-size: 0.9rem;line-height: 1.3;color: #555;}
-    @media (max-width: 600px) { 
-      .link-card {padding: 8px;}
-      .link-card a {display: flex;flex-direction: column;
-      .link-card-img {width: 100%;height: auto; margin-bottom: 8px;border-radius: 4px;}
-      .link-card-content {padding: 0 8px 8px;}
-      .link-card-content p {text-align: justify;} 
+    @media (max-width: 600px) {
+      #step6 .link-card {max-width: 100%;margin: 0 auto 1.5em;border: 1px solid #ddd;border-radius: 8px;box-shadow: 0 2px 6px rgba(0,0,0,0.1);overflow: hidden;background: #fff;}
+      #step6 .link-card a {display: block;text-decoration: none;color: inherit;}
+      #step6 .link-card-img {width: 100%;height: auto;display: block;}
+      #step6 .link-card-content {padding: 16px;}
+      #step6 .link-card-content h3 {margin: 0 0 8px;font-size: 1.2rem;font-weight: 700;line-height: 1.3;}
+      #step6 .link-card-description {margin: 0 0 5px;font-size: 0.9rem;line-height: 1.4;color: #555;}
     }
-    .btn-newsletter {background: linear-gradient(135deg, #182d84, #00a48a);color: #fff;font-weight: bold;padding: 12px 30px;border: none;border-radius: 8px;cursor: pointer;transition: transform 0.3s, box-shadow 0.3s;margin: 10px 0;}
-    .btn-newsletter:hover {transform: translateY(-2px);box-shadow: 0 4px 6px rgba(0,0,0,0.2);}
-    .newsletter-container {width: 100%;max-width: 600px;background-color: #2d3748;border-radius: 12px;box-shadow: 0 4px 8px rgba(0,0,0,0.15);padding: 20px;margin: 30px auto;color: #e2e8f0;text-align: center;}
-    .newsletter-title {font-size: 1.0rem;font-weight: normal;margin-bottom: 20px;}
-    .newsletter-form {display: flex;flex-direction: column;gap: 10px;}
-    .newsletter-form input::placeholder {color: #fff;}
-    .newsletter-form input {background-color: #4a5568;color: #fff;border: none;border-radius: 8px;padding: 10px;outline: none;transition: background-color 0.3s, box-shadow 0.3s;}
-    .newsletter-form input:focus {background-color: #2d3748;box-shadow: 0 0 0 1px #3182ce;}
-    .newsletter-error {color: red;font-size: 0.8rem;text-align: left;}
-    .newsletter-success {color: green;font-size: 0.9rem;margin-top: 10px;}
     /* Responsive modifications for objectives STEP1 */
     @media (max-width: 600px) {.objectives-container {display: flex;flex-direction: column;gap: 12px;padding: 0 5px;margin: 10px auto;box-sizing: border-box;}
       .objective-item {position: relative;display: flex;justify-content: space-between;align-items: center; background-color: #f0f1f5;border-radius: 10px;padding: 14px 20px 14px 14px; width: 100%;box-sizing: border-box;font-size: 1rem;font-family: 'DM Sans', sans-serif;color: #333;cursor: pointer;transition: background-color 0.3s, transform 0.2s;border: none;}
@@ -195,7 +186,7 @@
 </head>
 <body>
   
-  <!-- Boite d'introduction -->
+  <!-- Boîte d'introduction -->
   <div class="intro-box" id="intro-box">
     <h1>
       <span class="line">ENTRAINE-TOI</span>
@@ -203,18 +194,20 @@
       <span class="line">EN PUBLIC</span>
     </h1> 
     <div class="wrapper">
-      <a id="start-intro-btn" class="cta" href="#">
+      <button id="start-intro-btn" class="cta" type="button">
+        <!-- span 1 : le texte -->
         <span>COMMENCER</span>
+        <!-- span 2 : l’icône -->
         <span>
-          <svg width="66px" height="43px" viewBox="0 0 66 43" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <svg width="66" height="43" viewBox="0 0 66 43" xmlns="http://www.w3.org/2000/svg">
             <g id="arrow" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-              <path class="one" d="M40.1543933,3.89485454 L43.9763149,0.139296592 C44.1708311,-0.0518420739 44.4826329,-0.0518571125 44.6771675,0.139262789 L65.6916134,20.7848311 C66.0855801,21.1718824 66.0911863,21.8050225 65.704135,22.1989893 C65.7000188,22.2031791 65.6958657,22.2073326 65.6916762,22.2114492 L44.677098,42.8607841 C44.4825957,43.0519059 44.1708242,43.0519358 43.9762853,42.8608513 L40.1545186,39.1069479 C39.9575152,38.9134427 39.9546793,38.5968729 40.1481845,38.3998695 C40.1502893,38.3977268 40.1524132,38.395603 40.1545562,38.3934985 L56.9937789,21.8567812 C57.1908028,21.6632968 57.193672,21.3467273 57.0001876,21.1497035 C56.9980647,21.1475418 56.9959223,21.1453995 56.9937605,21.1432767 L40.1545208,4.60825197 C39.9574869,4.41477773 39.9546013,4.09820839 40.1480756,3.90117456 C40.1501626,3.89904911 40.1522686,3.89694235 40.1543933,3.89485454 Z" fill="#FFFFFF"></path>
-              <path class="two" d="M20.1543933,3.89485454 L23.9763149,0.139296592 C24.1708311,-0.0518420739 24.4826329,-0.0518571125 24.6771675,0.139262789 L45.6916134,20.7848311 C46.0855801,21.1718824 46.0911863,21.8050225 45.704135,22.1989893 C45.7000188,22.2031791 45.6958657,22.2073326 45.6916762,22.2114492 L24.677098,42.8607841 C24.4825957,43.0519059 24.1708242,43.0519358 23.9762853,42.8608513 L20.1545186,39.1069479 C19.9575152,38.9134427 19.9546793,38.5968729 20.1481845,38.3998695 C20.1502893,38.3977268 20.1524132,38.395603 20.1545562,38.3934985 L36.9937789,21.8567812 C37.1908028,21.6632968 37.193672,21.3467273 37.0001876,21.1497035 C36.9980647,21.1475418 36.9959223,21.1453995 36.9937605,21.1432767 L20.1545208,4.60825197 C19.9574869,4.41477773 19.9546013,4.09820839 20.1480756,3.90117456 C20.1501626,3.89904911 20.1522686,3.89694235 20.1543933,3.89485454 Z" fill="#FFFFFF"></path>
-              <path class="three" d="M0.154393339,3.89485454 L3.97631488,0.139296592 C4.17083111,-0.0518420739 4.48263286,-0.0518571125 4.67716753,0.139262789 L25.6916134,20.7848311 C26.0855801,21.1718824 26.0911863,21.8050225 25.704135,22.1989893 C25.7000188,22.2031791 25.6958657,22.2073326 25.6916762,22.2114492 L4.67709797,42.8607841 C4.48259567,43.0519059 4.17082418,43.0519358 3.97628526,42.8608513 L0.154518591,39.1069479 C-0.0424848215,38.9134427 -0.0453206733,38.5968729 0.148184538,38.3998695 C0.150289256,38.3977268 0.152413239,38.395603 0.154556228,38.3934985 L16.9937789,21.8567812 C17.1908028,21.6632968 17.193672,21.3467273 17.0001876,21.1497035 C16.9980647,21.1475418 16.9959223,21.1453995 16.9937605,21.1432767 L0.15452076,4.60825197 C-0.0425130651,4.41477773 -0.0453986756,4.09820839 0.148075568,3.90117456 C0.150162624,3.89904911 0.152268631,3.89694235 0.154393339,3.89485454 Z" fill="#FFFFFF"></path>
+              <path class="one" d="M40.1543933,3.89485454 L43.9763149,0.139296592 C44.1708311,-0.0518420739 44.4826329,-0.0518571125 44.6771675,0.139262789 L65.6916134,20.7848311 C66.0855801,21.1718824 66.0911863,21.8050225 65.704135,22.1989893 C65.7000188,22.2031791 65.6958657,22.2073326 65.6916762,22.2114492 L44.677098,42.8607841 C44.4825957,43.0519059 44.1708242,43.0519358 43.9762853,42.8608513 L40.1545186,39.1069479 C39.9575152,38.9134427 39.9546793,38.5968729 40.1481845,38.3998695 C40.1502893,38.3977268 40.1524132,38.395603 40.1545562,38.3934985 L56.9937789,21.8567812 C57.1908028,21.6632968 57.193672,21.3467273 57.0001876,21.1497035 C56.9980647,21.1475418 56.9959223,21.1453995 56.9937605,21.1432767 L40.1545208,4.60825197 C39.9574869,4.41477773 39.9546013,4.09820839 40.1480756,3.90117456 C40.1501626,3.89904911 40.1522686,3.89694235 40.1543933,3.89485454 Z" fill="#FFFFFF"/>
+              <path class="two" d="M20.1543933,3.89485454 L23.9763149,0.139296592 C24.1708311,-0.0518420739 24.4826329,-0.0518571125 24.6771675,0.139262789 L45.6916134,20.7848311 C46.0855801,21.1718824 46.0911863,21.8050225 45.704135,22.1989893 C45.7000188,22.2031791 45.6958657,22.2073326 45.6916762,22.2114492 L24.677098,42.8607841 C24.4825957,43.0519059 24.1708242,43.0519358 23.9762853,42.8608513 L20.1545186,39.1069479 C19.9575152,38.9134427 19.9546793,38.5968729 20.1481845,38.3998695 C20.1502893,38.3977268 20.1524132,38.395603 20.1545562,38.3934985 L36.9937789,21.8567812 C37.1908028,21.6632968 37.193672,21.3467273 37.0001876,21.1497035 C36.9980647,21.1475418 36.9959223,21.1453995 36.9937605,21.1432767 L20.1545208,4.60825197 C19.9574869,4.41477773 19.9546013,4.09820839 20.1480756,3.90117456 C20.1501626,3.89904911 20.1522686,3.89694235 20.1543933,3.89485454 Z" fill="#FFFFFF"/>
+              <path class="three" d="M0.154393339,3.89485454 L3.97631488,0.139296592 C4.17083111,-0.0518420739 4.48263286,-0.0518571125 4.67716753,0.139262789 L25.6916134,20.7848311 C26.0855801,21.1718824 26.0911863,21.8050225 25.704135,22.1989893 C25.7000188,22.2031791 25.6958657,22.2073326 25.6916762,22.2114492 L4.67709797,42.8607841 C4.48259567,43.0519059 4.17082418,43.0519358 3.97628526,42.8608513 L0.154518591,39.1069479 C-0.0424848215,38.9134427 -0.0453206733,38.5968729 0.148184538,38.3998695 C0.150289256,38.3977268 0.152413239,38.395603 0.154556228,38.3934985 L16.9937789,21.8567812 C17.1908028,21.6632968 17.193672,21.3467273 17.0001876,21.1497035 C16.9980647,21.1475418 16.9959223,21.1453995 16.9937605,21.1432767 L0.15452076,4.60825197 C-0.0425130651,4.41477773 -0.0453986756,4.09820839 0.148075568,3.90117456 C0.150162624,3.89904911 0.152268631,3.89694235 0.154393339,3.89485454 Z" fill="#FFFFFF"/>
             </g>
           </svg>
         </span>
-      </a>
+      </button>
     </div>
   </div>
 
@@ -223,13 +216,6 @@
       <div id="dynamic-header-title" class="header-l2"></div>
     </div>
   </header>
-  
-  <!-- FORMULAIRE CACHÉ POUR GOOGLE FORMS -->
-  <form id="hidden-google-form" action="https://docs.google.com/forms/d/e/1FAIpQLSfGAcKp0cV5AeVJCJBPbtKLKCLhbYySZf_FkiMg85WKVFUn6A/formResponse" method="POST" target="hidden_iframe" style="display:none;">
-    <input type="text" name="entry.1119647353" id="hidden-prenom">
-    <input type="email" name="entry.638831312" id="hidden-email">
-  </form>
-  <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
   
   <!-- BARRE DE PROGRESSION -->
   <div class="progress-container" id="progress-steps">
@@ -355,14 +341,19 @@
     
       <!-- 3) Notation sur 5 étoiles -->
       <div id="rating-container" style="text-align:center;">
-        <p>Tu mets quelle note à ta prestation ?</p>
+        <p>Quelle note sur 10 mets-tu à ta prestation ?</p>
         <div id="star-rating">
-          <!-- 5 étoiles interactives -->
-          <span class="star" data-value="1">☆</span>
-          <span class="star" data-value="2">☆</span>
-          <span class="star" data-value="3">☆</span>
-          <span class="star" data-value="4">☆</span>
-          <span class="star" data-value="5">☆</span>
+          <!-- 10 étoiles interactives -->
+          <span class="star" data-value="1">★</span>
+          <span class="star" data-value="2">★</span>
+          <span class="star" data-value="3">★</span>
+          <span class="star" data-value="4">★</span>
+          <span class="star" data-value="5">★</span>
+          <span class="star" data-value="6">★</span>
+          <span class="star" data-value="7">★</span>
+          <span class="star" data-value="8">★</span>
+          <span class="star" data-value="9">★</span>
+          <span class="star" data-value="10">★</span>
         </div>
       </div>
     </div>
@@ -380,10 +371,10 @@
       </div>
     </div>
     
-      <!-- STEP6 : Analyse & Newsletter -->
+      <!-- STEP6 : Analyse & CTA -->
        <div class="box" id="step6">
         <div class="link-card">
-          <a href="https://www.letmotiv.fr/post/comment-analyser-ton-impro-comme-un-pro"
+          <a href="https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro"
              target="_blank" rel="noopener">
             <img
               src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Analyse_Impro_Simu_Letmotiv.png"
@@ -397,23 +388,6 @@
               Le guide ultime en 4 étapes clés pour analyser ta prestation et t’améliorer efficacement à chaque nouvelle prise de parole...
             </p>
           </a>
-        </div>
-        <div class="newsletter-container">
-          <h2 class="newsletter-title">
-            Inscris-toi à la newsletter Letmotiv pour prendre la parole avec impact :
-          </h2>
-          <form id="newsletter-form" class="newsletter-form">
-            <input type="text" id="newsletter-prenom" placeholder="Prénom" aria-label="Prénom">
-            <div id="newsletter-prenom-error" class="newsletter-error"></div>
-            <input type="email" id="newsletter-email" placeholder="Email" aria-label="Email">
-            <div id="newsletter-email-error" class="newsletter-error"></div>
-            <button type="submit" id="newsletter-submit-btn" class="btn-newsletter">
-              S’abonner
-            </button>
-          </form>
-          <div id="newsletter-success" class="newsletter-success" style="display:none;">
-            Tu es maintenant abonné à la newsletter Letmotiv.
-          </div>
         </div>
       </div>
 
@@ -513,16 +487,49 @@
     }
 
     /*** Fonction qui active/désactive le bouton du footer ***/
-    function updateFooterButtons() {
-      // on n’affiche le footer qu’à partir du STEP1
+   function updateFooterButtons() {
+      // 1) Afficher / cacher le footer
       footer.style.display = currentStep >= 1 ? 'flex' : 'none';
     
-      // bouton "Précédent"
+      // 2) Précédent
       prevBtn.disabled = currentStep <= 1;
-      prevBtn.className = prevBtn.disabled ? 'footer-button prev footer-disabled'
-                                           : 'footer-button prev footer-enabled';
+      prevBtn.className = prevBtn.disabled
+        ? 'footer-button prev footer-disabled'
+        : 'footer-button prev footer-enabled';
     
-      // bouton "Suivant"
+      // 3) CAS SPÉCIAL : STEP6 → bouton "Recommencer"
+      if (currentStep === 6) {
+        nextBtn.disabled = false;
+        nextBtn.className = 'footer-button next footer-enabled';
+        nextBtn.innerHTML = `Recommencer <i class="fas fa-redo" style="margin-left:8px;"></i>`;
+    
+        nextBtn.onclick = () => {
+          // a) Enlever #step6 de l'URL
+          history.replaceState(null, '', window.location.pathname);
+          // b) Cacher les steps et réafficher l'intro
+          Object.values(boxes).forEach(b => b.classList.remove('active'));
+          introBox.style.display = 'flex';
+          introBox.style.animation = 'fadeIn 0.5s ease forwards';
+          // c) Réinitialiser tout l'état interne
+          currentStep = 0;
+          currentCategory = null;
+          currentSubject = '';
+          isImproRecordingStarted = false;
+          currentRating = 0;
+          videoURL = '';
+          recordedChunks = [];
+          // d) Vider la barre de progression et le titre
+          progressSteps.forEach(el => el.classList.remove('active'));
+          document.getElementById('dynamic-header-title').innerHTML = '';
+          // e) Ré-appliquer les boutons et le header
+          updateFooterButtons();
+          updateHeaderTitle();
+        };
+    
+        return; // on sort, rien d'autre à faire pour STEP6
+      }
+    
+      // 4) Calcul normal du bouton "Suivant" pour STEP1→5
       let canAdvance = false;
       switch (currentStep) {
         case 1: canAdvance = Boolean(currentCategory); break;
@@ -530,29 +537,29 @@
         case 3: canAdvance = isImproRecordingStarted; break;
         case 4: canAdvance = currentRating > 0; break;
         case 5: canAdvance = true; break;
-        case 6: canAdvance = false; break;
       }
       nextBtn.disabled = !canAdvance;
       nextBtn.className = canAdvance
         ? 'footer-button next footer-enabled'
         : 'footer-button next footer-disabled';
+    
+      // 5) Label et handler par défaut pour "Suivant"
+      nextBtn.innerHTML = `SUIVANT <i class="fas fa-arrow-right" style="margin-left:8px;"></i>`;
+      nextBtn.onclick = () => {
+        if (nextBtn.disabled) return;
+        showBox(currentStep, currentStep + 1);
+        updateFooterButtons();
+        updateHeaderTitle();
+      };
     }
-        
+    
         prevBtn.addEventListener('click', () => {
             if (currentStep > 1) {
             showBox(currentStep, currentStep - 1);
             updateFooterButtons();
             }
         });
-
-    nextBtn.addEventListener('click', () => {
-      if (nextBtn.classList.contains('footer-disabled')) return;
-      if (currentStep >= 1 && currentStep < 6) {
-        showBox(currentStep, currentStep + 1);
-        updateFooterButtons();
-      }
-    }); 
-    
+      
     /*** Navigation entre les étapes ***/
     function showBox(current, next) {
       if (!boxes[current] || !boxes[next]) return;
@@ -802,43 +809,66 @@
     }
 
     async function initiateRecording() {
-      const stream = await setupCamera();
-      if (!stream) return;
-      if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
-        displayError('impro-error', "Ton navigateur ne supporte pas l'enregistrement vidéo. Essaye avec Chrome, Edge ou Firefox.");
-        return;
-      }
-      mediaRecorderInstance = new MediaRecorder(stream);
+      // 1) on récupère d'abord le flux brut (vidéo + audio)
+      const rawStream = await setupCamera();
+      if (!rawStream) return;
+    
+      // 2) on récupère la balise preview pour connaître la taille
+      const videoEl = document.getElementById('preview');
+      const width  = videoEl.videoWidth;
+      const height = videoEl.videoHeight;
+    
+      // 3) on crée un canvas et on configure son contexte
+      const canvas = document.createElement('canvas');
+      canvas.width  = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+    
+      // 4) boucle de dessin miroir
+      (function drawMirror() {
+        ctx.save();
+        ctx.scale(-1, 1);
+        ctx.drawImage(videoEl, -width, 0, width, height);
+        ctx.restore();
+        requestAnimationFrame(drawMirror);
+      })();
+    
+      // 5) on capture le flux du canvas à 30fps + on y ajoute l'audio d'origine
+      const mirroredStream = canvas.captureStream(30);
+      rawStream.getAudioTracks().forEach(track => mirroredStream.addTrack(track));
+    
+      // 6) on crée MediaRecorder sur ce flux "miroir"
+      mediaRecorderInstance = new MediaRecorder(mirroredStream);
       recordedChunks = [];
+    
       mediaRecorderInstance.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          recordedChunks.push(event.data);
-        }
+        if (event.data.size > 0) recordedChunks.push(event.data);
       };
+    
       mediaRecorderInstance.onstop = () => {
+        // 1) génère le blob + URL
         const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
         videoURL = URL.createObjectURL(videoBlob);
+      
+        // 2) passe cette URL au player de STEP 4
         const playback = document.getElementById('playback-video');
         playback.src = videoURL;
+        console.log('chunks capturés:', recordedChunks.length);
         playback.load();
-        stream.getTracks().forEach(t => t.stop());
-        const overlay = document.querySelector('.video-overlay');
-        overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Improvisation terminée. <br>Passe à l'étape suivante !</p>";
-        overlay.style.display = 'flex';
-        document.getElementById('impro-error').style.display = 'none';
+        playback.play();          // ← obligatoire pour forcer l’affichage
+      
+        // 3) arrête la caméra / le timer / UI
+        rawStream.getTracks().forEach(t => t.stop());
         clearInterval(timerInterval);
         document.getElementById('recording-indicator').style.display = 'none';
         isImproRecordingStarted = true;
         updateFooterButtons();
-        if (window.innerWidth <= 600) {
-            document.querySelector('.video-box').style.height = "300px";
-        }
       };
+    
+      // 7) lancement de l'enregistrement + UI habituelle
       mediaRecorderInstance.start();
       document.getElementById('recording-indicator').style.display = 'flex';
       document.getElementById('stop-btn').classList.remove('hidden-btn');
-      document.getElementById('stop-btn').disabled = false;
-      document.getElementById('restart-btn').classList.add('hidden-btn');
       startTimer();
     }
 
@@ -895,30 +925,30 @@
       }
     });
     
-    // Modification : Lorsqu'on clique sur "Recommencer ton impro", après confirmation,
-    // on réinitialise l'interface pour lancer immédiatement le compte à rebours comme au premier démarrage.
     document.getElementById('restart-btn').addEventListener('click', () => {
       if (!confirm("Attention, tu vas recommencer ton impro et lancer un nouvel enregistrement. Tu es sûr ?")) {
         return;
       }
-      // Masquer la zone d'enregistrement et réinitialiser son contenu
-      const overlay = document.querySelector('.video-overlay');
-      overlay.style.display = 'none';
-      overlay.innerHTML = `
-        <button id="start-btn" aria-label="Démarrer l'improvisation">
-          Démarrer ton impro <i class="fas fa-video"></i>
-        </button>
-        <p>NB : ta vidéo est stockée sur ton appareil. <br>Aucun enregistrement n'est conservé par Letmotiv.</p>
-      `;
-      isImproRecordingStarted = false;
-      // Pour mobile, réinitialiser la hauteur de la vidéo
-      if (window.innerWidth <= 600) {
+       // 1) Masquer l'indicateur et le bouton Recommencer
+        document.getElementById('recording-indicator').style.display = 'none';
+        document.getElementById('restart-btn').classList.add('hidden-btn');
+      
+        // 2) Réinitialiser le bouton Stop (au cas où) et l'état
+        const stopBtn = document.getElementById('stop-btn');
+        stopBtn.disabled = false;
+        stopBtn.classList.add('hidden-btn');
+        isImproRecordingStarted = false;
+      
+        // 3) Afficher à nouveau l'overlay de démarrage,  
+        //    qui contient déjà ton bouton #start-btn avec son écouteur intact
+        const overlay = document.querySelector('.video-overlay');
+        overlay.style.display = 'flex';
+      
+        // 4) (optionnel) Pour mobile, remettre la hauteur par défaut
+        if (window.innerWidth <= 600) {
           document.querySelector('.video-box').style.height = "450px";
-      }
-      // Lancer immédiatement le compte à rebours (qui masquera à nouveau l'overlay et lancera l'enregistrement)
-      startInitialCountdown();
-    });
-    bindStartButton();
+        }
+      });
 
         // STEP4 — Téléchargement de la vidéo et notation
       
@@ -957,63 +987,40 @@
         star.addEventListener('click', () => {
           currentRating = +star.dataset.value;
           stars.forEach(s => s.style.color = +s.dataset.value <= currentRating ? '#FFC107' : '#ccc');
-          feedback.textContent = `Tu as noté ta prestation ${currentRating}/5`;
+          feedback.textContent = `Tu as noté ta prestation ${currentRating}/10`;
           updateFooterButtons(); // <— pour réactiver « Suivant »
         });
       });
-
-    document.getElementById('newsletter-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      let valid = true;
-      const prenomInput = document.getElementById('newsletter-prenom');
-      const emailInput = document.getElementById('newsletter-email');
-      const prenomErrorEl = document.getElementById('newsletter-prenom-error');
-      const emailErrorEl = document.getElementById('newsletter-email-error');
-      prenomErrorEl.style.display = 'none';
-      emailErrorEl.style.display = 'none';
-
-      if (prenomInput.value.trim() === "") {
-        prenomErrorEl.textContent = "Le prénom est requis.";
-        prenomErrorEl.style.display = 'block';
-        valid = false;
-      }
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (emailInput.value.trim() === "") {
-        emailErrorEl.textContent = "L'email est requis.";
-        emailErrorEl.style.display = 'block';
-        valid = false;
-      } else if (!emailRegex.test(emailInput.value.trim())) {
-        emailErrorEl.textContent = "L'email n'est pas valide.";
-        emailErrorEl.style.display = 'block';
-        valid = false;
-      }
-      if (!valid) return;
-
-      document.getElementById('hidden-prenom').value = prenomInput.value.trim();
-      document.getElementById('hidden-email').value = emailInput.value.trim();
-      document.getElementById('hidden-google-form').submit();
-
-      const successEl = document.getElementById('newsletter-success');
-      successEl.style.display = 'block';
-      setTimeout(() => { successEl.style.display = 'none'; }, 5000);
-    });
     
     document.addEventListener('DOMContentLoaded', () => {
-      // 1. Masquer l'intro si on a un #stepX
-      const match = window.location.hash.match(/^#step(\d)$/);
-      if (match) {
-        const step = Number(match[1]);
-        if (boxes[step]) {
-          introBox.style.display = 'none';
-          Object.values(boxes).forEach(b => b.classList.remove('active'));
-          boxes[step].classList.add('active');
-          currentStep = step;
+      // Si on vient d'un reload, on est déjà sur STEP0 car hash vidé
+      const navInfo = performance.getEntriesByType("navigation")[0];
+      const isReload = navInfo && navInfo.type === "reload";
+    
+      if (!isReload) {
+        // on gère l'ancre seulement si ce n'est pas un simple reload
+        const match = window.location.hash.match(/^#step(\d)$/);
+        if (match) {
+          const step = Number(match[1]);
+          if (boxes[step]) {
+            introBox.style.display = 'none';
+            Object.values(boxes).forEach(b => b.classList.remove('active'));
+            boxes[step].classList.add('active');
+            currentStep = step;
+          }
         }
       }
       // 2. Mettre à jour UI quel que soit le cas
       updateProgressBar(currentStep);
       updateFooterButtons();
       updateHeaderTitle();
+    });
+
+    // ⚠️ Avant le refresh, on demande validation de l'utilisateur et on efface le hash pour repartir à l'intro
+    window.addEventListener('beforeunload', function(e) {
+      e.preventDefault();
+      e.returnValue = "Attention, ta progression sera perdue si tu rafraîchis la page.";
+      history.replaceState(null, '', window.location.pathname);
     });
 
   </script>
