@@ -926,6 +926,7 @@
     document.getElementById('restart-btn').addEventListener('click', () => {
       if (!confirm("Attention, tu vas recommencer ton impro et lancer un nouvel enregistrement. Tu es sûr ?")) {
         return;
+      }
        // 1) Masquer l'indicateur et le bouton Recommencer
         document.getElementById('recording-indicator').style.display = 'none';
         document.getElementById('restart-btn').classList.add('hidden-btn');
