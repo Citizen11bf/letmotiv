@@ -148,42 +148,12 @@
     #step4 #playback-video {width: 100%;max-width: 400px;}
     @media (max-width: 600px) {#step4 #playback-video {max-width: 300px;}}
     /* STEP6 Accès aux articles de blog */ 
-    .link-card {
-      max-width: 600px;
-      margin: 0 auto 1.5em;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-    .link-card a {
-      display: flex;
-      text-decoration: none;
-      color: inherit;
-    }
-    .link-card-img {
-      flex-shrink: 0;
-      width: 140px;
-      height: 100px;
-      object-fit: cover;
-    }
-    .link-card-content {
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-    .link-card-content h3 {
-      margin: 0 0 6px;
-      font-size: 1.1rem;
-      font-weight: bold;
-    }
-    .link-card-content p {
-      margin: 0;
-      font-size: 0.9rem;
-      line-height: 1.3;
-      color: #555;
-    }
+    .link-card {max-width: 600px;margin: 0 auto 1.5em;border: 1px solid #ddd;border-radius: 8px;overflow: hidden;box-shadow: 0 2px 6px rgba(0,0,0,0.1);}
+    .link-card a {display: flex;text-decoration: none;color: inherit;}
+    .link-card-img {flex-shrink: 0;width: 140px;height: 100px;object-fit: cover;}
+    .link-card-content {padding: 12px;display: flex;flex-direction: column;justify-content: center;}
+    .link-card-content h3 {margin: 0 0 6px;font-size: 1.1rem;font-weight: bold;}
+    .link-card-content p {margin: 0;font-size: 0.9rem;line-height: 1.3;color: #555;}
     @media (max-width: 600px) {
       #step6 .link-card {max-width: 100%;margin: 0 auto 1.5em;border: 1px solid #ddd;border-radius: 8px;box-shadow: 0 2px 6px rgba(0,0,0,0.1);overflow: hidden;background: #fff;}
       #step6 .link-card a {display: block;text-decoration: none;color: inherit;}
@@ -837,44 +807,62 @@
     }
 
     async function initiateRecording() {
-      const stream = await setupCamera();
-      if (!stream) return;
-      if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
-        displayError('impro-error', "Ton navigateur ne supporte pas l'enregistrement vidéo. Essaye avec Chrome, Edge ou Firefox.");
-        return;
-      }
-      mediaRecorderInstance = new MediaRecorder(stream);
+      // 1) on récupère d'abord le flux brut (vidéo + audio)
+      const rawStream = await setupCamera();
+      if (!rawStream) return;
+    
+      // 2) on récupère la balise preview pour connaître la taille
+      const videoEl = document.getElementById('preview');
+      const width  = videoEl.videoWidth;
+      const height = videoEl.videoHeight;
+    
+      // 3) on crée un canvas et on configure son contexte
+      const canvas = document.createElement('canvas');
+      canvas.width  = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+    
+      // 4) boucle de dessin miroir
+      (function drawMirror() {
+        ctx.save();
+        ctx.scale(-1, 1);
+        ctx.drawImage(videoEl, -width, 0, width, height);
+        ctx.restore();
+        requestAnimationFrame(drawMirror);
+      })();
+    
+      // 5) on capture le flux du canvas à 30fps + on y ajoute l'audio d'origine
+      const mirroredStream = canvas.captureStream(30);
+      rawStream.getAudioTracks().forEach(track => mirroredStream.addTrack(track));
+    
+      // 6) on crée MediaRecorder sur ce flux "miroir"
+      mediaRecorderInstance = new MediaRecorder(mirroredStream);
       recordedChunks = [];
+    
       mediaRecorderInstance.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          recordedChunks.push(event.data);
-        }
+        if (event.data.size > 0) recordedChunks.push(event.data);
       };
+    
       mediaRecorderInstance.onstop = () => {
+        // construction du blob vidéo
         const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
         videoURL = URL.createObjectURL(videoBlob);
         const playback = document.getElementById('playback-video');
         playback.src = videoURL;
-        playback.style.transform = 'scaleX(-1)';
         playback.load();
-        stream.getTracks().forEach(t => t.stop());
-        const overlay = document.querySelector('.video-overlay');
-        overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Improvisation terminée. <br>Passe à l'étape suivante !</p>";
-        overlay.style.display = 'flex';
-        document.getElementById('impro-error').style.display = 'none';
+    
+        // arrêt des pistes caméra/micro et rest of UI
+        rawStream.getTracks().forEach(t => t.stop());
         clearInterval(timerInterval);
         document.getElementById('recording-indicator').style.display = 'none';
         isImproRecordingStarted = true;
         updateFooterButtons();
-        if (window.innerWidth <= 600) {
-            document.querySelector('.video-box').style.height = "300px";
-        }
       };
+    
+      // 7) lancement de l'enregistrement + UI habituelle
       mediaRecorderInstance.start();
       document.getElementById('recording-indicator').style.display = 'flex';
       document.getElementById('stop-btn').classList.remove('hidden-btn');
-      document.getElementById('stop-btn').disabled = false;
-      document.getElementById('restart-btn').classList.add('hidden-btn');
       startTimer();
     }
 
