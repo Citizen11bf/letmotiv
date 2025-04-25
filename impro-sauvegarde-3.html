@@ -515,16 +515,49 @@
     }
 
     /*** Fonction qui active/désactive le bouton du footer ***/
-    function updateFooterButtons() {
-      // on n’affiche le footer qu’à partir du STEP1
+   function updateFooterButtons() {
+      // 1) Afficher / cacher le footer
       footer.style.display = currentStep >= 1 ? 'flex' : 'none';
     
-      // bouton "Précédent"
+      // 2) Précédent
       prevBtn.disabled = currentStep <= 1;
-      prevBtn.className = prevBtn.disabled ? 'footer-button prev footer-disabled'
-                                           : 'footer-button prev footer-enabled';
+      prevBtn.className = prevBtn.disabled
+        ? 'footer-button prev footer-disabled'
+        : 'footer-button prev footer-enabled';
     
-      // bouton "Suivant"
+      // 3) CAS SPÉCIAL : STEP6 → bouton "Recommencer"
+      if (currentStep === 6) {
+        nextBtn.disabled = false;
+        nextBtn.className = 'footer-button next footer-enabled';
+        nextBtn.innerHTML = `Recommencer <i class="fas fa-redo" style="margin-left:8px;"></i>`;
+    
+        nextBtn.onclick = () => {
+          // a) Enlever #step6 de l'URL
+          history.replaceState(null, '', window.location.pathname);
+          // b) Cacher les steps et réafficher l'intro
+          Object.values(boxes).forEach(b => b.classList.remove('active'));
+          introBox.style.display = 'flex';
+          introBox.style.animation = 'fadeIn 0.5s ease forwards';
+          // c) Réinitialiser tout l'état interne
+          currentStep = 0;
+          currentCategory = null;
+          currentSubject = '';
+          isImproRecordingStarted = false;
+          currentRating = 0;
+          videoURL = '';
+          recordedChunks = [];
+          // d) Vider la barre de progression et le titre
+          progressSteps.forEach(el => el.classList.remove('active'));
+          document.getElementById('dynamic-header-title').innerHTML = '';
+          // e) Ré-appliquer les boutons et le header
+          updateFooterButtons();
+          updateHeaderTitle();
+        };
+    
+        return; // on sort, rien d'autre à faire pour STEP6
+      }
+    
+      // 4) Calcul normal du bouton "Suivant" pour STEP1→5
       let canAdvance = false;
       switch (currentStep) {
         case 1: canAdvance = Boolean(currentCategory); break;
@@ -532,51 +565,21 @@
         case 3: canAdvance = isImproRecordingStarted; break;
         case 4: canAdvance = currentRating > 0; break;
         case 5: canAdvance = true; break;
-        case 6: canAdvance = false; break;
       }
       nextBtn.disabled = !canAdvance;
       nextBtn.className = canAdvance
         ? 'footer-button next footer-enabled'
         : 'footer-button next footer-disabled';
-
-        if (currentStep === 6) {
-          // 1) Rendre le bouton actif + label
-          nextBtn.disabled = false;
-          nextBtn.className = 'footer-button next footer-enabled';
-          nextBtn.innerHTML = `Recommencer <i class="fas fa-redo" style="margin-left:8px;"></i>`;
-        
-          // 2) Clic “Recommencer” : reset complet et retour à l'intro
-          nextBtn.onclick = () => {
-            // a) Supprimer le hash de l'URL
-            history.replaceState(null, '', window.location.pathname);
-        
-            // b) Cacher toutes les étapes & réafficher l'intro
-            Object.values(boxes).forEach(box => box.classList.remove('active'));
-            introBox.style.display = 'flex';
-            introBox.style.animation = 'fadeIn 0.5s ease forwards';
-        
-            // c) Réinitialiser l'état interne
-            currentStep = 0;
-            currentCategory = null;
-            currentSubject = "";
-            isImproRecordingStarted = false;
-            currentRating = 0;
-            videoURL = "";
-            recordedChunks = [];
-        
-            // d) Vider la barre de progression + header
-            progressSteps.forEach(el => el.classList.remove('active'));
-            document.getElementById('dynamic-header-title').innerHTML = '';
-        
-            // e) Re-calculer le footer et le header pour repartir proprement
-            updateFooterButtons();
-            updateHeaderTitle();
-          };
-        
-          // Interrompt l'exécution normale pour STEP6
-          return;
-        }
-      }
+    
+      // 5) Label et handler par défaut pour "Suivant"
+      nextBtn.innerHTML = `SUIVANT <i class="fas fa-arrow-right" style="margin-left:8px;"></i>`;
+      nextBtn.onclick = () => {
+        if (nextBtn.disabled) return;
+        showBox(currentStep, currentStep + 1);
+        updateFooterButtons();
+        updateHeaderTitle();
+      };
+    }
     
         prevBtn.addEventListener('click', () => {
             if (currentStep > 1) {
@@ -584,14 +587,6 @@
             updateFooterButtons();
             }
         });
-
-    nextBtn.addEventListener('click', () => {
-      if (nextBtn.classList.contains('footer-disabled')) return;
-      if (currentStep >= 1 && currentStep < 6) {
-        showBox(currentStep, currentStep + 1);
-        updateFooterButtons();
-      }
-    }); 
       
     /*** Navigation entre les étapes ***/
     function showBox(current, next) {
