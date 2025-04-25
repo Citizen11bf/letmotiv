@@ -938,15 +938,28 @@
         </button>
         <p>NB : ta vidéo est stockée sur ton appareil. <br>Aucun enregistrement n'est conservé par Letmotiv.</p>
       `;
+
+      // 2) Réactiver et masquer correctement le stop-btn
+      const stopBtn = document.getElementById('stop-btn');
+      stopBtn.disabled = false;               // on enlève le disabled
+      stopBtn.classList.add('hidden-btn');    // on le cache en attendant le début d'un enregistrement
+      
+      // 3) Masquer aussi le bouton Recommencer en attendant la fin de l'enregistrement
+      const restartBtn = document.getElementById('restart-btn');
+      restartBtn.classList.add('hidden-btn');
+      
       isImproRecordingStarted = false;
       // Pour mobile, réinitialiser la hauteur de la vidéo
       if (window.innerWidth <= 600) {
           document.querySelector('.video-box').style.height = "450px";
       }
+
+      // 4) Si vous recréez un nouveau #start-btn, il faut rebinder son listener :
+      bindStartButton();
+      
       // Lancer immédiatement le compte à rebours (qui masquera à nouveau l'overlay et lancera l'enregistrement)
       startInitialCountdown();
     });
-    bindStartButton();
 
         // STEP4 — Téléchargement de la vidéo et notation
       
