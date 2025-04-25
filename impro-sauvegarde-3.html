@@ -923,43 +923,29 @@
       }
     });
     
-    // Modification : Lorsqu'on clique sur "Recommencer ton impro", après confirmation,
-    // on réinitialise l'interface pour lancer immédiatement le compte à rebours comme au premier démarrage.
     document.getElementById('restart-btn').addEventListener('click', () => {
       if (!confirm("Attention, tu vas recommencer ton impro et lancer un nouvel enregistrement. Tu es sûr ?")) {
         return;
-      }
-      // Masquer la zone d'enregistrement et réinitialiser son contenu
-      const overlay = document.querySelector('.video-overlay');
-      overlay.style.display = 'none';
-      overlay.innerHTML = `
-        <button id="start-btn" aria-label="Démarrer l'improvisation">
-          Démarrer ton impro <i class="fas fa-video"></i>
-        </button>
-        <p>NB : ta vidéo est stockée sur ton appareil. <br>Aucun enregistrement n'est conservé par Letmotiv.</p>
-      `;
-
-      // 2) Réactiver et masquer correctement le stop-btn
-      const stopBtn = document.getElementById('stop-btn');
-      stopBtn.disabled = false;               // on enlève le disabled
-      stopBtn.classList.add('hidden-btn');    // on le cache en attendant le début d'un enregistrement
+       // 1) Masquer l'indicateur et le bouton Recommencer
+        document.getElementById('recording-indicator').style.display = 'none';
+        document.getElementById('restart-btn').classList.add('hidden-btn');
       
-      // 3) Masquer aussi le bouton Recommencer en attendant la fin de l'enregistrement
-      const restartBtn = document.getElementById('restart-btn');
-      restartBtn.classList.add('hidden-btn');
+        // 2) Réinitialiser le bouton Stop (au cas où) et l'état
+        const stopBtn = document.getElementById('stop-btn');
+        stopBtn.disabled = false;
+        stopBtn.classList.add('hidden-btn');
+        isImproRecordingStarted = false;
       
-      isImproRecordingStarted = false;
-      // Pour mobile, réinitialiser la hauteur de la vidéo
-      if (window.innerWidth <= 600) {
+        // 3) Afficher à nouveau l'overlay de démarrage,  
+        //    qui contient déjà ton bouton #start-btn avec son écouteur intact
+        const overlay = document.querySelector('.video-overlay');
+        overlay.style.display = 'flex';
+      
+        // 4) (optionnel) Pour mobile, remettre la hauteur par défaut
+        if (window.innerWidth <= 600) {
           document.querySelector('.video-box').style.height = "450px";
-      }
-
-      // 4) Si vous recréez un nouveau #start-btn, il faut rebinder son listener :
-      bindStartButton();
-      
-      // Lancer immédiatement le compte à rebours (qui masquera à nouveau l'overlay et lancera l'enregistrement)
-      startInitialCountdown();
-    });
+        }
+      });
 
         // STEP4 — Téléchargement de la vidéo et notation
       
