@@ -817,7 +817,7 @@
         playback.load();
         stream.getTracks().forEach(t => t.stop());
         const overlay = document.querySelector('.video-overlay');
-        overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Improvisation terminée. <br>Passe à l'étape suivante !</p>";
+        overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'> Bravo 🎉🎉<br>Tu viens de terminer ton improvisation !<br>Tu peux passer à l'étape suivante. </p>";
         overlay.style.display = 'flex';
         document.getElementById('impro-error').style.display = 'none';
         clearInterval(timerInterval);
