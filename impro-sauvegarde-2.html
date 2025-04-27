@@ -460,6 +460,8 @@
         if (stepToShow === 0) {
           // Si step 0 => revenir à l'intro
           introBox.style.display = 'block';
+          document.body.style.paddingTop = "0";
+          document.body.style.paddingBottom = "0";
           currentStep = 0;
           footer.style.display = 'none';
           updateProgressBar(0);
@@ -581,6 +583,8 @@
       introBox.style.animation = 'fadeOut 0.5s ease forwards';
       setTimeout(() => {
         introBox.style.display = 'none';
+        document.body.style.paddingTop = "60px"; 
+        document.body.style.paddingBottom = "20px";
         boxes[1].classList.add('active');
         currentStep = 1;
         updateProgressBar(1);
