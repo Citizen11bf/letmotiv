@@ -23,10 +23,10 @@
   <meta name="twitter:description" content="Évaluer et développer sa prise de parole en public avec le simulateur d'improvisation Letmotiv.">
   <meta name="twitter:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png">
   <!-- Import des polices  -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans&family=Montserrat:wght@700&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css?family=Poppins:900i" rel="stylesheet">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Sans&family=Montserrat:wght@700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans&family=Montserrat:wght@700&display=swap"></noscript>
+  <link rel="preload" href="https://fonts.googleapis.com/css?family=Poppins:900i&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:900i&display=swap"></noscript>
   <!-- Import des icônes -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -60,8 +60,10 @@
     .progress-step { flex: 1; background-color: rgba(24,45,132,0.2); border-radius: 5px; transition: background-color 0.3s;}
     .progress-step.active {background-color: #00a48a} 
     .intro-box {position: fixed;top: 0; left: 0;width: 100%; height: 100%;background: linear-gradient(135deg, #182d84, #00a48a);display: flex;flex-direction: column;align-items: center;justify-content: center;text-align: center;color: #ffffff;z-index: 20;animation: fadeIn 1s ease forwards;}
-    .intro-box h1 {font-family: 'Montserrat', sans-serif;font-size: 2.8rem;margin-bottom: 50px;animation: slideDown 1s ease forwards;text-shadow: 2px 2px 8px rgba(0,0,0,0.3);}
+    .intro-box h1 {font-family: 'Montserrat', sans-serif;font-size: 2.8rem;margin-bottom: 50px;animation: fadeSlideDown 1s ease forwards;text-shadow: 2px 2px 8px rgba(0,0,0,0.3);}
     .intro-box h1 span {display: block;}
+    @keyframes fadeSlideDown {  0% { opacity: 0; transform: translateY(-50px); }100% { opacity: 1; transform: translateY(0); }}
+    .intro-box .wrapper {animation: fadeSlideDown 1s ease forwards;}
     .wrapper {display: flex; justify-content: center;}
     .cta {display: flex;padding: 10px 45px;text-decoration: none;font-family: 'Poppins', sans-serif;font-size: 40px;color: white;background: #FF5722;transition: 0.5s;box-shadow: 6px 6px 0 black;transform: skewX(-15deg);border-radius: 8px;}
     .cta:focus { outline: none; }
@@ -756,11 +758,8 @@
 
     /*** Enregistrement vidéo (STEP3) ***/
     function bindStartButton() {
-      const startBtn = document.getElementById('start-btn');
-      if(startBtn){
-        startBtn.addEventListener('click', startImpro);
+      document.getElementById('start-btn')?.addEventListener('click', startImpro);
       }
-    }
 
     async function startImpro() {
       if (typeof MediaRecorder === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
@@ -958,7 +957,13 @@
       // Si on vient d'un reload, on est déjà sur STEP0 car hash vidé
       const navInfo = performance.getEntriesByType("navigation")[0];
       const isReload = navInfo && navInfo.type === "reload";
-          
+
+      if (currentStep === 0) {
+        introBox.style.display = 'flex';  // re-force flexbox si besoin
+        introBox.style.alignItems = 'center';
+        introBox.style.justifyContent = 'center';
+      }
+      
       if (isReload) {
           // ✅ S'il y a un reload, nettoyer proprement l'URL
           history.replaceState(null, '', window.location.pathname);
