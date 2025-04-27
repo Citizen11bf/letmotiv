@@ -979,6 +979,7 @@
     // Réinitialiser l'interface
     Object.values(boxes).forEach(box => box.classList.remove('active'));
     introBox.style.display = 'block';
+    introBox.style.animation = 'fadeIn 1s ease forwards'; // <= 🚀 CORRECTION ICI
     footer.style.display = 'none';
     updateProgressBar(0);
     
@@ -1006,10 +1007,10 @@
       if (videoBox) videoBox.style.height = "300px";
     }
   
-    // Nettoyer proprement l'URL sans recharger la page
+    // Nettoyer l'URL
     window.location.hash = "";
   
-    // ⚡ et pousser un nouvel état clair dans l'historique
+    // Pousser un nouvel état propre
     history.pushState({ step: 0 }, null, window.location.pathname);
   }
 
