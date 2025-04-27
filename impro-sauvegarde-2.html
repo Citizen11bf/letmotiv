@@ -761,11 +761,12 @@
       }
     });
 
-    /*** Enregistrement vidéo (STEP3) ***/
-    function bindStartButton() {
+    /*** Lancement de l'intro ***/
+    function bindStartIntroButton() {
     const startBtn = document.getElementById('start-intro-btn');
-    const newStartBtn = startBtn.cloneNode(true); // ← Clone propre
+    const newStartBtn = startBtn.cloneNode(true);
     startBtn.parentNode.replaceChild(newStartBtn, startBtn);
+    
     newStartBtn.addEventListener('click', () => {
       const introTitle = document.querySelector('.intro-box h1');
       const introWrapper = document.querySelector('.intro-box .wrapper');
@@ -784,6 +785,13 @@
         updateHeaderTitle();
       }, 500);
     });
+  }
+    
+    /*** Lancement de l'enregistrement vidéo (STEP3) ***/
+    function bindStartImproButton() {
+    const startBtn = document.getElementById('start-btn');
+    if (!startBtn) return;  
+    startBtn.addEventListener('click', startImpro);
   }
 
     async function startImpro() {
