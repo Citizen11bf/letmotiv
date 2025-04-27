@@ -147,6 +147,8 @@
     #star-rating .star.selected,#star-rating .star:hover,#star-rating .star:hover ~ .star {color: #FFC107;}
     #step4 #playback-video {width: 100%;max-width: 400px;}
     @media (max-width: 600px) {#step4 #playback-video {max-width: 300px;}}
+    /* STEP5 Prise de rdv avec un expert */ 
+    @media (max-width: 600px) {#step5 p {font-size: 1.1rem;line-height: 1.6;text-align: center;}}
     /* STEP6 Accès aux articles de blog */ 
     .link-card {max-width: 600px;margin: 0 auto 1.5em;border: 1px solid #ddd;border-radius: 8px;overflow: hidden;box-shadow: 0 2px 6px rgba(0,0,0,0.1);}
     .link-card a {display: block;text-decoration: none;color: inherit;}
@@ -356,9 +358,9 @@
     
    <!-- STEP5 : Coaching expert + Calendly -->
     <div class="box" id="step5">
-      <p style="margin-bottom:1em; font-size:1rem; color:#333333;">
-        <span id="rating-feedback"></span>
-        . Tu veux progresser rapidement ? <br>
+      <p style="margin-bottom:1em; font-size:1rem; color:#333333; text-align:center;">
+        <span id="rating-feedback"></span><br>
+        Tu veux progresser rapidement ?<br>
         <strong>Prends rendez-vous avec un de nos experts :</strong>
       </p>
       <div class="calendly-inline-widget"
@@ -378,7 +380,7 @@
               alt="Comment analyser ton impro comme un pro"
               class="link-card-img" />
             <h3 class="link-card-title">
-              Comment analyser ton impro <br>comme un·e pro ?
+              Comment analyser ton impro comme un pro ?
             </h3>
           </div>
           <p class="link-card-description">
@@ -448,24 +450,35 @@
       history.pushState({ step }, null, `#step${step}`);
     }
 
-    window.addEventListener('popstate', (event) => {
-      if (event.state && event.state.step) {
+   window.addEventListener('popstate', (event) => {
+      if (event.state && event.state.step !== undefined) {
         const stepToShow = event.state.step;
         Object.values(boxes).forEach(box => box.classList.remove('active'));
-        boxes[stepToShow].classList.add('active');
-        currentStep = stepToShow;
-        updateProgressBar(stepToShow);
-        updateFooterButtons();
-        document.getElementById('dynamic-header-title').innerHTML = stepTitles[currentStep] || "";
-        if (stepToShow == 3) {
-          document.getElementById('impro-video-subject').textContent = currentSubject;
+    
+        if (stepToShow === 0) {
+          // Si step 0 => revenir à l'intro
+          introBox.style.display = 'block';
+          currentStep = 0;
+          footer.style.display = 'none';
+          updateProgressBar(0);
+          document.getElementById('dynamic-header-title').innerHTML = "";
+        } else {
+          boxes[stepToShow].classList.add('active');
+          currentStep = stepToShow;
+          updateProgressBar(currentStep);
+          updateFooterButtons();
+          updateHeaderTitle();
         }
       } else {
         Object.values(boxes).forEach(box => box.classList.remove('active'));
         introBox.style.display = 'block';
         currentStep = 0;
+        footer.style.display = 'none';
+        updateProgressBar(0);
+        document.getElementById('dynamic-header-title').innerHTML = "";
       }
     });
+
 
     /*** Fonctions utilitaires ***/
     function updateProgressBar(step) {
@@ -502,7 +515,12 @@
         case 3: canAdvance = isImproRecordingStarted; break;
         case 4: canAdvance = currentRating > 0; break;
         case 5: canAdvance = true; break;
-        case 6: canAdvance = false; break;
+        case 6: 
+          canAdvance = true; 
+          nextBtn.innerHTML = 'RECOMMENCER <i class="fas fa-redo"></i>'; 
+          break;
+        default:
+          nextBtn.innerHTML = 'SUIVANT <i class="fas fa-arrow-right"></i>';
       }
       nextBtn.disabled = !canAdvance;
       nextBtn.className = canAdvance
@@ -522,6 +540,8 @@
       if (currentStep >= 1 && currentStep < 6) {
         showBox(currentStep, currentStep + 1);
         updateFooterButtons();
+      } else if (currentStep === 6) {
+        resetSimulator();
       }
     }); 
     
@@ -938,25 +958,85 @@
       // Si on vient d'un reload, on est déjà sur STEP0 car hash vidé
       const navInfo = performance.getEntriesByType("navigation")[0];
       const isReload = navInfo && navInfo.type === "reload";
-    
-      if (!isReload) {
-        // on gère l'ancre seulement si ce n'est pas un simple reload
-        const match = window.location.hash.match(/^#step(\d)$/);
-        if (match) {
-          const step = Number(match[1]);
-          if (boxes[step]) {
-            introBox.style.display = 'none';
-            Object.values(boxes).forEach(b => b.classList.remove('active'));
-            boxes[step].classList.add('active');
-            currentStep = step;
+          
+      if (isReload) {
+          // ✅ S'il y a un reload, nettoyer proprement l'URL
+          history.replaceState(null, '', window.location.pathname);
+        } else {
+          // Sinon, si navigation normale avec ancre, traiter normalement
+          const match = window.location.hash.match(/^#step(\d)$/);
+          if (match) {
+            const step = Number(match[1]);
+            if (boxes[step]) {
+              introBox.style.display = 'none';
+              Object.values(boxes).forEach(b => b.classList.remove('active'));
+              boxes[step].classList.add('active');
+              currentStep = step;
+              window.scrollTo(0, 0);
+            }
           }
         }
-      }
+
       // 2. Mettre à jour UI quel que soit le cas
       updateProgressBar(currentStep);
       updateFooterButtons();
       updateHeaderTitle();
     });
+
+    function resetSimulator() {
+    // Réinitialiser toutes les variables
+    currentStep = 0;
+    currentCategory = null;
+    currentSubject = "";
+    isImproRecordingStarted = false;
+    recordedChunks = [];
+    videoURL = "";
+    videoDownloaded = false;
+    currentRating = 0;
+  
+    // Réinitialiser l'interface
+    Object.values(boxes).forEach(box => box.classList.remove('active'));
+    introBox.style.display = 'block';
+    introBox.style.animation = 'fadeIn 1s ease forwards';
+    footer.style.display = 'none';
+    updateProgressBar(0);
+
+    // ✅ Remettre les animations normales de la box d'introduction
+    const introTitle = document.querySelector('.intro-box h1');
+    const introWrapper = document.querySelector('.intro-box .wrapper');
+    if (introTitle) introTitle.classList.remove('stop-animation');
+    if (introWrapper) introWrapper.classList.remove('stop-animation');
+    
+    // Nettoyer le contenu visible
+    document.getElementById('dynamic-header-title').innerHTML = "";
+    document.getElementById('explanation-box').innerHTML = "";
+    document.getElementById('subject-display').innerHTML = "";
+    document.getElementById('subject-wrapper').style.display = 'none';
+    document.getElementById('objective-error').style.display = 'none';
+    document.getElementById('subject-error').style.display = 'none';
+    document.getElementById('impro-error').style.display = 'none';
+    document.getElementById('download-error').style.display = 'none';
+    document.getElementById('rating-feedback').innerText = "";
+  
+    const playback = document.getElementById('playback-video');
+    if (playback) playback.src = "";
+  
+    // Nettoyer les étoiles
+    const stars = document.querySelectorAll('#star-rating .star');
+    stars.forEach(star => star.style.color = '#ccc');
+  
+    // (Mobile) remettre hauteur normale vidéo
+    if (window.innerWidth <= 600) {
+      const videoBox = document.querySelector('.video-box');
+      if (videoBox) videoBox.style.height = "300px";
+    }
+  
+    // Nettoyer l'URL
+    window.location.hash = "";
+  
+    // Pousser un nouvel état propre
+    history.pushState({ step: 0 }, null, window.location.pathname);
+  }
 
     // ⚠️ Avant le refresh, on demande validation de l'utilisateur et on efface le hash pour repartir à l'intro
     window.addEventListener('beforeunload', function(e) {
