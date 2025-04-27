@@ -1005,6 +1005,7 @@
     // Réinitialiser l'interface
     Object.values(boxes).forEach(box => box.classList.remove('active'));
     introBox.className = 'intro-box intro-visible';
+    introBox.style.display = 'flex';
     footer.style.display = 'none';
     updateProgressBar(0);
 
