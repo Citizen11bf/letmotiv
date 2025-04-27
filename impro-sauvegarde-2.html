@@ -956,20 +956,24 @@
       // Si on vient d'un reload, on est déjà sur STEP0 car hash vidé
       const navInfo = performance.getEntriesByType("navigation")[0];
       const isReload = navInfo && navInfo.type === "reload";
-    
-      if (!isReload) {
-        // on gère l'ancre seulement si ce n'est pas un simple reload
-        const match = window.location.hash.match(/^#step(\d)$/);
-        if (match) {
-          const step = Number(match[1]);
-          if (boxes[step]) {
-            introBox.style.display = 'none';
-            Object.values(boxes).forEach(b => b.classList.remove('active'));
-            boxes[step].classList.add('active');
-            currentStep = step;
+          
+      if (isReload) {
+          // ✅ S'il y a un reload, nettoyer proprement l'URL
+          history.replaceState(null, '', window.location.pathname);
+        } else {
+          // Sinon, si navigation normale avec ancre, traiter normalement
+          const match = window.location.hash.match(/^#step(\d)$/);
+          if (match) {
+            const step = Number(match[1]);
+            if (boxes[step]) {
+              introBox.style.display = 'none';
+              Object.values(boxes).forEach(b => b.classList.remove('active'));
+              boxes[step].classList.add('active');
+              currentStep = step;
+            }
           }
         }
-      }
+
       // 2. Mettre à jour UI quel que soit le cas
       updateProgressBar(currentStep);
       updateFooterButtons();
