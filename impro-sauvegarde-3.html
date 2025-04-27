@@ -430,6 +430,7 @@
     let countdown;
     let videoDownloaded = false;
     let currentRating = 0;
+    let forceReload = false;
     
     const stepTitles = {
       1: `Étape <i class="material-icons" style="vertical-align:middle;">looks_one</i> : Quel est ton objectif ?`,
@@ -541,7 +542,8 @@
         showBox(currentStep, currentStep + 1);
         updateFooterButtons();
       } else if (currentStep === 6) {
-        resetSimulator();
+        forceReload = true;
+        window.location.reload();
       }
     }); 
     
@@ -983,82 +985,12 @@
       updateHeaderTitle();
     });
 
-    function resetSimulator() {
-    currentStep = 0;
-    currentCategory = null;
-    currentSubject = "";
-    isImproRecordingStarted = false;
-    recordedChunks = [];
-    videoURL = "";
-    videoDownloaded = false;
-    currentRating = 0;
-  
-    Object.values(boxes).forEach(box => box.classList.remove('active'));
-    introBox.style.display = 'block';
-    introBox.style.animation = 'fadeIn 1s ease forwards';
-    footer.style.display = 'none';
-    updateProgressBar(0);
-  
-    const introTitle = document.querySelector('.intro-box h1');
-    const introWrapper = document.querySelector('.intro-box .wrapper');
-    if (introTitle) introTitle.classList.remove('stop-animation');
-    if (introWrapper) introWrapper.classList.remove('stop-animation');
-  
-    document.getElementById('dynamic-header-title').innerHTML = "";
-    document.getElementById('explanation-box').innerHTML = "";
-    document.getElementById('subject-display').innerHTML = "";
-    document.getElementById('subject-wrapper').style.display = 'none';
-    document.getElementById('objective-error').style.display = 'none';
-    document.getElementById('subject-error').style.display = 'none';
-    document.getElementById('impro-error').style.display = 'none';
-    document.getElementById('download-error').style.display = 'none';
-    document.getElementById('rating-feedback').innerText = "";
-  
-    const playback = document.getElementById('playback-video');
-    if (playback) playback.src = "";
-  
-    const stars = document.querySelectorAll('#star-rating .star');
-    stars.forEach(star => star.style.color = '#ccc');
-  
-    if (window.innerWidth <= 600) {
-      const videoBox = document.querySelector('.video-box');
-      if (videoBox) videoBox.style.height = "300px";
-    }
-  
-    // ➡️ 1. Désélectionner les objectifs
-    objectivesButtons.forEach(item => {
-      item.classList.remove('selected-objective');
-      const cat = item.dataset.category;
-      if (defaultIcons[cat]) {
-        const icon = item.querySelector('i');
-        icon.className = defaultIcons[cat];
-      }
-      const mobileExplanation = item.nextElementSibling;
-      if (mobileExplanation && mobileExplanation.classList.contains('mobile-explanation')) {
-        mobileExplanation.remove();
-      }
-    });
-  
-    // ➡️ 2. Réinitialiser footer
-    nextBtn.innerHTML = 'SUIVANT <i class="fas fa-arrow-right"></i>';
-    nextBtn.disabled = true;
-    nextBtn.className = 'footer-button next footer-disabled';
-    prevBtn.disabled = true;
-    prevBtn.className = 'footer-button prev footer-disabled';
-  
-    window.location.hash = "";
-    history.pushState({ step: 0 }, null, window.location.pathname);
-  
-    // ➡️ 3. Mise à jour finale
-    updateFooterButtons();
-  }
-
-
     // ⚠️ Avant le refresh, on demande validation de l'utilisateur et on efface le hash pour repartir à l'intro
     window.addEventListener('beforeunload', function(e) {
-      e.preventDefault();
-      e.returnValue = "Attention, ta progression sera perdue si tu rafraîchis la page.";
-      history.replaceState(null, '', window.location.pathname);
+      if (!forceReload) {
+        e.preventDefault();
+        e.returnValue = "Attention, ta progression sera perdue si tu rafraîchis la page.";
+      }
     });
 
   </script>
