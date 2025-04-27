@@ -993,7 +993,7 @@
       const isReload = navInfo && navInfo.type === "reload";
 
       if (currentStep === 0) {
-        introBox.className = 'intro-box intro-visible';
+        introBox.classList.add('intro-visible');
       }
       
       if (isReload) {
@@ -1033,7 +1033,7 @@
   
     // Réinitialiser l'interface
     Object.values(boxes).forEach(box => box.classList.remove('active'));
-    introBox.className = 'intro-box intro-visible';
+    introBox.classList.add('intro-visible');
     introBox.style.display = 'flex';
     footer.style.display = 'none';
     updateProgressBar(0);
