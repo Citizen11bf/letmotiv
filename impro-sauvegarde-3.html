@@ -290,7 +290,39 @@
       <div id="subject-error" class="error-message"></div>
       </div>
 
-    <!-- STEP3 : Enregistrement vidéo -->
+    <!-- STEP2bis : Configuration de l'entretien -->
+    <div class="box" id="step2bis" style="display: none;">
+      <div class="box-header step2-header">
+        <div class="box-title">Configuration de l'entretien</div>
+      </div>
+      <div class="simulation-instructions">
+        Choisis le nombre de questions :
+      </div>
+      <div class="rating-container" id="question-rating">
+        <span class="rating-icon" data-value="3">3</span>
+        <span class="rating-icon" data-value="4">4</span>
+        <span class="rating-icon" data-value="5">5</span>
+        <span class="rating-icon" data-value="6">6</span>
+        <span class="rating-icon" data-value="7">7</span>
+        <span class="rating-icon" data-value="8">8</span>
+      </div>
+      <div class="simulation-instructions" style="margin-top:20px;">
+        Combien de minutes par question ?
+      </div>
+      <div class="rating-container" id="minutes-rating">
+        <span class="rating-icon" data-value="2">2</span>
+        <span class="rating-icon" data-value="3">3</span>
+        <span class="rating-icon" data-value="4">4</span>
+        <span class="rating-icon" data-value="5">5</span>
+      </div>
+      <div id="duration-info"></div>
+      <div id="subject-error" class="error-message"></div>
+      <button class="btn-impro" id="start-interview-btn" style="margin-top:20px;">
+        Démarrer la simulation
+      </button>
+    </div>
+    
+    <!-- STEP3 : Enregistrement de l'improvisation vidéo -->
     <div class="box" id="step3">
       <div class="video-box">
         <p id="impro-video-subject" class="impro-video-subject"></p>
@@ -322,6 +354,28 @@
       <div id="impro-error" class="error-message"></div>
       </div>
 
+    <!-- STEP3bis : Simulation d'entretien vidéo -->
+    <div class="box" id="step3bis" style="display: none;">
+      <div class="video-box">
+        <p id="interview-question-display" class="impro-video-subject"></p>
+        <video id="interview-preview" autoplay muted playsinline webkit-playsinline></video>
+        <div class="video-overlay" id="interview-overlay">
+          <button id="start-interview-btn2" aria-label="Démarrer l'entretien">
+            Commencer l'entretien <i class="fas fa-video"></i>
+          </button>
+        </div>
+        <div class="recording-indicator" id="interview-recording-indicator">
+          <span class="dot"></span>
+          <div class="countdown" id="interview-countdown">3:00</div>
+        </div>
+      </div>
+      <div class="impro-actions">
+        <button id="next-question-btn" class="btn-impro hidden-btn">Question suivante</button>
+        <button id="stop-interview-btn" class="btn-impro hidden-btn">Arrêter</button>
+      </div>
+      <div id="impro-error" class="error-message"></div>
+    </div>
+    
     <!-- STEP4 : Relecture, téléchargement & notation -->
     <div class="box" id="step4">
       <!-- 1) Mini-lecteur vidéo inline -->
@@ -402,15 +456,17 @@
   <!-- SCRIPT JavaScript -->
   <script>
     /*** VARIABLES ET CONSTANTES ***/
-     const boxes = {
+    const boxes = {
       1: document.getElementById('step1'),
       2: document.getElementById('step2'),
+      '2bis': document.getElementById('step2bis'),
       3: document.getElementById('step3'),
+      '3bis': document.getElementById('step3bis'),
       4: document.getElementById('step4'),
       5: document.getElementById('step5'),
       6: document.getElementById('step6'),
     };
-    
+
     const introBox = document.getElementById('intro-box');
     const startIntroBtn = document.getElementById('start-intro-btn');
     const progressSteps = Array.from(document.querySelectorAll('#progress-steps .progress-step'));
@@ -431,6 +487,16 @@
     let videoDownloaded = false;
     let currentRating = 0;
     let forceReload = false;
+    let isInterviewMode = false;
+
+    const AppState = {
+      selectedQuestionCount: 0,
+      minutesPerQuestion: 0,
+      currentQuestionIndex: 1,
+      improStarted: false,
+      entretienQuestions: [],
+      currentCategory: null,
+    };
     
     const stepTitles = {
       1: `Étape <i class="material-icons" style="vertical-align:middle;">looks_one</i> : Quel est ton objectif ?`,
@@ -441,6 +507,14 @@
       6: `Étape <i class="material-icons" style="vertical-align:middle;">looks_6</i> : Analyse ta prestation`,  
     };
 
+    const interviewPreview = document.getElementById('interview-preview');
+    const interviewOverlay = document.getElementById('interview-overlay');
+    const startInterviewBtn2 = document.getElementById('start-interview-btn2');
+    const nextQuestionBtn = document.getElementById('next-question-btn');
+    const stopInterviewBtn = document.getElementById('stop-interview-btn');
+    const interviewCountdown = document.getElementById('interview-countdown');
+    const interviewRecordingIndicator = document.getElementById('interview-recording-indicator');
+    
     function updateHeaderTitle() {
       document.getElementById('dynamic-header-title')
         .innerHTML = stepTitles[currentStep] || "";      
@@ -538,8 +612,21 @@
 
     nextBtn.addEventListener('click', () => {
       if (nextBtn.classList.contains('footer-disabled')) return;
-      if (currentStep >= 1 && currentStep < 6) {
+      if (currentStep === 1) {
+        if (isInterviewMode) {
+          showBox(currentStep, '2bis');
+        } else {
+          showBox(currentStep, 2);
+        }
+      } else if (currentStep === 2 || currentStep === '2bis') {
+        if (isInterviewMode) {
+          showBox('2bis', '3bis');
+        } else {
+          showBox(currentStep, 3);
+        }
+      } else if (currentStep >= 3 && currentStep < 6) {
         showBox(currentStep, currentStep + 1);
+      }
         updateFooterButtons();
       } else if (currentStep === 6) {
         forceReload = true;
@@ -547,16 +634,23 @@
       }
     }); 
     
-    /*** Navigation entre les étapes ***/
-    function showBox(current, next) {
-      if (!boxes[current] || !boxes[next]) return;
-      boxes[current].classList.remove('active','slide-from-right','slide-from-left');
-      boxes[next].classList.add('active');
-      boxes[next].classList.add(next > current ? 'slide-from-right' : 'slide-from-left');
-      updateProgressBar(next);
+      /*** Navigation entre les étapes ***/
+      function showBox(current, next) {
+      const currentBox = boxes[String(current)];
+      const nextBox = boxes[String(next)];
+    
+      if (!currentBox || !nextBox) return;
+    
+      currentBox.classList.remove('active', 'slide-from-right', 'slide-from-left');
+      nextBox.classList.add('active');
+      nextBox.classList.add(next > current ? 'slide-from-right' : 'slide-from-left');
+    
       currentStep = next;
       pushStepState(next);
+      updateProgressBar(next);
       updateFooterButtons();
+      updateHeaderTitle();
+      }
     
       // Mettre à jour le titre du header
       const headerTitleEl = document.getElementById('dynamic-header-title');
@@ -663,6 +757,13 @@
         });
         item.classList.add('selected-objective');
         const cat = item.dataset.category;
+        
+        if (cat === 'entretien') {
+          isInterviewMode = true;
+        } else {
+          isInterviewMode = false;
+        }
+        
         item.style.transition = "transform 0.3s, background-color 0.3s";
         item.style.transform = "scale(1.1)";
         item.style.backgroundColor = "rgba(0, 164, 138, 0.2)";
@@ -985,6 +1086,178 @@
       updateHeaderTitle();
     });
 
+
+    // CHOIX DU NOMBRE DE QUESTIONS
+    document.querySelectorAll('#question-rating .rating-icon').forEach(el => {
+      el.addEventListener('click', () => {
+        document.querySelectorAll('#question-rating .rating-icon').forEach(i => i.classList.remove('selected'));
+        el.classList.add('selected');
+        AppState.selectedQuestionCount = parseInt(el.dataset.value, 10);
+        updateInterviewInfo();
+      });
+    });
+    
+      // CHOIX DU NOMBRE DE MINUTES PAR QUESTION
+      document.querySelectorAll('#minutes-rating .rating-icon').forEach(el => {
+        el.addEventListener('click', () => {
+          document.querySelectorAll('#minutes-rating .rating-icon').forEach(i => i.classList.remove('selected'));
+          el.classList.add('selected');
+          AppState.minutesPerQuestion = parseInt(el.dataset.value, 10);
+          updateInterviewInfo();
+        });
+      });
+      
+      function updateInterviewInfo() {
+        const info = document.getElementById('duration-info');
+        if (AppState.selectedQuestionCount && AppState.minutesPerQuestion) {
+          info.innerHTML = `Tu auras <strong>${AppState.selectedQuestionCount} questions</strong> de <strong>${AppState.minutesPerQuestion} minutes</strong> chacune.`;
+        } else {
+          info.innerHTML = '';
+        }
+      }
+    
+        document.getElementById('start-interview-btn').addEventListener('click', async () => {
+      if (!AppState.selectedQuestionCount || !AppState.minutesPerQuestion) {
+        displayError('subject-error', "Merci de configurer le nombre de questions ET la durée par question.");
+        return;
+      }
+    
+      AppState.currentQuestionIndex = 1;
+      AppState.improStarted = false;
+    
+      // Charger toutes les questions du fichier entretien.txt
+      if (!subjectsCache['entretien']) {
+        await loadSubjects('entretien');
+      }
+    
+      AppState.entretienQuestions = [...subjectsCache['entretien']];
+    
+      // S'assurer qu'il y a assez de questions
+      if (AppState.entretienQuestions.length < AppState.selectedQuestionCount) {
+        displayError('subject-error', "Pas assez de questions disponibles pour cette configuration.");
+        return;
+      }
+    
+      // Lancer la première question (toujours la 1ère du fichier)
+      const firstQuestion = AppState.entretienQuestions[0];
+      document.getElementById('interview-question-display').textContent = `Question 1/${AppState.selectedQuestionCount} : ${firstQuestion}`;
+    
+      // Affiche STEP3bis
+      showBox('2bis', '3bis');
+    });
+    
+        startInterviewBtn2.addEventListener('click', async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        interviewPreview.srcObject = stream;
+        interviewPreview.play();
+    
+        AppState.mediaRecorder = new MediaRecorder(stream);
+        AppState.recordedChunks = [];
+    
+        AppState.mediaRecorder.ondataavailable = (event) => {
+          if (event.data.size > 0) {
+            AppState.recordedChunks.push(event.data);
+          }
+        };
+    
+        AppState.mediaRecorder.start();
+        AppState.improStarted = true;
+    
+        interviewOverlay.style.display = 'none';
+        interviewRecordingIndicator.style.display = 'flex';
+        nextQuestionBtn.classList.remove('hidden-btn');
+        stopInterviewBtn.classList.remove('hidden-btn');
+    
+        startInterviewTimer();
+      } catch (err) {
+        displayError('impro-error', "Erreur : impossible d'accéder à la webcam.");
+        console.error(err);
+      }
+    });
+
+    function startInterviewTimer() {
+      AppState.timeRemaining = AppState.minutesPerQuestion * 60;
+      updateInterviewCountdown();
+    
+      AppState.timerInterval = setInterval(() => {
+        AppState.timeRemaining--;
+        if (AppState.timeRemaining >= 0) {
+          updateInterviewCountdown();
+        } else {
+          clearInterval(AppState.timerInterval);
+          // Temps écoulé pour cette question
+          if (AppState.currentQuestionIndex < AppState.selectedQuestionCount) {
+            goToNextInterviewQuestion();
+          } else {
+            endInterviewSimulation();
+          }
+        }
+      }, 1000);
+    }
+    
+    function updateInterviewCountdown() {
+      const minutes = Math.floor(AppState.timeRemaining / 60);
+      const seconds = AppState.timeRemaining % 60;
+      interviewCountdown.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+    }
+
+    nextQuestionBtn.addEventListener('click', () => {
+  if (!AppState.improStarted) {
+    displayError('impro-error', "Démarre la simulation avant de passer à la prochaine question.");
+    return;
+  }
+  goToNextInterviewQuestion();
+});
+
+function goToNextInterviewQuestion() {
+  clearInterval(AppState.timerInterval);
+  AppState.currentQuestionIndex++;
+
+  if (AppState.currentQuestionIndex > AppState.selectedQuestionCount) {
+    endInterviewSimulation();
+    return;
+  }
+
+  let nextQuestion;
+  if (AppState.currentQuestionIndex === 1) {
+    nextQuestion = AppState.entretienQuestions[0]; // première question imposée
+  } else {
+    const randomIndex = Math.floor(Math.random() * (AppState.entretienQuestions.length - 1)) + 1;
+    nextQuestion = AppState.entretienQuestions[randomIndex];
+  }
+
+  document.getElementById('interview-question-display').textContent = `Question ${AppState.currentQuestionIndex}/${AppState.selectedQuestionCount} : ${nextQuestion}`;
+  startInterviewTimer();
+
+  // Masquer le bouton "Question suivante" si dernière question
+  if (AppState.currentQuestionIndex === AppState.selectedQuestionCount) {
+    nextQuestionBtn.style.display = 'none';
+  }
+}
+
+    stopInterviewBtn.addEventListener('click', () => {
+  endInterviewSimulation();
+});
+
+function endInterviewSimulation() {
+  clearInterval(AppState.timerInterval);
+  if (AppState.mediaRecorder && AppState.mediaRecorder.state === 'recording') {
+    AppState.mediaRecorder.stop();
+  }
+
+  const stream = interviewPreview.srcObject;
+  if (stream) {
+    stream.getTracks().forEach(track => track.stop());
+  }
+  interviewRecordingIndicator.style.display = 'none';
+  nextQuestionBtn.classList.add('hidden-btn');
+  stopInterviewBtn.classList.add('hidden-btn');
+  interviewOverlay.innerHTML = `<p class="final-message" style="color: white; font-size: 18px;">Bravo ! Tu as terminé ton entretien 🎉</p>`;
+  interviewOverlay.style.display = 'flex';
+}
+
+    
     // ⚠️ Avant le refresh, on demande validation de l'utilisateur et on efface le hash pour repartir à l'intro
     window.addEventListener('beforeunload', function(e) {
       if (!forceReload) {
