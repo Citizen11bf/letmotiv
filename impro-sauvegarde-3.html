@@ -124,6 +124,7 @@
     .video-box .impro-video-subject {margin: 0;padding: 4px 4px;position: absolute;top: 4px;left: 8px;right: 8px;transform: none;background-color: #182d84;color: #ffffff;font-family: 'DM Sans', sans-serif;font-size: 16px;font-weight: 500;line-height: 1.2;word-break: break-word;text-align: center;border-radius: 4px;z-index: 1000 !important;}
     .video-note {margin: 8px auto;max-width: 500px;font-size: 13px;color: #555;text-align: center;}
     .video-overlay {position: absolute;z-index: 2;width: 100%;height: 100%;display: flex;flex-direction: column;justify-content: center;align-items: center;text-align: center;color: #555;font-size: 14px;padding: 20px;background: rgba(255,255,255,0.6);}
+    .success-message {color: #00a48a;font-size: 18px;text-align: center;}
     .video-overlay p {margin: 10px 0;}
     .video-overlay button {margin: 15px 0;padding: 10px 20px;font-size: 16px;background-color: #182d84;color: #fff;border: none;border-radius: 25px;cursor: pointer;transition: background-color 0.3s;}
     .video-overlay button:hover { background-color: #00a48a; }
@@ -833,7 +834,7 @@
         playback.load();
         stream.getTracks().forEach(t => t.stop());
         const overlay = document.querySelector('.video-overlay');
-        overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'> 🎉 Bravo 🎉<br>Tu viens de terminer ton improvisation !<br>Tu peux passer à l'étape suivante. </p>";
+        overlay.innerHTML = "<p class='success-message'> 🎉 Bravo 🎉<br>Tu viens de terminer ton improvisation !<br>Tu peux passer à l'étape suivante. </p>";
         overlay.style.display = 'flex';
         document.getElementById('impro-error').style.display = 'none';
         clearInterval(timerInterval);
