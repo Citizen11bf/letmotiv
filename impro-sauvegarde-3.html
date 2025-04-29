@@ -549,6 +549,16 @@
         window.location.reload();
       }
     }); 
+
+    function showImproSubject(text) {
+      const subjectEl = document.getElementById('impro-video-subject');
+      if (!subjectEl) return;
+      
+      subjectEl.classList.remove('visible'); // reset
+      void subjectEl.offsetWidth; // forcer reflow pour bien rejouer l'animation
+      subjectEl.textContent = text;
+      subjectEl.classList.add('visible');
+    }
     
     /*** Navigation entre les étapes ***/
     function showBox(current, next) {
@@ -567,9 +577,7 @@
     
       // Si on arrive au STEP3, on remet le sujet devant la vidéo
       if (next === 3) {
-        const subjectEl = document.getElementById('impro-video-subject');
-        subjectEl.textContent = currentSubject;
-        subjectEl.classList.add('visible');
+        showImproSubject(currentSubject);
       }
 
     /*** Initialisation de l'introduction ***/
