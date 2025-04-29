@@ -892,6 +892,11 @@
         mediaRecorderInstance.stop();
         clearInterval(countdown);
         clearInterval(timerInterval);
+        const stream = document.getElementById('preview').srcObject;
+          if (stream) {
+          stream.getTracks().forEach(track => track.stop());
+          document.getElementById('preview').srcObject = null;
+          }
         document.getElementById('stop-btn').classList.add('hidden-btn');
         document.getElementById('stop-btn').disabled = true;
         document.getElementById('restart-btn').classList.remove('hidden-btn');
