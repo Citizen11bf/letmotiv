@@ -129,6 +129,8 @@
     .video-overlay p {margin: 10px 0;}
     .video-overlay button {margin: 15px 0;padding: 10px 20px;font-size: 16px;background-color: #182d84;color: #fff;border: none;border-radius: 25px;cursor: pointer;transition: background-color 0.3s;}
     .video-overlay button:hover { background-color: #00a48a; }
+    @keyframes fadeZoomIn {0% {opacity: 0;transform: scale(0.9);}100% {opacity: 1;transform: scale(1);}}
+    .success-message {animation: fadeZoomIn 0.6s ease-in-out;}
     /* Indicateur d'enregistrement */
     .recording-indicator {display: none;flex-direction: row;align-items: center;gap: 5px;position: absolute;top:auto;left:auto;bottom:10px;right:10px;background-color: rgba(128,128,128,0.6);padding: 5px 10px;border-radius:20px;font-size:14px;color:#ff0000;z-index:4;}
     .recording-indicator .dot {height: 10px;width: 10px;background-color: #ff0000;border-radius: 50%;display: inline-block;animation: blink 1s infinite;}
