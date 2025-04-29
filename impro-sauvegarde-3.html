@@ -778,7 +778,11 @@
       startInitialCountdown();
     }
 
-    function startInitialCountdown() {
+    function startInitialCountdown() {    
+      
+      const stream = await setupCamera();
+      if (!stream) return;
+
       let count = 5;
       document.getElementById('initial-countdown').textContent = count;
       document.getElementById('initial-countdown-overlay').style.display = 'flex';
