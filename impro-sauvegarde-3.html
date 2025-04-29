@@ -779,6 +779,13 @@
     }
 
     async function startInitialCountdown() {
+    
+      const subjectElement = document.getElementById('impro-video-subject');
+      if (subjectElement && currentSubject) {
+        subjectElement.textContent = currentSubject;
+        subjectElement.style.display = 'block';
+      }
+      
       const stream = await setupCamera();  
       if (!stream) return;
     
@@ -897,6 +904,7 @@
           stream.getTracks().forEach(track => track.stop());
           document.getElementById('preview').srcObject = null;
           }
+        document.getElementById('impro-video-subject').style.display = 'none';
         document.getElementById('stop-btn').classList.add('hidden-btn');
         document.getElementById('stop-btn').disabled = true;
         document.getElementById('restart-btn').classList.remove('hidden-btn');
