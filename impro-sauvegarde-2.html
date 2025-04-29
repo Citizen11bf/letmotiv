@@ -434,6 +434,7 @@
     let videoDownloaded = false;
     let currentRating = 0;
     let forceReload = false;
+    let sharedStream = null;
     
     const stepTitles = {
       1: `Étape <i class="material-icons" style="vertical-align:middle;">looks_one</i> : Quel est ton objectif ?`,
@@ -783,79 +784,87 @@
     }
 
     async function startInitialCountdown() {
+      // 1) On récupère le flux une seule fois
+      sharedStream = await setupCamera();
+      if (!sharedStream) return;
     
-      const subjectElement = document.getElementById('impro-video-subject');
-      if (subjectElement && currentSubject) {
-        subjectElement.textContent = currentSubject;
-        subjectElement.classList.add('visible');
-      }
-      
-      const stream = await setupCamera();  
-      if (!stream) return;
-    
+      // 2) On l’affiche immédiatement pour la prévisualisation
       const preview = document.getElementById('preview');
-      if (preview) {
-        preview.srcObject = stream;
-        preview.play();
-      }
+      preview.srcObject = sharedStream;
+      preview.play();
     
+      // 3) On affiche le sujet au-dessus de la vidéo
+      const subjectEl = document.getElementById('impro-video-subject');
+      subjectEl.textContent = currentSubject;
+      subjectEl.classList.add('visible');
+    
+      // 4) On lance le compte à rebours visuel
       let count = 5;
       document.getElementById('initial-countdown').textContent = count;
       document.getElementById('initial-countdown-overlay').style.display = 'flex';
     
-      countdown = setInterval(() => {
+      const countdownInterval = setInterval(() => {
         count--;
         if (count > 0) {
           document.getElementById('initial-countdown').textContent = count;
         } else {
-          clearInterval(countdown);
+          clearInterval(countdownInterval);
           document.getElementById('initial-countdown-overlay').style.display = 'none';
-          initiateRecording(); // Ensuite on démarre l'enregistrement
+          // 5) On passe au recording avec CE MEME stream
+          initiateRecording(sharedStream);
         }
       }, 1000);
     }
 
-    async function initiateRecording() {
-      const stream = await setupCamera();
-      if (!stream) return;
-      if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
-        displayError('impro-error', "Ton navigateur ne supporte pas l'enregistrement vidéo. Essaye avec Chrome, Edge ou Firefox.");
+    function initiateRecording(stream) {
+      if (!stream) {
+        displayError('impro-error', "Impossible d'acquérir le flux vidéo pour l'enregistrement.");
         return;
       }
+      // Crée le MediaRecorder sur LE MÊME flux
       mediaRecorderInstance = new MediaRecorder(stream);
       recordedChunks = [];
+    
       mediaRecorderInstance.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          recordedChunks.push(event.data);
-        }
+        if (event.data.size > 0) recordedChunks.push(event.data);
       };
+    
       mediaRecorderInstance.onstop = () => {
+        // 1) On arrête tous les tracks du stream partagé
+        stream.getTracks().forEach(t => t.stop());
+    
+        // 2) On crée l’URL pour lecture + téléchargement
         const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
         videoURL = URL.createObjectURL(videoBlob);
+    
         const playback = document.getElementById('playback-video');
         playback.src = videoURL;
         playback.load();
-        stream.getTracks().forEach(t => t.stop());
+    
+        // 3) On remet l’UI en mode “fini”
         const overlay = document.querySelector('.video-overlay');
-        overlay.innerHTML = "<p class='success-message'> 🎉 Bravo 🎉<br>Tu viens de terminer ton improvisation !<br>Tu peux passer à l'étape suivante. </p>";
+        overlay.innerHTML = `
+          <p class="success-message">
+            🎉 Bravo 🎉<br>
+            Tu viens de terminer ton improvisation !<br>
+            Tu peux passer à l'étape suivante.
+          </p>
+        `;
         overlay.style.display = 'flex';
-        document.getElementById('impro-error').style.display = 'none';
         clearInterval(timerInterval);
         document.getElementById('recording-indicator').style.display = 'none';
+    
         isImproRecordingStarted = true;
         updateFooterButtons();
-        if (window.innerWidth <= 600) {
-            document.querySelector('.video-box').style.height = "300px";
-        }
       };
+    
+      // Démarrage de l’enregistrement
       mediaRecorderInstance.start();
       document.getElementById('recording-indicator').style.display = 'flex';
       document.getElementById('stop-btn').classList.remove('hidden-btn');
-      document.getElementById('stop-btn').disabled = false;
-      document.getElementById('restart-btn').classList.add('hidden-btn');
       startTimer();
     }
-
+    
     async function setupCamera() {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
