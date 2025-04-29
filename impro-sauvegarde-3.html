@@ -121,7 +121,8 @@
     /* STEP3 Lancement de l'impro */
     .video-box {box-sizing: border-box;margin: 10px auto;border: 3px solid #182d84;border-radius: 6px;max-width: 500px;background-color: #fefefe;height: 300px;position: relative;display: flex;justify-content: center;align-items: center;overflow: hidden;transition: height 0.5s ease-in-out;}
     .video-box video {width:100%;height:100%;object-fit:cover;border-radius:4px;position: absolute;top:0;left:0;bottom:0;right:0;z-index: 1;transform: scaleX(-1);-webkit-transform: scaleX(-1);border-radius:inherit;background:transparent;}
-    .video-box .impro-video-subject {margin: 0;padding: 4px 4px;position: absolute;top: 4px;left: 8px;right: 8px;transform: none;background-color: #182d84;color: #ffffff;font-family: 'DM Sans', sans-serif;font-size: 16px;font-weight: 500;line-height: 1.2;word-break: break-word;text-align: center;border-radius: 4px;z-index: 1000 !important;}
+    .video-box .impro-video-subject {margin: 0;padding: 4px 4px;position: absolute;top: 4px;left: 8px;right: 8px;transform: none;background-color: #182d84;color: #ffffff;font-family: 'DM Sans', sans-serif;font-size: 16px;font-weight: 500;line-height: 1.2;word-break: break-word;text-align: center;border-radius: 4px;z-index: 1000 !important;opacity: 0;transform: translateY(-10px);transition: opacity 0.5s ease, transform 0.5s ease;pointer-events: none;}
+    .video-box .impro-video-subject.visible {opacity: 1;transform: translateY(0);}
     .video-note {margin: 8px auto;max-width: 500px;font-size: 13px;color: #555;text-align: center;}
     .video-overlay {position: absolute;z-index: 2;width: 100%;height: 100%;display: flex;flex-direction: column;justify-content: center;align-items: center;text-align: center;color: #555;font-size: 14px;padding: 20px;background: rgba(255,255,255,0.6);}
     .success-message {color: #00a48a;font-size: 18px;text-align: center;}
@@ -784,7 +785,7 @@
       const subjectElement = document.getElementById('impro-video-subject');
       if (subjectElement && currentSubject) {
         subjectElement.textContent = currentSubject;
-        subjectElement.style.display = 'block';
+        subjectElement.classList.add('visible');
       }
       
       const stream = await setupCamera();  
@@ -905,7 +906,7 @@
           stream.getTracks().forEach(track => track.stop());
           document.getElementById('preview').srcObject = null;
           }
-        document.getElementById('impro-video-subject').style.display = 'none';
+        document.getElementById('impro-video-subject').classList.remove('visible');
         document.getElementById('stop-btn').classList.add('hidden-btn');
         document.getElementById('stop-btn').disabled = true;
         document.getElementById('restart-btn').classList.remove('hidden-btn');
