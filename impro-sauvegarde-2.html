@@ -23,10 +23,10 @@
   <meta name="twitter:description" content="Évaluer et développer sa prise de parole en public avec le simulateur d'improvisation Letmotiv.">
   <meta name="twitter:image" content="https://i.postimg.cc/LXxJLTVx/Letmotiv-og-image.png">
   <!-- Import des polices  -->
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Sans&family=Montserrat:wght@700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans&family=Montserrat:wght@700&display=swap"></noscript>
-  <link rel="preload" href="https://fonts.googleapis.com/css?family=Poppins:900i&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:900i&display=swap"></noscript>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans&family=Montserrat:wght@700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Poppins:900i" rel="stylesheet">
   <!-- Import des icônes -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -59,12 +59,9 @@
     .progress-container {display: flex;gap: 8px; padding: 0 20px;position: fixed;top: 55px;left: 0;width: 100%;height: 10px;background-color:transparent;z-index: 9}
     .progress-step { flex: 1; background-color: rgba(24,45,132,0.2); border-radius: 5px; transition: background-color 0.3s;}
     .progress-step.active {background-color: #00a48a} 
-    .intro-box {position: fixed;top: 0; left: 0;width: 100%; height: 100%;background: linear-gradient(135deg, #182d84, #00a48a);text-align: center;color: #ffffff;z-index: 20;}
-    .intro-visible {display: flex;flex-direction: column;align-items: center;justify-content: center;animation: fadeIn 1s ease forwards;}
-    .intro-box h1 {font-family: 'Montserrat', sans-serif;font-size: 2.8rem;margin-bottom: 50px;animation: fadeSlideDown 1s ease forwards;text-shadow: 2px 2px 8px rgba(0,0,0,0.3);}
+    .intro-box {position: fixed;top: 0; left: 0;width: 100%; height: 100%;background: linear-gradient(135deg, #182d84, #00a48a);display: flex;flex-direction: column;align-items: center;justify-content: center;text-align: center;color: #ffffff;z-index: 20;animation: fadeIn 1s ease forwards;}
+    .intro-box h1 {font-family: 'Montserrat', sans-serif;font-size: 2.8rem;margin-bottom: 50px;animation: slideDown 1s ease forwards;text-shadow: 2px 2px 8px rgba(0,0,0,0.3);}
     .intro-box h1 span {display: block;}
-    @keyframes fadeSlideDown {  0% { opacity: 0; transform: translateY(-50px); }100% { opacity: 1; transform: translateY(0); }}
-    .intro-box .wrapper {animation: fadeSlideDown 1s ease forwards;}
     .wrapper {display: flex; justify-content: center;}
     .cta {display: flex;padding: 10px 45px;text-decoration: none;font-family: 'Poppins', sans-serif;font-size: 40px;color: white;background: #FF5722;transition: 0.5s;box-shadow: 6px 6px 0 black;transform: skewX(-15deg);border-radius: 8px;}
     .cta:focus { outline: none; }
@@ -76,7 +73,6 @@
     @media (max-width: 600px) {.cta svg {width: 40px;height: 30px;}.mobile-break { display: inline; }} /* Réduction de la taille du bouton "Commencer" sur mobile */
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
-    @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     .main-container {position: relative; padding: 20px; overflow-x: hidden;} 
     .box {position: relative;width: 100%;max-width: 600px;margin:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;text-align: center;font-size: 14px;display: none;transition: opacity 0.5s ease;}
     .box.active {display: block; opacity: 1; }
@@ -125,9 +121,11 @@
     /* STEP3 Lancement de l'impro */
     .video-box {box-sizing: border-box;margin: 10px auto;border: 3px solid #182d84;border-radius: 6px;max-width: 500px;background-color: #fefefe;height: 300px;position: relative;display: flex;justify-content: center;align-items: center;overflow: hidden;transition: height 0.5s ease-in-out;}
     .video-box video {width:100%;height:100%;object-fit:cover;border-radius:4px;position: absolute;top:0;left:0;bottom:0;right:0;z-index: 1;transform: scaleX(-1);-webkit-transform: scaleX(-1);border-radius:inherit;background:transparent;}
-    .video-box .impro-video-subject {margin: 0;padding: 4px 4px;position: absolute;top: 4px;left: 8px;right: 8px;transform: none;background-color: #182d84;color: #ffffff;font-family: 'DM Sans', sans-serif;font-size: 16px;font-weight: 500;line-height: 1.2;word-break: break-word;text-align: center;border-radius: 4px;z-index: 1000 !important;}
+    .video-box .impro-video-subject {margin: 0;padding: 4px 4px;position: absolute;top: 4px;left: 8px;right: 8px;transform: none;background-color: #182d84;color: #ffffff;font-family: 'DM Sans', sans-serif;font-size: 16px;font-weight: 500;line-height: 1.2;word-break: break-word;text-align: center;border-radius: 4px;z-index: 1000 !important;opacity: 0;transform: translateY(-10px);transition: opacity 0.5s ease, transform 0.5s ease;pointer-events: none;}
+    .video-box .impro-video-subject.visible {opacity: 1;transform: translateY(0);}
     .video-note {margin: 8px auto;max-width: 500px;font-size: 13px;color: #555;text-align: center;}
     .video-overlay {position: absolute;z-index: 2;width: 100%;height: 100%;display: flex;flex-direction: column;justify-content: center;align-items: center;text-align: center;color: #555;font-size: 14px;padding: 20px;background: rgba(255,255,255,0.6);}
+    .success-message {color: #00a48a;font-size: 18px;text-align: center;}
     .video-overlay p {margin: 10px 0;}
     .video-overlay button {margin: 15px 0;padding: 10px 20px;font-size: 16px;background-color: #182d84;color: #fff;border: none;border-radius: 25px;cursor: pointer;transition: background-color 0.3s;}
     .video-overlay button:hover { background-color: #00a48a; }
@@ -135,7 +133,7 @@
     .recording-indicator {display: none;flex-direction: row;align-items: center;gap: 5px;position: absolute;top:auto;left:auto;bottom:10px;right:10px;background-color: rgba(128,128,128,0.6);padding: 5px 10px;border-radius:20px;font-size:14px;color:#ff0000;z-index:4;}
     .recording-indicator .dot {height: 10px;width: 10px;background-color: #ff0000;border-radius: 50%;display: inline-block;animation: blink 1s infinite;}
     .countdown {font-size: 16px;color: #ffffff;background: none;margin-left: 5px;}
-    .initial-countdown-overlay {position: absolute;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(128,128,128,0.6);display: none;align-items: center;justify-content: center;z-index: 5;border-radius: 6px;}
+    .initial-countdown-overlay {position: absolute;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(24, 45, 132, 0.6);display: none;align-items: center;justify-content: center;z-index: 5;border-radius: 6px;}
     .initial-countdown {font-size: 48px;color: #ffffff;font-weight: bold;}
     .impro-actions {display: flex;flex-wrap: wrap;gap: 10px;justify-content: center;margin-top: 10px;}
     .hidden-btn { display: none; }
@@ -190,7 +188,7 @@
 <body>
   
   <!-- Boite d'introduction -->
-  <div class="intro-box intro-visible" id="intro-box">
+  <div class="intro-box" id="intro-box">
     <h1>
       <span class="line">ENTRAINE-TOI</span>
       <span class="line">A LA PRISE DE PAROLE</span>
@@ -433,6 +431,7 @@
     let countdown;
     let videoDownloaded = false;
     let currentRating = 0;
+    let forceReload = false;
     
     const stepTitles = {
       1: `Étape <i class="material-icons" style="vertical-align:middle;">looks_one</i> : Quel est ton objectif ?`,
@@ -461,8 +460,6 @@
         if (stepToShow === 0) {
           // Si step 0 => revenir à l'intro
           introBox.style.display = 'block';
-          document.body.style.paddingTop = "0";
-          document.body.style.paddingBottom = "0";
           currentStep = 0;
           footer.style.display = 'none';
           updateProgressBar(0);
@@ -546,7 +543,8 @@
         showBox(currentStep, currentStep + 1);
         updateFooterButtons();
       } else if (currentStep === 6) {
-        resetSimulator();
+        forceReload = true;
+        window.location.reload();
       }
     }); 
     
@@ -568,7 +566,6 @@
       // Si on arrive au STEP3, on remet le sujet devant la vidéo
       if (next === 3) {
         document.getElementById('impro-video-subject').textContent = currentSubject;
-        bindStartImproButton(); 
       }
     }
 
@@ -585,8 +582,6 @@
       introBox.style.animation = 'fadeOut 0.5s ease forwards';
       setTimeout(() => {
         introBox.style.display = 'none';
-        document.body.style.paddingTop = "60px"; 
-        document.body.style.paddingBottom = "20px";
         boxes[1].classList.add('active');
         currentStep = 1;
         updateProgressBar(1);
@@ -762,38 +757,13 @@
       }
     });
 
-    /*** Lancement de l'intro ***/
-    function bindStartIntroButton() {
-    const startBtn = document.getElementById('start-intro-btn');
-    const newStartBtn = startBtn.cloneNode(true);
-    startBtn.parentNode.replaceChild(newStartBtn, startBtn);
-    
-    newStartBtn.addEventListener('click', () => {
-      const introTitle = document.querySelector('.intro-box h1');
-      const introWrapper = document.querySelector('.intro-box .wrapper');
-      if (introTitle) introTitle.classList.add('stop-animation');
-      if (introWrapper) introWrapper.classList.add('stop-animation');
-      introBox.style.animation = 'fadeOut 0.5s ease forwards';
-      setTimeout(() => {
-        introBox.style.display = 'none';
-        document.body.style.paddingTop = "60px"; 
-        document.body.style.paddingBottom = "20px";
-        boxes[1].classList.add('active');
-        currentStep = 1;
-        updateProgressBar(1);
-        pushStepState(1);
-        updateFooterButtons();
-        updateHeaderTitle();
-      }, 500);
-    });
-  }
-    
-    /*** Lancement de l'enregistrement vidéo (STEP3) ***/
-    function bindStartImproButton() {
-    const startBtn = document.getElementById('start-btn');
-    if (!startBtn) return;  
-    startBtn.addEventListener('click', startImpro);
-  }
+    /*** Enregistrement vidéo (STEP3) ***/
+    function bindStartButton() {
+      const startBtn = document.getElementById('start-btn');
+      if(startBtn){
+        startBtn.addEventListener('click', startImpro);
+      }
+    }
 
     async function startImpro() {
       if (typeof MediaRecorder === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
@@ -810,10 +780,27 @@
       startInitialCountdown();
     }
 
-    function startInitialCountdown() {
+    async function startInitialCountdown() {
+    
+      const subjectElement = document.getElementById('impro-video-subject');
+      if (subjectElement && currentSubject) {
+        subjectElement.textContent = currentSubject;
+        subjectElement.classList.add('visible');
+      }
+      
+      const stream = await setupCamera();  
+      if (!stream) return;
+    
+      const preview = document.getElementById('preview');
+      if (preview) {
+        preview.srcObject = stream;
+        preview.play();
+      }
+    
       let count = 5;
       document.getElementById('initial-countdown').textContent = count;
       document.getElementById('initial-countdown-overlay').style.display = 'flex';
+    
       countdown = setInterval(() => {
         count--;
         if (count > 0) {
@@ -821,7 +808,7 @@
         } else {
           clearInterval(countdown);
           document.getElementById('initial-countdown-overlay').style.display = 'none';
-          initiateRecording();
+          initiateRecording(); // Ensuite on démarre l'enregistrement
         }
       }, 1000);
     }
@@ -848,7 +835,7 @@
         playback.load();
         stream.getTracks().forEach(t => t.stop());
         const overlay = document.querySelector('.video-overlay');
-        overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>Bravo ! 🎉 <br>Tu viens de terminer ton improvisation.<br>Passe à l'étape suivante !</p>";
+        overlay.innerHTML = "<p class='success-message'> 🎉 Bravo 🎉<br>Tu viens de terminer ton improvisation !<br>Tu peux passer à l'étape suivante. </p>";
         overlay.style.display = 'flex';
         document.getElementById('impro-error').style.display = 'none';
         clearInterval(timerInterval);
@@ -914,6 +901,12 @@
         mediaRecorderInstance.stop();
         clearInterval(countdown);
         clearInterval(timerInterval);
+        const stream = document.getElementById('preview').srcObject;
+          if (stream) {
+          stream.getTracks().forEach(track => track.stop());
+          document.getElementById('preview').srcObject = null;
+          }
+        document.getElementById('impro-video-subject').classList.remove('visible');
         document.getElementById('stop-btn').classList.add('hidden-btn');
         document.getElementById('stop-btn').disabled = true;
         document.getElementById('restart-btn').classList.remove('hidden-btn');
@@ -935,7 +928,6 @@
         </button>
         <p>NB : ta vidéo est stockée sur ton appareil. <br>Aucun enregistrement n'est conservé par Letmotiv.</p>
       `;
-      bindStartImproButton();
       isImproRecordingStarted = false;
       // Pour mobile, réinitialiser la hauteur de la vidéo
       if (window.innerWidth <= 600) {
@@ -992,11 +984,7 @@
       // Si on vient d'un reload, on est déjà sur STEP0 car hash vidé
       const navInfo = performance.getEntriesByType("navigation")[0];
       const isReload = navInfo && navInfo.type === "reload";
-
-      if (currentStep === 0) {
-        introBox.classList.add('intro-visible');
-      }
-      
+          
       if (isReload) {
           // ✅ S'il y a un reload, nettoyer proprement l'URL
           history.replaceState(null, '', window.location.pathname);
@@ -1021,64 +1009,12 @@
       updateHeaderTitle();
     });
 
-    function resetSimulator() {
-    // Réinitialiser toutes les variables
-    currentStep = 0;
-    currentCategory = null;
-    currentSubject = "";
-    isImproRecordingStarted = false;
-    recordedChunks = [];
-    videoURL = "";
-    videoDownloaded = false;
-    currentRating = 0;
-  
-    // Réinitialiser l'interface
-    Object.values(boxes).forEach(box => box.classList.remove('active'));
-    introBox.classList.add('intro-visible');
-    introBox.style.display = 'flex';
-    footer.style.display = 'none';
-    updateProgressBar(0);
-  
-    // ✅ Remettre les animations normales de la box d'introduction
-    const introTitle = document.querySelector('.intro-box h1');
-    const introWrapper = document.querySelector('.intro-box .wrapper');
-    if (introTitle) introTitle.classList.remove('stop-animation');
-    if (introWrapper) introWrapper.classList.remove('stop-animation');
-  
-    // Nettoyer le contenu visible
-    document.getElementById('dynamic-header-title').innerHTML = "";
-    document.getElementById('explanation-box').innerHTML = "";
-    document.getElementById('subject-display').innerHTML = "";
-    document.getElementById('subject-wrapper').style.display = 'none';
-    document.getElementById('objective-error').style.display = 'none';
-    document.getElementById('subject-error').style.display = 'none';
-    document.getElementById('impro-error').style.display = 'none';
-    document.getElementById('download-error').style.display = 'none';
-    document.getElementById('rating-feedback').innerText = "";
-  
-    const playback = document.getElementById('playback-video');
-    if (playback) playback.src = "";
-  
-    const stars = document.querySelectorAll('#star-rating .star');
-    stars.forEach(star => star.style.color = '#ccc');
-  
-    if (window.innerWidth <= 600) {
-      const videoBox = document.querySelector('.video-box');
-      if (videoBox) videoBox.style.height = "300px";
-    }
-  
-    window.location.hash = "";
-    history.pushState({ step: 0 }, null, window.location.pathname);
-  
-    // 🔥 Solution pour rebinder le bouton Commencer :
-    bindStartButton();
-  }
-
     // ⚠️ Avant le refresh, on demande validation de l'utilisateur et on efface le hash pour repartir à l'intro
     window.addEventListener('beforeunload', function(e) {
-      e.preventDefault();
-      e.returnValue = "Attention, ta progression sera perdue si tu rafraîchis la page.";
-      history.replaceState(null, '', window.location.pathname);
+      if (!forceReload) {
+        e.preventDefault();
+        e.returnValue = "Attention, ta progression sera perdue si tu rafraîchis la page.";
+      }
     });
 
   </script>
