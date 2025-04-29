@@ -567,9 +567,10 @@
     
       // Si on arrive au STEP3, on remet le sujet devant la vidéo
       if (next === 3) {
-        document.getElementById('impro-video-subject').textContent = currentSubject;
+        const subjectEl = document.getElementById('impro-video-subject');
+        subjectEl.textContent = currentSubject;
+        subjectEl.classList.add('visible');
       }
-    }
 
     /*** Initialisation de l'introduction ***/
     startIntroBtn.addEventListener('click', () => {
