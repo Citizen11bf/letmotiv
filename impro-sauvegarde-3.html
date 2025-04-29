@@ -778,14 +778,20 @@
       startInitialCountdown();
     }
 
-    function startInitialCountdown() {    
-      
-      const stream = await setupCamera();
+    async function startInitialCountdown() {
+      const stream = await setupCamera();  
       if (!stream) return;
-
+    
+      const preview = document.getElementById('preview');
+      if (preview) {
+        preview.srcObject = stream;
+        preview.play();
+      }
+    
       let count = 5;
       document.getElementById('initial-countdown').textContent = count;
       document.getElementById('initial-countdown-overlay').style.display = 'flex';
+    
       countdown = setInterval(() => {
         count--;
         if (count > 0) {
@@ -793,7 +799,7 @@
         } else {
           clearInterval(countdown);
           document.getElementById('initial-countdown-overlay').style.display = 'none';
-          initiateRecording();
+          initiateRecording(); // Ensuite on démarre l'enregistrement
         }
       }, 1000);
     }
