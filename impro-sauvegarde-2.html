@@ -828,7 +828,11 @@
       // Crée le MediaRecorder sur LE MÊME flux
       mediaRecorderInstance = new MediaRecorder(stream);
       recordedChunks = [];
-    
+
+      // Réinitialiser l'instance du MediaRecorder
+      mediaRecorderInstance = new MediaRecorder(stream);
+      recordedChunks = []; // vider les anciens enregistrements
+      
       mediaRecorderInstance.ondataavailable = (event) => {
         if (event.data.size > 0) recordedChunks.push(event.data);
       };
@@ -928,34 +932,48 @@
       }
     });
     
-    // Modification : Lorsqu'on clique sur "Recommencer ton impro", après confirmation,
-    // on réinitialise l'interface pour lancer immédiatement le compte à rebours comme au premier démarrage.
-    document.getElementById('restart-btn').addEventListener('click', () => {
+      document.getElementById('restart-btn').addEventListener('click', () => {
       if (!confirm("Attention, tu vas recommencer ton impro et lancer un nouvel enregistrement. Tu es sûr ?")) {
         return;
       }
-      // Masquer la zone d'enregistrement et réinitialiser son contenu
+    
+      // 1) Réinitialiser l'état de l'enregistrement
+      isImproRecordingStarted = false;
+      mediaRecorderInstance = null; // réinitialiser l'instance de MediaRecorder
+      recordedChunks = []; // réinitialiser les morceaux enregistrés
+    
+      // 2) Arrêter tous les flux vidéo
+      const stream = document.getElementById('preview').srcObject;
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());  // arrêter les flux vidéo et audio
+        document.getElementById('preview').srcObject = null;  // désactiver le flux vidéo de l'élément 'preview'
+      }
+    
+      // 3) Remettre la vidéo à zéro et cacher la couche d'overlay
       const overlay = document.querySelector('.video-overlay');
-      overlay.style.display = 'none';
+      overlay.style.display = 'none';  // cacher l'overlay
       overlay.innerHTML = `
         <button id="start-btn" aria-label="Démarrer l'improvisation">
           Démarrer ton impro <i class="fas fa-video"></i>
         </button>
         <p>NB : ta vidéo est stockée sur ton appareil. <br>Aucun enregistrement n'est conservé par Letmotiv.</p>
       `;
-      isImproRecordingStarted = false;
-      // Pour mobile, réinitialiser la hauteur de la vidéo
-      if (window.innerWidth <= 600) {
-          document.querySelector('.video-box').style.height = "450px";
-      }
-      // Lancer immédiatement le compte à rebours (qui masquera à nouveau l'overlay et lancera l'enregistrement)
-      startInitialCountdown();
-
-      // Masquer le bouton "Recommencer" et afficher le bouton "Arrêter"
-        document.getElementById('restart-btn').classList.add('hidden-btn');
-        document.getElementById('stop-btn').classList.remove('hidden-btn');
-      });
-
+    
+      // 4) Pour mobile, réinitialiser la hauteur de la vidéo
+          if (window.innerWidth <= 600) {
+              document.querySelector('.video-box').style.height = "450px";
+          }
+        
+      // 5) Afficher le bouton "Arrêter" et masquer le bouton "Recommencer"
+      document.getElementById('stop-btn').classList.remove('hidden-btn');
+      document.getElementById('restart-btn').classList.add('hidden-btn');
+    
+      // 6) Lancer immédiatement le compte à rebours et recommencer
+      startInitialCountdown();  // Redémarrer le compte à rebours
+    
+      // 7) Mettre à jour les boutons de navigation
+      updateFooterButtons();
+    });
     bindStartButton();
 
         // STEP4 — Téléchargement de la vidéo et notation
