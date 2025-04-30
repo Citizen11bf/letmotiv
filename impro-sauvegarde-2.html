@@ -773,6 +773,10 @@
         displayError('impro-error', "Désolé, l'enregistrement vidéo n'est pas supporté par votre navigateur.");
         return;
       }
+       // Afficher le bouton "Arrêter" et masquer "Recommencer"
+        document.getElementById('stop-btn').classList.remove('hidden-btn');
+        document.getElementById('restart-btn').classList.add('hidden-btn');
+      
       if (window.innerWidth <= 600) {
           const videoBox = document.querySelector('.video-box');
           videoBox.style.height = "450px";
@@ -784,18 +788,22 @@
     }
 
     async function startInitialCountdown() {
-      sharedStream = await setupCamera();  // Reprendre le flux caméra
+      // 1) On récupère le flux une seule fois
+      sharedStream = await setupCamera();
       if (!sharedStream) return;
     
+      // 2) On l’affiche immédiatement pour la prévisualisation
       const preview = document.getElementById('preview');
       preview.srcObject = sharedStream;
       preview.play();
     
+      // 3) On affiche le sujet au-dessus de la vidéo
       const subjectEl = document.getElementById('impro-video-subject');
       subjectEl.textContent = currentSubject;
       subjectEl.classList.add('visible');
     
-      let count = 5;  // Compte à rebours de 3 secondes
+      // 4) On lance le compte à rebours visuel
+      let count = 5;
       document.getElementById('initial-countdown').textContent = count;
       document.getElementById('initial-countdown-overlay').style.display = 'flex';
     
@@ -806,7 +814,8 @@
         } else {
           clearInterval(countdownInterval);
           document.getElementById('initial-countdown-overlay').style.display = 'none';
-          initiateRecording(sharedStream);  // Démarrer l'enregistrement après le compte à rebours
+          // 5) On passe au recording avec CE MEME stream
+          initiateRecording(sharedStream);
         }
       }, 1000);
     }
@@ -919,54 +928,38 @@
       }
     });
     
-      document.getElementById('restart-btn').addEventListener('click', () => {
-        if (!confirm("Attention, tu vas recommencer ton impro et lancer un nouvel enregistrement. Tu es sûr ?")) {
-          return;
-        }
-      
-        // Masquer la zone d'enregistrement et réinitialiser son contenu
-        const overlay = document.querySelector('.video-overlay');
-        overlay.style.display = 'none';
-        overlay.innerHTML = `
-          <button id="start-btn" aria-label="Démarrer l'improvisation">
-            Démarrer ton impro <i class="fas fa-video"></i>
-          </button>
-          <p>NB : ta vidéo est stockée sur ton appareil. <br>Aucun enregistrement n'est conservé par Letmotiv.</p>
-        `;
-
-       document.getElementById('preview').srcObject = null;
-
-        // Réinitialiser les variables
-        isImproRecordingStarted = false;
-        recordedChunks = [];  // Réinitialiser les morceaux de la vidéo
-        videoURL = "";  // Réinitialiser l'URL de la vidéo
-      
-        // Pour mobile, réinitialiser la hauteur de la vidéo
-        if (window.innerWidth <= 600) {
+    // Modification : Lorsqu'on clique sur "Recommencer ton impro", après confirmation,
+    // on réinitialise l'interface pour lancer immédiatement le compte à rebours comme au premier démarrage.
+    document.getElementById('restart-btn').addEventListener('click', () => {
+      if (!confirm("Attention, tu vas recommencer ton impro et lancer un nouvel enregistrement. Tu es sûr ?")) {
+        return;
+      }
+      // Masquer la zone d'enregistrement et réinitialiser son contenu
+      const overlay = document.querySelector('.video-overlay');
+      overlay.style.display = 'none';
+      overlay.innerHTML = `
+        <button id="start-btn" aria-label="Démarrer l'improvisation">
+          Démarrer ton impro <i class="fas fa-video"></i>
+        </button>
+        <p>NB : ta vidéo est stockée sur ton appareil. <br>Aucun enregistrement n'est conservé par Letmotiv.</p>
+      `;
+      isImproRecordingStarted = false;
+      // Pour mobile, réinitialiser la hauteur de la vidéo
+      if (window.innerWidth <= 600) {
           document.querySelector('.video-box').style.height = "450px";
-        }
-      
-        // Lancer immédiatement le compte à rebours (qui masquera à nouveau l'overlay et lancera l'enregistrement)
-        startInitialCountdown();
+      }
+      // Lancer immédiatement le compte à rebours (qui masquera à nouveau l'overlay et lancera l'enregistrement)
+      startInitialCountdown();
+
+      // Masquer le bouton "Recommencer" et afficher le bouton "Arrêter"
+        document.getElementById('restart-btn').classList.add('hidden-btn');
+        document.getElementById('stop-btn').classList.remove('hidden-btn');
       });
+
     bindStartButton();
 
-        function resetRecordingState() {
-          if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
-            mediaRecorderInstance.stop();
-          }
-          // Réinitialiser les autres éléments
-          clearInterval(timerInterval);
-          document.getElementById('recording-indicator').style.display = 'none';
-          document.getElementById('countdown').textContent = '1:59';
-          document.getElementById('stop-btn').classList.add('hidden-btn');
-          document.getElementById('restart-btn').classList.add('hidden-btn');
-          videoURL = "";
-          recordedChunks = [];
-        }
-  
         // STEP4 — Téléchargement de la vidéo et notation
-    
+      
        document.getElementById('download-video-btn').addEventListener('click', () => {
             if (confirm("La vidéo de ton improvisation va être téléchargée. Veux-tu continuer ?")) {
           if (videoURL) {
