@@ -73,6 +73,7 @@
     @media (max-width: 600px) {.cta svg {width: 40px;height: 30px;}.mobile-break { display: inline; }} /* Réduction de la taille du bouton "Commencer" sur mobile */
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+    @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     .main-container {position: relative; padding: 20px; overflow-x: hidden;} 
     .box {position: relative;width: 100%;max-width: 600px;margin:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;text-align: center;font-size: 14px;display: none;transition: opacity 0.5s ease;}
     .box.active {display: block; opacity: 1; }
@@ -121,16 +122,12 @@
     /* STEP3 Lancement de l'impro */
     .video-box {box-sizing: border-box;margin: 10px auto;border: 3px solid #182d84;border-radius: 6px;max-width: 500px;background-color: #fefefe;height: 300px;position: relative;display: flex;justify-content: center;align-items: center;overflow: hidden;transition: height 0.5s ease-in-out;}
     .video-box video {width:100%;height:100%;object-fit:cover;border-radius:4px;position: absolute;top:0;left:0;bottom:0;right:0;z-index: 1;transform: scaleX(-1);-webkit-transform: scaleX(-1);border-radius:inherit;background:transparent;}
-    .video-box .impro-video-subject {margin: 0;padding: 4px 4px;position: absolute;top: 4px;left: 8px;right: 8px;transform: none;background-color: #182d84;color: #ffffff;font-family: 'DM Sans', sans-serif;font-size: 16px;font-weight: 500;line-height: 1.2;word-break: break-word;text-align: center;border-radius: 4px;z-index: 1000 !important;opacity: 0;transform: translateY(-10px);transition: opacity 0.5s ease, transform 0.5s ease;pointer-events: none;}
-    .video-box .impro-video-subject.visible {opacity: 1;transform: translateY(0);}
+    .video-box .impro-video-subject {margin: 0;padding: 4px 4px;position: absolute;top: 4px;left: 8px;right: 8px;transform: none;background-color: #182d84;color: #ffffff;font-family: 'DM Sans', sans-serif;font-size: 16px;font-weight: 500;line-height: 1.2;word-break: break-word;text-align: center;border-radius: 4px;z-index: 1000 !important;}
     .video-note {margin: 8px auto;max-width: 500px;font-size: 13px;color: #555;text-align: center;}
     .video-overlay {position: absolute;z-index: 2;width: 100%;height: 100%;display: flex;flex-direction: column;justify-content: center;align-items: center;text-align: center;color: #555;font-size: 14px;padding: 20px;background: rgba(255,255,255,0.6);}
-    .success-message {color: #00a48a;font-size: 18px;text-align: center;}
     .video-overlay p {margin: 10px 0;}
     .video-overlay button {margin: 15px 0;padding: 10px 20px;font-size: 16px;background-color: #182d84;color: #fff;border: none;border-radius: 25px;cursor: pointer;transition: background-color 0.3s;}
     .video-overlay button:hover { background-color: #00a48a; }
-    @keyframes fadeZoomIn {0% {opacity: 0;transform: scale(0.9);}100% {opacity: 1;transform: scale(1);}}
-    .success-message {animation: fadeZoomIn 0.6s ease-in-out;}
     /* Indicateur d'enregistrement */
     .recording-indicator {display: none;flex-direction: row;align-items: center;gap: 5px;position: absolute;top:auto;left:auto;bottom:10px;right:10px;background-color: rgba(128,128,128,0.6);padding: 5px 10px;border-radius:20px;font-size:14px;color:#ff0000;z-index:4;}
     .recording-indicator .dot {height: 10px;width: 10px;background-color: #ff0000;border-radius: 50%;display: inline-block;animation: blink 1s infinite;}
@@ -434,7 +431,6 @@
     let videoDownloaded = false;
     let currentRating = 0;
     let forceReload = false;
-    let sharedStream = null;
     
     const stepTitles = {
       1: `Étape <i class="material-icons" style="vertical-align:middle;">looks_one</i> : Quel est ton objectif ?`,
@@ -773,10 +769,6 @@
         displayError('impro-error', "Désolé, l'enregistrement vidéo n'est pas supporté par votre navigateur.");
         return;
       }
-       // Afficher le bouton "Arrêter" et masquer "Recommencer"
-        document.getElementById('stop-btn').classList.remove('hidden-btn');
-        document.getElementById('restart-btn').classList.add('hidden-btn');
-      
       if (window.innerWidth <= 600) {
           const videoBox = document.querySelector('.video-box');
           videoBox.style.height = "450px";
@@ -787,92 +779,63 @@
       startInitialCountdown();
     }
 
-    async function startInitialCountdown() {
-      // 1) On récupère le flux une seule fois
-      sharedStream = await setupCamera();
-      if (!sharedStream) return;
-    
-      // 2) On l’affiche immédiatement pour la prévisualisation
-      const preview = document.getElementById('preview');
-      preview.srcObject = sharedStream;
-      preview.play();
-    
-      // 3) On affiche le sujet au-dessus de la vidéo
-      const subjectEl = document.getElementById('impro-video-subject');
-      subjectEl.textContent = currentSubject;
-      subjectEl.classList.add('visible');
-    
-      // 4) On lance le compte à rebours visuel
+    function startInitialCountdown() {
       let count = 5;
       document.getElementById('initial-countdown').textContent = count;
       document.getElementById('initial-countdown-overlay').style.display = 'flex';
-    
-      const countdownInterval = setInterval(() => {
+      countdown = setInterval(() => {
         count--;
         if (count > 0) {
           document.getElementById('initial-countdown').textContent = count;
         } else {
-          clearInterval(countdownInterval);
+          clearInterval(countdown);
           document.getElementById('initial-countdown-overlay').style.display = 'none';
-          // 5) On passe au recording avec CE MEME stream
-          initiateRecording(sharedStream);
+          initiateRecording();
         }
       }, 1000);
     }
 
-    function initiateRecording(stream) {
-      if (!stream) {
-        displayError('impro-error', "Impossible d'acquérir le flux vidéo pour l'enregistrement.");
+    async function initiateRecording() {
+      const stream = await setupCamera();
+      if (!stream) return;
+      if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
+        displayError('impro-error', "Ton navigateur ne supporte pas l'enregistrement vidéo. Essaye avec Chrome, Edge ou Firefox.");
         return;
       }
-      // Crée le MediaRecorder sur LE MÊME flux
       mediaRecorderInstance = new MediaRecorder(stream);
       recordedChunks = [];
-
-      // Réinitialiser l'instance du MediaRecorder
-      mediaRecorderInstance = new MediaRecorder(stream);
-      recordedChunks = []; // vider les anciens enregistrements
-      
       mediaRecorderInstance.ondataavailable = (event) => {
-        if (event.data.size > 0) recordedChunks.push(event.data);
+        if (event.data.size > 0) {
+          recordedChunks.push(event.data);
+        }
       };
-    
       mediaRecorderInstance.onstop = () => {
-        // 1) On arrête tous les tracks du stream partagé
-        stream.getTracks().forEach(t => t.stop());
-    
-        // 2) On crée l’URL pour lecture + téléchargement
         const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
         videoURL = URL.createObjectURL(videoBlob);
-    
         const playback = document.getElementById('playback-video');
         playback.src = videoURL;
         playback.load();
-    
-        // 3) On remet l’UI en mode “fini”
+        stream.getTracks().forEach(t => t.stop());
         const overlay = document.querySelector('.video-overlay');
-        overlay.innerHTML = `
-          <p class="success-message">
-            🎉 Bravo 🎉<br>
-            Tu viens de terminer ton improvisation !<br>
-            Tu peux passer à l'étape suivante.
-          </p>
-        `;
+        overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'> 🎉 Bravo 🎉<br>Tu viens de terminer ton improvisation !<br>Tu peux passer à l'étape suivante. </p>";
         overlay.style.display = 'flex';
+        document.getElementById('impro-error').style.display = 'none';
         clearInterval(timerInterval);
         document.getElementById('recording-indicator').style.display = 'none';
-    
         isImproRecordingStarted = true;
         updateFooterButtons();
+        if (window.innerWidth <= 600) {
+            document.querySelector('.video-box').style.height = "300px";
+        }
       };
-    
-      // Démarrage de l’enregistrement
       mediaRecorderInstance.start();
       document.getElementById('recording-indicator').style.display = 'flex';
       document.getElementById('stop-btn').classList.remove('hidden-btn');
+      document.getElementById('stop-btn').disabled = false;
+      document.getElementById('restart-btn').classList.add('hidden-btn');
       startTimer();
     }
-    
+
     async function setupCamera() {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
@@ -920,61 +883,35 @@
         mediaRecorderInstance.stop();
         clearInterval(countdown);
         clearInterval(timerInterval);
-        const stream = document.getElementById('preview').srcObject;
-          if (stream) {
-          stream.getTracks().forEach(track => track.stop());
-          document.getElementById('preview').srcObject = null;
-          }
-        document.getElementById('impro-video-subject').classList.remove('visible');
         document.getElementById('stop-btn').classList.add('hidden-btn');
         document.getElementById('stop-btn').disabled = true;
         document.getElementById('restart-btn').classList.remove('hidden-btn');
       }
     });
     
-      document.getElementById('restart-btn').addEventListener('click', () => {
+    // Modification : Lorsqu'on clique sur "Recommencer ton impro", après confirmation,
+    // on réinitialise l'interface pour lancer immédiatement le compte à rebours comme au premier démarrage.
+    document.getElementById('restart-btn').addEventListener('click', () => {
       if (!confirm("Attention, tu vas recommencer ton impro et lancer un nouvel enregistrement. Tu es sûr ?")) {
         return;
       }
-    
-      // 1) Réinitialiser l'état de l'enregistrement
-      isImproRecordingStarted = false;  // Indiquer qu'il n'y a pas d'enregistrement en cours
-      mediaRecorderInstance = null;  // Réinitialiser l'instance de MediaRecorder
-      recordedChunks = [];  // Réinitialiser les morceaux enregistrés
-    
-      // 2) Arrêter tous les flux vidéo
-      const stream = document.getElementById('preview').srcObject;
-      if (stream) {
-        stream.getTracks().forEach(track => track.stop());  // Arrêter les flux vidéo et audio
-        document.getElementById('preview').srcObject = null;  // Désactiver le flux vidéo de l'élément 'preview'
-      }
-    
-      // 3) Remettre la vidéo à zéro et cacher la couche d'overlay
+      // Masquer la zone d'enregistrement et réinitialiser son contenu
       const overlay = document.querySelector('.video-overlay');
-      overlay.style.display = 'none';  // Cacher l'overlay
+      overlay.style.display = 'none';
       overlay.innerHTML = `
         <button id="start-btn" aria-label="Démarrer l'improvisation">
           Démarrer ton impro <i class="fas fa-video"></i>
         </button>
         <p>NB : ta vidéo est stockée sur ton appareil. <br>Aucun enregistrement n'est conservé par Letmotiv.</p>
       `;
-    
-      // 4) Pour mobile, réinitialiser la hauteur de la vidéo
+      isImproRecordingStarted = false;
+      // Pour mobile, réinitialiser la hauteur de la vidéo
       if (window.innerWidth <= 600) {
-        document.querySelector('.video-box').style.height = "450px";  // Ajuster la hauteur pour mobile
+          document.querySelector('.video-box').style.height = "450px";
       }
-    
-      // 5) Afficher le bouton "Arrêter" et masquer le bouton "Recommencer"
-      document.getElementById('stop-btn').classList.remove('hidden-btn');  // Afficher le bouton "Arrêter"
-      document.getElementById('restart-btn').classList.add('hidden-btn');  // Masquer le bouton "Recommencer"
-    
-      // 6) Lancer immédiatement le compte à rebours et recommencer
-      startInitialCountdown();  // Redémarrer le compte à rebours
-      
-      // 7) Mettre à jour les boutons de navigation
-      updateFooterButtons();  // Réactiver les boutons de navigation
+      // Lancer immédiatement le compte à rebours (qui masquera à nouveau l'overlay et lancera l'enregistrement)
+      startInitialCountdown();
     });
-
     bindStartButton();
 
         // STEP4 — Téléchargement de la vidéo et notation
