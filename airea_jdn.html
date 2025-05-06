@@ -7,24 +7,26 @@
   <style>
     body { font-family: sans-serif; margin: 0; padding-bottom: 50px; }
     header {
-      background: #3f51b5; color: white;
-      padding: 0.5rem 1rem;
-      display: flex; align-items: center;
+      background: #3f51b5;
+      color: white;
+      padding: 1rem;              /* hauteur augmentée */
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    header h1 { margin: 0; font-size: 1rem; }
+    header h1 { margin: 0; font-size: 1.2rem; }
     main { padding: 0.5rem 1rem; }
-    p.intro { margin: .5rem 0; font-size: .9rem; display: flex; justify-content: space-between; align-items: center; }
-    p.intro button {
-      background: #eee; border: none; padding: .4rem .8rem;
-      border-radius: 4px; font-size: .85rem;
+    .grid2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
     }
-    label { display: block; margin-bottom: .3rem; font-size: .85rem; }
+    label { display: block; font-size: .85rem; }
     select, input[type="time"], input[type="number"], input[type="text"], textarea {
-      width: 100%; padding: .3rem; font-size: .85rem;
-      margin-bottom: .5rem; box-sizing: border-box;
+      width: 100%; padding: .4rem; font-size: .85rem;
+      margin-top: .2rem; box-sizing: border-box;
     }
-    .row { display: flex; gap: .5rem; margin-bottom: .5rem; }
-    .row > div { flex: 1; }
     #notes .note-row {
       display: flex; align-items: center; padding: .3rem;
       gap: .3rem; border-radius: 4px; margin-bottom: .2rem;
@@ -34,15 +36,16 @@
     textarea { height: 3rem; font-size: .85rem; }
     footer {
       position: fixed; bottom: 0; left: 0; right: 0;
-      background: white; padding: .3rem 1rem;
+      background: #3f51b5;      /* fond bleu comme header */
+      padding: .3rem 1rem;
       display: flex; gap: .3rem;
     }
     footer button {
       flex: 1; padding: .6rem; font-size: .9rem; border: none;
-      border-radius: 4px;
+      border-radius: 4px; color: white;
     }
-    #add { background: #ccc; }
-    #download { background: #e53935; color: white; }
+    #add { background: #757575; }
+    #download { background: #e53935; }
   </style>
 </head>
 <body>
@@ -53,18 +56,20 @@
 
   <main>
 
-    <p class="intro">
-      Appuie ici pour démarrer une nouvelle mesure
-      <button id="new">New</button>
-    </p>
-
-    <!-- 4) Organisation des 5 premiers champs -->
-    <div class="row">
+    <!-- 3) Haut réorganisé -->
+    <div class="grid2">
       <div>
         <label>Point de mesure
           <select id="point"></select>
         </label>
       </div>
+      <div style="display:flex; align-items:flex-end; justify-content:flex-end;">
+        <!-- 4) texte modifié -->
+        <button id="new">Démarrer une nouvelle mesure</button>
+      </div>
+    </div>
+
+    <div class="grid2">
       <div>
         <label>Session
           <select id="session">
@@ -72,30 +77,27 @@
           </select>
         </label>
       </div>
-    </div>
-
-    <div class="row">
-      <div style="flex:1">
+      <div>
         <label>Heure
           <input type="time" id="heure">
         </label>
       </div>
     </div>
 
-    <div class="row">
+    <div class="grid2">
       <div>
-        <label>Direction de vent
+        <label>Direction du vent
           <input type="text" id="ventDir">
         </label>
       </div>
       <div>
-        <label>Vitesse (m/s)
+        <label>Vitesse du vent (m/s)
           <input type="number" id="ventVit" min="0" step="0.1">
         </label>
       </div>
     </div>
 
-    <!-- 6) suppression du titre et génération des catégories -->
+    <!-- 6) Couleurs pastel -->
     <div id="notes"></div>
 
     <label>Commentaires :
@@ -105,16 +107,17 @@
   </main>
 
   <footer>
-    <button id="add">Ajout des données de PX</button>
+    <!-- 7) texte dynamique -->
+    <button id="add">Ajout des données de P1</button>
     <button id="download">Tout exporter en csv</button>
   </footer>
 
   <script>
-  // mémoire des mesures
+  // --- Données en mémoire ---
   const data = JSON.parse(localStorage.getItem('mesures') || '[]');
-  let saved = true; // état du formulaire
+  let saved = true;
 
-  // 1) Point P1…P20
+  // 1) Remplir P1…P20
   const pointSel = document.getElementById('point');
   for (let i = 1; i <= 20; i++) {
     const o = document.createElement('option');
@@ -122,21 +125,19 @@
     pointSel.appendChild(o);
   }
 
-  // 2) catégories A→J avec couleur
+  // 2) Catégories & couleurs pastel
   const categories = [
-    { nom: 'Nature (A)',      code:'A', bg:'#00c853' },
-    { nom: 'Routier (B)',     code:'B', bg:'#b0bec5' },
-    { nom: 'Agriculture (C)', code:'C', bg:'#8d6e63' },
-    { nom: 'Méthaniseur (D)', code:'D', bg:'#d50000' },
-    { nom: 'Cuisine (E)',     code:'E', bg:'#ffeb3b' },
-    { nom: 'Déchets (F)',     code:'F', bg:'#e040fb' },
-    { nom: 'Eaux usées (G)',  code:'G', bg:'#00e5ff' },
-    { nom: 'Fumée (H)',       code:'H', bg:'#546e7a' },
-    { nom: 'Industrie (I)',   code:'I', bg:'#ff8a80' },
-    { nom: 'Autre (J)',       code:'J', bg:'#ffc107' },
+    { nom:'Nature (A)',      code:'A', bg:'#a8e6cf' },
+    { nom:'Routier (B)',     code:'B', bg:'#cfd8dc' },
+    { nom:'Agriculture (C)', code:'C', bg:'#d7ccc8' },
+    { nom:'Méthaniseur (D)', code:'D', bg:'#ff8a80' },
+    { nom:'Cuisine (E)',     code:'E', bg:'#fff9c4' },
+    { nom:'Déchets (F)',     code:'F', bg:'#f8bbd0' },
+    { nom:'Eaux usées (G)',  code:'G', bg:'#b2ebf2' },
+    { nom:'Fumée (H)',       code:'H', bg:'#cfd8dc' },
+    { nom:'Industrie (I)',   code:'I', bg:'#ffccbc' },
+    { nom:'Autre (J)',       code:'J', bg:'#ffe082' },
   ];
-
-  // générer notes 0→6 par 0.5 (13 valeurs)
   const notesDiv = document.getElementById('notes');
   categories.forEach(cat => {
     const row = document.createElement('div');
@@ -156,21 +157,35 @@
     notesDiv.appendChild(row);
   });
 
-  // refs et utilitaires
+  // raccourci
   const $ = id => document.getElementById(id).value;
-  function saveAll() { localStorage.setItem('mesures', JSON.stringify(data)); }
+
+  // utilitaires
+  function saveAll() {
+    localStorage.setItem('mesures', JSON.stringify(data));
+  }
   function markDirty() { saved = false; }
+
   function getNowHM() {
     const d = new Date();
     return d.toTimeString().slice(0,5);
   }
 
-  // 5) initialisation & reset
+  // Met à jour le texte du bouton "add"
+  const addBtn = document.getElementById('add');
+  function updateAddLabel() {
+    addBtn.textContent = `Ajout des données de ${pointSel.value}`;
+  }
+  pointSel.addEventListener('change', () => {
+    updateAddLabel();
+    markDirty();
+  });
+
+  // reset & sécurité
   function resetForm() {
     if (!saved) {
-      if (!confirm("As-tu bien enregistré les données du point de mesure précédent ?")) return;
+      if (!confirm("As-tu bien enregistré les données du point précédent ?")) return;
     }
-    // valeurs par défaut
     pointSel.value = 'P1';
     document.getElementById('session').value = 'AM';
     document.getElementById('heure').value = getNowHM();
@@ -182,20 +197,18 @@
     });
     document.getElementById('commentaire').value = '';
     saved = true;
+    updateAddLabel();
   }
-  // au chargement
+  document.getElementById('new').onclick = resetForm;
   window.addEventListener('load', resetForm);
 
-  // 2) surveiller les changements pour marquer "dirty"
+  // marquer dirty sur tout changement
   document.querySelectorAll('select,input,textarea').forEach(el => {
-    el.addEventListener('change', markDirty);
     el.addEventListener('input', markDirty);
+    el.addEventListener('change', markDirty);
   });
 
-  // New
-  document.getElementById('new').onclick = resetForm;
-
-  // Ajouter
+  // Ajouter une mesure
   document.getElementById('add').onclick = () => {
     const row = [ $('point'), $('session'), $('heure'), $('ventDir'), $('ventVit') ];
     categories.forEach(cat => {
@@ -208,7 +221,7 @@
     alert('Mesure enregistrée');
   };
 
-  // Télécharger CSV
+  // Export CSV
   document.getElementById('download').onclick = () => {
     if (data.length === 0) return alert('Aucune donnée à exporter');
     const headers = [
@@ -216,10 +229,8 @@
       ...categories.flatMap(c => [`Intensite_${c.code}_continu`,`Intensite_${c.code}_bousee`]),
       'Commentaire'
     ];
-    const csv = [
-      headers.join(','),
-      ...data.map(r => r.map(v=>`"${v.replace(/"/g,'""')}"`).join(','))
-    ].join('\r\n');
+    const lines = data.map(r => r.map(v => `"${v.replace(/"/g,'""')}"`).join(','));
+    const csv = [headers.join(','), ...lines].join('\r\n');
     const blob = new Blob([csv], {type:'text/csv'});
     const url  = URL.createObjectURL(blob);
     const a    = document.createElement('a');
