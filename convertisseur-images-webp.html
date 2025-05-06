@@ -579,12 +579,12 @@
             reject(new Error('Erreur lors du chargement de l\'image ' + file.name));
           };
           if (file.name.toLowerCase().endsWith('.svg')) {
-          // encodage du texte SVG en base64 pour créer un Data URI
-          img.src = 'data:image/svg+xml;utf8,' + encodeURIComponent(event.target.result);
-          } 
-          else {
-          img.src = event.target.result;
-          };
+            const svgText = event.target.result;
+            img.src = 'data:image/svg+xml;utf8,' + encodeURIComponent(event.target.result);
+            } 
+            else {
+            img.src = event.target.result;
+            };
         reader.onerror = function() {
           reject(new Error('Erreur de lecture du fichier ' + file.name));
         };
