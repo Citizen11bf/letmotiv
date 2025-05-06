@@ -9,12 +9,20 @@
     header {
       background: #3f51b5;
       color: white;
-      padding: 1rem;    
+      padding: 1rem;
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: space-between; /* titre à gauche, select à droite */
     }
     header h1 { margin: 0; font-size: 1.2rem; }
+    header .jury-container {
+      display: flex;
+      align-items: center;
+      font-size: .9rem;
+    }
+    header .jury-container label {
+      margin-right: .5rem;
+    }
     main { padding: 0.5rem 1rem; }
     .grid2 {
       display: grid;
@@ -36,7 +44,7 @@
     textarea { height: 3rem; font-size: .85rem; }
     footer {
       position: fixed; bottom: 0; left: 0; right: 0;
-      background: #3f51b5;      /* fond bleu comme header */
+      background: #3f51b5;      /* même bleu que le header */
       padding: .3rem 1rem;
       display: flex; gap: .3rem;
     }
@@ -52,8 +60,20 @@
 
   <header>
     <h1>Airea | Jury de nez</h1>
+    <div class="jury-container">
+      <label for="jury">Jury</label>
+      <select id="jury">
+        <option value="BF">Benjamin F</option>
+        <option value="FC">François C</option>
+        <option value="NG">Natalia G</option>
+        <option value="VL">Valentin L</option>
+        <option value="VP">Vincent P</option>
+      </select>
+    </div>
   </header>
+
   <main>
+
     <div class="grid2">
       <div>
         <label>Point de mesure
@@ -61,7 +81,6 @@
         </label>
       </div>
       <div style="display:flex; align-items:flex-end; justify-content:flex-end;">
-        <!-- 4) texte modifié -->
         <button id="new">Démarrer une nouvelle mesure</button>
       </div>
     </div>
@@ -99,6 +118,7 @@
     <label>Commentaires :
       <textarea id="commentaire"></textarea>
     </label>
+
   </main>
 
   <footer>
@@ -107,11 +127,11 @@
   </footer>
 
   <script>
-  // --- Données en mémoire ---
+  // données en mémoire
   const data = JSON.parse(localStorage.getItem('mesures') || '[]');
   let saved = true;
 
-  // 1) Remplir P1 à P20
+  // peupler P1…P20
   const pointSel = document.getElementById('point');
   for (let i = 1; i <= 20; i++) {
     const o = document.createElement('option');
@@ -119,7 +139,7 @@
     pointSel.appendChild(o);
   }
 
-  // 2) Catégories d'odeurs & couleurs
+  // catégories et couleurs pastel
   const categories = [
     { nom:'Nature (A)',      code:'A', bg:'#a8e6cf' },
     { nom:'Routier (B)',     code:'B', bg:'#cfd8dc' },
@@ -151,10 +171,10 @@
     notesDiv.appendChild(row);
   });
 
-  // Raccourci
+  // raccourci
   const $ = id => document.getElementById(id).value;
 
-  // Utilitaires
+  // utilitaires
   function saveAll() {
     localStorage.setItem('mesures', JSON.stringify(data));
   }
@@ -165,7 +185,7 @@
     return d.toTimeString().slice(0,5);
   }
 
-  // Met à jour le texte (point de mesure) du bouton "add"
+  // bouton add dynamique
   const addBtn = document.getElementById('add');
   function updateAddLabel() {
     addBtn.textContent = `Ajout des données de ${pointSel.value}`;
@@ -175,10 +195,10 @@
     markDirty();
   });
 
-  // Reset & sécurité
+  // reset & sécurité
   function resetForm() {
-    if (!saved) {
-      if (!confirm("As-tu bien enregistré les données du point précédent ?")) return;
+    if (!saved && !confirm("As-tu bien enregistré les données du point précédent ?")) {
+      return;
     }
     pointSel.value = 'P1';
     document.getElementById('session').value = 'AM';
@@ -196,13 +216,13 @@
   document.getElementById('new').onclick = resetForm;
   window.addEventListener('load', resetForm);
 
-  // Marquer dirty sur tout changement
+  // marquer dirty sur changement
   document.querySelectorAll('select,input,textarea').forEach(el => {
     el.addEventListener('input', markDirty);
     el.addEventListener('change', markDirty);
   });
 
-  // Ajouter une mesure
+  // ajouter mesure
   document.getElementById('add').onclick = () => {
     const row = [ $('point'), $('session'), $('heure'), $('ventDir'), $('ventVit') ];
     categories.forEach(cat => {
@@ -215,9 +235,11 @@
     alert('Mesure enregistrée');
   };
 
-  // Export CSV
+  // export CSV avec nom selon jury
   document.getElementById('download').onclick = () => {
     if (data.length === 0) return alert('Aucune donnée à exporter');
+    const juryCode = document.getElementById('jury').value;
+    const filename = `JDN_${juryCode}.csv`;
     const headers = [
       'Point','Session','Heure','DirectionVent','VitesseVent',
       ...categories.flatMap(c => [`Intensite_${c.code}_continu`,`Intensite_${c.code}_bousee`]),
@@ -228,7 +250,7 @@
     const blob = new Blob([csv], {type:'text/csv'});
     const url  = URL.createObjectURL(blob);
     const a    = document.createElement('a');
-    a.href = url; a.download = 'mesures.csv';
+    a.href = url; a.download = filename;
     a.click();
     URL.revokeObjectURL(url);
   };
