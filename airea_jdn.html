@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Airea | Jury de nez</title>
+  <style>
+    body { margin: 0; font-family: sans-serif; background: #fff; }
+    header { background: #3f51b5; color: #fff; padding: 1rem; display: flex; justify-content: space-between; align-items: center; }
+    header h1 { font-size: 1.2rem; margin: 0; }
+    header button { background: #ccc; border: none; padding: 0.5rem 1rem; border-radius: 4px; color: #000; }
+    main { padding: 0.5rem; }
+    section { margin-bottom: 1rem; }
+    label { display: block; font-weight: bold; margin-bottom: 0.25rem; }
+    .row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem; }
+    .row > * { flex: 1 1 45%; min-width: 80px; }
+    input[type=time], input[type=number], select { width: 100%; padding: 0.3rem; border: 1px solid #999; border-radius: 4px; }
+    textarea { width: 100%; padding: 0.3rem; border: 1px solid #999; border-radius: 4px; height: 4rem; }
+    .cat-row { display: flex; align-items: center; padding: 0.5rem; border-radius: 4px; margin-bottom: 2px; }
+    .cat-label { width: 30%; font-weight: bold; }
+    .cat-controls { display: flex; gap: 0.5rem; flex: 1; }
+    .cat-controls > div { flex: 1; }
+    .controls { display: flex; gap: 0.5rem; margin-top: 1rem; }
+    .controls button { flex: 1; padding: 0.7rem; font-size: 1rem; border: none; border-radius: 4px; }
+    .add-btn { background: #ccc; color: #000; }
+    .export-btn { background: #d32f2f; color: #fff; }
+    /* Couleurs catégories A-J */
+    .cat-A { background: #a5d6a7; }
+    .cat-B { background: #e0e0e0; }
+    .cat-C { background: #bcaaa4; }
+    .cat-D { background: #ef9a9a; }
+    .cat-E { background: #fff59d; }
+    .cat-F { background: #f48fb1; }
+    .cat-G { background: #80deea; }
+    .cat-H { background: #b0bec5; }
+    .cat-I { background: #f8bbd0; }
+    .cat-J { background: #ffe082; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Airea | Jury de nez</h1>
+    <button id="new">New</button>
+  </header>
+  <main>
+    <section>
+      <p>Appuie ici pour démarrer une nouvelle mesure</p>
+      <div class="row">
+        <div>
+          <label for="point">Point de mesure</label>
+          <select id="point">${[...Array(20)].map((_,i)=>`<option>P${i+1}</option>`).join('')}</select>
+        </div>
+        <div>
+          <label for="session">Session</label>
+          <select id="session"><option>AM</option><option>PM</option></select>
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label for="heure">Heure</label>
+          <input type="time" id="heure" value="12:00">
+        </div>
+        <div>
+          <label for="ventDir">Direction</label>
+          <input type="text" id="ventDir" placeholder="NE">
+        </div>
+        <div>
+          <label for="ventVit">Vitesse (m/s)</label>
+          <input type="number" id="ventVit" value="0" step="0.1">
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Intensités d'odeurs</h2>
+      ${[...Array(10)].map((_,i)=>{
+        const cat = String.fromCharCode(65+i);
+        return `
+        <div class="cat-row cat-${cat}">
+          <div class="cat-label">${['Nature','Routier','Agriculture','Méthaniseur','Cuisine','Déchets ménagers','Eaux usées','Fumée','Industrie spécifique','Autre'][i]} (${cat})</div>
+          <div class="cat-controls">
+            <div>
+              <label>Continu</label>
+              <select id="cont_${cat}">${[...Array(51)].map((_,j)=>`<option>${(j*0.1).toFixed(1)}</option>`).join('')}</select>
+            </div>
+            <div>
+              <label>Bouffées</label>
+              <select id="bouf_${cat}">${[...Array(51)].map((_,j)=>`<option>${(j*0.1).toFixed(1)}</option>`).join('')}</select>
+            </div>
+          </div>
+        </div>`;
+      }).join('')}
+    </section>
+
+    <section>
+      <label for="commentaire">Commentaires :</label>
+      <textarea id="commentaire"></textarea>
+    </section>
+
+    <div class="controls">
+      <button class="add-btn" id="add">Ajout des données de PX</button>
+      <button class="export-btn" id="download">Tout exporter en csv</button>
+    </div>
+  </main>
+
+  <script>
+    // Identique à la version précédente : stockage local, add, reset, download
+    const data = JSON.parse(localStorage.getItem('mesures')||'[]');
+    const F = key => document.getElementById(key).value.trim();
+    const save = ()=> localStorage.setItem('mesures', JSON.stringify(data));
+    const popup = m=> alert(m);
+    
+    document.getElementById('add').onclick = ()=>{
+      const row = [F('point'),F('session'),F('heure'),F('ventDir'),F('ventVit')];
+      for(let i=0;i<10;i++){
+        const cat = String.fromCharCode(65+i);
+        row.push(F(`cont_${cat}`),F(`bouf_${cat}`));
+      }
+      row.push(F('commentaire'));
+      data.push(row); save(); popup('Mesure enregistrée');
+    };
+    document.getElementById('new').onclick = ()=>{ document.querySelector('main').reset && document.querySelector('main').reset(); popup('Champs réinitialisés'); };
+    document.getElementById('download').onclick = ()=>{
+      if(data.length===0) return popup('Aucune donnée à exporter');
+      const headers = ['Point','Session','Heure','DirectionVent','VitesseVent'];
+      for(let i=0;i<10;i++){
+        const cat = String.fromCharCode(65+i);
+        headers.push(`Intensite_${cat}_continu`,`Intensite_${cat}_bouffee`);
+      }
+      headers.push('Commentaire');
+      const csv = [headers,...data].map(r=>r.map(v=>`"${v.replace(/"/g,'""')}"`).join(',')).join('\r\n');
+      const blob = new Blob([csv],{type:'text/csv'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href=url; a.download='mesures.csv'; a.click(); URL.revokeObjectURL(url);
+    };
+  </script>
+</body>
+</html>
