@@ -5,41 +5,40 @@
   <title>Airea | Jury de nez</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
-    body { font-family: sans-serif; margin: 0; padding-bottom: 60px; }
+    body { font-family: sans-serif; margin: 0; padding-bottom: 50px; }
     header {
       background: #3f51b5; color: white;
-      padding: 1rem;
-      display: flex; justify-content: space-between; align-items: center;
+      padding: 0.5rem 1rem;
+      display: flex; align-items: center;
     }
-    header h1 { margin: 0; font-size: 1.1rem; }
-    header button {
-      background: #eee; border: none; padding: .5rem 1rem;
-      border-radius: 4px; font-size: .9rem;
+    header h1 { margin: 0; font-size: 1rem; }
+    main { padding: 0.5rem 1rem; }
+    p.intro { margin: .5rem 0; font-size: .9rem; display: flex; justify-content: space-between; align-items: center; }
+    p.intro button {
+      background: #eee; border: none; padding: .4rem .8rem;
+      border-radius: 4px; font-size: .85rem;
     }
-    main { padding: 1rem; }
-    label { display: block; margin-bottom: .5rem; font-size: .9rem; }
+    label { display: block; margin-bottom: .3rem; font-size: .85rem; }
     select, input[type="time"], input[type="number"], input[type="text"], textarea {
-      width: 100%; padding: .4rem; font-size: .9rem;
-      margin-top: .2rem; box-sizing: border-box;
+      width: 100%; padding: .3rem; font-size: .85rem;
+      margin-bottom: .5rem; box-sizing: border-box;
     }
-    .row { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; }
-    .row > div { flex: 1 1 120px; }
+    .row { display: flex; gap: .5rem; margin-bottom: .5rem; }
+    .row > div { flex: 1; }
     #notes .note-row {
-      display: flex; align-items: center; padding: .5rem;
-      gap: .5rem; border-radius: 4px; margin-bottom: .3rem;
+      display: flex; align-items: center; padding: .3rem;
+      gap: .3rem; border-radius: 4px; margin-bottom: .2rem;
     }
-    #notes .note-row label { margin: 0; flex: 1 1 100px; font-size: .85rem; }
-    #notes .note-row select, #notes .note-row input {
-      flex: 0 1 60px; padding: .3rem;
-    }
-    textarea { height: 4rem; }
+    #notes .note-row label { margin: 0; flex: 1; font-size: .8rem; }
+    #notes .note-row select { flex: 0 0 50px; padding: .2rem; font-size: .8rem; }
+    textarea { height: 3rem; font-size: .85rem; }
     footer {
       position: fixed; bottom: 0; left: 0; right: 0;
-      background: white; padding: .5rem 1rem;
-      display: flex; gap: .5rem;
+      background: white; padding: .3rem 1rem;
+      display: flex; gap: .3rem;
     }
     footer button {
-      flex: 1; padding: .8rem; font-size: 1rem; border: none;
+      flex: 1; padding: .6rem; font-size: .9rem; border: none;
       border-radius: 4px;
     }
     #add { background: #ccc; }
@@ -50,13 +49,16 @@
 
   <header>
     <h1>Airea | Jury de nez</h1>
-    <button id="new">New</button>
   </header>
 
   <main>
 
-    <p>Appuie ici pour démarrer une nouvelle mesure</p>
+    <p class="intro">
+      Appuie ici pour démarrer une nouvelle mesure
+      <button id="new">New</button>
+    </p>
 
+    <!-- 4) Organisation des 5 premiers champs -->
     <div class="row">
       <div>
         <label>Point de mesure
@@ -66,32 +68,34 @@
       <div>
         <label>Session
           <select id="session">
-            <option>AM</option>
-            <option>PM</option>
+            <option>AM</option><option>PM</option>
           </select>
         </label>
       </div>
     </div>
 
     <div class="row">
-      <div>
+      <div style="flex:1">
         <label>Heure
-          <input type="time" id="heure" value="12:00">
-        </label>
-      </div>
-      <div>
-        <label>Direction
-          <input type="text" id="ventDir" value="NE">
-        </label>
-      </div>
-      <div>
-        <label>Vitesse (m/s)
-          <input type="number" id="ventVit" min="0" step="0.1" value="0">
+          <input type="time" id="heure">
         </label>
       </div>
     </div>
 
-    <h2>Intensités d'odeurs</h2>
+    <div class="row">
+      <div>
+        <label>Direction de vent
+          <input type="text" id="ventDir">
+        </label>
+      </div>
+      <div>
+        <label>Vitesse (m/s)
+          <input type="number" id="ventVit" min="0" step="0.1">
+        </label>
+      </div>
+    </div>
+
+    <!-- 6) suppression du titre et génération des catégories -->
     <div id="notes"></div>
 
     <label>Commentaires :
@@ -106,19 +110,19 @@
   </footer>
 
   <script>
-  // --- données en mémoire ---
+  // mémoire des mesures
   const data = JSON.parse(localStorage.getItem('mesures') || '[]');
+  let saved = true; // état du formulaire
 
-  // 1) peupler le <select> des points P1…P20
+  // 1) Point P1…P20
   const pointSel = document.getElementById('point');
   for (let i = 1; i <= 20; i++) {
-    const opt = document.createElement('option');
-    opt.value = 'P' + i;
-    opt.textContent = 'P' + i;
-    pointSel.appendChild(opt);
+    const o = document.createElement('option');
+    o.value = o.textContent = 'P' + i;
+    pointSel.appendChild(o);
   }
 
-  // 2) définir les catégories avec leur couleur d'arrière-plan
+  // 2) catégories A→J avec couleur
   const categories = [
     { nom: 'Nature (A)',      code:'A', bg:'#00c853' },
     { nom: 'Routier (B)',     code:'B', bg:'#b0bec5' },
@@ -132,7 +136,7 @@
     { nom: 'Autre (J)',       code:'J', bg:'#ffc107' },
   ];
 
-  // 3) générer les lignes A→J
+  // générer notes 0→6 par 0.5 (13 valeurs)
   const notesDiv = document.getElementById('notes');
   categories.forEach(cat => {
     const row = document.createElement('div');
@@ -141,79 +145,80 @@
     row.innerHTML = `
       <label>${cat.nom} Continu
         <select id="cont_${cat.code}">
-          ${[...Array(51)].map((_,i)=>`<option>${(i*0.1).toFixed(1)}</option>`).join('')}
+          ${[...Array(13)].map((_,i)=>`<option>${(i*0.5).toFixed(1)}</option>`).join('')}
         </select>
       </label>
       <label>Bouffées
         <select id="bouf_${cat.code}">
-          ${[...Array(51)].map((_,i)=>`<option>${(i*0.1).toFixed(1)}</option>`).join('')}
+          ${[...Array(13)].map((_,i)=>`<option>${(i*0.5).toFixed(1)}</option>`).join('')}
         </select>
-      </label>
-    `;
+      </label>`;
     notesDiv.appendChild(row);
   });
 
-  // raccourci pour récupérer valeur
+  // refs et utilitaires
   const $ = id => document.getElementById(id).value;
-
-  // utils
-  function save() {
-    localStorage.setItem('mesures', JSON.stringify(data));
+  function saveAll() { localStorage.setItem('mesures', JSON.stringify(data)); }
+  function markDirty() { saved = false; }
+  function getNowHM() {
+    const d = new Date();
+    return d.toTimeString().slice(0,5);
   }
-  function alertMsg(txt) { alert(txt); }
 
-  // reset formulaire
+  // 5) initialisation & reset
   function resetForm() {
+    if (!saved) {
+      if (!confirm("As-tu bien enregistré les données du point de mesure précédent ?")) return;
+    }
+    // valeurs par défaut
     pointSel.value = 'P1';
     document.getElementById('session').value = 'AM';
-    document.getElementById('heure').value = '12:00';
-    document.getElementById('ventDir').value = 'NE';
+    document.getElementById('heure').value = getNowHM();
+    document.getElementById('ventDir').value = '';
     document.getElementById('ventVit').value = '0';
     categories.forEach(cat => {
       document.getElementById(`cont_${cat.code}`).value = '0.0';
       document.getElementById(`bouf_${cat.code}`).value = '0.0';
     });
     document.getElementById('commentaire').value = '';
+    saved = true;
   }
+  // au chargement
+  window.addEventListener('load', resetForm);
 
-  // bouton New
+  // 2) surveiller les changements pour marquer "dirty"
+  document.querySelectorAll('select,input,textarea').forEach(el => {
+    el.addEventListener('change', markDirty);
+    el.addEventListener('input', markDirty);
+  });
+
+  // New
   document.getElementById('new').onclick = resetForm;
 
-  // bouton Ajouter
+  // Ajouter
   document.getElementById('add').onclick = () => {
-    const row = [
-      $('point'),
-      $('session'),
-      $('heure'),
-      $('ventDir'),
-      $('ventVit')
-    ];
+    const row = [ $('point'), $('session'), $('heure'), $('ventDir'), $('ventVit') ];
     categories.forEach(cat => {
-      row.push($(`cont_${cat.code}`));
-      row.push($(`bouf_${cat.code}`));
+      row.push($(`cont_${cat.code}`), $(`bouf_${cat.code}`));
     });
     row.push(document.getElementById('commentaire').value.trim());
     data.push(row);
-    save();
-    alertMsg('Mesure enregistrée');
+    saveAll();
+    saved = true;
+    alert('Mesure enregistrée');
   };
 
-  // bouton Télécharger CSV
+  // Télécharger CSV
   document.getElementById('download').onclick = () => {
-    if (data.length === 0) return alertMsg('Aucune donnée à exporter');
-    // en-têtes
+    if (data.length === 0) return alert('Aucune donnée à exporter');
     const headers = [
       'Point','Session','Heure','DirectionVent','VitesseVent',
-      ...categories.flatMap(cat => [
-        `Intensite_${cat.code}_continu`,
-        `Intensite_${cat.code}_bousee`
-      ]),
+      ...categories.flatMap(c => [`Intensite_${c.code}_continu`,`Intensite_${c.code}_bousee`]),
       'Commentaire'
     ];
-    // assembler CSV
     const csv = [
       headers.join(','),
-      ...data.map(r => r.map(v => `"${v.replace(/"/g,'""')}"`).join(','))
+      ...data.map(r => r.map(v=>`"${v.replace(/"/g,'""')}"`).join(','))
     ].join('\r\n');
     const blob = new Blob([csv], {type:'text/csv'});
     const url  = URL.createObjectURL(blob);
