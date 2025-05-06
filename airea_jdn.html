@@ -30,6 +30,13 @@
     #notes .note-row {
       display: flex; align-items: center; padding: .3rem;
       gap: .3rem; border-radius: 4px; margin-bottom: .2rem;
+      flex-wrap: wrap;
+    }
+    #notes .note-row > div.title {
+      flex-basis: 100%;
+    }
+    #notes .note-row > div.title strong {
+      font-size: .9rem;
     }
     #notes .note-row label { margin: 0; flex: 1; font-size: .8rem; }
     #notes .note-row select { flex: 0 0 50px; padding: .2rem; font-size: .8rem; }
@@ -54,6 +61,7 @@
   <header>
     <h1>Airea | Jury de nez</h1>
     <div class="jury-container">
+      <label for="jury">Jury</label>
       <select id="jury">
         <option value="BF">Benjamin F</option>
         <option value="FC">François C</option>
@@ -119,7 +127,7 @@
   </footer>
 
   <script>
-  // --- stockage sous forme de map point_session → row
+  // stockage en map point_session → row
   let dataMap = JSON.parse(localStorage.getItem('mesuresMap') || '{}');
   let saved = true;
   let editingKey = null;
@@ -156,7 +164,8 @@
     row.className = 'note-row';
     row.style.background = cat.bg;
     row.innerHTML = `
-      <label>${cat.nom} Continu
+      <div class="title"><strong>${cat.nom}</strong></div>
+      <label>Continu
         <select id="cont_${cat.code}">
           ${[...Array(13)].map((_,i)=>`<option>${(i*0.5).toFixed(1)}</option>`).join('')}
         </select>
@@ -180,13 +189,17 @@
     return new Date().toTimeString().slice(0,5);
   }
   function updateAddLabel() {
-    addBtn.textContent = `Ajout des données de ${pointSel.value}`;
+    if (editingKey) {
+      addBtn.textContent = `Mettre à jour ${pointSel.value}`;
+    } else {
+      addBtn.textContent = `Ajout des données de ${pointSel.value}`;
+    }
   }
   function markDirty() {
     saved = false;
   }
 
-  // chargement automatique si déjà saisi
+  // charger si déjà saisi
   function loadIfExists() {
     const key = `${pointSel.value}_${sessionSel.value}`;
     if (dataMap[key]) {
@@ -199,17 +212,16 @@
         document.getElementById(`bouf_${cat.code}`).value = row[5 + 2*i + 1];
       });
       document.getElementById('commentaire').value = row[row.length -1];
-      addBtn.textContent = 'Mettre à jour';
       editingKey = key;
-      saved = true;
     } else {
-      // remettre aux défauts sauf heure
-      resetFormFields();
       editingKey = null;
+      resetFormFields();
     }
+    updateAddLabel();
+    saved = true;
   }
 
-  // ne remet pas les clés saved/editingKey
+  // reset champs (heure à now, autres à 0/vide)
   function resetFormFields() {
     document.getElementById('session').value = 'AM';
     document.getElementById('heure').value   = getNowHM();
@@ -220,10 +232,9 @@
       document.getElementById(`bouf_${cat.code}`).value = '0.0';
     });
     document.getElementById('commentaire').value = '';
-    updateAddLabel();
   }
 
-  // reset complet avec sécurité
+  // reset complet avec confirmation
   function resetForm() {
     if (!saved && !confirm("As-tu bien enregistré les données du point précédent ?")) {
       return;
@@ -232,6 +243,7 @@
     resetFormFields();
     saved = true;
     editingKey = null;
+    updateAddLabel();
   }
 
   // initialisation
@@ -241,21 +253,15 @@
   });
 
   // écouteurs
-  pointSel.addEventListener('change', () => {
-    loadIfExists();
-    markDirty();
-  });
-  sessionSel.addEventListener('change', () => {
-    loadIfExists();
-    markDirty();
-  });
+  pointSel.addEventListener('change', () => { loadIfExists(); markDirty(); });
+  sessionSel.addEventListener('change', () => { loadIfExists(); markDirty(); });
   document.querySelectorAll('select,input,textarea').forEach(el => {
     el.addEventListener('input', markDirty);
     el.addEventListener('change', markDirty);
   });
   document.getElementById('new').onclick = resetForm;
 
-  // ajouter / mettre à jour
+  // Ajouter / mettre à jour
   addBtn.onclick = () => {
     const key = `${pointSel.value}_${sessionSel.value}`;
     const row = [
@@ -264,7 +270,6 @@
       $val('heure'),
       $val('ventDir'),
       $val('ventVit'),
-      // intensités
       ...categories.flatMap(cat => [
         $val(`cont_${cat.code}`),
         $val(`bouf_${cat.code}`)
@@ -274,12 +279,12 @@
     dataMap[key] = row;
     saveMap();
     saved = true;
+    alert(editingKey ? 'Mesure mise à jour' : 'Mesure enregistrée');
     editingKey = key;
-    alert(editingKey === key ? 'Mesure mise à jour' : 'Mesure enregistrée');
     updateAddLabel();
   };
 
-  // export CSV avec nom selon jury
+  // export CSV
   document.getElementById('download').onclick = () => {
     const rows = Object.values(dataMap);
     if (rows.length === 0) return alert('Aucune donnée à exporter');
