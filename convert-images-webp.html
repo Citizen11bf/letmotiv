@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Convertisseur WebP en ligne - Optimisez vos images sur vos sites web</title>
+  <meta name="description" content="Le meilleur convertisseur WebP en ligne. Convertissez vos images (.jpg, .jpeg, .png, .gif, .bmp, .tiff, .svg) en WebP pour améliorer les performances de votre site et booster votre SEO.">
+  <meta name="keywords" content="convertisseur webp, conversion image, outil webp, optimisation image, SEO">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Inclusion de Font Awesome pour les icônes -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+  <style>
+    /* Réinitialisation */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    /* Style global */
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
+      color: #333;
+      line-height: 1.6;
+      padding: 20px;
+      animation: fadeIn 1s ease-in-out;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    header h1 {
+      font-size: 2.5rem;
+      color: #222;
+      margin-bottom: 10px;
+    }
+    header p {
+      font-size: 1.2rem;
+      color: #555;
+    }
+    /* Conteneur principal */
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    /* Bouton principal "Sélectionner des images" */
+    .select-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 20px;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #fff;
+      background-color: #3f8efc;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .select-button i {
+      margin-right: 8px;
+    }
+    .select-button:hover {
+      background-color: #367cd9;
+    }
+    /* Boutons d'action */
+    .action-button {
+      margin: 10px 0;
+      padding: 12px;
+      font-size: 1rem;
+      width: 100%;
+      max-width: 300px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: #fff;
+      background: linear-gradient(45deg, #ff7a18, #af002d 70%);
+    }
+    .action-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    }
+    .action-button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+    /* Bouton "Recommencer" */
+    .reset-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #666;
+      font-size: 1.2rem;
+    }
+    .reset-btn:hover {
+      color: #000;
+    }
+    /* Container download + reset en ligne */
+    #download-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    /* Button container */
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    /* Récapitulatif réduit */
+    #selected-files-summary {
+      display: none;
+      cursor: pointer;
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: #555;
+    }
+    #toggle-arrow {
+      margin-left: 5px;
+    }
+    /* Liste complète masquée */
+    #selected-files-list {
+      display: none;
+      margin-top: 5px;
+      text-align: left;
+      width: 100%;
+      max-width: 400px;
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      color: #333;
+    }
+    /* Loader */
+    .loader {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 5px;
+      margin: 10px 0;
+    }
+    .loading-text {
+      color: #212121;
+      font-size: 14pt;
+      font-weight: 600;
+      margin-left: 10px;
+    }
+    .dot {
+      margin-left: 3px;
+      animation: blink 1.5s infinite;
+    }
+    .dot:nth-child(2) { animation-delay: 0.3s; }
+    .dot:nth-child(3) { animation-delay: 0.6s; }
+    .loading-bar-background {
+      --height: 30px;
+      display: flex;
+      align-items: center;
+      padding: 5px;
+      width: 100%;
+      max-width: 300px;
+      height: var(--height);
+      background-color: #212121;
+      box-shadow: inset -2px 2px 4px #0c0c0c;
+      border-radius: calc(var(--height)/2);
+    }
+    .loading-bar {
+      width: 0;
+      height: 20px;
+      border-radius: 10px;
+      background: linear-gradient(0deg, #28a745, #4dc07d);
+    }
+    /* Messages & erreurs */
+    #message-container, #error-container {
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 5px;
+      text-align: center;
+      display: none;
+    }
+    #message-container {
+      border: 1px solid #28a745;
+      background: #eafbea;
+      color: #28a745;
+      font-weight: bold;
+    }
+    #error-container {
+      border: 1px solid #e74c3c;
+      background: #fdecea;
+      color: #e74c3c;
+    }
+    /* SEO & features */
+    section { margin-top: 30px; padding: 15px; border-top: 1px solid #e0e0e0; }
+    section h2 { font-size: 1.8rem; margin-bottom: 10px; text-align: center; color: #222; }
+    section p { font-size: 0.8rem; color: #555; text-align: justify; margin-bottom: 10px; }
+    .features-grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between; }
+    .feature-item { flex: 1 1 45%; text-align: center; padding: 10px; }
+    .feature-item i { font-size: 2rem; color: #28a745; }
+    .feature-item p { margin-top: 10px; font-size: 0.95rem; color: #555; }
+    @media (min-width:768px) { .feature-item { flex: 1 1 30%; } }
+    /* FAQ */
+    .faq { margin-top: 30px; padding: 15px; border-top: 1px solid #e0e0e0; }
+    .faq h2 { font-size: 1.8rem; margin-bottom: 20px; text-align: center; color: #222; }
+    .faq details { margin-bottom: 15px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; background: #f9f9f9; }
+    .faq summary { font-weight: bold; cursor: pointer; list-style: none; font-size: 0.9rem; /* si besoin */ }
+    .faq p { margin-top: 10px; font-size: 0.9rem; color: #555; }
+    /* Animations */
+    @keyframes fadeIn { from {opacity:0; transform:translateY(-20px);} to {opacity:1; transform:translateY(0);} }
+    @keyframes blink { 0%,100%{opacity:0;}50%{opacity:1;} }
+    /* Responsive */
+    @media(max-width:600px){ header h1{font-size:2rem;} header p{font-size:1rem;} .container{padding:15px;} }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Convertisseur WebP en ligne et 100 % gratuit</h1>
+    <p>Optimisez vos images pour des performances web exceptionnelles et un SEO renforcé.</p>
+  </header>
+  <div class="container">
+    <!-- Erreurs / messages -->
+    <div id="error-container"></div>
+    <div id="message-container"></div>
+    <div class="button-container">
+      <!-- Sélecteur -->
+      <label for="file-input" class="select-button"><i class="fa fa-upload"></i> Sélectionner des images</label>
+      <input type="file"
+             id="file-input"
+             accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff,.svg"
+             multiple
+             style="display:none;">
+      <!-- Récapitulatif + toggle -->
+      <div id="selected-files-summary">
+        <span id="selected-files-label"></span>
+        <span id="toggle-arrow">▼</span>
+      </div>
+      <!-- Liste complète -->
+      <div id="selected-files-list"></div>
+      <!-- Convertir -->
+      <button id="convert-btn" class="action-button" style="display:none;">Convertir</button>
+      <!-- Progression -->
+      <div id="loader" class="loader">
+        <div class="loading-bar-background">
+          <div id="progress-bar" class="loading-bar"></div>
+        </div>
+        <div class="loading-text">
+          Conversion en cours<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span>
+        </div>
+      </div>
+      <!-- Télécharger + recommencer -->
+      <div id="download-container" style="display:none;">
+        <button id="download-btn" class="action-button">Télécharger mes images</button>
+        <button id="reset-btn" class="reset-btn" title="Recommencer"><i class="fa fa-undo"></i></button>
+      </div>
+    </div>
+
+    <!-- SEO & avantages -->
+    <section>
+      <h2>Pourquoi choisir notre<br>convertisseur WebP ?</h2>
+      <div class="features-grid">
+        <div class="feature-item">
+          <i class="fas fa-dollar-sign"></i>
+          <p>100 % gratuit<br>Pas d’abonnement payant</p>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-infinity"></i>
+          <p>Conversions illimitées</p>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-mobile-alt"></i>
+          <p>Compatible desktop & mobile</p>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-bolt"></i>
+          <p>Rapide & fiable</p>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-user-friends"></i>
+          <p>Interface intuitive</p>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-lock"></i>
+          <p>Confidentialité assurée</p>
+        </div>
+      </div>
+      <p>Transformez vos images (.jpg, .jpeg, .png, .gif, .bmp, .tiff, .svg) en WebP directement dans votre navigateur, pour un site plus rapide et un meilleur SEO.</p>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq">
+      <h2>FAQ</h2>
+      <details>
+        <summary>Pourquoi le format WebP est-il désormais utilisé ?</summary>
+        <p>Le WebP offre une compression supérieure tout en préservant la qualité, réduisant la taille des fichiers et accélérant le chargement des pages.</p>
+      </details>
+      <details>
+        <summary>Pourquoi privilégier WebP plutôt que JPEG ou PNG ?</summary>
+        <p>WebP compresse mieux, gère la transparence et l’animation, et produit parfois des fichiers 25–34 % plus légers que JPEG.</p>
+      </details>
+      <details>
+        <summary>Que faire si la conversion ne fonctionne pas ?</summary>
+        <p>Assurez-vous d’utiliser un navigateur à jour (Chrome, Firefox, Safari, Edge) et que vos fichiers sont au bon format. Rechargez la page en cas de besoin.</p>
+      </details>
+      <details>
+        <summary>Mes fichiers restent-ils confidentiels ?</summary>
+        <p>Oui : la conversion s’effectue localement via FileReader et canvas dans votre navigateur, et aucun fichier n’est envoyé à un serveur externe.</p>
+      </details>
+      <details>
+        <summary>Comment la conversion garantit-elle la confidentialité ?</summary>
+        <p>Tout le traitement se fait sur votre machine : vos images ne quittent jamais votre navigateur ni votre appareil.</p>
+      </details>
+    </section>
+  </div>
+
+  <!-- JSZip & FileSaver -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <script>
+    const fileInput         = document.getElementById('file-input');
+    const convertBtn        = document.getElementById('convert-btn');
+    const downloadBtn       = document.getElementById('download-btn');
+    const resetBtn          = document.getElementById('reset-btn');
+    const loader            = document.getElementById('loader');
+    const progressBar       = document.getElementById('progress-bar');
+    const downloadContainer = document.getElementById('download-container');
+    const errorContainer    = document.getElementById('error-container');
+    const messageContainer  = document.getElementById('message-container');
+    const fileListContainer = document.getElementById('selected-files-list');
+    const summaryContainer  = document.getElementById('selected-files-summary');
+    const selectedLabel     = document.getElementById('selected-files-label');
+    const toggleArrow       = document.getElementById('toggle-arrow');
+
+    let zip = new JSZip(), convertedFiles = [];
+
+    function resetAll() {
+      errorContainer.style.display = messageContainer.style.display = 'none';
+      errorContainer.innerHTML = messageContainer.innerHTML = '';
+      fileInput.value = '';
+      fileListContainer.style.display = summaryContainer.style.display = 'none';
+      loader.style.display = ''; progressBar.style.width = '0%';
+      convertBtn.style.display = 'none'; downloadContainer.style.display = 'none';
+      convertBtn.disabled = downloadBtn.disabled = false;
+      zip = new JSZip(); convertedFiles = [];
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    resetBtn.addEventListener('click', resetAll);
+
+    fileInput.addEventListener('change', () => {
+      const files = fileInput.files;
+      if (!files.length) return resetAll();
+      let text = files[0].name + (files.length>1 ? ` et ${files.length-1} autre(s)` : '');
+      selectedLabel.textContent = text;
+      summaryContainer.style.display = 'block';
+      toggleArrow.textContent = '▼';
+      let html = '<ul style="list-style:none;padding:0;">';
+      for (let f of files) html += `<li>${f.name}</li>`;
+      html += '</ul>';
+      fileListContainer.innerHTML = html;
+      fileListContainer.style.display = 'none';
+      convertBtn.style.display = 'inline-block';
+    });
+
+    summaryContainer.addEventListener('click', () => {
+      const shown = fileListContainer.style.display==='block';
+      fileListContainer.style.display = shown ? 'none' : 'block';
+      toggleArrow.textContent = shown ? '▼' : '▲';
+    });
+
+    function convertFile(file) {
+      return new Promise((res, rej) => {
+        const reader = new FileReader();
+        reader.onload = e => {
+          const img = new Image();
+          img.onload = () => {
+            const c = document.createElement('canvas');
+            c.width = img.width; c.height = img.height;
+            c.getContext('2d').drawImage(img,0,0);
+            c.toBlob(b => {
+              if (!b) rej(`Conversion échouée : ${file.name}`);
+              else res({ name: file.name.replace(/\.(jpg|jpeg|png|gif|bmp|tiff|svg)$/i, '.webp'), blob: b });
+            }, 'image/webp');
+          };
+          img.onerror = () => rej(`Erreur chargement : ${file.name}`);
+          img.src = e.target.result;
+        };
+        reader.onerror = () => rej(`Lecture échouée : ${file.name}`);
+        reader.readAsDataURL(file);
+      });
+    }
+
+    convertBtn.addEventListener('click', async () => {
+      const files = fileInput.files;
+      if (!files.length) {
+        messageContainer.textContent = 'Sélectionnez au moins un fichier.'; 
+        return messageContainer.style.display='block';
+      }
+      loader.style.display = 'flex';
+      zip = new JSZip(); convertedFiles = [];
+      convertBtn.disabled = fileInput.disabled = downloadBtn.disabled = true;
+      const errors = [];
+      for (let i=0; i<files.length; i++) {
+        try {
+          const c = await convertFile(files[i]);
+          zip.file(c.name, c.blob);
+          convertedFiles.push(c);
+        } catch (e) { errors.push(e); }
+        progressBar.style.width = `${(i+1)/files.length*100}%`;
+      }
+      loader.style.display = '';      
+      if (errors.length) {
+        errorContainer.innerHTML = errors.join('<br>');
+        errorContainer.style.display = 'block';
+      }
+      downloadContainer.style.display = 'flex';
+      downloadBtn.disabled = false;
+      messageContainer.textContent = 'Conversion terminée ! 🚀';
+      messageContainer.style.display = 'block';
+    });
+
+    downloadBtn.addEventListener('click', async () => {
+      if (!convertedFiles.length) {
+        messageContainer.textContent = 'Aucun fichier à télécharger.';
+        return messageContainer.style.display='block';
+      }
+      try {
+        if (convertedFiles.length === 1) {
+          saveAs(convertedFiles[0].blob, convertedFiles[0].name);
+        } else {
+          const blob = await zip.generateAsync({ type: 'blob' });
+          saveAs(blob, 'images_webp.zip');
+        }
+      } catch (e) {
+        messageContainer.textContent = `Erreur téléchargement : ${e}`;
+        messageContainer.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>
