@@ -9,7 +9,7 @@
     header {
       background: #3f51b5;
       color: white;
-      padding: 0.5rem;            /* Hauteur réduite */
+      padding: 1rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -53,19 +53,22 @@
     }
     #add { background: #757575; }
     #download { background: #e53935; }
+    .jury-container label { margin-right: .5rem; }
   </style>
 </head>
 <body>
 
   <header>
     <h1>Airea | Jury de nez</h1>
-    <select id="jury" style="font-size:.85rem;">
-      <option value="BF">Benjamin F</option>
-      <option value="FC">François C</option>
-      <option value="NG">Natalia G</option>
-      <option value="VL">Valentin L</option>
-      <option value="VP">Vincent P</option>
-    </select>
+    <div class="jury-container">
+      <select id="jury">
+        <option value="BF">Benjamin F</option>
+        <option value="FC">François C</option>
+        <option value="NG">Natalia G</option>
+        <option value="VL">Valentin L</option>
+        <option value="VP">Vincent P</option>
+      </select>
+    </div>
   </header>
 
   <main>
@@ -134,14 +137,14 @@
   const jurySel    = document.getElementById('jury');
   const addBtn     = document.getElementById('add');
 
-  // remplir P1…P20
+  // 1) remplir P1…P20
   for (let i = 1; i <= 20; i++) {
     const o = document.createElement('option');
     o.value = o.textContent = 'P' + i;
     pointSel.appendChild(o);
   }
 
-  // catégories & couleurs pastel
+  // 2) catégories & couleurs pastel
   const categories = [
     { nom:'Nature (A)',      code:'A', bg:'#a8e6cf' },
     { nom:'Routier (B)',     code:'B', bg:'#cfd8dc' },
@@ -174,12 +177,16 @@
     notesDiv.appendChild(row);
   });
 
-  // raccourci
+  // raccourcis
   const $val = id => document.getElementById(id).value;
-  function saveMap() { localStorage.setItem('mesuresMap', JSON.stringify(dataMap)); }
-  function getNowHM() { return new Date().toTimeString().slice(0,5); }
-  function markDirty() { saved = false; }
 
+  // utilitaires
+  function saveMap() {
+    localStorage.setItem('mesuresMap', JSON.stringify(dataMap));
+  }
+  function getNowHM() {
+    return new Date().toTimeString().slice(0,5);
+  }
   function updateAddLabel() {
     if (editingKey) {
       addBtn.textContent = `Mettre à jour ${pointSel.value}`;
@@ -187,20 +194,23 @@
       addBtn.textContent = `Ajout des données de ${pointSel.value}`;
     }
   }
+  function markDirty() {
+    saved = false;
+  }
 
-  // charger si existant
+  // charger si déjà saisi
   function loadIfExists() {
     const key = `${pointSel.value}_${sessionSel.value}`;
     if (dataMap[key]) {
-      const r = dataMap[key];
-      document.getElementById('heure').value   = r[2];
-      document.getElementById('ventDir').value = r[3];
-      document.getElementById('ventVit').value = r[4];
-      categories.forEach((c,i) => {
-        document.getElementById(`cont_${c.code}`).value = r[5+2*i];
-        document.getElementById(`bouf_${c.code}`).value= r[5+2*i+1];
+      const row = dataMap[key];
+      document.getElementById('heure').value   = row[2];
+      document.getElementById('ventDir').value = row[3];
+      document.getElementById('ventVit').value = row[4];
+      categories.forEach((cat,i) => {
+        document.getElementById(`cont_${cat.code}`).value = row[5 + 2*i];
+        document.getElementById(`bouf_${cat.code}`).value = row[5 + 2*i + 1];
       });
-      document.getElementById('commentaire').value = r[r.length-1];
+      document.getElementById('commentaire').value = row[row.length -1];
       editingKey = key;
     } else {
       editingKey = null;
@@ -210,46 +220,59 @@
     saved = true;
   }
 
+  // reset champs (heure à now, autres à 0/vide)
   function resetFormFields() {
-    sessionSel.value = 'AM';
-    document.getElementById('heure').value = getNowHM();
+    document.getElementById('session').value = 'AM';
+    document.getElementById('heure').value   = getNowHM();
     document.getElementById('ventDir').value = '';
     document.getElementById('ventVit').value = '0';
-    categories.forEach(c => {
-      document.getElementById(`cont_${c.code}`).value = '0.0';
-      document.getElementById(`bouf_${c.code}`).value = '0.0';
+    categories.forEach(cat => {
+      document.getElementById(`cont_${cat.code}`).value = '0.0';
+      document.getElementById(`bouf_${cat.code}`).value = '0.0';
     });
     document.getElementById('commentaire').value = '';
+  }
+
+  // reset complet avec confirmation
+  function resetForm() {
+    if (!saved && !confirm("As-tu bien enregistré les données du point précédent ?")) {
+      return;
+    }
+    pointSel.value = 'P1';
+    resetFormFields();
+    saved = true;
+    editingKey = null;
     updateAddLabel();
   }
 
-  function resetForm() {
-    if (!saved && !confirm("As-tu bien enregistré les données du point précédent ?")) return;
-    pointSel.value = 'P1';
-    resetFormFields();
-    editingKey = null;
-    saved = true;
-  }
-
+  // initialisation
   window.addEventListener('load', () => {
     resetForm();
     loadIfExists();
   });
 
+  // écouteurs
   pointSel.addEventListener('change', () => { loadIfExists(); markDirty(); });
-  sessionSel.addEventListener('change',() => { loadIfExists(); markDirty(); });
-  document.querySelectorAll('select,input,textarea').forEach(el=>{
+  sessionSel.addEventListener('change', () => { loadIfExists(); markDirty(); });
+  document.querySelectorAll('select,input,textarea').forEach(el => {
     el.addEventListener('input', markDirty);
     el.addEventListener('change', markDirty);
   });
   document.getElementById('new').onclick = resetForm;
 
+  // ajouter / mettre à jour
   addBtn.onclick = () => {
     const key = `${pointSel.value}_${sessionSel.value}`;
     const row = [
-      $val('point'), $val('session'), $val('heure'),
-      $val('ventDir'), $val('ventVit'),
-      ...categories.flatMap(c => [$val(`cont_${c.code}`), $val(`bouf_${c.code}`)]),
+      $val('point'),
+      $val('session'),
+      $val('heure'),
+      $val('ventDir'),
+      $val('ventVit'),
+      ...categories.flatMap(cat => [
+        $val(`cont_${cat.code}`),
+        $val(`bouf_${cat.code}`)
+      ]),
       document.getElementById('commentaire').value.trim()
     ];
     dataMap[key] = row;
@@ -260,28 +283,27 @@
     updateAddLabel();
   };
 
+  // export CSV
   document.getElementById('download').onclick = () => {
     const rows = Object.values(dataMap);
-    if (!rows.length) return alert('Aucune donnée à exporter');
+    if (rows.length === 0) return alert('Aucune donnée à exporter');
     const juryCode = jurySel.value;
     const filename = `JDN_${juryCode}.csv`;
     const headers = [
       'Point','Session','Heure','DirectionVent','VitesseVent',
-      ...categories.flatMap(c=>[`Intensite_${c.code}_continu`,`Intensite_${c.code}_bousee`]),
+      ...categories.flatMap(c => [`Intensite_${c.code}_continu`,`Intensite_${c.code}_bousee`]),
       'Commentaire'
     ];
     const csv = [
       headers.join(','),
-      ...rows.map(r=>r.map(v=>`"${v.replace(/"/g,'""')}"`).join(','))
+      ...rows.map(r => r.map(v => `"${v.replace(/"/g,'""')}"`).join(','))
     ].join('\r\n');
-    const blob = new Blob([csv],{type:'text/csv'});
+    const blob = new Blob([csv], { type: 'text/csv' });
     const url  = URL.createObjectURL(blob);
     const a    = document.createElement('a');
     a.href = url; a.download = filename;
     a.click();
     URL.revokeObjectURL(url);
-    // après export, reset UI
-    resetForm();
   };
   </script>
 
