@@ -9,7 +9,7 @@
     header {
       background: #3f51b5;
       color: white;
-      padding: 1rem;              /* hauteur augmentée */
+      padding: 1rem;    
       display: flex;
       align-items: center;
       justify-content: center;
@@ -53,10 +53,7 @@
   <header>
     <h1>Airea | Jury de nez</h1>
   </header>
-
   <main>
-
-    <!-- 3) Haut réorganisé -->
     <div class="grid2">
       <div>
         <label>Point de mesure
@@ -97,17 +94,14 @@
       </div>
     </div>
 
-    <!-- 6) Couleurs pastel -->
     <div id="notes"></div>
 
     <label>Commentaires :
       <textarea id="commentaire"></textarea>
     </label>
-
   </main>
 
   <footer>
-    <!-- 7) texte dynamique -->
     <button id="add">Ajout des données de P1</button>
     <button id="download">Tout exporter en csv</button>
   </footer>
@@ -117,7 +111,7 @@
   const data = JSON.parse(localStorage.getItem('mesures') || '[]');
   let saved = true;
 
-  // 1) Remplir P1…P20
+  // 1) Remplir P1 à P20
   const pointSel = document.getElementById('point');
   for (let i = 1; i <= 20; i++) {
     const o = document.createElement('option');
@@ -125,7 +119,7 @@
     pointSel.appendChild(o);
   }
 
-  // 2) Catégories & couleurs pastel
+  // 2) Catégories d'odeurs & couleurs
   const categories = [
     { nom:'Nature (A)',      code:'A', bg:'#a8e6cf' },
     { nom:'Routier (B)',     code:'B', bg:'#cfd8dc' },
@@ -157,10 +151,10 @@
     notesDiv.appendChild(row);
   });
 
-  // raccourci
+  // Raccourci
   const $ = id => document.getElementById(id).value;
 
-  // utilitaires
+  // Utilitaires
   function saveAll() {
     localStorage.setItem('mesures', JSON.stringify(data));
   }
@@ -171,7 +165,7 @@
     return d.toTimeString().slice(0,5);
   }
 
-  // Met à jour le texte du bouton "add"
+  // Met à jour le texte (point de mesure) du bouton "add"
   const addBtn = document.getElementById('add');
   function updateAddLabel() {
     addBtn.textContent = `Ajout des données de ${pointSel.value}`;
@@ -181,7 +175,7 @@
     markDirty();
   });
 
-  // reset & sécurité
+  // Reset & sécurité
   function resetForm() {
     if (!saved) {
       if (!confirm("As-tu bien enregistré les données du point précédent ?")) return;
@@ -202,7 +196,7 @@
   document.getElementById('new').onclick = resetForm;
   window.addEventListener('load', resetForm);
 
-  // marquer dirty sur tout changement
+  // Marquer dirty sur tout changement
   document.querySelectorAll('select,input,textarea').forEach(el => {
     el.addEventListener('input', markDirty);
     el.addEventListener('change', markDirty);
