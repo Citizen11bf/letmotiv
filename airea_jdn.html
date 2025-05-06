@@ -53,22 +53,19 @@
     }
     #add { background: #757575; }
     #download { background: #e53935; }
-    .jury-container label { margin-right: .5rem; }
   </style>
 </head>
 <body>
 
   <header>
     <h1>Airea | Jury de nez</h1>
-    <div class="jury-container">
-      <select id="jury">
-        <option value="BF">Benjamin F</option>
-        <option value="FC">François C</option>
-        <option value="NG">Natalia G</option>
-        <option value="VL">Valentin L</option>
-        <option value="VP">Vincent P</option>
-      </select>
-    </div>
+    <select id="jury" style="font-size:.85rem;">
+      <option value="BF">Benjamin F</option>
+      <option value="FC">François C</option>
+      <option value="NG">Natalia G</option>
+      <option value="VL">Valentin L</option>
+      <option value="VP">Vincent P</option>
+    </select>
   </header>
 
   <main>
@@ -137,14 +134,14 @@
   const jurySel    = document.getElementById('jury');
   const addBtn     = document.getElementById('add');
 
-  // 1) remplir P1…P20
+  // remplir P1…P20
   for (let i = 1; i <= 20; i++) {
     const o = document.createElement('option');
     o.value = o.textContent = 'P' + i;
     pointSel.appendChild(o);
   }
 
-  // 2) catégories & couleurs pastel
+  // catégories & couleurs pastel
   const categories = [
     { nom:'Nature (A)',      code:'A', bg:'#a8e6cf' },
     { nom:'Routier (B)',     code:'B', bg:'#cfd8dc' },
@@ -177,7 +174,7 @@
     notesDiv.appendChild(row);
   });
 
-  // raccourci
+  // raccourcis
   const $val = id => document.getElementById(id).value;
 
   // utilitaires
@@ -192,9 +189,7 @@
       ? `Mettre à jour ${pointSel.value}`
       : `Ajout des données de ${pointSel.value}`;
   }
-  function markDirty() {
-    saved = false;
-  }
+  function markDirty() { saved = false; }
 
   // charger si déjà saisi
   function loadIfExists() {
@@ -205,7 +200,7 @@
       document.getElementById('ventDir').value = r[3];
       document.getElementById('ventVit').value = r[4];
       categories.forEach((c,i) => {
-        document.getElementById(`cont_${c.code}`).value = r[5+2*i];
+        document.getElementById(`cont_${c.code}`).value  = r[5+2*i];
         document.getElementById(`bouf_${c.code}`).value = r[5+2*i+1];
       });
       document.getElementById('commentaire').value = r[r.length-1];
@@ -224,16 +219,14 @@
     document.getElementById('ventDir').value = '';
     document.getElementById('ventVit').value = '0';
     categories.forEach(c => {
-      document.getElementById(`cont_${c.code}`).value = '0.0';
+      document.getElementById(`cont_${c.code}`).value  = '0.0';
       document.getElementById(`bouf_${c.code}`).value = '0.0';
     });
     document.getElementById('commentaire').value = '';
   }
 
   function resetForm() {
-    if (!saved && !confirm("As-tu bien enregistré les données du point précédent ?")) {
-      return;
-    }
+    if (!saved && !confirm("As-tu bien enregistré les données du point précédent ?")) return;
     pointSel.value = 'P1';
     resetFormFields();
     editingKey = null;
@@ -241,7 +234,7 @@
     updateAddLabel();
   }
 
-  // init
+  // initialisation
   window.addEventListener('load', () => {
     resetForm();
     loadIfExists();
@@ -269,14 +262,20 @@
     saveMap();
     saved = true;
     alert(editingKey ? 'Mesure mise à jour' : 'Mesure enregistrée');
-    editingKey = key;
     updateAddLabel();
   };
 
-  // export CSV + reset UI
+  // ** export CSV trié + reset UI **
   document.getElementById('download').onclick = () => {
-    const rows = Object.values(dataMap);
-    if (rows.length === 0) return alert('Aucune donnée à exporter');
+    const keys = Object.keys(dataMap)
+      .sort((a,b) => {
+        const numA = parseInt(a.split('_')[0].slice(1));
+        const numB = parseInt(b.split('_')[0].slice(1));
+        if (numA !== numB) return numA - numB;
+        return a.localeCompare(b);
+      });
+    if (keys.length === 0) return alert('Aucune donnée à exporter');
+    const rows = keys.map(k => dataMap[k]);
     const juryCode = jurySel.value;
     const filename = `JDN_${juryCode}.csv`;
     const headers = [
@@ -294,8 +293,7 @@
     a.href = url; a.download = filename;
     a.click();
     URL.revokeObjectURL(url);
-
-    // ** Ici** : on réinitialise l'UI (champs + bouton Ajout)
+    // puis réinitialiser toute l'UI
     resetForm();
   };
   </script>
