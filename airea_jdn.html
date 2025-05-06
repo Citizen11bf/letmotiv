@@ -177,7 +177,7 @@
     notesDiv.appendChild(row);
   });
 
-  // raccourcis
+  // raccourci
   const $val = id => document.getElementById(id).value;
 
   // utilitaires
@@ -188,11 +188,9 @@
     return new Date().toTimeString().slice(0,5);
   }
   function updateAddLabel() {
-    if (editingKey) {
-      addBtn.textContent = `Mettre à jour ${pointSel.value}`;
-    } else {
-      addBtn.textContent = `Ajout des données de ${pointSel.value}`;
-    }
+    addBtn.textContent = editingKey
+      ? `Mettre à jour ${pointSel.value}`
+      : `Ajout des données de ${pointSel.value}`;
   }
   function markDirty() {
     saved = false;
@@ -202,15 +200,15 @@
   function loadIfExists() {
     const key = `${pointSel.value}_${sessionSel.value}`;
     if (dataMap[key]) {
-      const row = dataMap[key];
-      document.getElementById('heure').value   = row[2];
-      document.getElementById('ventDir').value = row[3];
-      document.getElementById('ventVit').value = row[4];
-      categories.forEach((cat,i) => {
-        document.getElementById(`cont_${cat.code}`).value = row[5 + 2*i];
-        document.getElementById(`bouf_${cat.code}`).value = row[5 + 2*i + 1];
+      const r = dataMap[key];
+      document.getElementById('heure').value   = r[2];
+      document.getElementById('ventDir').value = r[3];
+      document.getElementById('ventVit').value = r[4];
+      categories.forEach((c,i) => {
+        document.getElementById(`cont_${c.code}`).value = r[5+2*i];
+        document.getElementById(`bouf_${c.code}`).value = r[5+2*i+1];
       });
-      document.getElementById('commentaire').value = row[row.length -1];
+      document.getElementById('commentaire').value = r[r.length-1];
       editingKey = key;
     } else {
       editingKey = null;
@@ -220,32 +218,30 @@
     saved = true;
   }
 
-  // reset champs (heure à now, autres à 0/vide)
   function resetFormFields() {
-    document.getElementById('session').value = 'AM';
+    sessionSel.value = 'AM';
     document.getElementById('heure').value   = getNowHM();
     document.getElementById('ventDir').value = '';
     document.getElementById('ventVit').value = '0';
-    categories.forEach(cat => {
-      document.getElementById(`cont_${cat.code}`).value = '0.0';
-      document.getElementById(`bouf_${cat.code}`).value = '0.0';
+    categories.forEach(c => {
+      document.getElementById(`cont_${c.code}`).value = '0.0';
+      document.getElementById(`bouf_${c.code}`).value = '0.0';
     });
     document.getElementById('commentaire').value = '';
   }
 
-  // reset complet avec confirmation
   function resetForm() {
     if (!saved && !confirm("As-tu bien enregistré les données du point précédent ?")) {
       return;
     }
     pointSel.value = 'P1';
     resetFormFields();
-    saved = true;
     editingKey = null;
+    saved = true;
     updateAddLabel();
   }
 
-  // initialisation
+  // init
   window.addEventListener('load', () => {
     resetForm();
     loadIfExists();
@@ -264,15 +260,9 @@
   addBtn.onclick = () => {
     const key = `${pointSel.value}_${sessionSel.value}`;
     const row = [
-      $val('point'),
-      $val('session'),
-      $val('heure'),
-      $val('ventDir'),
-      $val('ventVit'),
-      ...categories.flatMap(cat => [
-        $val(`cont_${cat.code}`),
-        $val(`bouf_${cat.code}`)
-      ]),
+      $val('point'), $val('session'), $val('heure'),
+      $val('ventDir'), $val('ventVit'),
+      ...categories.flatMap(c => [$val(`cont_${c.code}`), $val(`bouf_${c.code}`)]),
       document.getElementById('commentaire').value.trim()
     ];
     dataMap[key] = row;
@@ -283,7 +273,7 @@
     updateAddLabel();
   };
 
-  // export CSV
+  // export CSV + reset UI
   document.getElementById('download').onclick = () => {
     const rows = Object.values(dataMap);
     if (rows.length === 0) return alert('Aucune donnée à exporter');
@@ -304,6 +294,9 @@
     a.href = url; a.download = filename;
     a.click();
     URL.revokeObjectURL(url);
+
+    // ** Ici** : on réinitialise l'UI (champs + bouton Ajout)
+    resetForm();
   };
   </script>
 
