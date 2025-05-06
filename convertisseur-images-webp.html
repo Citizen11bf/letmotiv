@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Convertisseur WebP en ligne - Optimisez vos images sur vos sites web</title>
-  <meta name="description" content="Le meilleur convertisseur WebP en ligne. Convertissez vos images (.jpg, .jpeg, .png, .gif, .bmp, .tiff) en WebP pour améliorer les performances de votre site et booster votre SEO.">
+  <meta name="description" content="Le meilleur convertisseur WebP en ligne. Convertissez vos images (.jpg, .jpeg, .png, .gif, .svg, .bmp, .tiff) en WebP pour améliorer les performances de votre site et booster votre SEO.">
   <meta name="keywords" content="convertisseur webp, conversion image, outil webp, optimisation image, SEO">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Inclusion de Font Awesome pour les icônes -->
@@ -332,7 +332,7 @@
         <i class="fa fa-upload"></i> Sélectionner des images
       </label>
       <!-- Input file masqué -->
-      <input type="file" id="file-input" accept=".jpg, .jpeg, .png, .gif, .bmp, .tiff" multiple style="display:none;">
+      <input type="file" id="file-input" accept=".jpg, .jpeg, .png, .gif, .svg, .bmp, .tiff" multiple style="display:none;">
       
       <!-- Récapitulatif des fichiers sélectionnés -->
       <div id="selected-files-summary">
@@ -568,7 +568,7 @@
             // Conversion en WebP
             canvas.toBlob(function(blob) {
               if (blob) {
-                const newName = file.name.replace(/\.(jpg|jpeg|png|gif|bmp|tiff)$/i, '.webp');
+                const newName = file.name.replace(/\.(jpg|jpeg|png|gif|svg|bmp|tiff)$/i, '.webp');
                 resolve({ name: newName, blob: blob });
               } else {
                 reject(new Error('La conversion a échoué pour ' + file.name));
@@ -578,12 +578,20 @@
           img.onerror = function() {
             reject(new Error('Erreur lors du chargement de l\'image ' + file.name));
           };
+          if (file.name.toLowerCase().endsWith('.svg')) {
+          // encodage du texte SVG en base64 pour créer un Data URI
+          img.src = 'data:image/svg+xml;base64,' + btoa(event.target.result);
+          } 
+          else {
           img.src = event.target.result;
-        };
+          };
         reader.onerror = function() {
           reject(new Error('Erreur de lecture du fichier ' + file.name));
         };
-        reader.readAsDataURL(file);
+        const readAs = file.name.toLowerCase().endsWith('.svg')
+          ? 'readAsText'
+          : 'readAsDataURL';
+        reader[readAs](file);
       });
     }
     
