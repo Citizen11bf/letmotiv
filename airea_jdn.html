@@ -12,17 +12,9 @@
       padding: 1rem;
       display: flex;
       align-items: center;
-      justify-content: space-between; /* titre à gauche, select à droite */
+      justify-content: space-between;
     }
     header h1 { margin: 0; font-size: 1.2rem; }
-    header .jury-container {
-      display: flex;
-      align-items: center;
-      font-size: .9rem;
-    }
-    header .jury-container label {
-      margin-right: .5rem;
-    }
     main { padding: 0.5rem 1rem; }
     .grid2 {
       display: grid;
@@ -44,7 +36,7 @@
     textarea { height: 3rem; font-size: .85rem; }
     footer {
       position: fixed; bottom: 0; left: 0; right: 0;
-      background: #3f51b5;      /* même bleu que le header */
+      background: #3f51b5;
       padding: .3rem 1rem;
       display: flex; gap: .3rem;
     }
@@ -54,6 +46,7 @@
     }
     #add { background: #757575; }
     #download { background: #e53935; }
+    .jury-container label { margin-right: .5rem; }
   </style>
 </head>
 <body>
@@ -127,19 +120,25 @@
   </footer>
 
   <script>
-  // données en mémoire
-  const data = JSON.parse(localStorage.getItem('mesures') || '[]');
+  // --- stockage sous forme de map point_session → row
+  let dataMap = JSON.parse(localStorage.getItem('mesuresMap') || '{}');
   let saved = true;
+  let editingKey = null;
 
-  // peupler P1…P20
-  const pointSel = document.getElementById('point');
+  // références
+  const pointSel   = document.getElementById('point');
+  const sessionSel = document.getElementById('session');
+  const jurySel    = document.getElementById('jury');
+  const addBtn     = document.getElementById('add');
+
+  // 1) remplir P1…P20
   for (let i = 1; i <= 20; i++) {
     const o = document.createElement('option');
     o.value = o.textContent = 'P' + i;
     pointSel.appendChild(o);
   }
 
-  // catégories et couleurs pastel
+  // 2) catégories & couleurs pastel
   const categories = [
     { nom:'Nature (A)',      code:'A', bg:'#a8e6cf' },
     { nom:'Routier (B)',     code:'B', bg:'#cfd8dc' },
@@ -171,38 +170,50 @@
     notesDiv.appendChild(row);
   });
 
-  // raccourci
-  const $ = id => document.getElementById(id).value;
+  // raccourcis
+  const $val = id => document.getElementById(id).value;
 
   // utilitaires
-  function saveAll() {
-    localStorage.setItem('mesures', JSON.stringify(data));
+  function saveMap() {
+    localStorage.setItem('mesuresMap', JSON.stringify(dataMap));
   }
-  function markDirty() { saved = false; }
-
   function getNowHM() {
-    const d = new Date();
-    return d.toTimeString().slice(0,5);
+    return new Date().toTimeString().slice(0,5);
   }
-
-  // bouton add dynamique
-  const addBtn = document.getElementById('add');
   function updateAddLabel() {
     addBtn.textContent = `Ajout des données de ${pointSel.value}`;
   }
-  pointSel.addEventListener('change', () => {
-    updateAddLabel();
-    markDirty();
-  });
+  function markDirty() {
+    saved = false;
+  }
 
-  // reset & sécurité
-  function resetForm() {
-    if (!saved && !confirm("As-tu bien enregistré les données du point précédent ?")) {
-      return;
+  // chargement automatique si déjà saisi
+  function loadIfExists() {
+    const key = `${pointSel.value}_${sessionSel.value}`;
+    if (dataMap[key]) {
+      const row = dataMap[key];
+      document.getElementById('heure').value   = row[2];
+      document.getElementById('ventDir').value = row[3];
+      document.getElementById('ventVit').value = row[4];
+      categories.forEach((cat,i) => {
+        document.getElementById(`cont_${cat.code}`).value = row[5 + 2*i];
+        document.getElementById(`bouf_${cat.code}`).value = row[5 + 2*i + 1];
+      });
+      document.getElementById('commentaire').value = row[row.length -1];
+      addBtn.textContent = 'Mettre à jour';
+      editingKey = key;
+      saved = true;
+    } else {
+      // remettre aux défauts sauf heure
+      resetFormFields();
+      editingKey = null;
     }
-    pointSel.value = 'P1';
+  }
+
+  // ne remet pas les clés saved/editingKey
+  function resetFormFields() {
     document.getElementById('session').value = 'AM';
-    document.getElementById('heure').value = getNowHM();
+    document.getElementById('heure').value   = getNowHM();
     document.getElementById('ventDir').value = '';
     document.getElementById('ventVit').value = '0';
     categories.forEach(cat => {
@@ -210,44 +221,81 @@
       document.getElementById(`bouf_${cat.code}`).value = '0.0';
     });
     document.getElementById('commentaire').value = '';
-    saved = true;
     updateAddLabel();
   }
-  document.getElementById('new').onclick = resetForm;
-  window.addEventListener('load', resetForm);
 
-  // marquer dirty sur changement
+  // reset complet avec sécurité
+  function resetForm() {
+    if (!saved && !confirm("As-tu bien enregistré les données du point précédent ?")) {
+      return;
+    }
+    pointSel.value = 'P1';
+    resetFormFields();
+    saved = true;
+    editingKey = null;
+  }
+
+  // initialisation
+  window.addEventListener('load', () => {
+    resetForm();
+    loadIfExists();
+  });
+
+  // écouteurs
+  pointSel.addEventListener('change', () => {
+    loadIfExists();
+    markDirty();
+  });
+  sessionSel.addEventListener('change', () => {
+    loadIfExists();
+    markDirty();
+  });
   document.querySelectorAll('select,input,textarea').forEach(el => {
     el.addEventListener('input', markDirty);
     el.addEventListener('change', markDirty);
   });
+  document.getElementById('new').onclick = resetForm;
 
-  // ajouter mesure
-  document.getElementById('add').onclick = () => {
-    const row = [ $('point'), $('session'), $('heure'), $('ventDir'), $('ventVit') ];
-    categories.forEach(cat => {
-      row.push($(`cont_${cat.code}`), $(`bouf_${cat.code}`));
-    });
-    row.push(document.getElementById('commentaire').value.trim());
-    data.push(row);
-    saveAll();
+  // ajouter / mettre à jour
+  addBtn.onclick = () => {
+    const key = `${pointSel.value}_${sessionSel.value}`;
+    const row = [
+      $val('point'),
+      $val('session'),
+      $val('heure'),
+      $val('ventDir'),
+      $val('ventVit'),
+      // intensités
+      ...categories.flatMap(cat => [
+        $val(`cont_${cat.code}`),
+        $val(`bouf_${cat.code}`)
+      ]),
+      document.getElementById('commentaire').value.trim()
+    ];
+    dataMap[key] = row;
+    saveMap();
     saved = true;
-    alert('Mesure enregistrée');
+    editingKey = key;
+    alert(editingKey === key ? 'Mesure mise à jour' : 'Mesure enregistrée');
+    updateAddLabel();
   };
 
   // export CSV avec nom selon jury
   document.getElementById('download').onclick = () => {
-    if (data.length === 0) return alert('Aucune donnée à exporter');
-    const juryCode = document.getElementById('jury').value;
+    const rows = Object.values(dataMap);
+    if (rows.length === 0) return alert('Aucune donnée à exporter');
+    const juryCode = jurySel.value;
     const filename = `JDN_${juryCode}.csv`;
     const headers = [
       'Point','Session','Heure','DirectionVent','VitesseVent',
       ...categories.flatMap(c => [`Intensite_${c.code}_continu`,`Intensite_${c.code}_bousee`]),
       'Commentaire'
     ];
-    const lines = data.map(r => r.map(v => `"${v.replace(/"/g,'""')}"`).join(','));
-    const csv = [headers.join(','), ...lines].join('\r\n');
-    const blob = new Blob([csv], {type:'text/csv'});
+    const csv = [
+      headers.join(','),
+      ...rows.map(r => r.map(v => `"${v.replace(/"/g,'""')}"`).join(','))
+    ].join('\r\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
     const url  = URL.createObjectURL(blob);
     const a    = document.createElement('a');
     a.href = url; a.download = filename;
