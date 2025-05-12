@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <title>Airea | Jury de nez</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <!-- Librairie SheetJS pour générer du XLSX -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
   <style>
     body { font-family: sans-serif; margin: 0; padding-bottom: 50px; }
     header {
@@ -59,7 +63,7 @@
 
   <header>
     <h1>Airea | Jury de nez</h1>
-    <select id="jury" style="font-size:.85rem;width: auto;max-width: 40%;">
+    <select id="jury" style="font-size:.85rem;width:auto;max-width:40%;">
       <option value="BF">Benjamin F</option>
       <option value="FC">François C</option>
       <option value="NG">Natalia G</option>
@@ -76,7 +80,7 @@
           <select id="point"></select>
         </label>
       </div>
-      <div style="display:flex; align-items:flex-end; justify-content:flex-end;">
+      <div style="display:flex;align-items:flex-end;justify-content:flex-end;">
         <button id="new">Démarrer une nouvelle mesure</button>
       </div>
     </div>
@@ -84,9 +88,7 @@
     <div class="grid2">
       <div>
         <label>Session
-          <select id="session">
-            <option>AM</option><option>PM</option>
-          </select>
+          <select id="session"><option>AM</option><option>PM</option></select>
         </label>
       </div>
       <div>
@@ -119,14 +121,13 @@
 
   <footer>
     <button id="add">Ajout des données de P1</button>
-    <button id="download">Tout exporter en csv</button>
+    <button id="download">Tout exporter en XLSX</button>
   </footer>
 
   <script>
-  // stockage en map point_session → row
+  // stockage sous forme de map point_session → row
   let dataMap = JSON.parse(localStorage.getItem('mesuresMap') || '{}');
   let saved = true;
-  let editingKey = null;
 
   // références
   const pointSel   = document.getElementById('point');
@@ -134,14 +135,14 @@
   const jurySel    = document.getElementById('jury');
   const addBtn     = document.getElementById('add');
 
-  // remplir P1…P20
+  // 1) remplir P1…P20
   for (let i = 1; i <= 20; i++) {
     const o = document.createElement('option');
     o.value = o.textContent = 'P' + i;
     pointSel.appendChild(o);
   }
 
-  // catégories & couleurs pastel
+  // 2) catégories & couleurs pastel
   const categories = [
     { nom:'Nature (A)',      code:'A', bg:'#a8e6cf' },
     { nom:'Routier (B)',     code:'B', bg:'#cfd8dc' },
@@ -174,7 +175,7 @@
     notesDiv.appendChild(row);
   });
 
-  // raccourcis
+  // raccourci
   const $val = id => document.getElementById(id).value;
 
   // utilitaires
@@ -185,11 +186,13 @@
     return new Date().toTimeString().slice(0,5);
   }
   function updateAddLabel() {
-    addBtn.textContent = editingKey
+    addBtn.textContent = dataMap[`${pointSel.value}_${sessionSel.value}`]
       ? `Mettre à jour ${pointSel.value}`
       : `Ajout des données de ${pointSel.value}`;
   }
-  function markDirty() { saved = false; }
+  function markDirty() {
+    saved = false;
+  }
 
   // charger si déjà saisi
   function loadIfExists() {
@@ -204,9 +207,7 @@
         document.getElementById(`bouf_${c.code}`).value = r[5+2*i+1];
       });
       document.getElementById('commentaire').value = r[r.length-1];
-      editingKey = key;
     } else {
-      editingKey = null;
       resetFormFields();
     }
     updateAddLabel();
@@ -226,23 +227,23 @@
   }
 
   function resetForm() {
-    if (!saved && !confirm("As-tu bien enregistré les données du point précédent ?")) return;
+    if (!saved && !confirm("As-tu bien enregistré la mesure en cours ?")) return;
     pointSel.value = 'P1';
     resetFormFields();
-    editingKey = null;
     saved = true;
     updateAddLabel();
   }
 
-  // initialisation
   window.addEventListener('load', () => {
     resetForm();
     loadIfExists();
   });
-
-  // écouteurs
-  pointSel.addEventListener('change', () => { loadIfExists(); markDirty(); });
-  sessionSel.addEventListener('change', () => { loadIfExists(); markDirty(); });
+  [ pointSel, sessionSel ].forEach(el => {
+    el.addEventListener('change', () => {
+      loadIfExists();
+      markDirty();
+    });
+  });
   document.querySelectorAll('select,input,textarea').forEach(el => {
     el.addEventListener('input', markDirty);
     el.addEventListener('change', markDirty);
@@ -261,39 +262,39 @@
     dataMap[key] = row;
     saveMap();
     saved = true;
-    alert(editingKey ? 'Mesure mise à jour' : 'Mesure enregistrée');
+    alert(dataMap[key] ? 'Mesure mise à jour' : 'Mesure enregistrée');
     updateAddLabel();
   };
 
-  // ** export CSV trié + reset UI **
+  // Export XLSX et reset UI
   document.getElementById('download').onclick = () => {
     const keys = Object.keys(dataMap)
       .sort((a,b) => {
-        const numA = parseInt(a.split('_')[0].slice(1));
-        const numB = parseInt(b.split('_')[0].slice(1));
-        if (numA !== numB) return numA - numB;
-        return a.localeCompare(b);
+        const nA = +a.split('_')[0].slice(1);
+        const nB = +b.split('_')[0].slice(1);
+        return nA - nB || a.localeCompare(b);
       });
-    if (keys.length === 0) return alert('Aucune donnée à exporter');
+    if (!keys.length) return alert('Aucune donnée à exporter');
     const rows = keys.map(k => dataMap[k]);
-    const juryCode = jurySel.value;
-    const filename = `JDN_${juryCode}.csv`;
-    const headers = [
+
+    // Préparer le tableau pour SheetJS
+    const headerRow = [
       'Point','Session','Heure','DirectionVent','VitesseVent',
-      ...categories.flatMap(c => [`Intensite_${c.code}_continu`,`Intensite_${c.code}_bousee`]),
+      ...categories.flatMap(c=>[`Intensite_${c.code}_continu`,`Intensite_${c.code}_bousee`]),
       'Commentaire'
     ];
-    const csv = [
-      headers.join(','),
-      ...rows.map(r => r.map(v => `"${v.replace(/"/g,'""')}"`).join(','))
-    ].join('\r\n');
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement('a');
-    a.href = url; a.download = filename;
-    a.click();
-    URL.revokeObjectURL(url);
-    // puis réinitialiser toute l'UI
+    const aoa = [ headerRow, ...rows ];
+
+    // Création du classeur et de la feuille
+    const ws = XLSX.utils.aoa_to_sheet(aoa);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Mesures');
+
+    // Nom de fichier selon jury
+    const juryCode = jurySel.value;
+    XLSX.writeFile(wb, `JDN_${juryCode}.xlsx`);
+
+    // Réinitialiser l'interface
     resetForm();
   };
   </script>
