@@ -135,14 +135,23 @@
   const jurySel    = document.getElementById('jury');
   const addBtn     = document.getElementById('add');
 
-  // 1) remplir P1…P20
+  // 1) charger le jury depuis le localStorage**
+  const savedJury = localStorage.getItem('selectedJury');
+  if (savedJury) jurySel.value = savedJury;
+
+  // 2) Sauvegarder le jury quand on change**
+  jurySel.addEventListener('change', () => {
+    localStorage.setItem('selectedJury', jurySel.value);
+  });
+    
+  // 3) Remplir P1 à P20
   for (let i = 1; i <= 20; i++) {
     const o = document.createElement('option');
     o.value = o.textContent = 'P' + i;
     pointSel.appendChild(o);
   }
 
-  // 2) catégories & couleurs pastel
+  // 4) catégories & couleurs pastel
   const categories = [
     { nom:'Nature (A)',      code:'A', bg:'#a8e6cf' },
     { nom:'Routier (B)',     code:'B', bg:'#cfd8dc' },
