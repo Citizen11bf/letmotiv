@@ -6,98 +6,84 @@
   <title>Airea – Fiche de points de mesure</title>
   <style>
     :root {
-      --airea-blue: #005fa1;
-      --airea-light: #e6f2fa;
-      --footer-height: 3.5rem;
-      --border-radius: .5rem;
-      --btn-padding: .75rem 1rem;
-      --font-base: .9rem;
-      --app-max-width: 480px;
+      --primary: #005fa1;
+      --light: #e6f2fa;
+      --dark-text: #333;
+      --radius: 0.5rem;
+      --padding: 0.75rem 1rem;
+      --font: 'Segoe UI', sans-serif;
+      --box-bg: #fff;
+      --box-shadow: rgba(0,0,0,0.1) 0px 2px 8px;
+      --input-height: 2.5rem;
+      --btn-hover: rgba(0,95,161,0.9);
     }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body {
-      margin: 0; padding: 0;
-      width:100%; height:100%;
-      overflow:hidden;
-      font-family:'Segoe UI',sans-serif;
-      background:var(--airea-light);
+      width:100%; height:100%; overflow:hidden;
+      font-family: var(--font);
+      background: var(--light);
       display:flex; align-items:center; justify-content:center;
     }
     .app {
-      width:100%; max-width:var(--app-max-width);
-      height:100%; display:flex; flex-direction:column;
-      background:#fff; box-shadow:0 0 10px rgba(0,0,0,.1);
+      width:100%; max-width:480px; height:100%;
+      display:flex; flex-direction:column;
+      background: var(--box-bg);
+      box-shadow: var(--box-shadow);
     }
     header {
-      display:flex; justify-content:space-between; align-items:center;
-      background:var(--airea-blue); color:#fff;
-      padding:.5rem 1rem;
+      background: var(--primary); color:#fff;
+      padding: 1rem; display:flex; justify-content:space-between; align-items:center;
     }
-    .header-title { line-height:1.2; }
-    .header-title h1 { margin:0; font-size:1.2rem; font-weight:400; }
-    .header-title p  { margin:0; font-size:1rem; }
-    .header-affaire {
-      display:flex; align-items:center; font-size:var(--font-base);
-    }
-    .header-affaire label { margin-right:.25rem; }
+    .header-title h1 { font-size:1.2rem; font-weight:400; }
+    .header-title p  { font-size:1rem; }
+    .header-affaire { display:flex; align-items:center; }
+    .header-affaire label { margin-right:0.5rem; }
     .header-affaire input {
       width:80px; text-align:center;
-      border:none; border-radius:var(--border-radius);
-      padding:.25rem .5rem;
+      padding:0.25rem; border:none; border-radius:var(--radius);
     }
     main {
-      flex:1; padding:1rem; overflow:hidden;
+      flex:1; padding:1rem; display:flex; flex-direction:column;
+      justify-content:space-between;
     }
-    .row { margin-bottom:1rem; display:flex; flex-direction:column; }
-    .row label { margin-bottom:.25rem; font-size:var(--font-base); }
-    select, input[type=text], input[type=datetime-local], input[type=number] {
-      padding:.5rem;
-      border:1px solid #ccc; border-radius:var(--border-radius);
-      font-size:var(--font-base);
+    form {
+      display:flex; flex-direction:column; gap:1rem;
     }
-    p i { font-size:.85rem; color:#555; margin-bottom:1rem; }
-    .coords { display:flex; gap:1rem; }
-    .coords>div { flex:1; }
-    .photos { display:flex; gap:1rem; }
+    label { margin-bottom:0.25rem; color:var(--dark-text); }
+    select, input, button {
+      height: var(--input-height);
+      padding:0 1rem;
+      border:1px solid #ccc;
+      border-radius:var(--radius);
+      font-size:1rem;
+      background:#fff;
+      color:var(--dark-text);
+    }
+    select:focus, input:focus, button:focus { outline:none; border-color:var(--primary); }
+    .center { text-align:center; }
+    .btn { background: var(--primary); color:#fff; border:none; cursor:pointer; transition:background .2s, transform .1s; }
+    .btn:hover { background: var(--btn-hover); }
+    .btn:active { transform:scale(.98); }
+    .coords, .sensors, .photos {
+      display:flex; gap:1rem;
+    }
+    .coords > div, .sensors > div { flex:1; }
+    .sensors input { max-width:80px; }
     .photos button {
-      flex:1; position:relative;
-      padding:var(--btn-padding);
-      border:2px dashed #777; border-radius:var(--border-radius);
-      background:#fff; font-size:var(--font-base);
-      transition:background .2s,border-color .2s;
+      flex:1; position:relative; background:#fafafa;
+      border:2px dashed #ccc; display:flex; align-items:center; justify-content:center;
     }
-    .btn-label { pointer-events:none; }
-    .btn-check {
-      position:absolute; top:.4rem; right:.4rem;
-      display:none; font-size:1.2rem; color:limegreen;
+    .photos .btn-check {
+      position:absolute; top:0.5rem; right:0.5rem; font-size:1.2rem; color:limegreen; display:none;
     }
     .photos button.filled {
-      background:var(--airea-blue); color:#fff; border-color:var(--airea-blue);
+      border:2px solid limegreen; background:var(--primary); color:#fff;
     }
     .photos button.filled .btn-check { display:block; }
-    .sensors {
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(60px,1fr));
-      gap:1rem;
-    }
-    .sensors input { max-width:60px; align-self:center; }
-    .buttons {
-      display:flex; justify-content:center; gap:1rem; margin-top:1rem;
-    }
-    button, .export-btn {
-      padding:var(--btn-padding);
-      background:var(--airea-blue); color:#fff;
-      border:none; border-radius:var(--border-radius);
-      font-size:1rem; cursor:pointer;
-      transition:opacity .2s,transform .1s;
-    }
-    button:hover, .export-btn:hover { opacity:.9; }
-    button:active { transform:scale(.98); }
     footer {
-      height:var(--footer-height);
-      background:var(--airea-blue);
-      display:flex; align-items:center; justify-content:center;
+      padding:1rem; background:var(--primary); text-align:center;
     }
-    footer .export-btn { width:90%; font-size:.95rem; }
+    footer button { width:100%; }
   </style>
 </head>
 <body>
@@ -112,289 +98,250 @@
         <input id="affaire" placeholder="XXX">
       </div>
     </header>
-
     <main>
       <form id="pointForm">
-        <div class="row">
+        <div>
           <label for="pointSelect">Point de mesure</label>
           <select id="pointSelect"><option value="">-- Choisir --</option></select>
         </div>
-        <p><i>Active ta géolocalisation avant de cliquer.</i></p>
-        <div class="buttons">
-          <button type="button" id="btnGeo">Obtenir l'adresse et coordonnées</button>
+        <p class="center"><i>Active ta géolocalisation avant de cliquer.</i></p>
+        <button type="button" id="btnGeo" class="btn">Obtenir l'adresse et coordonnées</button>
+        <div>
+          <label for="address">Adresse</label>
+          <input id="address" readonly>
         </div>
-        <div class="row"><label for="address">Adresse</label>
-          <input id="address" readonly></div>
-        <div class="row coords">
-          <div><label for="latDMS">Latitude (DMS)</label><input id="latDMS" readonly></div>
-          <div><label for="lngDMS">Longitude (DMS)</label><input id="lngDMS" readonly></div>
+        <div class="coords">
+          <div>
+            <label for="latDMS">Latitude (DMS)</label>
+            <input id="latDMS" readonly>
+          </div>
+          <div>
+            <label for="lngDMS">Longitude (DMS)</label>
+            <input id="lngDMS" readonly>
+          </div>
         </div>
-        <div class="row photos">
+        <div class="photos">
           <button type="button" id="photo1Btn">
-            <span class="btn-label">Photo 1</span><span class="btn-check">✓</span>
+            Photo 1<span class="btn-check">✓</span>
           </button>
           <button type="button" id="photo2Btn">
-            <span class="btn-label">Photo 2</span><span class="btn-check">✓</span>
+            Photo 2<span class="btn-check">✓</span>
           </button>
           <input type="file" id="photo1" accept="image/*" capture="environment" style="display:none">
           <input type="file" id="photo2" accept="image/*" capture="environment" style="display:none">
         </div>
-        <div class="row sensors">
-          <div><label for="no2">NO₂</label><input id="no2" type="number" required></div>
-          <div><label for="c6h6">C₆H₆</label><input id="c6h6" type="number" required></div>
-          <div><label for="pm10">PM₁₀</label><input id="pm10" type="number" required></div>
+        <div class="sensors">
+          <div>
+            <label for="no2">NO₂</label>
+            <input type="number" id="no2">
+          </div>
+          <div>
+            <label for="c6h6">C₆H₆</label>
+            <input type="number" id="c6h6">
+          </div>
+          <div>
+            <label for="pm10">PM₁₀</label>
+            <input type="number" id="pm10">
+          </div>
         </div>
-        <div class="row">
-          <label for="datetime">Date & heure</label>
-          <input id="datetime" type="datetime-local" required>
+        <div class="center">
+          <label for="datetime">Date & heure</label><br>
+          <button type="button" id="datetimeBtn" class="btn">Sélectionner date & heure</button>
+          <input id="datetime" type="datetime-local" style="display:none">
         </div>
-        <div class="buttons">
-          <button type="button" id="savePoint">
-            <span id="saveLabel">Enregistrement</span>
-          </button>
-        </div>
+        <button type="button" id="savePoint" class="btn">Enregistrement</button>
       </form>
     </main>
-
     <footer>
-      <button class="export-btn" id="exportXlsx">Export en .xlsx</button>
+      <button id="exportXlsx" class="btn">Export en .xlsx</button>
     </footer>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/exceljs@4.3.0/dist/exceljs.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
   <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const get = id => document.getElementById(id);
-    const pointSelect = get('pointSelect'),
-          btnGeo      = get('btnGeo'),
-          btnSave     = get('savePoint'),
-          btnExport   = get('exportXlsx'),
-          saveLabel   = get('saveLabel'),
-          addressEl   = get('address'),
-          latEl       = get('latDMS'),
-          lngEl       = get('lngDMS'),
-          no2El       = get('no2'),
-          c6h6El      = get('c6h6'),
-          pm10El      = get('pm10'),
-          datetimeEl  = get('datetime'),
-          photo1      = get('photo1'),
-          photo2      = get('photo2'),
-          photo1Btn   = get('photo1Btn'),
-          photo2Btn   = get('photo2Btn'),
-          affaireEl   = get('affaire');
+  document.addEventListener('DOMContentLoaded',()=>{
+    const qs = id=>document.getElementById(id);
+    const pointSelect=qs('pointSelect'),
+          btnGeo=qs('btnGeo'),
+          btnSave=qs('savePoint'),
+          btnExport=qs('exportXlsx'),
+          addressEl=qs('address'),
+          latEl=qs('latDMS'),
+          lngEl=qs('lngDMS'),
+          photo1=qs('photo1'),
+          photo2=qs('photo2'),
+          photo1Btn=qs('photo1Btn'),
+          photo2Btn=qs('photo2Btn'),
+          no2El=qs('no2'),
+          c6h6El=qs('c6h6'),
+          pm10El=qs('pm10'),
+          datetimeEl=qs('datetime'),
+          datetimeBtn=qs('datetimeBtn'),
+          affaireEl=qs('affaire');
     const points = {};
 
-    // Spinner P1→P40
-    for (let i = 1; i <= 40; i++) {
-      pointSelect.add(new Option(`P${i}`, `P${i}`));
+    // remplir spinner
+    for(let i=1;i<=40;i++) pointSelect.add(new Option(`P${i}`,`P${i}`));
+
+    function nowLocal(){
+      const d=new Date(); d.setSeconds(0,0);
+      const tz=d.getTimezoneOffset();
+      return new Date(d.getTime()-tz*60000).toISOString().slice(0,16);
     }
 
-    function nowLocal() {
-      const d = new Date();
-      d.setSeconds(0,0);
-      const tz = d.getTimezoneOffset();
-      return new Date(d.getTime() - tz*60000)
-             .toISOString().slice(0,16);
+    function clearFields(){
+      addressEl.value=latEl.value=lngEl.value='';
+      photo1Btn.classList.remove('filled');
+      photo2Btn.classList.remove('filled');
+      no2El.value=c6h6El.value=pm10El.value='';
+      datetimeEl.value=nowLocal();
     }
 
-    const toDMS = v => {
-      const deg = Math.floor(v),
-            min = Math.floor((v - deg)*60),
-            sec = Math.round((v - deg - min/60)*3600);
-      return `${deg}°${min}'${sec}"`;
-    };
-
-    function clear() {
-      [addressEl,latEl,lngEl,no2El,c6h6El,pm10El].forEach(e=>e.value='');
-      datetimeEl.value = nowLocal();
-      [photo1Btn,photo2Btn].forEach(b=>{
-        b.classList.remove('filled');
-        b.title = '';
-      });
-    }
-
-    function load(key) {
-      clear();
-      saveLabel.textContent = key
-        ? (points[key] ? `Mettre à jour ${key}` : `Enregistrement ${key}`)
-        : 'Enregistrement';
-      if (points[key]) {
-        const p = points[key];
-        addressEl.value  = p.address;
-        latEl.value      = p.lat;
-        lngEl.value      = p.lng;
-        no2El.value      = p.no2;
-        c6h6El.value     = p.c6h6;
-        pm10El.value     = p.pm10;
-        datetimeEl.value = p.datetime;
-        if (p.b64_1) photo1Btn.classList.add('filled'), photo1Btn.title = p.photo1Name;
-        if (p.b64_2) photo2Btn.classList.add('filled'), photo2Btn.title = p.photo2Name;
+    function loadPoint(key){
+      clearFields();
+      if(points[key]){
+        const p=points[key];
+        addressEl.value=p.address;
+        latEl.value=p.lat;
+        lngEl.value=p.lng;
+        photo1Btn.classList.add('filled');
+        photo2Btn.classList.add('filled');
+        no2El.value=p.no2;
+        c6h6El.value=p.c6h6;
+        pm10El.value=p.pm10;
+        datetimeEl.value=p.datetime;
       }
     }
 
-    pointSelect.addEventListener('change', ()=>load(pointSelect.value));
-    pointSelect.value=''; load('');
+    pointSelect.onchange=()=>loadPoint(pointSelect.value);
+    clearFields();
 
-    btnGeo.addEventListener('click', () => {
-      if (!navigator.geolocation) return alert("Géoloc non supportée");
-      navigator.geolocation.getCurrentPosition(async pos => {
-        const {latitude,longitude} = pos.coords;
-        const res = await fetch(
-          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
-        );
-        const d = await res.json();
-        addressEl.value = d.display_name;
-        latEl.value = toDMS(latitude);
-        lngEl.value = toDMS(longitude);
-      }, e => alert("Erreur position : " + e.message));
-    });
+    // géoloc + format adresse
+    btnGeo.onclick=()=>{
+      if(!navigator.geolocation)return alert("Géoloc non supportée");
+      navigator.geolocation.getCurrentPosition(async pos=>{
+        const {latitude,longitude}=pos.coords;
+        const res=await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+        const d=await res.json();
+        const addr=d.address;
+        const num=addr.house_number||'';
+        const rue=addr.road||addr.pedestrian||'';
+        const ville=addr.city||addr.town||addr.village||'';
+        addressEl.value=`${num} ${rue}, ${ville}`;
+        latEl.value=`${latitude.toFixed(6)}`;
+        lngEl.value=`${longitude.toFixed(6)}`;
+      },e=>alert("Erreur position : "+e.message));
+    };
 
-    // Chargement brut
-    function rawImage(file, btn) {
-      return new Promise(res => {
-        const fr = new FileReader();
-        fr.onload = () => {
+    // transformer image: 90° + redim 7×5,25→5,25×7
+    async function transform(file,btn){
+      return new Promise(res=>{
+        const fr=new FileReader();
+        fr.onload=async()=>{
+          const img=new Image();
+          img.src=fr.result;
+          await img.decode();
+          const px=96/2.54;
+          const cw=Math.round(7*px), ch=Math.round(5.25*px);
+          const c=document.createElement('canvas');
+          c.width=cw; c.height=ch;
+          const ctx=c.getContext('2d');
+          ctx.translate(cw/2, ch/2);
+          ctx.rotate(90*Math.PI/180);
+          const scale = Math.min(cw/img.width, ch/img.height);
+          const w=img.width*scale, h=img.height*scale;
+          ctx.drawImage(img, -w/2, -h/2, w, h);
           btn.classList.add('filled');
-          btn.title = file.name;
-          res(fr.result.split(',')[1]);
+          btn.querySelector('.btn-check').style.display='block';
+          res(c.toDataURL('image/jpeg',0.9).split(',')[1]);
         };
         fr.readAsDataURL(file);
       });
     }
 
-    // Transformation 45° + redim en 5.25×7 cm
-    async function transformImage(file, btn) {
-      const b64raw = await rawImage(file, btn);
-      // Créer image
-      const img = new Image();
-      img.src = 'data:image/jpeg;base64,' + b64raw;
-      await img.decode();
+    photo1Btn.onclick=()=>photo1.click();
+    photo2Btn.onclick=()=>photo2.click();
+    photo1.onchange=()=>photo1.files[0]&&transform(photo1.files[0],photo1Btn);
+    photo2.onchange=()=>photo2.files[0]&&transform(photo2.files[0],photo2Btn);
 
-      // Dimensions canvas : on veut 7 cm large × 5.25 cm haut
-      const pxPerCm = 96/2.54;
-      const cw = Math.round(7 * pxPerCm),
-            ch = Math.round(5.25 * pxPerCm);
+    // date/heure
+    datetimeBtn.onclick=()=>datetimeEl.showPicker?.()||datetimeEl.click();
 
-      const c = document.createElement('canvas');
-      c.width = cw; c.height = ch;
-      const ctx = c.getContext('2d');
-
-      // On déplace au centre, on tourne 45°, on dessine
-      ctx.translate(cw/2, ch/2);
-      ctx.rotate(45 * Math.PI/180);
-      // dessiner l’image centrée
-      const scale = Math.min(cw/img.width, ch/img.height);
-      const w = img.width * scale, h = img.height * scale;
-      ctx.drawImage(img, -w/2, -h/2, w, h);
-
-      // Export JPEG (EXIF écrasé, orientation manuelle conservée)
-      const out = c.toDataURL('image/jpeg', 0.9).split(',')[1];
-      return out;
-    }
-
-    photo1Btn.addEventListener('click', ()=>photo1.click());
-    photo2Btn.addEventListener('click', ()=>photo2.click());
-
-    photo1.addEventListener('change', () => {
-      if (photo1.files[0]) transformImage(photo1.files[0], photo1Btn);
-    });
-    photo2.addEventListener('change', () => {
-      if (photo2.files[0]) transformImage(photo2.files[0], photo2Btn);
-    });
-
-    btnSave.addEventListener('click', async () => {
+    btnSave.onclick=async()=>{
+      // validation
+      if(!photo1Btn.classList.contains('filled')||!photo2Btn.classList.contains('filled')){
+        return alert("Veuillez prendre les deux photos !");
+      }
+      if(!no2El.value||!c6h6El.value||!pm10El.value){
+        return alert("Veuillez remplir tous les capteurs !");
+      }
       const key = pointSelect.value;
-      if (!key) return alert("Sélectionne un point.");
-      const p1 = photo1.files[0]
-        ? await transformImage(photo1.files[0], photo1Btn)
-        : null;
-      const p2 = photo2.files[0]
-        ? await transformImage(photo2.files[0], photo2Btn)
-        : null;
-      points[key] = {
-        address: addressEl.value,
-        lat:     latEl.value,
-        lng:     lngEl.value,
-        no2:     no2El.value,
-        c6h6:    c6h6El.value,
-        pm10:    pm10El.value,
+      if(!key) return alert("Sélectionnez un point !");
+      const b1 = await transform(photo1.files[0],photo1Btn);
+      const b2 = await transform(photo2.files[0],photo2Btn);
+      points[key]={
+        address:addressEl.value,
+        lat:latEl.value,
+        lng:lngEl.value,
+        no2:no2El.value,
+        c6h6:c6h6El.value,
+        pm10:pm10El.value,
         datetime:datetimeEl.value,
-        photo1Name: photo1.files[0]?.name||'',
-        photo2Name: photo2.files[0]?.name||'',
-        b64_1:   p1,
-        b64_2:   p2
+        photo1Name:photo1.files[0].name,
+        photo2Name:photo2.files[0].name,
+        b64_1:b1, b64_2:b2
       };
       alert(`Données ${key} enregistrées !`);
-      // prochaine libre
-      let next = '';
-      for (let i=1;i<=40;i++)
-        if (!points[`P${i}`]) { next=`P${i}`; break; }
-      pointSelect.value=next;
-      load(next);
-    });
+      // next
+      for(let i=1;i<=40;i++){
+        if(!points[`P${i}`]){
+          pointSelect.value=`P${i}`; loadPoint(`P${i}`); break;
+        }
+      }
+    };
 
-    btnExport.addEventListener('click', async () => {
-      if (!confirm("Tu es sûr ? Sauvegarder réinitialise l’app.")) return;
-      const affaire = affaireEl.value.trim()||'Sans_affaire';
-      const filename = `${affaire}_Fiche_de_points_de_mesure.xlsx`;
-      const wb = new ExcelJS.Workbook();
-      const ws = wb.addWorksheet('Mesures');
-      ws.columns = [
-        {header:'Point', key:'point', width:10},
-        {header:'Adresse', key:'address', width:30},
-        {header:'Lat DMS', key:'lat', width:15},
-        {header:'Lng DMS', key:'lng', width:15},
-        {header:'Photo 1', key:'photo1', width:35.7},
-        {header:'Photo 2', key:'photo2', width:35.7},
-        {header:'NO₂', key:'no2', width:10},
-        {header:'C₆H₆', key:'c6h6', width:10},
-        {header:'PM₁₀', key:'pm10', width:10},
-        {header:'DateHeure', key:'datetime', width:20},
+    btnExport.onclick=async()=>{
+      if(!confirm("Sauvegarder réinitialise l’app. Confirmez ?")) return;
+      const aff=affaireEl.value.trim()||'Sans_affaire';
+      const fn=`${aff}_Fiche_de_points_de_mesure.xlsx`;
+      const wb=new ExcelJS.Workbook();
+      const ws=wb.addWorksheet('Mesures');
+      ws.columns=[
+        {header:'Point',key:'point',width:10},
+        {header:'Adresse',key:'address',width:30},
+        {header:'Lat',key:'lat',width:12},
+        {header:'Lng',key:'lng',width:12},
+        {header:'Photo1',key:'p1',width:20},
+        {header:'Photo2',key:'p2',width:20},
+        {header:'NO₂',key:'no2',width:8},
+        {header:'C₆H₆',key:'c6h6',width:8},
+        {header:'PM₁₀',key:'pm10',width:8},
+        {header:'DateHeure',key:'dt',width:20},
       ];
-      ws.getColumn('datetime').numFmt = 'dd/mm/yy hh:mm';
-
-      // Conversion cm→px
-      const pxPerCm = 96/2.54;
-      // ici on inverse : 7 cm large, 5,25 cm haut
-      const imgW = Math.round(7 * pxPerCm),
-            imgH = Math.round(5.25 * pxPerCm);
-
+      ws.getColumn('dt').numFmt='dd/mm/yy hh:mm';
+      const px=96/2.54;
+      const imgW=Math.round(7*px), imgH=Math.round(5.25*px);
       let row=2;
-      for (const [pt,p] of Object.entries(points)) {
+      for(const[pt,p] of Object.entries(points)){
         ws.addRow({
-          point:pt, address:p.address, lat:p.lat, lng:p.lng,
-          photo1:'', photo2:'',
-          no2:p.no2, c6h6:p.c6h6, pm10:p.pm10,
-          datetime:new Date(p.datetime)
+          point:pt,address:p.address,lat:p.lat,lng:p.lng,
+          p1:'',p2:'',no2:p.no2,c6h6:p.c6h6,pm10:p.pm10,
+          dt:new Date(p.datetime)
         });
-        ws.getRow(row).height = Math.round( imgH * 0.75 ); // ajuster la hauteur
-
-        if (p.b64_1) {
-          const id1 = wb.addImage({ base64:p.b64_1, extension:'jpeg' });
-          ws.addImage(id1, {
-            tl:{col:4,row:row-1},
-            ext:{width:imgW, height:imgH}
-          });
-        }
-        if (p.b64_2) {
-          const id2 = wb.addImage({ base64:p.b64_2, extension:'jpeg' });
-          ws.addImage(id2, {
-            tl:{col:5,row:row-1},
-            ext:{width:imgW, height:imgH}
-          });
-        }
+        ws.getRow(row).height=imgH*0.75;
+        const id1=wb.addImage({base64:p.b64_1,extension:'jpeg'});
+        ws.addImage(id1,{tl:{col:4,row:row-1},ext:{width:imgW,height:imgH}});
+        const id2=wb.addImage({base64:p.b64_2,extension:'jpeg'});
+        ws.addImage(id2,{tl:{col:5,row:row-1},ext:{width:imgW,height:imgH}});
         row++;
       }
-
-      const buf = await wb.xlsx.writeBuffer();
-      saveAs(new Blob([buf],{type:'application/octet-stream'}), filename);
-
+      const buf=await wb.xlsx.writeBuffer();
+      saveAs(new Blob([buf]),fn);
       // reset
       Object.keys(points).forEach(k=>delete points[k]);
-      pointSelect.value=''; load('');
-    });
+      clearFields(); pointSelect.value=''; loadPoint('');
+    };
   });
   </script>
 </body>
