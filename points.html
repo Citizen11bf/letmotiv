@@ -17,79 +17,48 @@
     }
     /* Empêche tout scrolling */
     html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
+      margin: 0; padding: 0;
+      width: 100%; height: 100%;
       overflow: hidden;
     }
     /* Centre l'app */
     body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      display: flex; justify-content: center; align-items: center;
       background: var(--airea-light);
       font-family: 'Segoe UI', sans-serif;
     }
     .app {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      max-width: var(--app-max-width);
+      display: flex; flex-direction: column;
+      width: 100%; max-width: var(--app-max-width);
       height: 100%;
       background: #fff;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
     header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: var(--airea-blue);
-      color: #fff;
+      display: flex; justify-content: space-between; align-items: center;
+      background: var(--airea-blue); color: #fff;
       padding: 0.5rem 1rem;
     }
-    .header-title {
-      text-align: left;
-      line-height: 1.2;
-    }
-    .header-title h1 {
-      font-size: 1.2rem;
-      font-weight: 400;
-      margin: 0;
-    }
-    .header-title p {
-      margin: 0;
-      font-size: 1rem;
-    }
+    .header-title { text-align: left; line-height: 1.2; }
+    .header-title h1 { font-size: 1.2rem; font-weight: 400; margin: 0; }
+    .header-title p  { margin: 0; font-size: 1rem; }
     .header-affaire {
-      display: flex;
-      align-items: center;
-      font-size: var(--font-base);
+      display: flex; align-items: center; font-size: var(--font-base);
     }
-    .header-affaire label {
-      margin-right: 0.25rem;
-    }
+    .header-affaire label { margin-right: 0.25rem; }
     .header-affaire input {
-      padding: 0.25rem 0.5rem;
-      border: none;
+      padding: 0.25rem 0.5rem; border: none;
       border-radius: var(--border-radius);
-      font-size: var(--font-base);
-      width: 80px;
-      text-align: center;
+      width: 80px; text-align: center;
     }
     main {
-      flex: 1;
-      padding: 1rem;
-      overflow: hidden;
+      flex: 1; padding: 1rem; overflow: hidden;
     }
     .row {
-      margin-bottom: 1rem;
-      display: flex;
-      flex-direction: column;
+      margin-bottom: 1rem; display: flex; flex-direction: column;
     }
     .row label {
-      margin-bottom: 0.25rem;
-      font-size: var(--font-base);
+      margin-bottom: 0.25rem; font-size: var(--font-base);
     }
     select, input[type="text"], input[type="datetime-local"], input[type="number"] {
       padding: 0.5rem;
@@ -98,24 +67,17 @@
       font-size: var(--font-base);
     }
     p i {
-      font-size: 0.85rem;
-      color: #555;
-      margin-bottom: 1rem;
+      font-size: 0.85rem; color: #555; margin-bottom: 1rem;
     }
     .coords {
-      display: flex;
-      gap: 1rem;
+      display: flex; gap: 1rem;
     }
-    .coords > div {
-      flex: 1;
-    }
+    .coords > div { flex: 1; }
     .photos {
-      display: flex;
-      gap: 1rem;
+      display: flex; gap: 1rem;
     }
     .photos button {
-      flex: 1;
-      padding: var(--btn-padding);
+      flex: 1; padding: var(--btn-padding);
       border: 2px dashed #777;
       border-radius: var(--border-radius);
       background: #fff;
@@ -123,16 +85,10 @@
       position: relative;
       transition: background 0.2s, border-color 0.2s;
     }
-    .photos .btn-label {
-      pointer-events: none;
-    }
+    .photos .btn-label { pointer-events: none; }
     .photos .btn-check {
-      position: absolute;
-      top: 0.4rem;
-      right: 0.4rem;
-      display: none;
-      font-size: 1.2rem;
-      color: limegreen;
+      position: absolute; top: 0.4rem; right: 0.4rem;
+      display: none; font-size: 1.2rem; color: limegreen;
     }
     .photos button.filled {
       background: var(--airea-blue);
@@ -148,41 +104,28 @@
       gap: 1rem;
     }
     .sensors input {
-      max-width: 60px;
-      align-self: center;
+      max-width: 60px; align-self: center;
     }
     .buttons {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
+      display: flex; gap: 1rem; justify-content: center;
       margin-top: 1rem;
     }
     button, .export-btn {
       padding: var(--btn-padding);
-      background: var(--airea-blue);
-      color: #fff;
-      border: none;
-      border-radius: var(--border-radius);
-      font-size: 1rem;
-      cursor: pointer;
+      background: var(--airea-blue); color: #fff;
+      border: none; border-radius: var(--border-radius);
+      font-size: 1rem; cursor: pointer;
       transition: opacity 0.2s, transform 0.1s;
     }
-    button:hover, .export-btn:hover {
-      opacity: 0.9;
-    }
-    button:active {
-      transform: scale(0.98);
-    }
+    button:hover, .export-btn:hover { opacity: 0.9; }
+    button:active { transform: scale(0.98); }
     footer {
       height: var(--footer-height);
       background: var(--airea-blue);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
     }
     footer .export-btn {
-      width: 90%;
-      font-size: 0.95rem;
+      width: 90%; font-size: 0.95rem;
     }
   </style>
 </head>
@@ -195,7 +138,7 @@
       </div>
       <div class="header-affaire">
         <label for="affaire">Affaire n° :</label>
-        <input type="text" id="affaire" placeholder="AF25XX">
+        <input type="text" id="affaire" placeholder="XXX">
       </div>
     </header>
 
@@ -291,6 +234,7 @@
     const photo2Btn   = document.getElementById('photo2Btn');
     const affaireEl   = document.getElementById('affaire');
 
+    // spinner P1→P40
     for (let i = 1; i <= 40; i++) {
       pointSelect.add(new Option(`P${i}`, `P${i}`));
     }
@@ -298,8 +242,8 @@
     function nowDateTimeLocal() {
       const d = new Date();
       d.setSeconds(0, 0);
-      const tzOffset = d.getTimezoneOffset();
-      return new Date(d.getTime() - tzOffset * 60 * 1000)
+      const tz = d.getTimezoneOffset();
+      return new Date(d.getTime() - tz*60000)
              .toISOString().slice(0,16);
     }
 
@@ -351,59 +295,38 @@
       }, e => alert("Erreur position : " + e.message));
     });
 
-    async function handleFile(file, btn) {
-      const orientation = await new Promise(r =>
-        EXIF.getData(file, function(){ r(EXIF.getTag(this,'Orientation')||1); })
-      );
-      const img = await new Promise(r => {
-        const i = new Image();
-        i.onload = () => r(i);
-        i.src = URL.createObjectURL(file);
+    // lecture brute du JPEG
+    async function handleFileRaw(file, btn) {
+      return new Promise(resolve => {
+        const fr = new FileReader();
+        fr.onload = () => {
+          const b64 = fr.result.split(',')[1];
+          btn.classList.add('filled');
+          btn.title = file.name;
+          resolve(b64);
+        };
+        fr.readAsDataURL(file);
       });
-      const c1 = document.createElement('canvas');
-      const ctx1 = c1.getContext('2d');
-      let w = img.naturalWidth, h = img.naturalHeight;
-      if (orientation >= 5 && orientation <= 8) [w,h] = [h,w];
-      c1.width = w; c1.height = h;
-      switch (orientation) {
-        case 2: ctx1.translate(w,0); ctx1.scale(-1,1); break;
-        case 3: ctx1.translate(w,h); ctx1.rotate(Math.PI); break;
-        case 4: ctx1.translate(0,h); ctx1.scale(1,-1); break;
-        case 5: ctx1.rotate(0.5*Math.PI); ctx1.scale(1,-1); break;
-        case 6: ctx1.rotate(0.5*Math.PI); ctx1.translate(0,-h); break;
-        case 7: ctx1.rotate(0.5*Math.PI); ctx1.translate(w,-h); ctx1.scale(-1,1); break;
-        case 8: ctx1.rotate(-0.5*Math.PI); ctx1.translate(-w,0); break;
-      }
-      ctx1.drawImage(img, 0, 0);
-      URL.revokeObjectURL(img.src);
-
-      const pxPerCm = 96/2.54;
-      const tw = Math.round(5.25 * pxPerCm), th = Math.round(7 * pxPerCm);
-      const c2 = document.createElement('canvas');
-      c2.width = tw; c2.height = th;
-      c2.getContext('2d').drawImage(c1, 0, 0, c1.width, c1.height, 0, 0, tw, th);
-
-      const dataURL = c2.toDataURL('image/png');
-      btn.classList.add('filled');
-      btn.title = file.name;
-      return dataURL.split(',')[1];
     }
 
     photo1Btn.addEventListener('click', () => photo1.click());
     photo2Btn.addEventListener('click', () => photo2.click());
     photo1.addEventListener('change', () => {
-      if (photo1.files[0]) handleFile(photo1.files[0], photo1Btn);
+      if (photo1.files[0]) handleFileRaw(photo1.files[0], photo1Btn);
     });
     photo2.addEventListener('change', () => {
-      if (photo2.files[0]) handleFile(photo2.files[0], photo2Btn);
+      if (photo2.files[0]) handleFileRaw(photo2.files[0], photo2Btn);
     });
 
     btnSave.addEventListener('click', async () => {
       const key = pointSelect.value;
       if (!key) return alert("Sélectionne un point.");
-      // les b64 sont déjà générés dans handleFile et stockés sur btn.title
-      const b1 = photo1Btn.classList.contains('filled') ? photo1Btn.title && photo1.files[0] && await handleFile(photo1.files[0], photo1Btn) : null;
-      const b2 = photo2Btn.classList.contains('filled') ? photo2Btn.title && photo2.files[0] && await handleFile(photo2.files[0], photo2Btn) : null;
+      const b1 = photo1Btn.classList.contains('filled')
+        ? await handleFileRaw(photo1.files[0], photo1Btn)
+        : null;
+      const b2 = photo2Btn.classList.contains('filled')
+        ? await handleFileRaw(photo2.files[0], photo2Btn)
+        : null;
       points[key] = {
         address:    addressEl.value,
         lat:        latEl.value,
@@ -419,8 +342,7 @@
       };
       alert(`Données ${key} enregistrées !`);
       let next = '';
-      for (let i = 1; i <= 40; i++)
-        if (!points[`P${i}`]) { next = `P${i}`; break; }
+      for (let i=1; i<=40; i++) if (!points[`P${i}`]) { next = `P${i}`; break; }
       pointSelect.value = next;
       loadPoint(next);
     });
@@ -446,7 +368,8 @@
       ws.getColumn('datetime').numFmt = 'dd/mm/yy hh:mm';
 
       const pxPerCm = 96/2.54;
-      const imgW = Math.round(5.25 * pxPerCm), imgH = Math.round(7 * pxPerCm);
+      const imgW = Math.round(5.25 * pxPerCm),
+            imgH = Math.round(7    * pxPerCm);
       let rowIndex = 2;
 
       for (const [pt,p] of Object.entries(points)) {
@@ -458,18 +381,18 @@
         });
         ws.getRow(rowIndex).height = Math.round(340 * 0.75);
         if (p.b64_1) {
-          const id1 = wb.addImage({ base64: p.b64_1, extension: 'png' });
+          const id1 = wb.addImage({ base64: p.b64_1, extension: 'jpeg' });
           ws.addImage(id1, { tl:{col:4,row:rowIndex-1}, ext:{width:imgW,height:imgH} });
         }
         if (p.b64_2) {
-          const id2 = wb.addImage({ base64: p.b64_2, extension: 'png' });
+          const id2 = wb.addImage({ base64: p.b64_2, extension: 'jpeg' });
           ws.addImage(id2, { tl:{col:5,row:rowIndex-1}, ext:{width:imgW,height:imgH} });
         }
         rowIndex++;
       }
 
       const buffer = await wb.xlsx.writeBuffer();
-      saveAs(new Blob([buffer],{type:'application/octet-stream'}), filename);
+      saveAs(new Blob([buffer], {type:'application/octet-stream'}), filename);
 
       // remise à zéro
       Object.keys(points).forEach(k => delete points[k]);
