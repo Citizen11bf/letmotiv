@@ -42,19 +42,48 @@
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
     header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       background: var(--airea-blue);
       color: #fff;
-      text-align: center;
-      padding: 0.5rem;
+      padding: 0.5rem 1rem;
     }
-    header h1 {
+    /* Bloc titre à gauche */
+    .header-title {
+      text-align: left;
+      line-height: 1.2;
+    }
+    .header-title h1 {
       font-size: 1.2rem;
       font-weight: 400;
+      margin: 0;
+    }
+    .header-title p {
+      margin: 0;
+      font-size: 1rem;
+    }
+    /* Zone Affaire à droite */
+    .header-affaire {
+      display: flex;
+      align-items: center;
+      color: #fff;
+      font-size: var(--font-base);
+    }
+    .header-affaire label {
+      margin-right: 0.25rem;
+    }
+    .header-affaire input {
+      padding: 0.25rem 0.5rem;
+      border: none;
+      border-radius: var(--border-radius);
+      font-size: var(--font-base);
+      width: 80px;
+      text-align: center;
     }
     main {
       flex: 1;
       padding: 1rem;
-      /* plus de scroll interne */
       overflow: hidden;
     }
     .row {
@@ -66,7 +95,7 @@
       margin-bottom: 0.25rem;
       font-size: var(--font-base);
     }
-    select, input {
+    select, input[type="text"], input[type="datetime-local"], input[type="number"] {
       padding: 0.5rem;
       border: 1px solid #ccc;
       border-radius: var(--border-radius);
@@ -96,16 +125,35 @@
       background: #fff;
       font-size: var(--font-base);
       transition: background 0.2s, border-color 0.2s;
+      position: relative;
+    }
+    .photos button::after {
+      content: '';
+      position: absolute;
+      right: 0.5rem;
+      top: 0.5rem;
+      font-size: 1.2rem;
+      color: limegreen;
+      opacity: 0;
+      transition: opacity 0.2s;
     }
     .photos button.filled {
       background: var(--airea-blue);
       color: #fff;
       border-color: var(--airea-blue);
     }
+    .photos button.filled::after {
+      content: '✓';
+      opacity: 1;
+    }
     .sensors {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
       gap: 1rem;
+    }
+    .sensors input {
+      max-width: 60px;
+      align-self: center;
     }
     .buttons {
       display: flex;
@@ -145,7 +193,14 @@
 <body>
   <div class="app">
     <header>
-      <h1>Airea – Fiche de points de mesure</h1>
+      <div class="header-title">
+        <h1>Airea</h1>
+        <p>Fiche de point de mesure</p>
+      </div>
+      <div class="header-affaire">
+        <label for="affaire">Affaire n° :</label>
+        <input type="text" id="affaire" placeholder="XXX">
+      </div>
     </header>
 
     <main>
@@ -180,15 +235,15 @@
         </div>
         <div class="row sensors">
           <div>
-            <label for="no2">Capteur NO₂</label>
+            <label for="no2">NO₂</label>
             <input type="number" id="no2" required>
           </div>
           <div>
-            <label for="c6h6">Capteur C₆H₆</label>
+            <label for="c6h6">C₆H₆</label>
             <input type="number" id="c6h6" required>
           </div>
           <div>
-            <label for="pm10">Capteur PM₁₀</label>
+            <label for="pm10">PM₁₀</label>
             <input type="number" id="pm10" required>
           </div>
         </div>
@@ -232,6 +287,7 @@
     const photo2      = document.getElementById('photo2');
     const photo1Btn   = document.getElementById('photo1Btn');
     const photo2Btn   = document.getElementById('photo2Btn');
+    const affaireEl   = document.getElementById('affaire');
 
     // Remplir spinner P1→P40
     for (let i = 1; i <= 40; i++) pointSelect.add(new Option(`P${i}`, `P${i}`));
@@ -370,6 +426,8 @@
 
     btnExport.addEventListener('click', async () => {
       if (!confirm("Tu es sûr de vouloir sauvegarder l'intégralité des points ? Cela remettra à 0 l'ensemble de l'app.")) return;
+      const affaire = affaireEl.value.trim() || 'Sans_affaire';
+      const filename = `${affaire}_Fiche_de_points_de_mesure.xlsx`;
       const wb = new ExcelJS.Workbook();
       const ws = wb.addWorksheet('Mesures');
       ws.columns = [
@@ -379,9 +437,9 @@
         {header:'Lng DMS', key:'lng', width:15},
         {header:'Photo 1', key:'photo1', width:35.7},
         {header:'Photo 2', key:'photo2', width:35.7},
-        {header:'NO2', key:'no2', width:10},
-        {header:'C6H6', key:'c6h6', width:10},
-        {header:'PM10', key:'pm10', width:10},
+        {header:'NO₂', key:'no2', width:10},
+        {header:'C₆H₆', key:'c6h6', width:10},
+        {header:'PM₁₀', key:'pm10', width:10},
         {header:'DateHeure', key:'datetime', width:20},
       ];
       ws.getColumn('datetime').numFmt = 'dd/mm/yy hh:mm';
@@ -410,8 +468,9 @@
       }
 
       const buffer = await wb.xlsx.writeBuffer();
-      saveAs(new Blob([buffer],{type:'application/octet-stream'}),'mesures_air_avec_photos.xlsx');
+      saveAs(new Blob([buffer],{type:'application/octet-stream'}), filename);
 
+      // remise à zéro
       Object.keys(points).forEach(k => delete points[k]);
       pointSelect.value = '';
       loadPoint('');
