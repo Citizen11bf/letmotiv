@@ -233,13 +233,13 @@
         }
         const p = points[key];
         if (p) {
-          addressEl.value      = p.address;
-          latEl.value          = p.lat;
-          lngEl.value          = p.lng;
-          no2El.value          = p.no2;
-          c6h6El.value         = p.c6h6;
-          pm10El.value         = p.pm10;
-          datetimeEl.value     = p.datetime;
+          addressEl.value       = p.address;
+          latEl.value           = p.lat;
+          lngEl.value           = p.lng;
+          no2El.value           = p.no2;
+          c6h6El.value          = p.c6h6;
+          pm10El.value          = p.pm10;
+          datetimeEl.value      = p.datetime;
           photo1Btn.textContent = p.photo1Name || 'Photo1';
           photo2Btn.textContent = p.photo2Name || 'Photo2';
           saveLabel.textContent = `Mettre à jour ${key}`;
@@ -293,7 +293,7 @@
           photo2File: photo2.files[0] || null
         };
         points[key] = entry;
-        alert(`${points[key] ? 'Enregistré' : 'Mis à jour'} ${key} !`);
+        alert(`Données ${key} enregistrées !`);
 
         // passer au prochain libre
         let next = '';
@@ -304,60 +304,67 @@
         loadPoint(next);
       });
 
-      // Export avec images
+      // Export XLSX avec images, lignes haute de 700, format date spécifié
       btnExport.addEventListener('click', async () => {
         const wb = new ExcelJS.Workbook();
         const ws = wb.addWorksheet('Mesures');
+
         ws.columns = [
           { header: 'Point',     key: 'point',    width: 10 },
           { header: 'Adresse',   key: 'address',  width: 30 },
           { header: 'Lat DMS',   key: 'lat',      width: 15 },
           { header: 'Lng DMS',   key: 'lng',      width: 15 },
-          { header: 'Photo1',    key: 'photo1',   width: 20 },
-          { header: 'Photo2',    key: 'photo2',   width: 20 },
+          { header: 'Photo1',    key: 'photo1',   width: 13 },
+          { header: 'Photo2',    key: 'photo2',   width: 13 },
           { header: 'NO2',       key: 'no2',      width: 10 },
           { header: 'C6H6',      key: 'c6h6',     width: 10 },
           { header: 'PM10',      key: 'pm10',     width: 10 },
           { header: 'DateHeure', key: 'datetime', width: 20 },
         ];
 
+        // Appliquer format date/heure à la colonne entière
+        ws.getColumn('datetime').numFmt = 'dd/mm/yy hh:mm';
+
         let rowIndex = 2;
         for (const [pt, p] of Object.entries(points)) {
           ws.addRow({
-            point: pt,
-            address: p.address,
-            lat: p.lat,
-            lng: p.lng,
-            photo1: '',
-            photo2: '',
-            no2: p.no2,
-            c6h6: p.c6h6,
-            pm10: p.pm10,
-            datetime: p.datetime
+            point:     pt,
+            address:   p.address,
+            lat:       p.lat,
+            lng:       p.lng,
+            photo1:    '',
+            photo2:    '',
+            no2:       p.no2,
+            c6h6:      p.c6h6,
+            pm10:      p.pm10,
+            datetime:  new Date(p.datetime)
           });
-          // insert image1
+          // hauteur de la ligne en points (700 pixels ≈ 525 points, mais on met 700 pts comme demandé)
+          ws.getRow(rowIndex).height = 700;
+
+          // Photo1 (700×525 portrait)
           if (p.photo1File) {
-            const base64 = await fileToBase64(p.photo1File);
-            const imgId = wb.addImage({ base64, extension: p.photo1File.name.split('.').pop() });
+            const b64 = await fileToBase64(p.photo1File);
+            const imgId = wb.addImage({ base64: b64, extension: p.photo1File.name.split('.').pop() });
             ws.addImage(imgId, {
-              tl: { col: 4, row: rowIndex-1 },
-              ext: { width: 100, height: 100 }
+              tl: { col: 4, row: rowIndex - 1 },
+              ext: { width: 525, height: 700 }
             });
           }
-          // insert image2
+          // Photo2
           if (p.photo2File) {
-            const base642 = await fileToBase64(p.photo2File);
-            const imgId2 = wb.addImage({ base64: base642, extension: p.photo2File.name.split('.').pop() });
+            const b642 = await fileToBase64(p.photo2File);
+            const imgId2 = wb.addImage({ base64: b642, extension: p.photo2File.name.split('.').pop() });
             ws.addImage(imgId2, {
-              tl: { col: 5, row: rowIndex-1 },
-              ext: { width: 100, height: 100 }
+              tl: { col: 5, row: rowIndex - 1 },
+              ext: { width: 525, height: 700 }
             });
           }
           rowIndex++;
         }
 
-        const buf = await wb.xlsx.writeBuffer();
-        saveAs(new Blob([buf], { type: 'application/octet-stream' }), 'mesures_air_avec_photos.xlsx');
+        const buffer = await wb.xlsx.writeBuffer();
+        saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'mesures_air_avec_photos.xlsx');
       });
 
       function fileToBase64(file) {
@@ -369,7 +376,7 @@
         });
       }
 
-      // init
+      // initialisation
       pointSelect.value = '';
       loadPoint('');
     });
