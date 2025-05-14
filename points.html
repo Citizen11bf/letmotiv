@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>Terrain Air Quality</title>
+  <title>Airea - Fiche de points</title>
   <style>
     :root {
       --airea-blue: #005fa1;
@@ -26,7 +26,6 @@
       text-align: center;
       padding: 0.25rem;
     }
-    header h1 { font-size: 1.2rem; line-height: 1.5; }
     main {
       flex: 1;
       overflow-y: auto;
@@ -35,7 +34,7 @@
     }
     .row { margin-bottom: 0.5rem; display: flex; flex-direction: column; }
     .row label { margin-bottom: 0.25rem; font-size: 0.9rem; }
-    select, input { padding: 0.4rem; border:1px solid #ccc; border-radius:4px; font-size:0.9rem; }
+    select, input { padding:0.4rem; border:1px solid #ccc; border-radius:4px; font-size:0.9rem; }
     .coords { display:flex; gap:0.5rem; }
     .coords>div { flex:1; }
     .photos { display:flex; gap:0.5rem; }
@@ -43,7 +42,9 @@
       flex:1; padding:0.5rem; border:1px dashed #777; border-radius:4px;
       background:#fff; font-size:0.9rem; transition:0.2s;
     }
-    .photos button.filled { background:var(--airea-blue); color:#fff; border:none; }
+    .photos button.filled {
+      background:var(--airea-blue); color:#fff; border:none;
+    }
     .sensors { display:grid; grid-template-columns:repeat(auto-fit,minmax(80px,1fr)); gap:0.5rem; }
     .buttons { display:flex; gap:0.5rem; margin-top:0.75rem; }
     button, .export-btn {
@@ -69,27 +70,21 @@
         <select id="pointSelect"><option value="">-- Choisir --</option></select>
       </div>
       <div class="buttons">
-        <button type="button" id="btnGeo">Obtenir adresse et coordonnées</button>
+        <button type="button" id="btnGeo">Obtenir l'adresse et et les coordonnées</button> <p><i>Active ta géolocalisation avant de cliquer.</i></p>
       </div>
       <div class="row">
         <label for="address">Adresse</label>
         <input type="text" id="address" readonly>
       </div>
       <div class="row coords">
-        <div>
-          <label for="latDMS">Latitude (DMS)</label>
-          <input type="text" id="latDMS" readonly>
-        </div>
-        <div>
-          <label for="lngDMS">Longitude (DMS)</label>
-          <input type="text" id="lngDMS" readonly>
-        </div>
+        <div><label for="latDMS">Latitude (DMS)</label><input type="text" id="latDMS" readonly></div>
+        <div><label for="lngDMS">Longitude (DMS)</label><input type="text" id="lngDMS" readonly></div>
       </div>
       <div class="row photos">
         <button type="button" id="photo1Btn">Photo1</button>
         <button type="button" id="photo2Btn">Photo2</button>
-        <input type="file" accept="image/*" capture="environment" id="photo1" style="display:none">
-        <input type="file" accept="image/*" capture="environment" id="photo2" style="display:none">
+        <input type="file" id="photo1" accept="image/*" capture="environment" style="display:none">
+        <input type="file" id="photo2" accept="image/*" capture="environment" style="display:none">
       </div>
       <div class="row sensors">
         <div><label for="no2">Capteur NO₂</label><input type="number" id="no2" required></div>
@@ -118,8 +113,10 @@
   <script>
   document.addEventListener('DOMContentLoaded', () => {
     const points      = {};
-    const selectors   = ['pointSelect','btnGeo','savePoint','exportXlsx'];
-    const [pointSelect,btnGeo,btnSave,btnExport] = selectors.map(id=>document.getElementById(id));
+    const pointSelect = document.getElementById('pointSelect');
+    const btnGeo      = document.getElementById('btnGeo');
+    const btnSave     = document.getElementById('savePoint');
+    const btnExport   = document.getElementById('exportXlsx');
     const saveLabel   = document.getElementById('saveLabel');
     const addressEl   = document.getElementById('address');
     const latEl       = document.getElementById('latDMS');
@@ -133,129 +130,150 @@
     const photo1Btn   = document.getElementById('photo1Btn');
     const photo2Btn   = document.getElementById('photo2Btn');
 
-    // Spinner P1→P40
-    for(let i=1;i<=40;i++) pointSelect.add(new Option(`P${i}`,`P${i}`));
+    // Remplir spinner P1→P40
+    for (let i = 1; i <= 40; i++) {
+      pointSelect.add(new Option(`P${i}`, `P${i}`));
+    }
 
-    const toDMS = v=>{
-      const deg=Math.floor(v), min=Math.floor((v-deg)*60),
-            sec=Math.round((v-deg-min/60)*3600);
+    const toDMS = v => {
+      const deg = Math.floor(v);
+      const min = Math.floor((v - deg)*60);
+      const sec = Math.round((v - deg - min/60)*3600);
       return `${deg}°${min}'${sec}"`;
     };
 
-    function clearFields(){
-      [addressEl,latEl,lngEl,no2El,c6h6El,pm10El,datetimeEl].forEach(el=>el.value='');
-      photo1Btn.textContent='Photo1';
-      photo2Btn.textContent='Photo2';
+    function clearFields() {
+      [addressEl, latEl, lngEl, no2El, c6h6El, pm10El, datetimeEl].forEach(el => el.value = '');
+      photo1Btn.textContent = 'Photo1';
+      photo2Btn.textContent = 'Photo2';
       photo1Btn.classList.remove('filled');
       photo2Btn.classList.remove('filled');
     }
 
-    function loadPoint(key){
+    function loadPoint(key) {
       clearFields();
-      saveLabel.textContent = key ? (points[key] ? `Mettre à jour ${key}` : `Enregistrement ${key}`) : 'Enregistrement';
-      if(points[key]){
-        const p=points[key];
-        addressEl.value=p.address; latEl.value=p.lat; lngEl.value=p.lng;
-        no2El.value=p.no2; c6h6El.value=p.c6h6; pm10El.value=p.pm10;
-        datetimeEl.value=p.datetime;
-        if(p.b64_1){ photo1Btn.textContent=p.photo1Name; photo1Btn.classList.add('filled'); }
-        if(p.b64_2){ photo2Btn.textContent=p.photo2Name; photo2Btn.classList.add('filled'); }
+      saveLabel.textContent = key
+        ? (points[key] ? `Mettre à jour ${key}` : `Enregistrement ${key}`)
+        : 'Enregistrement';
+      if (points[key]) {
+        const p = points[key];
+        addressEl.value = p.address;
+        latEl.value     = p.lat;
+        lngEl.value     = p.lng;
+        no2El.value     = p.no2;
+        c6h6El.value    = p.c6h6;
+        pm10El.value    = p.pm10;
+        datetimeEl.value= p.datetime;
+        if (p.b64_1) photo1Btn.classList.add('filled');
+        if (p.b64_2) photo2Btn.classList.add('filled');
       }
     }
 
-    pointSelect.addEventListener('change', ()=>loadPoint(pointSelect.value));
+    pointSelect.addEventListener('change', () => loadPoint(pointSelect.value));
 
-    btnGeo.addEventListener('click', ()=>{
-      if(!navigator.geolocation) return alert("Géoloc non supportée");
-      navigator.geolocation.getCurrentPosition(async pos=>{
-        const {latitude,longitude}=pos.coords;
-        const res=await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
-        const d=await res.json();
-        addressEl.value=d.display_name;
-        latEl.value=toDMS(latitude);
-        lngEl.value=toDMS(longitude);
-      },e=>alert("Erreur position: "+e.message));
+    btnGeo.addEventListener('click', () => {
+      if (!navigator.geolocation) return alert("Géoloc non supportée");
+      navigator.geolocation.getCurrentPosition(async pos => {
+        const { latitude, longitude } = pos.coords;
+        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+        const d   = await res.json();
+        addressEl.value = d.display_name;
+        latEl.value     = toDMS(latitude);
+        lngEl.value     = toDMS(longitude);
+      }, e => alert("Erreur position : " + e.message));
     });
 
-    // prise de photos corrigées selon orientation EXIF
-    async function handleFile(file, btn){
-      // lire orientation
-      const arrayBuf = await file.arrayBuffer();
-      let orientation = 1;
-      EXIF.getData({src:arrayBuf}, function(){ orientation = EXIF.getTag(this,'Orientation')||1; });
-      // charger image
-      const imgURL = URL.createObjectURL(file);
-      const img = await new Promise(r=>{ let i=new Image();i.onload=()=>r(i);i.src=imgURL; });
-      // canvas
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      // si portrait, on inverse dims
-      const w = img.naturalWidth, h = img.naturalHeight;
-      if(orientation>4) { canvas.width=h; canvas.height=w; }
-      else { canvas.width=w; canvas.height=h; }
-      // appliquer rotation selon orientation
-      switch(orientation){
-        case 2: ctx.transform(-1,0,0,1,w,0); break;
-        case 3: ctx.transform(-1,0,0,-1,w,h); break;
-        case 4: ctx.transform(1,0,0,-1,0,h); break;
-        case 5: ctx.transform(0,1,1,0,0,0); break;
-        case 6: ctx.transform(0,1,-1,0,h,0); break;
-        case 7: ctx.transform(0,-1,-1,0,h,w); break;
-        case 8: ctx.transform(0,-1,1,0,0,w); break;
+    // Corrige orientation EXIF et redimensionne à 5,25×7 cm (96dpi)
+    async function handleFile(file, btn) {
+      const orientation = await new Promise(r =>
+        EXIF.getData(file, function(){ r(EXIF.getTag(this,'Orientation')||1); })
+      );
+      const img = await new Promise(r=>{
+        const i = new Image();
+        i.onload = () => r(i);
+        i.src = URL.createObjectURL(file);
+      });
+
+      // 1) Premier canvas : appliquer rotation selon EXIF
+      const c1 = document.createElement('canvas');
+      const ctx1 = c1.getContext('2d');
+      let w = img.naturalWidth, h = img.naturalHeight;
+      // si rotation à 90°/270°, on inverse w/h
+      if (orientation >= 5 && orientation <= 8) [w,h] = [h,w];
+      c1.width = w; c1.height = h;
+      // appliquer transforms
+      switch (orientation) {
+        case 2: ctx1.translate(w,0);   ctx1.scale(-1,1);         break;
+        case 3: ctx1.translate(w,h);   ctx1.rotate(Math.PI);      break;
+        case 4: ctx1.translate(0,h);   ctx1.scale(1,-1);         break;
+        case 5: ctx1.rotate(0.5*Math.PI); ctx1.scale(1,-1);      break;
+        case 6: ctx1.rotate(0.5*Math.PI); ctx1.translate(0,-h);  break;
+        case 7: ctx1.rotate(0.5*Math.PI); ctx1.translate(w,-h); ctx1.scale(-1,1); break;
+        case 8: ctx1.rotate(-0.5*Math.PI); ctx1.translate(-w,0);break;
       }
-      ctx.drawImage(img,0,0);
-      URL.revokeObjectURL(imgURL);
-      // redimensionner à 7×5,25 cm → px@96dpi
+      ctx1.drawImage(img, 0, 0);
+
+      URL.revokeObjectURL(img.src);
+
+      // 2) Deuxième canvas : redimensionner EXACT à 5,25×7 cm
       const pxPerCm = 96/2.54;
-      const targetW = Math.round(7*pxPerCm), targetH = Math.round(5.25*pxPerCm);
-      const tmp = document.createElement('canvas');
-      tmp.width=targetW; tmp.height=targetH;
-      tmp.getContext('2d').drawImage(canvas,0,0,targetW,targetH);
-      // base64
-      const b64 = tmp.toDataURL(`image/${file.name.split('.').pop()}`).split(',')[1];
+      const tw = Math.round(5.25 * pxPerCm), th = Math.round(7 * pxPerCm);
+      const c2 = document.createElement('canvas');
+      c2.width = tw; c2.height = th;
+      const ctx2 = c2.getContext('2d');
+      // on étire certes, mais ratio original 3:4 → cible 3:4 donc pas de déformation
+      ctx2.drawImage(c1, 0, 0, c1.width, c1.height, 0, 0, tw, th);
+
+      const b64 = c2.toDataURL('image/jpeg').split(',')[1];
       btn.classList.add('filled');
       return b64;
     }
 
-    photo1Btn.addEventListener('click', ()=>photo1.click());
-    photo2Btn.addEventListener('click', ()=>photo2.click());
-    photo1.addEventListener('change', async ()=>{
-      if(photo1.files[0]){
-        photo1Btn.textContent=photo1.files[0].name;
-        photo1Btn.classList.add('filled');
+    photo1Btn.addEventListener('click', () => photo1.click());
+    photo2Btn.addEventListener('click', () => photo2.click());
+
+    photo1.addEventListener('change', () => {
+      if (photo1.files[0]) {
+        photo1Btn.textContent = photo1.files[0].name;
       }
     });
-    photo2.addEventListener('change', async ()=>{
-      if(photo2.files[0]){
-        photo2Btn.textContent=photo2.files[0].name;
-        photo2Btn.classList.add('filled');
+    photo2.addEventListener('change', () => {
+      if (photo2.files[0]) {
+        photo2Btn.textContent = photo2.files[0].name;
       }
     });
 
-    btnSave.addEventListener('click', async ()=>{
+    btnSave.addEventListener('click', async () => {
       const key = pointSelect.value;
-      if(!key) return alert("Sélectionne un point.");
-      // traiter photos
-      const p1 = photo1.files[0] ? await handleFile(photo1.files[0], photo1Btn) : null;
-      const p2 = photo2.files[0] ? await handleFile(photo2.files[0], photo2Btn) : null;
+      if (!key) return alert("Sélectionne un point.");
+      let b1 = null, b2 = null;
+      if (photo1.files[0]) b1 = await handleFile(photo1.files[0], photo1Btn);
+      if (photo2.files[0]) b2 = await handleFile(photo2.files[0], photo2Btn);
       points[key] = {
-        address: addressEl.value, lat: latEl.value, lng: lngEl.value,
-        no2: no2El.value, c6h6: c6h6El.value, pm10: pm10El.value,
-        datetime: datetimeEl.value,
-        photo1Name: photo1.files[0]?.name||'', photo2Name: photo2.files[0]?.name||'',
-        b64_1: p1, b64_2: p2
+        address: addressEl.value,
+        lat:     latEl.value,
+        lng:     lngEl.value,
+        no2:     no2El.value,
+        c6h6:    c6h6El.value,
+        pm10:    pm10El.value,
+        datetime:datetimeEl.value,
+        photo1Name: photo1.files[0]?.name||'',
+        photo2Name: photo2.files[0]?.name||'',
+        b64_1:   b1,
+        b64_2:   b2
       };
       alert(`Données ${key} enregistrées !`);
       // prochain libre
-      let next='';
-      for(let i=1;i<=40;i++) if(!points[`P${i}`]){ next=`P${i}`;break; }
-      pointSelect.value=next; loadPoint(next);
+      let next = '';
+      for (let i=1; i<=40; i++) if (!points[`P${i}`]) { next=`P${i}`; break; }
+      pointSelect.value = next;
+      loadPoint(next);
     });
 
-    btnExport.addEventListener('click', async ()=>{
-      const wb=new ExcelJS.Workbook();
-      const ws=wb.addWorksheet('Mesures');
-      ws.columns=[
+    btnExport.addEventListener('click', async () => {
+      const wb = new ExcelJS.Workbook();
+      const ws = wb.addWorksheet('Mesures');
+      ws.columns = [
         {header:'Point',key:'point',width:10},
         {header:'Adresse',key:'address',width:30},
         {header:'Lat DMS',key:'lat',width:15},
@@ -267,33 +285,40 @@
         {header:'PM10',key:'pm10',width:10},
         {header:'DateHeure',key:'datetime',width:20},
       ];
-      ws.getColumn('datetime').numFmt='dd/mm/yy hh:mm';
-      const pxPerCm=96/2.54, imgW=Math.round(7*pxPerCm), imgH=Math.round(5.25*pxPerCm);
-      let ri=2;
-      for(const [pt,p] of Object.entries(points)){
+      ws.getColumn('datetime').numFmt = 'dd/mm/yy hh:mm';
+
+      const pxPerCm = 96/2.54;
+      const imgW = Math.round(5.25 * pxPerCm), imgH = Math.round(7 * pxPerCm);
+
+      let rowIndex = 2;
+      for (const [pt,p] of Object.entries(points)) {
         ws.addRow({
           point:pt,address:p.address,lat:p.lat,lng:p.lng,
           photo1:'',photo2:'',no2:p.no2,c6h6:p.c6h6,pm10:p.pm10,
           datetime:new Date(p.datetime)
         });
-        ws.getRow(ri).height = Math.round(340*0.75); // 340px → pts
-        if(p.b64_1){
-          const id1=wb.addImage({base64:p.b64_1,extension:p.photo1Name.split('.').pop()});
-          ws.addImage(id1,{tl:{col:4,row:ri-1},ext:{width:imgW,height:imgH}});
+        ws.getRow(rowIndex).height = Math.round(340 * 0.75);
+
+        if (p.b64_1) {
+          const id1 = wb.addImage({ base64: p.b64_1, extension: p.photo1Name.split('.').pop() });
+          ws.addImage(id1,{tl:{col:4,row:rowIndex-1},ext:{width:imgW,height:imgH}});
         }
-        if(p.b64_2){
-          const id2=wb.addImage({base64:p.b64_2,extension:p.photo2Name.split('.').pop()});
-          ws.addImage(id2,{tl:{col:5,row:ri-1},ext:{width:imgW,height:imgH}});
+        if (p.b64_2) {
+          const id2 = wb.addImage({ base64: p.b64_2, extension: p.photo2Name.split('.').pop() });
+          ws.addImage(id2,{tl:{col:5,row:rowIndex-1},ext:{width:imgW,height:imgH}});
         }
-        ri++;
+        rowIndex++;
       }
-      const buf=await wb.xlsx.writeBuffer();
-      saveAs(new Blob([buf],{type:'application/octet-stream'}),'mesures_air_avec_photos.xlsx');
+
+      const buffer = await wb.xlsx.writeBuffer();
+      saveAs(new Blob([buffer],{type:'application/octet-stream'}),'mesures_air_avec_photos.xlsx');
     });
 
-    // init
-    pointSelect.value=''; loadPoint('');
+    // initialisation
+    pointSelect.value = '';
+    loadPoint('');
   });
   </script>
+
 </body>
 </html>
