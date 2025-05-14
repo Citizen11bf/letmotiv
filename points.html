@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Application de mesure AirQuality</title>
+  <style>
+    /* style.css */
+    body { margin:0; font-family: sans-serif; display:flex; flex-direction:column; height:100vh; }
+    header, footer { background:#004080; color:white; padding:1rem; text-align:center; }
+    main { flex:1; overflow:auto; padding:1rem; }
+    .form-group { margin-bottom:1rem; }
+    label { display:block; margin-bottom: .3rem; }
+    input, select, button { width:100%; padding:.5rem; font-size:1rem; }
+    .inline { display:flex; gap:.5rem; }
+    .inline > * { flex:1; }
+    button { margin-top:.5rem; }
+    .point-list { margin-top:2rem; }
+    .point-item { border:1px solid #ddd; padding:.5rem; margin-bottom:.5rem; }
+    img.preview { max-width:100px; max-height:100px; object-fit:cover; margin-right:.5rem; }
+  </style>
+</head>
+<body>
+  <header><h1>Airea - Mesure Qualité de l'air</h1></header>
+  <main>
+    <div id="form">
+      <div class="form-group">
+        <label for="pointName">Nom du point</label>
+        <select id="pointName"></select>
+      </div>
+      <div class="form-group inline">
+        <div>
+          <label for="latitude">Latitude (DD)</label>
+          <input type="number" step="any" id="latitude">
+        </div>
+        <div>
+          <label for="longitude">Longitude (DD)</label>
+          <input type="number" step="any" id="longitude">
+        </div>
+      </div>
+      <div class="form-group">
+        <button id="geocodeBtn">Obtenir adresse et coordonnées DMS</button>
+      </div>
+      <div class="form-group">
+        <label for="address">Adresse</label>
+        <input type="text" id="address" readonly>
+      </div>
+      <div class="form-group inline">
+        <div>
+          <label for="coordDMSlat">Lat (DMS)</label>
+          <input type="text" id="coordDMSlat" readonly>
+        </div>
+        <div>
+          <label for="coordDMSlon">Lon (DMS)</label>
+          <input type="text" id="coordDMSlon" readonly>
+        </div>
+      </div>
+      <div class="form-group inline">
+        <div>
+          <label for="photo1">Photo 1</label>
+          <input type="file" id="photo1" accept="image/*">
+        </div>
+        <div>
+          <label for="photo2">Photo 2</label>
+          <input type="file" id="photo2" accept="image/*">
+        </div>
+      </div>
+      <div class="form-group inline">
+        <div>
+          <label for="sensorNO2">Capteur NO2</label>
+          <input type="number" id="sensorNO2">
+        </div>
+        <div>
+          <label for="sensorC6H6">Capteur C6H6</label>
+          <input type="number" id="sensorC6H6">
+        </div>
+        <div>
+          <label for="sensorPM10">Capteur PM10</label>
+          <input type="number" id="sensorPM10">
+        </div>
+      </div>
+      <div class="form-group inline">
+        <div>
+          <label for="datePose">Date de pose</label>
+          <input type="date" id="datePose" value="">
+        </div>
+        <div>
+          <label for="timePose">Heure de pose</label>
+          <input type="time" id="timePose" value="">
+        </div>
+      </div>
+      <button id="savePoint">Enregistrement Point</button>
+      <button id="newPoint">Nouveau point</button>
+    </div>
+    <div class="point-list" id="pointList"></div>
+    <button id="exportXLSX" style="margin-top:2rem;">Export en XLSX</button>
+  </main>
+  <footer>&copy; Airea</footer>
+
+  <!-- XLSX.js library for export offline -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script>
+    // app.js
+    const maxPoints = 100;
+    let points = [];
+    let currentIndex = 0;
+    const pointSel = document.getElementById('pointName');
+    const latInput = document.getElementById('latitude');
+    const lonInput = document.getElementById('longitude');
+    const geocodeBtn = document.getElementById('geocodeBtn');
+    const addressInput = document.getElementById('address');
+    const dmsLat = document.getElementById('coordDMSlat');
+    const dmsLon = document.getElementById('coordDMSlon');
+    const photo1 = document.getElementById('photo1');
+    const photo2 = document.getElementById('photo2');
+    const sNO2 = document.getElementById('sensorNO2');
+    const sC6 = document.getElementById('sensorC6H6');
+    const sPM = document.getElementById('sensorPM10');
+    const datePose = document.getElementById('datePose');
+    const timePose = document.getElementById('timePose');
+    const saveBtn = document.getElementById('savePoint');
+    const newBtn = document.getElementById('newPoint');
+    const listDiv = document.getElementById('pointList');
+    const exportBtn = document.getElementById('exportXLSX');
+
+    // init point dropdown
+    function initPoints(){
+      pointSel.innerHTML = '';
+      for(let i=1;i<=maxPoints;i++){
+        const opt = document.createElement('option'); opt.value=i; opt.text=`P${i}`;
+        pointSel.append(opt);
+      }
+    }
+    initPoints();
+
+    function toDMS(deg){
+      const d = Math.floor(deg);
+      const m = Math.floor((deg-d)*60);
+      const s = ((deg-d)*60-m)*60;
+      return `${d}°${m}'${s.toFixed(2)}\"`;
+    }
+
+    geocodeBtn.addEventListener('click',async()=>{
+      const lat=latInput.value, lon=lonInput.value;
+      if(!lat||!lon){alert('Entrez lat et lon');return;}
+      // reverse geocoding via Nominatim
+      const url=`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`;
+      const resp=await fetch(url); const data=await resp.json();
+      addressInput.value = data.display_name;
+      dmsLat.value = toDMS(parseFloat(lat));
+      dmsLon.value = toDMS(parseFloat(lon));
+    });
+
+    saveBtn.addEventListener('click',()=>{
+      const idx=pointSel.value;
+      const entry={
+        point:`P${idx}`,
+        address:addressInput.value,
+        latDMS:dmsLat.value,
+        lonDMS:dmsLon.value,
+        photo1:photo1.files[0]?photo1.files[0].name:'',
+        photo2:photo2.files[0]?photo2.files[0].name:'',
+        no2:sNO2.value,
+        c6h6:sC6.value,
+        pm10:sPM.value,
+        date:datePose.value,
+        time:timePose.value
+      };
+      points[idx] = entry;
+      renderList();
+      alert(`Point ${entry.point} enregistré.`);
+    });
+
+    newBtn.addEventListener('click',()=>{
+      const idx=pointSel.value;
+      if(!points[idx]){
+        if(!confirm('As-tu bien enregistré les informations du point de mesure précédent ?')) return;
+      }
+      // reset form
+      latInput.value=lonInput.value=addressInput.value=dmsLat.value=dmsLon.value='';
+      photo1.value=photo2.value=''; sNO2.value=sC6.value=sPM.value='';
+      datePose.value=timePose.value='';
+      currentIndex++;
+      pointSel.value = currentIndex+1;
+    });
+
+    function renderList(){
+      listDiv.innerHTML='';
+      Object.values(points).forEach(e=>{
+        if(!e) return;
+        const div=document.createElement('div'); div.className='point-item';
+        div.textContent = JSON.stringify(e);
+        listDiv.append(div);
+      });
+    }
+
+    exportBtn.addEventListener('click',()=>{
+      const wb = XLSX.utils.book_new();
+      const ws_data = [['Point','Adresse','Lat DMS','Lon DMS','Photo1','Photo2','NO2','C6H6','PM10','Date','Heure']];
+      for(let i=1;i<=maxPoints;i++){
+        const e=points[i]; if(!e) continue;
+        ws_data.push([e.point,e.address,e.latDMS,e.lonDMS,e.photo1,e.photo2,e.no2,e.c6h6,e.pm10,e.date,e.time]);
+      }
+      const ws = XLSX.utils.aoa_to_sheet(ws_data);
+      XLSX.utils.book_append_sheet(wb,ws,'Mesures');
+      XLSX.writeFile(wb,'mesures_air.xlsx');
+    });
+  </script>
+</body>
+</html>
