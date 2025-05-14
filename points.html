@@ -44,9 +44,7 @@
       margin-bottom: 0.25rem;
       font-size: 0.9rem;
     }
-    input[type="text"],
-    input[type="number"],
-    input[type="datetime-local"] {
+    select, input[type="text"], input[type="number"], input[type="datetime-local"] {
       padding: 0.4rem;
       border: 1px solid #ccc;
       border-radius: 4px;
@@ -100,8 +98,11 @@
   <main>
     <form id="pointForm">
       <div class="row">
-        <label for="pointName">Nom du point</label>
-        <input type="text" id="pointName" placeholder="P1, P2…" required>
+        <label for="pointSelect">Point de mesure</label>
+        <select id="pointSelect">
+          <option value="">-- Choisir --</option>
+          <!-- Généré par JS -->
+        </select>
       </div>
 
       <div class="buttons">
@@ -124,8 +125,8 @@
       </div>
 
       <div class="row photos">
-        <button type="button" id="photo1Btn">Prendre Photo 1</button>
-        <button type="button" id="photo2Btn">Prendre Photo 2</button>
+        <button type="button" id="photo1Btn">Photo1</button>
+        <button type="button" id="photo2Btn">Photo2</button>
         <input type="file" accept="image/*" capture="environment" id="photo1" style="display:none">
         <input type="file" accept="image/*" capture="environment" id="photo2" style="display:none">
       </div>
@@ -151,8 +152,7 @@
       </div>
 
       <div class="buttons">
-        <button type="button" id="savePoint">Enregistrement <span id="saveLabel">P1</span></button>
-        <button type="button" id="newPoint">Nouveau point</button>
+        <button type="button" id="savePoint"><span id="saveLabel">Enregistrement</span></button>
       </div>
     </form>
   </main>
@@ -165,50 +165,84 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
   <script>
-    // Données en mémoire
-    let points = [];
-    let currentIndex = 1;
-    let isSaved = false;
+    // Données en mémoire : objet pointName → données
+    const points = {};
 
-    const form      = document.getElementById('pointForm');
-    const btnGeo    = document.getElementById('btnGeo');
-    const btnSave   = document.getElementById('savePoint');
-    const btnNew    = document.getElementById('newPoint');
-    const btnExport = document.getElementById('exportXlsx');
-    const saveLabel = document.getElementById('saveLabel');
-    const photo1    = document.getElementById('photo1');
-    const photo2    = document.getElementById('photo2');
-    const photo1Btn = document.getElementById('photo1Btn');
-    const photo2Btn = document.getElementById('photo2Btn');
+    // DOM
+    const pointSelect = document.getElementById('pointSelect');
+    const btnGeo       = document.getElementById('btnGeo');
+    const btnSave      = document.getElementById('savePoint');
+    const btnExport    = document.getElementById('exportXlsx');
+    const saveLabel    = document.getElementById('saveLabel');
+    const photo1       = document.getElementById('photo1');
+    const photo2       = document.getElementById('photo2');
+    const photo1Btn    = document.getElementById('photo1Btn');
+    const photo2Btn    = document.getElementById('photo2Btn');
+    const form         = document.getElementById('pointForm');
 
-    saveLabel.textContent = `P${currentIndex}`;
+    // Remplir le spinner P1 à P40
+    for (let i = 1; i <= 40; i++) {
+      const opt = document.createElement('option');
+      opt.value = `P${i}`;
+      opt.text = `P${i}`;
+      pointSelect.appendChild(opt);
+    }
 
-    // Géolocalisation + reverse geocoding
-    btnGeo.addEventListener('click', () => {
-      if (!navigator.geolocation) {
-        alert("Géolocalisation non supportée.");
+    // Utility DMS
+    const toDMS = v => {
+      const deg = Math.floor(v);
+      const min = Math.floor((v - deg) * 60);
+      const sec = Math.round((v - deg - min/60) * 3600);
+      return `${deg}°${min}'${sec}"`;
+    };
+
+    // Quand on change de point dans le spinner
+    pointSelect.addEventListener('change', () => {
+      const key = pointSelect.value;
+      if (!key) {
+        form.reset();
+        saveLabel.textContent = 'Enregistrement';
+        photo1Btn.textContent = 'Photo1';
+        photo2Btn.textContent = 'Photo2';
         return;
       }
-      navigator.geolocation.getCurrentPosition(async pos => {
-        const { latitude, longitude } = pos.coords;
-        // Nominatim OSM
-        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
-        const data = await res.json();
-        document.getElementById('address').value = data.display_name;
-        const toDMS = v => {
-          const deg = Math.floor(v);
-          const min = Math.floor((v - deg) * 60);
-          const sec = Math.round((v - deg - min/60) * 3600);
-          return `${deg}°${min}'${sec}"`;
-        };
-        document.getElementById('latDMS').value = toDMS(latitude);
-        document.getElementById('lngDMS').value = toDMS(longitude);
-      }, err => {
-        alert("Impossible d'obtenir la position : " + err.message);
-      });
+      if (points[key]) {
+        // réouvrir les données existantes
+        const p = points[key];
+        document.getElementById('address').value = p.address;
+        document.getElementById('latDMS').value   = p.lat;
+        document.getElementById('lngDMS').value   = p.lng;
+        document.getElementById('no2').value      = p.no2;
+        document.getElementById('c6h6').value     = p.c6h6;
+        document.getElementById('pm10').value     = p.pm10;
+        document.getElementById('datetime').value = p.datetime;
+        // photos : on ne peut pas recharger le File, mais on affiche le nom
+        photo1Btn.textContent = p.photo1Name || 'Photo1';
+        photo2Btn.textContent = p.photo2Name || 'Photo2';
+        saveLabel.textContent = `Mettre à jour ${key}`;
+      } else {
+        // nouveau point : on vide
+        form.reset();
+        photo1Btn.textContent = 'Photo1';
+        photo2Btn.textContent = 'Photo2';
+        saveLabel.textContent = `Enregistrement ${key}`;
+      }
     });
 
-    // Photos via boutons + input caché
+    // Géoloc + reverse-geocoding
+    btnGeo.addEventListener('click', () => {
+      if (!navigator.geolocation) return alert("Géolocalisation non supportée.");
+      navigator.geolocation.getCurrentPosition(async pos => {
+        const { latitude, longitude } = pos.coords;
+        const res  = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+        const data = await res.json();
+        document.getElementById('address').value = data.display_name;
+        document.getElementById('latDMS').value   = toDMS(latitude);
+        document.getElementById('lngDMS').value   = toDMS(longitude);
+      }, err => alert("Impossible d'obtenir la position : " + err.message));
+    });
+
+    // Photo buttons
     photo1Btn.addEventListener('click', () => photo1.click());
     photo2Btn.addEventListener('click', () => photo2.click());
     photo1.addEventListener('change', () => {
@@ -218,51 +252,50 @@
       if (photo2.files[0]) photo2Btn.textContent = photo2.files[0].name;
     });
 
-    // Enregistrement
+    // Enregistrement / Mise à jour
     btnSave.addEventListener('click', () => {
+      const key = pointSelect.value;
+      if (!key) return alert("Sélectionne d'abord un point de mesure.");
       const fd = new FormData(form);
+      // Compiler l'entrée
       const entry = {
-        point: fd.get('pointName'),
         address: fd.get('address'),
-        lat: fd.get('latDMS'),
-        lng: fd.get('lngDMS'),
-        photo1: photo1.files[0] || null,
-        photo2: photo2.files[0] || null,
-        no2: fd.get('no2'),
-        c6h6: fd.get('c6h6'),
-        pm10: fd.get('pm10'),
-        datetime: fd.get('datetime')
+        lat:     fd.get('latDMS'),
+        lng:     fd.get('lngDMS'),
+        no2:     fd.get('no2'),
+        c6h6:    fd.get('c6h6'),
+        pm10:    fd.get('pm10'),
+        datetime:fd.get('datetime'),
+        photo1Name: photo1.files[0]?.name || '',
+        photo2Name: photo2.files[0]?.name || ''
       };
-      points.push(entry);
-      isSaved = true;
-      alert(`Point ${entry.point} enregistré !`);
-    });
-
-    // Nouveau point
-    btnNew.addEventListener('click', () => {
-      if (!isSaved && !confirm('As-tu bien enregistré les infos du point précédent ?')) return;
-      isSaved = false;
-      currentIndex++;
-      saveLabel.textContent = `P${currentIndex}`;
+      points[key] = entry;
+      alert(`${points[key] ? 'Enregistré' : 'Mis à jour'} ${key} !`);
+      // Reset pour nouveau point
       form.reset();
-      photo1Btn.textContent = "Prendre Photo 1";
-      photo2Btn.textContent = "Prendre Photo 2";
+      photo1Btn.textContent = 'Photo1';
+      photo2Btn.textContent = 'Photo2';
+      // choisir le prochain libre
+      let next = null;
+      for (let i = 1; i <= 40; i++) {
+        if (!points[`P${i}`]) { next = `P${i}`; break; }
+      }
+      pointSelect.value = next || '';
+      saveLabel.textContent = next ? `Enregistrement ${next}` : 'Enregistrement';
+      document.getElementById('address').value = '';
+      document.getElementById('latDMS').value   = '';
+      document.getElementById('lngDMS').value   = '';
     });
 
-    // Export .xlsx
+    // Export
     btnExport.addEventListener('click', () => {
-      if (!isSaved) {
-        alert('Pense à enregistrer le dernier point avant export.');
-        return;
-      }
       const sheetData = [
         ['Point','Adresse','Lat DMS','Lng DMS','Photo1','Photo2','NO2','C6H6','PM10','DateHeure']
       ];
-      points.forEach(p => {
+      Object.entries(points).forEach(([pt, p]) => {
         sheetData.push([
-          p.point, p.address, p.lat, p.lng,
-          p.photo1 ? p.photo1.name : '',
-          p.photo2 ? p.photo2.name : '',
+          pt, p.address, p.lat, p.lng,
+          p.photo1Name, p.photo2Name,
           p.no2, p.c6h6, p.pm10, p.datetime
         ]);
       });
