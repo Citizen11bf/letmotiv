@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>Terrain Air Quality</title>
   <style>
-    /* Variables de couleurs Airea */
     :root {
       --airea-blue: #005fa1;
       --airea-light: #e6f2fa;
@@ -35,14 +34,14 @@
       flex: 1;
       overflow-y: auto;
       padding: 0.75rem;
-      margin-bottom: var(--footer-height); /* pour ne pas être masqué */
+      margin-bottom: var(--footer-height);
     }
-    form .row {
+    .row {
       margin-bottom: 0.5rem;
       display: flex;
       flex-direction: column;
     }
-    form .row label {
+    .row label {
       margin-bottom: 0.25rem;
       font-size: 0.9rem;
     }
@@ -86,7 +85,6 @@
       cursor: pointer;
     }
     button:active { opacity: 0.8; }
-
     footer {
       position: fixed;
       bottom: 0;
@@ -175,13 +173,12 @@
     <button type="button" class="export-btn" id="exportXlsx">Export en .xlsx</button>
   </footer>
 
-  <!-- Librairies externes -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
   <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      const points = {};
-      const pointSelect = document.getElementById('pointSelect');
+    document.addEventListener('DOMContentLoaded', () => {
+      const points       = {};
+      const pointSelect  = document.getElementById('pointSelect');
       const btnGeo       = document.getElementById('btnGeo');
       const btnSave      = document.getElementById('savePoint');
       const btnExport    = document.getElementById('exportXlsx');
@@ -190,48 +187,59 @@
       const photo2       = document.getElementById('photo2');
       const photo1Btn    = document.getElementById('photo1Btn');
       const photo2Btn    = document.getElementById('photo2Btn');
-      const form         = document.getElementById('pointForm');
+      const addressEl    = document.getElementById('address');
+      const latEl        = document.getElementById('latDMS');
+      const lngEl        = document.getElementById('lngDMS');
+      const no2El        = document.getElementById('no2');
+      const c6h6El       = document.getElementById('c6h6');
+      const pm10El       = document.getElementById('pm10');
+      const datetimeEl   = document.getElementById('datetime');
 
-      // Remplir le spinner P1 à P40
+      // Spinner P1→P40
       for (let i = 1; i <= 40; i++) {
-        const opt = document.createElement('option');
-        opt.value = `P${i}`;
-        opt.text = `P${i}`;
-        pointSelect.appendChild(opt);
+        const op = new Option(`P${i}`, `P${i}`);
+        pointSelect.add(op);
       }
 
       const toDMS = v => {
         const deg = Math.floor(v);
-        const min = Math.floor((v - deg) * 60);
-        const sec = Math.round((v - deg - min/60) * 3600);
+        const min = Math.floor((v - deg)*60);
+        const sec = Math.round((v - deg - min/60)*3600);
         return `${deg}°${min}'${sec}"`;
       };
 
-      // Handler commun pour afficher ou vider le form
+      function clearFields() {
+        addressEl.value = '';
+        latEl.value     = '';
+        lngEl.value     = '';
+        no2El.value     = '';
+        c6h6El.value    = '';
+        pm10El.value    = '';
+        datetimeEl.value= '';
+        photo1Btn.textContent = 'Photo1';
+        photo2Btn.textContent = 'Photo2';
+      }
+
+      // Chargement d’un point
       function loadPoint(key) {
+        clearFields();
         if (!key) {
-          form.reset();
           saveLabel.textContent = 'Enregistrement';
-          photo1Btn.textContent = 'Photo1';
-          photo2Btn.textContent = 'Photo2';
           return;
         }
         if (points[key]) {
           const p = points[key];
-          document.getElementById('address').value = p.address;
-          document.getElementById('latDMS').value   = p.lat;
-          document.getElementById('lngDMS').value   = p.lng;
-          document.getElementById('no2').value      = p.no2;
-          document.getElementById('c6h6').value     = p.c6h6;
-          document.getElementById('pm10').value     = p.pm10;
-          document.getElementById('datetime').value = p.datetime;
+          addressEl.value     = p.address;
+          latEl.value         = p.lat;
+          lngEl.value         = p.lng;
+          no2El.value         = p.no2;
+          c6h6El.value        = p.c6h6;
+          pm10El.value        = p.pm10;
+          datetimeEl.value    = p.datetime;
           photo1Btn.textContent = p.photo1Name || 'Photo1';
           photo2Btn.textContent = p.photo2Name || 'Photo2';
           saveLabel.textContent = `Mettre à jour ${key}`;
         } else {
-          form.reset();
-          photo1Btn.textContent = 'Photo1';
-          photo2Btn.textContent = 'Photo2';
           saveLabel.textContent = `Enregistrement ${key}`;
         }
       }
@@ -242,15 +250,15 @@
 
       // Géoloc + reverse-geocoding
       btnGeo.addEventListener('click', () => {
-        if (!navigator.geolocation) return alert("Géolocalisation non supportée.");
+        if (!navigator.geolocation) return alert("Géo non supportée");
         navigator.geolocation.getCurrentPosition(async pos => {
           const { latitude, longitude } = pos.coords;
-          const res  = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
-          const data = await res.json();
-          document.getElementById('address').value = data.display_name;
-          document.getElementById('latDMS').value   = toDMS(latitude);
-          document.getElementById('lngDMS').value   = toDMS(longitude);
-        }, err => alert("Impossible d'obtenir la position : " + err.message));
+          const r = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+          const d = await r.json();
+          addressEl.value = d.display_name;
+          latEl.value     = toDMS(latitude);
+          lngEl.value     = toDMS(longitude);
+        }, e => alert("Erreur position : "+e.message));
       });
 
       // Photos
@@ -263,29 +271,25 @@
         if (photo2.files[0]) photo2Btn.textContent = photo2.files[0].name;
       });
 
-      // Enregistrement / Mise à jour
+      // Enregistrer/Màj
       btnSave.addEventListener('click', () => {
         const key = pointSelect.value;
-        if (!key) return alert("Sélectionne un point de mesure.");
-        const fd = new FormData(form);
+        if (!key) return alert("Sélectionne un point.");
         const entry = {
-          address:     fd.get('address'),
-          lat:         fd.get('latDMS'),
-          lng:         fd.get('lngDMS'),
-          no2:         fd.get('no2'),
-          c6h6:        fd.get('c6h6'),
-          pm10:        fd.get('pm10'),
-          datetime:    fd.get('datetime'),
-          photo1Name:  photo1.files[0]?.name || '',
-          photo2Name:  photo2.files[0]?.name || ''
+          address:    addressEl.value,
+          lat:        latEl.value,
+          lng:        lngEl.value,
+          no2:        no2El.value,
+          c6h6:       c6h6El.value,
+          pm10:       pm10El.value,
+          datetime:   datetimeEl.value,
+          photo1Name: photo1.files[0]?.name || '',
+          photo2Name: photo2.files[0]?.name || ''
         };
         points[key] = entry;
         alert(`${points[key] ? 'Enregistré' : 'Mis à jour'} ${key} !`);
 
-        // Reset form et basculer sur le prochain libre
-        form.reset();
-        photo1Btn.textContent = 'Photo1';
-        photo2Btn.textContent = 'Photo2';
+        // Préparer prochain libre
         let next = '';
         for (let i = 1; i <= 40; i++) {
           if (!points[`P${i}`]) { next = `P${i}`; break; }
@@ -294,20 +298,22 @@
         loadPoint(next);
       });
 
-      // Export
+      // Exporter
       btnExport.addEventListener('click', () => {
-        const sheetData = [
-          ['Point','Adresse','Lat DMS','Lng DMS','Photo1','Photo2','NO2','C6H6','PM10','DateHeure']
-        ];
-        Object.entries(points).forEach(([pt,p]) =>
-          sheetData.push([pt,p.address,p.lat,p.lng,p.photo1Name,p.photo2Name,p.no2,p.c6h6,p.pm10,p.datetime])
-        );
+        const data = [['Point','Adresse','Lat DMS','Lng DMS','Photo1','Photo2','NO2','C6H6','PM10','DateHeure']];
+        for (const [pt,p] of Object.entries(points)) {
+          data.push([pt,p.address,p.lat,p.lng,p.photo1Name,p.photo2Name,p.no2,p.c6h6,p.pm10,p.datetime]);
+        }
         const wb = XLSX.utils.book_new();
-        const ws = XLSX.utils.aoa_to_sheet(sheetData);
+        const ws = XLSX.utils.aoa_to_sheet(data);
         XLSX.utils.book_append_sheet(wb, ws, 'Mesures');
-        const wbout = XLSX.write(wb, { bookType:'xlsx', type:'array' });
-        saveAs(new Blob([wbout],{type:"application/octet-stream"}), 'mesures_air.xlsx');
+        const out = XLSX.write(wb,{bookType:'xlsx',type:'array'});
+        saveAs(new Blob([out],{type:"application/octet-stream"}),'mesures_air.xlsx');
       });
+
+      // Initialisation : choisir le premier
+      pointSelect.value = '';
+      loadPoint('');
     });
   </script>
 </body>
