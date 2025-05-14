@@ -2,208 +2,275 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Application de mesure AirQuality</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Terrain Air Quality</title>
   <style>
-    /* style.css */
-    body { margin:0; font-family: sans-serif; display:flex; flex-direction:column; height:100vh; }
-    header, footer { background:#004080; color:white; padding:1rem; text-align:center; }
-    main { flex:1; overflow:auto; padding:1rem; }
-    .form-group { margin-bottom:1rem; }
-    label { display:block; margin-bottom: .3rem; }
-    input, select, button { width:100%; padding:.5rem; font-size:1rem; }
-    .inline { display:flex; gap:.5rem; }
-    .inline > * { flex:1; }
-    button { margin-top:.5rem; }
-    .point-list { margin-top:2rem; }
-    .point-item { border:1px solid #ddd; padding:.5rem; margin-bottom:.5rem; }
-    img.preview { max-width:100px; max-height:100px; object-fit:cover; margin-right:.5rem; }
+    /* Variables de couleurs Airea */
+    :root {
+      --airea-blue: #005fa1;
+      --airea-light: #e6f2fa;
+      --text-dark: #333;
+    }
+    * { box-sizing: border-box; margin:0; padding:0; }
+    body {
+      font-family: sans-serif;
+      background: var(--airea-light);
+      color: var(--text-dark);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+    header, footer {
+      background: var(--airea-blue);
+      color: #fff;
+      text-align: center;
+      padding: 0.25rem;
+    }
+    header h1 {
+      font-size: 1.2rem;
+      line-height: 1.5;
+    }
+    main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0.75rem;
+    }
+    form .row {
+      margin-bottom: 0.5rem;
+      display: flex;
+      flex-direction: column;
+    }
+    form .row label {
+      margin-bottom: 0.25rem;
+      font-size: 0.9rem;
+    }
+    input[type="text"],
+    input[type="number"],
+    input[type="datetime-local"] {
+      padding: 0.4rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+    .coords { display: flex; gap:0.5rem; }
+    .coords > div { flex:1; }
+    .photos {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .photos button {
+      flex: 1;
+      padding: 0.5rem;
+      border: 1px dashed #777;
+      border-radius: 4px;
+      background: #fff;
+      font-size: 0.9rem;
+    }
+    .sensors {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(80px,1fr));
+      gap: 0.5rem;
+    }
+    .buttons {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+    button, .export-btn {
+      padding: 0.6rem;
+      background: var(--airea-blue);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:active { opacity: 0.8; }
+    footer .export-btn {
+      width: 100%;
+      font-size: 0.95rem;
+    }
   </style>
 </head>
 <body>
-  <header><h1>Airea - Mesure Qualité de l'air</h1></header>
+  <header>
+    <h1>Airea – Qualité de l'air</h1>
+  </header>
+
   <main>
-    <div id="form">
-      <div class="form-group">
+    <form id="pointForm">
+      <div class="row">
         <label for="pointName">Nom du point</label>
-        <select id="pointName"></select>
+        <input type="text" id="pointName" placeholder="P1, P2…" required>
       </div>
-      <div class="form-group inline">
-        <div>
-          <label for="latitude">Latitude (DD)</label>
-          <input type="number" step="any" id="latitude">
-        </div>
-        <div>
-          <label for="longitude">Longitude (DD)</label>
-          <input type="number" step="any" id="longitude">
-        </div>
+
+      <div class="buttons">
+        <button type="button" id="btnGeo">Obtenir adresse et coordonnées</button>
       </div>
-      <div class="form-group">
-        <button id="geocodeBtn">Obtenir adresse et coordonnées DMS</button>
-      </div>
-      <div class="form-group">
+
+      <div class="row">
         <label for="address">Adresse</label>
         <input type="text" id="address" readonly>
       </div>
-      <div class="form-group inline">
+      <div class="row coords">
         <div>
-          <label for="coordDMSlat">Lat (DMS)</label>
-          <input type="text" id="coordDMSlat" readonly>
+          <label for="latDMS">Latitude (DMS)</label>
+          <input type="text" id="latDMS" readonly>
         </div>
         <div>
-          <label for="coordDMSlon">Lon (DMS)</label>
-          <input type="text" id="coordDMSlon" readonly>
-        </div>
-      </div>
-      <div class="form-group inline">
-        <div>
-          <label for="photo1">Photo 1</label>
-          <input type="file" id="photo1" accept="image/*">
-        </div>
-        <div>
-          <label for="photo2">Photo 2</label>
-          <input type="file" id="photo2" accept="image/*">
+          <label for="lngDMS">Longitude (DMS)</label>
+          <input type="text" id="lngDMS" readonly>
         </div>
       </div>
-      <div class="form-group inline">
+
+      <div class="row photos">
+        <button type="button" id="photo1Btn">Prendre Photo 1</button>
+        <button type="button" id="photo2Btn">Prendre Photo 2</button>
+        <input type="file" accept="image/*" capture="environment" id="photo1" style="display:none">
+        <input type="file" accept="image/*" capture="environment" id="photo2" style="display:none">
+      </div>
+
+      <div class="row sensors">
         <div>
-          <label for="sensorNO2">Capteur NO2</label>
-          <input type="number" id="sensorNO2">
+          <label for="no2">Capteur NO₂</label>
+          <input type="number" id="no2" placeholder="N° capteur" required>
         </div>
         <div>
-          <label for="sensorC6H6">Capteur C6H6</label>
-          <input type="number" id="sensorC6H6">
+          <label for="c6h6">Capteur C₆H₆</label>
+          <input type="number" id="c6h6" placeholder="N° capteur" required>
         </div>
         <div>
-          <label for="sensorPM10">Capteur PM10</label>
-          <input type="number" id="sensorPM10">
+          <label for="pm10">Capteur PM₁₀</label>
+          <input type="number" id="pm10" placeholder="N° capteur" required>
         </div>
       </div>
-      <div class="form-group inline">
-        <div>
-          <label for="datePose">Date de pose</label>
-          <input type="date" id="datePose" value="">
-        </div>
-        <div>
-          <label for="timePose">Heure de pose</label>
-          <input type="time" id="timePose" value="">
-        </div>
+
+      <div class="row">
+        <label for="datetime">Date & heure</label>
+        <input type="datetime-local" id="datetime" required>
       </div>
-      <button id="savePoint">Enregistrement Point</button>
-      <button id="newPoint">Nouveau point</button>
-    </div>
-    <div class="point-list" id="pointList"></div>
-    <button id="exportXLSX" style="margin-top:2rem;">Export en XLSX</button>
+
+      <div class="buttons">
+        <button type="button" id="savePoint">Enregistrement <span id="saveLabel">P1</span></button>
+        <button type="button" id="newPoint">Nouveau point</button>
+      </div>
+    </form>
   </main>
-  <footer>&copy; Airea</footer>
 
-  <!-- XLSX.js library for export offline -->
+  <footer>
+    <button type="button" class="export-btn" id="exportXlsx">Export en .xlsx</button>
+  </footer>
+
+  <!-- Librairies externes -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
   <script>
-    // app.js
-    const maxPoints = 100;
+    // Données en mémoire
     let points = [];
-    let currentIndex = 0;
-    const pointSel = document.getElementById('pointName');
-    const latInput = document.getElementById('latitude');
-    const lonInput = document.getElementById('longitude');
-    const geocodeBtn = document.getElementById('geocodeBtn');
-    const addressInput = document.getElementById('address');
-    const dmsLat = document.getElementById('coordDMSlat');
-    const dmsLon = document.getElementById('coordDMSlon');
-    const photo1 = document.getElementById('photo1');
-    const photo2 = document.getElementById('photo2');
-    const sNO2 = document.getElementById('sensorNO2');
-    const sC6 = document.getElementById('sensorC6H6');
-    const sPM = document.getElementById('sensorPM10');
-    const datePose = document.getElementById('datePose');
-    const timePose = document.getElementById('timePose');
-    const saveBtn = document.getElementById('savePoint');
-    const newBtn = document.getElementById('newPoint');
-    const listDiv = document.getElementById('pointList');
-    const exportBtn = document.getElementById('exportXLSX');
+    let currentIndex = 1;
+    let isSaved = false;
 
-    // init point dropdown
-    function initPoints(){
-      pointSel.innerHTML = '';
-      for(let i=1;i<=maxPoints;i++){
-        const opt = document.createElement('option'); opt.value=i; opt.text=`P${i}`;
-        pointSel.append(opt);
+    const form      = document.getElementById('pointForm');
+    const btnGeo    = document.getElementById('btnGeo');
+    const btnSave   = document.getElementById('savePoint');
+    const btnNew    = document.getElementById('newPoint');
+    const btnExport = document.getElementById('exportXlsx');
+    const saveLabel = document.getElementById('saveLabel');
+    const photo1    = document.getElementById('photo1');
+    const photo2    = document.getElementById('photo2');
+    const photo1Btn = document.getElementById('photo1Btn');
+    const photo2Btn = document.getElementById('photo2Btn');
+
+    saveLabel.textContent = `P${currentIndex}`;
+
+    // Géolocalisation + reverse geocoding
+    btnGeo.addEventListener('click', () => {
+      if (!navigator.geolocation) {
+        alert("Géolocalisation non supportée.");
+        return;
       }
-    }
-    initPoints();
-
-    function toDMS(deg){
-      const d = Math.floor(deg);
-      const m = Math.floor((deg-d)*60);
-      const s = ((deg-d)*60-m)*60;
-      return `${d}°${m}'${s.toFixed(2)}\"`;
-    }
-
-    geocodeBtn.addEventListener('click',async()=>{
-      const lat=latInput.value, lon=lonInput.value;
-      if(!lat||!lon){alert('Entrez lat et lon');return;}
-      // reverse geocoding via Nominatim
-      const url=`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`;
-      const resp=await fetch(url); const data=await resp.json();
-      addressInput.value = data.display_name;
-      dmsLat.value = toDMS(parseFloat(lat));
-      dmsLon.value = toDMS(parseFloat(lon));
-    });
-
-    saveBtn.addEventListener('click',()=>{
-      const idx=pointSel.value;
-      const entry={
-        point:`P${idx}`,
-        address:addressInput.value,
-        latDMS:dmsLat.value,
-        lonDMS:dmsLon.value,
-        photo1:photo1.files[0]?photo1.files[0].name:'',
-        photo2:photo2.files[0]?photo2.files[0].name:'',
-        no2:sNO2.value,
-        c6h6:sC6.value,
-        pm10:sPM.value,
-        date:datePose.value,
-        time:timePose.value
-      };
-      points[idx] = entry;
-      renderList();
-      alert(`Point ${entry.point} enregistré.`);
-    });
-
-    newBtn.addEventListener('click',()=>{
-      const idx=pointSel.value;
-      if(!points[idx]){
-        if(!confirm('As-tu bien enregistré les informations du point de mesure précédent ?')) return;
-      }
-      // reset form
-      latInput.value=lonInput.value=addressInput.value=dmsLat.value=dmsLon.value='';
-      photo1.value=photo2.value=''; sNO2.value=sC6.value=sPM.value='';
-      datePose.value=timePose.value='';
-      currentIndex++;
-      pointSel.value = currentIndex+1;
-    });
-
-    function renderList(){
-      listDiv.innerHTML='';
-      Object.values(points).forEach(e=>{
-        if(!e) return;
-        const div=document.createElement('div'); div.className='point-item';
-        div.textContent = JSON.stringify(e);
-        listDiv.append(div);
+      navigator.geolocation.getCurrentPosition(async pos => {
+        const { latitude, longitude } = pos.coords;
+        // Nominatim OSM
+        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+        const data = await res.json();
+        document.getElementById('address').value = data.display_name;
+        const toDMS = v => {
+          const deg = Math.floor(v);
+          const min = Math.floor((v - deg) * 60);
+          const sec = Math.round((v - deg - min/60) * 3600);
+          return `${deg}°${min}'${sec}"`;
+        };
+        document.getElementById('latDMS').value = toDMS(latitude);
+        document.getElementById('lngDMS').value = toDMS(longitude);
+      }, err => {
+        alert("Impossible d'obtenir la position : " + err.message);
       });
-    }
+    });
 
-    exportBtn.addEventListener('click',()=>{
-      const wb = XLSX.utils.book_new();
-      const ws_data = [['Point','Adresse','Lat DMS','Lon DMS','Photo1','Photo2','NO2','C6H6','PM10','Date','Heure']];
-      for(let i=1;i<=maxPoints;i++){
-        const e=points[i]; if(!e) continue;
-        ws_data.push([e.point,e.address,e.latDMS,e.lonDMS,e.photo1,e.photo2,e.no2,e.c6h6,e.pm10,e.date,e.time]);
+    // Photos via boutons + input caché
+    photo1Btn.addEventListener('click', () => photo1.click());
+    photo2Btn.addEventListener('click', () => photo2.click());
+    photo1.addEventListener('change', () => {
+      if (photo1.files[0]) photo1Btn.textContent = photo1.files[0].name;
+    });
+    photo2.addEventListener('change', () => {
+      if (photo2.files[0]) photo2Btn.textContent = photo2.files[0].name;
+    });
+
+    // Enregistrement
+    btnSave.addEventListener('click', () => {
+      const fd = new FormData(form);
+      const entry = {
+        point: fd.get('pointName'),
+        address: fd.get('address'),
+        lat: fd.get('latDMS'),
+        lng: fd.get('lngDMS'),
+        photo1: photo1.files[0] || null,
+        photo2: photo2.files[0] || null,
+        no2: fd.get('no2'),
+        c6h6: fd.get('c6h6'),
+        pm10: fd.get('pm10'),
+        datetime: fd.get('datetime')
+      };
+      points.push(entry);
+      isSaved = true;
+      alert(`Point ${entry.point} enregistré !`);
+    });
+
+    // Nouveau point
+    btnNew.addEventListener('click', () => {
+      if (!isSaved && !confirm('As-tu bien enregistré les infos du point précédent ?')) return;
+      isSaved = false;
+      currentIndex++;
+      saveLabel.textContent = `P${currentIndex}`;
+      form.reset();
+      photo1Btn.textContent = "Prendre Photo 1";
+      photo2Btn.textContent = "Prendre Photo 2";
+    });
+
+    // Export .xlsx
+    btnExport.addEventListener('click', () => {
+      if (!isSaved) {
+        alert('Pense à enregistrer le dernier point avant export.');
+        return;
       }
-      const ws = XLSX.utils.aoa_to_sheet(ws_data);
-      XLSX.utils.book_append_sheet(wb,ws,'Mesures');
-      XLSX.writeFile(wb,'mesures_air.xlsx');
+      const sheetData = [
+        ['Point','Adresse','Lat DMS','Lng DMS','Photo1','Photo2','NO2','C6H6','PM10','DateHeure']
+      ];
+      points.forEach(p => {
+        sheetData.push([
+          p.point, p.address, p.lat, p.lng,
+          p.photo1 ? p.photo1.name : '',
+          p.photo2 ? p.photo2.name : '',
+          p.no2, p.c6h6, p.pm10, p.datetime
+        ]);
+      });
+      const wb = XLSX.utils.book_new();
+      const ws = XLSX.utils.aoa_to_sheet(sheetData);
+      XLSX.utils.book_append_sheet(wb, ws, 'Mesures');
+      const wbout = XLSX.write(wb, { bookType:'xlsx', type:'array' });
+      saveAs(new Blob([wbout],{type:"application/octet-stream"}), 'mesures_air.xlsx');
     });
   </script>
 </body>
