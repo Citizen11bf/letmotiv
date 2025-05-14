@@ -69,7 +69,7 @@
         <label for="pointSelect">Point de mesure</label>
         <select id="pointSelect"><option value="">-- Choisir --</option></select>
       </div>
-       <p><i>Active ta géolocalisation avant de cliquer.</i></p>
+      <p><i>Active ta géolocalisation avant de cliquer.</i></p>
       <div class="buttons">
         <button type="button" id="btnGeo">Obtenir l'adresse et et les coordonnées</button>
       </div>
@@ -184,7 +184,7 @@
       }, e => alert("Erreur position : " + e.message));
     });
 
-    // Corrige orientation EXIF et redimensionne à 5,25×7 cm (96dpi)
+    // Corrige orientation EXIF et redimensionne à 5,25×7 cm → génère un PNG sans EXIF
     async function handleFile(file, btn) {
       const orientation = await new Promise(r =>
         EXIF.getData(file, function(){ r(EXIF.getTag(this,'Orientation')||1); })
@@ -195,37 +195,35 @@
         i.src = URL.createObjectURL(file);
       });
 
-      // 1) Premier canvas : appliquer rotation selon EXIF
+      // 1) Canvas pour appliquer rotation
       const c1 = document.createElement('canvas');
       const ctx1 = c1.getContext('2d');
       let w = img.naturalWidth, h = img.naturalHeight;
-      // si rotation à 90°/270°, on inverse w/h
       if (orientation >= 5 && orientation <= 8) [w,h] = [h,w];
       c1.width = w; c1.height = h;
-      // appliquer transforms
       switch (orientation) {
-        case 2: ctx1.translate(w,0);   ctx1.scale(-1,1);         break;
-        case 3: ctx1.translate(w,h);   ctx1.rotate(Math.PI);      break;
-        case 4: ctx1.translate(0,h);   ctx1.scale(1,-1);         break;
-        case 5: ctx1.rotate(0.5*Math.PI); ctx1.scale(1,-1);      break;
-        case 6: ctx1.rotate(0.5*Math.PI); ctx1.translate(0,-h);  break;
+        case 2: ctx1.translate(w,0);   ctx1.scale(-1,1);      break;
+        case 3: ctx1.translate(w,h);   ctx1.rotate(Math.PI); break;
+        case 4: ctx1.translate(0,h);   ctx1.scale(1,-1);      break;
+        case 5: ctx1.rotate(0.5*Math.PI); ctx1.scale(1,-1);   break;
+        case 6: ctx1.rotate(0.5*Math.PI); ctx1.translate(0,-h); break;
         case 7: ctx1.rotate(0.5*Math.PI); ctx1.translate(w,-h); ctx1.scale(-1,1); break;
-        case 8: ctx1.rotate(-0.5*Math.PI); ctx1.translate(-w,0);break;
+        case 8: ctx1.rotate(-0.5*Math.PI); ctx1.translate(-w,0); break;
       }
       ctx1.drawImage(img, 0, 0);
-
       URL.revokeObjectURL(img.src);
 
-      // 2) Deuxième canvas : redimensionner EXACT à 5,25×7 cm
+      // 2) Canvas pour redimensionner à 5,25×7 cm
       const pxPerCm = 96/2.54;
       const tw = Math.round(5.25 * pxPerCm), th = Math.round(7 * pxPerCm);
       const c2 = document.createElement('canvas');
       c2.width = tw; c2.height = th;
       const ctx2 = c2.getContext('2d');
-      // on étire certes, mais ratio original 3:4 → cible 3:4 donc pas de déformation
       ctx2.drawImage(c1, 0, 0, c1.width, c1.height, 0, 0, tw, th);
 
-      const b64 = c2.toDataURL('image/jpeg').split(',')[1];
+      // Export en PNG pour effacer toute EXIF
+      const dataURL = c2.toDataURL('image/png');
+      const b64     = dataURL.split(',')[1];
       btn.classList.add('filled');
       return b64;
     }
@@ -234,14 +232,10 @@
     photo2Btn.addEventListener('click', () => photo2.click());
 
     photo1.addEventListener('change', () => {
-      if (photo1.files[0]) {
-        photo1Btn.textContent = photo1.files[0].name;
-      }
+      if (photo1.files[0]) photo1Btn.textContent = photo1.files[0].name;
     });
     photo2.addEventListener('change', () => {
-      if (photo2.files[0]) {
-        photo2Btn.textContent = photo2.files[0].name;
-      }
+      if (photo2.files[0]) photo2Btn.textContent = photo2.files[0].name;
     });
 
     btnSave.addEventListener('click', async () => {
@@ -264,7 +258,7 @@
         b64_2:   b2
       };
       alert(`Données ${key} enregistrées !`);
-      // prochain libre
+      // passer au prochain libre
       let next = '';
       for (let i=1; i<=40; i++) if (!points[`P${i}`]) { next=`P${i}`; break; }
       pointSelect.value = next;
@@ -301,11 +295,12 @@
         ws.getRow(rowIndex).height = Math.round(340 * 0.75);
 
         if (p.b64_1) {
-          const id1 = wb.addImage({ base64: p.b64_1, extension: p.photo1Name.split('.').pop() });
+          // on passe en PNG, donc extension 'png'
+          const id1 = wb.addImage({ base64: p.b64_1, extension: 'png' });
           ws.addImage(id1,{tl:{col:4,row:rowIndex-1},ext:{width:imgW,height:imgH}});
         }
         if (p.b64_2) {
-          const id2 = wb.addImage({ base64: p.b64_2, extension: p.photo2Name.split('.').pop() });
+          const id2 = wb.addImage({ base64: p.b64_2, extension: 'png' });
           ws.addImage(id2,{tl:{col:5,row:rowIndex-1},ext:{width:imgW,height:imgH}});
         }
         rowIndex++;
