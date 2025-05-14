@@ -67,6 +67,12 @@
       border-radius: 4px;
       background: #fff;
       font-size: 0.9rem;
+      transition: background 0.2s, color 0.2s;
+    }
+    .photos button.filled {
+      background: var(--airea-blue);
+      color: #fff;
+      border: none;
     }
     .sensors {
       display: grid;
@@ -201,15 +207,15 @@
       const pm10El      = document.getElementById('pm10');
       const datetimeEl  = document.getElementById('datetime');
 
-      // Remplir le spinner P1→P40
+      // Spinner P1→P40
       for (let i = 1; i <= 40; i++) {
         pointSelect.add(new Option(`P${i}`, `P${i}`));
       }
 
       const toDMS = v => {
         const deg = Math.floor(v);
-        const min = Math.floor((v - deg)*60);
-        const sec = Math.round((v - deg - min/60)*3600);
+        const min = Math.floor((v - deg) * 60);
+        const sec = Math.round((v - deg - min/60) * 3600);
         return `${deg}°${min}'${sec}"`;
       };
 
@@ -223,6 +229,8 @@
         datetimeEl.value= '';
         photo1Btn.textContent = 'Photo1';
         photo2Btn.textContent = 'Photo2';
+        photo1Btn.classList.remove('filled');
+        photo2Btn.classList.remove('filled');
       }
 
       function loadPoint(key) {
@@ -240,8 +248,14 @@
           c6h6El.value          = p.c6h6;
           pm10El.value          = p.pm10;
           datetimeEl.value      = p.datetime;
-          photo1Btn.textContent = p.photo1Name || 'Photo1';
-          photo2Btn.textContent = p.photo2Name || 'Photo2';
+          if (p.photo1File) {
+            photo1Btn.textContent = p.photo1Name;
+            photo1Btn.classList.add('filled');
+          }
+          if (p.photo2File) {
+            photo2Btn.textContent = p.photo2Name;
+            photo2Btn.classList.add('filled');
+          }
           saveLabel.textContent = `Mettre à jour ${key}`;
         } else {
           saveLabel.textContent = `Enregistrement ${key}`;
@@ -269,10 +283,16 @@
       photo1Btn.addEventListener('click', () => photo1.click());
       photo2Btn.addEventListener('click', () => photo2.click());
       photo1.addEventListener('change', () => {
-        if (photo1.files[0]) photo1Btn.textContent = photo1.files[0].name;
+        if (photo1.files[0]) {
+          photo1Btn.textContent = photo1.files[0].name;
+          photo1Btn.classList.add('filled');
+        }
       });
       photo2.addEventListener('change', () => {
-        if (photo2.files[0]) photo2Btn.textContent = photo2.files[0].name;
+        if (photo2.files[0]) {
+          photo2Btn.textContent = photo2.files[0].name;
+          photo2Btn.classList.add('filled');
+        }
       });
 
       // Enregistrer / Mettre à jour
@@ -295,7 +315,7 @@
         points[key] = entry;
         alert(`Données ${key} enregistrées !`);
 
-        // passer au prochain libre
+        // prochain libre
         let next = '';
         for (let i = 1; i <= 40; i++) {
           if (!points[`P${i}`]) { next = `P${i}`; break; }
@@ -304,27 +324,32 @@
         loadPoint(next);
       });
 
-      // Export XLSX avec images, lignes de 340 px, colonnes E/F de 250 px, photos 7 × 5,25 cm
+      // Export XLSX avec images, lignes 340px, colonnes E/F 250px
       btnExport.addEventListener('click', async () => {
         const wb = new ExcelJS.Workbook();
         const ws = wb.addWorksheet('Mesures');
-      
+
         ws.columns = [
           { header: 'Point',     key: 'point',    width: 10 },
           { header: 'Adresse',   key: 'address',  width: 30 },
           { header: 'Lat DMS',   key: 'lat',      width: 15 },
           { header: 'Lng DMS',   key: 'lng',      width: 15 },
-          { header: 'Photo1',    key: 'photo1',   width: 35.7 }, // ≈250 px / 7px par caractère
+          { header: 'Photo1',    key: 'photo1',   width: 35.7 }, // ≃250px
           { header: 'Photo2',    key: 'photo2',   width: 35.7 },
           { header: 'NO2',       key: 'no2',      width: 10 },
           { header: 'C6H6',      key: 'c6h6',     width: 10 },
           { header: 'PM10',      key: 'pm10',     width: 10 },
           { header: 'DateHeure', key: 'datetime', width: 20 },
         ];
-      
-        // Format date/heure
+
+        // format date/heure
         ws.getColumn('datetime').numFmt = 'dd/mm/yy hh:mm';
-      
+
+        // conversion cm → px @96dpi
+        const pxPerCm = 96/2.54;
+        const imgWidth  = Math.round(5.25 * pxPerCm); // ≈198px
+        const imgHeight = Math.round(7 * pxPerCm);    // ≈265px
+
         let rowIndex = 2;
         for (const [pt, p] of Object.entries(points)) {
           ws.addRow({
@@ -339,41 +364,35 @@
             pm10:     p.pm10,
             datetime: new Date(p.datetime)
           });
-      
-          // Hauteur de la ligne en points (340px × 0.75 = 255 pt)
+          // hauteur de ligne: 340px × 0.75 = 255pt
           ws.getRow(rowIndex).height = 255;
-      
-          // Taille des images : 7 cm × 5,25 cm → en pixels (96 dpi) ≈ 265×198
-          const imgWidth  = Math.round(5.25 / 2.54 * 96); // ≈198px
-          const imgHeight = Math.round(7    / 2.54 * 96); // ≈265px
-      
+
           // Photo1
           if (p.photo1File) {
             const b64 = await fileToBase64(p.photo1File);
-            const imgId = wb.addImage({ base64: b64, extension: p.photo1File.name.split('.').pop() });
-            ws.addImage(imgId, {
-              tl:  { col: 4, row: rowIndex - 1 }, // E
+            const id1 = wb.addImage({ base64: b64, extension: p.photo1File.name.split('.').pop() });
+            ws.addImage(id1, {
+              tl:  { col: 4, row: rowIndex - 1 },
               ext: { width: imgWidth, height: imgHeight }
             });
           }
           // Photo2
           if (p.photo2File) {
             const b642 = await fileToBase64(p.photo2File);
-            const imgId2 = wb.addImage({ base64: b642, extension: p.photo2File.name.split('.').pop() });
-            ws.addImage(imgId2, {
-              tl:  { col: 5, row: rowIndex - 1 }, // F
+            const id2  = wb.addImage({ base64: b642, extension: p.photo2File.name.split('.').pop() });
+            ws.addImage(id2, {
+              tl:  { col: 5, row: rowIndex - 1 },
               ext: { width: imgWidth, height: imgHeight }
             });
           }
-      
+
           rowIndex++;
         }
-      
-        const buffer = await wb.xlsx.writeBuffer();
-        saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'mesures_air_avec_photos.xlsx');
+
+        const buf = await wb.xlsx.writeBuffer();
+        saveAs(new Blob([buf], { type: 'application/octet-stream' }), 'mesures_air_avec_photos.xlsx');
       });
-      
-      // Helper base64
+
       function fileToBase64(file) {
         return new Promise((resolve, reject) => {
           const reader = new FileReader();
@@ -383,7 +402,7 @@
         });
       }
 
-      // initialisation
+      // init
       pointSelect.value = '';
       loadPoint('');
     });
