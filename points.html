@@ -11,7 +11,7 @@
       --text-dark: #333;
       --footer-height: 3.5rem;
     }
-    * { box-sizing: border-box; margin:0; padding:0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: sans-serif;
       background: var(--airea-light);
@@ -45,14 +45,17 @@
       margin-bottom: 0.25rem;
       font-size: 0.9rem;
     }
-    select, input[type="text"], input[type="number"], input[type="datetime-local"] {
+    select,
+    input[type="text"],
+    input[type="number"],
+    input[type="datetime-local"] {
       padding: 0.4rem;
       border: 1px solid #ccc;
       border-radius: 4px;
       font-size: 0.9rem;
     }
-    .coords { display: flex; gap:0.5rem; }
-    .coords > div { flex:1; }
+    .coords { display: flex; gap: 0.5rem; }
+    .coords > div { flex: 1; }
     .photos {
       display: flex;
       gap: 0.5rem;
@@ -75,7 +78,8 @@
       gap: 0.5rem;
       margin-top: 0.75rem;
     }
-    button, .export-btn {
+    button,
+    .export-btn {
       padding: 0.6rem;
       background: var(--airea-blue);
       color: #fff;
@@ -173,32 +177,33 @@
     <button type="button" class="export-btn" id="exportXlsx">Export en .xlsx</button>
   </footer>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <!-- Librairies externes -->
+  <script src="https://cdn.jsdelivr.net/npm/exceljs@4.3.0/dist/exceljs.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const points       = {};
-      const pointSelect  = document.getElementById('pointSelect');
-      const btnGeo       = document.getElementById('btnGeo');
-      const btnSave      = document.getElementById('savePoint');
-      const btnExport    = document.getElementById('exportXlsx');
-      const saveLabel    = document.getElementById('saveLabel');
-      const photo1       = document.getElementById('photo1');
-      const photo2       = document.getElementById('photo2');
-      const photo1Btn    = document.getElementById('photo1Btn');
-      const photo2Btn    = document.getElementById('photo2Btn');
-      const addressEl    = document.getElementById('address');
-      const latEl        = document.getElementById('latDMS');
-      const lngEl        = document.getElementById('lngDMS');
-      const no2El        = document.getElementById('no2');
-      const c6h6El       = document.getElementById('c6h6');
-      const pm10El       = document.getElementById('pm10');
-      const datetimeEl   = document.getElementById('datetime');
+      const points      = {};
+      const pointSelect = document.getElementById('pointSelect');
+      const btnGeo      = document.getElementById('btnGeo');
+      const btnSave     = document.getElementById('savePoint');
+      const btnExport   = document.getElementById('exportXlsx');
+      const saveLabel   = document.getElementById('saveLabel');
+      const photo1      = document.getElementById('photo1');
+      const photo2      = document.getElementById('photo2');
+      const photo1Btn   = document.getElementById('photo1Btn');
+      const photo2Btn   = document.getElementById('photo2Btn');
+      const addressEl   = document.getElementById('address');
+      const latEl       = document.getElementById('latDMS');
+      const lngEl       = document.getElementById('lngDMS');
+      const no2El       = document.getElementById('no2');
+      const c6h6El      = document.getElementById('c6h6');
+      const pm10El      = document.getElementById('pm10');
+      const datetimeEl  = document.getElementById('datetime');
 
-      // Spinner P1→P40
+      // Remplir le spinner P1→P40
       for (let i = 1; i <= 40; i++) {
-        const op = new Option(`P${i}`, `P${i}`);
-        pointSelect.add(op);
+        pointSelect.add(new Option(`P${i}`, `P${i}`));
       }
 
       const toDMS = v => {
@@ -220,22 +225,21 @@
         photo2Btn.textContent = 'Photo2';
       }
 
-      // Chargement d’un point
       function loadPoint(key) {
         clearFields();
         if (!key) {
           saveLabel.textContent = 'Enregistrement';
           return;
         }
-        if (points[key]) {
-          const p = points[key];
-          addressEl.value     = p.address;
-          latEl.value         = p.lat;
-          lngEl.value         = p.lng;
-          no2El.value         = p.no2;
-          c6h6El.value        = p.c6h6;
-          pm10El.value        = p.pm10;
-          datetimeEl.value    = p.datetime;
+        const p = points[key];
+        if (p) {
+          addressEl.value      = p.address;
+          latEl.value          = p.lat;
+          lngEl.value          = p.lng;
+          no2El.value          = p.no2;
+          c6h6El.value         = p.c6h6;
+          pm10El.value         = p.pm10;
+          datetimeEl.value     = p.datetime;
           photo1Btn.textContent = p.photo1Name || 'Photo1';
           photo2Btn.textContent = p.photo2Name || 'Photo2';
           saveLabel.textContent = `Mettre à jour ${key}`;
@@ -250,15 +254,15 @@
 
       // Géoloc + reverse-geocoding
       btnGeo.addEventListener('click', () => {
-        if (!navigator.geolocation) return alert("Géo non supportée");
+        if (!navigator.geolocation) return alert("Géolocalisation non supportée.");
         navigator.geolocation.getCurrentPosition(async pos => {
           const { latitude, longitude } = pos.coords;
-          const r = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
-          const d = await r.json();
-          addressEl.value = d.display_name;
+          const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+          const data = await res.json();
+          addressEl.value = data.display_name;
           latEl.value     = toDMS(latitude);
           lngEl.value     = toDMS(longitude);
-        }, e => alert("Erreur position : "+e.message));
+        }, err => alert("Erreur position : " + err.message));
       });
 
       // Photos
@@ -271,7 +275,7 @@
         if (photo2.files[0]) photo2Btn.textContent = photo2.files[0].name;
       });
 
-      // Enregistrer/Màj
+      // Enregistrer / Mettre à jour
       btnSave.addEventListener('click', () => {
         const key = pointSelect.value;
         if (!key) return alert("Sélectionne un point.");
@@ -284,12 +288,14 @@
           pm10:       pm10El.value,
           datetime:   datetimeEl.value,
           photo1Name: photo1.files[0]?.name || '',
-          photo2Name: photo2.files[0]?.name || ''
+          photo2Name: photo2.files[0]?.name || '',
+          photo1File: photo1.files[0] || null,
+          photo2File: photo2.files[0] || null
         };
         points[key] = entry;
         alert(`${points[key] ? 'Enregistré' : 'Mis à jour'} ${key} !`);
 
-        // Préparer prochain libre
+        // passer au prochain libre
         let next = '';
         for (let i = 1; i <= 40; i++) {
           if (!points[`P${i}`]) { next = `P${i}`; break; }
@@ -298,20 +304,72 @@
         loadPoint(next);
       });
 
-      // Exporter
-      btnExport.addEventListener('click', () => {
-        const data = [['Point','Adresse','Lat DMS','Lng DMS','Photo1','Photo2','NO2','C6H6','PM10','DateHeure']];
-        for (const [pt,p] of Object.entries(points)) {
-          data.push([pt,p.address,p.lat,p.lng,p.photo1Name,p.photo2Name,p.no2,p.c6h6,p.pm10,p.datetime]);
+      // Export avec images
+      btnExport.addEventListener('click', async () => {
+        const wb = new ExcelJS.Workbook();
+        const ws = wb.addWorksheet('Mesures');
+        ws.columns = [
+          { header: 'Point',     key: 'point',    width: 10 },
+          { header: 'Adresse',   key: 'address',  width: 30 },
+          { header: 'Lat DMS',   key: 'lat',      width: 15 },
+          { header: 'Lng DMS',   key: 'lng',      width: 15 },
+          { header: 'Photo1',    key: 'photo1',   width: 20 },
+          { header: 'Photo2',    key: 'photo2',   width: 20 },
+          { header: 'NO2',       key: 'no2',      width: 10 },
+          { header: 'C6H6',      key: 'c6h6',     width: 10 },
+          { header: 'PM10',      key: 'pm10',     width: 10 },
+          { header: 'DateHeure', key: 'datetime', width: 20 },
+        ];
+
+        let rowIndex = 2;
+        for (const [pt, p] of Object.entries(points)) {
+          ws.addRow({
+            point: pt,
+            address: p.address,
+            lat: p.lat,
+            lng: p.lng,
+            photo1: '',
+            photo2: '',
+            no2: p.no2,
+            c6h6: p.c6h6,
+            pm10: p.pm10,
+            datetime: p.datetime
+          });
+          // insert image1
+          if (p.photo1File) {
+            const base64 = await fileToBase64(p.photo1File);
+            const imgId = wb.addImage({ base64, extension: p.photo1File.name.split('.').pop() });
+            ws.addImage(imgId, {
+              tl: { col: 4, row: rowIndex-1 },
+              ext: { width: 100, height: 100 }
+            });
+          }
+          // insert image2
+          if (p.photo2File) {
+            const base642 = await fileToBase64(p.photo2File);
+            const imgId2 = wb.addImage({ base64: base642, extension: p.photo2File.name.split('.').pop() });
+            ws.addImage(imgId2, {
+              tl: { col: 5, row: rowIndex-1 },
+              ext: { width: 100, height: 100 }
+            });
+          }
+          rowIndex++;
         }
-        const wb = XLSX.utils.book_new();
-        const ws = XLSX.utils.aoa_to_sheet(data);
-        XLSX.utils.book_append_sheet(wb, ws, 'Mesures');
-        const out = XLSX.write(wb,{bookType:'xlsx',type:'array'});
-        saveAs(new Blob([out],{type:"application/octet-stream"}),'mesures_air.xlsx');
+
+        const buf = await wb.xlsx.writeBuffer();
+        saveAs(new Blob([buf], { type: 'application/octet-stream' }), 'mesures_air_avec_photos.xlsx');
       });
 
-      // Initialisation : choisir le premier
+      function fileToBase64(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result.split(',')[1]);
+          reader.onerror = err => reject(err);
+          reader.readAsDataURL(file);
+        });
+      }
+
+      // init
       pointSelect.value = '';
       loadPoint('');
     });
