@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-  <title>Airea - Fiche de points</title>
+  <title>Airea – Fiche de points de mesure</title>
   <style>
     :root {
       --airea-blue: #005fa1;
@@ -15,13 +15,14 @@
       --font-base: 0.9rem;
       --app-max-width: 480px;
     }
+    /* Empêche tout scrolling et centre l’app */
     html, body {
       margin:0; padding:0;
       width:100%; height:100%;
       overflow:hidden;
       font-family:'Segoe UI',sans-serif;
       background:var(--airea-light);
-      display:flex; align-items:center; justify-content:center;
+      display:flex; justify-content:center; align-items:center;
     }
     .app {
       width:100%; max-width:var(--app-max-width);
@@ -36,7 +37,9 @@
     .header-title { line-height:1.2; }
     .header-title h1 { margin:0; font-size:1.2rem; font-weight:400; }
     .header-title p  { margin:0; font-size:1rem; }
-    .header-affaire { display:flex; align-items:center; font-size:var(--font-base); }
+    .header-affaire {
+      display:flex; align-items:center; font-size:var(--font-base);
+    }
     .header-affaire label { margin-right:0.25rem; }
     .header-affaire input {
       width:80px; text-align:center;
@@ -50,8 +53,7 @@
     .row label { margin-bottom:0.25rem; font-size:var(--font-base); }
     select, input[type="text"], input[type="datetime-local"], input[type="number"] {
       padding:0.5rem;
-      border:1px solid #ccc;
-      border-radius:var(--border-radius);
+      border:1px solid #ccc; border-radius:var(--border-radius);
       font-size:var(--font-base);
     }
     p i { font-size:0.85rem; color:#555; margin-bottom:1rem; }
@@ -61,10 +63,8 @@
     .photos button {
       flex:1; position:relative;
       padding:var(--btn-padding);
-      border:2px dashed #777;
-      border-radius:var(--border-radius);
-      background:#fff;
-      font-size:var(--font-base);
+      border:2px dashed #777; border-radius:var(--border-radius);
+      background:#fff; font-size:var(--font-base);
       transition:background 0.2s, border-color 0.2s;
     }
     .photos .btn-label { pointer-events:none; }
@@ -124,7 +124,8 @@
         <div class="buttons">
           <button type="button" id="btnGeo">Obtenir l'adresse et coordonnées</button>
         </div>
-        <div class="row"><label for="address">Adresse</label><input id="address" readonly></div>
+        <div class="row"><label for="address">Adresse</label>
+          <input id="address" readonly></div>
         <div class="row coords">
           <div><label for="latDMS">Latitude (DMS)</label><input id="latDMS" readonly></div>
           <div><label for="lngDMS">Longitude (DMS)</label><input id="lngDMS" readonly></div>
@@ -163,156 +164,200 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
   <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const points = {};
     const qs = id => document.getElementById(id);
-    const pointSelect = qs('pointSelect'), btnGeo = qs('btnGeo'),
-          btnSave = qs('savePoint'), btnExport = qs('exportXlsx'),
-          saveLabel = qs('saveLabel'),
-          addressEl = qs('address'), latEl = qs('latDMS'), lngEl = qs('lngDMS'),
-          no2El = qs('no2'), c6h6El = qs('c6h6'), pm10El = qs('pm10'),
-          datetimeEl = qs('datetime'),
-          photo1 = qs('photo1'), photo2 = qs('photo2'),
-          photo1Btn = qs('photo1Btn'), photo2Btn = qs('photo2Btn'),
-          affaireEl = qs('affaire');
+    const pointSelect = qs('pointSelect'),
+          btnGeo      = qs('btnGeo'),
+          btnSave     = qs('savePoint'),
+          btnExport   = qs('exportXlsx'),
+          saveLabel   = qs('saveLabel'),
+          addressEl   = qs('address'),
+          latEl       = qs('latDMS'),
+          lngEl       = qs('lngDMS'),
+          no2El       = qs('no2'),
+          c6h6El      = qs('c6h6'),
+          pm10El      = qs('pm10'),
+          datetimeEl  = qs('datetime'),
+          photo1      = qs('photo1'),
+          photo2      = qs('photo2'),
+          photo1Btn   = qs('photo1Btn'),
+          photo2Btn   = qs('photo2Btn'),
+          affaireEl   = qs('affaire');
+    const points = {};
 
-    // P1→P40
-    for (let i=1;i<=40;i++) pointSelect.add(new Option(`P${i}`,`P${i}`));
-
-    function nowDateTimeLocal(){
-      const d=new Date(); d.setSeconds(0,0);
-      const tz=d.getTimezoneOffset();
-      return new Date(d.getTime()-tz*60000).toISOString().slice(0,16);
+    // Remplir P1→P40
+    for (let i = 1; i <= 40; i++) {
+      pointSelect.add(new Option(`P${i}`, `P${i}`));
     }
-    const toDMS=v=>{
-      const deg=Math.floor(v), min=Math.floor((v-deg)*60),
-            sec=Math.round((v-deg-min/60)*3600);
+
+    function nowDateTimeLocal() {
+      const d = new Date();
+      d.setSeconds(0,0);
+      const tz = d.getTimezoneOffset();
+      return new Date(d.getTime() - tz*60000)
+             .toISOString().slice(0,16);
+    }
+
+    const toDMS = v => {
+      const deg = Math.floor(v),
+            min = Math.floor((v - deg)*60),
+            sec = Math.round((v - deg - min/60)*3600);
       return `${deg}°${min}'${sec}"`;
     };
 
-    function clearFields(){
-      [addressEl,latEl,lngEl,no2El,c6h6El,pm10El].forEach(e=>e.value='');
-      datetimeEl.value=nowDateTimeLocal();
-      [photo1Btn,photo2Btn].forEach(b=>{
+    function clearFields() {
+      [addressEl, latEl, lngEl, no2El, c6h6El, pm10El].forEach(e => e.value = '');
+      datetimeEl.value = nowDateTimeLocal();
+      [photo1Btn, photo2Btn].forEach(b => {
         b.classList.remove('filled');
-        b.title='';
+        b.title = '';
       });
     }
-    function loadPoint(key){
+
+    function loadPoint(key) {
       clearFields();
       saveLabel.textContent = key
         ? (points[key] ? `Mettre à jour ${key}` : `Enregistrement ${key}`)
         : 'Enregistrement';
-      if(points[key]){
-        const p=points[key];
-        addressEl.value=p.address; latEl.value=p.lat; lngEl.value=p.lng;
-        no2El.value=p.no2; c6h6El.value=p.c6h6; pm10El.value=p.pm10;
-        datetimeEl.value=p.datetime;
-        if(p.b64_1){ photo1Btn.classList.add('filled'); photo1Btn.title=p.photo1Name; }
-        if(p.b64_2){ photo2Btn.classList.add('filled'); photo2Btn.title=p.photo2Name; }
+      if (points[key]) {
+        const p = points[key];
+        addressEl.value  = p.address;
+        latEl.value      = p.lat;
+        lngEl.value      = p.lng;
+        no2El.value      = p.no2;
+        c6h6El.value     = p.c6h6;
+        pm10El.value     = p.pm10;
+        datetimeEl.value = p.datetime;
+        if (p.b64_1) photo1Btn.classList.add('filled'), photo1Btn.title = p.photo1Name;
+        if (p.b64_2) photo2Btn.classList.add('filled'), photo2Btn.title = p.photo2Name;
       }
     }
-    pointSelect.addEventListener('change', ()=>loadPoint(pointSelect.value));
-    pointSelect.value=''; loadPoint('');
 
-    btnGeo.addEventListener('click',()=>{
-      if(!navigator.geolocation) return alert("Géoloc non supportée");
-      navigator.geolocation.getCurrentPosition(async pos=>{
-        const{latitude,longitude}=pos.coords;
-        const res=await fetch(
-          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
-        );
-        const d=await res.json();
-        addressEl.value=d.display_name;
-        latEl.value=toDMS(latitude);
-        lngEl.value=toDMS(longitude);
-      },e=>alert("Erreur position : "+e.message));
+    pointSelect.addEventListener('change', () => loadPoint(pointSelect.value));
+    pointSelect.value = ''; loadPoint('');
+
+    btnGeo.addEventListener('click', () => {
+      if (!navigator.geolocation) return alert("Géoloc non supportée");
+      navigator.geolocation.getCurrentPosition(async pos => {
+        const {latitude, longitude} = pos.coords;
+        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+        const d = await res.json();
+        addressEl.value = d.display_name;
+        latEl.value     = toDMS(latitude);
+        lngEl.value     = toDMS(longitude);
+      }, e => alert("Erreur position : " + e.message));
     });
 
-    async function handleFileRaw(file,btn){
-      return new Promise(res=>{
-        const fr=new FileReader();
-        fr.onload=()=>{
-          const b64=fr.result.split(',')[1];
+    // Lecture brute du JPEG (EXIF intact)
+    function readRawImage(file, btn) {
+      return new Promise(res => {
+        const fr = new FileReader();
+        fr.onload = () => {
+          const b64 = fr.result.split(',')[1];
           btn.classList.add('filled');
-          btn.title=file.name;
+          btn.title = file.name;   // tooltip avec nom
           res(b64);
         };
         fr.readAsDataURL(file);
       });
     }
 
-    photo1Btn.addEventListener('click',()=>photo1.click());
-    photo2Btn.addEventListener('click',()=>photo2.click());
-    photo1.addEventListener('change',()=>{ if(photo1.files[0]) handleFileRaw(photo1.files[0],photo1Btn); });
-    photo2.addEventListener('change',()=>{ if(photo2.files[0]) handleFileRaw(photo2.files[0],photo2Btn); });
-
-    btnSave.addEventListener('click',async()=>{
-      const key=pointSelect.value;
-      if(!key) return alert("Sélectionne un point.");
-      const b1 = photo1Btn.classList.contains('filled')
-        ? await handleFileRaw(photo1.files[0],photo1Btn) : null;
-      const b2 = photo2Btn.classList.contains('filled')
-        ? await handleFileRaw(photo2.files[0],photo2Btn) : null;
-      points[key]={
-        address:addressEl.value, lat:latEl.value, lng:lngEl.value,
-        no2:no2El.value, c6h6:c6h6El.value, pm10:pm10El.value,
-        datetime:datetimeEl.value,
-        photo1Name:photo1.files[0]?.name||'',
-        photo2Name:photo2.files[0]?.name||'',
-        b64_1:b1, b64_2:b2
-      };
-      alert(`Données ${key} enregistrées !`);
-      let next='';
-      for(let i=1;i<=40;i++) if(!points[`P${i}`]){ next=`P${i}`; break; }
-      pointSelect.value=next; loadPoint(next);
+    photo1Btn.addEventListener('click', () => photo1.click());
+    photo2Btn.addEventListener('click', () => photo2.click());
+    photo1.addEventListener('change', () => {
+      if (photo1.files[0]) readRawImage(photo1.files[0], photo1Btn);
+    });
+    photo2.addEventListener('change', () => {
+      if (photo2.files[0]) readRawImage(photo2.files[0], photo2Btn);
     });
 
-    btnExport.addEventListener('click',async()=>{
-      if(!confirm("Tu es sûr ? Sauvegarder réinitialise l’app.")) return;
-      const affaire=affaireEl.value.trim()||'Sans_affaire';
-      const filename=`${affaire}_Fiche_de_points_de_mesure.xlsx`;
-      const wb=new ExcelJS.Workbook();
-      const ws=wb.addWorksheet('Mesures');
-      ws.columns=[
-        {header:'Point',key:'point',width:10},
-        {header:'Adresse',key:'address',width:30},
-        {header:'Lat DMS',key:'lat',width:15},
-        {header:'Lng DMS',key:'lng',width:15},
-        {header:'Photo 1',key:'photo1',width:35.7},
-        {header:'Photo 2',key:'photo2',width:35.7},
-        {header:'NO₂',key:'no2',width:10},
-        {header:'C₆H₆',key:'c6h6',width:10},
-        {header:'PM₁₀',key:'pm10',width:10},
-        {header:'DateHeure',key:'datetime',width:20},
+    btnSave.addEventListener('click', async () => {
+      const key = pointSelect.value;
+      if (!key) return alert("Sélectionne un point.");
+      const b1 = photo1Btn.classList.contains('filled')
+        ? await readRawImage(photo1.files[0], photo1Btn) : null;
+      const b2 = photo2Btn.classList.contains('filled')
+        ? await readRawImage(photo2.files[0], photo2Btn) : null;
+      points[key] = {
+        address:    addressEl.value,
+        lat:        latEl.value,
+        lng:        lngEl.value,
+        no2:        no2El.value,
+        c6h6:       c6h6El.value,
+        pm10:       pm10El.value,
+        datetime:   datetimeEl.value,
+        photo1Name: photo1.files[0]?.name || '',
+        photo2Name: photo2.files[0]?.name || '',
+        b64_1:      b1,
+        b64_2:      b2
+      };
+      alert(`Données ${key} enregistrées !`);
+      let next = '';
+      for (let i = 1; i <= 40; i++)
+        if (!points[`P${i}`]) { next = `P${i}`; break; }
+      pointSelect.value = next;
+      loadPoint(next);
+    });
+
+    btnExport.addEventListener('click', async () => {
+      if (!confirm("Tu es sûr ? Sauvegarder réinitialise l’app.")) return;
+      const affaire = affaireEl.value.trim() || 'Sans_affaire';
+      const filename = `${affaire}_Fiche_de_points_de_mesure.xlsx`;
+      const wb = new ExcelJS.Workbook();
+      const ws = wb.addWorksheet('Mesures');
+      ws.columns = [
+        {header:'Point', key:'point', width:10},
+        {header:'Adresse', key:'address', width:30},  
+        {header:'Lat DMS', key:'lat', width:15},
+        {header:'Lng DMS', key:'lng', width:15},
+        {header:'Photo 1', key:'photo1', width:35.7},
+        {header:'Photo 2', key:'photo2', width:35.7},
+        {header:'NO₂', key:'no2', width:10},
+        {header:'C₆H₆', key:'c6h6', width:10},
+        {header:'PM₁₀', key:'pm10', width:10},
+        {header:'DateHeure', key:'datetime', width:20},
       ];
-      ws.getColumn('datetime').numFmt='dd/mm/yy hh:mm';
-      const pxPerCm=96/2.54;
-      const imgW=Math.round(5.25*pxPerCm),
-            imgH=Math.round(7*pxPerCm);
-      let rowIndex=2;
-      for(const[pt,p]of Object.entries(points)){
+      ws.getColumn('datetime').numFmt = 'dd/mm/yy hh:mm';
+
+      // Dimensions en pixels pour 7×5,25 cm @96 dpi
+      const pxPerCm = 96/2.54;
+      const imgW = Math.round(5.25 * pxPerCm),
+            imgH = Math.round(7    * pxPerCm);
+
+      let rowIndex = 2;
+      for (const [pt, p] of Object.entries(points)) {
         ws.addRow({
-          point:pt,address:p.address,lat:p.lat,lng:p.lng,
-          photo1:'',photo2:'',
-          no2:p.no2,c6h6:p.c6h6,pm10:p.pm10,
-          datetime:new Date(p.datetime)
+          point: pt, address: p.address, lat: p.lat, lng: p.lng,
+          photo1: '', photo2: '',
+          no2: p.no2, c6h6: p.c6h6, pm10: p.pm10,
+          datetime: new Date(p.datetime)
         });
-        ws.getRow(rowIndex).height=Math.round(340*0.75);
-        if(p.b64_1){
-          const id1=wb.addImage({base64:p.b64_1,extension:'jpeg'});
-          ws.addImage(id1,{tl:{col:4,row:rowIndex-1},ext:{width:imgW,height:imgH}});
+        ws.getRow(rowIndex).height = Math.round(340 * 0.75); // approx
+
+        if (p.b64_1) {
+          // on injecte le JPEG brut, EXIF intacts
+          const id1 = wb.addImage({ base64: p.b64_1, extension: 'jpeg' });
+          ws.addImage(id1, {
+            tl:  { col: 4, row: rowIndex - 1 },
+            ext: { width: imgW, height: imgH }
+          });
         }
-        if(p.b64_2){
-          const id2=wb.addImage({base64:p.b64_2,extension:'jpeg'});
-          ws.addImage(id2,{tl:{col:5,row:rowIndex-1},ext:{width:imgW,height:imgH}});
+        if (p.b64_2) {
+          const id2 = wb.addImage({ base64: p.b64_2, extension: 'jpeg' });
+          ws.addImage(id2, {
+            tl:  { col: 5, row: rowIndex - 1 },
+            ext: { width: imgW, height: imgH }
+          });
         }
         rowIndex++;
       }
-      const buffer=await wb.xlsx.writeBuffer();
-      saveAs(new Blob([buffer],{type:'application/octet-stream'}),filename);
-      // reset
-      Object.keys(points).forEach(k=>delete points[k]);
-      pointSelect.value=''; loadPoint('');
+
+      const buffer = await wb.xlsx.writeBuffer();
+      saveAs(new Blob([buffer], { type: 'application/octet-stream' }), filename);
+
+      // remise à zéro
+      Object.keys(points).forEach(k => delete points[k]);
+      pointSelect.value = '';
+      loadPoint('');
     });
   });
   </script>
