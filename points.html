@@ -189,6 +189,22 @@
           <input type="file" id="photo2" accept="image/*" capture="environment" style="display:none">
         </div>
 
+        <!-- Réintégration de la section capteurs -->
+        <div class="row sensors">
+          <div>
+            <label for="no2">NO₂</label>
+            <input id="no2" type="number" placeholder="µg/m³" required>
+          </div>
+          <div>
+            <label for="c6h6">C₆H₆</label>
+            <input id="c6h6" type="number" placeholder="µg/m³" required>
+          </div>
+          <div>
+            <label for="pm10">PM₁₀</label>
+            <input id="pm10" type="number" placeholder="µg/m³" required>
+          </div>
+        </div>
+
         <div class="row" style="align-items:center; text-align:center;">
           <label for="datetime">Date &amp; heure</label>
           <input id="datetime" type="datetime-local" required>
@@ -230,7 +246,7 @@
           photo1Btn   = get('photo1Btn'),
           photo2Btn   = get('photo2Btn'),
           affaireEl   = get('affaire');
-    const sensors = [get('no2'), get('c6h6'), get('pm10')];
+    const sensors = [no2El, c6h6El, pm10El];
     const points = {};
 
     // Spinner P1→P40
