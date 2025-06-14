@@ -1384,26 +1384,36 @@
   // Code pour fonctionnement radio discours inspirants
   const toggleBtn = document.getElementById("audioToggle");
   const player = document.getElementById("speechPlayer");
+  document.getElementById("audioToggle").checked = false;
   const speeches = [
     "https://raw.githubusercontent.com/Citizen11bf/letmotiv/main/Charles%20de%20Gaulle%20-%201940.MP3",
     "https://raw.githubusercontent.com/Citizen11bf/letmotiv/main/Dominque%20de%20Villepin%20-%202003.MP3"
   ];
   let currentIndex = Math.floor(Math.random() * speeches.length);
+
+  // État initial OFF
+  toggleBtn.checked = false;
   player.src = speeches[currentIndex];
+    
   function playNextSpeech() {
     currentIndex = Math.floor(Math.random() * speeches.length);
     player.src = speeches[currentIndex];
-    player.play();
+    player.load();
+    player.addEventListener("canplaythrough", () => {
+      player.play().catch(err => console.warn("Lecture bloquée :", err));
+    }, { once: true });
   }
-  toggleBtn.addEventListener("change", () => {
-    if (toggleBtn.checked) {
-      player.play();
-    } else {
-      player.pause();
-    }
-  });
 
-  player.addEventListener("ended", playNextSpeech);
+  toggleBtn.addEventListener("change", () => {
+      if (toggleBtn.checked) {
+        player.play().catch(err => console.warn("Lecture refusée :", err));
+      } else {
+        player.pause();
+      }
+    });
+    
+    player.addEventListener("ended", playNextSpeech);
+
 
   </script>
 </body>
