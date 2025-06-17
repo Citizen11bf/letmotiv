@@ -567,6 +567,8 @@
       updateProgressBar(next);
       currentStep = next;
       pushStepState(next);
+      // → Envoi d’un événement GA4 pour marquer la vue du step
+      gtag('event', 'view_step', {step_number: next});
       updateFooterButtons();
     
       // Mettre à jour le titre du header
@@ -749,6 +751,11 @@
       generateSubjectBtn.classList.add('subject-generated');
       document.getElementById('subject-error').style.display = 'none';
       updateFooterButtons();
+      // → Pour considérer sur GA que l’étape 2 est “vue” dès qu’un sujet est généré
+      gtag('event', 'view_step', {
+         step_number: 2,
+         event_label: currentCategory   // pour savoir quel est l'bjectif
+     });
     });
 
     document.getElementById('advice-toggle').addEventListener('click', () => {
