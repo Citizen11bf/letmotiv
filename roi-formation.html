@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulateur Letmotiv</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background: #f9f9f9;
+      padding: 2rem;
+      color: #333;
+    }
+
+    .simulator {
+      background: white;
+      padding: 2rem;
+      max-width: 600px;
+      margin: auto;
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.05);
+    }
+
+    h2 {
+      text-align: center;
+      color: #222;
+    }
+
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: 600;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.7rem;
+      margin-top: 0.3rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    button {
+      margin-top: 1.5rem;
+      background-color: #2f80ed;
+      color: white;
+      border: none;
+      padding: 1rem;
+      width: 100%;
+      font-size: 1.1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #1c64d1;
+    }
+
+    .result, .roi {
+      margin-top: 2rem;
+      display: none;
+    }
+
+    .highlight {
+      color: #2f80ed;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="simulator">
+    <h2>Simulateur Letmotiv</h2>
+    <label for="collaborators">Nombre de collaborateurs :</label>
+    <input type="number" id="collaborators" placeholder="ex : 10" />
+
+    <label for="hours">Heures de réunion par semaine (par personne) :</label>
+    <input type="number" id="hours" placeholder="ex : 5" />
+
+    <button onclick="calculate()">Maintenant imaginez ⇒</button>
+
+    <div class="result" id="result">
+      <p>Chaque semaine, cela représente <span class="highlight" id="weekly"></span> heures mobilisées.</p>
+      <p>Soit environ <span class="highlight" id="monthly"></span> heures par mois</p>
+      <p>Et plus de <span class="highlight" id="yearly"></span> heures par an</p>
+      <p>À 33,5 €/h, cela coûte <span class="highlight" id="cost"></span> € par an</p>
+    </div>
+
+    <div class="roi" id="roi">
+      <h3>Avec Letmotiv :</h3>
+      <p>✅ Temps de réunion divisé par 2</p>
+      <p>✅ Moins d’ambiguïté, plus de décisions</p>
+      <p><strong>Investissement :</strong> 2 jours de formation = 5 000 €</p>
+      <p><strong>Économies potentielles :</strong> <span class="highlight" id="savings"></span> € / an</p>
+      <p><strong>ROI :</strong> <span class="highlight" id="roiValue"></span> %</p>
+      <p><em>Sans logiciel. Sans réorganisation.<br>Juste une meilleure façon de communiquer.</em></p>
+    </div>
+  </div>
+
+  <script>
+    function calculate() {
+      const collaborators = parseInt(document.getElementById("collaborators").value) || 0;
+      const hours = parseFloat(document.getElementById("hours").value) || 0;
+      const hourlyRate = 33.5;
+
+      const weeklyTotal = collaborators * hours;
+      const monthlyTotal = weeklyTotal * 4;
+      const yearlyTotal = weeklyTotal * 44; // 52 weeks - 8 weeks off
+      const annualCost = yearlyTotal * hourlyRate;
+      const savings = annualCost / 2;
+      const roi = ((savings - 5000) / 5000) * 100;
+
+      document.getElementById("weekly").textContent = weeklyTotal.toFixed(0);
+      document.getElementById("monthly").textContent = monthlyTotal.toFixed(0);
+      document.getElementById("yearly").textContent = yearlyTotal.toFixed(0);
+      document.getElementById("cost").textContent = annualCost.toLocaleString("fr-FR", {minimumFractionDigits: 0});
+      document.getElementById("savings").textContent = savings.toLocaleString("fr-FR", {minimumFractionDigits: 0});
+      document.getElementById("roiValue").textContent = Math.round(roi);
+
+      document.getElementById("result").style.display = "block";
+      document.getElementById("roi").style.display = "block";
+    }
+  </script>
+</body>
+</html>
