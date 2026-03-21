@@ -18,7 +18,7 @@
   <link rel="icon" href="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Letmotiv_favicon.webp" type="image/png">
   <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/Citizen11bf/letmotiv/refs/heads/images/Letmotiv_favicon.webp">
 
-  <!-- Balises Open Graph -->
+  <!-- Open Graph -->
   <meta property="og:title" content="Simulateur d'improvisation Letmotiv" />
   <meta property="og:description" content="Évaluer et développer sa prise de parole en public avec le simulateur d'improvisation Letmotiv." />
   <meta property="og:type" content="website" />
@@ -65,26 +65,147 @@
 
   <style>
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: 'DM Sans', sans-serif; background-color: #ffffff; color: #333333; padding-top: 60px; padding-bottom: 20px; }
-    .error-message { color: red; font-size: 14px; margin-top: 5px; }
-    .header { font-family: 'Montserrat', sans-serif; background-color: #182d84; color: #FFFFFF; font-size: 16px; font-weight: bold; text-align: center; padding: 10px; width: 100%; position: fixed; top: 0; left: 0; z-index: 10; }
-    .header-content { font-family: 'Montserrat', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; max-width: 100%; overflow-wrap: break-word; }
-    .header-l2 { font-family: 'Montserrat', sans-serif; font-size: 16px; font-weight: bold; }
-    .progress-container { display: flex; gap: 8px; padding: 0 20px; position: fixed; top: 55px; left: 0; width: 100%; height: 10px; background-color: transparent; z-index: 9; }
-    .progress-step { flex: 1; background-color: rgba(24,45,132,0.2); border-radius: 5px; transition: background-color 0.3s; }
-    .progress-step.active { background-color: #00a48a; }
 
-    .intro-box { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #182d84, #00a48a); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: #ffffff; z-index: 20; animation: fadeIn 1s ease forwards; }
-    .intro-box h1 { font-family: 'Montserrat', sans-serif; font-size: 2.8rem; margin-bottom: 50px; animation: slideDown 1s ease forwards; text-shadow: 2px 2px 8px rgba(0,0,0,0.3); }
+    body {
+      margin: 0;
+      font-family: 'DM Sans', sans-serif;
+      background-color: #ffffff;
+      color: #333333;
+      padding-top: 60px;
+      padding-bottom: 20px;
+    }
+
+    .error-message {
+      color: red;
+      font-size: 14px;
+      margin-top: 5px;
+      display: none;
+    }
+
+    .header {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #182d84;
+      color: #FFFFFF;
+      font-size: 16px;
+      font-weight: bold;
+      text-align: center;
+      padding: 10px;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 10;
+    }
+
+    .header-content {
+      font-family: 'Montserrat', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      max-width: 100%;
+      overflow-wrap: break-word;
+    }
+
+    .header-l2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .progress-container {
+      display: flex;
+      gap: 8px;
+      padding: 0 20px;
+      position: fixed;
+      top: 55px;
+      left: 0;
+      width: 100%;
+      height: 10px;
+      background-color: transparent;
+      z-index: 9;
+    }
+
+    .progress-step {
+      flex: 1;
+      background-color: rgba(24,45,132,0.2);
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .progress-step.active {
+      background-color: #00a48a;
+    }
+
+    .intro-box {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #182d84, #00a48a);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #ffffff;
+      z-index: 20;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    .intro-box h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.8rem;
+      margin-bottom: 50px;
+      animation: slideDown 1s ease forwards;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+    }
+
     .intro-box h1 span { display: block; }
+
     .wrapper { display: flex; justify-content: center; }
-    .cta { display: flex; padding: 10px 45px; text-decoration: none; font-family: 'Poppins', sans-serif; font-size: 40px; color: white; background: #FF5722; transition: 0.5s; box-shadow: 6px 6px 0 black; transform: skewX(-15deg); border-radius: 8px; }
+
+    .cta {
+      display: flex;
+      padding: 10px 45px;
+      text-decoration: none;
+      font-family: 'Poppins', sans-serif;
+      font-size: 40px;
+      color: white;
+      background: #FF5722;
+      transition: 0.5s;
+      box-shadow: 6px 6px 0 black;
+      transform: skewX(-15deg);
+      border-radius: 8px;
+    }
+
     .cta:focus { outline: none; }
-    .cta:hover { transition: 0.3s; box-shadow: 10px 10px 0 #FBC638; }
-    .cta span:nth-child(2) { transition: 0.3s; margin-right: 0px; }
-    .cta:hover span:nth-child(2) { transition: 0.3s; margin-right: 45px; }
+
+    .cta:hover {
+      transition: 0.3s;
+      box-shadow: 10px 10px 0 #FBC638;
+    }
+
+    .cta span:nth-child(2) {
+      transition: 0.3s;
+      margin-right: 0px;
+    }
+
+    .cta:hover span:nth-child(2) {
+      transition: 0.3s;
+      margin-right: 45px;
+    }
+
     .cta span { transform: skewX(15deg); }
-    .cta span:nth-child(2) { width: 20px; margin-left: 30px; position: relative; top: 12%; }
+
+    .cta span:nth-child(2) {
+      width: 20px;
+      margin-left: 30px;
+      position: relative;
+      top: 12%;
+    }
 
     @media (max-width: 600px) {
       .cta svg { width: 40px; height: 30px; }
@@ -95,36 +216,162 @@
     @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
     @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-    .main-container { position: relative; padding: 20px; overflow-x: hidden; }
-    .box { position: relative; width: 100%; max-width: 600px; margin: 0; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; text-align: center; font-size: 14px; display: none; transition: opacity 0.5s ease; }
-    .box.active { display: block; opacity: 1; }
+    .main-container {
+      position: relative;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    .box {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      text-align: center;
+      font-size: 14px;
+      display: none;
+      transition: opacity 0.5s ease;
+    }
+
+    .box.active {
+      display: block;
+      opacity: 1;
+    }
+
     .box.hidden { opacity: 0; }
 
-    @keyframes fromRight { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0);} }
-    @keyframes fromLeft { from { opacity: 0; transform: translateX(-50px); } to { opacity: 1; transform: translateX(0);} }
+    @keyframes fromRight {
+      from { opacity: 0; transform: translateX(50px); }
+      to { opacity: 1; transform: translateX(0);}
+    }
+
+    @keyframes fromLeft {
+      from { opacity: 0; transform: translateX(-50px); }
+      to { opacity: 1; transform: translateX(0);}
+    }
+
     .slide-from-right { animation: fromRight 1.0s ease forwards; }
     .slide-from-left { animation: fromLeft 1.0s ease forwards; }
 
-    #app-footer { display: flex; position: fixed; bottom: 0; left: 0; width: 100%; height: 48px; box-shadow: 0 -2px 6px rgba(0,0,0,0.1); z-index: 100; }
-    .footer-button { flex: 1; border: none; background: none; font-size: 16px; font-weight: bold; color: inherit; cursor: pointer; transition: background-color 0.3s, filter 0.3s; }
-    .footer-button.prev { border-right: 1px solid rgba(255,255,255,0.2); }
-    .footer-button.next { display: flex; align-items: center; justify-content: center; }
-    .footer-button.footer-disabled { background: #cccccc; color: #777; cursor: default; filter: grayscale(100%); }
-    .footer-button.footer-enabled.next { background-color: #182d84; color: #ffffff; filter: none; animation: footerPulse 1.5s ease-in-out infinite; }
-    .footer-button.footer-enabled.prev { background-color: #005f99; color: #ffffff; filter: none; }
-    .footer-enabled.next:hover, .footer-enabled.prev:hover { animation: none; filter: brightness(1.1); }
+    #app-footer {
+      display: flex;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 48px;
+      box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
+      z-index: 100;
+    }
 
-    .btn-impro { margin: 15px 0; padding: 10px 20px; font-size: 16px; background-color: #182d84; color: #fff; border: none; border-radius: 25px; cursor: pointer; transition: background-color 0.3s; }
+    .footer-button {
+      flex: 1;
+      border: none;
+      background: none;
+      font-size: 16px;
+      font-weight: bold;
+      color: inherit;
+      cursor: pointer;
+      transition: background-color 0.3s, filter 0.3s;
+    }
+
+    .footer-button.prev { border-right: 1px solid rgba(255,255,255,0.2); }
+
+    .footer-button.next {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .footer-button.footer-disabled {
+      background: #cccccc;
+      color: #777;
+      cursor: default;
+      filter: grayscale(100%);
+    }
+
+    .footer-button.footer-enabled.next {
+      background-color: #182d84;
+      color: #ffffff;
+      filter: none;
+      animation: footerPulse 1.5s ease-in-out infinite;
+    }
+
+    .footer-button.footer-enabled.prev {
+      background-color: #005f99;
+      color: #ffffff;
+      filter: none;
+    }
+
+    .footer-enabled.next:hover,
+    .footer-enabled.prev:hover {
+      animation: none;
+      filter: brightness(1.1);
+    }
+
+    .btn-impro {
+      margin: 15px 0;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #182d84;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color 0.3s, opacity 0.2s;
+    }
+
     .btn-impro:hover { background-color: #00a48a; }
+    .btn-impro:disabled { opacity: 0.55; cursor: not-allowed; }
+
     .stop-animation { animation: none !important; transform: none !important; }
 
     /* STEP1 */
-    .objectives-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; justify-items: center; margin: 10px 0; }
-    .objective-item { text-align: center; color: #444; font-size: 0.9rem; cursor: pointer; padding: 12px; border: 1px solid transparent; border-radius: 10px; transition: background-color 0.3s, border-color 0.3s, transform 0.3s; }
-    .objective-item i { font-size: 1.8rem; margin-bottom: 8px; display: block; }
+    .objectives-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 10px;
+      justify-items: center;
+      margin: 10px 0;
+    }
+
+    .objective-item {
+      text-align: center;
+      color: #444;
+      font-size: 0.9rem;
+      cursor: pointer;
+      padding: 12px;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+    }
+
+    .objective-item i {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+      display: block;
+    }
+
     .objective-item i.fa-arrow-right { transform: none !important; }
-    .objective-item:hover { border-color: #00a48a; background-color: rgba(0, 164, 138, 0.1); }
-    .objective-item.selected-objective { transform: scale(1.1); background-color: rgba(0, 164, 138, 0.2); color: #00a48a; border-color: #00a48a; transition: all 0.3s ease-in-out; }
+
+    .objective-item:hover {
+      border-color: #00a48a;
+      background-color: rgba(0, 164, 138, 0.1);
+    }
+
+    .objective-item.selected-objective {
+      transform: scale(1.1);
+      background-color: rgba(0, 164, 138, 0.2);
+      color: #00a48a;
+      border-color: #00a48a;
+      transition: all 0.3s ease-in-out;
+    }
+
     .objective-item.selected-objective i { color: #00a48a; }
     .objective-item[data-category="convaincre"] i { color: #007BFF; }
     .objective-item[data-category="inspirer"] i { color: #FFC107; }
@@ -260,11 +507,34 @@
       box-shadow: 0 4px 10px rgba(24, 45, 132, 0.18);
     }
 
-    #advice-toggle { cursor: pointer; margin-top: 20px; margin-bottom: 20px; text-align: center; font-weight: normal; color: #182d84; }
-    #advice-toggle i { margin-left: 5px; transition: transform 0.3s ease; }
-    #advice-text { display: none; margin-top: 10px; padding: 10px; background-color: #fefefe; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; line-height: 1.5; text-align: left; }
+    #advice-toggle {
+      cursor: pointer;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      text-align: center;
+      font-weight: normal;
+      color: #182d84;
+    }
+
+    #advice-toggle i {
+      margin-left: 5px;
+      transition: transform 0.3s ease;
+    }
+
+    #advice-text {
+      display: none;
+      margin-top: 10px;
+      padding: 10px;
+      background-color: #fefefe;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+      line-height: 1.5;
+      text-align: left;
+    }
 
     .mobile-break { display: none; }
+
     @media (max-width: 600px) {
       .mobile-break { display: inline; }
       .duration-options { justify-content: center; }
@@ -325,7 +595,13 @@
       z-index: 1000 !important;
     }
 
-    .video-note { margin: 8px auto; max-width: 500px; font-size: 13px; color: #555; text-align: center; }
+    .video-note {
+      margin: 8px auto;
+      max-width: 500px;
+      font-size: 13px;
+      color: #555;
+      text-align: center;
+    }
 
     .video-overlay {
       position: absolute;
@@ -344,6 +620,7 @@
     }
 
     .video-overlay p { margin: 10px 0; }
+
     .video-overlay button {
       margin: 15px 0;
       padding: 10px 20px;
@@ -374,9 +651,7 @@
       backdrop-filter: blur(1px);
     }
 
-    .prestart-overlay.active {
-      display: flex;
-    }
+    .prestart-overlay.active { display: flex; }
 
     .prestart-overlay .prestart-label {
       font-size: 16px;
@@ -423,13 +698,36 @@
       animation: blink 1s infinite;
     }
 
-    .countdown { font-size: 16px; color: #ffffff; background: none; margin-left: 5px; }
-    .impro-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 10px; }
+    .countdown {
+      font-size: 16px;
+      color: #ffffff;
+      background: none;
+      margin-left: 5px;
+    }
+
+    .impro-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
     .hidden-btn { display: none; }
 
     @media (max-width: 600px) {
-      .video-box { display: block; width: 100%; max-width: 600px; }
-      .video-box .impro-video-subject { top: 4px; left: 8px; right: 8px; }
+      .video-box {
+        display: block;
+        width: 100%;
+        max-width: 600px;
+      }
+
+      .video-box .impro-video-subject {
+        top: 4px;
+        left: 8px;
+        right: 8px;
+      }
+
       .prestart-overlay .prestart-countdown { font-size: 48px; }
     }
 
@@ -439,24 +737,96 @@
     #star-rating .star { color: #ccc; transition: color 0.2s; }
     #star-rating .star.selected, #star-rating .star:hover, #star-rating .star:hover ~ .star { color: #FFC107; }
     #step4 #playback-video { width: 100%; max-width: 400px; }
-    @media (max-width: 600px) { #step4 #playback-video { max-width: 300px; } }
-
-    /* STEP5 */
-    @media (max-width: 600px) { #step5 p { font-size: 1.1rem; line-height: 1.6; text-align: center; } }
-
-    /* STEP6 */
-    .link-card { max-width: 600px; margin: 0 auto 1.5em; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
-    .link-card a { display: block; text-decoration: none; color: inherit; }
-    .link-card-header { display: flex; align-items: center; padding: 12px; background-color: #b9c0da; }
-    .link-card-img { flex-shrink: 0; width: 240px; height: 160px; object-fit: cover; border-radius: 4px; }
-    .link-card-title { margin: 0 0 0 16px; font-size: 1.6rem; flex: 1; font-weight: 700; line-height: 1.2; text-align: center; }
-    .link-card-description { margin: 0; padding: 0 12px 12px; font-size: 0.95rem; line-height: 1.4; color: #555; text-align: justify; background-color: #b9c0da; }
 
     @media (max-width: 600px) {
-      #step6 .link-card-header { display: flex; flex-direction: column; align-items: center; padding: 12px; }
-      #step6 .link-card-img { width: 100%; height: auto; border-radius: 4px; }
-      #step6 .link-card-title { margin: 12px 0 0; font-size: 1.2rem; line-height: 1.3; text-align: center; color: #333; }
-      #step6 .link-card-description { padding: 0 12px 12px; text-align: justify; }
+      #step4 #playback-video { max-width: 300px; }
+    }
+
+    /* STEP5 */
+    @media (max-width: 600px) {
+      #step5 p {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        text-align: center;
+      }
+    }
+
+    /* STEP6 */
+    .link-card {
+      max-width: 600px;
+      margin: 0 auto 1.5em;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .link-card a {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .link-card-header {
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      background-color: #b9c0da;
+    }
+
+    .link-card-img {
+      flex-shrink: 0;
+      width: 240px;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+
+    .link-card-title {
+      margin: 0 0 0 16px;
+      font-size: 1.6rem;
+      flex: 1;
+      font-weight: 700;
+      line-height: 1.2;
+      text-align: center;
+    }
+
+    .link-card-description {
+      margin: 0;
+      padding: 0 12px 12px;
+      font-size: 0.95rem;
+      line-height: 1.4;
+      color: #555;
+      text-align: justify;
+      background-color: #b9c0da;
+    }
+
+    @media (max-width: 600px) {
+      #step6 .link-card-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 12px;
+      }
+
+      #step6 .link-card-img {
+        width: 100%;
+        height: auto;
+        border-radius: 4px;
+      }
+
+      #step6 .link-card-title {
+        margin: 12px 0 0;
+        font-size: 1.2rem;
+        line-height: 1.3;
+        text-align: center;
+        color: #333;
+      }
+
+      #step6 .link-card-description {
+        padding: 0 12px 12px;
+        text-align: justify;
+      }
     }
 
     /* Responsive STEP1 */
@@ -492,7 +862,7 @@
         position: absolute;
         bottom: 0px;
         right: 10px;
-        font-size: 2.0rem;
+        font-size: 2rem;
         color: #444;
       }
 
@@ -561,7 +931,7 @@
           <svg width="66px" height="43px" viewBox="0 0 66 43" version="1.1" xmlns="http://www.w3.org/2000/svg">
             <g id="arrow" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
               <path class="one" d="M40.1543933,3.89485454 L43.9763149,0.139296592 C44.1708311,-0.0518420739 44.4826329,-0.0518571125 44.6771675,0.139262789 L65.6916134,20.7848311 C66.0855801,21.1718824 66.0911863,21.8050225 65.704135,22.1989893 C65.7000188,22.2031791 65.6958657,22.2073326 65.6916762,22.2114492 L44.677098,42.8607841 C44.4825957,43.0519059 44.1708242,43.0519358 43.9762853,42.8608513 L40.1545186,39.1069479 C39.9575152,38.9134427 39.9546793,38.5968729 40.1481845,38.3998695 C40.1502893,38.3977268 40.1524132,38.395603 40.1545562,38.3934985 L56.9937789,21.8567812 C57.1908028,21.6632968 57.193672,21.3467273 57.0001876,21.1497035 C56.9980647,21.1475418 56.9959223,21.1453995 56.9937605,21.1432767 L40.1545208,4.60825197 C39.9574869,4.41477773 39.9546013,4.09820839 40.1480756,3.90117456 C40.1501626,3.89904911 40.1522686,3.89694235 40.1543933,3.89485454 Z" fill="#FFFFFF"></path>
-              <path class="two" d="M20.1543933,3.89485454 L23.9763149,0.139296592 C24.1708311,-0.0518420739 24.4826329,-0.0518571125 24.6771675,0.139262789 L45.6916134,20.7848311 C46.0855801,21.1718824 46.0911863,21.8050225 45.704135,22.1989893 C45.7000188,22.2031791 45.6958657,22.2073326 45.6916762,22.2114492 L24.677098,42.8607841 C24.4825957,43.0519059 24.1708242,43.0519358 23.9762853,42.8608513 L20.1545186,39.1069479 C19.9575152,38.9134427 19.9546793,38.5968729 20.1481845,38.3998695 C20.1502893,38.3977268 20.1524132,38.395603 20.1545562,38.3934985 L36.9937789,21.8567812 C37.1908028,21.6632968 37.193672,21.3467273 37.0001876,21.1497035 C36.9980647,21.1475418 36.9959223,21.1453995 36.9937605,21.1432767 L20.1545208,4.60825197 C19.9574869,4.41477773 19.9546013,4.09820839 20.1480756,3.90117456 C20.1501626,3.89904911 20.1522686,3.89694235 20.1543933,3.89485454 Z" fill="#FFFFFF"></path>
+              <path class="two" d="M20.1543933,3.89485454 L23.9763149,0.139296592 C24.1708311,-0.0518420739 24.4826329,-0.0518571125 24.6771675,0.139262789 L45.6916134,20.7848311 C46.0855801,21.1718824 46.0911863,21.8050225 45.704135,22.1989893 C45.7000188,22.2031791 45.6958657,22.2073326 45.6916762,22.2114492 L24.677098,42.8607841 C24.4825957,43.0519059 24.1708242,43.0519358 23.9762853,42.8608513 L20.1545186,39.1069479 C19.9575152,38.9134427 19.9546793,38.5968729 20.1481845,38.3998695 C20.1502893,38.3977268 20.1524132,38.395603 20.1545562,38.3934985 L36.9937789,21.8567812 C37.1908028,21.6632968 37.193672,21.3467273 37.0001876,21.1497035 C36.9980647,21.1475418 36.9959223,21.1453995 36.9937605,21.1432767 L20.1545208,4.60825197 C19.9574869,4.41477773 -0.0453986756,4.09820839 20.1480756,3.90117456 C20.1501626,3.89904911 20.1522686,3.89694235 20.1543933,3.89485454 Z" fill="#FFFFFF"></path>
               <path class="three" d="M0.154393339,3.89485454 L3.97631488,0.139296592 C4.17083111,-0.0518420739 4.48263286,-0.0518571125 4.67716753,0.139262789 L25.6916134,20.7848311 C26.0855801,21.1718824 26.0911863,21.8050225 25.704135,22.1989893 C25.7000188,22.2031791 25.6958657,22.2073326 25.6916762,22.2114492 L4.67709797,42.8607841 C4.48259567,43.0519059 4.17082418,43.0519358 3.97628526,42.8608513 L0.154518591,39.1069479 C-0.0424848215,38.9134427 -0.0453206733,38.5968729 0.148184538,38.3998695 C0.150289256,38.3977268 0.152413239,38.395603 0.154556228,38.3934985 L16.9937789,21.8567812 C17.1908028,21.6632968 17.193672,21.3467273 17.0001876,21.1497035 C16.9980647,21.1475418 16.9959223,21.1453995 16.9937605,21.1432767 L0.15452076,4.60825197 C-0.0425130651,4.41477773 -0.0453986756,4.09820839 0.148075568,3.90117456 C0.150162624,3.89904911 0.152268631,3.89694235 0.154393339,3.89485454 Z" fill="#FFFFFF"></path>
             </g>
           </svg>
@@ -703,7 +1073,7 @@
 
         <div class="recording-indicator" id="recording-indicator">
           <span class="dot"></span>
-          <div class="countdown" id="countdown">1:59</div>
+          <div class="countdown" id="countdown">2:00</div>
         </div>
       </div>
 
@@ -822,21 +1192,21 @@
     const durationButtons = document.querySelectorAll('.duration-btn');
     const step2MainTitle = document.getElementById('step2-main-title');
 
+    const videoOverlay = document.getElementById('video-overlay');
+    const previewVideo = document.getElementById('preview');
+    const videoNote = document.getElementById('video-note');
     const prestartOverlay = document.getElementById('prestart-overlay');
     const prestartCountdownEl = document.getElementById('prestart-countdown');
-    const videoOverlay = document.getElementById('video-overlay');
+    const recordingIndicator = document.getElementById('recording-indicator');
+    const countdownEl = document.getElementById('countdown');
+    const stopBtn = document.getElementById('stop-btn');
+    const restartBtn = document.getElementById('restart-btn');
+    const playbackVideo = document.getElementById('playback-video');
 
     let currentStep = 0;
     let currentCategory = null;
     let currentSubject = "";
-    let isImproRecordingStarted = false;
-    let mediaRecorderInstance;
-    let recordedChunks = [];
     let videoURL = "";
-    let timerInterval;
-    let timeRemaining = 120;
-    let countdown;
-    let prestartInterval;
     let videoDownloaded = false;
     let currentRating = 0;
     let forceReload = false;
@@ -846,6 +1216,25 @@
     const CUSTOM_CATEGORY = 'personnalise';
     const MAX_CUSTOM_WORDS = 150;
     const PRESTART_SECONDS = 5;
+
+    const IMPRO_STATES = {
+      IDLE: 'idle',
+      PREPARING_CAMERA: 'preparing_camera',
+      PRESTART: 'prestart',
+      RECORDING: 'recording',
+      STOPPING: 'stopping',
+      FINISHED: 'finished'
+    };
+
+    let improState = IMPRO_STATES.IDLE;
+    let currentStream = null;
+    let mediaRecorderInstance = null;
+    let recordedChunks = [];
+    let timerInterval = null;
+    let prestartInterval = null;
+    let timeRemaining = selectedDuration;
+    let recordingCompleted = false;
+    let sessionId = 0;
 
     const stepTitles = {
       1: `Étape <i class="material-icons" style="vertical-align:middle;">looks_one</i> : Quel est ton objectif ?`,
@@ -906,6 +1295,7 @@
       personnalise: "fas fa-pen"
     };
 
+    /*** UTILITAIRES ***/
     function updateHeaderTitle() {
       document.getElementById('dynamic-header-title').innerHTML = stepTitles[currentStep] || "";
     }
@@ -913,35 +1303,6 @@
     function pushStepState(step) {
       history.pushState({ step }, null, `#step${step}`);
     }
-
-    window.addEventListener('popstate', (event) => {
-      if (event.state && event.state.step !== undefined) {
-        const stepToShow = event.state.step;
-        Object.values(boxes).forEach(box => box.classList.remove('active'));
-
-        if (stepToShow === 0) {
-          introBox.style.display = 'block';
-          currentStep = 0;
-          footer.style.display = 'none';
-          updateProgressBar(0);
-          document.getElementById('dynamic-header-title').innerHTML = "";
-        } else {
-          boxes[stepToShow].classList.add('active');
-          currentStep = stepToShow;
-          updateProgressBar(currentStep);
-          if (currentStep === 2) renderStep2UI();
-          updateFooterButtons();
-          updateHeaderTitle();
-        }
-      } else {
-        Object.values(boxes).forEach(box => box.classList.remove('active'));
-        introBox.style.display = 'block';
-        currentStep = 0;
-        footer.style.display = 'none';
-        updateProgressBar(0);
-        document.getElementById('dynamic-header-title').innerHTML = "";
-      }
-    });
 
     function updateProgressBar(step) {
       progressSteps.forEach((el, idx) => {
@@ -977,18 +1338,46 @@
       return words.slice(0, maxWords).join(' ');
     }
 
-    function renderSelectedDuration() {
-      durationButtons.forEach(btn => {
-        btn.classList.toggle('selected', Number(btn.dataset.seconds) === selectedDuration);
-      });
-    }
-
     function updateStep2Title() {
       if (currentCategory === CUSTOM_CATEGORY) {
         step2MainTitle.textContent = "Écris ton sujet";
       } else {
         step2MainTitle.textContent = "Pioche un sujet au hasard";
       }
+    }
+
+    function renderSelectedDuration() {
+      durationButtons.forEach(btn => {
+        btn.classList.toggle('selected', Number(btn.dataset.seconds) === selectedDuration);
+      });
+    }
+
+    function updateWordCountDisplay() {
+      const count = getWordCount(customSubjectInput.value);
+      wordCountEl.textContent = `${count} / ${MAX_CUSTOM_WORDS} mots`;
+      wordCountEl.classList.toggle('limit-reached', count >= MAX_CUSTOM_WORDS);
+    }
+
+    function updateCustomSubjectState() {
+      let value = customSubjectInput.value.replace(/\s+/g, ' ').trimStart();
+
+      if (getWordCount(value) > MAX_CUSTOM_WORDS) {
+        value = trimToWordLimit(value, MAX_CUSTOM_WORDS);
+      }
+
+      customSubjectInput.value = value;
+      customSubjectDraft = value.trim();
+      currentSubject = customSubjectDraft;
+      updateWordCountDisplay();
+
+      if (currentSubject.length > 0) {
+        subjectDisplay.textContent = currentSubject;
+        subjectWrapper.style.display = 'block';
+      } else {
+        subjectWrapper.style.display = 'none';
+      }
+
+      updateFooterButtons();
     }
 
     function renderStep2UI() {
@@ -1021,34 +1410,6 @@
       renderSelectedDuration();
     }
 
-    function updateWordCountDisplay() {
-      const count = getWordCount(customSubjectInput.value);
-      wordCountEl.textContent = `${count} / ${MAX_CUSTOM_WORDS} mots`;
-      wordCountEl.classList.toggle('limit-reached', count >= MAX_CUSTOM_WORDS);
-    }
-
-    function updateCustomSubjectState() {
-      let value = customSubjectInput.value.replace(/\s+/g, ' ').trimStart();
-
-      if (getWordCount(value) > MAX_CUSTOM_WORDS) {
-        value = trimToWordLimit(value, MAX_CUSTOM_WORDS);
-      }
-
-      customSubjectInput.value = value;
-      customSubjectDraft = value.trim();
-      currentSubject = customSubjectDraft;
-      updateWordCountDisplay();
-
-      if (currentSubject.length > 0) {
-        subjectDisplay.textContent = currentSubject;
-        subjectWrapper.style.display = 'block';
-      } else {
-        subjectWrapper.style.display = 'none';
-      }
-
-      updateFooterButtons();
-    }
-
     function updateFooterButtons() {
       footer.style.display = currentStep >= 1 ? 'flex' : 'none';
 
@@ -1069,7 +1430,7 @@
           nextBtn.innerHTML = 'SUIVANT <i class="fas fa-arrow-right"></i>';
           break;
         case 3:
-          canAdvance = isImproRecordingStarted;
+          canAdvance = recordingCompleted;
           nextBtn.innerHTML = 'SUIVANT <i class="fas fa-arrow-right"></i>';
           break;
         case 4:
@@ -1094,6 +1455,399 @@
         : 'footer-button next footer-disabled';
     }
 
+    function showBox(current, next) {
+      if (!boxes[current] || !boxes[next]) return;
+
+      boxes[current].classList.remove('active','slide-from-right','slide-from-left');
+      boxes[next].classList.add('active');
+      boxes[next].classList.add(next > current ? 'slide-from-right' : 'slide-from-left');
+
+      updateProgressBar(next);
+      currentStep = next;
+      pushStepState(next);
+
+      gtag('event', 'view_step', { step_number: next });
+
+      if (next === 2) renderStep2UI();
+
+      updateFooterButtons();
+
+      document.getElementById('dynamic-header-title').innerHTML = stepTitles[next] || "";
+
+      if (next === 3) {
+        document.getElementById('impro-video-subject').textContent = currentSubject;
+        updateCountdownDisplay(selectedDuration);
+      }
+    }
+
+    function bindStartButton() {
+      const startBtn = document.getElementById('start-btn');
+      if (startBtn) {
+        startBtn.addEventListener('click', startImpro);
+      }
+    }
+
+    function updateStep3Buttons() {
+      const showStop = improState === IMPRO_STATES.RECORDING;
+      const showRestart = improState === IMPRO_STATES.FINISHED;
+
+      stopBtn.classList.toggle('hidden-btn', !showStop);
+      restartBtn.classList.toggle('hidden-btn', !showRestart);
+
+      stopBtn.disabled = improState !== IMPRO_STATES.RECORDING;
+      restartBtn.disabled = improState !== IMPRO_STATES.FINISHED;
+    }
+
+    function setImproState(newState) {
+      improState = newState;
+      updateStep3Buttons();
+      updateFooterButtons();
+    }
+
+    function clearAllIntervals() {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+      if (prestartInterval) {
+        clearInterval(prestartInterval);
+        prestartInterval = null;
+      }
+    }
+
+    function stopCurrentStream() {
+      if (currentStream) {
+        currentStream.getTracks().forEach(track => {
+          try { track.stop(); } catch (e) {}
+        });
+        currentStream = null;
+      }
+      previewVideo.srcObject = null;
+    }
+
+    function revokeVideoURL() {
+      if (videoURL) {
+        URL.revokeObjectURL(videoURL);
+        videoURL = "";
+      }
+    }
+
+    function resetStep3VisualsForIdle(showOverlayButton = true) {
+      prestartOverlay.classList.remove('active');
+      recordingIndicator.style.display = 'none';
+      videoNote.style.display = 'block';
+
+      if (showOverlayButton) {
+        videoOverlay.innerHTML = `
+          <button id="start-btn" aria-label="Démarrer l'improvisation">
+            Démarrer ton impro <i class="fas fa-video"></i>
+          </button>
+        `;
+        videoOverlay.style.display = 'flex';
+        bindStartButton();
+      } else {
+        videoOverlay.style.display = 'none';
+      }
+
+      if (window.innerWidth <= 600) {
+        document.querySelector('.video-box').style.height = "300px";
+      }
+    }
+
+    function resetStep3SessionData(options = {}) {
+      const {
+        preserveRecordedVideo = false,
+        preserveOverlay = false
+      } = options;
+
+      sessionId += 1;
+      clearAllIntervals();
+
+      if (mediaRecorderInstance && mediaRecorderInstance.state !== 'inactive') {
+        try { mediaRecorderInstance.stop(); } catch (e) {}
+      }
+      mediaRecorderInstance = null;
+
+      stopCurrentStream();
+      recordedChunks = [];
+      timeRemaining = selectedDuration;
+
+      if (!preserveRecordedVideo) {
+        revokeVideoURL();
+        playbackVideo.removeAttribute('src');
+        playbackVideo.load();
+        videoDownloaded = false;
+      }
+
+      recordingCompleted = false;
+
+      if (!preserveOverlay) {
+        resetStep3VisualsForIdle(true);
+      } else {
+        prestartOverlay.classList.remove('active');
+        recordingIndicator.style.display = 'none';
+      }
+
+      updateCountdownDisplay(selectedDuration);
+      setImproState(IMPRO_STATES.IDLE);
+    }
+
+    function completeRecordingUI(localSessionId) {
+      if (localSessionId !== sessionId) return;
+
+      const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
+      revokeVideoURL();
+      videoURL = URL.createObjectURL(videoBlob);
+
+      playbackVideo.src = videoURL;
+      playbackVideo.load();
+
+      stopCurrentStream();
+      clearAllIntervals();
+
+      videoOverlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>🎉 Bravo 🎉<br>Tu viens de terminer ton improvisation !<br>Tu peux passer à l'étape suivante.</p>";
+      videoOverlay.style.display = 'flex';
+      prestartOverlay.classList.remove('active');
+      recordingIndicator.style.display = 'none';
+      hideError('impro-error');
+
+      recordingCompleted = true;
+      setImproState(IMPRO_STATES.FINISHED);
+
+      if (window.innerWidth <= 600) {
+        document.querySelector('.video-box').style.height = "300px";
+      }
+    }
+
+    function updateCountdownDisplay(value = timeRemaining) {
+      const minutes = Math.floor(value / 60);
+      const seconds = value % 60;
+      countdownEl.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+    }
+
+    async function setupCamera(localSessionId) {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+
+        if (localSessionId !== sessionId) {
+          stream.getTracks().forEach(track => track.stop());
+          return null;
+        }
+
+        currentStream = stream;
+        previewVideo.srcObject = stream;
+        return stream;
+      } catch (error) {
+        if (localSessionId !== sessionId) return null;
+
+        if (error.name === 'NotAllowedError') {
+          displayError('impro-error', "Tu as refusé l'accès à la webcam. Tu dois autoriser l'accès pour continuer.");
+        } else if (error.name === 'NotFoundError') {
+          displayError('impro-error', "Aucune caméra/micro détectés.");
+        } else {
+          displayError('impro-error', "Erreur : Impossible d'accéder à la webcam.");
+        }
+        console.error(error);
+        setImproState(IMPRO_STATES.IDLE);
+        resetStep3VisualsForIdle(true);
+        return null;
+      }
+    }
+
+    function startPrestartCountdown(localSessionId) {
+      if (localSessionId !== sessionId) return;
+
+      let count = PRESTART_SECONDS;
+      prestartCountdownEl.textContent = count;
+      prestartOverlay.classList.add('active');
+      videoOverlay.style.display = 'none';
+      setImproState(IMPRO_STATES.PRESTART);
+
+      prestartInterval = setInterval(() => {
+        if (localSessionId !== sessionId) {
+          clearAllIntervals();
+          return;
+        }
+
+        count -= 1;
+        if (count > 0) {
+          prestartCountdownEl.textContent = count;
+          return;
+        }
+
+        clearInterval(prestartInterval);
+        prestartInterval = null;
+        prestartOverlay.classList.remove('active');
+        initiateRecording(localSessionId);
+      }, 1000);
+    }
+
+    function initiateRecording(localSessionId) {
+      if (localSessionId !== sessionId) return;
+      if (!currentStream) {
+        displayError('impro-error', "Erreur : la caméra n'est plus disponible.");
+        resetStep3SessionData();
+        return;
+      }
+
+      if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
+        displayError('impro-error', "Ton navigateur ne supporte pas l'enregistrement vidéo. Essaye avec Chrome, Edge ou Firefox.");
+        resetStep3SessionData();
+        return;
+      }
+
+      recordedChunks = [];
+      timeRemaining = selectedDuration;
+      updateCountdownDisplay();
+
+      try {
+        mediaRecorderInstance = new MediaRecorder(currentStream);
+      } catch (error) {
+        console.error(error);
+        displayError('impro-error', "Erreur : impossible de démarrer l'enregistrement vidéo.");
+        resetStep3SessionData();
+        return;
+      }
+
+      mediaRecorderInstance.ondataavailable = (event) => {
+        if (localSessionId !== sessionId) return;
+        if (event.data && event.data.size > 0) {
+          recordedChunks.push(event.data);
+        }
+      };
+
+      mediaRecorderInstance.onstop = () => {
+        if (localSessionId !== sessionId) return;
+        completeRecordingUI(localSessionId);
+      };
+
+      mediaRecorderInstance.onerror = (event) => {
+        if (localSessionId !== sessionId) return;
+        console.error(event);
+        displayError('impro-error', "Erreur pendant l'enregistrement vidéo.");
+        resetStep3SessionData();
+      };
+
+      try {
+        mediaRecorderInstance.start();
+      } catch (error) {
+        console.error(error);
+        displayError('impro-error', "Erreur : impossible de lancer l'enregistrement.");
+        resetStep3SessionData();
+        return;
+      }
+
+      recordingIndicator.style.display = 'flex';
+      videoNote.style.display = 'none';
+      setImproState(IMPRO_STATES.RECORDING);
+
+      timerInterval = setInterval(() => {
+        if (localSessionId !== sessionId) {
+          clearAllIntervals();
+          return;
+        }
+
+        timeRemaining -= 1;
+        if (timeRemaining >= 0) {
+          updateCountdownDisplay();
+        }
+
+        if (timeRemaining < 0) {
+          clearInterval(timerInterval);
+          timerInterval = null;
+          requestStopRecording();
+        }
+      }, 1000);
+    }
+
+    function requestStopRecording() {
+      if (improState !== IMPRO_STATES.RECORDING) return;
+      if (!mediaRecorderInstance || mediaRecorderInstance.state !== 'recording') return;
+
+      setImproState(IMPRO_STATES.STOPPING);
+      stopBtn.disabled = true;
+      clearAllIntervals();
+
+      try {
+        mediaRecorderInstance.stop();
+      } catch (error) {
+        console.error(error);
+        displayError('impro-error', "Erreur : impossible d'arrêter l'enregistrement.");
+        resetStep3SessionData();
+      }
+    }
+
+    async function startImpro() {
+      if (typeof MediaRecorder === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
+        displayError('impro-error', "Désolé, l'enregistrement vidéo n'est pas supporté par votre navigateur.");
+        return;
+      }
+
+      if (![IMPRO_STATES.IDLE, IMPRO_STATES.FINISHED].includes(improState)) return;
+
+      hideError('impro-error');
+
+      if (window.innerWidth <= 600) {
+        document.querySelector('.video-box').style.height = "450px";
+      }
+
+      videoNote.style.display = 'none';
+
+      // Nouveau cycle propre
+      resetStep3SessionData({ preserveRecordedVideo: false, preserveOverlay: true });
+      const localSessionId = sessionId;
+
+      videoOverlay.style.display = 'none';
+      prestartOverlay.classList.remove('active');
+      setImproState(IMPRO_STATES.PREPARING_CAMERA);
+
+      const stream = await setupCamera(localSessionId);
+      if (!stream || localSessionId !== sessionId) return;
+
+      startPrestartCountdown(localSessionId);
+    }
+
+    async function restartImproSession() {
+      if (improState !== IMPRO_STATES.FINISHED) return;
+
+      if (!confirm("Attention, tu vas recommencer ton impro et lancer un nouvel enregistrement. Tu es sûr ?")) {
+        return;
+      }
+
+      await startImpro();
+    }
+
+    /*** HISTORIQUE ***/
+    window.addEventListener('popstate', (event) => {
+      if (event.state && event.state.step !== undefined) {
+        const stepToShow = event.state.step;
+        Object.values(boxes).forEach(box => box.classList.remove('active'));
+
+        if (stepToShow === 0) {
+          introBox.style.display = 'block';
+          currentStep = 0;
+          footer.style.display = 'none';
+          updateProgressBar(0);
+          document.getElementById('dynamic-header-title').innerHTML = "";
+        } else {
+          boxes[stepToShow].classList.add('active');
+          currentStep = stepToShow;
+          updateProgressBar(currentStep);
+          if (currentStep === 2) renderStep2UI();
+          updateFooterButtons();
+          updateHeaderTitle();
+        }
+      } else {
+        Object.values(boxes).forEach(box => box.classList.remove('active'));
+        introBox.style.display = 'block';
+        currentStep = 0;
+        footer.style.display = 'none';
+        updateProgressBar(0);
+        document.getElementById('dynamic-header-title').innerHTML = "";
+      }
+    });
+
+    /*** FOOTER ***/
     prevBtn.addEventListener('click', () => {
       if (currentStep > 1) {
         showBox(currentStep, currentStep - 1);
@@ -1121,35 +1875,7 @@
       }
     });
 
-    function showBox(current, next) {
-      if (!boxes[current] || !boxes[next]) return;
-
-      boxes[current].classList.remove('active','slide-from-right','slide-from-left');
-      boxes[next].classList.add('active');
-      boxes[next].classList.add(next > current ? 'slide-from-right' : 'slide-from-left');
-
-      updateProgressBar(next);
-      currentStep = next;
-      pushStepState(next);
-
-      gtag('event', 'view_step', { step_number: next });
-
-      if (next === 2) {
-        renderStep2UI();
-      }
-
-      updateFooterButtons();
-
-      const headerTitleEl = document.getElementById('dynamic-header-title');
-      headerTitleEl.innerHTML = stepTitles[next] || "";
-
-      if (next === 3) {
-        document.getElementById('impro-video-subject').textContent = currentSubject;
-        updateCountdownDisplay();
-      }
-    }
-
-    /*** Intro ***/
+    /*** INTRO ***/
     startIntroBtn.addEventListener('click', () => {
       const introTitle = document.querySelector('.intro-box h1');
       const introWrapper = document.querySelector('.intro-box .wrapper');
@@ -1169,7 +1895,7 @@
       }, 500);
     });
 
-    /*** STEP1 : objectifs ***/
+    /*** STEP1 ***/
     const objectivesButtons = document.querySelectorAll('.objectives-container .objective-item');
     const explanationBox = document.getElementById('explanation-box');
 
@@ -1251,7 +1977,7 @@
       }
     }
 
-    /*** STEP2 : sujet ***/
+    /*** STEP2 ***/
     generateSubjectBtn.addEventListener('click', () => {
       if (!currentCategory) {
         displayError('objective-error', "Merci de sélectionner un objectif avant de générer un sujet.");
@@ -1273,7 +1999,6 @@
       currentSubject = subjects[randomIndex];
       subjectDisplay.textContent = currentSubject;
       subjectWrapper.style.display = 'block';
-      generateSubjectBtn.classList.add('subject-generated');
       hideError('subject-error');
       updateFooterButtons();
 
@@ -1283,14 +2008,13 @@
       });
     });
 
-    customSubjectInput.addEventListener('input', () => {
-      updateCustomSubjectState();
-    });
+    customSubjectInput.addEventListener('input', updateCustomSubjectState);
 
     durationButtons.forEach(btn => {
       btn.addEventListener('click', () => {
         selectedDuration = Number(btn.dataset.seconds);
         renderSelectedDuration();
+        updateCountdownDisplay(selectedDuration);
         updateFooterButtons();
       });
     });
@@ -1303,206 +2027,20 @@
         adviceText.style.display = 'block';
         adviceIcon.classList.remove('fa-chevron-down');
         adviceIcon.classList.add('fa-chevron-up');
-        adviceIcon.style.transform = 'rotate(0deg)';
       } else {
         adviceText.style.display = 'none';
         adviceIcon.classList.remove('fa-chevron-up');
         adviceIcon.classList.add('fa-chevron-down');
-        adviceIcon.style.transform = 'rotate(0deg)';
       }
+      adviceIcon.style.transform = 'rotate(0deg)';
     });
 
-    /*** STEP3 : enregistrement vidéo ***/
-    function bindStartButton() {
-      const startBtn = document.getElementById('start-btn');
-      if (startBtn) {
-        startBtn.addEventListener('click', startImpro);
-      }
-    }
-
-    async function startImpro() {
-      if (typeof MediaRecorder === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
-        displayError('impro-error', "Désolé, l'enregistrement vidéo n'est pas supporté par votre navigateur.");
-        return;
-      }
-
-      if (window.innerWidth <= 600) {
-        document.querySelector('.video-box').style.height = "450px";
-      }
-
-      const noteEl = document.getElementById('video-note');
-      if (noteEl) noteEl.style.display = 'none';
-
-      hideError('impro-error');
-
-      const stream = await setupCamera();
-      if (!stream) return;
-
-      videoOverlay.style.display = 'none';
-      launchPrestartCountdown(stream);
-    }
-
-    function launchPrestartCountdown(stream) {
-      let count = PRESTART_SECONDS;
-      prestartCountdownEl.textContent = count;
-      prestartOverlay.classList.add('active');
-
-      clearInterval(prestartInterval);
-      prestartInterval = setInterval(() => {
-        count--;
-        if (count > 0) {
-          prestartCountdownEl.textContent = count;
-        } else {
-          clearInterval(prestartInterval);
-          prestartOverlay.classList.remove('active');
-          initiateRecording(stream);
-        }
-      }, 1000);
-    }
-
-    async function initiateRecording(stream) {
-      if (!stream) return;
-
-      if (!window.MediaRecorder || typeof MediaRecorder.isTypeSupported === 'undefined') {
-        displayError('impro-error', "Ton navigateur ne supporte pas l'enregistrement vidéo. Essaye avec Chrome, Edge ou Firefox.");
-        stream.getTracks().forEach(t => t.stop());
-        return;
-      }
-
-      mediaRecorderInstance = new MediaRecorder(stream);
-      recordedChunks = [];
-
-      mediaRecorderInstance.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          recordedChunks.push(event.data);
-        }
-      };
-
-      mediaRecorderInstance.onstop = () => {
-        const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
-        videoURL = URL.createObjectURL(videoBlob);
-
-        const playback = document.getElementById('playback-video');
-        playback.src = videoURL;
-        playback.load();
-
-        stream.getTracks().forEach(t => t.stop());
-
-        const overlay = document.getElementById('video-overlay');
-        overlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'> 🎉 Bravo 🎉<br>Tu viens de terminer ton improvisation !<br>Tu peux passer à l'étape suivante. </p>";
-        overlay.style.display = 'flex';
-
-        hideError('impro-error');
-        clearInterval(timerInterval);
-        document.getElementById('recording-indicator').style.display = 'none';
-        isImproRecordingStarted = true;
-        updateFooterButtons();
-
-        if (window.innerWidth <= 600) {
-          document.querySelector('.video-box').style.height = "300px";
-        }
-      };
-
-      mediaRecorderInstance.start();
-      document.getElementById('recording-indicator').style.display = 'flex';
-      document.getElementById('stop-btn').classList.remove('hidden-btn');
-      document.getElementById('stop-btn').disabled = false;
-      document.getElementById('restart-btn').classList.add('hidden-btn');
-
-      startTimer();
-    }
-
-    async function setupCamera() {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-        document.getElementById('preview').srcObject = stream;
-        return stream;
-      } catch (error) {
-        if (error.name === 'NotAllowedError') {
-          displayError('impro-error', "Tu as refusé l'accès à la webcam. Tu dois autoriser l'accès pour continuer.");
-        } else if (error.name === 'NotFoundError') {
-          displayError('impro-error', "Aucune caméra/micro détectés.");
-        } else {
-          displayError('impro-error', "Erreur : Impossible d'accéder à la webcam.");
-        }
-        console.error(error);
-        return null;
-      }
-    }
-
-    function startTimer() {
-      timeRemaining = selectedDuration;
-      updateCountdownDisplay();
-
-      timerInterval = setInterval(() => {
-        timeRemaining--;
-        if (timeRemaining >= 0) {
-          updateCountdownDisplay();
-        }
-        if (timeRemaining < 0) {
-          clearInterval(timerInterval);
-          if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
-            mediaRecorderInstance.stop();
-            document.getElementById('restart-btn').classList.remove('hidden-btn');
-          }
-        }
-      }, 1000);
-    }
-
-    function updateCountdownDisplay() {
-      const minutes = Math.floor(timeRemaining / 60);
-      const seconds = timeRemaining % 60;
-      const countdownEl = document.getElementById('countdown');
-      countdownEl.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
-    }
-
-    document.getElementById('stop-btn').addEventListener('click', () => {
-      if (mediaRecorderInstance && mediaRecorderInstance.state === 'recording') {
-        mediaRecorderInstance.stop();
-        clearInterval(timerInterval);
-        clearInterval(prestartInterval);
-        prestartOverlay.classList.remove('active');
-        document.getElementById('stop-btn').classList.add('hidden-btn');
-        document.getElementById('stop-btn').disabled = true;
-        document.getElementById('restart-btn').classList.remove('hidden-btn');
-      }
-    });
-
-    document.getElementById('restart-btn').addEventListener('click', async () => {
-      if (!confirm("Attention, tu vas recommencer ton impro et lancer un nouvel enregistrement. Tu es sûr ?")) {
-        return;
-      }
-
-      const overlay = document.getElementById('video-overlay');
-      overlay.innerHTML = `
-        <button id="start-btn" aria-label="Démarrer l'improvisation">
-          Démarrer ton impro <i class="fas fa-video"></i>
-        </button>
-      `;
-      overlay.style.display = 'none';
-
-      prestartOverlay.classList.remove('active');
-      clearInterval(prestartInterval);
-
-      isImproRecordingStarted = false;
-
-      if (window.innerWidth <= 600) {
-        document.querySelector('.video-box').style.height = "450px";
-      }
-
-      const stream = await setupCamera();
-      if (!stream) {
-        overlay.style.display = 'flex';
-        bindStartButton();
-        return;
-      }
-
-      launchPrestartCountdown(stream);
-    });
-
+    /*** STEP3 ***/
+    stopBtn.addEventListener('click', requestStopRecording);
+    restartBtn.addEventListener('click', restartImproSession);
     bindStartButton();
 
-    /*** STEP4 : téléchargement et notation ***/
+    /*** STEP4 ***/
     document.getElementById('download-video-btn').addEventListener('click', () => {
       if (confirm("La vidéo de ton improvisation va être téléchargée. Veux-tu continuer ?")) {
         if (videoURL) {
@@ -1566,12 +2104,16 @@
       updateWordCountDisplay();
       updateStep2Title();
       updateProgressBar(currentStep);
+      updateCountdownDisplay(selectedDuration);
       if (currentStep === 2) renderStep2UI();
+
+      resetStep3SessionData();
       updateFooterButtons();
       updateHeaderTitle();
     });
 
     window.addEventListener('beforeunload', function(e) {
+      resetStep3SessionData();
       if (!forceReload) {
         e.preventDefault();
         e.returnValue = "Attention, ta progression sera perdue si tu rafraîchis la page.";
