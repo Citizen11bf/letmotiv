@@ -385,13 +385,6 @@
     .objective-item[data-category="personnalise"] i { color: #182d84; }
 
     /* STEP2 */
-    #step2-main-title {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.3rem;
-      color: #182d84;
-      margin-bottom: 12px;
-    }
-
     #subject-wrapper {
       margin-top: 10px;
       background: linear-gradient(135deg, #00a48a, #182d84);
@@ -1006,8 +999,9 @@
 
     <!-- STEP2 -->
     <div class="box" id="step2">
+
       <button id="generate-subject-btn" class="btn-impro">
-        Générer un sujet au hasard<i class="fas fa-random"></i>
+        Générer un sujet <i class="fas fa-random"></i>
       </button>
 
       <div id="custom-subject-container">
@@ -1179,7 +1173,6 @@
     const footer = document.getElementById('app-footer');
     const prevBtn = document.getElementById('footer-prev');
     const nextBtn = document.getElementById('footer-next');
-
     const generateSubjectBtn = document.getElementById('generate-subject-btn');
     const subjectWrapper = document.getElementById('subject-wrapper');
     const subjectDisplay = document.getElementById('subject-display');
@@ -1188,7 +1181,6 @@
     const wordCountEl = document.getElementById('word-count');
     const durationButtons = document.querySelectorAll('.duration-btn');
     const step2MainTitle = document.getElementById('step2-main-title');
-
     const videoOverlay = document.getElementById('video-overlay');
     const previewVideo = document.getElementById('preview');
     const videoNote = document.getElementById('video-note');
@@ -1252,7 +1244,7 @@
       diction: "Répète une phrase complexe plusieurs fois de suite sans te tromper",
       entretien: "Convaincs ton futur employeur que tu es la pépite qu'il recherche",
       'lacher-prise': "Oublie la censure et exprime ton grain de folie",
-      personnalise: "Définis toi-même ton sujet pour t'entraîner sur une situation personnelle"
+      personnalise: "Définis toi-même ton sujet pour t'entraîner sur une situation qui te ressemble"
     };
 
     const txtFilesByCategory = {
@@ -1323,9 +1315,8 @@
       el.style.display = 'none';
     }
 
-    function getWordCount(text) {
-      const trimmed = text.trim();
-      if (!trimmed) return
+    function getCharCount(text) {
+      return text.length;
     }
     
     function trimToCharLimit(text, maxChars) {
@@ -1345,17 +1336,14 @@
     }
 
     function updateCustomSubjectState() {
-      let value = customSubjectInput.value;
-    
+      let value = customSubjectInput.value;    
       if (getCharCount(value) > MAX_CUSTOM_CHARS) {
         value = trimToCharLimit(value, MAX_CUSTOM_CHARS);
-      }
-    
+      }   
       customSubjectInput.value = value;
       customSubjectDraft = value.trim();
       currentSubject = customSubjectDraft;
-      updateWordCountDisplay();
-    
+      updateWordCountDisplay();   
       if (currentSubject.length > 0) {
         subjectDisplay.textContent = currentSubject;
         subjectWrapper.style.display = 'block';
@@ -1371,8 +1359,7 @@
 
       hideError('subject-error');
       subjectWrapper.style.display = 'none';
-      updateStep2Title();
-
+      
       if (isCustom) {
         generateSubjectBtn.style.display = 'none';
         customSubjectContainer.style.display = 'block';
@@ -2088,7 +2075,6 @@
 
       renderSelectedDuration();
       updateWordCountDisplay();
-      updateStep2Title();
       updateProgressBar(currentStep);
       updateCountdownDisplay(selectedDuration);
       if (currentStep === 2) renderStep2UI();
