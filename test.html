@@ -1006,22 +1006,19 @@
 
     <!-- STEP2 -->
     <div class="box" id="step2">
-      <div id="step2-main-title">Pioche un sujet au hasard</div>
-
       <button id="generate-subject-btn" class="btn-impro">
-        Générer un sujet <i class="fas fa-random"></i>
+        Générer un sujet au hasard<i class="fas fa-random"></i>
       </button>
 
       <div id="custom-subject-container">
         <label id="custom-subject-label" for="custom-subject-input">Écris ton sujet</label>
         <textarea
           id="custom-subject-input"
-          maxlength="3000"
+          maxlength="150"
           placeholder="Exemple : Je dois convaincre mon équipe d’adopter une nouvelle méthode de travail malgré les réticences."
         ></textarea>
         <div class="custom-subject-meta">
-          <span>Maximum 150 mots.</span>
-          <span id="word-count">0 / 150 mots</span>
+          <span id="word-count">0 / 150 caractères</span>
         </div>
       </div>
 
@@ -1214,7 +1211,7 @@
     let customSubjectDraft = "";
 
     const CUSTOM_CATEGORY = 'personnalise';
-    const MAX_CUSTOM_WORDS = 150;
+    const MAX_CUSTOM_CHARS = 150;
     const PRESTART_SECONDS = 5;
 
     const IMPRO_STATES = {
@@ -1328,22 +1325,11 @@
 
     function getWordCount(text) {
       const trimmed = text.trim();
-      if (!trimmed) return 0;
-      return trimmed.split(/\s+/).filter(Boolean).length;
+      if (!trimmed) return
     }
-
-    function trimToWordLimit(text, maxWords) {
-      const words = text.trim().split(/\s+/).filter(Boolean);
-      if (words.length <= maxWords) return text;
-      return words.slice(0, maxWords).join(' ');
-    }
-
-    function updateStep2Title() {
-      if (currentCategory === CUSTOM_CATEGORY) {
-        step2MainTitle.textContent = "Écris ton sujet";
-      } else {
-        step2MainTitle.textContent = "Pioche un sujet au hasard";
-      }
+    
+    function trimToCharLimit(text, maxChars) {
+      return text.slice(0, maxChars);
     }
 
     function renderSelectedDuration() {
@@ -1352,31 +1338,31 @@
       });
     }
 
-    function updateWordCountDisplay() {
-      const count = getWordCount(customSubjectInput.value);
-      wordCountEl.textContent = `${count} / ${MAX_CUSTOM_WORDS} mots`;
-      wordCountEl.classList.toggle('limit-reached', count >= MAX_CUSTOM_WORDS);
+    function updateCharCountDisplay() {
+      const count = getCharCount(customSubjectInput.value);
+      wordCountEl.textContent = `${count} / ${MAX_CUSTOM_CHARS} caractères`;
+      wordCountEl.classList.toggle('limit-reached', count >= MAX_CUSTOM_CHARS);
     }
 
     function updateCustomSubjectState() {
-      let value = customSubjectInput.value.replace(/\s+/g, ' ').trimStart();
-
-      if (getWordCount(value) > MAX_CUSTOM_WORDS) {
-        value = trimToWordLimit(value, MAX_CUSTOM_WORDS);
+      let value = customSubjectInput.value;
+    
+      if (getCharCount(value) > MAX_CUSTOM_CHARS) {
+        value = trimToCharLimit(value, MAX_CUSTOM_CHARS);
       }
-
+    
       customSubjectInput.value = value;
       customSubjectDraft = value.trim();
       currentSubject = customSubjectDraft;
       updateWordCountDisplay();
-
+    
       if (currentSubject.length > 0) {
         subjectDisplay.textContent = currentSubject;
         subjectWrapper.style.display = 'block';
       } else {
         subjectWrapper.style.display = 'none';
       }
-
+    
       updateFooterButtons();
     }
 
