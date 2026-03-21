@@ -653,6 +653,12 @@
       letter-spacing: 0.2px;
     }
 
+    .prestart-label {
+      margin-top: 12px;
+      font-size: 14px;
+      opacity: 0.95;
+    }
+
     .prestart-overlay .prestart-countdown {
       font-size: 58px;
       font-weight: 800;
@@ -660,7 +666,7 @@
       text-shadow: 0 2px 8px rgba(0,0,0,0.25);
     }
 
-    .prestart-overlay .prestart-subtext {
+    .prestart-overlay {
       margin-top: 12px;
       font-size: 14px;
       opacity: 0.95;
@@ -1057,9 +1063,8 @@
         </div>
 
         <div class="prestart-overlay" id="prestart-overlay">
-          <div class="prestart-label">Positionne-toi, l'impro n'a pas encore commencé</div>
+          <div class="prestart-label">Positionne-toi, l'impro démarre dans...</div>
           <div class="prestart-countdown" id="prestart-countdown">5</div>
-          <div class="prestart-subtext">L’enregistrement démarre juste après</div>
         </div>
 
         <div class="recording-indicator" id="recording-indicator">
@@ -1578,7 +1583,7 @@
       stopCurrentStream();
       clearAllIntervals();
 
-      videoOverlay.innerHTML = "<p style='color: white; font-size: 18px; text-align: center;'>🎉 Bravo 🎉<br>Tu viens de terminer ton improvisation !<br>Tu peux passer à l'étape suivante.</p>";
+      videoOverlay.innerHTML = "<p style='color: #182d84; font-size: 18px; text-align: center;'>🎉 Bravo 🎉<br>Tu viens de terminer ton improvisation !<br>Tu peux passer à l'étape suivante.</p>";
       videoOverlay.style.display = 'flex';
       prestartOverlay.classList.remove('active');
       recordingIndicator.style.display = 'none';
