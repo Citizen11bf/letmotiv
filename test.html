@@ -731,14 +731,103 @@
     }
 
     /* STEP4 */
-    #step4 #rating-container { margin-bottom: 40px; }
-    #star-rating { font-size: 1.8rem; cursor: pointer; user-select: none; }
-    #star-rating .star { color: #ccc; transition: color 0.2s; }
-    #star-rating .star.selected, #star-rating .star:hover, #star-rating .star:hover ~ .star { color: #FFC107; }
-    #step4 #playback-video { width: 100%; max-width: 400px; }
+    .completion-card {
+      position: relative;
+      overflow: hidden;
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 34px 24px 30px;
+      border-radius: 24px;
+      background: radial-gradient(circle at top left, rgba(0,164,138,0.18), transparent 36%),
+                  linear-gradient(135deg, #ffffff 0%, #f5f8ff 100%);
+      border: 1px solid rgba(24,45,132,0.14);
+      box-shadow: 0 18px 42px rgba(24,45,132,0.16);
+      text-align: center;
+    }
+
+    .completion-card::before,
+    .completion-card::after {
+      content: "";
+      position: absolute;
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: rgba(251,198,56,0.22);
+      animation: floatBubble 4s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .completion-card::before { top: -42px; right: -28px; }
+    .completion-card::after { bottom: -58px; left: -38px; animation-delay: 1.1s; background: rgba(0,164,138,0.18); }
+
+    .completion-badge {
+      width: 88px;
+      height: 88px;
+      margin: 0 auto 18px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #ffffff;
+      font-size: 42px;
+      background: linear-gradient(135deg, #00a48a, #182d84);
+      box-shadow: 0 12px 28px rgba(0,164,138,0.32);
+      animation: successPop 0.85s cubic-bezier(.2,1.4,.35,1) both, successGlow 1.8s ease-in-out infinite 0.8s;
+    }
+
+    .completion-card h2 {
+      margin: 0 0 10px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.9rem;
+      color: #182d84;
+    }
+
+    .completion-card p {
+      margin: 0 auto 16px;
+      max-width: 470px;
+      font-size: 1.03rem;
+      line-height: 1.55;
+      color: #333333;
+    }
+
+    .completion-actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 22px;
+    }
+
+    .btn-secondary-impro {
+      background: #ffffff;
+      color: #182d84;
+      border: 1px solid rgba(24,45,132,0.25);
+    }
+
+    .btn-secondary-impro:hover {
+      color: #ffffff;
+      border-color: #00a48a;
+    }
+
+    @keyframes successPop {
+      0% { opacity: 0; transform: scale(0.35) rotate(-18deg); }
+      70% { opacity: 1; transform: scale(1.12) rotate(3deg); }
+      100% { opacity: 1; transform: scale(1) rotate(0); }
+    }
+
+    @keyframes successGlow {
+      0%, 100% { box-shadow: 0 12px 28px rgba(0,164,138,0.32); }
+      50% { box-shadow: 0 12px 38px rgba(0,164,138,0.56); }
+    }
+
+    @keyframes floatBubble {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(14px); }
+    }
 
     @media (max-width: 600px) {
-      #step4 #playback-video { max-width: 300px; }
+      .completion-card { padding: 28px 18px 24px; border-radius: 20px; }
+      .completion-card h2 { font-size: 1.55rem; }
+      .completion-actions .btn-impro { width: 100%; }
     }
 
     /* STEP5 */
@@ -751,81 +840,118 @@
     }
 
     /* STEP6 */
-    .link-card {
-      max-width: 600px;
+    .article-preview {
+      max-width: 640px;
       margin: 0 auto 1.5em;
-      border: 1px solid #ddd;
-      border-radius: 8px;
+      border-radius: 24px;
       overflow: hidden;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      background: #ffffff;
+      border: 1px solid rgba(24,45,132,0.16);
+      box-shadow: 0 18px 46px rgba(24,45,132,0.14);
+      text-align: left;
     }
 
-    .link-card a {
+    .article-preview a {
       display: block;
-      text-decoration: none;
       color: inherit;
+      text-decoration: none;
     }
 
-    .link-card-header {
+    .article-preview-hero {
+      display: grid;
+      grid-template-columns: 190px 1fr;
+      gap: 18px;
+      align-items: center;
+      padding: 18px;
+      background: linear-gradient(135deg, #182d84, #00a48a);
+      color: #ffffff;
+    }
+
+    .article-preview-img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 16px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.22);
+    }
+
+    .article-preview-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 10px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.16);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .article-preview-title {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.48rem;
+      line-height: 1.14;
+    }
+
+    .article-preview-body {
+      padding: 22px 24px 24px;
+    }
+
+    .article-preview-body h4 {
+      margin: 0 0 12px;
+      color: #182d84;
+      font-size: 1.08rem;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .article-preview-body p {
+      margin: 0 0 14px;
+      color: #333333;
+      line-height: 1.58;
+      font-size: 0.98rem;
+    }
+
+    .article-preview-body strong { color: #182d84; }
+
+    .article-preview-cta {
       display: flex;
       align-items: center;
-      padding: 12px;
-      background-color: #b9c0da;
-    }
-
-    .link-card-img {
-      flex-shrink: 0;
-      width: 240px;
-      height: 160px;
-      object-fit: cover;
-      border-radius: 4px;
-    }
-
-    .link-card-title {
-      margin: 0 0 0 16px;
-      font-size: 1.6rem;
-      flex: 1;
-      font-weight: 700;
-      line-height: 1.2;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 18px;
+      padding: 14px 18px;
+      border-radius: 999px;
+      background: #FF5722;
+      color: #ffffff;
+      font-weight: 800;
       text-align: center;
+      box-shadow: 0 10px 0 #FBC638;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+      animation: ctaNudge 1.6s ease-in-out infinite;
     }
 
-    .link-card-description {
-      margin: 0;
-      padding: 0 12px 12px;
-      font-size: 0.95rem;
-      line-height: 1.4;
-      color: #555;
-      text-align: justify;
-      background-color: #b9c0da;
+    .article-preview a:hover .article-preview-cta {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 0 #FBC638;
+      filter: brightness(1.04);
+      animation: none;
+    }
+
+    @keyframes ctaNudge {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-3px); }
     }
 
     @media (max-width: 600px) {
-      #step6 .link-card-header {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 12px;
-      }
-
-      #step6 .link-card-img {
-        width: 100%;
-        height: auto;
-        border-radius: 4px;
-      }
-
-      #step6 .link-card-title {
-        margin: 12px 0 0;
-        font-size: 1.2rem;
-        line-height: 1.3;
-        text-align: center;
-        color: #333;
-      }
-
-      #step6 .link-card-description {
-        padding: 0 12px 12px;
-        text-align: justify;
-      }
+      .article-preview { border-radius: 20px; }
+      .article-preview-hero { grid-template-columns: 1fr; text-align: center; }
+      .article-preview-img { height: auto; max-height: 230px; }
+      .article-preview-title { font-size: 1.28rem; }
+      .article-preview-body { padding: 20px 18px 22px; }
+      .article-preview-cta { border-radius: 18px; }
     }
 
     /* Responsive STEP1 */
@@ -1091,38 +1217,24 @@
 
     <!-- STEP4 -->
     <div class="box" id="step4">
-      <video
-        id="playback-video"
-        controls
-        style="width:100%; max-width:500px; border:3px solid #182d84; border-radius:6px; margin:0 auto 15px; display:block;"
-      ></video>
-
-      <button id="download-video-btn" class="btn-impro" style="margin-bottom: 20px;">
-        Télécharger ma vidéo
-      </button>
-      <div id="download-error" class="error-message"></div>
-
-      <div id="rating-container" style="text-align:center;">
-        <p>Quelle note sur 10 mets-tu à ta prestation ?</p>
-        <div id="star-rating">
-          <span class="star" data-value="1">★</span>
-          <span class="star" data-value="2">★</span>
-          <span class="star" data-value="3">★</span>
-          <span class="star" data-value="4">★</span>
-          <span class="star" data-value="5">★</span>
-          <span class="star" data-value="6">★</span>
-          <span class="star" data-value="7">★</span>
-          <span class="star" data-value="8">★</span>
-          <span class="star" data-value="9">★</span>
-          <span class="star" data-value="10">★</span>
+      <div class="completion-card" aria-live="polite">
+        <div class="completion-badge" aria-hidden="true">✓</div>
+        <h2>Impro terminée !</h2>
+        <p>Ta prestation est enregistrée sur ton appareil. Passe à l’étape suivante si tu es satisfait de ton impro.</p>
+        <p>Tu veux refaire un essai ? Tu peux recommencer maintenant avec le même sujet et la même durée.</p>
+        <div class="completion-actions">
+          <button id="step4-restart-btn" class="btn-impro btn-secondary-impro" type="button">
+            Recommencer mon impro <i class="fas fa-redo"></i>
+          </button>
         </div>
       </div>
+      <video id="playback-video" style="display:none;"></video>
+      <div id="download-error" class="error-message"></div>
     </div>
 
     <!-- STEP5 -->
     <div class="box" id="step5">
       <p style="margin-bottom:1em; font-size:1rem; color:#333333; text-align:center;">
-        <span id="rating-feedback"></span><br>
         Tu veux progresser rapidement ?<br>
         <strong>Prends rendez-vous avec un de nos experts :</strong>
       </p>
@@ -1134,23 +1246,31 @@
 
     <!-- STEP6 -->
     <div class="box" id="step6">
-      <div class="link-card">
+      <article class="article-preview">
         <a href="https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro" target="_blank" rel="noopener">
-          <div class="link-card-header">
+          <div class="article-preview-hero">
             <img
               src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Analyse_Impro_Simu_Letmotiv.png"
               alt="Comment analyser ton impro comme un pro"
-              class="link-card-img" />
-            <h3 class="link-card-title">
-              Comment analyser ton impro comme un pro ?
-            </h3>
+              class="article-preview-img" />
+            <div>
+              <div class="article-preview-kicker"><i class="fas fa-chart-line"></i> Guide d’analyse</div>
+              <h3 class="article-preview-title">Comment analyser ton impro comme un pro ?</h3>
+            </div>
           </div>
-          <p class="link-card-description">
-            Le guide ultime en 4 étapes clés pour analyser ta prestation et
-            t’améliorer efficacement à chaque nouvelle prise de parole…
-          </p>
+          <div class="article-preview-body">
+            <p><strong>Il est essentiel de bien s’auto-évaluer pour progresser.</strong> Utilise cette méthode d’analyse en 4 étapes pour identifier tes points forts et tes axes d’amélioration.</p>
+
+            <h4>Étape 1 — Rhétorique : structure ta pensée</h4>
+            <p>Quand tu prends la parole, ton but est souvent de convaincre, d’expliquer ou d’émouvoir. C’est là que la rhétorique entre en jeu : elle repose sur l’ethos, le pathos et le logos.</p>
+            <p>En visionnant ta prestation, tu dois donc analyser la crédibilité que tu dégages, les émotions que tu transmets et la clarté logique de tes arguments...</p>
+
+            <div class="article-preview-cta">
+              Clique ici pour continuer à lire <i class="fas fa-arrow-right"></i>
+            </div>
+          </div>
         </a>
-      </div>
+      </article>
     </div>
 
     <footer id="app-footer" class="footer-disabled" style="display:none;">
@@ -1234,7 +1354,7 @@
       1: `Étape <i class="material-icons" style="vertical-align:middle;">looks_one</i> : Quel est ton objectif ?`,
       2: `Étape <i class="material-icons" style="vertical-align:middle;">looks_two</i> : Prépare ton sujet`,
       3: `Étape <i class="material-icons" style="vertical-align:middle;">looks_3</i> : Lance ton improvisation !`,
-      4: `Étape <i class="material-icons" style="vertical-align:middle;">looks_4</i> : Télécharge ta prestation`,
+      4: `Étape <i class="material-icons" style="vertical-align:middle;">looks_4</i> : Impro terminée !`,
       5: `Étape <i class="material-icons" style="vertical-align:middle;">looks_5</i> : Besoin d'un coaching ?`,
       6: `Étape <i class="material-icons" style="vertical-align:middle;">looks_6</i> : Analyse ta prestation`,
     };
@@ -1412,7 +1532,7 @@
           nextBtn.innerHTML = 'SUIVANT <i class="fas fa-arrow-right"></i>';
           break;
         case 4:
-          canAdvance = currentRating > 0;
+          canAdvance = recordingCompleted;
           nextBtn.innerHTML = 'SUIVANT <i class="fas fa-arrow-right"></i>';
           break;
         case 5:
@@ -2019,43 +2139,21 @@
     bindStartButton();
 
     /*** STEP4 ***/
-    document.getElementById('download-video-btn').addEventListener('click', () => {
-      if (confirm("La vidéo de ton improvisation va être téléchargée. Veux-tu continuer ?")) {
-        if (videoURL) {
-          const link = document.createElement('a');
-          link.href = videoURL;
-          link.download = 'Letmotiv_Improvisation.mp4';
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-          videoDownloaded = true;
-          updateFooterButtons();
-        } else {
-          alert("Aucune vidéo n'est disponible pour le moment.");
-        }
-      }
-    });
+    const step4RestartBtn = document.getElementById('step4-restart-btn');
+    if (step4RestartBtn) {
+      step4RestartBtn.addEventListener('click', async () => {
+        currentRating = 0;
+        recordingCompleted = false;
+        showBox(4, 3);
+        resetStep3SessionData({ preserveRecordedVideo: false });
+        await startImpro();
+      });
+    }
 
-    const stars = document.querySelectorAll('#star-rating .star');
     const feedback = document.getElementById('rating-feedback');
-
-    stars.forEach(star => {
-      star.addEventListener('mouseenter', () => {
-        const val = +star.dataset.value;
-        stars.forEach(s => s.style.color = +s.dataset.value <= val ? '#FFC107' : '#ccc');
-      });
-
-      star.addEventListener('mouseleave', () => {
-        stars.forEach(s => s.style.color = +s.dataset.value <= currentRating ? '#FFC107' : '#ccc');
-      });
-
-      star.addEventListener('click', () => {
-        currentRating = +star.dataset.value;
-        stars.forEach(s => s.style.color = +s.dataset.value <= currentRating ? '#FFC107' : '#ccc');
-        feedback.textContent = `Tu as noté ta prestation ${currentRating}/10`;
-        updateFooterButtons();
-      });
-    });
+    if (feedback) {
+      feedback.textContent = "";
+    }
 
     /*** INIT ***/
     document.addEventListener('DOMContentLoaded', () => {
