@@ -808,14 +808,20 @@
     }
 
     .btn-secondary-impro {
-      background: #ffffff;
-      color: #182d84;
+      background: linear-gradient(135deg, #182d84, #2443b8) !important;
+      color: #ffffff !important;
       border: 1px solid rgba(24,45,132,0.25);
     }
 
+    .btn-secondary-impro i,
+    .btn-secondary-impro span {
+      color: #ffffff !important;
+    }
+
     .btn-secondary-impro:hover {
-      color: #ffffff;
+      color: #ffffff !important;
       border-color: #00a48a;
+      background: linear-gradient(135deg, #00a48a, #182d84) !important;
     }
 
     @keyframes successPop {
@@ -1214,18 +1220,22 @@
     #star-rating {
       display: flex;
       justify-content: center;
-      flex-wrap: wrap;
-      gap: 5px;
+      align-items: center;
+      flex-wrap: nowrap;
+      gap: clamp(1px, 0.9vw, 5px);
       line-height: 1;
-      font-size: clamp(1.55rem, 4.5vw, 2.25rem) !important;
+      width: 100%;
+      white-space: nowrap;
+      font-size: clamp(1.2rem, 6vw, 2.25rem) !important;
     }
 
     #star-rating .star {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 34px;
-      height: 34px;
+      flex: 0 0 auto;
+      width: clamp(20px, 8vw, 34px);
+      height: clamp(26px, 8vw, 34px);
       color: #c9cfdf;
       cursor: pointer;
       text-shadow: 0 2px 5px rgba(0,0,0,0.08);
@@ -1364,7 +1374,14 @@
       .box.active { padding: 16px; border-radius: 20px; }
       .objective-item:hover,
       .objective-item.selected-objective { transform: none; }
-      #star-rating .star { width: 28px; height: 32px; }
+      #star-rating {
+        gap: 0;
+        font-size: clamp(1.05rem, 5.5vw, 1.55rem) !important;
+      }
+      #star-rating .star {
+        width: clamp(18px, 8.2vw, 28px);
+        height: 30px;
+      }
     }
 
   </style>
@@ -1615,7 +1632,7 @@
             <p>En visionnant ta prestation, tu dois donc analyser la structure de ton discours, la force de tes arguments et l’équilibre entre crédibilité, émotion et logique...</p>
 
             <div class="article-preview-cta">
-              Le guide ultime pour analyser ton impro comme un pro : clique ici <i class="fas fa-arrow-right"></i>
+              Le <strong>guide ultime</strong> pour analyser ton impro comme un pro : clique ici <i class="fas fa-arrow-right"></i>
             </div>
           </div>
         </a>
