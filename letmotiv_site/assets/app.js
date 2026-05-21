@@ -1,0 +1,4 @@
+const nav=document.querySelector('.nav'),burger=document.querySelector('.burger');burger&&burger.addEventListener('click',()=>nav.classList.toggle('open'));
+const fmt=n=>new Intl.NumberFormat('fr-FR').format(Math.round(n));
+function calc(){const people=+document.querySelector('#people')?.value||0;const hours=+document.querySelector('#hours')?.value||0;const week=people*hours;const year=week*44;const rate=33.5;const cost=year*rate;const save=cost/2;const roi=(save-5000)/5000*100;['week','year','cost','save','roi'].forEach(id=>{const el=document.getElementById(id);if(!el)return; if(id==='week')el.textContent=fmt(week)+' h'; if(id==='year')el.textContent=fmt(year)+' h'; if(id==='cost')el.textContent=fmt(cost)+' € / an'; if(id==='save')el.textContent=fmt(save)+' € / an'; if(id==='roi')el.textContent='+'+fmt(roi)+' %';});}
+document.querySelector('#calc')?.addEventListener('click',calc);calc();
