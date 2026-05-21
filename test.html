@@ -730,6 +730,16 @@
       .prestart-overlay .prestart-countdown { font-size: 48px; }
     }
 
+    /* STEP3 completion */
+    .step3-completion-panel {
+      display: none;
+      margin-top: 12px;
+    }
+
+    .step3-completion-panel.active {
+      display: block;
+    }
+
     /* STEP4 */
     .completion-card {
       position: relative;
@@ -897,7 +907,15 @@
     }
 
     .article-preview-body {
-      padding: 22px 24px 24px;
+      padding: 26px 26px 28px;
+    }
+
+    .article-preview-lead {
+      font-size: 1.32rem !important;
+      line-height: 1.25 !important;
+      margin-bottom: 18px !important;
+      color: #182d84 !important;
+      font-family: 'Montserrat', sans-serif;
     }
 
     .article-preview-body h4 {
@@ -1212,29 +1230,57 @@
         </button>
       </div>
 
+      <div id="step3-completion-panel" class="step3-completion-panel" aria-live="polite">
+        <div class="completion-card">
+          <div class="completion-badge" aria-hidden="true">✓</div>
+          <h2>Impro terminée !</h2>
+          <p>Ta prestation est enregistrée sur ton appareil.</p>
+          <p>Passe à l’étape suivante si tu es satisfait de ta prestation. Sinon, tu peux recommencer ici avec le même sujet et la même durée.</p>
+          <div class="completion-actions">
+            <button id="step3-completion-restart-btn" class="btn-impro btn-secondary-impro" type="button">
+              Recommencer mon impro <i class="fas fa-redo"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div id="impro-error" class="error-message"></div>
     </div>
 
     <!-- STEP4 -->
     <div class="box" id="step4">
-      <div class="completion-card" aria-live="polite">
-        <div class="completion-badge" aria-hidden="true">✓</div>
-        <h2>Impro terminée !</h2>
-        <p>Ta prestation est enregistrée sur ton appareil. Passe à l’étape suivante si tu es satisfait de ton impro.</p>
-        <p>Tu veux refaire un essai ? Tu peux recommencer maintenant avec le même sujet et la même durée.</p>
-        <div class="completion-actions">
-          <button id="step4-restart-btn" class="btn-impro btn-secondary-impro" type="button">
-            Recommencer mon impro <i class="fas fa-redo"></i>
-          </button>
+      <video
+        id="playback-video"
+        controls
+        style="width:100%; max-width:500px; border:3px solid #182d84; border-radius:6px; margin:0 auto 15px; display:block;"
+      ></video>
+
+      <button id="download-video-btn" class="btn-impro" style="margin-bottom: 20px;">
+        Télécharger ma vidéo
+      </button>
+      <div id="download-error" class="error-message"></div>
+
+      <div id="rating-container" style="text-align:center;">
+        <p>Quelle note sur 10 mets-tu à ta prestation ?</p>
+        <div id="star-rating">
+          <span class="star" data-value="1">★</span>
+          <span class="star" data-value="2">★</span>
+          <span class="star" data-value="3">★</span>
+          <span class="star" data-value="4">★</span>
+          <span class="star" data-value="5">★</span>
+          <span class="star" data-value="6">★</span>
+          <span class="star" data-value="7">★</span>
+          <span class="star" data-value="8">★</span>
+          <span class="star" data-value="9">★</span>
+          <span class="star" data-value="10">★</span>
         </div>
       </div>
-      <video id="playback-video" style="display:none;"></video>
-      <div id="download-error" class="error-message"></div>
     </div>
 
     <!-- STEP5 -->
     <div class="box" id="step5">
       <p style="margin-bottom:1em; font-size:1rem; color:#333333; text-align:center;">
+        <span id="rating-feedback"></span><br>
         Tu veux progresser rapidement ?<br>
         <strong>Prends rendez-vous avec un de nos experts :</strong>
       </p>
@@ -1248,25 +1294,17 @@
     <div class="box" id="step6">
       <article class="article-preview">
         <a href="https://www.letmotiv.fr/simulateur-prise-de-parole-en-public/feedback-impro" target="_blank" rel="noopener">
-          <div class="article-preview-hero">
-            <img
-              src="https://raw.githubusercontent.com/Citizen11bf/letmotiv/images/Analyse_Impro_Simu_Letmotiv.png"
-              alt="Comment analyser ton impro comme un pro"
-              class="article-preview-img" />
-            <div>
-              <div class="article-preview-kicker"><i class="fas fa-chart-line"></i> Guide d’analyse</div>
-              <h3 class="article-preview-title">Comment analyser ton impro comme un pro ?</h3>
-            </div>
-          </div>
           <div class="article-preview-body">
+            <p class="article-preview-lead"><strong>Comment analyser ton impro comme un pro ?</strong></p>
             <p><strong>Il est essentiel de bien s’auto-évaluer pour progresser.</strong> Utilise cette méthode d’analyse en 4 étapes pour identifier tes points forts et tes axes d’amélioration.</p>
 
             <h4>Étape 1 — Rhétorique : structure ta pensée</h4>
-            <p>Quand tu prends la parole, ton but est souvent de convaincre, d’expliquer ou d’émouvoir. C’est là que la rhétorique entre en jeu : elle repose sur l’ethos, le pathos et le logos.</p>
-            <p>En visionnant ta prestation, tu dois donc analyser la crédibilité que tu dégages, les émotions que tu transmets et la clarté logique de tes arguments...</p>
+            <p>Quand tu prends la parole, ton but est souvent de convaincre, d’expliquer ou d’émouvoir. C’est là que la rhétorique entre en jeu : elle repose sur trois piliers fondamentaux.</p>
+            <p><strong>L’ethos</strong>, c’est ta crédibilité et ton image. <strong>Le pathos</strong>, c’est ta capacité à susciter des émotions. <strong>Le logos</strong>, c’est la clarté et la logique de tes arguments.</p>
+            <p>En visionnant ta prestation, tu dois donc analyser la structure de ton discours, la force de tes arguments et l’équilibre entre crédibilité, émotion et logique...</p>
 
             <div class="article-preview-cta">
-              Clique ici pour continuer à lire <i class="fas fa-arrow-right"></i>
+              Le guide ultime pour analyser ton impro comme un pro : ici <i class="fas fa-arrow-right"></i>
             </div>
           </div>
         </a>
@@ -1316,6 +1354,9 @@
     const stopBtn = document.getElementById('stop-btn');
     const restartBtn = document.getElementById('restart-btn');
     const playbackVideo = document.getElementById('playback-video');
+    const step3CompletionPanel = document.getElementById('step3-completion-panel');
+    const step3CompletionRestartBtn = document.getElementById('step3-completion-restart-btn');
+    const videoBoxEl = document.querySelector('#step3 .video-box');
 
     let currentStep = 0;
     let currentCategory = null;
@@ -1354,7 +1395,7 @@
       1: `Étape <i class="material-icons" style="vertical-align:middle;">looks_one</i> : Quel est ton objectif ?`,
       2: `Étape <i class="material-icons" style="vertical-align:middle;">looks_two</i> : Prépare ton sujet`,
       3: `Étape <i class="material-icons" style="vertical-align:middle;">looks_3</i> : Lance ton improvisation !`,
-      4: `Étape <i class="material-icons" style="vertical-align:middle;">looks_4</i> : Impro terminée !`,
+      4: `Étape <i class="material-icons" style="vertical-align:middle;">looks_4</i> : Télécharge ta prestation`,
       5: `Étape <i class="material-icons" style="vertical-align:middle;">looks_5</i> : Besoin d'un coaching ?`,
       6: `Étape <i class="material-icons" style="vertical-align:middle;">looks_6</i> : Analyse ta prestation`,
     };
@@ -1532,7 +1573,7 @@
           nextBtn.innerHTML = 'SUIVANT <i class="fas fa-arrow-right"></i>';
           break;
         case 4:
-          canAdvance = recordingCompleted;
+          canAdvance = currentRating > 0;
           nextBtn.innerHTML = 'SUIVANT <i class="fas fa-arrow-right"></i>';
           break;
         case 5:
@@ -1633,6 +1674,8 @@
     function resetStep3VisualsForIdle(showOverlayButton = true) {
       prestartOverlay.classList.remove('active');
       recordingIndicator.style.display = 'none';
+      if (step3CompletionPanel) step3CompletionPanel.classList.remove('active');
+      if (videoBoxEl) videoBoxEl.style.display = '';
       videoNote.style.display = 'block';
 
       if (showOverlayButton) {
@@ -1703,10 +1746,12 @@
       stopCurrentStream();
       clearAllIntervals();
 
-      videoOverlay.innerHTML = "<p style='color: #182d84; font-size: 18px; text-align: center;'>🎥 C'est dans la boite !<br>Passe à l'étape suivante.</p>";
-      videoOverlay.style.display = 'flex';
+      videoOverlay.style.display = 'none';
       prestartOverlay.classList.remove('active');
       recordingIndicator.style.display = 'none';
+      videoNote.style.display = 'none';
+      if (videoBoxEl) videoBoxEl.style.display = 'none';
+      if (step3CompletionPanel) step3CompletionPanel.classList.add('active');
       hideError('impro-error');
 
       recordingCompleted = true;
@@ -2138,22 +2183,55 @@
     restartBtn.addEventListener('click', restartImproSession);
     bindStartButton();
 
-    /*** STEP4 ***/
-    const step4RestartBtn = document.getElementById('step4-restart-btn');
-    if (step4RestartBtn) {
-      step4RestartBtn.addEventListener('click', async () => {
+    /*** STEP4 + FIN STEP3 ***/
+    if (step3CompletionRestartBtn) {
+      step3CompletionRestartBtn.addEventListener('click', async () => {
         currentRating = 0;
         recordingCompleted = false;
-        showBox(4, 3);
         resetStep3SessionData({ preserveRecordedVideo: false });
         await startImpro();
       });
     }
 
-    const feedback = document.getElementById('rating-feedback');
-    if (feedback) {
-      feedback.textContent = "";
+    const downloadVideoBtn = document.getElementById('download-video-btn');
+    if (downloadVideoBtn) {
+      downloadVideoBtn.addEventListener('click', () => {
+        hideError('download-error');
+        if (!videoURL) {
+          displayError('download-error', "Aucune vidéo disponible à télécharger.");
+          return;
+        }
+
+        const link = document.createElement('a');
+        link.href = videoURL;
+        link.download = 'mon-impro-letmotiv.webm';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        videoDownloaded = true;
+      });
     }
+
+    const stars = Array.from(document.querySelectorAll('#star-rating .star'));
+    function renderStars(value) {
+      stars.forEach(star => {
+        star.classList.toggle('selected', Number(star.dataset.value) <= value);
+      });
+    }
+
+    stars.forEach(star => {
+      star.addEventListener('click', () => {
+        currentRating = Number(star.dataset.value);
+        renderStars(currentRating);
+
+        const feedback = document.getElementById('rating-feedback');
+        if (feedback) {
+          feedback.textContent = `Tu as noté ta prestation ${currentRating}/10.`;
+        }
+
+        updateFooterButtons();
+      });
+    });
 
     /*** INIT ***/
     document.addEventListener('DOMContentLoaded', () => {
