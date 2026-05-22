@@ -54,32 +54,28 @@ async function loadClientLogos(){
 }
 loadClientLogos();
 
-// Correctifs v9 : lien actif dans le header
-(function markActiveNav(){
-  const current = new URL(window.location.href).pathname.replace(/\/index\.html$/,'/');
-  document.querySelectorAll('.nav nav a[href]').forEach(a=>{
-    const url = new URL(a.getAttribute('href'), window.location.href);
-    const path = url.pathname.replace(/\/index\.html$/,'/');
-    const isHome = current.endsWith('/') && (path.endsWith('/') || path.endsWith('/index.html'));
-    if (current === path || isHome || (current.includes('/formations/') && path.endsWith('/formations/')) || (current.includes('/ressources/') && path.endsWith('/ressources/'))) {
-      a.classList.add('active');
-    }
-  });
-})();
 
-// Correctifs v9 : éviter les ouvertures multiples de témoignages sur desktop
-(function singleOpenTestimonials(){
-  document.querySelectorAll('.testiMore').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      const card=btn.closest('.testiCard');
-      if(!card) return;
-      document.querySelectorAll('.testiCard.open').forEach(other=>{
-        if(other!==card){
-          other.classList.remove('open');
-          const b=other.querySelector('.testiMore');
-          if(b) b.setAttribute('aria-expanded','false');
-        }
-      });
-    }, true);
+// Correctifs v8 : lien actif dans le header
+(function markActiveNav(){
+  const header=document.querySelector('.nav');
+  if(!header) return;
+  const current=new URL(window.location.href);
+  const normalize=pathname=>{
+    let p=pathname.replace(/\\/g,'/');
+    p=p.replace(/\/index\.html$/,'/').replace(/\.html$/,'');
+    p=p.replace(/\/$/,'');
+    return p || '/';
+  };
+  const currentPath=normalize(current.pathname);
+  header.querySelectorAll('nav a[href]').forEach(link=>{
+    const target=new URL(link.getAttribute('href'), window.location.href);
+    const targetPath=normalize(target.pathname);
+    const isHome=currentPath==='/' && targetPath==='/';
+    const exact=currentPath===targetPath;
+    const sectionMatch=targetPath!=='/' && currentPath.startsWith(targetPath + '/');
+    if(isHome || exact || sectionMatch){
+      link.classList.add('is-active');
+      link.setAttribute('aria-current','page');
+    }
   });
 })();

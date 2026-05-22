@@ -2593,7 +2593,10 @@
       updateFooterButtons();
       updateHeaderTitle();
     });
-    // Popup navigateur supprimée : l'utilisateur peut quitter/revenir sans confirmation.
+
+    // Correctif v8 : pas de popup navigateur au changement de page.
+    // On réinitialise les données uniquement quand l'utilisateur utilise les contrôles internes du simulateur.
+    // Aucune interception beforeunload volontaire.
   </script>
 </body>
 </html>
