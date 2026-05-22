@@ -2529,14 +2529,7 @@ body{padding-top:0!important;padding-bottom:0!important;background:var(--paper)!
       updateFooterButtons();
       updateHeaderTitle();
     });
-
-    window.addEventListener('beforeunload', function(e) {
-      resetStep3SessionData();
-      if (!forceReload) {
-        e.preventDefault();
-        e.returnValue = "Attention, ta progression sera perdue si tu rafraîchis la page.";
-      }
-    });
+    window.addEventListener('beforeunload', function(){ resetStep3SessionData(); });
   </script>
 
 
