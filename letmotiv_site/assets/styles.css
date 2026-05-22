@@ -90,3 +90,31 @@
   .logosTrack{gap:34px!important;}
   .nav nav a.is-active:not(.btn)::after{bottom:4px;left:0;right:auto;width:44px;}
 }
+
+
+/* --- Correctifs Letmotiv v9 --- */
+/* Logos clients : gris par défaut, couleur au survol/clic, vitesse desktop stabilisée */
+.logosTrack{animation-name:marquee!important;animation-duration:92s!important;animation-timing-function:linear!important;animation-iteration-count:infinite!important;will-change:transform;}
+.logosTrack:hover{animation-play-state:running!important;}
+.logos img{filter:grayscale(1) saturate(0)!important;opacity:.58!important;transition:filter .28s ease,opacity .28s ease,transform .28s ease!important;}
+.logos img:hover,.logos img:focus,.logos img.active{filter:grayscale(0) saturate(1)!important;opacity:1!important;transform:scale(1.045)!important;}
+
+/* Page Letmotiv : citation fondateur moins massive */
+.quoteFounder p{font-size:clamp(.98rem,1.35vw,1.14rem)!important;line-height:1.62!important;}
+
+@media(max-width:900px){
+  .logosTrack{animation-duration:58s!important;}
+  .logosTrack:hover{animation-play-state:running!important;}
+  .quoteFounder p{font-size:.96rem!important;line-height:1.58!important;}
+  .teamGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:14px!important;}
+  .employee{border-radius:18px!important;}
+  .employee .info{padding:10px 8px!important;}
+  .employee .info h2{font-size:.92rem!important;line-height:1.15!important;}
+  .employee .info p{font-size:.78rem!important;line-height:1.2!important;}
+  .employee .overlay{padding:10px!important;}
+  .employee .overlay ul{font-size:.76rem!important;line-height:1.32!important;}
+}
+
+@media(max-width:420px){
+  .teamGrid{gap:10px!important;}
+}
