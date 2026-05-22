@@ -86,7 +86,7 @@
 .nav nav a.btn.small{color:#fff!important;}
 .nav nav a.btn.small.is-active{color:#fff!important;box-shadow:0 0 0 3px rgba(31,111,88,.25),0 10px 24px #2110b838;}
 @media(max-width:900px){
-  .logos img{height:54px!important;max-width:160px!important;}
+  .logos img{height:64px!important;max-width:160px!important;}
   .logosTrack{gap:34px!important;}
   .nav nav a.is-active:not(.btn)::after{bottom:4px;left:0;right:auto;width:44px;}
 }
