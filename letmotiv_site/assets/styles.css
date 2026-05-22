@@ -60,7 +60,7 @@
 .heroBlue{color:var(--blue);}
 .pageHero.bg7{background-image:linear-gradient(90deg,#fffdf9 0%,#fffdf9d5 58%),url('../images/Page7_desktop.png');background-size:cover;background-position:center;}
 .logos{background:var(--paper)!important;border:0!important;box-shadow:none!important;}
-.logosTrack:empty::before{content:"Ajoute tes fichiers Logo_*.webp dans /images : ils apparaîtront ici automatiquement après déploiement.";color:var(--muted);font-size:.9rem;}
+.logosTrack:empty::before{color:var(--muted);font-size:.9rem;}
 .article .backLink{display:inline-flex;margin-bottom:22px;color:var(--blue);font-weight:900;text-decoration:none;}
 .article .backLink:hover{text-decoration:underline;text-underline-offset:4px;}
 .article h2{margin-top:2.1rem;}
