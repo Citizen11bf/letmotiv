@@ -1,1 +1,231 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Contact — Letmotiv</title><meta name="description" content="Letmotiv — formation, coaching, prise de parole, management et leadership."><link rel="stylesheet" href="../assets/styles.css"></head><body><header class="nav"><a class="brand" href="../index.html"><img class="brandLogo" src="../images/Letmotiv_logo.webp" alt="Letmotiv"></a><button class="burger" aria-label="Menu">☰</button><nav><a href="../formations/index.html">Formation</a><a href="../pages/coaching.html">Coaching</a><a class="trainLink" href="simulateur.html">Entraîne-toi</a><a href="../pages/letmotiv.html">Letmotiv</a><a href="../ressources/index.html">Ressources</a><a class="btn small" href="../pages/contact.html">Contact</a></nav></header><main><section class="pageHero"><p class="eyebrow">Contact</p><h1>Parlons de votre besoin</h1><p class="lead">01 88 83 35 10 · 10 rue de la Paix 75002 Paris · Coaching pour particuliers : sur rdv.</p></section><section class="content"><p>Utilisez cette page pour brancher votre formulaire de contact GitHub Pages / service externe.</p><a class="btn" href="mailto:contact@letmotiv.fr">Écrire à Letmotiv</a></section></main><footer class="siteFooter"><div class="footerGrid"><section><h3>Contact</h3><p>01 88 83 35 10</p><p>10 rue de la Paix 75002 Paris</p><p>Coaching pour particuliers : sur rdv</p><p class="socials"><a href="#">LinkedIn</a><span>-</span><a href="#">Youtube</a><span>-</span><a href="#">Instagram</a></p></section><section><h3>À propos</h3><a href="../pages/cookies.html">Politique de cookies</a><a href="../pages/mentions-legales.html">Mentions légales</a><a href="../pages/politique-confidentialite.html">Politique de confidentialité</a><a href="../pages/cgv.html">Conditions générales de vente</a><p>©2026 Letmotiv</p></section><section class="qualiopiFooter"><img src="../images/Qualiopi.webp" alt="Qualiopi" loading="lazy"><p>Organisme de formation n°11 75 67164 75</p><p>La certification qualité a été délivrée au titre de la catégorie « Actions Formation »</p><a href="https://drive.google.com/file/d/1yBvKvqvKpA24pmPkfk-a4SnbAjmxGIXd/view" target="_blank" rel="noopener">Certificat Qualiopi accessible ici</a></section></div></footer><script src="../assets/app.js"></script></body></html>
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Contact — Letmotiv</title>
+  <meta name="description" content="Contactez Letmotiv pour une formation, un coaching ou un accompagnement prise de parole, management et leadership.">
+  <link rel="stylesheet" href="../assets/styles.css">
+  <style>
+    .contactHero{
+      position:relative;
+      overflow:hidden;
+      padding:92px clamp(18px,5vw,72px) 58px;
+      background:
+        radial-gradient(circle at 82% 18%, rgba(191,246,223,.95), transparent 28%),
+        radial-gradient(circle at 12% 18%, rgba(52,149,142,.18), transparent 30%),
+        linear-gradient(135deg,#fffdf9 0%,#f4f1ff 58%,#e9fff7 100%);
+    }
+    .contactHero:after{
+      content:"";
+      position:absolute;
+      right:clamp(18px,7vw,110px);
+      bottom:-68px;
+      width:360px;
+      height:360px;
+      border-radius:50%;
+      background:linear-gradient(135deg,rgba(33,16,184,.14),rgba(52,149,142,.23));
+      filter:blur(.2px);
+      pointer-events:none;
+    }
+    .contactHeroInner{position:relative;z-index:1;max-width:980px}
+    .contactHero h1{max-width:820px}
+    .contactHero .lead{max-width:760px}
+    .contactQuick{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+    .contactPill{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 16px;
+      border-radius:999px;
+      background:rgba(255,255,255,.72);
+      border:1px solid var(--line);
+      box-shadow:0 12px 28px rgba(33,16,184,.08);
+      font-weight:900;
+    }
+    .contactPill span{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--teal);color:white;font-size:.9rem}
+    .contactSection{
+      display:grid;
+      grid-template-columns:minmax(0,1.05fr) minmax(320px,.72fr);
+      gap:24px;
+      padding:42px clamp(18px,5vw,72px) 86px;
+      align-items:start;
+      background:linear-gradient(180deg,#fffdf9 0%,#fff 100%);
+    }
+    .contactPanel,.contactSideCard{
+      background:white;
+      border:1px solid var(--line);
+      border-radius:32px;
+      box-shadow:var(--shadow);
+    }
+    .contactPanel{padding:30px}
+    .contactPanel h2,.contactSideCard h2{font-size:clamp(1.7rem,3vw,2.7rem);margin:0 0 10px;letter-spacing:-.04em}
+    .contactPanel p{color:var(--muted);line-height:1.6;margin:0 0 18px}
+    .fakeNotice{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      padding:14px 16px;
+      border-radius:20px;
+      background:#eefbf8;
+      color:#1f645f;
+      font-weight:800;
+      margin:18px 0 20px;
+    }
+    .formGrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .formGrid .full{grid-column:1/-1}
+    .contactPanel label{margin:0;color:var(--ink);font-size:.93rem}
+    .contactPanel input,.contactPanel textarea,.contactPanel select{margin-top:8px;background:#fffdf9}
+    .contactPanel textarea{min-height:150px;resize:vertical}
+    .contactSubmit{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:20px}
+    .formFeedback{display:none;margin:0!important;color:var(--teal)!important;font-weight:900!important}
+    .formFeedback.visible{display:block}
+    .contactSide{display:grid;gap:18px}
+    .contactSideCard{padding:24px;overflow:hidden}
+    .contactSideCard.small{box-shadow:0 16px 44px rgba(33,16,184,.12)}
+    .contactList{display:grid;gap:14px;margin:18px 0 0;padding:0;list-style:none}
+    .contactList li{display:grid;grid-template-columns:38px 1fr;gap:12px;align-items:start}
+    .contactIcon{display:grid;place-items:center;width:38px;height:38px;border-radius:14px;background:linear-gradient(135deg,var(--blue),var(--teal));color:white;font-weight:950}
+    .contactList strong{display:block;color:var(--ink);margin-bottom:3px}
+    .contactList a,.contactList span{color:var(--muted);line-height:1.45}
+    .contactSteps{counter-reset:step;display:grid;gap:12px;margin-top:18px}
+    .contactStep{position:relative;padding:15px 15px 15px 52px;border-radius:20px;background:#f8f7ff;border:1px solid var(--line)}
+    .contactStep:before{counter-increment:step;content:counter(step);position:absolute;left:15px;top:14px;width:25px;height:25px;border-radius:50%;display:grid;place-items:center;background:var(--blue);color:white;font-weight:950;font-size:.8rem}
+    .contactStep strong{display:block;margin-bottom:4px}.contactStep span{color:var(--muted);line-height:1.45}
+    .nav nav a[href="../pages/contact.html"],.nav nav a[href="contact.html"]{color:white!important}
+    @media(max-width:900px){
+      .contactSection{grid-template-columns:1fr;padding-top:28px}
+      .formGrid{grid-template-columns:1fr}
+      .contactPanel{padding:22px}
+      .contactHero{padding-top:64px}
+      .contactQuick{gap:9px}.contactPill{width:100%;justify-content:flex-start}
+    }
+  </style>
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="../index.html"><img class="brandLogo" src="../images/Letmotiv_logo.webp" alt="Letmotiv"></a>
+  <button class="burger" aria-label="Menu">☰</button>
+  <nav>
+    <a href="../formations/index.html">Formation</a>
+    <a href="../pages/coaching.html">Coaching</a>
+    <a class="trainLink" href="simulateur.html">Entraîne-toi</a>
+    <a href="../pages/letmotiv.html">Notre mission</a>
+    <a href="../ressources/index.html">Ressources</a>
+    <a class="btn small" href="../pages/contact.html" aria-current="page">Contact</a>
+  </nav>
+</header>
+
+<main>
+  <section class="contactHero">
+    <div class="contactHeroInner">
+      <p class="eyebrow">Contact</p>
+      <h1>Parlons de votre besoin ?</h1>
+      <p class="lead">Formation, coaching, prise de parole, management ou leadership : décrivez votre besoin et Letmotiv vous aide à choisir le bon format.</p>
+      <div class="contactQuick" aria-label="Coordonnées rapides">
+        <a class="contactPill" href="tel:+33188833510"><span>☎</span>01 88 83 35 10</a>
+        <a class="contactPill" href="mailto:contact@letmotiv.fr"><span>@</span>contact@letmotiv.fr</a>
+        <span class="contactPill"><span>⌂</span>10 rue de la Paix, Paris 2e</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="contactSection">
+    <article class="contactPanel">
+      <h2>Une question, un projet, une envie de progresser ?</h2>
+      <p>Un expert Letmotiv vous répond en moins de 48 heures.</p>
+
+      <form id="contactFakeForm">
+        <div class="formGrid">
+          <label>Prénom et nom
+            <input type="text" name="name" placeholder="Ex. Marie Dupont" autocomplete="name">
+          </label>
+          <label>Email
+            <input type="email" name="email" placeholder="prenom@entreprise.fr" autocomplete="email">
+          </label>
+          <label>Téléphone
+            <input type="tel" name="phone" placeholder="06 00 00 00 00" autocomplete="tel">
+          </label>
+          <label>Votre besoin
+            <select name="need">
+              <option>Formation prise de parole</option>
+              <option>Pitch / storytelling</option>
+              <option>Management / leadership</option>
+              <option>Coaching individuel</option>
+              <option>Coaching dirigeant</option>
+              <option>Autre demande</option>
+            </select>
+          </label>
+          <label class="full">Message
+            <textarea name="message" placeholder="Décrivez le contexte, le public concerné, le nombre de personnes, l’échéance souhaitée..."></textarea>
+          </label>
+        </div>
+        <div class="contactSubmit">
+          <button class="btn" type="submit">Envoyer ma demande</button>
+          <p class="formFeedback" id="formFeedback">Message simulé : votre demande est prête à être envoyée dès que le formulaire sera branché.</p>
+        </div>
+      </form>
+    </article>
+
+    <aside class="contactSide">
+      <section class="contactSideCard">
+        <h2>Coordonnées</h2>
+        <ul class="contactList">
+          <li><span class="contactIcon">☎</span><div><strong>Téléphone</strong><a href="tel:+33188833510">01 88 83 35 10</a></div></li>
+          <li><span class="contactIcon">@</span><div><strong>Email</strong><a href="mailto:contact@letmotiv.fr">contact@letmotiv.fr</a></div></li>
+          <li><span class="contactIcon">⌂</span><div><strong>Adresse</strong><span>10 rue de la Paix<br>75002 Paris</span></div></li>
+          <li><span class="contactIcon">↗</span><div><strong>Particuliers</strong><span>Coaching sur rendez-vous</span></div></li>
+        </ul>
+      </section>
+
+      <section class="contactSideCard small">
+        <p class="eyebrow">Suite logique</p>
+        <h2>Comment ça se passe ?</h2>
+        <div class="contactSteps">
+          <div class="contactStep"><strong>Vous expliquez le contexte</strong><span>Objectifs, public, format, urgence, contraintes.</span></div>
+          <div class="contactStep"><strong>Letmotiv clarifie le besoin</strong><span>Un échange court permet d’identifier le bon accompagnement.</span></div>
+          <div class="contactStep"><strong>Vous recevez une proposition</strong><span>Format, durée, contenu, modalités et budget.</span></div>
+        </div>
+      </section>
+    </aside>
+  </section>
+</main>
+
+<footer class="siteFooter">
+  <div class="footerGrid">
+    <section>
+      <h3>Contact</h3>
+      <p>01 88 83 35 10</p>
+      <p>10 rue de la Paix 75002 Paris</p>
+      <p>Coaching pour particuliers : sur rdv</p>
+      <p class="socials"><a href="#">LinkedIn</a><span>-</span><a href="#">Youtube</a><span>-</span><a href="#">Instagram</a></p>
+    </section>
+    <section>
+      <h3>À propos</h3>
+      <a href="../pages/cookies.html">Politique de cookies</a>
+      <a href="../pages/mentions-legales.html">Mentions légales</a>
+      <a href="../pages/politique-confidentialite.html">Politique de confidentialité</a>
+      <a href="../pages/cgv.html">Conditions générales de vente</a>
+      <p>©2026 Letmotiv</p>
+    </section>
+    <section class="qualiopiFooter">
+      <img src="../images/Qualiopi.webp" alt="Qualiopi" loading="lazy">
+      <p>Organisme de formation n°11 75 67164 75</p>
+      <p>La certification qualité a été délivrée au titre de la catégorie « Actions Formation »</p>
+      <a href="https://drive.google.com/file/d/1yBvKvqvKpA24pmPkfk-a4SnbAjmxGIXd/view" target="_blank" rel="noopener">Certificat Qualiopi accessible ici</a>
+    </section>
+  </div>
+</footer>
+<script src="../assets/app.js"></script>
+<script>
+  const contactFakeForm = document.getElementById('contactFakeForm');
+  const formFeedback = document.getElementById('formFeedback');
+  if (contactFakeForm && formFeedback) {
+    contactFakeForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+      formFeedback.classList.add('visible');
+    });
+  }
+</script>
+</body>
+</html>
