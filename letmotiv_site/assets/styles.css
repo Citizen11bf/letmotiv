@@ -21,3 +21,37 @@
 @media(max-width:900px){.brandLogo{height:32px!important;max-width:118px!important}.brand{min-width:auto!important}}
 @media(min-width:901px){.proofItem:nth-child(2){margin-left:-18px}.proofItem:nth-child(2) img{max-height:58px!important;max-width:174px!important}}
 .qualiopiFooter a[href*="drive.google.com"]{font-weight:900;color:#bff6df}.testiCard{position:relative}.testiCard .testiText{max-height:4.8em;overflow:hidden;line-height:1.6;transition:max-height .35s ease}.testiCard.open .testiText{max-height:520px}.testiMore{position:absolute;right:18px;top:18px;width:34px;height:34px;border:0;border-radius:999px;background:var(--blue);color:white;font-size:1.35rem;font-weight:900;line-height:1;cursor:pointer;box-shadow:0 8px 20px #2110b833;transition:transform .2s ease,background .2s ease}.testiMore:hover{transform:scale(1.08);background:var(--teal)}.testiCard.open .testiMore{background:var(--teal);transform:rotate(45deg)}.simulatorEmbedWrap{padding:24px clamp(12px,4vw,54px) 70px;background:linear-gradient(180deg,#fffdf9,#f4f1ff)}.simulatorEmbed{display:block;width:100%;height:calc(100vh - 40px);min-height:760px;border:1px solid var(--line);border-radius:30px;background:white;box-shadow:var(--shadow)}@media(max-width:900px){.simulatorEmbedWrap{padding:12px 8px 42px}.simulatorEmbed{height:880px;min-height:880px;border-radius:20px}.testiMore{right:14px;top:14px}}
+
+/* --- Correctifs Letmotiv v6 --- */
+.logos{background:transparent!important;border-block:0!important;padding:22px 0 30px!important;}
+.logosTrack{align-items:center;}
+
+/* ROI : section pleine largeur, plus marquée, sans vide desktop avant ouverture */
+.roi.roiBand{margin:0!important;border-radius:0!important;padding:72px clamp(18px,5vw,72px)!important;background:linear-gradient(135deg,#2110b8 0%,#4b33ff 48%,#00a48a 100%)!important;position:relative;overflow:hidden;}
+.roi.roiBand::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 14% 18%,rgba(255,255,255,.20),transparent 24%),radial-gradient(circle at 85% 15%,rgba(251,198,56,.25),transparent 26%);pointer-events:none;}
+.roi.roiBand>div{position:relative;z-index:1;background:rgba(255,255,255,.96)!important;}
+.roi.roiBand .eyebrow{color:#00a48a;}
+.roi.roiBand h2{color:var(--blue);}
+.roi.roiBand .result{height:0!important;min-height:0!important;align-self:start!important;}
+.roi.roiBand .result.revealed{height:auto!important;min-height:0!important;}
+.roi.roiBand .roiNote{margin:.15rem 0;color:var(--ink);font-weight:900;}
+.roi.roiBand .roiNote + .roiNote{margin-bottom:16px;}
+.result.revealed .message:nth-of-type(8){transition-delay:3.5s;}
+.result.revealed .message:nth-of-type(9){transition-delay:4s;}
+.result.revealed .message:nth-of-type(10){transition-delay:4.5s;}
+
+@media(min-width:901px){
+  .roi.roiBand{min-height:auto!important;}
+  .roi.roiBand:not(.roiOpen){grid-template-columns:minmax(0,1fr) minmax(0,0fr)!important;}
+  .roi.roiBand:not(.roiOpen) .result{height:0!important;padding:0!important;border-width:0!important;}
+}
+@media(max-width:900px){
+  .roi.roiBand{padding:48px 18px!important;}
+  .roi.roiBand .result{height:auto!important;}
+}
+
+/* Simulateur intégré : suppression des artefacts et titres lisibles */
+.simulatorNative{min-height:auto!important;padding-top:18px!important;}
+.simulatorNative > .rawIntroText{display:none!important;}
+.simulatorNative .simulatorStepTitle{min-height:0!important;margin-top:0!important;}
+.simulatorNative .intro-box{overflow:hidden!important;}
